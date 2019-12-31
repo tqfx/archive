@@ -1,0 +1,32 @@
+name: mingw
+on:
+  workflow_dispatch:
+jobs:
+  MinGW:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { mingw: mingw64 },
+          { mingw: mingw32 },
+        ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - name: Run apt-get
+        run: |
+          set -x
+          sudo apt-get -y update
+          sudo apt-get -y install mingw-w64
+      - name: Run cmake
+        run: |
+          set -x
+          cmake -S . -B build \
+            -DBUILD_TESTING=ON \
+            -DENABLE_WARNINGS=ON \
+            -DCMAKE_BUILD_TYPE=Debug \
+            --toolchain cmake/${{matrix.mingw}}.cmake
+          cmake --build build

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+IFS=$'\n'
+sources=$(find include src tests -regex ".*\.\(c\|h\|cc\|hh\|cpp\|hpp\|cxx\|hxx\)")
+clang-format -style=file -i $sources --verbose
+black -S .

@@ -1,0 +1,27 @@
+name: msvc
+on:
+  workflow_dispatch:
+jobs:
+  MSVC:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { arch: x64 },
+          { arch: win32 },
+        ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - name: Run cmake
+        run: |
+          Set-PSDebug -Trace 1
+          cmake -S . -B build -A ${{matrix.arch}} -DBUILD_TESTING=ON -DENABLE_WARNINGS=ON -DENABLE_SANITIZE=ON -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build --config Debug
+      - name: Run ctest
+        run: |
+          Set-PSDebug -Trace 1
+          cmake --build build --config Debug --target run_tests

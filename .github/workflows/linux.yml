@@ -1,0 +1,36 @@
+name: linux
+on:
+  workflow_dispatch:
+jobs:
+  Linux:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { sanitizer: 1, buildtype: Debug, cc: gcc, cxx: g++ },
+          { sanitizer: 0, buildtype: Release, cc: gcc, cxx: g++ },
+          { sanitizer: 1, buildtype: Debug, cc: clang, cxx: clang++ },
+          { sanitizer: 0, buildtype: Release, cc: clang, cxx: clang++ },
+        ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - name: Run cmake
+        env:
+          CC: ${{matrix.cc}}
+          CXX: ${{matrix.cxx}}
+        run: |
+          set -x
+          cmake -S . -B build \
+            -DBUILD_TESTING=ON \
+            -DENABLE_WARNINGS=ON \
+            -DENABLE_SANITIZE=${{matrix.sanitizer}} \
+            -DCMAKE_BUILD_TYPE=${{matrix.buildtype}}
+          cmake --build build
+      - name: Run ctest
+        run: |
+          set -x
+          cmake --build build -t test

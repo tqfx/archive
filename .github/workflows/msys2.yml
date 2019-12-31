@@ -1,0 +1,43 @@
+name: msys2
+on:
+  workflow_dispatch:
+jobs:
+  MSYS2:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sys: [ MINGW64, MINGW32, UCRT64, CLANG64 ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          location: D:\
+          msystem: ${{matrix.sys}}
+          pacboy: >-
+            make:p
+            cmake:p
+            toolchain:p
+      - name: Run cmake
+        shell: msys2 {0}
+        env:
+          MSYSTEM: ${{matrix.sys}}
+        run: |
+          set -x
+          cmake -S . -B build \
+            -DBUILD_TESTING=ON \
+            -DENABLE_WARNINGS=ON \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -G "MinGW Makefiles"
+          cmake --build build
+      - name: Run ctest
+        shell: msys2 {0}
+        env:
+          MSYSTEM: ${{matrix.sys}}
+        run: |
+          set -x
+          cmake --build build -t test
