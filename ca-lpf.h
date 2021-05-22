@@ -40,8 +40,7 @@
 #include "ca.h"
 
 /*!
- @addtogroup     CA
- @{
+ @ingroup        CA
  @defgroup       CA_LPF Low Pass Filter
  @details        A low-pass filter is a filter that passes signals with a
                  frequency lower than a selected cutoff frequency and attenuates
@@ -171,8 +170,6 @@ double ca_lpf_f64(ca_lpf_f64_t *lpf,
 
     return lpf->out;
 }
-
-/*!< @} */
 
 /*!< @} */
 
