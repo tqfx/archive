@@ -63,7 +63,7 @@
 /*!
  @brief          Control algorithm
 */
-#include "ca_pid.c"
+#include "ca-pid.c"
 
 /*!
  @brief          Conversion algorithm

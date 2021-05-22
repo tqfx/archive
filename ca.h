@@ -194,7 +194,7 @@
 /*!
  @brief          Control algorithm
 */
-#include "ca_pid.h"
+#include "ca-pid.h"
 
 /*!
  @brief          Filtering algorithm
