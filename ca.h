@@ -183,6 +183,7 @@
 
 /*!
  @endcond
+ @defgroup       CA Algorithm
 */
 
 /*!
@@ -198,7 +199,7 @@
 /*!
  @brief          Filtering algorithm
 */
-#include "ca_lpf.h"
+#include "ca-lpf.h"
 
 /*!
  @brief          Conversion algorithm
