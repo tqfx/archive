@@ -221,9 +221,9 @@ extern float ca_pid_f32(ca_pid_f32_t *pid,
  @param[in]      set: Set point
  @return         Output
 */
-extern float ca_pid_f64(ca_pid_f64_t *pid,
-                        const double  ref,
-                        const double  set);
+extern double ca_pid_f64(ca_pid_f64_t *pid,
+                         const double  ref,
+                         const double  set);
 
 __END_DECLS
 
