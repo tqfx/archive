@@ -177,14 +177,14 @@ __BEGIN_DECLS
   @arg           k[2] (Derivative constant)
  @param[in]      omin: Minimum output
  @param[in]      omax: Maximum output
- @param[in]      ...: Maximum intergral output
+ @param[in]      omaxi: Maximum intergral output
 */
 extern void ca_pid_f32_init(ca_pid_f32_t *pid,
                             ca_pid_mode_t mode,
                             const float   k[3],
                             const float   omin,
                             const float   omax,
-                            ...);
+                            const float   omaxi);
 
 /*!
  @brief          Initialization function for the double floating-point PID Control
@@ -290,7 +290,7 @@ void ca_pid_f32_delta(ca_pid_f32_t *pid,
                       float         omin,
                       float         omax)
 {
-    ca_pid_f32_init(pid, CA_PID_DELTA, k, omin, omax);
+    ca_pid_f32_init(pid, CA_PID_DELTA, k, omin, omax, 0);
 }
 
 __STATIC_INLINE

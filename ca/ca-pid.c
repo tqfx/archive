@@ -71,10 +71,8 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
                      const float   k[3],
                      const float   omin,
                      const float   omax,
-                     ...)
+                     const float   omaxi)
 {
-    va_list ap;
-
     /* Set mode of PID Control */
     pid->mode = mode;
     /* Set minimum output */
@@ -87,13 +85,11 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
     case CA_PID_POSITION:
     {
         /* Set maximum intergral output */
-        va_start(ap, omax);
-        pid->omaxi = (float)va_arg(ap, double);
+        pid->omaxi = omaxi;
         if (pid->omaxi < 0)
         {
             pid->omaxi = -pid->omaxi;
         }
-        va_end(ap);
 
         /* Set derived gain */
         pid->a[0] = k[0] + k[2];
