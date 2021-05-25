@@ -189,7 +189,7 @@
 /*!
  @brief          Computational algorithm
 */
-#include "ca_math.h"
+#include "ca-math.h"
 
 /*!
  @brief          Control algorithm

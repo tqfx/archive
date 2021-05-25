@@ -17,7 +17,7 @@
 #include "ahrs.h"
 
 /* Private includes ----------------------------------------------------------*/
-#include "ca_math.h"
+#include "ca-math.h"
 
 #include <math.h>
 

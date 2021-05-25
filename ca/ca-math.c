@@ -1,6 +1,6 @@
 /**
  * *****************************************************************************
- * @file         ca_math.c/h
+ * @file         ca-math.c/h
  * @brief        Calculate math library
  * @author       tqfx
  * @date         20210430
@@ -11,7 +11,7 @@
 */
 
 /* Includes ------------------------------------------------------------------*/
-#include "ca_math.h"
+#include "ca-math.h"
 
 /* Private includes ----------------------------------------------------------*/
 #include <stdarg.h>
