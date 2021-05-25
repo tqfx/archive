@@ -1,27 +1,42 @@
-/**
- * *****************************************************************************
- * @file         ahrs.c/h
- * @brief        AHRS(Automatic Heading Reference System) algorithm library
- * @details      IMU(Inertial Measurement Unit)
- *               Mehony AHRS
- *               Madgwick AHRS
- * @author       tqfx
- * @date         20210430
- * @version      1
- * @copyright    Copyright (C) 2021
- * @code         utf-8                                                  @endcode
- * *****************************************************************************
+/*!
+ @file           zyx.c
+ @brief          AHRS(Automatic Heading Reference System) algorithm library
+ @details        IMU(Inertial Measurement Unit)
+                 Mehony AHRS
+                 Madgwick AHRS
+ @author         tqfx tqfx@foxmail.com
+ @version        0
+ @date           2021-05-25
+ @copyright      Copyright (C) 2021 tqfx
+ \n \n
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ \n \n
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ \n \n
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
 */
 
-/* Includes ------------------------------------------------------------------*/
+/* Includes */
 #include "ahrs.h"
 
-/* Private includes ----------------------------------------------------------*/
+/* Private includes */
 #include "ca-math.h"
 
 #include <math.h>
 
-/* Private define ------------------------------------------------------------*/
+/* Private define */
 #undef KI
 #undef KP
 #undef KP2
@@ -33,7 +48,7 @@
 /* 2 * proportional gain (Kp) */
 #define KP2 0.1F
 
-/* Private macro -------------------------------------------------------------*/
+/* Private macro */
 
 #undef NORM3
 /* Normalise 3 measurement */
@@ -63,26 +78,26 @@
         _z *= norm;                               \
     } while (0);
 
-/* Private variables ---------------------------------------------------------*/
+/* Private variables */
 
 /* error integral */
 static volatile float eix; /* error integral of x axis */
 static volatile float eiy; /* error integral of x axis */
 static volatile float eiz; /* error integral of x axis */
 
-/* Private function prototypes -----------------------------------------------*/
+/* Private function prototypes */
 
 #ifndef __CA_MATH_H__
-/**
- * @brief        fast inverse square-root, to calculate 1 / sqrtf(x)
- *               http://en.wikipedia.org/wiki/Fast_inverse_square_root
- * @param[in]    x: the number need to be calculated
- * @return       float 1 / sqrtf(x)
+/*!
+ @brief          fast inverse square-root, to calculate 1 / sqrtf(x)
+                 http://en.wikipedia.org/wiki/Fast_inverse_square_root
+ @param[in]      x: the number need to be calculated
+ @return         1 / sqrtf(x)
 */
 static float inv_sqrt(float x);
 #endif /* __CA_MATH_H__ */
 
-/* Private user code ---------------------------------------------------------*/
+/* Private user code */
 
 #ifndef __CA_MATH_H__
 float inv_sqrt(float x)
@@ -99,7 +114,7 @@ float inv_sqrt(float x)
 }
 #endif /* __CA_MATH_H__ */
 
-/* Private macro -------------------------------------------------------------*/
+/* Private macro */
 #undef x /* Remove x */
 #undef y /* Remove y */
 #undef z /* Remove z */
@@ -107,8 +122,6 @@ float inv_sqrt(float x)
 #define x 0 /* x axis */
 #define y 1 /* y axis */
 #define z 2 /* z axis */
-
-/* Private user code ---------------------------------------------------------*/
 
 void ahrs_mahony(volatile float q[4],
                  volatile float g[3],
@@ -184,7 +197,7 @@ void ahrs_mahony(volatile float q[4],
         float wy = 2.0F * (bx * (q1q2 - q0q3) + (q0q1 + q2q3) * bz);
         float wz = 2.0F * (bx * (q0q2 + q1q3) + (0.5F - q1q1 - q2q2) * bz);
 
-        /**
+        /*!
          * Error is sum of cross product between reference
          * direction of fields and direction measured by sensors
         */
@@ -245,7 +258,7 @@ void ahrs_mahony_imu(volatile float q[4],
         //float vz = 2.0F * (q0q0 - 0.5F + q3q3);
         float vz = q0q0 - q1q1 - q2q2 + q3q3;
 
-        /**
+        /*!
          * Error is sum of cross product between reference
          * direction of fields and direction measured by sensors
         */
@@ -490,9 +503,9 @@ void ahrs_madgwick_imu(volatile float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-/* Remove macro --------------------------------------------------------------*/
+/* Remove macro */
 #undef x /* Remove x */
 #undef y /* Remove y */
 #undef z /* Remove z */
 
-/************************ (C) COPYRIGHT TQFX *******************END OF FILE****/
+/* END OF FILE */
