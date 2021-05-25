@@ -1,5 +1,5 @@
 /*!
- @file           zyx.h
+ @file           ahrs.h
  @brief          AHRS(Automatic Heading Reference System) algorithm library
  @details        IMU(Inertial Measurement Unit)
                  Mehony AHRS
