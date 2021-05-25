@@ -1,33 +1,33 @@
-/**
- * *****************************************************************************
- * @file         ca-math.c/h
- * @brief        Calculate math library
- * @author       tqfx
- * @date         20210430
- * @version      1
- * @copyright    Copyright (c) 2021
- * @code         utf-8                                                  @endcode
- * *****************************************************************************
+/*!
+ @file           ca-math.c
+ @brief          Calculate math library
+ @author         tqfx tqfx@foxmail.com
+ @version        0
+ @date           2021-05-25
+ @copyright      Copyright (C) 2021 tqfx
+ \n \n
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ \n \n
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ \n \n
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
 */
 
-/* Includes ------------------------------------------------------------------*/
 #include "ca-math.h"
 
-/* Private includes ----------------------------------------------------------*/
 #include <stdarg.h>
-
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private typedef -----------------------------------------------------------*/
-/* Private types -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private user code ---------------------------------------------------------*/
-
-/**
- * @addtogroup     CA_MATH
- * @{
-*/
 
 float inv_sqrt(float x)
 {
@@ -62,35 +62,6 @@ unsigned int ca_sqrt_u32(unsigned int x)
     }
 
     return y;
-}
-
-void ca_normalize(unsigned int n, ...)
-{
-    va_list ap;
-
-    unsigned int i;
-
-    double norm = 0;
-
-    va_start(ap, n);
-    i = n;
-    while (i--)
-    {
-        double *p = va_arg(ap, double *);
-        norm += SQ(*p);
-    }
-    va_end(ap);
-
-    norm = inv_sqrt(norm);
-
-    va_start(ap, n);
-    i = n;
-    while (i--)
-    {
-        double *p = va_arg(ap, double *);
-        *p *= norm;
-    }
-    va_end(ap);
 }
 
 void ca_normalize_f32(unsigned int n, ...)
@@ -168,4 +139,4 @@ float restrict_loop_f32(float x, float min, float max)
  * @}              End of CA_MATH group
 */
 
-/************************ (C) COPYRIGHT TQFX *******************END OF FILE****/
+/* END OF FILE */
