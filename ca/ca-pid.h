@@ -335,7 +335,7 @@ void ca_pid_f64_delta(ca_pid_f64_t *pid,
 
 /*!< @} */
 
-/* Terminate definition to prevent recursive inclusion */
+/* Enddef to prevent recursive inclusion */
 #endif /* __CA_PID_H__ */
 
-/*!********************** (C) COPYRIGHT TQFX *******************END OF FILE****/
+/* END OF FILE */
