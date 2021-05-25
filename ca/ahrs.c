@@ -35,21 +35,27 @@
 #include "ca-math.h"
 
 #include <math.h>
+#include <stdint.h>
 
-/* Private define */
+/* gain */
 #undef KI
 #undef KP
 #undef KP2
 
-/* Proportional gain governs rate of convergence to accelerometer/magnetometer */
+/*!
+ Proportional gain governs rate of convergence to accelerometer/magnetometer
+*/
 #define KP 2.0F
-/* Integral gain governs rate of convergence of gyroscope biases */
+/*!
+ Integral gain governs rate of convergence of gyroscope biases
+*/
 #define KI 0.01F
-/* 2 * proportional gain (Kp) */
+/*!
+ 2 * proportional gain (Kp)
+*/
 #define KP2 0.1F
 
-/* Private macro */
-
+/* Normalise */
 #undef NORM3
 /* Normalise 3 measurement */
 #define NORM3(_x, _y, _z)                                   \
@@ -78,15 +84,12 @@
         _z *= norm;                               \
     } while (0);
 
-/* Private variables */
-
 /* error integral */
-static volatile float eix; /* error integral of x axis */
-static volatile float eiy; /* error integral of x axis */
-static volatile float eiz; /* error integral of x axis */
+static float eix; /* error integral of x axis */
+static float eiy; /* error integral of x axis */
+static float eiz; /* error integral of x axis */
 
-/* Private function prototypes */
-
+/* inv_sqrt */
 #ifndef __CA_MATH_H__
 /*!
  @brief          fast inverse square-root, to calculate 1 / sqrtf(x)
@@ -95,12 +98,8 @@ static volatile float eiz; /* error integral of x axis */
  @return         1 / sqrtf(x)
 */
 static float inv_sqrt(float x);
-#endif /* __CA_MATH_H__ */
 
-/* Private user code */
-
-#ifndef __CA_MATH_H__
-float inv_sqrt(float x)
+static float inv_sqrt(float x)
 {
     float xh = 0.5F * x;
     long  i  = *(long *)&x;
@@ -123,14 +122,17 @@ float inv_sqrt(float x)
 #define y 1 /* y axis */
 #define z 2 /* z axis */
 
-void ahrs_mahony(volatile float q[4],
-                 volatile float g[3],
-                 volatile float a[3],
-                 volatile float m[3],
-                 volatile float ht)
+void ahrs_mahony(float q[4],
+                 float g[3],
+                 float a[3],
+                 float m[3],
+                 float ht)
 {
     /* Avoids NaN in magnetometer normalisation */
-    if (m[x] || m[y] || m[z]) /* mx != 0 && my != 0 && mz != 0 */
+    if (*(int32_t *)(m + x) &
+        *(int32_t *)(m + y) &
+        *(int32_t *)(m + z) &
+        0x7FFFFFFF) /* mx != 0 && my != 0 && mz != 0 */
     {
         /* Normalise magnetometer measurement */
         NORM3(m[x], m[y], m[z]);
@@ -154,7 +156,10 @@ void ahrs_mahony(volatile float q[4],
     float q3q3 = q[3] * q[3];
 
     /* Avoids NaN in accelerometer normalisation */
-    if (a[x] || a[y] || a[z]) /* ax != 0 && ay != 0 && az != 0 */
+    if (*(int32_t *)(a + x) &
+        *(int32_t *)(a + y) &
+        *(int32_t *)(a + z) &
+        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -171,7 +176,8 @@ void ahrs_mahony(volatile float q[4],
                            m[y] * (q2q3 + q0q1) +
                            m[z] * (0.5F - q1q1 - q2q2) /**/);
 
-        /*$$
+        /*!
+         \f{aligned}
         \left[\begin{array}{ccc}
         1 - 2(q_{2}^{2} + q_{3}^{2}) &
         2\left(q_{1} q_{2}-q_{0} q_{3}\right) &
@@ -183,7 +189,8 @@ void ahrs_mahony(volatile float q[4],
         2\left(q_{2} q_{3}+q_{0} q_{1}\right) &
         1 - 2(q_{1}^{2} + q_{2}^{2})
         \end{array}\right]
-        $$*/
+         \}
+        */
 
         /* Estimated direction of gravity and magnetic field (v and w) */
         float vx = 2.0F * (q1q3 - q0q2);
@@ -197,16 +204,19 @@ void ahrs_mahony(volatile float q[4],
         float wy = 2.0F * (bx * (q1q2 - q0q3) + (q0q1 + q2q3) * bz);
         float wz = 2.0F * (bx * (q0q2 + q1q3) + (0.5F - q1q1 - q2q2) * bz);
 
-        /*!
-         * Error is sum of cross product between reference
-         * direction of fields and direction measured by sensors
+        /*
+         Error is sum of cross product between reference
+         direction of fields and direction measured by sensors
         */
         float ex = (a[y] * vz - a[z] * vy) + (m[y] * wz - m[z] * wy);
         float ey = (a[z] * vx - a[x] * vz) + (m[z] * wx - m[x] * wz);
         float ez = (a[x] * vy - a[y] * vx) + (m[x] * wy - m[y] * wx);
 
         /* PI */
-        if (ex || ey || ez) /* ex != 0 && ey != 0 && ez != 0 */
+        if (*(int32_t *)&ex &
+            *(int32_t *)&ey &
+            *(int32_t *)&ez &
+            0x7FFFFFFF) /* ex != 0 && ey != 0 && ez != 0 */
         {
             eix += ex * KI * ht;
             eiy += ey * KI * ht;
@@ -231,10 +241,10 @@ void ahrs_mahony(volatile float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void ahrs_mahony_imu(volatile float q[4],
-                     volatile float g[3],
-                     volatile float a[3],
-                     volatile float ht)
+void ahrs_mahony_imu(float q[4],
+                     float g[3],
+                     float a[3],
+                     float ht)
 {
     /* Auxiliary variables to avoid repeated arithmetic */
     float q0q0 = q[0] * q[0];
@@ -247,7 +257,10 @@ void ahrs_mahony_imu(volatile float q[4],
     float q3q3 = q[3] * q[3];
 
     /* Avoids NaN in accelerometer normalisation */
-    if (a[x] || a[y] || a[z]) /* ax != 0 && ay != 0 && az != 0 */
+    if (*(int32_t *)(a + x) &
+        *(int32_t *)(a + y) &
+        *(int32_t *)(a + z) &
+        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -258,16 +271,19 @@ void ahrs_mahony_imu(volatile float q[4],
         //float vz = 2.0F * (q0q0 - 0.5F + q3q3);
         float vz = q0q0 - q1q1 - q2q2 + q3q3;
 
-        /*!
-         * Error is sum of cross product between reference
-         * direction of fields and direction measured by sensors
+        /*
+         Error is sum of cross product between reference
+         direction of fields and direction measured by sensors
         */
         float ex = (a[y] * vz - a[z] * vy);
         float ey = (a[z] * vx - a[x] * vz);
         float ez = (a[x] * vy - a[y] * vx);
 
         /* PI */
-        if (ex || ey || ez) /* ex != 0 && ey != 0 && ez != 0 */
+        if (*(int32_t *)&ex &
+            *(int32_t *)&ey &
+            *(int32_t *)&ez &
+            0x7FFFFFFF) /* ex != 0 && ey != 0 && ez != 0 */
         {
             eix += ex * KI * ht;
             eiy += ey * KI * ht;
@@ -292,14 +308,17 @@ void ahrs_mahony_imu(volatile float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void ahrs_madgwick(volatile float q[4],
-                   volatile float g[3],
-                   volatile float a[3],
-                   volatile float m[3],
-                   volatile float t)
+void ahrs_madgwick(float q[4],
+                   float g[3],
+                   float a[3],
+                   float m[3],
+                   float t)
 {
     /* Avoids NaN in magnetometer normalisation */
-    if (m[x] || m[y] || m[z]) /* mx != 0 && my != 0 && mz != 0 */
+    if (*(int32_t *)(m + x) &
+        *(int32_t *)(m + y) &
+        *(int32_t *)(m + z) &
+        0x7FFFFFFF) /* mx != 0 && my != 0 && mz != 0 */
     {
         /* Normalise magnetometer measurement */
         NORM3(m[x], m[y], m[z]);
@@ -317,7 +336,10 @@ void ahrs_madgwick(volatile float q[4],
     float q_dot4 = 0.5F * (q[0] * g[z] + q[1] * g[y] - q[2] * g[x]);
 
     /* Avoids NaN in accelerometer normalisation */
-    if (a[x] || a[y] || a[z]) /* ax != 0 && ay != 0 && az != 0 */
+    if (*(int32_t *)(a + x) &
+        *(int32_t *)(a + y) &
+        *(int32_t *)(a + z) &
+        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -425,10 +447,10 @@ void ahrs_madgwick(volatile float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void ahrs_madgwick_imu(volatile float q[4],
-                       volatile float g[3],
-                       volatile float a[3],
-                       volatile float t)
+void ahrs_madgwick_imu(float q[4],
+                       float g[3],
+                       float a[3],
+                       float t)
 {
     /* Rate of change of quaternion from gyroscope */
     float q_dot1 = 0.5F * (-q[1] * g[x] - q[2] * g[y] - q[3] * g[z]);
@@ -437,7 +459,10 @@ void ahrs_madgwick_imu(volatile float q[4],
     float q_dot4 = 0.5F * (q[0] * g[z] + q[1] * g[y] - q[2] * g[x]);
 
     /* Avoids NaN in accelerometer normalisation */
-    if (a[x] || a[y] || a[z]) /* ax != 0 && ay != 0 && az != 0 */
+    if (*(int32_t *)(a + x) &
+        *(int32_t *)(a + y) &
+        *(int32_t *)(a + z) &
+        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
