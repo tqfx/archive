@@ -192,17 +192,18 @@ float ca_pid_f32(ca_pid_f32_t *pid,
          the direction of integration is the same,
          the integration stops
         */
-        if ((-pid->omaxi < pid->x[2] &&
-             pid->x[2] < pid->omaxi) ||
-            pid->x[2] * in < 0)
+        if ((-pid->omaxi < pid->y &&
+             pid->y < pid->omaxi) ||
+            pid->y * in < 0)
         {
-            pid->x[2] += pid->a[2] * in;
+            /* y = a[2] * (\sum in) */
+            pid->y += pid->a[2] * in;
         }
 
-        /* y[n] = a[0] * x[0] + a[1] * x[1] + a[2] * x[0] */
+        /* out = a[0] * in + a[1] * x[0] + y */
         out = pid->a[0] * in;
         out += pid->a[1] * pid->x[0];
-        out += pid->x[2];
+        out += pid->y;
 
         /* Restrict the output of the PID */
         out = LIMIT(out, pid->omin, pid->omax);
@@ -212,15 +213,15 @@ float ca_pid_f32(ca_pid_f32_t *pid,
 
     case CA_PID_DELTA:
     {
-        /* y[n] = y[n-1] + a[0] * x[0] + a[1] * x[1] + a[2] * x[2] */
-        pid->x[2] = pid->a[0] * in;
-        pid->x[2] += pid->a[1] * pid->x[0];
-        pid->x[2] += pid->a[2] * pid->x[1];
+        /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
+        pid->y = pid->a[0] * in;
+        pid->y += pid->a[1] * pid->x[0];
+        pid->y += pid->a[2] * pid->x[1];
 
         /* Restrict the output of the PID */
-        pid->x[2] = LIMIT(pid->x[2], pid->omin, pid->omax);
+        pid->y = LIMIT(pid->y, pid->omin, pid->omax);
         /* Export output */
-        out = pid->x[2];
+        out = pid->y;
 
         break;
     }
@@ -254,17 +255,18 @@ double ca_pid_f64(ca_pid_f64_t *pid,
          the direction of integration is the same,
          the integration stops
         */
-        if ((-pid->omaxi < pid->x[2] &&
-             pid->x[2] < pid->omaxi) ||
-            pid->x[2] * in < 0)
+        if ((-pid->omaxi < pid->y &&
+             pid->y < pid->omaxi) ||
+            pid->y * in < 0)
         {
-            pid->x[2] += pid->a[2] * in;
+            /* y = a[2] * (\sum in) */
+            pid->y += pid->a[2] * in;
         }
 
-        /* y[n] = a[0] * x[0] + a[1] * x[1] + a[2] * x[0] */
+        /* out = a[0] * in + a[1] * x[0] + y */
         out = pid->a[0] * in;
         out += pid->a[1] * pid->x[0];
-        out += pid->x[2];
+        out += pid->y;
 
         /* Restrict the output of the PID */
         out = LIMIT(out, pid->omin, pid->omax);
@@ -274,15 +276,15 @@ double ca_pid_f64(ca_pid_f64_t *pid,
 
     case CA_PID_DELTA:
     {
-        /* y[n] = y[n-1] + a[0] * x[0] + a[1] * x[1] + a[2] * x[2] */
-        pid->x[2] = pid->a[0] * in;
-        pid->x[2] += pid->a[1] * pid->x[0];
-        pid->x[2] += pid->a[2] * pid->x[1];
+        /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
+        pid->y = pid->a[0] * in;
+        pid->y += pid->a[1] * pid->x[0];
+        pid->y += pid->a[2] * pid->x[1];
 
         /* Restrict the output of the PID */
-        pid->x[2] = LIMIT(pid->x[2], pid->omin, pid->omax);
+        pid->y = LIMIT(pid->y, pid->omin, pid->omax);
         /* Export output */
-        out = pid->x[2];
+        out = pid->y;
 
         break;
     }

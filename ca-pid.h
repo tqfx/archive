@@ -116,11 +116,13 @@ typedef struct
         - a[1] = -Kp - 2 * Kd
         - a[2] = Kd
     */
-    float x[3];  //!< State array
+    float x[2];  //!< State array
     /*!<
-     - x[0] (last)
-     - x[1] (previous last)
-     - x[2] 
+     - x[0] (The last data)
+     - x[1] (The data before the last time)
+    */
+    float y;  //!< Cache variable
+    /*!<
         - @ref CA_PID_POSITION integral output
         - @ref CA_PID_DELTA all output
     */
@@ -149,11 +151,13 @@ typedef struct
         - a[1] = -Kp - 2 * Kd
         - a[2] = Kd
     */
-    double x[3];  //!< State array
+    double x[2];  //!< State array
     /*!<
-     - x[0] (last)
-     - x[1] (previous last)
-     - x[2] 
+     - x[0] (The last data)
+     - x[1] (The data before the last time)
+    */
+    double y;  //!< Cache variable
+    /*!<
         - @ref CA_PID_POSITION integral output
         - @ref CA_PID_DELTA all output
     */
@@ -235,7 +239,7 @@ __STATIC_INLINE
 void ca_pid_f32_reset(ca_pid_f32_t *pid)
 {
     /* Reset buffer */
-    pid->x[0] = pid->x[1] = pid->x[2] = 0;
+    pid->x[0] = pid->x[1] = pid->y = 0;
 }
 
 __STATIC_INLINE
@@ -246,7 +250,7 @@ __STATIC_INLINE
 void ca_pid_f64_reset(ca_pid_f64_t *pid)
 {
     /* Reset buffer */
-    pid->x[0] = pid->x[1] = pid->x[2] = 0;
+    pid->x[0] = pid->x[1] = pid->y = 0;
 }
 
 __STATIC_INLINE
