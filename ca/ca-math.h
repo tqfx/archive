@@ -106,11 +106,18 @@ __BEGIN_DECLS
 extern float inv_sqrt(float x);
 
 /*!
- @brief          Fast sqrt for unsigned int32
+ @brief          Fast sqrt for unsigned uint32
  @param[in]      x: Number need to be calculated
  @return         sqrt(x)
 */
 extern unsigned int ca_sqrt_u32(unsigned int x);
+
+/*!
+ @brief          Fast sqrt for unsigned uint64
+ @param[in]      x: Number need to be calculated
+ @return         sqrt(x)
+*/
+extern unsigned long long ca_sqrt_u64(unsigned long long x);
 
 /*!
  @brief          Normalize function for the floating-point

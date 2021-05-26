@@ -64,6 +64,28 @@ unsigned int ca_sqrt_u32(unsigned int x)
     return y;
 }
 
+unsigned long long ca_sqrt_u64(unsigned long long x)
+{
+    unsigned long long y = 0U;
+
+    for (unsigned char i = 0U; i != 64U; i += 2U)
+    {
+        unsigned long long k = 0x4000000000000000ULL >> i;
+
+        if (k + y <= x)
+        {
+            x -= k + y;
+            y = (y >> 1U) | k;
+        }
+        else
+        {
+            y >>= 1U;
+        }
+    }
+
+    return y;
+}
+
 void ca_normalize_f32(unsigned int n, ...)
 {
     va_list ap;
