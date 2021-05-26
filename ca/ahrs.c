@@ -82,6 +82,14 @@
         _z *= norm;                               \
     } while (0);
 
+/* ahrs type */
+
+typedef enum
+{
+    AHRS_AXIS9,  //!< 9 axis
+    AHRS_AXIS6,  //!< 6 axis
+} ahrs_type_t;
+
 /* error integral */
 static float eix; /* error integral of x axis */
 static float eiy; /* error integral of x axis */
@@ -126,6 +134,8 @@ void ahrs_mahony(float q[4],
                  float m[3],
                  float ht)
 {
+    ahrs_type_t type = AHRS_AXIS9;
+
     /* Avoids NaN in magnetometer normalisation */
     if ((*(int32_t *)(m + x) & 0x7FFFFFFF) ||
         (*(int32_t *)(m + y) & 0x7FFFFFFF) ||
@@ -136,8 +146,7 @@ void ahrs_mahony(float q[4],
     }
     else /* mx == 0, my = 0, mz = 0 */
     {
-        ahrs_mahony_imu(q, g, a, ht);
-        return;
+        type = AHRS_AXIS6;
     }
 
     /* Auxiliary variables to avoid repeated arithmetic */
@@ -161,16 +170,23 @@ void ahrs_mahony(float q[4],
         NORM3(a[x], a[y], a[z]);
 
         /* Reference direction of Earth's magnetic field */
-        float hx = 2.0F * (m[x] * (0.5F - q2q2 - q3q3) +
-                           m[y] * (q1q2 - q0q3) +
-                           m[z] * (q1q3 + q0q2) /**/);
-        float hy = 2.0F * (m[x] * (q1q2 + q0q3) +
-                           m[y] * (0.5F - q1q1 - q3q3) +
-                           m[z] * (q2q3 - q0q1) /**/);
-        float bx = sqrtf(hx * hx + hy * hy);
-        float bz = 2.0F * (m[x] * (q1q3 - q0q2) +
-                           m[y] * (q2q3 + q0q1) +
-                           m[z] * (0.5F - q1q1 - q2q2) /**/);
+        float hx = 0;
+        float hy = 0;
+        float bx = 0;
+        float bz = 0;
+        if (type == AHRS_AXIS9)
+        {
+            hx = 2.0F * (m[x] * (0.5F - q2q2 - q3q3) +
+                         m[y] * (q1q2 - q0q3) +
+                         m[z] * (q1q3 + q0q2) /**/);
+            hy = 2.0F * (m[x] * (q1q2 + q0q3) +
+                         m[y] * (0.5F - q1q1 - q3q3) +
+                         m[z] * (q2q3 - q0q1) /**/);
+            bx = sqrtf(hx * hx + hy * hy);
+            bz = 2.0F * (m[x] * (q1q3 - q0q2) +
+                         m[y] * (q2q3 + q0q1) +
+                         m[z] * (0.5F - q1q1 - q2q2) /**/);
+        }
 
         /*!
          \f{aligned}
@@ -196,17 +212,29 @@ void ahrs_mahony(float q[4],
 #else
         float vz = q0q0 - q1q1 - q2q2 + q3q3;
 #endif
-        float wx = 2.0F * (bx * (0.5F - q2q2 - q3q3) + (q1q3 - q0q2) * bz);
-        float wy = 2.0F * (bx * (q1q2 - q0q3) + (q0q1 + q2q3) * bz);
-        float wz = 2.0F * (bx * (q0q2 + q1q3) + (0.5F - q1q1 - q2q2) * bz);
+        float wx = 0;
+        float wy = 0;
+        float wz = 0;
+        if (type == AHRS_AXIS9)
+        {
+            wx = 2.0F * (bx * (0.5F - q2q2 - q3q3) + (q1q3 - q0q2) * bz);
+            wy = 2.0F * (bx * (q1q2 - q0q3) + (q0q1 + q2q3) * bz);
+            wz = 2.0F * (bx * (q0q2 + q1q3) + (0.5F - q1q1 - q2q2) * bz);
+        }
 
         /*
          Error is sum of cross product between reference
          direction of fields and direction measured by sensors
         */
-        float ex = (a[y] * vz - a[z] * vy) + (m[y] * wz - m[z] * wy);
-        float ey = (a[z] * vx - a[x] * vz) + (m[z] * wx - m[x] * wz);
-        float ez = (a[x] * vy - a[y] * vx) + (m[x] * wy - m[y] * wx);
+        float ex = a[y] * vz - a[z] * vy;
+        float ey = a[z] * vx - a[x] * vz;
+        float ez = a[x] * vy - a[y] * vx;
+        if (type == AHRS_AXIS9)
+        {
+            ex += m[y] * wz - m[z] * wy;
+            ey += m[z] * wx - m[x] * wz;
+            ez += m[x] * wy - m[y] * wx;
+        }
 
         /* PI */
         if ((*(int32_t *)&ex & 0x7FFFFFFF) ||
@@ -307,6 +335,8 @@ void ahrs_madgwick(float q[4],
                    float m[3],
                    float t)
 {
+    ahrs_type_t type = AHRS_AXIS9;
+
     /* Avoids NaN in magnetometer normalisation */
     if ((*(int32_t *)(m + x) & 0x7FFFFFFF) ||
         (*(int32_t *)(m + y) & 0x7FFFFFFF) ||
@@ -317,8 +347,7 @@ void ahrs_madgwick(float q[4],
     }
     else /* mx == 0, my = 0, mz = 0 */
     {
-        ahrs_madgwick_imu(q, g, a, t);
-        return;
+        type = AHRS_AXIS6;
     }
 
     /* Rate of change of quaternion from gyroscope */
@@ -336,87 +365,129 @@ void ahrs_madgwick(float q[4],
         NORM3(a[x], a[y], a[z]);
 
         /* Auxiliary variables to avoid repeated arithmetic */
-        float _2q0mx = 2.0F * q[0] * m[x];
-        float _2q0my = 2.0F * q[0] * m[y];
-        float _2q0mz = 2.0F * q[0] * m[z];
-        float _2q1mx = 2.0F * q[1] * m[x];
-        float _2q0   = 2.0F * q[0];
-        float _2q1   = 2.0F * q[1];
-        float _2q2   = 2.0F * q[2];
-        float _2q3   = 2.0F * q[3];
-        float _2q0q2 = 2.0F * q[0] * q[2];
-        float _2q2q3 = 2.0F * q[2] * q[3];
-        float q0q0   = q[0] * q[0];
-        float q0q1   = q[0] * q[1];
-        float q0q2   = q[0] * q[2];
-        float q0q3   = q[0] * q[3];
-        float q1q1   = q[1] * q[1];
-        float q1q2   = q[1] * q[2];
-        float q1q3   = q[1] * q[3];
-        float q2q2   = q[2] * q[2];
-        float q2q3   = q[2] * q[3];
-        float q3q3   = q[3] * q[3];
+        float _2q0 = 2.0F * q[0];
+        float _2q1 = 2.0F * q[1];
+        float _2q2 = 2.0F * q[2];
+        float _2q3 = 2.0F * q[3];
+        float q0q0 = q[0] * q[0];
+        float q0q1 = q[0] * q[1];
+        float q0q2 = q[0] * q[2];
+        float q0q3 = q[0] * q[3];
+        float q1q1 = q[1] * q[1];
+        float q1q2 = q[1] * q[2];
+        float q1q3 = q[1] * q[3];
+        float q2q2 = q[2] * q[2];
+        float q2q3 = q[2] * q[3];
+        float q3q3 = q[3] * q[3];
 
-        /* Reference direction of Earth's magnetic field */
-        float hx = m[x] * q0q0 -
-                   _2q0my * q[3] +
-                   _2q0mz * q[2] +
-                   m[x] * q1q1 +
-                   _2q1 * m[y] * q[2] +
-                   _2q1 * m[z] * q[3] -
-                   m[x] * q2q2 -
-                   m[x] * q3q3;
-        float hy = _2q0mx * q[3] +
-                   m[y] * q0q0 -
-                   _2q0mz * q[1] +
-                   _2q1mx * q[2] -
-                   m[y] * q1q1 +
-                   m[y] * q2q2 +
-                   _2q2 * m[z] * q[3] -
-                   m[y] * q3q3;
-        float _2bx = sqrtf(hx * hx + hy * hy);
-        float _2bz = -_2q0mx * q[2] +
-                     _2q0my * q[1] +
-                     m[z] * q0q0 +
-                     _2q1mx * q[3] -
-                     m[z] * q1q1 +
-                     _2q2 * m[y] * q[3] -
-                     m[z] * q2q2 +
-                     m[z] * q3q3;
-        float _4bx = 2.0F * _2bx;
-        float _4bz = 2.0F * _2bz;
+        float s0 = 0;
+        float s1 = 0;
+        float s2 = 0;
+        float s3 = 0;
+        if (type == AHRS_AXIS9)
+        {
+            float _2q0q2 = 2.0F * q[0] * q[2];
+            float _2q2q3 = 2.0F * q[2] * q[3];
+            float _2q0mx = 2.0F * q[0] * m[x];
+            float _2q0my = 2.0F * q[0] * m[y];
+            float _2q0mz = 2.0F * q[0] * m[z];
+            float _2q1mx = 2.0F * q[1] * m[x];
 
-        /* Gradient decent algorithm corrective step */
-        float s0 = -_2q2 * (2.0F * q1q3 - _2q0q2 - a[x]) +
-                   _2q1 * (2.0F * q0q1 + _2q2q3 - a[y]) -
-                   _2bz * q[2] * (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
-                   (-_2bx * q[3] + _2bz * q[1]) *
-                       (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
-                   _2bx * q[2] * (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
-        float s1 = _2q3 * (2.0F * q1q3 - _2q0q2 - a[x]) +
-                   _2q0 * (2.0F * q0q1 + _2q2q3 - a[y]) -
-                   4.0F * q[1] * (1 - 2.0F * q1q1 - 2.0F * q2q2 - a[z]) +
-                   _2bz * q[3] * (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
-                   (_2bx * q[2] + _2bz * q[0]) *
-                       (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
-                   (_2bx * q[3] - _4bz * q[1]) *
-                       (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
-        float s2 = -_2q0 * (2.0F * q1q3 - _2q0q2 - a[x]) +
-                   _2q3 * (2.0F * q0q1 + _2q2q3 - a[y]) -
-                   4.0F * q[2] * (1 - 2.0F * q1q1 - 2.0F * q2q2 - a[z]) +
-                   (-_4bx * q[2] - _2bz * q[0]) *
-                       (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
-                   (_2bx * q[1] + _2bz * q[3]) *
-                       (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
-                   (_2bx * q[0] - _4bz * q[2]) *
-                       (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
-        float s3 = _2q1 * (2.0F * q1q3 - _2q0q2 - a[x]) +
-                   _2q2 * (2.0F * q0q1 + _2q2q3 - a[y]) +
-                   (-_4bx * q[3] + _2bz * q[1]) *
-                       (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
-                   (-_2bx * q[0] + _2bz * q[2]) *
-                       (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
-                   _2bx * q[1] * (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
+            /* Reference direction of Earth's magnetic field */
+            float hx = m[x] * q0q0 -
+                       _2q0my * q[3] +
+                       _2q0mz * q[2] +
+                       m[x] * q1q1 +
+                       _2q1 * m[y] * q[2] +
+                       _2q1 * m[z] * q[3] -
+                       m[x] * q2q2 -
+                       m[x] * q3q3;
+            float hy = _2q0mx * q[3] +
+                       m[y] * q0q0 -
+                       _2q0mz * q[1] +
+                       _2q1mx * q[2] -
+                       m[y] * q1q1 +
+                       m[y] * q2q2 +
+                       _2q2 * m[z] * q[3] -
+                       m[y] * q3q3;
+            float _2bx = sqrtf(hx * hx + hy * hy);
+            float _2bz = -_2q0mx * q[2] +
+                         _2q0my * q[1] +
+                         m[z] * q0q0 +
+                         _2q1mx * q[3] -
+                         m[z] * q1q1 +
+                         _2q2 * m[y] * q[3] -
+                         m[z] * q2q2 +
+                         m[z] * q3q3;
+            float _4bx = 2.0F * _2bx;
+            float _4bz = 2.0F * _2bz;
+
+            /* Gradient decent algorithm corrective step */
+            s0 = -_2q2 * (2.0F * q1q3 - _2q0q2 - a[x]) +
+                 _2q1 * (2.0F * q0q1 + _2q2q3 - a[y]) -
+                 _2bz * q[2] * (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
+                 (-_2bx * q[3] + _2bz * q[1]) *
+                     (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
+                 _2bx * q[2] * (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
+            s1 = _2q3 * (2.0F * q1q3 - _2q0q2 - a[x]) +
+                 _2q0 * (2.0F * q0q1 + _2q2q3 - a[y]) -
+                 4.0F * q[1] * (1 - 2.0F * q1q1 - 2.0F * q2q2 - a[z]) +
+                 _2bz * q[3] * (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
+                 (_2bx * q[2] + _2bz * q[0]) *
+                     (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
+                 (_2bx * q[3] - _4bz * q[1]) *
+                     (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
+            s2 = -_2q0 * (2.0F * q1q3 - _2q0q2 - a[x]) +
+                 _2q3 * (2.0F * q0q1 + _2q2q3 - a[y]) -
+                 4.0F * q[2] * (1 - 2.0F * q1q1 - 2.0F * q2q2 - a[z]) +
+                 (-_4bx * q[2] - _2bz * q[0]) *
+                     (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
+                 (_2bx * q[1] + _2bz * q[3]) *
+                     (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
+                 (_2bx * q[0] - _4bz * q[2]) *
+                     (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
+            s3 = _2q1 * (2.0F * q1q3 - _2q0q2 - a[x]) +
+                 _2q2 * (2.0F * q0q1 + _2q2q3 - a[y]) +
+                 (-_4bx * q[3] + _2bz * q[1]) *
+                     (_2bx * (0.5F - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - m[x]) +
+                 (-_2bx * q[0] + _2bz * q[2]) *
+                     (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - m[y]) +
+                 _2bx * q[1] * (_2bx * (q0q2 + q1q3) + _2bz * (0.5F - q1q1 - q2q2) - m[z]);
+        }
+        else
+        {
+            float _4q0 = 4.0F * q[0];
+            float _4q1 = 4.0F * q[1];
+            float _4q2 = 4.0F * q[2];
+            float _8q1 = 8.0F * q[1];
+            float _8q2 = 8.0F * q[2];
+
+            /* Gradient decent algorithm corrective step */
+            s0 = _4q0 * q2q2 +
+                 _2q2 * a[x] +
+                 _4q0 * q1q1 -
+                 _2q1 * a[y];
+            s1 = _4q1 * q3q3 -
+                 _2q3 * a[x] +
+                 4.0F * q0q0 * q[1] -
+                 _2q0 * a[y] -
+                 _4q1 +
+                 _8q1 * q1q1 +
+                 _8q1 * q2q2 +
+                 _4q1 * a[z];
+            s2 = 4.0F * q0q0 * q[2] +
+                 _2q0 * a[x] +
+                 _4q2 * q3q3 -
+                 _2q3 * a[y] -
+                 _4q2 +
+                 _8q2 * q1q1 +
+                 _8q2 * q2q2 +
+                 _4q2 * a[z];
+            s3 = 4.0F * q1q1 * q[3] -
+                 _2q1 * a[x] +
+                 4.0F * q2q2 * q[3] -
+                 _2q2 * a[y];
+        }
 
         /* Normalise step magnitude */
         NORM4(s0, s1, s2, s3);
