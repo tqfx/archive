@@ -59,7 +59,6 @@
 #undef NORM3
 /* Normalise 3 measurement */
 #define NORM3(_x, _y, _z)                                   \
-                                                            \
     do                                                      \
     {                                                       \
         /* Fast inverse square-root */                      \
@@ -72,7 +71,6 @@
 #undef NORM4
 /* Normalise 4 measurement */
 #define NORM4(_w, _x, _y, _z)                     \
-                                                  \
     do                                            \
     {                                             \
         /* Fast inverse square-root */            \
@@ -129,10 +127,9 @@ void ahrs_mahony(float q[4],
                  float ht)
 {
     /* Avoids NaN in magnetometer normalisation */
-    if (*(int32_t *)(m + x) &
-        *(int32_t *)(m + y) &
-        *(int32_t *)(m + z) &
-        0x7FFFFFFF) /* mx != 0 && my != 0 && mz != 0 */
+    if ((*(int32_t *)(m + x) & 0x7FFFFFFF) ||
+        (*(int32_t *)(m + y) & 0x7FFFFFFF) ||
+        (*(int32_t *)(m + z) & 0x7FFFFFFF)) /* mx != 0 && my != 0 && mz != 0 */
     {
         /* Normalise magnetometer measurement */
         NORM3(m[x], m[y], m[z]);
@@ -156,10 +153,9 @@ void ahrs_mahony(float q[4],
     float q3q3 = q[3] * q[3];
 
     /* Avoids NaN in accelerometer normalisation */
-    if (*(int32_t *)(a + x) &
-        *(int32_t *)(a + y) &
-        *(int32_t *)(a + z) &
-        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
+    if ((*(int32_t *)(a + x) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + y) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + z) & 0x7FFFFFFF)) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -213,10 +209,9 @@ void ahrs_mahony(float q[4],
         float ez = (a[x] * vy - a[y] * vx) + (m[x] * wy - m[y] * wx);
 
         /* PI */
-        if (*(int32_t *)&ex &
-            *(int32_t *)&ey &
-            *(int32_t *)&ez &
-            0x7FFFFFFF) /* ex != 0 && ey != 0 && ez != 0 */
+        if ((*(int32_t *)&ex & 0x7FFFFFFF) ||
+            (*(int32_t *)&ey & 0x7FFFFFFF) ||
+            (*(int32_t *)&ez & 0x7FFFFFFF)) /* ex != 0 && ey != 0 && ez != 0 */
         {
             eix += ex * KI * ht;
             eiy += ey * KI * ht;
@@ -257,10 +252,9 @@ void ahrs_mahony_imu(float q[4],
     float q3q3 = q[3] * q[3];
 
     /* Avoids NaN in accelerometer normalisation */
-    if (*(int32_t *)(a + x) &
-        *(int32_t *)(a + y) &
-        *(int32_t *)(a + z) &
-        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
+    if ((*(int32_t *)(a + x) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + y) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + z) & 0x7FFFFFFF)) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -280,10 +274,9 @@ void ahrs_mahony_imu(float q[4],
         float ez = (a[x] * vy - a[y] * vx);
 
         /* PI */
-        if (*(int32_t *)&ex &
-            *(int32_t *)&ey &
-            *(int32_t *)&ez &
-            0x7FFFFFFF) /* ex != 0 && ey != 0 && ez != 0 */
+        if ((*(int32_t *)&ex & 0x7FFFFFFF) ||
+            (*(int32_t *)&ey & 0x7FFFFFFF) ||
+            (*(int32_t *)&ez & 0x7FFFFFFF)) /* ex != 0 && ey != 0 && ez != 0 */
         {
             eix += ex * KI * ht;
             eiy += ey * KI * ht;
@@ -315,10 +308,9 @@ void ahrs_madgwick(float q[4],
                    float t)
 {
     /* Avoids NaN in magnetometer normalisation */
-    if (*(int32_t *)(m + x) &
-        *(int32_t *)(m + y) &
-        *(int32_t *)(m + z) &
-        0x7FFFFFFF) /* mx != 0 && my != 0 && mz != 0 */
+    if ((*(int32_t *)(m + x) & 0x7FFFFFFF) ||
+        (*(int32_t *)(m + y) & 0x7FFFFFFF) ||
+        (*(int32_t *)(m + z) & 0x7FFFFFFF)) /* mx != 0 && my != 0 && mz != 0 */
     {
         /* Normalise magnetometer measurement */
         NORM3(m[x], m[y], m[z]);
@@ -336,10 +328,9 @@ void ahrs_madgwick(float q[4],
     float q_dot4 = 0.5F * (q[0] * g[z] + q[1] * g[y] - q[2] * g[x]);
 
     /* Avoids NaN in accelerometer normalisation */
-    if (*(int32_t *)(a + x) &
-        *(int32_t *)(a + y) &
-        *(int32_t *)(a + z) &
-        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
+    if ((*(int32_t *)(a + x) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + y) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + z) & 0x7FFFFFFF)) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -459,10 +450,9 @@ void ahrs_madgwick_imu(float q[4],
     float q_dot4 = 0.5F * (q[0] * g[z] + q[1] * g[y] - q[2] * g[x]);
 
     /* Avoids NaN in accelerometer normalisation */
-    if (*(int32_t *)(a + x) &
-        *(int32_t *)(a + y) &
-        *(int32_t *)(a + z) &
-        0x7FFFFFFF) /* ax != 0 && ay != 0 && az != 0 */
+    if ((*(int32_t *)(a + x) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + y) & 0x7FFFFFFF) ||
+        (*(int32_t *)(a + z) & 0x7FFFFFFF)) /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
