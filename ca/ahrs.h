@@ -32,14 +32,17 @@
 #ifndef __AHRS_H__
 #define __AHRS_H__
 
-/* Includes */
 #include "ca.h"
 
-/* Exported functions prototypes */
+/*!
+ @ingroup        CA
+ @defgroup       CA_AHRS Automatic Heading Reference System
+ @{
+*/
 
 __BEGIN_DECLS
 
-/**
+/*!
  @brief        Mehony AHRS attitude calculation with magnetometer
  @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
  @param[in]    g: x,y,z axis of gyroscope
@@ -53,7 +56,7 @@ extern void ahrs_mahony(float q[4],
                         float m[3],
                         float ht);
 
-/**
+/*!
  @brief        Mehony AHRS attitude calculation without magnetometer
  @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
  @param[in]    g: x,y,z axis of gyroscope
@@ -65,7 +68,7 @@ extern void ahrs_mahony_imu(float q[4],
                             float a[3],
                             float ht);
 
-/**
+/*!
  @brief        Madgwick AHRS attitude calculation with magnetometer
  @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
  @param[in]    g: x,y,z axis of gyroscope
@@ -79,7 +82,7 @@ extern void ahrs_madgwick(float q[4],
                           float m[3],
                           float t);
 
-/**
+/*!
  @brief        Madgwick AHRS attitude calculation without magnetometer
  @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
  @param[in]    g: x,y,z axis of gyroscope
@@ -92,6 +95,8 @@ extern void ahrs_madgwick_imu(float q[4],
                               float t);
 
 __END_DECLS
+
+/*! @} */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __AHRS_H__ */

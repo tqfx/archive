@@ -116,9 +116,9 @@ static float inv_sqrt(float x)
 #undef y /* Remove y */
 #undef z /* Remove z */
 
-#define x 0 /* x axis */
-#define y 1 /* y axis */
-#define z 2 /* z axis */
+#define x 0 /*!< x axis */
+#define y 1 /*!< y axis */
+#define z 2 /*!< z axis */
 
 void ahrs_mahony(float q[4],
                  float g[3],
@@ -185,7 +185,7 @@ void ahrs_mahony(float q[4],
         2\left(q_{2} q_{3}+q_{0} q_{1}\right) &
         1 - 2(q_{1}^{2} + q_{2}^{2})
         \end{array}\right]
-         \}
+         \f}
         */
 
         /* Estimated direction of gravity and magnetic field (v and w) */
