@@ -9,26 +9,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+
+      - uses: peaceiris/actions-gh-pages@v3
         with:
-          submodules: true
-
-      - name: Setup
-        shell: bash
-        env:
-          COMMIT_GPG_KEY: ${{ secrets.COMMIT_GPG_KEY }}
-          COMMIT_GPG_ID: ${{ secrets.COMMIT_GPG_ID }}
-        run: |
-          git clone https://github.com/tqfx/scripts.git gh-scripts
-          bash gh-scripts/gh-config.sh
-
-      - name: Deploy
-        shell: bash
-        env:
-          BRANCH: release
-        run: |
-          bash gh-scripts/gh-deploy.sh LICENSE ca
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: release
+          publish_dir: ca
+          force_orphan: true
+          commit_message: ${{ github.event.head_commit.message }}
+          disable_nojekyll: true
