@@ -54,7 +54,7 @@ __BEGIN_DECLS
  @param[out]   q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
 */
 extern void zyx_euler_quat(const double e[3],
-                           double       q[4]);
+                           double q[4]);
 
 /*!
  @brief        euler angles to quaternion conversion by ZYX
@@ -62,7 +62,7 @@ extern void zyx_euler_quat(const double e[3],
  @param[out]   q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
 */
 extern void zyx_f32_euler_quat(const float e[3],
-                               float       q[4]);
+                               float q[4]);
 
 /*!
  @brief        quaternion to euler angles conversion by ZYX
@@ -70,7 +70,7 @@ extern void zyx_f32_euler_quat(const float e[3],
  @param[out]   e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
 */
 extern void zyx_quat_euler(const double q[4],
-                           double       e[3]);
+                           double e[3]);
 
 /*!
  @brief        quaternion to euler angles conversion by ZYX
@@ -78,7 +78,7 @@ extern void zyx_quat_euler(const double q[4],
  @param[out]   e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
 */
 extern void zyx_f32_quat_euler(const float q[4],
-                               float       e[3]);
+                               float e[3]);
 
 __END_DECLS
 

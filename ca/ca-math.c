@@ -32,7 +32,7 @@
 float inv_sqrt(float x)
 {
     float xh = 0.5F * x;
-    long  i  = *(long *)&x;
+    long i = *(long *)&x;
 
     i = 0x5F3759DF - (i >> 1);
     x = *(float *)&i;

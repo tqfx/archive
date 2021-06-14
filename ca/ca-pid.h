@@ -181,10 +181,10 @@ __BEGIN_DECLS
 */
 extern void ca_pid_f32_init(ca_pid_f32_t *pid,
                             ca_pid_mode_t mode,
-                            const float   k[3],
-                            const float   omin,
-                            const float   omax,
-                            const float   omaxi);
+                            const float k[3],
+                            const float omin,
+                            const float omax,
+                            const float omaxi);
 
 /*!
  @brief          Initialization function for the double floating-point PID Control
@@ -202,9 +202,9 @@ extern void ca_pid_f32_init(ca_pid_f32_t *pid,
 */
 extern void ca_pid_f64_init(ca_pid_f64_t *pid,
                             ca_pid_mode_t mode,
-                            const double  k[3],
-                            const double  omin,
-                            const double  omax,
+                            const double k[3],
+                            const double omin,
+                            const double omax,
                             ...);
 
 /*!
@@ -215,8 +215,8 @@ extern void ca_pid_f64_init(ca_pid_f64_t *pid,
  @return         Output
 */
 extern float ca_pid_f32(ca_pid_f32_t *pid,
-                        const float   ref,
-                        const float   set);
+                        const float ref,
+                        const float set);
 
 /*!
  @brief          Process function for the double floating-point PID Control
@@ -226,8 +226,8 @@ extern float ca_pid_f32(ca_pid_f32_t *pid,
  @return         Output
 */
 extern double ca_pid_f64(ca_pid_f64_t *pid,
-                         const double  ref,
-                         const double  set);
+                         const double ref,
+                         const double set);
 
 __END_DECLS
 
@@ -266,10 +266,10 @@ __STATIC_INLINE
  @param[in]      omaxi: Maximum intergral output
 */
 void ca_pid_f32_position(ca_pid_f32_t *pid,
-                         const float   k[3],
-                         float         omin,
-                         float         omax,
-                         float         omaxi)
+                         const float k[3],
+                         float omin,
+                         float omax,
+                         float omaxi)
 {
     ca_pid_f32_init(pid, CA_PID_POSITION, k, omin, omax, omaxi);
 }
@@ -286,9 +286,9 @@ __STATIC_INLINE
  @param[in]      omax: Maximum output
 */
 void ca_pid_f32_delta(ca_pid_f32_t *pid,
-                      const float   k[3],
-                      float         omin,
-                      float         omax)
+                      const float k[3],
+                      float omin,
+                      float omax)
 {
     ca_pid_f32_init(pid, CA_PID_DELTA, k, omin, omax, 0);
 }
@@ -306,10 +306,10 @@ __STATIC_INLINE
  @param[in]      omaxi: Maximum intergral output
 */
 void ca_pid_f64_position(ca_pid_f64_t *pid,
-                         const double  k[3],
-                         const double  omin,
-                         const double  omax,
-                         const double  omaxi)
+                         const double k[3],
+                         const double omin,
+                         const double omax,
+                         const double omaxi)
 {
     ca_pid_f64_init(pid, CA_PID_POSITION, k, omin, omax, omaxi);
 }
@@ -326,9 +326,9 @@ __STATIC_INLINE
  @param[in]      omax: Maximum output
 */
 void ca_pid_f64_delta(ca_pid_f64_t *pid,
-                      const double  k[3],
-                      const double  omin,
-                      const double  omax)
+                      const double k[3],
+                      const double omin,
+                      const double omax)
 {
     ca_pid_f64_init(pid, CA_PID_DELTA, k, omin, omax);
 }

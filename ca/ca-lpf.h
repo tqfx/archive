@@ -83,8 +83,8 @@ __STATIC_INLINE
  @param[in]      t: Time interval of filtering, unit /s
 */
 void ca_lpf_f32_init(ca_lpf_f32_t *lpf,
-                     float         k,
-                     float         t)
+                     float k,
+                     float t)
 {
     lpf->t = t;
     lpf->k = k;
@@ -98,8 +98,8 @@ __STATIC_INLINE
  @param[in]      t: Time interval of filtering, unit /s
 */
 void ca_lpf_f64_init(ca_lpf_f64_t *lpf,
-                     double        k,
-                     double        t)
+                     double k,
+                     double t)
 {
     lpf->t = t;
     lpf->k = k;
@@ -137,7 +137,7 @@ __STATIC_INLINE
  @return         Output
 */
 float ca_lpf_f32(ca_lpf_f32_t *lpf,
-                 float         x)
+                 float x)
 {
     float inv_kt = lpf->t / (lpf->k + lpf->t);
 
@@ -160,7 +160,7 @@ __STATIC_INLINE
  @return         Output
 */
 double ca_lpf_f64(ca_lpf_f64_t *lpf,
-                  double        x)
+                  double x)
 {
     double inv_kt = lpf->t / (lpf->k + lpf->t);
 

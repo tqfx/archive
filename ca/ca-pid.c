@@ -68,10 +68,10 @@
 
 void ca_pid_f32_init(ca_pid_f32_t *pid,
                      ca_pid_mode_t mode,
-                     const float   k[3],
-                     const float   omin,
-                     const float   omax,
-                     const float   omaxi)
+                     const float k[3],
+                     const float omin,
+                     const float omax,
+                     const float omaxi)
 {
     /* Set mode of PID Control */
     pid->mode = mode;
@@ -118,9 +118,9 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
 
 void ca_pid_f64_init(ca_pid_f64_t *pid,
                      ca_pid_mode_t mode,
-                     const double  k[3],
-                     const double  omin,
-                     const double  omax,
+                     const double k[3],
+                     const double omin,
+                     const double omax,
                      ...)
 {
     va_list ap;
@@ -171,8 +171,8 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
 }
 
 float ca_pid_f32(ca_pid_f32_t *pid,
-                 const float   ref,
-                 const float   set)
+                 const float ref,
+                 const float set)
 {
     /* Output */
     float out = 0;
@@ -210,7 +210,7 @@ float ca_pid_f32(ca_pid_f32_t *pid,
     case CA_PID_DELTA:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
-        pid->y = pid->a[0] * in;
+        pid->y += pid->a[0] * in;
         pid->y += pid->a[1] * pid->x[0];
         pid->y += pid->a[2] * pid->x[1];
 
@@ -234,8 +234,8 @@ float ca_pid_f32(ca_pid_f32_t *pid,
 }
 
 double ca_pid_f64(ca_pid_f64_t *pid,
-                  const double  ref,
-                  const double  set)
+                  const double ref,
+                  const double set)
 {
     /* Output */
     double out = 0;
@@ -273,7 +273,7 @@ double ca_pid_f64(ca_pid_f64_t *pid,
     case CA_PID_DELTA:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
-        pid->y = pid->a[0] * in;
+        pid->y += pid->a[0] * in;
         pid->y += pid->a[1] * pid->x[0];
         pid->y += pid->a[2] * pid->x[1];
 
