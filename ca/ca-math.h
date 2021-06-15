@@ -153,7 +153,7 @@ __END_DECLS
 #define restrict_angle(x)     restrict_loop((x), -180, 180)
 #define restrict_angle_f32(x) restrict_loop_f32((x), -180, 180)
 #define restrict_rad(x)       restrict_loop((x), -M_PI, M_PI)
-#define restrict_rad_f32(x)   restrict_loop_f32((x), -M_PI, M_PI)
+#define restrict_rad_f32(x)   restrict_loop_f32((x), -(float)M_PI, (float)M_PI)
 
 /*! @} */
 
