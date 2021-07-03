@@ -3,7 +3,7 @@
  @brief          Calculate math library
  @author         tqfx tqfx@foxmail.com
  @version        0
- @date           2021-05-25
+ @date           2021-07-03
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,20 +44,20 @@ float inv_sqrt(float x)
 
 unsigned int ca_sqrt_u32(unsigned int x)
 {
-    unsigned int y = 0U;
+    unsigned int y = 0;
 
-    for (unsigned char i = 0U; i != 32U; i += 2U)
+    for (unsigned int i = 0; i != 32; i += 2)
     {
         unsigned int k = 0x40000000UL >> i;
 
         if (k + y <= x)
         {
             x -= k + y;
-            y = (y >> 1U) | k;
+            y = (y >> 1) | k;
         }
         else
         {
-            y >>= 1U;
+            y >>= 1;
         }
     }
 
@@ -66,20 +66,20 @@ unsigned int ca_sqrt_u32(unsigned int x)
 
 unsigned long long ca_sqrt_u64(unsigned long long x)
 {
-    unsigned long long y = 0U;
+    unsigned long long y = 0;
 
-    for (unsigned char i = 0U; i != 64U; i += 2U)
+    for (unsigned int i = 0; i != 64; i += 2)
     {
         unsigned long long k = 0x4000000000000000ULL >> i;
 
         if (k + y <= x)
         {
             x -= k + y;
-            y = (y >> 1U) | k;
+            y = (y >> 1) | k;
         }
         else
         {
-            y >>= 1U;
+            y >>= 1;
         }
     }
 
@@ -157,8 +157,8 @@ float restrict_loop_f32(float x, float min, float max)
     return x;
 }
 
-/**
- * @}              End of CA_MATH group
+/*!
+ @}              End of CA_MATH group
 */
 
 /* END OF FILE */
