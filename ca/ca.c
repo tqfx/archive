@@ -23,4 +23,6 @@
  SOFTWARE.
 */
 
+#include "ca.h"
+
 /* END OF FILE */
