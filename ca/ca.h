@@ -207,6 +207,11 @@
 #include "ahrs.h"
 #include "zyx.h"
 
+/*!
+ @brief         Frequencies for equal-tempered scale
+*/
+#include "notefreqs.h"
+
 /* Enddef to prevent recursive inclusion */
 #endif /* __CA_H__ */
 
