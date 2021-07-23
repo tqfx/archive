@@ -9,9 +9,4 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 include(cmake/cmake-flags.cmake)
 
 add_subdirectory (ca)
-
-aux_source_directory(. SOURCE_TEST_CA)
-
-# test
-add_executable (test test.c)
-target_link_libraries (test ca)
+add_subdirectory (test)

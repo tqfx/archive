@@ -15,5 +15,6 @@ add_library(ca STATIC ${SOURCE_CA})
 # add the binary tree to the search path for include files
 target_include_directories(ca INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
+# install the library
 install(TARGETS ca DESTINATION lib)
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/ca.h" DESTINATION include)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" DESTINATION include FILES_MATCHING PATTERN "*.h")

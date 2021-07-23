@@ -1,6 +1,6 @@
 /*!
- @file           ca.a
- @brief          Algorithm library test
+ @file           test_notefreqs.c
+ @brief          Note frequency test
  @author         tqfx tqfx@foxmail.com
  @version        0
  @date           2021-05-22
