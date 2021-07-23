@@ -189,17 +189,17 @@
 /*!
  @brief          Computational algorithm
 */
-#include "ca-math.h"
+#include "ca_math.h"
 
 /*!
  @brief          Control algorithm
 */
-#include "ca-pid.h"
+#include "ca_pid.h"
 
 /*!
  @brief          Filtering algorithm
 */
-#include "ca-lpf.h"
+#include "ca_lpf.h"
 
 /*!
  @brief          Conversion algorithm
@@ -211,6 +211,11 @@
  @brief         Frequencies for equal-tempered scale
 */
 #include "notefreqs.h"
+
+/*!
+ @brief         Polynomial interpolated trajectory
+*/
+#include "polynomial.h"
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __CA_H__ */

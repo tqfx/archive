@@ -1,5 +1,5 @@
 /*!
- @file           ca-math.c
+ @file           ca_math.c
  @brief          Calculate math library
  @author         tqfx tqfx@foxmail.com
  @version        0
@@ -25,7 +25,7 @@
  SOFTWARE.
 */
 
-#include "ca-math.h"
+#include "ca_math.h"
 
 #include <stdarg.h>
 

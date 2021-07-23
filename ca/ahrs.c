@@ -32,7 +32,7 @@
 #include "ahrs.h"
 
 /* Private includes */
-#include "ca-math.h"
+#include "ca_math.h"
 
 #include <math.h>
 #include <stdint.h>

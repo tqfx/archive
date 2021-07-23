@@ -1,5 +1,5 @@
 /*!
- @file           ca-pid.c
+ @file           ca_pid.c
  @brief          Proportional Integral Derivative Algorithm
  @details        A proportional–integral–derivative controller
                  (PID controller or three-term controller) is a control loop
@@ -47,7 +47,7 @@
  SOFTWARE.
 */
 
-#include "ca-pid.h"
+#include "ca_pid.h"
 
 #include <stdarg.h>
 
