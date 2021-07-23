@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-include(../cmake/cmake-flags.cmake)
+include(../cmake/check_flag.cmake)
 
 # test notefreqs
 add_executable (test_notefreqs test_notefreqs.c)

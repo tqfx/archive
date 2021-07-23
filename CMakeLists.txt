@@ -6,7 +6,7 @@ project(TEST_CA VERSION 0)
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-include(cmake/cmake-flags.cmake)
+include(cmake/check_flag.cmake)
 
 add_subdirectory (ca)
 add_subdirectory (test)
