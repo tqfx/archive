@@ -1,7 +1,28 @@
 /*!
  @file           notefreqs.h
  @brief          Note frequency table
- @details        http://pages.mtu.edu/~suits/notefreqs.html
+ @details
+ The basic formula for the frequencies of the notes of the equal tempered scale is given by
+ \f{aligned}{
+ f_n = f_0 a^n
+ \f}
+ where \n
+ \f$f_0\f$ = the frequency of one fixed note which must be defined.
+ A common choice is setting the A above middle C (A4) at \f$f_0\f$ = 440 Hz. \n
+ \f$n\f$ = the number of half steps away from the fixed note you are.
+ If you are at a higher note, \f$n\f$ is positive. If you are on a lower note, \f$n\f$ is negative. \n
+ \f$f_n\f$ = the frequency of the note \f$n\f$ half steps away. \n
+ \f$a = 2^{\frac {1}{12}}\f$ = the twelth root of 2 =
+ the number which when multiplied by itself 12 times equals 2 = 1.059463094359... \n
+ \n
+ The wavelength of the sound for the notes is found from
+ \f[
+ W_n = \cfrac {c} {f_n}
+ \f]
+ where \f$W\f$ is the wavelength and \f$c\f$ is the speed of sound.
+ The speed of sound depends on temperature,
+ but is approximately 345 m/s at "room temperature."
+ http://pages.mtu.edu/~suits/notefreqs.html
  @author         tqfx tqfx@foxmail.com
  @version        0
  @date           2021-01-01

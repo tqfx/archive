@@ -95,9 +95,9 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
         pid->a[0] = k[0] + k[2];
         pid->a[1] = -k[2];
         pid->a[2] = k[1];
-
-        break;
     }
+    break;
+
     case CA_PID_DELTA:
     {
         /* Reset maximum intergral output */
@@ -107,12 +107,13 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
         pid->a[0] = k[0] + k[1] + k[2];
         pid->a[1] = -k[0] - 2 * k[2];
         pid->a[2] = k[2];
-
-        break;
     }
+    break;
 
     default:
-        break;
+    {
+    }
+    break;
     }
 }
 
@@ -149,9 +150,9 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
         pid->a[0] = k[0] + k[2];
         pid->a[1] = -k[2];
         pid->a[2] = k[1];
-
-        break;
     }
+    break;
+
     case CA_PID_DELTA:
     {
         /* Reset maximum intergral output */
@@ -161,12 +162,13 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
         pid->a[0] = k[0] + k[1] + k[2];
         pid->a[1] = -k[0] - 2 * k[2];
         pid->a[2] = k[2];
-
-        break;
     }
+    break;
 
     default:
-        break;
+    {
+    }
+    break;
     }
 }
 
@@ -203,9 +205,8 @@ float ca_pid_f32(ca_pid_f32_t *pid,
 
         /* Restrict the output of the PID */
         out = LIMIT(out, pid->omin, pid->omax);
-
-        break;
     }
+    break;
 
     case CA_PID_DELTA:
     {
@@ -218,12 +219,13 @@ float ca_pid_f32(ca_pid_f32_t *pid,
         pid->y = LIMIT(pid->y, pid->omin, pid->omax);
         /* Export output */
         out = pid->y;
-
-        break;
     }
+    break;
 
     default:
-        break;
+    {
+    }
+    break;
     }
 
     /* Cache data */
@@ -266,9 +268,8 @@ double ca_pid_f64(ca_pid_f64_t *pid,
 
         /* Restrict the output of the PID */
         out = LIMIT(out, pid->omin, pid->omax);
-
-        break;
     }
+    break;
 
     case CA_PID_DELTA:
     {
@@ -281,12 +282,13 @@ double ca_pid_f64(ca_pid_f64_t *pid,
         pid->y = LIMIT(pid->y, pid->omin, pid->omax);
         /* Export output */
         out = pid->y;
-
-        break;
     }
+    break;
 
     default:
-        break;
+    {
+    }
+    break;
     }
 
     /* Cache data */
