@@ -189,7 +189,7 @@ void ahrs_mahony(float q[4],
         }
 
         /*!
-         \f{aligned}
+         \f{aligned}{
         \left[\begin{array}{ccc}
         1 - 2(q_{2}^{2} + q_{3}^{2}) &
         2\left(q_{1} q_{2}-q_{0} q_{3}\right) &

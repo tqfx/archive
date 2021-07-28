@@ -7,14 +7,14 @@
                  control systems and a variety of other applications requiring
                  continuously modulated control.
                  - Position pid control
- \f{aligned}
+ \f{aligned}{
     u(k) &= K_p e(k) + K_i \sum^k_{i=0} q e(i) + K_d [e(k) - e(k-1)]\\
          &= (K_p + K_d) e(k) + (-K_d)e(k - 1) + K_i \sum^k_{i=0} q e(i)\\
          &\begin{cases}q = 0 & |K_i \sum\limits^{k-1}_{i=0} e(i)| > E, e(k)e(k - 1) < 0 \\
           q = 1\end{cases}
  \f}
                  - Incremental pid control
- \f{aligned}
+ \f{aligned}{
     \Delta u(k) &= K_p [e(k) − e(k - 1)]
                  + K_i e(k)
                  + K_d [e(k) + e(k - 2) − 2 e(k - 1)] \\
@@ -82,7 +82,7 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POSITION:
+    case CA_PID_POS:
     {
         /* Set maximum intergral output */
         pid->omaxi = omaxi;
@@ -98,7 +98,7 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
     }
     break;
 
-    case CA_PID_DELTA:
+    case CA_PID_INC:
     {
         /* Reset maximum intergral output */
         pid->omaxi = 0;
@@ -135,7 +135,7 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POSITION:
+    case CA_PID_POS:
     {
         /* Set maximum intergral output */
         va_start(ap, omax);
@@ -153,7 +153,7 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
     }
     break;
 
-    case CA_PID_DELTA:
+    case CA_PID_INC:
     {
         /* Reset maximum intergral output */
         pid->omaxi = 0;
@@ -183,7 +183,7 @@ float ca_pid_f32(ca_pid_f32_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POSITION:
+    case CA_PID_POS:
     {
         /*
          When the limit of integration is exceeded and
@@ -208,7 +208,7 @@ float ca_pid_f32(ca_pid_f32_t *pid,
     }
     break;
 
-    case CA_PID_DELTA:
+    case CA_PID_INC:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
         pid->y += pid->a[0] * in;
@@ -246,7 +246,7 @@ double ca_pid_f64(ca_pid_f64_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POSITION:
+    case CA_PID_POS:
     {
         /*
          When the limit of integration is exceeded and
@@ -271,7 +271,7 @@ double ca_pid_f64(ca_pid_f64_t *pid,
     }
     break;
 
-    case CA_PID_DELTA:
+    case CA_PID_INC:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
         pid->y += pid->a[0] * in;
