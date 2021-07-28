@@ -19,7 +19,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: release
-          publish_dir: ca
+          publish_dir: liba
           force_orphan: true
           commit_message: ${{ github.event.head_commit.message }}
           disable_nojekyll: true
