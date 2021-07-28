@@ -4,8 +4,8 @@ include(../cmake/check_flag.cmake)
 
 # test notefreqs
 add_executable (test_notefreqs test_notefreqs.c)
-target_link_libraries (test_notefreqs ca)
+target_link_libraries (test_notefreqs liba)
 
 # test polynomial
 add_executable (test_polynomial test_polynomial.c)
-target_link_libraries (test_polynomial ca)
+target_link_libraries (test_polynomial liba)

@@ -1,10 +1,8 @@
 /*!
- @file           polynomial.h
+ @file           a_polynomial.h
  @brief          polynomial trajectory
  @details        Trajectory Planning for Automatic Machines and Robots.
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-07-23
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,7 +28,7 @@
 #ifndef __POLYNOMIAL_H__
 #define __POLYNOMIAL_H__
 
-#include "ca.h"
+#include "liba.h"
 
 /*!
  @ingroup        CA

@@ -1,11 +1,9 @@
 /*!
- @file           zyx.h
+ @file           a_zyx.h
  @brief          yaw (Z), pitch (Y), roll (X)
  @details        where the X-axis points forward,
                  Y-axis to the right and Z-axis downward
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-05-25
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,10 +26,10 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __ZYX_H__
-#define __ZYX_H__
+#ifndef __A_ZYX_H__
+#define __A_ZYX_H__
 
-#include "ca.h"
+#include "liba.h"
 
 /*!
  @ingroup        CA
@@ -85,6 +83,6 @@ __END_DECLS
 /*! @} */
 
 /* Enddef to prevent recursive inclusion */
-#endif /* __ZYX_H__ */
+#endif /* __A_ZYX_H__ */
 
 /* END OF FILE */

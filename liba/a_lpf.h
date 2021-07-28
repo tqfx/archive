@@ -1,5 +1,5 @@
 /*!
- @file           ca_lpf.h
+ @file           a_lpf.h
  @brief          Low Pass Filter
  @details        A low-pass filter is a filter that passes signals with a
                  frequency lower than a selected cutoff frequency and attenuates
@@ -10,8 +10,6 @@
  \f}
                  https://en.wikipedia.org/wiki/Low-pass_filter
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-05-21
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,10 +32,10 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __CA_LPF_H__
-#define __CA_LPF_H__
+#ifndef __A_LPF_H__
+#define __A_LPF_H__
 
-#include "ca.h"
+#include "liba.h"
 
 /*!
  @ingroup        CA
@@ -174,6 +172,6 @@ double ca_lpf_f64(ca_lpf_f64_t *lpf,
 /*!< @} */
 
 /* Enddef to prevent recursive inclusion */
-#endif /* __CA_LPF_H__ */
+#endif /* __A_LPF_H__ */
 
 /* END OF FILE */

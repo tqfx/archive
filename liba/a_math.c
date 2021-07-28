@@ -1,9 +1,7 @@
 /*!
- @file           ca_math.c
+ @file           a_math.c
  @brief          Calculate math library
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-07-03
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,7 +23,7 @@
  SOFTWARE.
 */
 
-#include "ca_math.h"
+#include "a_math.h"
 
 #include <stdarg.h>
 

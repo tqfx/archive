@@ -1,12 +1,11 @@
-# include(cmake/cmake-arm-none-eabi.cmake)
+# include(cmake/arm_none_eabi.cmake)
 cmake_minimum_required(VERSION 3.10)
 
-# set the project name and version
-project(TEST_CA VERSION 0)
+project(TEST_LIBA VERSION 0)
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 include(cmake/check_flag.cmake)
 
-add_subdirectory (ca)
+add_subdirectory (liba)
 add_subdirectory (test)

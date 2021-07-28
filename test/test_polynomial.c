@@ -2,8 +2,6 @@
  @file           test_polynomial.c
  @brief          polynomial trajectory test
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-05-22
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,7 +25,7 @@
 
 #include <stdio.h>
 
-#include "ca.h"
+#include "liba.h"
 
 int main(void)
 {

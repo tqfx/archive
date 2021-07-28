@@ -1,10 +1,8 @@
 /*!
- @file           polynomial.c
+ @file           a_polynomial.c
  @brief          polynomial trajectory
  @details        Trajectory Planning for Automatic Machines and Robots.
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-07-23
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,7 +24,7 @@
  SOFTWARE.
 */
 
-#include "polynomial.h"
+#include "a_polynomial.h"
 
 void polynomial3_init(polynomial3_t *p,
                       float source[3],

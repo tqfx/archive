@@ -1,5 +1,5 @@
 /*!
- @file           notefreqs.h
+ @file           a_notefreqs.h
  @brief          Note frequency table
  @details
  The basic formula for the frequencies of the notes of the equal tempered scale is given by
@@ -24,8 +24,6 @@
  but is approximately 345 m/s at "room temperature."
  http://pages.mtu.edu/~suits/notefreqs.html
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-01-01
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy

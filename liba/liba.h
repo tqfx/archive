@@ -1,9 +1,7 @@
 /*!
- @file           ca.h
+ @file           liba.h
  @brief          Algorithm library
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-05-22
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,8 +24,8 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __CA_H__
-#define __CA_H__
+#ifndef __LIBA_H__
+#define __LIBA_H__
 
 /*!
  @cond
@@ -183,41 +181,41 @@
 
 /*!
  @endcond
- @defgroup       CA Algorithm
+ @defgroup       LIBA Algorithm
 */
 
 /*!
  @brief          Computational algorithm
 */
-#include "ca_math.h"
+#include "a_math.h"
 
 /*!
  @brief          Control algorithm
 */
-#include "ca_pid.h"
+#include "a_pid.h"
 
 /*!
  @brief          Filtering algorithm
 */
-#include "ca_lpf.h"
+#include "a_lpf.h"
 
 /*!
  @brief          Conversion algorithm
 */
-#include "ahrs.h"
-#include "zyx.h"
+#include "a_ahrs.h"
+#include "a_zyx.h"
 
 /*!
  @brief         Frequencies for equal-tempered scale
 */
-#include "notefreqs.h"
+#include "a_notefreqs.h"
 
 /*!
  @brief         Polynomial interpolated trajectory
 */
-#include "polynomial.h"
+#include "a_polynomial.h"
 
 /* Enddef to prevent recursive inclusion */
-#endif /* __CA_H__ */
+#endif /* __LIBA_H__ */
 
 /* END OF FILE */

@@ -2,8 +2,6 @@
  @file           test_notefreqs.c
  @brief          Note frequency test
  @author         tqfx tqfx@foxmail.com
- @version        0
- @date           2021-05-22
  @copyright      Copyright (C) 2021 tqfx
  \n \n
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,7 +27,7 @@
 
 #define NOTEFREQS_PROPORT ((180000000 >> 1) / 200)
 #define NOTEFREQS_TYPE    double
-#include "ca.h"
+#include "liba.h"
 
 static double song[][2] = {
     {NOTEFREQS_FREQ_C0, NOTEFREQS_C0},
