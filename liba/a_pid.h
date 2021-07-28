@@ -54,8 +54,8 @@
 #include <stdint.h>
 
 /*!
- @ingroup        CA
- @defgroup       CA_PID Proportional Integral Derivative
+ @ingroup        LIBA
+ @defgroup       LIBA_PID Proportional Integral Derivative
  @{
  @details        A proportional–integral–derivative controller
                  (PID controller or three-term controller) is a control loop

@@ -32,8 +32,8 @@
 #include <float.h>
 
 /*!
- @ingroup        CA
- @defgroup       CA_MATH math library
+ @ingroup        LIBA
+ @defgroup       LIBA_MATH math library
  @{
 */
 
@@ -153,7 +153,9 @@ __END_DECLS
 #define restrict_rad(x)       restrict_loop((x), -M_PI, M_PI)
 #define restrict_rad_f32(x)   restrict_loop_f32((x), -(float)M_PI, (float)M_PI)
 
-/*! @} */
+/*!
+ @}              End of LIBA_MATH group
+*/
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_MATH_H__ */

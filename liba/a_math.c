@@ -155,8 +155,4 @@ float restrict_loop_f32(float x, float min, float max)
     return x;
 }
 
-/*!
- @}              End of CA_MATH group
-*/
-
 /* END OF FILE */

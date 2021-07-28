@@ -32,8 +32,8 @@
 #include "liba.h"
 
 /*!
- @ingroup        CA
- @defgroup       CA_ZYX zyx axis
+ @ingroup        LIBA
+ @defgroup       LIBA_ZYX zyx axis
  @{
 */
 

@@ -33,8 +33,8 @@
 #include "liba.h"
 
 /*!
- @ingroup        CA
- @defgroup       CA_AHRS Automatic Heading Reference System
+ @ingroup        LIBA
+ @defgroup       LIBA_AHRS Automatic Heading Reference System
  @{
 */
 

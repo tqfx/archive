@@ -31,8 +31,8 @@
 #include "liba.h"
 
 /*!
- @ingroup        CA
- @defgroup       CA_POLYNOMIAL polynomial trajectory library
+ @ingroup        LIBA
+ @defgroup       LIBA_POLYNOMIAL polynomial trajectory library
  @{
 */
 
