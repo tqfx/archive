@@ -29,15 +29,15 @@
 
 #include <math.h>
 
-void zyx_euler_quat(const double e[3], double q[4])
+void a_zyx_euler_quat(const double e[3], double q[4])
 {
     /* Abbreviations for the various angular functions */
-    double cy = cos(e[ZYX_YAW] * 0.5);
-    double sy = sin(e[ZYX_YAW] * 0.5);
-    double cp = cos(e[ZYX_PITCH] * 0.5);
-    double sp = sin(e[ZYX_PITCH] * 0.5);
-    double cr = cos(e[ZYX_ROLL] * 0.5);
-    double sr = sin(e[ZYX_ROLL] * 0.5);
+    double cy = cos(e[A_ZYX_YAW] * 0.5);
+    double sy = sin(e[A_ZYX_YAW] * 0.5);
+    double cp = cos(e[A_ZYX_PITCH] * 0.5);
+    double sp = sin(e[A_ZYX_PITCH] * 0.5);
+    double cr = cos(e[A_ZYX_ROLL] * 0.5);
+    double sr = sin(e[A_ZYX_ROLL] * 0.5);
 
     q[0] = cr * cp * cy + sr * sp * sy;
     q[1] = sr * cp * cy - cr * sp * sy;
@@ -45,15 +45,15 @@ void zyx_euler_quat(const double e[3], double q[4])
     q[3] = cr * cp * sy - sr * sp * cy;
 }
 
-void zyx_f32_euler_quat(const float e[3], float q[4])
+void a_zyx_f32_euler_quat(const float e[3], float q[4])
 {
     /* Abbreviations for the various angular functions */
-    float cy = cosf(e[ZYX_YAW] * 0.5F);
-    float sy = sinf(e[ZYX_YAW] * 0.5F);
-    float cp = cosf(e[ZYX_PITCH] * 0.5F);
-    float sp = sinf(e[ZYX_PITCH] * 0.5F);
-    float cr = cosf(e[ZYX_ROLL] * 0.5F);
-    float sr = sinf(e[ZYX_ROLL] * 0.5F);
+    float cy = cosf(e[A_ZYX_YAW] * 0.5F);
+    float sy = sinf(e[A_ZYX_YAW] * 0.5F);
+    float cp = cosf(e[A_ZYX_PITCH] * 0.5F);
+    float sp = sinf(e[A_ZYX_PITCH] * 0.5F);
+    float cr = cosf(e[A_ZYX_ROLL] * 0.5F);
+    float sr = sinf(e[A_ZYX_ROLL] * 0.5F);
 
     q[0] = cr * cp * cy + sr * sp * sy;
     q[1] = sr * cp * cy - cr * sp * sy;
@@ -61,58 +61,58 @@ void zyx_f32_euler_quat(const float e[3], float q[4])
     q[3] = cr * cp * sy - sr * sp * cy;
 }
 
-void zyx_quat_euler(const double q[4], double e[3])
+void a_zyx_quat_euler(const double q[4], double e[3])
 {
     /* roll (x-axis rotation) */
     double sinr_cosp = 2 * (q[0] * q[1] + q[2] * q[3]);
     double cosr_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2]);
 
-    e[ZYX_ROLL] = atan2(sinr_cosp, cosr_cosp);
+    e[A_ZYX_ROLL] = atan2(sinr_cosp, cosr_cosp);
 
     /* pitch (y-axis rotation) */
     double sinp = 2 * (q[0] * q[2] - q[3] * q[1]);
     if (fabs(sinp) >= 1)
     {
         /* use 90 degrees if out of range */
-        e[ZYX_PITCH] = copysign(M_PI / 2, sinp);
+        e[A_ZYX_PITCH] = copysign(A_PI / 2, sinp);
     }
     else
     {
-        e[ZYX_PITCH] = asin(sinp);
+        e[A_ZYX_PITCH] = asin(sinp);
     }
 
     /* yaw (z-axis rotation) */
     double siny_cosp = 2 * (q[0] * q[3] + q[1] * q[2]);
     double cosy_cosp = 1 - 2 * (q[2] * q[2] + q[3] * q[3]);
 
-    e[ZYX_YAW] = atan2(siny_cosp, cosy_cosp);
+    e[A_ZYX_YAW] = atan2(siny_cosp, cosy_cosp);
 }
 
-void zyx_f32_quat_euler(const float q[4], float e[3])
+void a_zyx_f32_quat_euler(const float q[4], float e[3])
 {
     /* roll (x-axis rotation) */
     float sinr_cosp = 2 * (q[0] * q[1] + q[2] * q[3]);
     float cosr_cosp = 1 - 2 * (q[1] * q[1] + q[2] * q[2]);
 
-    e[ZYX_ROLL] = atan2f(sinr_cosp, cosr_cosp);
+    e[A_ZYX_ROLL] = atan2f(sinr_cosp, cosr_cosp);
 
     /* pitch (y-axis rotation) */
     float sinp = 2 * (q[0] * q[2] - q[3] * q[1]);
     if (fabsf(sinp) >= 1)
     {
         /* use 90 degrees if out of range */
-        e[ZYX_PITCH] = copysignf((float)(M_PI / 2), sinp);
+        e[A_ZYX_PITCH] = copysignf((float)(A_PI / 2), sinp);
     }
     else
     {
-        e[ZYX_PITCH] = asinf(sinp);
+        e[A_ZYX_PITCH] = asinf(sinp);
     }
 
     /* yaw (z-axis rotation) */
     float siny_cosp = 2 * (q[0] * q[3] + q[1] * q[2]);
     float cosy_cosp = 1 - 2 * (q[2] * q[2] + q[3] * q[3]);
 
-    e[ZYX_YAW] = atan2f(siny_cosp, cosy_cosp);
+    e[A_ZYX_YAW] = atan2f(siny_cosp, cosy_cosp);
 }
 
 /* END OF FILE */

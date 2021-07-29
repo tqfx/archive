@@ -25,8 +25,8 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __POLYNOMIAL_H__
-#define __POLYNOMIAL_H__
+#ifndef __A_POLYNOMIAL_H__
+#define __A_POLYNOMIAL_H__
 
 #include "liba.h"
 
@@ -45,7 +45,7 @@ typedef struct
     float q[2];  //!< position
     float v[2];  //!< velocity
     float k[4];  //!< quantity
-} polynomial3_t;
+} a_polynomial3_t;
 
 /*!
  @brief          Instance structure for quintic polynomial trajectory
@@ -57,7 +57,7 @@ typedef struct
     float v[2];  //!< velocity
     float a[2];  //!< acceleration
     float k[6];  //!< quantity
-} polynomial5_t;
+} a_polynomial5_t;
 
 /*!
  @brief          Instance structure for hepta polynomial trajectory
@@ -70,7 +70,7 @@ typedef struct
     float a[2];  //!< acceleration
     float j[2];  //!< jerk
     float k[8];  //!< quantity
-} polynomial7_t;
+} a_polynomial7_t;
 
 __BEGIN_DECLS
 
@@ -97,9 +97,9 @@ __BEGIN_DECLS
   @arg           1 position of target
   @arg           2 velocity of target
 */
-extern void polynomial3_init(polynomial3_t *p,
-                             float source[3],
-                             float target[3]);
+extern void a_polynomial3_init(a_polynomial3_t *p,
+                               float source[3],
+                               float target[3]);
 
 /*!
  @brief          Process function for cubic polynomial trajectory
@@ -113,8 +113,8 @@ extern void polynomial3_init(polynomial3_t *p,
  @param[in]      t: current time
  @return         position output
 */
-extern float polynomial3_pos(const polynomial3_t *p,
-                             float t);
+extern float a_polynomial3_pos(const a_polynomial3_t *p,
+                               float t);
 
 /*!
  @brief          Process function for cubic polynomial trajectory
@@ -128,8 +128,8 @@ extern float polynomial3_pos(const polynomial3_t *p,
  @param[in]      t: current time
  @return         velocity output
 */
-extern float polynomial3_vec(const polynomial3_t *p,
-                             float t);
+extern float a_polynomial3_vec(const a_polynomial3_t *p,
+                               float t);
 
 /*!
  @brief          Process function for cubic polynomial trajectory
@@ -143,8 +143,8 @@ extern float polynomial3_vec(const polynomial3_t *p,
  @param[in]      t: current time
  @return         acceleration output
 */
-extern float polynomial3_acc(const polynomial3_t *p,
-                             float t);
+extern float a_polynomial3_acc(const a_polynomial3_t *p,
+                               float t);
 
 /*!
  @brief          Process function for cubic polynomial trajectory
@@ -163,9 +163,9 @@ extern float polynomial3_acc(const polynomial3_t *p,
   @arg           2 acceleration output
  @param[in]      t: current time
 */
-extern void polynomial3_all(const polynomial3_t *p,
-                            float out[3],
-                            float t);
+extern void a_polynomial3_all(const a_polynomial3_t *p,
+                              float out[3],
+                              float t);
 
 /*!
  @brief          Initialization function for quintic polynomial trajectory
@@ -194,9 +194,9 @@ extern void polynomial3_all(const polynomial3_t *p,
   @arg           2 velocity of target
   @arg           3 acceleration of target
 */
-extern void polynomial5_init(polynomial5_t *p,
-                             float source[4],
-                             float target[4]);
+extern void a_polynomial5_init(a_polynomial5_t *p,
+                               float source[4],
+                               float target[4]);
 
 /*!
  @brief          Process function for quintic polynomial trajectory
@@ -210,8 +210,8 @@ extern void polynomial5_init(polynomial5_t *p,
  @param[in]      t: current time
  @return         position output
 */
-extern float polynomial5_pos(const polynomial5_t *p,
-                             float t);
+extern float a_polynomial5_pos(const a_polynomial5_t *p,
+                               float t);
 
 /*!
  @brief          Process function for quintic polynomial trajectory
@@ -225,8 +225,8 @@ extern float polynomial5_pos(const polynomial5_t *p,
  @param[in]      t: current time
  @return         velocity output
 */
-extern float polynomial5_vec(const polynomial5_t *p,
-                             float t);
+extern float a_polynomial5_vec(const a_polynomial5_t *p,
+                               float t);
 
 /*!
  @brief          Process function for quintic polynomial trajectory
@@ -240,8 +240,8 @@ extern float polynomial5_vec(const polynomial5_t *p,
  @param[in]      t: current time
  @return         acceleration output
 */
-extern float polynomial5_acc(const polynomial5_t *p,
-                             float t);
+extern float a_polynomial5_acc(const a_polynomial5_t *p,
+                               float t);
 
 /*!
  @brief          Process function for quintic polynomial trajectory
@@ -260,9 +260,9 @@ extern float polynomial5_acc(const polynomial5_t *p,
   @arg           2 acceleration output
  @param[in]      t: current time
 */
-extern void polynomial5_all(const polynomial5_t *p,
-                            float out[3],
-                            float t);
+extern void a_polynomial5_all(const a_polynomial5_t *p,
+                              float out[3],
+                              float t);
 
 /*!
  @brief          Initialization function for hepta polynomial trajectory
@@ -295,9 +295,9 @@ extern void polynomial5_all(const polynomial5_t *p,
   @arg           3 acceleration of target
   @arg           4 jerk of target
 */
-extern void polynomial7_init(polynomial7_t *p,
-                             float source[5],
-                             float target[5]);
+extern void a_polynomial7_init(a_polynomial7_t *p,
+                               float source[5],
+                               float target[5]);
 
 /*!
  @brief          Process function for hepta polynomial trajectory
@@ -311,8 +311,8 @@ extern void polynomial7_init(polynomial7_t *p,
  @param[in]      t: current time
  @return         position output
 */
-extern float polynomial7_pos(const polynomial7_t *p,
-                             float t);
+extern float a_polynomial7_pos(const a_polynomial7_t *p,
+                               float t);
 
 /*!
  @brief          Process function for hepta polynomial trajectory
@@ -326,8 +326,8 @@ extern float polynomial7_pos(const polynomial7_t *p,
  @param[in]      t: current time
  @return         velocity output
 */
-extern float polynomial7_vec(const polynomial7_t *p,
-                             float t);
+extern float a_polynomial7_vec(const a_polynomial7_t *p,
+                               float t);
 
 /*!
  @brief          Process function for hepta polynomial trajectory
@@ -341,8 +341,8 @@ extern float polynomial7_vec(const polynomial7_t *p,
  @param[in]      t: current time
  @return         acceleration output
 */
-extern float polynomial7_acc(const polynomial7_t *p,
-                             float t);
+extern float a_polynomial7_acc(const a_polynomial7_t *p,
+                               float t);
 
 /*!
  @brief          Process function for hepta polynomial trajectory
@@ -356,8 +356,8 @@ extern float polynomial7_acc(const polynomial7_t *p,
  @param[in]      t: current time
  @return         jerk output
 */
-extern float polynomial7_jer(const polynomial7_t *p,
-                             float t);
+extern float a_polynomial7_jer(const a_polynomial7_t *p,
+                               float t);
 
 /*!
  @brief          Process function for hepta polynomial trajectory
@@ -378,15 +378,15 @@ extern float polynomial7_jer(const polynomial7_t *p,
   @arg           3 jerk output
  @param[in]      t: current time
 */
-extern void polynomial7_all(const polynomial7_t *p,
-                            float out[4],
-                            float t);
+extern void a_polynomial7_all(const a_polynomial7_t *p,
+                              float out[4],
+                              float t);
 
 __END_DECLS
 
 /*!< @} */
 
 /* Enddef to prevent recursive inclusion */
-#endif /* __POLYNOMIAL_H__ */
+#endif /* __A_POLYNOMIAL_H__ */
 
 /* END OF FILE */

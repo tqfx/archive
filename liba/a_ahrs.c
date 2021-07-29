@@ -56,37 +56,37 @@
 /* Normalise */
 #undef NORM3
 /* Normalise 3 measurement */
-#define NORM3(_x, _y, _z)                                   \
-    do                                                      \
-    {                                                       \
-        /* Fast inverse square-root */                      \
-        float norm = inv_sqrt(_x * _x + _y * _y + _z * _z); \
-        _x *= norm;                                         \
-        _y *= norm;                                         \
-        _z *= norm;                                         \
+#define NORM3(_x, _y, _z)                                     \
+    do                                                        \
+    {                                                         \
+        /* Fast inverse square-root */                        \
+        float norm = a_inv_sqrt(_x * _x + _y * _y + _z * _z); \
+        _x *= norm;                                           \
+        _y *= norm;                                           \
+        _z *= norm;                                           \
     } while (0);
 
 #undef NORM4
 /* Normalise 4 measurement */
-#define NORM4(_w, _x, _y, _z)                     \
-    do                                            \
-    {                                             \
-        /* Fast inverse square-root */            \
-        float norm = inv_sqrt(_w * _w + _x * _x + \
-                              _y * _y + _z * _z); \
-        _w *= norm;                               \
-        _x *= norm;                               \
-        _y *= norm;                               \
-        _z *= norm;                               \
+#define NORM4(_w, _x, _y, _z)                       \
+    do                                              \
+    {                                               \
+        /* Fast inverse square-root */              \
+        float norm = a_inv_sqrt(_w * _w + _x * _x + \
+                                _y * _y + _z * _z); \
+        _w *= norm;                                 \
+        _x *= norm;                                 \
+        _y *= norm;                                 \
+        _z *= norm;                                 \
     } while (0);
 
 /* ahrs type */
 
 typedef enum
 {
-    AHRS_AXIS9,  //!< 9 axis
-    AHRS_AXIS6,  //!< 6 axis
-} ahrs_type_t;
+    A_AHRS_AXIS9,  //!< 9 axis
+    A_AHRS_AXIS6,  //!< 6 axis
+} a_ahrs_type_t;
 
 /* error integral */
 static float eix; /* error integral of x axis */
@@ -101,9 +101,9 @@ static float eiz; /* error integral of x axis */
  @param[in]      x: the number need to be calculated
  @return         1 / sqrtf(x)
 */
-static float inv_sqrt(float x);
+static float a_inv_sqrt(float x);
 
-static float inv_sqrt(float x)
+static float a_inv_sqrt(float x)
 {
     float xh = 0.5F * x;
     long i = *(long *)&x;
@@ -126,13 +126,13 @@ static float inv_sqrt(float x)
 #define y 1 /*!< y axis */
 #define z 2 /*!< z axis */
 
-void ahrs_mahony(float q[4],
-                 float g[3],
-                 float a[3],
-                 float m[3],
-                 float ht)
+void a_ahrs_mahony(float q[4],
+                   float g[3],
+                   float a[3],
+                   float m[3],
+                   float ht)
 {
-    ahrs_type_t type = AHRS_AXIS9;
+    a_ahrs_type_t type = A_AHRS_AXIS9;
 
     /* Avoids NaN in magnetometer normalisation */
     if ((*(int32_t *)(m + x) & 0x7FFFFFFF) ||
@@ -144,7 +144,7 @@ void ahrs_mahony(float q[4],
     }
     else /* mx == 0, my = 0, mz = 0 */
     {
-        type = AHRS_AXIS6;
+        type = A_AHRS_AXIS6;
     }
 
     /* Auxiliary variables to avoid repeated arithmetic */
@@ -172,7 +172,7 @@ void ahrs_mahony(float q[4],
         float hy = 0;
         float bx = 0;
         float bz = 0;
-        if (type == AHRS_AXIS9)
+        if (type == A_AHRS_AXIS9)
         {
             hx = 2.0F * (m[x] * (0.5F - q2q2 - q3q3) +
                          m[y] * (q1q2 - q0q3) +
@@ -213,7 +213,7 @@ void ahrs_mahony(float q[4],
         float wx = 0;
         float wy = 0;
         float wz = 0;
-        if (type == AHRS_AXIS9)
+        if (type == A_AHRS_AXIS9)
         {
             wx = 2.0F * (bx * (0.5F - q2q2 - q3q3) + (q1q3 - q0q2) * bz);
             wy = 2.0F * (bx * (q1q2 - q0q3) + (q0q1 + q2q3) * bz);
@@ -227,7 +227,7 @@ void ahrs_mahony(float q[4],
         float ex = a[y] * vz - a[z] * vy;
         float ey = a[z] * vx - a[x] * vz;
         float ez = a[x] * vy - a[y] * vx;
-        if (type == AHRS_AXIS9)
+        if (type == A_AHRS_AXIS9)
         {
             ex += m[y] * wz - m[z] * wy;
             ey += m[z] * wx - m[x] * wz;
@@ -262,10 +262,10 @@ void ahrs_mahony(float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void ahrs_mahony_imu(float q[4],
-                     float g[3],
-                     float a[3],
-                     float ht)
+void a_ahrs_mahony_imu(float q[4],
+                       float g[3],
+                       float a[3],
+                       float ht)
 {
     /* Auxiliary variables to avoid repeated arithmetic */
     float q0q0 = q[0] * q[0];
@@ -327,13 +327,13 @@ void ahrs_mahony_imu(float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void ahrs_madgwick(float q[4],
-                   float g[3],
-                   float a[3],
-                   float m[3],
-                   float t)
+void a_ahrs_madgwick(float q[4],
+                     float g[3],
+                     float a[3],
+                     float m[3],
+                     float t)
 {
-    ahrs_type_t type = AHRS_AXIS9;
+    a_ahrs_type_t type = A_AHRS_AXIS9;
 
     /* Avoids NaN in magnetometer normalisation */
     if ((*(int32_t *)(m + x) & 0x7FFFFFFF) ||
@@ -345,7 +345,7 @@ void ahrs_madgwick(float q[4],
     }
     else /* mx == 0, my = 0, mz = 0 */
     {
-        type = AHRS_AXIS6;
+        type = A_AHRS_AXIS6;
     }
 
     /* Rate of change of quaternion from gyroscope */
@@ -382,7 +382,7 @@ void ahrs_madgwick(float q[4],
         float s1 = 0;
         float s2 = 0;
         float s3 = 0;
-        if (type == AHRS_AXIS9)
+        if (type == A_AHRS_AXIS9)
         {
             float _2q0q2 = 2.0F * q[0] * q[2];
             float _2q2q3 = 2.0F * q[2] * q[3];
@@ -507,10 +507,10 @@ void ahrs_madgwick(float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void ahrs_madgwick_imu(float q[4],
-                       float g[3],
-                       float a[3],
-                       float t)
+void a_ahrs_madgwick_imu(float q[4],
+                         float g[3],
+                         float a[3],
+                         float t)
 {
     /* Rate of change of quaternion from gyroscope */
     float q_dot1 = 0.5F * (-q[1] * g[x] - q[2] * g[y] - q[3] * g[z]);

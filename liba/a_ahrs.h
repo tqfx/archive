@@ -48,11 +48,11 @@ __BEGIN_DECLS
  @param[in]    m: x,y,z axis of magnetometer
  @param[in]    ht: half of sampling period, unit /s
 */
-extern void ahrs_mahony(float q[4],
-                        float g[3],
-                        float a[3],
-                        float m[3],
-                        float ht);
+extern void a_ahrs_mahony(float q[4],
+                          float g[3],
+                          float a[3],
+                          float m[3],
+                          float ht);
 
 /*!
  @brief        Mehony AHRS attitude calculation without magnetometer
@@ -61,10 +61,10 @@ extern void ahrs_mahony(float q[4],
  @param[in]    a: x,y,z axis of accelerometer
  @param[in]    ht: half of sampling period, unit /s
 */
-extern void ahrs_mahony_imu(float q[4],
-                            float g[3],
-                            float a[3],
-                            float ht);
+extern void a_ahrs_mahony_imu(float q[4],
+                              float g[3],
+                              float a[3],
+                              float ht);
 
 /*!
  @brief        Madgwick AHRS attitude calculation with magnetometer
@@ -74,11 +74,11 @@ extern void ahrs_mahony_imu(float q[4],
  @param[in]    m: x,y,z axis of magnetometer
  @param[in]    t: sampling period, unit /s
 */
-extern void ahrs_madgwick(float q[4],
-                          float g[3],
-                          float a[3],
-                          float m[3],
-                          float t);
+extern void a_ahrs_madgwick(float q[4],
+                            float g[3],
+                            float a[3],
+                            float m[3],
+                            float t);
 
 /*!
  @brief        Madgwick AHRS attitude calculation without magnetometer
@@ -87,10 +87,10 @@ extern void ahrs_madgwick(float q[4],
  @param[in]    a: x,y,z axis of accelerometer
  @param[in]    t: sampling period, unit /s
 */
-extern void ahrs_madgwick_imu(float q[4],
-                              float g[3],
-                              float a[3],
-                              float t);
+extern void a_ahrs_madgwick_imu(float q[4],
+                                float g[3],
+                                float a[3],
+                                float t);
 
 __END_DECLS
 

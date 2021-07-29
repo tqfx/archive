@@ -46,8 +46,8 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __NOTEFREQS_H__
-#define __NOTEFREQS_H__
+#ifndef __A_NOTEFREQS_H__
+#define __A_NOTEFREQS_H__
 
 #if !defined(NOTEFREQS_PROPORT)
 #define NOTEFREQS_PROPORT 0
@@ -1474,6 +1474,6 @@
 #define NOTEFREQS_B8  ((NOTEFREQS_TYPE)(NOTEFREQS_PROPORT / NOTEFREQS_FREQ_B8))
 
 /* Enddef to prevent recursive inclusion */
-#endif /* __NOTEFREQS_H__ */
+#endif /* __A_NOTEFREQS_H__ */
 
 /* END OF FILE */

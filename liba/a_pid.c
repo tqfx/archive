@@ -64,12 +64,12 @@
  @endcond
 */
 
-void ca_pid_f32_init(ca_pid_f32_t *pid,
-                     ca_pid_mode_t mode,
-                     const float k[3],
-                     const float omin,
-                     const float omax,
-                     const float omaxi)
+void a_pid_f32_init(a_pid_f32_t *pid,
+                    a_pid_mode_t mode,
+                    const float k[3],
+                    const float omin,
+                    const float omax,
+                    const float omaxi)
 {
     /* Set mode of PID Control */
     pid->mode = mode;
@@ -80,7 +80,7 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POS:
+    case A_PID_POS:
     {
         /* Set maximum intergral output */
         pid->omaxi = omaxi;
@@ -96,7 +96,7 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
     }
     break;
 
-    case CA_PID_INC:
+    case A_PID_INC:
     {
         /* Reset maximum intergral output */
         pid->omaxi = 0;
@@ -115,12 +115,12 @@ void ca_pid_f32_init(ca_pid_f32_t *pid,
     }
 }
 
-void ca_pid_f64_init(ca_pid_f64_t *pid,
-                     ca_pid_mode_t mode,
-                     const double k[3],
-                     const double omin,
-                     const double omax,
-                     ...)
+void a_pid_f64_init(a_pid_f64_t *pid,
+                    a_pid_mode_t mode,
+                    const double k[3],
+                    const double omin,
+                    const double omax,
+                    ...)
 {
     va_list ap;
 
@@ -133,7 +133,7 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POS:
+    case A_PID_POS:
     {
         /* Set maximum intergral output */
         va_start(ap, omax);
@@ -151,7 +151,7 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
     }
     break;
 
-    case CA_PID_INC:
+    case A_PID_INC:
     {
         /* Reset maximum intergral output */
         pid->omaxi = 0;
@@ -170,9 +170,9 @@ void ca_pid_f64_init(ca_pid_f64_t *pid,
     }
 }
 
-float ca_pid_f32(ca_pid_f32_t *pid,
-                 const float ref,
-                 const float set)
+float a_pid_f32(a_pid_f32_t *pid,
+                const float ref,
+                const float set)
 {
     /* Output */
     float out = 0;
@@ -181,7 +181,7 @@ float ca_pid_f32(ca_pid_f32_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POS:
+    case A_PID_POS:
     {
         /*
          When the limit of integration is exceeded and
@@ -206,7 +206,7 @@ float ca_pid_f32(ca_pid_f32_t *pid,
     }
     break;
 
-    case CA_PID_INC:
+    case A_PID_INC:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
         pid->y += pid->a[0] * in;
@@ -233,9 +233,9 @@ float ca_pid_f32(ca_pid_f32_t *pid,
     return out;
 }
 
-double ca_pid_f64(ca_pid_f64_t *pid,
-                  const double ref,
-                  const double set)
+double a_pid_f64(a_pid_f64_t *pid,
+                 const double ref,
+                 const double set)
 {
     /* Output */
     double out = 0;
@@ -244,7 +244,7 @@ double ca_pid_f64(ca_pid_f64_t *pid,
 
     switch (pid->mode)
     {
-    case CA_PID_POS:
+    case A_PID_POS:
     {
         /*
          When the limit of integration is exceeded and
@@ -269,7 +269,7 @@ double ca_pid_f64(ca_pid_f64_t *pid,
     }
     break;
 
-    case CA_PID_INC:
+    case A_PID_INC:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
         pid->y += pid->a[0] * in;

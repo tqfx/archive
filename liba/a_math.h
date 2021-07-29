@@ -37,61 +37,61 @@
  @{
 */
 
-#ifndef M_E
-#define M_E 2.7182818284590452354
-#endif /* M_E */
-#ifndef M_LOG2E
-#define M_LOG2E 1.4426950408889634074
-#endif /* M_LOG2E */
-#ifndef M_LOG10E
-#define M_LOG10E 0.43429448190325182765
-#endif /* M_LOG10E */
-#ifndef M_LN2
-#define M_LN2 0.69314718055994530942
-#endif /* M_LN2 */
-#ifndef M_LN10
-#define M_LN10 2.30258509299404568402
-#endif /* M_LN10 */
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif /* M_PI */
-#ifndef M_PI_2
-#define M_PI_2 1.57079632679489661923
-#endif /* M_PI_2 */
-#ifndef M_PI_4
-#define M_PI_4 0.78539816339744830962
-#endif /* M_PI_4 */
-#ifndef M_1_PI
-#define M_1_PI 0.31830988618379067154
-#endif /* M_1_PI */
-#ifndef M_2_PI
-#define M_2_PI 0.63661977236758134308
-#endif /* M_2_PI */
-#ifndef M_2_SQRTPI
-#define M_2_SQRTPI 1.12837916709551257390
-#endif /* M_2_SQRTPI */
-#ifndef M_SQRT2
-#define M_SQRT2 1.41421356237309504880
-#endif /* M_SQRT2 */
-#ifndef M_SQRT1_2
-#define M_SQRT1_2 0.70710678118654752440
-#endif /* M_SQRT1_2 */
+#ifndef A_E
+#define A_E 2.7182818284590452354
+#endif /* A_E */
+#ifndef A_LOG2E
+#define A_LOG2E 1.4426950408889634074
+#endif /* A_LOG2E */
+#ifndef A_LOG10E
+#define A_LOG10E 0.43429448190325182765
+#endif /* A_LOG10E */
+#ifndef A_LN2
+#define A_LN2 0.69314718055994530942
+#endif /* A_LN2 */
+#ifndef A_LN10
+#define A_LN10 2.30258509299404568402
+#endif /* A_LN10 */
+#ifndef A_PI
+#define A_PI 3.14159265358979323846
+#endif /* A_PI */
+#ifndef A_PI_2
+#define A_PI_2 1.57079632679489661923
+#endif /* A_PI_2 */
+#ifndef A_PI_4
+#define A_PI_4 0.78539816339744830962
+#endif /* A_PI_4 */
+#ifndef A_1_PI
+#define A_1_PI 0.31830988618379067154
+#endif /* A_1_PI */
+#ifndef A_2_PI
+#define A_2_PI 0.63661977236758134308
+#endif /* A_2_PI */
+#ifndef A_2_SQRTPI
+#define A_2_SQRTPI 1.12837916709551257390
+#endif /* A_2_SQRTPI */
+#ifndef A_SQRT2
+#define A_SQRT2 1.41421356237309504880
+#endif /* A_SQRT2 */
+#ifndef A_SQRT1_2
+#define A_SQRT1_2 0.70710678118654752440
+#endif /* A_SQRT1_2 */
 
-#undef ABS
+#undef A_ABS
 /* The absolute value of x */
-#define ABS(x) ((x) < 0 ? -(x) : (x))
+#define A_ABS(x) ((x) < 0 ? -(x) : (x))
 
-#undef SQ
+#undef A_SQ
 /* The square of the x */
-#define SQ(x) ((x) * (x))
+#define A_SQ(x) ((x) * (x))
 
-#undef LIMIT
+#undef A_LIMIT
 /* Limiting macro */
-#define LIMIT(x, min, max) ((x) < (min)        \
-                                ? (min)        \
-                                : ((x) > (max) \
-                                       ? (max) \
-                                       : (x)))
+#define A_LIMIT(x, min, max) ((x) < (min)        \
+                                  ? (min)        \
+                                  : ((x) > (max) \
+                                         ? (max) \
+                                         : (x)))
 
 __BEGIN_DECLS
 
@@ -101,28 +101,28 @@ __BEGIN_DECLS
  @param[in]      x: Number need to be calculated
  @return         1 / sqrtf(x)
 */
-extern float inv_sqrt(float x);
+extern float a_inv_sqrt(float x);
 
 /*!
  @brief          Fast sqrt for unsigned uint32
  @param[in]      x: Number need to be calculated
  @return         sqrt(x)
 */
-extern unsigned int ca_sqrt_u32(unsigned int x);
+extern unsigned int a_sqrt_u32(unsigned int x);
 
 /*!
  @brief          Fast sqrt for unsigned uint64
  @param[in]      x: Number need to be calculated
  @return         sqrt(x)
 */
-extern unsigned long long ca_sqrt_u64(unsigned long long x);
+extern unsigned long long a_sqrt_u64(unsigned long long x);
 
 /*!
  @brief          Normalize function for the floating-point
  @param[in]      n: Number of variables
  @param[in,out]  ...: Pointer of variables
 */
-extern void ca_normalize_f32(unsigned int n, ...);
+extern void a_normalize_f32(unsigned int n, ...);
 
 /*!
  @brief          Restricted periodic function
@@ -131,9 +131,9 @@ extern void ca_normalize_f32(unsigned int n, ...);
  @param[in]      max: Minimum
  @return         Output
 */
-extern double restrict_loop(double x,
-                            double min,
-                            double max);
+extern double a_restrict_loop(double x,
+                              double min,
+                              double max);
 
 /*!
  @brief          Restricted periodic function for the floating-point
@@ -142,16 +142,16 @@ extern double restrict_loop(double x,
  @param[in]      max: Minimum
  @return         Output
 */
-extern float restrict_loop_f32(float x,
-                               float min,
-                               float max);
+extern float a_restrict_loop_f32(float x,
+                                 float min,
+                                 float max);
 
 __END_DECLS
 
-#define restrict_angle(x)     restrict_loop((x), -180, 180)
-#define restrict_angle_f32(x) restrict_loop_f32((x), -180, 180)
-#define restrict_rad(x)       restrict_loop((x), -M_PI, M_PI)
-#define restrict_rad_f32(x)   restrict_loop_f32((x), -(float)M_PI, (float)M_PI)
+#define a_restrict_angle(x)     a_restrict_loop((x), -180, 180)
+#define a_restrict_angle_f32(x) a_restrict_loop_f32((x), -180, 180)
+#define a_restrict_rad(x)       a_restrict_loop((x), -A_PI, A_PI)
+#define a_restrict_rad_f32(x)   a_restrict_loop_f32((x), -(float)A_PI, (float)A_PI)
 
 /*!
  @}              End of LIBA_MATH group

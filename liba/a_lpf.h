@@ -52,7 +52,6 @@
 */
 
 /*!
- @struct         ca_lpf_f32_t
  @brief          Instance structure for float Low Pass Filter
 */
 typedef struct
@@ -60,10 +59,9 @@ typedef struct
     float out; /*!< Output */
     float k;   /*!< Parameter of filtering              */
     float t;   /*!< Time interval of filtering, unit /s */
-} ca_lpf_f32_t;
+} a_lpf_f32_t;
 
 /*!
- @struct         ca_lpf_f64_t
  @brief          Instance structure for double Low Pass Filter
 */
 typedef struct
@@ -71,7 +69,7 @@ typedef struct
     double out; /*!< Output */
     double k;   /*!< Parameter of filtering              */
     double t;   /*!< Time interval of filtering, unit /s */
-} ca_lpf_f64_t;
+} a_lpf_f64_t;
 
 __STATIC_INLINE
 /*!
@@ -80,9 +78,9 @@ __STATIC_INLINE
  @param[in]      k: Parameter of filtering
  @param[in]      t: Time interval of filtering, unit /s
 */
-void ca_lpf_f32_init(ca_lpf_f32_t *lpf,
-                     float k,
-                     float t)
+void a_lpf_f32_init(a_lpf_f32_t *lpf,
+                    float k,
+                    float t)
 {
     lpf->t = t;
     lpf->k = k;
@@ -95,9 +93,9 @@ __STATIC_INLINE
  @param[in]      k: Parameter of filtering
  @param[in]      t: Time interval of filtering, unit /s
 */
-void ca_lpf_f64_init(ca_lpf_f64_t *lpf,
-                     double k,
-                     double t)
+void a_lpf_f64_init(a_lpf_f64_t *lpf,
+                    double k,
+                    double t)
 {
     lpf->t = t;
     lpf->k = k;
@@ -108,7 +106,7 @@ __STATIC_INLINE
  @brief          Reset function for float Low Pass Filter
  @param[in,out]  lpf: An instance of float Low Pass Filter structure
 */
-void ca_lpf_f32_reset(ca_lpf_f32_t *lpf)
+void a_lpf_f32_reset(a_lpf_f32_t *lpf)
 {
     lpf->out = 0;
 }
@@ -118,7 +116,7 @@ __STATIC_INLINE
  @brief          Reset function for double Low Pass Filter
  @param[in,out]  lpf: An instance of double Low Pass Filter structure
 */
-void ca_lpf_f64_reset(ca_lpf_f64_t *lpf)
+void a_lpf_f64_reset(a_lpf_f64_t *lpf)
 {
     lpf->out = 0;
 }
@@ -134,8 +132,8 @@ __STATIC_INLINE
  @param[in]      x: Input
  @return         Output
 */
-float ca_lpf_f32(ca_lpf_f32_t *lpf,
-                 float x)
+float a_lpf_f32(a_lpf_f32_t *lpf,
+                float x)
 {
     float inv_kt = lpf->t / (lpf->k + lpf->t);
 
@@ -157,8 +155,8 @@ __STATIC_INLINE
  @param[in]      x: Input
  @return         Output
 */
-double ca_lpf_f64(ca_lpf_f64_t *lpf,
-                  double x)
+double a_lpf_f64(a_lpf_f64_t *lpf,
+                 double x)
 {
     double inv_kt = lpf->t / (lpf->k + lpf->t);
 

@@ -32,25 +32,25 @@ int main(void)
     float source[5] = {0, 0, 0, 0, 0};
     float target[5] = {10, 10, 0, 0, 0};
 
-    polynomial3_t poly3;
-    polynomial3_init(&poly3, source, target);
+    a_polynomial3_t poly3;
+    a_polynomial3_init(&poly3, source, target);
     for (float i = 0; i < 10; i += 1)
     {
-        printf("%g:%g\n", (double)i, (double)polynomial3_vec(&poly3, i));
+        printf("%g:%g\n", (double)i, (double)a_polynomial3_vec(&poly3, i));
     }
 
-    polynomial5_t poly5;
-    polynomial5_init(&poly5, source, target);
+    a_polynomial5_t poly5;
+    a_polynomial5_init(&poly5, source, target);
     for (float i = 0; i < 10; i += 1)
     {
-        printf("%g:%g\n", (double)i, (double)polynomial5_vec(&poly5, i));
+        printf("%g:%g\n", (double)i, (double)a_polynomial5_vec(&poly5, i));
     }
 
-    polynomial7_t poly7;
-    polynomial7_init(&poly7, source, target);
+    a_polynomial7_t poly7;
+    a_polynomial7_init(&poly7, source, target);
     for (float i = 0; i < 10; i += 1)
     {
-        printf("%g:%g\n", (double)i, (double)polynomial7_vec(&poly7, i));
+        printf("%g:%g\n", (double)i, (double)a_polynomial7_vec(&poly7, i));
     }
 
     return 0;

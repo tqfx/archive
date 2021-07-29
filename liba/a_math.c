@@ -27,7 +27,7 @@
 
 #include <stdarg.h>
 
-float inv_sqrt(float x)
+float a_inv_sqrt(float x)
 {
     float xh = 0.5F * x;
     long i = *(long *)&x;
@@ -40,7 +40,7 @@ float inv_sqrt(float x)
     return x;
 }
 
-unsigned int ca_sqrt_u32(unsigned int x)
+unsigned int a_sqrt_u32(unsigned int x)
 {
     unsigned int y = 0;
 
@@ -62,7 +62,7 @@ unsigned int ca_sqrt_u32(unsigned int x)
     return y;
 }
 
-unsigned long long ca_sqrt_u64(unsigned long long x)
+unsigned long long a_sqrt_u64(unsigned long long x)
 {
     unsigned long long y = 0;
 
@@ -84,7 +84,7 @@ unsigned long long ca_sqrt_u64(unsigned long long x)
     return y;
 }
 
-void ca_normalize_f32(unsigned int n, ...)
+void a_normalize_f32(unsigned int n, ...)
 {
     va_list ap;
 
@@ -97,11 +97,11 @@ void ca_normalize_f32(unsigned int n, ...)
     while (i--)
     {
         float *p = va_arg(ap, float *);
-        norm += SQ(*p);
+        norm += A_SQ(*p);
     }
     va_end(ap);
 
-    norm = inv_sqrt(norm);
+    norm = a_inv_sqrt(norm);
 
     va_start(ap, n);
     i = n;
@@ -113,11 +113,11 @@ void ca_normalize_f32(unsigned int n, ...)
     va_end(ap);
 }
 
-double restrict_loop(double x, double min, double max)
+double a_restrict_loop(double x, double min, double max)
 {
+    double len = max - min;
     if (x > max)
     {
-        double len = max - min;
         do
         {
             x -= len;
@@ -125,7 +125,6 @@ double restrict_loop(double x, double min, double max)
     }
     else if (x < min)
     {
-        double len = max - min;
         do
         {
             x += len;
@@ -134,11 +133,11 @@ double restrict_loop(double x, double min, double max)
     return x;
 }
 
-float restrict_loop_f32(float x, float min, float max)
+float a_restrict_loop_f32(float x, float min, float max)
 {
+    float len = max - min;
     if (x > max)
     {
-        float len = max - min;
         do
         {
             x -= len;
@@ -146,7 +145,6 @@ float restrict_loop_f32(float x, float min, float max)
     }
     else if (x < min)
     {
-        float len = max - min;
         do
         {
             x += len;

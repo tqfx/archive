@@ -26,9 +26,9 @@
 
 #include "a_polynomial.h"
 
-void polynomial3_init(polynomial3_t *p,
-                      float source[3],
-                      float target[3])
+void a_polynomial3_init(a_polynomial3_t *p,
+                        float source[3],
+                        float target[3])
 {
     p->t[0] = source[0];
     p->q[0] = source[1];
@@ -50,8 +50,8 @@ void polynomial3_init(polynomial3_t *p,
     p->k[3] = inv_t3 * (vt - 2 * dist);
 }
 
-float polynomial3_pos(const polynomial3_t *p,
-                      float t)
+float a_polynomial3_pos(const a_polynomial3_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -62,8 +62,8 @@ float polynomial3_pos(const polynomial3_t *p,
             p->k[3] * t3);
 }
 
-float polynomial3_vec(const polynomial3_t *p,
-                      float t)
+float a_polynomial3_vec(const a_polynomial3_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -72,17 +72,17 @@ float polynomial3_vec(const polynomial3_t *p,
             p->k[3] * t2 * 3);
 }
 
-float polynomial3_acc(const polynomial3_t *p,
-                      float t)
+float a_polynomial3_acc(const a_polynomial3_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     return (p->k[2] * 2 +
             p->k[3] * t1 * 6);
 }
 
-void polynomial3_all(const polynomial3_t *p,
-                     float out[3],
-                     float t)
+void a_polynomial3_all(const a_polynomial3_t *p,
+                       float out[3],
+                       float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -92,9 +92,9 @@ void polynomial3_all(const polynomial3_t *p,
     out[2] = p->k[2] * 2 + p->k[3] * t1 * 6;
 }
 
-void polynomial5_init(polynomial5_t *p,
-                      float source[4],
-                      float target[4])
+void a_polynomial5_init(a_polynomial5_t *p,
+                        float source[4],
+                        float target[4])
 {
     p->t[0] = source[0];
     p->q[0] = source[1];
@@ -120,14 +120,14 @@ void polynomial5_init(polynomial5_t *p,
 
     p->k[0] = p->q[0];
     p->k[1] = p->v[0];
-    p->k[2] = p->a[0] * (1.0F / 2);
-    p->k[3] = (1.0F / 2) * inv_t3 * (20 * dist - 8 * v1t1 - 12 * v0t1 + a1t2 - 3 * a0t2);
-    p->k[4] = (1.0F / 2) * inv_t4 * (-30 * dist + 14 * v1t1 + 16 * v0t1 + 3 * a0t2 - 2 * a1t2);
-    p->k[5] = (1.0F / 2) * inv_t5 * (12 * dist - 6 * (v1t1 + v0t1) + a1t2 - a0t2);
+    p->k[2] = p->a[0] * (1 / 2.0F);
+    p->k[3] = (1 / 2.0F) * inv_t3 * (20 * dist - 8 * v1t1 - 12 * v0t1 + a1t2 - 3 * a0t2);
+    p->k[4] = (1 / 2.0F) * inv_t4 * (-30 * dist + 14 * v1t1 + 16 * v0t1 + 3 * a0t2 - 2 * a1t2);
+    p->k[5] = (1 / 2.0F) * inv_t5 * (12 * dist - 6 * (v1t1 + v0t1) + a1t2 - a0t2);
 }
 
-float polynomial5_pos(const polynomial5_t *p,
-                      float t)
+float a_polynomial5_pos(const a_polynomial5_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -142,8 +142,8 @@ float polynomial5_pos(const polynomial5_t *p,
             p->k[5] * t5);
 }
 
-float polynomial5_vec(const polynomial5_t *p,
-                      float t)
+float a_polynomial5_vec(const a_polynomial5_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -156,8 +156,8 @@ float polynomial5_vec(const polynomial5_t *p,
             p->k[5] * t4 * 5);
 }
 
-float polynomial5_acc(const polynomial5_t *p,
-                      float t)
+float a_polynomial5_acc(const a_polynomial5_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -168,9 +168,9 @@ float polynomial5_acc(const polynomial5_t *p,
             p->k[5] * t3 * 20);
 }
 
-void polynomial5_all(const polynomial5_t *p,
-                     float out[3],
-                     float t)
+void a_polynomial5_all(const a_polynomial5_t *p,
+                       float out[3],
+                       float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -194,9 +194,9 @@ void polynomial5_all(const polynomial5_t *p,
              p->k[5] * t3 * 20;
 }
 
-void polynomial7_init(polynomial7_t *p,
-                      float source[5],
-                      float target[5])
+void a_polynomial7_init(a_polynomial7_t *p,
+                        float source[5],
+                        float target[5])
 {
     p->t[0] = source[0];
     p->q[0] = source[1];
@@ -229,16 +229,16 @@ void polynomial7_init(polynomial7_t *p,
 
     p->k[0] = p->q[0];
     p->k[1] = p->v[0];
-    p->k[2] = p->a[0] * (1.0F / 2);
-    p->k[3] = p->j[0] * (1.0F / 6);
-    p->k[4] = (1.0F / 6) * inv_t4 * (210 * dist - 120 * v0t1 - 90 * v0t1 - 30 * a0t2 + 15 * a1t2 - 4 * j0t3 - j1t3);
-    p->k[5] = (1.0F / 2) * inv_t5 * (-168 * dist + 90 * v0t1 + 78 * v1t1 + 20 * a0t2 - 14 * a1t2 + 2 * j0t3 + j1t3);
-    p->k[6] = (1.0F / 6) * inv_t6 * (420 * dist - 216 * v0t1 - 204 * v1t1 - 45 * a0t2 + 39 * a1t2 - 4 * j0t3 - 3 * j1t3);
-    p->k[7] = (1.0F / 6) * inv_t7 * (-120 * dist + 60 * (v0t1 + v1t1) + 12 * (a0t2 - a1t2) + j0t3 + j1t3);
+    p->k[2] = p->a[0] * (1 / 2.0F);
+    p->k[3] = p->j[0] * (1 / 6.0F);
+    p->k[4] = (1 / 6.0F) * inv_t4 * (210 * dist - 120 * v0t1 - 90 * v0t1 - 30 * a0t2 + 15 * a1t2 - 4 * j0t3 - j1t3);
+    p->k[5] = (1 / 2.0F) * inv_t5 * (-168 * dist + 90 * v0t1 + 78 * v1t1 + 20 * a0t2 - 14 * a1t2 + 2 * j0t3 + j1t3);
+    p->k[6] = (1 / 6.0F) * inv_t6 * (420 * dist - 216 * v0t1 - 204 * v1t1 - 45 * a0t2 + 39 * a1t2 - 4 * j0t3 - 3 * j1t3);
+    p->k[7] = (1 / 6.0F) * inv_t7 * (-120 * dist + 60 * (v0t1 + v1t1) + 12 * (a0t2 - a1t2) + j0t3 + j1t3);
 }
 
-float polynomial7_pos(const polynomial7_t *p,
-                      float t)
+float a_polynomial7_pos(const a_polynomial7_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -257,8 +257,8 @@ float polynomial7_pos(const polynomial7_t *p,
             p->k[7] * t7);
 }
 
-float polynomial7_vec(const polynomial7_t *p,
-                      float t)
+float a_polynomial7_vec(const a_polynomial7_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -275,8 +275,8 @@ float polynomial7_vec(const polynomial7_t *p,
             p->k[7] * t6 * 7);
 }
 
-float polynomial7_acc(const polynomial7_t *p,
-                      float t)
+float a_polynomial7_acc(const a_polynomial7_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -291,8 +291,8 @@ float polynomial7_acc(const polynomial7_t *p,
             p->k[7] * t5 * 42);
 }
 
-float polynomial7_jer(const polynomial7_t *p,
-                      float t)
+float a_polynomial7_jer(const a_polynomial7_t *p,
+                        float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;
@@ -305,9 +305,9 @@ float polynomial7_jer(const polynomial7_t *p,
             p->k[7] * t4 * 210);
 }
 
-void polynomial7_all(const polynomial7_t *p,
-                     float out[4],
-                     float t)
+void a_polynomial7_all(const a_polynomial7_t *p,
+                       float out[4],
+                       float t)
 {
     float t1 = t - p->t[0];
     float t2 = t1 * t1;

@@ -10,11 +10,11 @@ include (../cmake/check_flag.cmake)
 aux_source_directory(. SOURCE_LIBA)
 
 # add the library
-add_library(liba STATIC ${SOURCE_LIBA})
+add_library(a STATIC ${SOURCE_LIBA})
 
 # add the binary tree to the search path for include files
-target_include_directories(liba INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(a INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # install the library
-install(TARGETS liba DESTINATION lib)
+install(TARGETS a DESTINATION lib)
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" DESTINATION include FILES_MATCHING PATTERN "*.h")
