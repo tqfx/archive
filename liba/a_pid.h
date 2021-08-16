@@ -162,7 +162,7 @@ __BEGIN_DECLS
 
 /*!
  @brief          Initialization function for the floating-point PID Control
- @param[in,out]  pid: An instance of the floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the floating-point PID Control structure
  @param[in]      mode: The mode of PID Control
   @arg @ref      A_PID_POS position pid control
   @arg @ref      A_PID_INC incremental pid control
@@ -183,7 +183,7 @@ extern void a_pid_f32_init(a_pid_f32_t *pid,
 
 /*!
  @brief          Initialization function for the double floating-point PID Control
- @param[in,out]  pid: An instance of the double floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
  @param[in]      mode: The mode of PID Control
   @arg @ref      A_PID_POS position pid control
   @arg @ref      A_PID_INC incremental pid control
@@ -204,7 +204,7 @@ extern void a_pid_f64_init(a_pid_f64_t *pid,
 
 /*!
  @brief          Process function for the floating-point PID Control
- @param[in,out]  pid: An instance of the floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the floating-point PID Control structure
  @param[in]      ref: Reference point
  @param[in]      set: Set point
  @return         Output
@@ -215,7 +215,7 @@ extern float a_pid_f32(a_pid_f32_t *pid,
 
 /*!
  @brief          Process function for the double floating-point PID Control
- @param[in,out]  pid: An instance of the double floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
  @param[in]      ref: Reference point
  @param[in]      set: Set point
  @return         Output
@@ -229,7 +229,7 @@ __END_DECLS
 __STATIC_INLINE
 /*!
  @brief          Reset function for the floating-point PID Control
- @param[in,out]  pid: An instance of the floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the floating-point PID Control structure
 */
 void a_pid_f32_reset(a_pid_f32_t *pid)
 {
@@ -240,7 +240,7 @@ void a_pid_f32_reset(a_pid_f32_t *pid)
 __STATIC_INLINE
 /*!
  @brief          Reset function for the double floating-point PID Control
- @param[in,out]  pid: An instance of the double floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
 */
 void a_pid_f64_reset(a_pid_f64_t *pid)
 {
@@ -251,7 +251,7 @@ void a_pid_f64_reset(a_pid_f64_t *pid)
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the floating-point position PID Control
- @param[in,out]  pid: An instance of the floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)
@@ -272,7 +272,7 @@ void a_pid_f32_pos(a_pid_f32_t *pid,
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the floating-point incremental PID Control
- @param[in,out]  pid: An instance of the floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)
@@ -291,7 +291,7 @@ void a_pid_f32_inc(a_pid_f32_t *pid,
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the double floating-point position PID Control
- @param[in,out]  pid: An instance of the double floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)
@@ -312,7 +312,7 @@ void a_pid_f64_pos(a_pid_f64_t *pid,
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the double floating-point incremental PID Control
- @param[in,out]  pid: An instance of the double floating-point PID Control structure
+ @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)

@@ -74,7 +74,7 @@ typedef struct
 __STATIC_INLINE
 /*!
  @brief          Initialization function for float Low Pass Filter
- @param[in,out]  lpf: An instance of float Low Pass Filter structure
+ @param[in,out]  lpf: points to an instance of float Low Pass Filter structure
  @param[in]      k: Parameter of filtering
  @param[in]      t: Time interval of filtering, unit /s
 */
@@ -89,7 +89,7 @@ void a_lpf_f32_init(a_lpf_f32_t *lpf,
 __STATIC_INLINE
 /*!
  @brief          Initialization function for double Low Pass Filter
- @param[in,out]  lpf: An instance of double Low Pass Filter structure
+ @param[in,out]  lpf: points to an instance of double Low Pass Filter structure
  @param[in]      k: Parameter of filtering
  @param[in]      t: Time interval of filtering, unit /s
 */
@@ -104,7 +104,7 @@ void a_lpf_f64_init(a_lpf_f64_t *lpf,
 __STATIC_INLINE
 /*!
  @brief          Reset function for float Low Pass Filter
- @param[in,out]  lpf: An instance of float Low Pass Filter structure
+ @param[in,out]  lpf: points to an instance of float Low Pass Filter structure
 */
 void a_lpf_f32_reset(a_lpf_f32_t *lpf)
 {
@@ -114,7 +114,7 @@ void a_lpf_f32_reset(a_lpf_f32_t *lpf)
 __STATIC_INLINE
 /*!
  @brief          Reset function for double Low Pass Filter
- @param[in,out]  lpf: An instance of double Low Pass Filter structure
+ @param[in,out]  lpf: points to an instance of double Low Pass Filter structure
 */
 void a_lpf_f64_reset(a_lpf_f64_t *lpf)
 {
@@ -128,7 +128,7 @@ __STATIC_INLINE
      y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
          &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
  \f}
- @param[in,out]  lpf: An instance of float Low Pass Filter structure
+ @param[in,out]  lpf: points to an instance of float Low Pass Filter structure
  @param[in]      x: Input
  @return         Output
 */
@@ -151,7 +151,7 @@ __STATIC_INLINE
      y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
          &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
  \f}
- @param[in,out]  lpf: An instance of double Low Pass Filter structure
+ @param[in,out]  lpf: points to an instance of double Low Pass Filter structure
  @param[in]      x: Input
  @return         Output
 */
