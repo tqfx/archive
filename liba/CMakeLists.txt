@@ -3,9 +3,6 @@ cmake_minimum_required(VERSION 3.10)
 # set the project name and version
 project(LIBA VERSION 0)
 
-# check compiler flag
-include (../cmake/check_flag.cmake)
-
 # add source
 aux_source_directory(. SOURCE_LIBA)
 
