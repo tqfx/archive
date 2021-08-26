@@ -50,14 +50,17 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-*.tgz
-
-# VSCode
-.vscode
 
 # CMake
 build
 
+# VSCode
+.vscode
+
 # Doxygen
 html
 latex
+
+# Ninja
+.ninja_log
+.ninja_deps
