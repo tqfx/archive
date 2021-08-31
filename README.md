@@ -1,3 +1,3 @@
 # algorithm
 
-Some algorithms
+[![Doxygen](https://github.com/tqfx/liba/actions/workflows/doxygen.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/doxygen.yml)
