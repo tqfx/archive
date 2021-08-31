@@ -13,7 +13,7 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
 endif(NOT CMAKE_BUILD_TYPE)
 
-include(cmake/cmake/CheckFlag.cmake)
+include(cmake/CheckFlag.cmake)
 
 add_subdirectory (liba)
 add_subdirectory (test)
