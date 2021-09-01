@@ -1,9 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
-
 # test notefreqs
-add_executable (test_notefreqs test_notefreqs.c)
-target_link_libraries (test_notefreqs a)
+add_executable(notefreqs test_notefreqs.c)
+target_link_libraries(notefreqs a)
 
 # test polynomial
-add_executable (test_polynomial test_polynomial.c)
-target_link_libraries (test_polynomial a)
+add_executable(polynomial test_polynomial.c)
+target_link_libraries(polynomial a)

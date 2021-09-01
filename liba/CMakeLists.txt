@@ -1,17 +1,44 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name and version
-project(LIBA VERSION 1.0.0)
+project(a VERSION 1.0.0)
+
+# set the target name
+set(TARGET_NAME ${PROJECT_NAME})
+
+# specify the C standard
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED True)
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # add source
-aux_source_directory(. SOURCE_LIBA)
+aux_source_directory(. SOURCE)
 
 # add the library
-add_library(a STATIC ${SOURCE_LIBA})
+add_library(${TARGET_NAME} STATIC ${SOURCE})
 
 # add the binary tree to the search path for include files
-target_include_directories(a INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${TARGET_NAME} INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<INSTALL_INTERFACE:include>
+)
 
 # install the library
-install(TARGETS a DESTINATION lib)
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" DESTINATION include FILES_MATCHING PATTERN "*.h")
+foreach(_suffix "*.h" "*.hpp")
+  file(GLOB_RECURSE INCLUDE ${_suffix})
+  install(FILES ${INCLUDE} DESTINATION include)
+endforeach()
+install(TARGETS ${TARGET_NAME}
+  EXPORT ${TARGET_NAME}-targets
+  PUBLIC_HEADER DESTINATION include
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+install(EXPORT ${TARGET_NAME}-targets
+  FILE ${TARGET_NAME}-config.cmake
+  DESTINATION lib/cmake/${TARGET_NAME}
+)
