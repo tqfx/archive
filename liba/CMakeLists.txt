@@ -7,12 +7,12 @@ project(a VERSION 1.0.0)
 set(TARGET_NAME ${PROJECT_NAME})
 
 # specify the C standard
+set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED True)
 
 # specify the C++ standard
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # add source
 aux_source_directory(. SOURCE)
