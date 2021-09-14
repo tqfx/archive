@@ -4,10 +4,16 @@
 '''
 import os
 from sys import argv
+
+script = os.path.abspath(argv[0])
+os.chdir(os.path.dirname(script))
+if 1 == len(argv):
+    exit(os.system("{} build_ext --inplace".format(script)))
+del script
+
 from glob import glob
 from distutils.core import setup, Extension
 from Cython.Build import cythonize
-
 
 def clean(pyxs):
     for pyx in pyxs:
@@ -16,14 +22,6 @@ def clean(pyxs):
             if os.path.exists(prefix + suffix):
                 os.remove(prefix + suffix)
     return pyxs
-
-
-script = os.path.abspath(argv[0])
-os.chdir(os.path.dirname(script))
-if 1 == len(argv):
-    os.system("{} build_ext --inplace".format(script))
-    exit()
-del script
 
 modules = [os.path.abspath("../liba")]
 

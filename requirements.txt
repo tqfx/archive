@@ -1,3 +1,4 @@
-matplotlib
+black
 cython
+matplotlib
 numpy
