@@ -51,16 +51,21 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Visual Studio Code
+.vscode
+
 # CMake
 build
-
-# VSCode
-.vscode
 
 # Doxygen
 html
 latex
 
 # Ninja
-.ninja_log
-.ninja_deps
+.ninja_*
+
+# Cython
+*_cy.html
+*_cy.cpp
+*_cy.c
+*.cp*
