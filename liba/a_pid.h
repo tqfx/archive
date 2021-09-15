@@ -1,7 +1,7 @@
 /*!
  @file           a_pid.h
  @brief          Proportional Integral Derivative Algorithm
- @details        A proportional–integral–derivative controller
+ @details        A proportional integral derivative controller
                  (PID controller or three-term controller) is a control loop
                  mechanism employing feedback that is widely used in industrial
                  control systems and a variety of other applications requiring
@@ -15,9 +15,9 @@
  \f}
                  - Incremental pid control
  \f{aligned}{
-    \Delta u(k) &= K_p [e(k) − e(k - 1)]
+    \Delta u(k) &= K_p [e(k) - e(k - 1)]
                  + K_i e(k)
-                 + K_d [e(k) + e(k - 2) − 2 e(k - 1)] \\
+                 + K_d [e(k) + e(k - 2) - 2 e(k - 1)] \\
                 &= (K_p + K_i + K_d) e(k)
                  + (-K_p - 2 K_i) e(k - 1)
                  + K_d e(k - 2)
@@ -57,7 +57,7 @@
  @ingroup        LIBA
  @defgroup       LIBA_PID Proportional Integral Derivative
  @{
- @details        A proportional–integral–derivative controller
+ @details        A proportional integral derivative controller
                  (PID controller or three-term controller) is a control loop
                  mechanism employing feedback that is widely used in industrial
                  control systems and a variety of other applications requiring
@@ -71,9 +71,9 @@
  \f}
                  - Incremental pid control
  \f{aligned}{
-    \Delta u(k) &= K_p [e(k) − e(k - 1)]
+    \Delta u(k) &= K_p [e(k) - e(k - 1)]
                  + K_i e(k)
-                 + K_d [e(k) + e(k - 2) − 2 e(k - 1)] \\
+                 + K_d [e(k) + e(k - 2) - 2 e(k - 1)] \\
                 &= (K_p + K_i + K_d) e(k)
                  + (-K_p - 2 K_i) e(k - 1)
                  + K_d e(k - 2)
