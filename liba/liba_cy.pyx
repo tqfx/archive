@@ -58,19 +58,37 @@ cdef class a_polytrack3():
         self.target[2] = target[2]
         a_polytrack3_init(self.p, self.source, self.target)
 
-    cpdef float pos(self, float t):
+    cpdef float _pos(self, float t):
         return a_polytrack3_pos(self.p, t)
 
-    cpdef float vec(self, float t):
+    def pos(self, t):
+        for i in t:
+            yield a_polytrack3_pos(self.p, i)
+
+    cpdef float _vec(self, float t):
         return a_polytrack3_vec(self.p, t)
 
-    cpdef float acc(self, float t):
+    def vec(self, t):
+        for i in t:
+            yield a_polytrack3_vec(self.p, i)
+
+    cpdef float _acc(self, float t):
         return a_polytrack3_acc(self.p, t)
 
-    cpdef tuple all(self, float t):
+    def acc(self, t):
+        for i in t:
+            yield a_polytrack3_acc(self.p, i)
+
+    cpdef tuple _all(self, float t):
         cdef float out[3]
         a_polytrack3_all(self.p, out, t)
         return (out[0], out[1], out[2])
+
+    def all(self, t):
+        cdef float out[3]
+        for i in t:
+            a_polytrack3_all(self.p, out, i)
+            yield out[0], out[1], out[2]
 
     cpdef label(self):
         fmt = '{:+g}{}'
@@ -120,19 +138,37 @@ cdef class a_polytrack5():
         self.target[3] = target[3]
         a_polytrack5_init(self.p, self.source, self.target)
 
-    cpdef float pos(self, float t):
+    cpdef float _pos(self, float t):
         return a_polytrack5_pos(self.p, t)
 
-    cpdef float vec(self, float t):
+    def pos(self, t):
+        for i in t:
+            yield a_polytrack5_pos(self.p, i)
+
+    cpdef float _vec(self, float t):
         return a_polytrack5_vec(self.p, t)
 
-    cpdef float acc(self, float t):
+    def vec(self, t):
+        for i in t:
+            yield a_polytrack5_vec(self.p, i)
+
+    cpdef float _acc(self, float t):
         return a_polytrack5_acc(self.p, t)
 
-    cpdef tuple all(self, float t):
+    def acc(self, t):
+        for i in t:
+            yield a_polytrack5_acc(self.p, i)
+
+    cpdef tuple _all(self, float t):
         cdef float out[3]
         a_polytrack5_all(self.p, out, t)
         return (out[0], out[1], out[2])
+
+    def all(self, t):
+        cdef float out[3]
+        for i in t:
+            a_polytrack5_all(self.p, out, i)
+            yield out[0], out[1], out[2]
 
     cpdef label(self):
         fmt = '{:+g}{}'
@@ -196,22 +232,44 @@ cdef class a_polytrack7():
         self.target[4] = target[4]
         a_polytrack7_init(self.p, self.source, self.target)
 
-    cpdef float pos(self, float t):
+    cpdef float _pos(self, float t):
         return a_polytrack7_pos(self.p, t)
 
-    cpdef float vec(self, float t):
+    def pos(self, t):
+        for i in t:
+            yield a_polytrack7_pos(self.p, i)
+
+    cpdef float _vec(self, float t):
         return a_polytrack7_vec(self.p, t)
 
-    cpdef float acc(self, float t):
+    def vec(self, t):
+        for i in t:
+            yield a_polytrack7_vec(self.p, i)
+
+    cpdef float _acc(self, float t):
         return a_polytrack7_acc(self.p, t)
 
-    cpdef float jer(self, float t):
+    def acc(self, t):
+        for i in t:
+            yield a_polytrack7_acc(self.p, i)
+
+    cpdef float _jer(self, float t):
         return a_polytrack7_jer(self.p, t)
 
-    cpdef tuple all(self, float t):
+    def jer(self, t):
+        for i in t:
+            yield a_polytrack7_jer(self.p, i)
+
+    cpdef tuple _all(self, float t):
         cdef float out[4]
         a_polytrack7_all(self.p, out, t)
         return (out[0], out[1], out[2], out[3])
+
+    def all(self, t):
+        cdef float out[4]
+        for i in t:
+            a_polytrack7_all(self.p, out, i)
+            yield out[0], out[1], out[2], out[3]
 
     cpdef label(self):
         fmt = '{:+g}{}'
