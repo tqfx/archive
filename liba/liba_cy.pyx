@@ -5,47 +5,47 @@ from libc.string cimport *
 from libc.stdio cimport *
 
 cdef extern from "liba.h":
-    ctypedef struct a_polynomial3_t:
+    ctypedef struct a_polytrack3_t:
         float t[2]
         float q[2]
         float v[2]
         float k[4]
-    void a_polynomial3_init(a_polynomial3_t *p, float source[3], float target[3])
-    float a_polynomial3_pos(const a_polynomial3_t *p, float t)
-    float a_polynomial3_vec(const a_polynomial3_t *p, float t)
-    float a_polynomial3_acc(const a_polynomial3_t *p, float t)
-    void a_polynomial3_all(const a_polynomial3_t *p, float out[3], float t)
+    void a_polytrack3_init(a_polytrack3_t *p, float source[3], float target[3])
+    float a_polytrack3_pos(const a_polytrack3_t *p, float t)
+    float a_polytrack3_vec(const a_polytrack3_t *p, float t)
+    float a_polytrack3_acc(const a_polytrack3_t *p, float t)
+    void a_polytrack3_all(const a_polytrack3_t *p, float out[3], float t)
 
-    ctypedef struct a_polynomial5_t:
+    ctypedef struct a_polytrack5_t:
         float t[2]
         float q[2]
         float v[2]
         float a[2]
         float k[6]
-    void a_polynomial5_init(a_polynomial5_t *p, float source[4], float target[4])
-    float a_polynomial5_pos(const a_polynomial5_t *p, float t)
-    float a_polynomial5_vec(const a_polynomial5_t *p, float t)
-    float a_polynomial5_acc(const a_polynomial5_t *p, float t)
-    void a_polynomial5_all(const a_polynomial5_t *p, float out[3], float t)
+    void a_polytrack5_init(a_polytrack5_t *p, float source[4], float target[4])
+    float a_polytrack5_pos(const a_polytrack5_t *p, float t)
+    float a_polytrack5_vec(const a_polytrack5_t *p, float t)
+    float a_polytrack5_acc(const a_polytrack5_t *p, float t)
+    void a_polytrack5_all(const a_polytrack5_t *p, float out[3], float t)
 
-    ctypedef struct a_polynomial7_t:
+    ctypedef struct a_polytrack7_t:
         float t[2]
         float q[2]
         float v[2]
         float a[2]
         float j[2]
         float k[8]
-    void a_polynomial7_init(a_polynomial7_t *p, float source[5], float target[5])
-    float a_polynomial7_pos(const a_polynomial7_t *p, float t)
-    float a_polynomial7_vec(const a_polynomial7_t *p, float t)
-    float a_polynomial7_acc(const a_polynomial7_t *p, float t)
-    float a_polynomial7_jer(const a_polynomial7_t *p, float t)
-    void a_polynomial7_all(const a_polynomial7_t *p, float out[4], float t)
+    void a_polytrack7_init(a_polytrack7_t *p, float source[5], float target[5])
+    float a_polytrack7_pos(const a_polytrack7_t *p, float t)
+    float a_polytrack7_vec(const a_polytrack7_t *p, float t)
+    float a_polytrack7_acc(const a_polytrack7_t *p, float t)
+    float a_polytrack7_jer(const a_polytrack7_t *p, float t)
+    void a_polytrack7_all(const a_polytrack7_t *p, float out[4], float t)
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polynomial3():
-    cdef a_polynomial3_t p[1]
+cdef class a_polytrack3():
+    cdef a_polytrack3_t p[1]
     cdef float source[3]
     cdef float target[3]
 
@@ -56,20 +56,20 @@ cdef class a_polynomial3():
         self.target[0] = target[0]
         self.target[1] = target[1]
         self.target[2] = target[2]
-        a_polynomial3_init(self.p, self.source, self.target)
+        a_polytrack3_init(self.p, self.source, self.target)
 
     cpdef float pos(self, float t):
-        return a_polynomial3_pos(self.p, t)
+        return a_polytrack3_pos(self.p, t)
 
     cpdef float vec(self, float t):
-        return a_polynomial3_vec(self.p, t)
+        return a_polytrack3_vec(self.p, t)
 
     cpdef float acc(self, float t):
-        return a_polynomial3_acc(self.p, t)
+        return a_polytrack3_acc(self.p, t)
 
     cpdef tuple all(self, float t):
         cdef float out[3]
-        a_polynomial3_all(self.p, out, t)
+        a_polytrack3_all(self.p, out, t)
         return (out[0], out[1], out[2])
 
     cpdef label(self):
@@ -103,8 +103,8 @@ cdef class a_polynomial3():
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polynomial5():
-    cdef a_polynomial5_t p[1]
+cdef class a_polytrack5():
+    cdef a_polytrack5_t p[1]
     cdef float source[4]
     cdef float target[4]
     cdef float out[3]
@@ -118,20 +118,20 @@ cdef class a_polynomial5():
         self.target[1] = target[1]
         self.target[2] = target[2]
         self.target[3] = target[3]
-        a_polynomial5_init(self.p, self.source, self.target)
+        a_polytrack5_init(self.p, self.source, self.target)
 
     cpdef float pos(self, float t):
-        return a_polynomial5_pos(self.p, t)
+        return a_polytrack5_pos(self.p, t)
 
     cpdef float vec(self, float t):
-        return a_polynomial5_vec(self.p, t)
+        return a_polytrack5_vec(self.p, t)
 
     cpdef float acc(self, float t):
-        return a_polynomial5_acc(self.p, t)
+        return a_polytrack5_acc(self.p, t)
 
     cpdef tuple all(self, float t):
         cdef float out[3]
-        a_polynomial5_all(self.p, out, t)
+        a_polytrack5_all(self.p, out, t)
         return (out[0], out[1], out[2])
 
     cpdef label(self):
@@ -177,8 +177,8 @@ cdef class a_polynomial5():
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polynomial7():
-    cdef a_polynomial7_t p[1]
+cdef class a_polytrack7():
+    cdef a_polytrack7_t p[1]
     cdef float source[5]
     cdef float target[5]
     cdef float out[4]
@@ -194,23 +194,23 @@ cdef class a_polynomial7():
         self.target[2] = target[2]
         self.target[3] = target[3]
         self.target[4] = target[4]
-        a_polynomial7_init(self.p, self.source, self.target)
+        a_polytrack7_init(self.p, self.source, self.target)
 
     cpdef float pos(self, float t):
-        return a_polynomial7_pos(self.p, t)
+        return a_polytrack7_pos(self.p, t)
 
     cpdef float vec(self, float t):
-        return a_polynomial7_vec(self.p, t)
+        return a_polytrack7_vec(self.p, t)
 
     cpdef float acc(self, float t):
-        return a_polynomial7_acc(self.p, t)
+        return a_polytrack7_acc(self.p, t)
 
     cpdef float jer(self, float t):
-        return a_polynomial7_jer(self.p, t)
+        return a_polytrack7_jer(self.p, t)
 
     cpdef tuple all(self, float t):
         cdef float out[4]
-        a_polynomial7_all(self.p, out, t)
+        a_polytrack7_all(self.p, out, t)
         return (out[0], out[1], out[2], out[3])
 
     cpdef label(self):

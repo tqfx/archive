@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
- @file           test.py
- @brief          This is test
+ @file           test_polytrack.py
+ @brief          test polynomial trajectory
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2021 tqfx
  \n \n
@@ -36,14 +36,14 @@ prefix = "build"
 if not os.path.exists(prefix):
     os.mkdir(prefix)
 
-ploy = a_polynomial3(source, target)
-label = ploy.label()
+a = a_polytrack3(source, target)
+label = a.label()
 for i in data:
-    pos.append(ploy.pos(i))
+    pos.append(a.pos(i))
 for i in data:
-    vec.append(ploy.vec(i))
+    vec.append(a.vec(i))
 for i in data:
-    acc.append(ploy.acc(i))
+    acc.append(a.acc(i))
 
 plt.figure("3 polynomial trajectory")
 plt.subplot(311)
@@ -65,17 +65,17 @@ plt.legend()
 plt.xlabel('t')
 plt.savefig(prefix + "/trajectory_polynomial_cubic.png")
 
-ploy = a_polynomial5(source, target)
-label = ploy.label()
+a = a_polytrack5(source, target)
+label = a.label()
 pos.clear()
 for i in data:
-    pos.append(ploy.pos(i))
+    pos.append(a.pos(i))
 vec.clear()
 for i in data:
-    vec.append(ploy.vec(i))
+    vec.append(a.vec(i))
 acc.clear()
 for i in data:
-    acc.append(ploy.acc(i))
+    acc.append(a.acc(i))
 
 plt.figure("5 polynomial trajectory")
 plt.subplot(311)
@@ -97,21 +97,21 @@ plt.legend()
 plt.xlabel('t')
 plt.savefig(prefix + "/trajectory_polynomial_quintic.png")
 
-ploy = a_polynomial7(source, target)
+a = a_polytrack7(source, target)
 
-label = ploy.label()
+label = a.label()
 pos.clear()
 for i in data:
-    pos.append(ploy.pos(i))
+    pos.append(a.pos(i))
 vec.clear()
 for i in data:
-    vec.append(ploy.vec(i))
+    vec.append(a.vec(i))
 acc.clear()
 for i in data:
-    acc.append(ploy.acc(i))
+    acc.append(a.acc(i))
 jer.clear()
 for i in data:
-    jer.append(ploy.jer(i))
+    jer.append(a.jer(i))
 
 plt.figure("7 polynomial trajectory")
 plt.subplot(411)

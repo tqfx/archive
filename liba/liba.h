@@ -213,7 +213,7 @@
 /*!
  @brief         Polynomial interpolated trajectory
 */
-#include "a_polynomial.h"
+#include "a_polytrack.h"
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __LIBA_H__ */

@@ -32,4 +32,4 @@ format: liba
 	@-black -S $(shell find $^ test -regex '.*\.\(py\)')
 
 test: cython
-	-test/test_polynomial.py
+	-test/test_polytrack.py
