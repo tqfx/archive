@@ -15,6 +15,7 @@ from glob import glob
 from distutils.core import setup, Extension
 from Cython.Build import cythonize
 
+
 def clean(pyxs):
     for pyx in pyxs:
         prefix = os.path.splitext(pyx)[0]
@@ -22,6 +23,7 @@ def clean(pyxs):
             if os.path.exists(prefix + suffix):
                 os.remove(prefix + suffix)
     return pyxs
+
 
 modules = [os.path.abspath("../liba")]
 

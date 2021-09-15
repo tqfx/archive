@@ -29,7 +29,7 @@ clean:
 
 format: liba
 	@-find $^ test -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format --verbose -style=file -i {} \;
-	@-black --pyi -S $(shell find $^ test -regex '.*\.\(py\)')
+	@-black -S $(shell find $^ test -regex '.*\.\(py\)')
 
 test: cython
 	-test/test_polynomial.py
