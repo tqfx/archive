@@ -20,9 +20,14 @@ cython:
 
 .PHONY: $(BUILD) format clean test
 
-$(BUILD):
+$(BUILD): cmake/check-flag.cmake
 	@cmake -B $@ $(CMAKE_G) -DCMAKE_BUILD_TYPE="Release"
 	@cmake --build $@
+
+cmake/check-flag.cmake:
+	-git submodule init
+	-git submodule update
+	-git submodule foreach git checkout .
 
 clean:
 	@-git clean -fdX

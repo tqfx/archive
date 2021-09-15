@@ -224,28 +224,29 @@ void a_ahrs_mahony(float q[4],
          Error is sum of cross product between reference
          direction of fields and direction measured by sensors
         */
-        float ex = a[y] * vz - a[z] * vy;
-        float ey = a[z] * vx - a[x] * vz;
-        float ez = a[x] * vy - a[y] * vx;
+        static float e[3];
+        e[x] = a[y] * vz - a[z] * vy;
+        e[y] = a[z] * vx - a[x] * vz;
+        e[z] = a[x] * vy - a[y] * vx;
         if (type == A_AHRS_AXIS9)
         {
-            ex += m[y] * wz - m[z] * wy;
-            ey += m[z] * wx - m[x] * wz;
-            ez += m[x] * wy - m[y] * wx;
+            e[x] += m[y] * wz - m[z] * wy;
+            e[y] += m[z] * wx - m[x] * wz;
+            e[z] += m[x] * wy - m[y] * wx;
         }
 
         /* PI */
-        if ((*(int32_t *)&ex & 0x7FFFFFFF) ||
-            (*(int32_t *)&ey & 0x7FFFFFFF) ||
-            (*(int32_t *)&ez & 0x7FFFFFFF)) /* ex != 0 && ey != 0 && ez != 0 */
+        if ((*(int32_t *)(e + x) & 0x7FFFFFFF) ||
+            (*(int32_t *)(e + y) & 0x7FFFFFFF) ||
+            (*(int32_t *)(e + z) & 0x7FFFFFFF)) /* ex != 0 && ey != 0 && ez != 0 */
         {
-            eix += ex * KI * ht;
-            eiy += ey * KI * ht;
-            eiz += ez * KI * ht;
+            eix += e[x] * KI * ht;
+            eiy += e[y] * KI * ht;
+            eiz += e[z] * KI * ht;
 
-            g[x] += KP * ex + eix;
-            g[y] += KP * ey + eiy;
-            g[z] += KP * ez + eiz;
+            g[x] += KP * e[x] + eix;
+            g[y] += KP * e[y] + eiy;
+            g[z] += KP * e[z] + eiz;
         }
     }
 
@@ -288,29 +289,33 @@ void a_ahrs_mahony_imu(float q[4],
         /* Estimated direction of gravity and magnetic field (v and w) */
         float vx = 2.0F * (q1q3 - q0q2);
         float vy = 2.0F * (q0q1 + q2q3);
-        //float vz = 2.0F * (q0q0 - 0.5F + q3q3);
+#if 0
+        float vz = 2.0F * (q0q0 - 0.5F + q3q3);
+#else
         float vz = q0q0 - q1q1 - q2q2 + q3q3;
+#endif
 
         /*
          Error is sum of cross product between reference
          direction of fields and direction measured by sensors
         */
-        float ex = (a[y] * vz - a[z] * vy);
-        float ey = (a[z] * vx - a[x] * vz);
-        float ez = (a[x] * vy - a[y] * vx);
+        static float e[3];
+        e[x] = a[y] * vz - a[z] * vy;
+        e[y] = a[z] * vx - a[x] * vz;
+        e[z] = a[x] * vy - a[y] * vx;
 
         /* PI */
-        if ((*(int32_t *)&ex & 0x7FFFFFFF) ||
-            (*(int32_t *)&ey & 0x7FFFFFFF) ||
-            (*(int32_t *)&ez & 0x7FFFFFFF)) /* ex != 0 && ey != 0 && ez != 0 */
+        if ((*(int32_t *)(e + x) & 0x7FFFFFFF) ||
+            (*(int32_t *)(e + y) & 0x7FFFFFFF) ||
+            (*(int32_t *)(e + z) & 0x7FFFFFFF)) /* ex != 0 && ey != 0 && ez != 0 */
         {
-            eix += ex * KI * ht;
-            eiy += ey * KI * ht;
-            eiz += ez * KI * ht;
+            eix += e[x] * KI * ht;
+            eiy += e[y] * KI * ht;
+            eiz += e[z] * KI * ht;
 
-            g[x] += KP * ex + eix;
-            g[y] += KP * ey + eiy;
-            g[z] += KP * ez + eiz;
+            g[x] += KP * e[x] + eix;
+            g[y] += KP * e[y] + eiy;
+            g[z] += KP * e[z] + eiz;
         }
     }
 
