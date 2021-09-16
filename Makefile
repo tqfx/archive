@@ -25,8 +25,7 @@ $(BUILD): cmake/check-flag.cmake
 	@cmake --build $@
 
 cmake/check-flag.cmake:
-	-git submodule init
-	-git submodule update
+	-git submodule update --init --recursive
 	-git submodule foreach git checkout .
 
 clean:
