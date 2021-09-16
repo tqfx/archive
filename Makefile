@@ -1,5 +1,3 @@
-BUILD = build
-
 ifdef MINGW
 CMAKE_G = -G "MinGW Makefiles"
 endif
@@ -10,23 +8,23 @@ ifndef CMAKE_G
 CMAKE_G = -G "Unix Makefiles"
 endif
 
+BUILD = build
+
 all: $(BUILD) cython
 
 install:
-	@-python -m pip install -U -r requirements.txt
+	-python -m pip install -U -r requirements.txt
 
 cython:
-	@-python test/setup.py build_ext --inplace
+	-python test/setup.py build_ext --inplace
 
 .PHONY: $(BUILD) format clean test
 
-$(BUILD): cmake/check-flag.cmake
-	@cmake -B $@ $(CMAKE_G) -DCMAKE_BUILD_TYPE="Release"
-	@cmake --build $@
-
-cmake/check-flag.cmake:
+$(BUILD):
 	-git submodule update --init --recursive
 	-git submodule foreach git checkout .
+	-cmake -B $@ -DCMAKE_BUILD_TYPE=Release $(CMAKE_G)
+	-cmake --build $@
 
 clean:
 	@-git clean -fdX
