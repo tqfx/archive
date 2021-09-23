@@ -47,12 +47,12 @@ del modules
 try:
     setup(
         name='liba',
-        description='algorithm',
-        version='1.0.0',
-        license='AGPL-3.0',
-        url='tqfx.org',
+        version='1.0',
+        license='MIT',
         author='tqfx',
         author_email='tqfx@foxmail.com',
+        url='https://github.com/tqfx/liba',
+        description='The algorithm library is based on C language.',
         ext_modules=cythonize(ext_modules, language_level=3, quiet=True),
     )
 except Exception as e:

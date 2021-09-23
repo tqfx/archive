@@ -25,7 +25,6 @@ wheel:
 
 $(BUILD):
 	-git submodule update --init --recursive
-	-git submodule foreach git checkout .
 	-cmake -B $@ -DCMAKE_BUILD_TYPE=Release $(CMAKE_G)
 	-cmake --build $@
 
