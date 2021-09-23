@@ -18,6 +18,9 @@ install:
 cython:
 	-python test/setup.py build_ext --inplace
 
+wheel:
+	-pip wheel --use-feature=in-tree-build --wheel-dir=build ./test
+
 .PHONY: $(BUILD) format clean test
 
 $(BUILD):

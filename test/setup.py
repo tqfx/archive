@@ -45,7 +45,16 @@ for module in modules:
 del modules
 
 try:
-    setup(ext_modules=cythonize(ext_modules, language_level=3, quiet=True))
+    setup(
+        name='liba',
+        description='algorithm',
+        version='1.0.0',
+        license='AGPL-3.0',
+        url='tqfx.org',
+        author='tqfx',
+        author_email='tqfx@foxmail.com',
+        ext_modules=cythonize(ext_modules, language_level=3, quiet=True),
+    )
 except Exception as e:
     print(e)
 del ext_modules
