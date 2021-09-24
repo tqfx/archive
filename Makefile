@@ -8,25 +8,20 @@ ifndef CMAKE_G
 CMAKE_G = -G "Unix Makefiles"
 endif
 
-BUILD = build
+all: build wheel
 
-all: $(BUILD) cython
+.PHONY: install build format clean test
 
 install:
 	-python -m pip install -U -r requirements.txt
 
-cython:
-	-python test/setup.py build_ext --inplace
-
-wheel:
-	-pip wheel --use-feature=in-tree-build --wheel-dir=build ./test
-
-.PHONY: $(BUILD) format clean test
-
-$(BUILD):
+build:
 	-git submodule update --init --recursive
 	-cmake -B $@ -DCMAKE_BUILD_TYPE=Release $(CMAKE_G)
 	-cmake --build $@
+
+wheel:
+	-python -m pip wheel --use-feature=in-tree-build ./test
 
 clean:
 	@-git clean -fdX
@@ -34,6 +29,9 @@ clean:
 format: liba
 	@-find $^ test -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format --verbose -style=file -i {} \;
 	@-black -S $(shell find $^ test -regex '.*\.\(py\)')
+
+cython:
+	-python test/setup.py build_ext --inplace
 
 test: cython
 	-test/test_polytrack.py
