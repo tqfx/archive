@@ -173,7 +173,7 @@
 /* pointer free */
 #undef __PFREE
 
-#define __PFREE(_FUN_, _P_) ((void)_FUN_(_P_), _P_ = NULL)
+#define __PFREE(_FUN_, _P_) ((void)_FUN_(_P_), _P_ = 0)
 
 #ifndef __pfree
 #define __pfree(_fun_, _p_) __PFREE(_fun_, _p_)
@@ -183,6 +183,9 @@
  @endcond
  @defgroup       LIBA Algorithm
 */
+
+typedef float float32_t;
+typedef double float64_t;
 
 /*!
  @brief          Computational algorithm
