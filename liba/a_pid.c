@@ -54,17 +54,18 @@
 */
 
 #undef LIMIT
-#define LIMIT(x, min, max) ((x) > (max)        \
-                                ? (max)        \
-                                : ((x) < (min) \
-                                       ? (min) \
-                                       : (x)))
+#define LIMIT(x, min, max) \
+    ((x) > (max)           \
+         ? (max)           \
+         : ((x) < (min)    \
+                ? (min)    \
+                : (x)))
 
 /*!
  @endcond
 */
 
-void a_pid_f32_init(a_pid_f32_t *pid,
+void a_pid_f32_init(a_pid_f32_t *ctx,
                     a_pid_mode_t mode,
                     const float k[3],
                     const float omin,
@@ -72,39 +73,39 @@ void a_pid_f32_init(a_pid_f32_t *pid,
                     const float omaxi)
 {
     /* Set mode of PID Control */
-    pid->mode = mode;
+    ctx->mode = mode;
     /* Set minimum output */
-    pid->omin = omin;
+    ctx->omin = omin;
     /* Set maximum output */
-    pid->omax = omax;
+    ctx->omax = omax;
 
-    switch (pid->mode)
+    switch (ctx->mode)
     {
     case A_PID_POS:
     {
         /* Set maximum intergral output */
-        pid->omaxi = omaxi;
-        if (pid->omaxi < 0)
+        ctx->omaxi = omaxi;
+        if (ctx->omaxi < 0)
         {
-            pid->omaxi = -pid->omaxi;
+            ctx->omaxi = -ctx->omaxi;
         }
 
         /* Set derived gain */
-        pid->a[0] = k[0] + k[2];
-        pid->a[1] = -k[2];
-        pid->a[2] = k[1];
+        ctx->a[0] = k[0] + k[2];
+        ctx->a[1] = -k[2];
+        ctx->a[2] = k[1];
     }
     break;
 
     case A_PID_INC:
     {
         /* Reset maximum intergral output */
-        pid->omaxi = 0;
+        ctx->omaxi = 0;
 
         /* Set derived gain */
-        pid->a[0] = k[0] + k[1] + k[2];
-        pid->a[1] = -k[0] - 2 * k[2];
-        pid->a[2] = k[2];
+        ctx->a[0] = k[0] + k[1] + k[2];
+        ctx->a[1] = -k[0] - 2 * k[2];
+        ctx->a[2] = k[2];
     }
     break;
 
@@ -115,7 +116,7 @@ void a_pid_f32_init(a_pid_f32_t *pid,
     }
 }
 
-void a_pid_f64_init(a_pid_f64_t *pid,
+void a_pid_f64_init(a_pid_f64_t *ctx,
                     a_pid_mode_t mode,
                     const double k[3],
                     const double omin,
@@ -125,41 +126,41 @@ void a_pid_f64_init(a_pid_f64_t *pid,
     va_list ap;
 
     /* Set mode of PID Control */
-    pid->mode = mode;
+    ctx->mode = mode;
     /* Set minimum output */
-    pid->omin = omin;
+    ctx->omin = omin;
     /* Set maximum output */
-    pid->omax = omax;
+    ctx->omax = omax;
 
-    switch (pid->mode)
+    switch (ctx->mode)
     {
     case A_PID_POS:
     {
         /* Set maximum intergral output */
         va_start(ap, omax);
-        pid->omaxi = va_arg(ap, double);
-        if (pid->omaxi < 0)
+        ctx->omaxi = va_arg(ap, double);
+        if (ctx->omaxi < 0)
         {
-            pid->omaxi = -pid->omaxi;
+            ctx->omaxi = -ctx->omaxi;
         }
         va_end(ap);
 
         /* Set derived gain */
-        pid->a[0] = k[0] + k[2];
-        pid->a[1] = -k[2];
-        pid->a[2] = k[1];
+        ctx->a[0] = k[0] + k[2];
+        ctx->a[1] = -k[2];
+        ctx->a[2] = k[1];
     }
     break;
 
     case A_PID_INC:
     {
         /* Reset maximum intergral output */
-        pid->omaxi = 0;
+        ctx->omaxi = 0;
 
         /* Set derived gain */
-        pid->a[0] = k[0] + k[1] + k[2];
-        pid->a[1] = -k[0] - 2 * k[2];
-        pid->a[2] = k[2];
+        ctx->a[0] = k[0] + k[1] + k[2];
+        ctx->a[1] = -k[0] - 2 * k[2];
+        ctx->a[2] = k[2];
     }
     break;
 
@@ -170,7 +171,7 @@ void a_pid_f64_init(a_pid_f64_t *pid,
     }
 }
 
-float a_pid_f32(a_pid_f32_t *pid,
+float a_pid_f32(a_pid_f32_t *ctx,
                 const float ref,
                 const float set)
 {
@@ -179,7 +180,7 @@ float a_pid_f32(a_pid_f32_t *pid,
     /* Input */
     float in = set - ref;
 
-    switch (pid->mode)
+    switch (ctx->mode)
     {
     case A_PID_POS:
     {
@@ -188,35 +189,35 @@ float a_pid_f32(a_pid_f32_t *pid,
          the direction of integration is the same,
          the integration stops
         */
-        if ((-pid->omaxi < pid->y &&
-             pid->y < pid->omaxi) ||
-            pid->y * in < 0)
+        if ((-ctx->omaxi < ctx->y &&
+             ctx->y < ctx->omaxi) ||
+            ctx->y * in < 0)
         {
             /* y = a[2] * (\sum in) */
-            pid->y += pid->a[2] * in;
+            ctx->y += ctx->a[2] * in;
         }
 
         /* out = a[0] * in + a[1] * x[0] + y */
-        out = pid->a[0] * in;
-        out += pid->a[1] * pid->x[0];
-        out += pid->y;
+        out = ctx->a[0] * in;
+        out += ctx->a[1] * ctx->x[0];
+        out += ctx->y;
 
         /* Restrict the output of the PID */
-        out = LIMIT(out, pid->omin, pid->omax);
+        out = LIMIT(out, ctx->omin, ctx->omax);
     }
     break;
 
     case A_PID_INC:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
-        pid->y += pid->a[0] * in;
-        pid->y += pid->a[1] * pid->x[0];
-        pid->y += pid->a[2] * pid->x[1];
+        ctx->y += ctx->a[0] * in;
+        ctx->y += ctx->a[1] * ctx->x[0];
+        ctx->y += ctx->a[2] * ctx->x[1];
 
         /* Restrict the output of the PID */
-        pid->y = LIMIT(pid->y, pid->omin, pid->omax);
+        ctx->y = LIMIT(ctx->y, ctx->omin, ctx->omax);
         /* Export output */
-        out = pid->y;
+        out = ctx->y;
     }
     break;
 
@@ -227,13 +228,13 @@ float a_pid_f32(a_pid_f32_t *pid,
     }
 
     /* Cache data */
-    pid->x[1] = pid->x[0];
-    pid->x[0] = in;
+    ctx->x[1] = ctx->x[0];
+    ctx->x[0] = in;
 
     return out;
 }
 
-double a_pid_f64(a_pid_f64_t *pid,
+double a_pid_f64(a_pid_f64_t *ctx,
                  const double ref,
                  const double set)
 {
@@ -242,7 +243,7 @@ double a_pid_f64(a_pid_f64_t *pid,
     /* Input */
     double in = set - ref;
 
-    switch (pid->mode)
+    switch (ctx->mode)
     {
     case A_PID_POS:
     {
@@ -251,35 +252,35 @@ double a_pid_f64(a_pid_f64_t *pid,
          the direction of integration is the same,
          the integration stops
         */
-        if ((-pid->omaxi < pid->y &&
-             pid->y < pid->omaxi) ||
-            pid->y * in < 0)
+        if ((-ctx->omaxi < ctx->y &&
+             ctx->y < ctx->omaxi) ||
+            ctx->y * in < 0)
         {
             /* y = a[2] * (\sum in) */
-            pid->y += pid->a[2] * in;
+            ctx->y += ctx->a[2] * in;
         }
 
         /* out = a[0] * in + a[1] * x[0] + y */
-        out = pid->a[0] * in;
-        out += pid->a[1] * pid->x[0];
-        out += pid->y;
+        out = ctx->a[0] * in;
+        out += ctx->a[1] * ctx->x[0];
+        out += ctx->y;
 
         /* Restrict the output of the PID */
-        out = LIMIT(out, pid->omin, pid->omax);
+        out = LIMIT(out, ctx->omin, ctx->omax);
     }
     break;
 
     case A_PID_INC:
     {
         /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */
-        pid->y += pid->a[0] * in;
-        pid->y += pid->a[1] * pid->x[0];
-        pid->y += pid->a[2] * pid->x[1];
+        ctx->y += ctx->a[0] * in;
+        ctx->y += ctx->a[1] * ctx->x[0];
+        ctx->y += ctx->a[2] * ctx->x[1];
 
         /* Restrict the output of the PID */
-        pid->y = LIMIT(pid->y, pid->omin, pid->omax);
+        ctx->y = LIMIT(ctx->y, ctx->omin, ctx->omax);
         /* Export output */
-        out = pid->y;
+        out = ctx->y;
     }
     break;
 
@@ -290,8 +291,8 @@ double a_pid_f64(a_pid_f64_t *pid,
     }
 
     /* Cache data */
-    pid->x[1] = pid->x[0];
-    pid->x[0] = in;
+    ctx->x[1] = ctx->x[0];
+    ctx->x[0] = in;
 
     return out;
 }

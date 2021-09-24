@@ -162,7 +162,7 @@ __BEGIN_DECLS
 
 /*!
  @brief          Initialization function for the floating-point PID Control
- @param[in,out]  pid: points to an instance of the floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      mode: The mode of PID Control
   @arg @ref      A_PID_POS position pid control
   @arg @ref      A_PID_INC incremental pid control
@@ -174,7 +174,7 @@ __BEGIN_DECLS
  @param[in]      omax: Maximum output
  @param[in]      omaxi: Maximum intergral output
 */
-extern void a_pid_f32_init(a_pid_f32_t *pid,
+extern void a_pid_f32_init(a_pid_f32_t *ctx,
                            a_pid_mode_t mode,
                            const float k[3],
                            const float omin,
@@ -183,7 +183,7 @@ extern void a_pid_f32_init(a_pid_f32_t *pid,
 
 /*!
  @brief          Initialization function for the double floating-point PID Control
- @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the double floating-point PID Control structure
  @param[in]      mode: The mode of PID Control
   @arg @ref      A_PID_POS position pid control
   @arg @ref      A_PID_INC incremental pid control
@@ -195,7 +195,7 @@ extern void a_pid_f32_init(a_pid_f32_t *pid,
  @param[in]      omax: Maximum output
  @param[in]      ...: Maximum intergral output
 */
-extern void a_pid_f64_init(a_pid_f64_t *pid,
+extern void a_pid_f64_init(a_pid_f64_t *ctx,
                            a_pid_mode_t mode,
                            const double k[3],
                            const double omin,
@@ -204,23 +204,23 @@ extern void a_pid_f64_init(a_pid_f64_t *pid,
 
 /*!
  @brief          Process function for the floating-point PID Control
- @param[in,out]  pid: points to an instance of the floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      ref: Reference point
  @param[in]      set: Set point
  @return         Output
 */
-extern float a_pid_f32(a_pid_f32_t *pid,
+extern float a_pid_f32(a_pid_f32_t *ctx,
                        const float ref,
                        const float set);
 
 /*!
  @brief          Process function for the double floating-point PID Control
- @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the double floating-point PID Control structure
  @param[in]      ref: Reference point
  @param[in]      set: Set point
  @return         Output
 */
-extern double a_pid_f64(a_pid_f64_t *pid,
+extern double a_pid_f64(a_pid_f64_t *ctx,
                         const double ref,
                         const double set);
 
@@ -229,29 +229,29 @@ __END_DECLS
 __STATIC_INLINE
 /*!
  @brief          Reset function for the floating-point PID Control
- @param[in,out]  pid: points to an instance of the floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
 */
-void a_pid_f32_reset(a_pid_f32_t *pid)
+void a_pid_f32_reset(a_pid_f32_t *ctx)
 {
     /* Reset buffer */
-    pid->x[0] = pid->x[1] = pid->y = 0;
+    ctx->x[0] = ctx->x[1] = ctx->y = 0;
 }
 
 __STATIC_INLINE
 /*!
  @brief          Reset function for the double floating-point PID Control
- @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the double floating-point PID Control structure
 */
-void a_pid_f64_reset(a_pid_f64_t *pid)
+void a_pid_f64_reset(a_pid_f64_t *ctx)
 {
     /* Reset buffer */
-    pid->x[0] = pid->x[1] = pid->y = 0;
+    ctx->x[0] = ctx->x[1] = ctx->y = 0;
 }
 
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the floating-point position PID Control
- @param[in,out]  pid: points to an instance of the floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)
@@ -260,19 +260,19 @@ __STATIC_INLINE
  @param[in]      omax: Maximum output
  @param[in]      omaxi: Maximum intergral output
 */
-void a_pid_f32_pos(a_pid_f32_t *pid,
+void a_pid_f32_pos(a_pid_f32_t *ctx,
                    const float k[3],
                    float omin,
                    float omax,
                    float omaxi)
 {
-    a_pid_f32_init(pid, A_PID_POS, k, omin, omax, omaxi);
+    a_pid_f32_init(ctx, A_PID_POS, k, omin, omax, omaxi);
 }
 
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the floating-point incremental PID Control
- @param[in,out]  pid: points to an instance of the floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)
@@ -280,18 +280,18 @@ __STATIC_INLINE
  @param[in]      omin: Minimum output
  @param[in]      omax: Maximum output
 */
-void a_pid_f32_inc(a_pid_f32_t *pid,
+void a_pid_f32_inc(a_pid_f32_t *ctx,
                    const float k[3],
                    float omin,
                    float omax)
 {
-    a_pid_f32_init(pid, A_PID_INC, k, omin, omax, 0);
+    a_pid_f32_init(ctx, A_PID_INC, k, omin, omax, 0);
 }
 
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the double floating-point position PID Control
- @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the double floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)
@@ -300,19 +300,19 @@ __STATIC_INLINE
  @param[in]      omax: Maximum output
  @param[in]      omaxi: Maximum intergral output
 */
-void a_pid_f64_pos(a_pid_f64_t *pid,
+void a_pid_f64_pos(a_pid_f64_t *ctx,
                    const double k[3],
                    const double omin,
                    const double omax,
                    const double omaxi)
 {
-    a_pid_f64_init(pid, A_PID_POS, k, omin, omax, omaxi);
+    a_pid_f64_init(ctx, A_PID_POS, k, omin, omax, omaxi);
 }
 
 __STATIC_INLINE
 /*!
  @brief          Initialization function for the double floating-point incremental PID Control
- @param[in,out]  pid: points to an instance of the double floating-point PID Control structure
+ @param[in,out]  ctx: points to an instance of the double floating-point PID Control structure
  @param[in]      k: constant array
   @arg           k[0] (Proportional constant)
   @arg           k[1] (Integral constant)
@@ -320,12 +320,12 @@ __STATIC_INLINE
  @param[in]      omin: Minimum output
  @param[in]      omax: Maximum output
 */
-void a_pid_f64_inc(a_pid_f64_t *pid,
+void a_pid_f64_inc(a_pid_f64_t *ctx,
                    const double k[3],
                    const double omin,
                    const double omax)
 {
-    a_pid_f64_init(pid, A_PID_INC, k, omin, omax);
+    a_pid_f64_init(ctx, A_PID_INC, k, omin, omax);
 }
 
 /*!< @} */
