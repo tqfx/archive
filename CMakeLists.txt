@@ -13,11 +13,11 @@ set(ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 11)
+include(cmake/check-flag.cmake OPTIONAL)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Debug)
+  include(cmake/sanitizer.cmake OPTIONAL)
 endif(NOT CMAKE_BUILD_TYPE)
-
-include(cmake/check-flag.cmake OPTIONAL)
 
 add_subdirectory(liba)
 add_subdirectory(test)
