@@ -29,8 +29,8 @@ q = (0, 1)
 data = np.arange(t[0], t[1], 0.01)
 source = (t[0], q[0], 0, 0, 0)
 target = (t[1], q[1], 0, 0, 0)
-prefix = "build"
 
+prefix = "build"
 os.chdir(os.path.dirname(argv[0]))
 if not os.path.exists(prefix):
     os.mkdir(prefix)
