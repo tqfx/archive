@@ -37,6 +37,57 @@
 
 #include "liba.h"
 
+#define a_lpf_t(bit)                                                \
+    typedef struct a_lpf_f##bit##_t                                 \
+    {                                                               \
+        float##bit##_t o; /* Output */                              \
+        float##bit##_t k; /* Parameter of filtering              */ \
+        float##bit##_t t; /* Time interval of filtering, unit /s */ \
+    } a_lpf_f##bit##_t
+a_lpf_t(32);
+a_lpf_t(64);
+#undef a_lpf_t
+
+#define __A_LPF_INIT(bit, ctx, k, t)                \
+    __STATIC_INLINE                                 \
+    void a_lpf_f##bit##_init(a_lpf_f##bit##_t *ctx, \
+                             float##bit##_t k,      \
+                             float##bit##_t t)      \
+    {                                               \
+        ctx->t = t;                                 \
+        ctx->k = k;                                 \
+    }
+__A_LPF_INIT(32, ctx, k, t)
+__A_LPF_INIT(64, ctx, k, t)
+#undef __A_LPF_INIT
+
+#define __A_LPF(bit, ctx, x)                                \
+    __STATIC_INLINE                                         \
+    float##bit##_t a_lpf_f##bit(a_lpf_f##bit##_t *ctx,      \
+                                float##bit##_t x)           \
+    {                                                       \
+        float##bit##_t inv_kt = ctx->t / (ctx->k + ctx->t); \
+                                                            \
+        /* y[n] = y[n-1] * k / (k + t) + x * t / (k + t) */ \
+        ctx->o *= 1 - inv_kt;                               \
+        ctx->o += x * inv_kt;                               \
+                                                            \
+        return ctx->o;                                      \
+    }
+__A_LPF(32, ctx, x)
+__A_LPF(64, ctx, x)
+#undef __A_LPF
+
+#define __A_LPF_RESET(bit, ctx)                      \
+    __STATIC_INLINE                                  \
+    void a_lpf_f##bit##_reset(a_lpf_f##bit##_t *ctx) \
+    {                                                \
+        ctx->o = 0;                                  \
+    }
+__A_LPF_RESET(32, ctx)
+__A_LPF_RESET(64, ctx)
+#undef __A_LPF_RESET
+
 /*!
  @ingroup        LIBA
  @defgroup       LIBA_LPF Low Pass Filter
@@ -51,57 +102,6 @@
  @{
 */
 
-#define a_lpf_t(bit)                                                \
-    typedef struct a_lpf_f##bit##_t                                 \
-    {                                                               \
-        float##bit##_t o; /* Output */                              \
-        float##bit##_t k; /* Parameter of filtering              */ \
-        float##bit##_t t; /* Time interval of filtering, unit /s */ \
-    } a_lpf_f##bit##_t
-a_lpf_t(32);
-a_lpf_t(64);
-#undef a_lpf_t
-
-#define A_LPF_INIT(bit)                             \
-    __STATIC_INLINE                                 \
-    void a_lpf_f##bit##_init(a_lpf_f##bit##_t *ctx, \
-                             float##bit##_t k,      \
-                             float##bit##_t t)      \
-    {                                               \
-        ctx->t = t;                                 \
-        ctx->k = k;                                 \
-    }
-A_LPF_INIT(32)
-A_LPF_INIT(64)
-#undef A_LPF_INIT
-
-#define A_LPF(bit)                                          \
-    __STATIC_INLINE                                         \
-    float##bit##_t a_lpf_f##bit(a_lpf_f##bit##_t *ctx,      \
-                                float##bit##_t x)           \
-    {                                                       \
-        float##bit##_t inv_kt = ctx->t / (ctx->k + ctx->t); \
-                                                            \
-        /* y[n] = y[n-1] * k / (k + t) + x * t / (k + t) */ \
-        ctx->o *= 1 - inv_kt;                               \
-        ctx->o += x * inv_kt;                               \
-                                                            \
-        return ctx->o;                                      \
-    }
-A_LPF(32)
-A_LPF(64)
-#undef A_LPF
-
-#define A_LPF_RESET(bit)                             \
-    __STATIC_INLINE                                  \
-    void a_lpf_f##bit##_reset(a_lpf_f##bit##_t *ctx) \
-    {                                                \
-        ctx->o = 0;                                  \
-    }
-A_LPF_RESET(32)
-A_LPF_RESET(64)
-#undef A_LPF_RESET
-
 /*!
  @brief          Instance structure for Low Pass Filter
 */
@@ -109,7 +109,7 @@ A_LPF_RESET(64)
 
 /*!
  @brief          Initialization function for Low Pass Filter
- @param[in]      bit: bits for the floating point data
+ @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of Low Pass Filter structure
  @param[in]      k: Parameter of filtering
  @param[in]      t: Time interval of filtering, unit /s
@@ -122,7 +122,7 @@ A_LPF_RESET(64)
      y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
          &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
  \f}
- @param[in]      bit: bits for the floating point data
+ @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of Low Pass Filter structure
  @param[in]      x: Input
  @return         Output
@@ -131,7 +131,7 @@ A_LPF_RESET(64)
 
 /*!
  @brief          Reset function for Low Pass Filter
- @param[in]      bit: bits for the floating point data
+ @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of Low Pass Filter structure
 */
 #define a_lpf_reset(bit, ctx) a_lpf_f##bit##_reset(ctx)
