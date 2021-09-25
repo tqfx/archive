@@ -29,12 +29,52 @@ cdef class a_lpf:
         a_lpf_f64_reset(self.ctx)
         return self
 
-    def lpf(self, t):
-        for i in t:
+    def lpf(self, x):
+        for i in x:
             yield a_lpf_f64(self.ctx, i)
 
-    cpdef float64_t _lpf(self, float64_t t):
-        return a_lpf_f64(self.ctx, t)
+    cpdef float64_t _lpf(self, float64_t x):
+        return a_lpf_f64(self.ctx, x)
+
+cdef extern from "a_pid.h":
+    ctypedef enum a_pid_mode_t:
+        A_PID_POS
+        A_PID_INC
+    ctypedef struct a_pid_f64_t:
+        a_pid_mode_t mode
+        float64_t kp
+        float64_t ki
+        float64_t kd
+        float64_t omax
+        float64_t omin
+        float64_t omaxi
+        float64_t a[3]
+        float64_t x[2]
+        float64_t y
+    void a_pid_f64_init(a_pid_f64_t *ctx, a_pid_mode_t mode, const float64_t kpid[3], const float64_t omin, const float64_t omax, const float64_t omaxi)
+    void a_pid_f64_pos(a_pid_f64_t *ctx, const float64_t kpid[3], float64_t omin, float64_t omax, float64_t omaxi)
+    void a_pid_f64_inc(a_pid_f64_t *ctx, const float64_t kpid[3], float64_t omin, float64_t omax)
+    float64_t a_pid_f64(a_pid_f64_t *ctx, const float64_t ref, const float64_t set)
+    void a_pid_f64_reset(a_pid_f64_t *ctx)
+
+@cython.wraparound(False)
+@cython.boundscheck(False)
+cdef class a_pid:
+    cdef a_pid_f64_t ctx[1]
+
+    def __cinit__(self, a_pid_mode_t mode, float64_t kp, float64_t ki, float64_t kd, float64_t omin, float64_t omax, float64_t omaxi):
+        cdef float64_t kpid[3]
+        kpid[0] = kp
+        kpid[1] = ki
+        kpid[2] = kd
+        a_pid_f64_init(self.ctx, mode, kpid, omin, omax, omaxi)
+
+    def reset(self):
+        a_pid_f64_reset(self.ctx)
+        return self
+
+    cpdef float64_t pid(self, float64_t ref, float64_t set):
+        return a_pid_f64(self.ctx, ref, set)
 
 cdef extern from "a_polytrack.h":
     ctypedef struct a_polytrack3_f64_t:
