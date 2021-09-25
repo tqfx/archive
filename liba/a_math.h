@@ -87,11 +87,12 @@
 
 #undef A_LIMIT
 /* Limiting macro */
-#define A_LIMIT(x, min, max) ((x) < (min)        \
-                                  ? (min)        \
-                                  : ((x) > (max) \
-                                         ? (max) \
-                                         : (x)))
+#define A_LIMIT(x, min, max) \
+    ((min) < (x)             \
+         ? ((x) < (max)      \
+                ? (x)        \
+                : (max))     \
+         : (min))
 
 __BEGIN_DECLS
 
