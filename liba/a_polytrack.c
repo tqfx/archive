@@ -26,8 +26,8 @@
 
 #include "a_polytrack.h"
 
-#undef A_POLYTRACK3_INIT
-#define A_POLYTRACK3_INIT(bit)                                    \
+#undef __A_POLYTRACK3_INIT
+#define __A_POLYTRACK3_INIT(bit)                                  \
     void a_polytrack3_f##bit##_init(a_polytrack3_f##bit##_t *ctx, \
                                     float##bit##_t source[3],     \
                                     float##bit##_t target[3])     \
@@ -51,11 +51,11 @@
         ctx->k[2] = inv_t2 * (3 * dist - ctx->v[0] * t1 - vt);    \
         ctx->k[3] = inv_t3 * (vt - 2 * dist);                     \
     }
-A_POLYTRACK3_INIT(32)
-A_POLYTRACK3_INIT(64)
+__A_POLYTRACK3_INIT(32)
+__A_POLYTRACK3_INIT(64)
 
-#undef A_POLYTRACK3_POS
-#define A_POLYTRACK3_POS(bit)                 \
+#undef __A_POLYTRACK3_POS
+#define __A_POLYTRACK3_POS(bit)               \
     float##bit##_t a_polytrack3_f##bit##_pos( \
         const a_polytrack3_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -68,11 +68,11 @@ A_POLYTRACK3_INIT(64)
                 ctx->k[2] * t2 +              \
                 ctx->k[3] * t3);              \
     }
-A_POLYTRACK3_POS(32)
-A_POLYTRACK3_POS(64)
+__A_POLYTRACK3_POS(32)
+__A_POLYTRACK3_POS(64)
 
-#undef A_POLYTRACK3_VEC
-#define A_POLYTRACK3_VEC(bit)                 \
+#undef __A_POLYTRACK3_VEC
+#define __A_POLYTRACK3_VEC(bit)               \
     float##bit##_t a_polytrack3_f##bit##_vec( \
         const a_polytrack3_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -83,11 +83,11 @@ A_POLYTRACK3_POS(64)
                 ctx->k[2] * t1 * 2 +          \
                 ctx->k[3] * t2 * 3);          \
     }
-A_POLYTRACK3_VEC(32)
-A_POLYTRACK3_VEC(64)
+__A_POLYTRACK3_VEC(32)
+__A_POLYTRACK3_VEC(64)
 
-#undef A_POLYTRACK3_ACC
-#define A_POLYTRACK3_ACC(bit)                 \
+#undef __A_POLYTRACK3_ACC
+#define __A_POLYTRACK3_ACC(bit)               \
     float##bit##_t a_polytrack3_f##bit##_acc( \
         const a_polytrack3_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -96,11 +96,11 @@ A_POLYTRACK3_VEC(64)
         return (ctx->k[2] * 2 +               \
                 ctx->k[3] * t1 * 6);          \
     }
-A_POLYTRACK3_ACC(32)
-A_POLYTRACK3_ACC(64)
+__A_POLYTRACK3_ACC(32)
+__A_POLYTRACK3_ACC(64)
 
-#undef A_POLYTRACK3_ALL
-#define A_POLYTRACK3_ALL(bit)               \
+#undef __A_POLYTRACK3_ALL
+#define __A_POLYTRACK3_ALL(bit)             \
     void a_polytrack3_f##bit##_all(         \
         const a_polytrack3_f##bit##_t *ctx, \
         float##bit##_t o[3],                \
@@ -119,11 +119,11 @@ A_POLYTRACK3_ACC(64)
         o[2] = ctx->k[2] * 2 +              \
                ctx->k[3] * t1 * 6;          \
     }
-A_POLYTRACK3_ALL(32)
-A_POLYTRACK3_ALL(64)
+__A_POLYTRACK3_ALL(32)
+__A_POLYTRACK3_ALL(64)
 
-#undef A_POLYTRACK5_INIT
-#define A_POLYTRACK5_INIT(bit)                                                  \
+#undef __A_POLYTRACK5_INIT
+#define __A_POLYTRACK5_INIT(bit)                                                \
     void a_polytrack5_f##bit##_init(a_polytrack5_f##bit##_t *ctx,               \
                                     float##bit##_t source[4],                   \
                                     float##bit##_t target[4])                   \
@@ -160,11 +160,11 @@ A_POLYTRACK3_ALL(64)
         ctx->k[5] = (float##bit##_t)(1 / 2.0) * inv_t5 *                        \
                     (12 * dist - 6 * (v1t1 + v0t1) + a1t2 - a0t2);              \
     }
-A_POLYTRACK5_INIT(32)
-A_POLYTRACK5_INIT(64)
+__A_POLYTRACK5_INIT(32)
+__A_POLYTRACK5_INIT(64)
 
-#undef A_POLYTRACK5_POS
-#define A_POLYTRACK5_POS(bit)                 \
+#undef __A_POLYTRACK5_POS
+#define __A_POLYTRACK5_POS(bit)               \
     float##bit##_t a_polytrack5_f##bit##_pos( \
         const a_polytrack5_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -181,11 +181,11 @@ A_POLYTRACK5_INIT(64)
                 ctx->k[4] * t4 +              \
                 ctx->k[5] * t5);              \
     }
-A_POLYTRACK5_POS(32)
-A_POLYTRACK5_POS(64)
+__A_POLYTRACK5_POS(32)
+__A_POLYTRACK5_POS(64)
 
-#undef A_POLYTRACK5_VEC
-#define A_POLYTRACK5_VEC(bit)                 \
+#undef __A_POLYTRACK5_VEC
+#define __A_POLYTRACK5_VEC(bit)               \
     float##bit##_t a_polytrack5_f##bit##_vec( \
         const a_polytrack5_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -200,11 +200,11 @@ A_POLYTRACK5_POS(64)
                 ctx->k[4] * t3 * 4 +          \
                 ctx->k[5] * t4 * 5);          \
     }
-A_POLYTRACK5_VEC(32)
-A_POLYTRACK5_VEC(64)
+__A_POLYTRACK5_VEC(32)
+__A_POLYTRACK5_VEC(64)
 
-#undef A_POLYTRACK5_ACC
-#define A_POLYTRACK5_ACC(bit)                 \
+#undef __A_POLYTRACK5_ACC
+#define __A_POLYTRACK5_ACC(bit)               \
     float##bit##_t a_polytrack5_f##bit##_acc( \
         const a_polytrack5_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -217,11 +217,11 @@ A_POLYTRACK5_VEC(64)
                 ctx->k[4] * t2 * 12 +         \
                 ctx->k[5] * t3 * 20);         \
     }
-A_POLYTRACK5_ACC(32)
-A_POLYTRACK5_ACC(64)
+__A_POLYTRACK5_ACC(32)
+__A_POLYTRACK5_ACC(64)
 
-#undef A_POLYTRACK5_ALL
-#define A_POLYTRACK5_ALL(bit)               \
+#undef __A_POLYTRACK5_ALL
+#define __A_POLYTRACK5_ALL(bit)             \
     void a_polytrack5_f##bit##_all(         \
         const a_polytrack5_f##bit##_t *ctx, \
         float##bit##_t o[3],                \
@@ -248,11 +248,11 @@ A_POLYTRACK5_ACC(64)
                ctx->k[4] * t2 * 12 +        \
                ctx->k[5] * t3 * 20;         \
     }
-A_POLYTRACK5_ALL(32)
-A_POLYTRACK5_ALL(64)
+__A_POLYTRACK5_ALL(32)
+__A_POLYTRACK5_ALL(64)
 
-#undef A_POLYTRACK7_INIT
-#define A_POLYTRACK7_INIT(bit)                                     \
+#undef __A_POLYTRACK7_INIT
+#define __A_POLYTRACK7_INIT(bit)                                   \
     void a_polytrack7_f##bit##_init(a_polytrack7_f##bit##_t *ctx,  \
                                     float##bit##_t source[5],      \
                                     float##bit##_t target[5])      \
@@ -303,11 +303,11 @@ A_POLYTRACK5_ALL(64)
                     (-120 * dist + 60 * (v0t1 + v1t1) +            \
                      12 * (a0t2 - a1t2) + j0t3 + j1t3);            \
     }
-A_POLYTRACK7_INIT(32)
-A_POLYTRACK7_INIT(64)
+__A_POLYTRACK7_INIT(32)
+__A_POLYTRACK7_INIT(64)
 
-#undef A_POLYTRACK7_POS
-#define A_POLYTRACK7_POS(bit)                 \
+#undef __A_POLYTRACK7_POS
+#define __A_POLYTRACK7_POS(bit)               \
     float##bit##_t a_polytrack7_f##bit##_pos( \
         const a_polytrack7_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -328,11 +328,11 @@ A_POLYTRACK7_INIT(64)
                 ctx->k[6] * t6 +              \
                 ctx->k[7] * t7);              \
     }
-A_POLYTRACK7_POS(32)
-A_POLYTRACK7_POS(64)
+__A_POLYTRACK7_POS(32)
+__A_POLYTRACK7_POS(64)
 
-#undef A_POLYTRACK7_VEC
-#define A_POLYTRACK7_VEC(bit)                 \
+#undef __A_POLYTRACK7_VEC
+#define __A_POLYTRACK7_VEC(bit)               \
     float##bit##_t a_polytrack7_f##bit##_vec( \
         const a_polytrack7_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -351,11 +351,11 @@ A_POLYTRACK7_POS(64)
                 ctx->k[6] * t5 * 6 +          \
                 ctx->k[7] * t6 * 7);          \
     }
-A_POLYTRACK7_VEC(32)
-A_POLYTRACK7_VEC(64)
+__A_POLYTRACK7_VEC(32)
+__A_POLYTRACK7_VEC(64)
 
-#undef A_POLYTRACK7_ACC
-#define A_POLYTRACK7_ACC(bit)                 \
+#undef __A_POLYTRACK7_ACC
+#define __A_POLYTRACK7_ACC(bit)               \
     float##bit##_t a_polytrack7_f##bit##_acc( \
         const a_polytrack7_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -372,11 +372,11 @@ A_POLYTRACK7_VEC(64)
                 ctx->k[6] * t4 * 30 +         \
                 ctx->k[7] * t5 * 42);         \
     }
-A_POLYTRACK7_ACC(32)
-A_POLYTRACK7_ACC(64)
+__A_POLYTRACK7_ACC(32)
+__A_POLYTRACK7_ACC(64)
 
-#undef A_POLYTRACK7_JER
-#define A_POLYTRACK7_JER(bit)                 \
+#undef __A_POLYTRACK7_JER
+#define __A_POLYTRACK7_JER(bit)               \
     float##bit##_t a_polytrack7_f##bit##_jer( \
         const a_polytrack7_f##bit##_t *ctx,   \
         float##bit##_t t)                     \
@@ -391,11 +391,11 @@ A_POLYTRACK7_ACC(64)
                 ctx->k[6] * t3 * 120 +        \
                 ctx->k[7] * t4 * 210);        \
     }
-A_POLYTRACK7_JER(32)
-A_POLYTRACK7_JER(64)
+__A_POLYTRACK7_JER(32)
+__A_POLYTRACK7_JER(64)
 
-#undef A_POLYTRACK7_ALL
-#define A_POLYTRACK7_ALL(bit)               \
+#undef __A_POLYTRACK7_ALL
+#define __A_POLYTRACK7_ALL(bit)             \
     void a_polytrack7_f##bit##_all(         \
         const a_polytrack7_f##bit##_t *ctx, \
         float##bit##_t o[4],                \
@@ -435,7 +435,7 @@ A_POLYTRACK7_JER(64)
                ctx->k[6] * t3 * 120 +       \
                ctx->k[7] * t4 * 210;        \
     }
-A_POLYTRACK7_ALL(32)
-A_POLYTRACK7_ALL(64)
+__A_POLYTRACK7_ALL(32)
+__A_POLYTRACK7_ALL(64)
 
 /* END OF FILE */
