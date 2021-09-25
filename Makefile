@@ -35,4 +35,5 @@ cython:
 
 test: cython
 	-test/test_lpf.py
+	-test/test_pid.py
 	-test/test_polytrack.py
