@@ -34,4 +34,5 @@ cython:
 	-python test/setup.py build_ext --inplace
 
 test: cython
+	-test/test_lpf.py
 	-test/test_polytrack.py
