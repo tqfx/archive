@@ -51,121 +51,90 @@
  @{
 */
 
-/*!
- @brief          Instance structure for float Low Pass Filter
-*/
-typedef struct
-{
-    float out; /*!< Output */
-    float k;   /*!< Parameter of filtering              */
-    float t;   /*!< Time interval of filtering, unit /s */
-} a_lpf_f32_t;
+#define a_lpf_t(bit)                                                \
+    typedef struct a_lpf_f##bit##_t                                 \
+    {                                                               \
+        float##bit##_t o; /* Output */                              \
+        float##bit##_t k; /* Parameter of filtering              */ \
+        float##bit##_t t; /* Time interval of filtering, unit /s */ \
+    } a_lpf_f##bit##_t
+a_lpf_t(32);
+a_lpf_t(64);
+#undef a_lpf_t
+
+#define A_LPF_INIT(bit)                             \
+    __STATIC_INLINE                                 \
+    void a_lpf_f##bit##_init(a_lpf_f##bit##_t *ctx, \
+                             float##bit##_t k,      \
+                             float##bit##_t t)      \
+    {                                               \
+        ctx->t = t;                                 \
+        ctx->k = k;                                 \
+    }
+A_LPF_INIT(32)
+A_LPF_INIT(64)
+#undef A_LPF_INIT
+
+#define A_LPF(bit)                                          \
+    __STATIC_INLINE                                         \
+    float##bit##_t a_lpf_f##bit(a_lpf_f##bit##_t *ctx,      \
+                                float##bit##_t x)           \
+    {                                                       \
+        float##bit##_t inv_kt = ctx->t / (ctx->k + ctx->t); \
+                                                            \
+        /* y[n] = y[n-1] * k / (k + t) + x * t / (k + t) */ \
+        ctx->o *= 1 - inv_kt;                               \
+        ctx->o += x * inv_kt;                               \
+                                                            \
+        return ctx->o;                                      \
+    }
+A_LPF(32)
+A_LPF(64)
+#undef A_LPF
+
+#define A_LPF_RESET(bit)                             \
+    __STATIC_INLINE                                  \
+    void a_lpf_f##bit##_reset(a_lpf_f##bit##_t *ctx) \
+    {                                                \
+        ctx->o = 0;                                  \
+    }
+A_LPF_RESET(32)
+A_LPF_RESET(64)
+#undef A_LPF_RESET
 
 /*!
- @brief          Instance structure for double Low Pass Filter
+ @brief          Instance structure for Low Pass Filter
 */
-typedef struct
-{
-    double out; /*!< Output */
-    double k;   /*!< Parameter of filtering              */
-    double t;   /*!< Time interval of filtering, unit /s */
-} a_lpf_f64_t;
+#define a_lpf_t(bit) a_lpf_f##bit##_t
 
-__STATIC_INLINE
 /*!
- @brief          Initialization function for float Low Pass Filter
- @param[in,out]  lpf: points to an instance of float Low Pass Filter structure
+ @brief          Initialization function for Low Pass Filter
+ @param[in]      bit: bits for the floating point data
+ @param[in,out]  ctx: points to an instance of Low Pass Filter structure
  @param[in]      k: Parameter of filtering
  @param[in]      t: Time interval of filtering, unit /s
 */
-void a_lpf_f32_init(a_lpf_f32_t *lpf,
-                    float k,
-                    float t)
-{
-    lpf->t = t;
-    lpf->k = k;
-}
+#define a_lpf_init(bit, ctx, k, t) a_lpf_f##bit##_init(ctx, k, t)
 
-__STATIC_INLINE
 /*!
- @brief          Initialization function for double Low Pass Filter
- @param[in,out]  lpf: points to an instance of double Low Pass Filter structure
- @param[in]      k: Parameter of filtering
- @param[in]      t: Time interval of filtering, unit /s
-*/
-void a_lpf_f64_init(a_lpf_f64_t *lpf,
-                    double k,
-                    double t)
-{
-    lpf->t = t;
-    lpf->k = k;
-}
-
-__STATIC_INLINE
-/*!
- @brief          Reset function for float Low Pass Filter
- @param[in,out]  lpf: points to an instance of float Low Pass Filter structure
-*/
-void a_lpf_f32_reset(a_lpf_f32_t *lpf)
-{
-    lpf->out = 0;
-}
-
-__STATIC_INLINE
-/*!
- @brief          Reset function for double Low Pass Filter
- @param[in,out]  lpf: points to an instance of double Low Pass Filter structure
-*/
-void a_lpf_f64_reset(a_lpf_f64_t *lpf)
-{
-    lpf->out = 0;
-}
-
-__STATIC_INLINE
-/*!
- @brief          Process function for float Low Pass Filter
+ @brief          Process function for Low Pass Filter
  \f{aligned}{
      y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
          &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
  \f}
- @param[in,out]  lpf: points to an instance of float Low Pass Filter structure
+ @param[in]      bit: bits for the floating point data
+ @param[in,out]  ctx: points to an instance of Low Pass Filter structure
  @param[in]      x: Input
  @return         Output
 */
-float a_lpf_f32(a_lpf_f32_t *lpf,
-                float x)
-{
-    float inv_kt = lpf->t / (lpf->k + lpf->t);
+#define a_lpf(bit, ctx, x) a_lpf_f##bit(ctx, x)
 
-    /* y[n] = y[n-1] * k / (k + t) + x * t / (k + t) */
-    lpf->out *= 1 - inv_kt;
-    lpf->out += x * inv_kt;
-
-    return lpf->out;
-}
-
-__STATIC_INLINE
 /*!
- @brief          Process function for double Low Pass Filter
- \f{aligned}{
-     y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
-         &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
- \f}
- @param[in,out]  lpf: points to an instance of double Low Pass Filter structure
- @param[in]      x: Input
- @return         Output
+ @brief          Reset function for Low Pass Filter
+ @param[in]      bit: bits for the floating point data
+ @param[in,out]  ctx: points to an instance of Low Pass Filter structure
 */
-double a_lpf_f64(a_lpf_f64_t *lpf,
-                 double x)
-{
-    double inv_kt = lpf->t / (lpf->k + lpf->t);
-
-    /* y[n] = y[n-1] * k / (k + t) + x * t / (k + t) */
-    lpf->out *= 1 - inv_kt;
-    lpf->out += x * inv_kt;
-
-    return lpf->out;
-}
+#define a_lpf_reset(bit, ctx) a_lpf_f##bit##_reset(ctx)
 
 /*!< @} */
 

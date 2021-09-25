@@ -8,6 +8,34 @@ cdef extern from "liba.h":
     ctypedef float float32_t
     ctypedef double float64_t
 
+cdef extern from "a_lpf.h":
+    ctypedef struct a_lpf_f64_t:
+        float64_t o
+        float64_t k
+        float64_t t
+    void a_lpf_f64_init(a_lpf_f64_t *ctx, float64_t k, float64_t t)
+    float64_t a_lpf_f64(a_lpf_f64_t *ctx, float64_t x)
+    void a_lpf_f64_reset(a_lpf_f64_t *ctx)
+
+@cython.wraparound(False)
+@cython.boundscheck(False)
+cdef class a_lpf:
+    cdef a_lpf_f64_t ctx[1]
+
+    def __cinit__(self, float64_t k, float64_t t):
+        a_lpf_f64_init(self.ctx, k, t)
+
+    def reset(self):
+        a_lpf_f64_reset(self.ctx)
+        return self
+
+    def lpf(self, t):
+        for i in t:
+            yield a_lpf_f64(self.ctx, i)
+
+    cpdef float64_t _lpf(self, float64_t t):
+        return a_lpf_f64(self.ctx, t)
+
 cdef extern from "a_polytrack.h":
     ctypedef struct a_polytrack3_f64_t:
         float64_t t[2]
@@ -18,7 +46,7 @@ cdef extern from "a_polytrack.h":
     float64_t a_polytrack3_f64_pos(const a_polytrack3_f64_t *ctx, float64_t t)
     float64_t a_polytrack3_f64_vec(const a_polytrack3_f64_t *ctx, float64_t t)
     float64_t a_polytrack3_f64_acc(const a_polytrack3_f64_t *ctx, float64_t t)
-    void a_polytrack3_f64_all(const a_polytrack3_f64_t *ctx, float64_t out[3], float64_t t)
+    void a_polytrack3_f64_all(const a_polytrack3_f64_t *ctx, float64_t o[3], float64_t t)
 
     ctypedef struct a_polytrack5_f64_t:
         float64_t t[2]
@@ -30,7 +58,7 @@ cdef extern from "a_polytrack.h":
     float64_t a_polytrack5_f64_pos(const a_polytrack5_f64_t *ctx, float64_t t)
     float64_t a_polytrack5_f64_vec(const a_polytrack5_f64_t *ctx, float64_t t)
     float64_t a_polytrack5_f64_acc(const a_polytrack5_f64_t *ctx, float64_t t)
-    void a_polytrack5_f64_all(const a_polytrack5_f64_t *ctx, float64_t out[3], float64_t t)
+    void a_polytrack5_f64_all(const a_polytrack5_f64_t *ctx, float64_t o[3], float64_t t)
 
     ctypedef struct a_polytrack7_f64_t:
         float64_t t[2]
@@ -44,11 +72,11 @@ cdef extern from "a_polytrack.h":
     float64_t a_polytrack7_f64_vec(const a_polytrack7_f64_t *ctx, float64_t t)
     float64_t a_polytrack7_f64_acc(const a_polytrack7_f64_t *ctx, float64_t t)
     float64_t a_polytrack7_f64_jer(const a_polytrack7_f64_t *ctx, float64_t t)
-    void a_polytrack7_f64_all(const a_polytrack7_f64_t *ctx, float64_t out[4], float64_t t)
+    void a_polytrack7_f64_all(const a_polytrack7_f64_t *ctx, float64_t o[4], float64_t t)
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polytrack3():
+cdef class a_polytrack3:
     cdef a_polytrack3_f64_t ctx[1]
     cdef float64_t source[3]
     cdef float64_t target[3]
@@ -124,7 +152,7 @@ cdef class a_polytrack3():
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polytrack5():
+cdef class a_polytrack5:
     cdef a_polytrack5_f64_t ctx[1]
     cdef float64_t source[4]
     cdef float64_t target[4]
@@ -214,7 +242,7 @@ cdef class a_polytrack5():
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polytrack7():
+cdef class a_polytrack7:
     cdef a_polytrack7_f64_t ctx[1]
     cdef float64_t source[5]
     cdef float64_t target[5]
