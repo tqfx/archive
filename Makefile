@@ -26,7 +26,7 @@ install:
 	-python -m pip install -U -r requirements.txt
 
 wheel:
-	-python -m pip wheel --use-feature=in-tree-build ./test
+	-python -m pip wheel ./test
 
 cython:
 	-python test/setup.py build_ext --inplace
