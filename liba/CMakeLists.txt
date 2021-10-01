@@ -28,9 +28,9 @@ target_include_directories(${TARGET_NAME} INTERFACE
 
 # install the library
 foreach(_suffix "*.h" "*.hpp")
-  file(GLOB_RECURSE INCLUDE ${_suffix})
-  install(FILES ${INCLUDE} DESTINATION include)
-endforeach()
+  file(GLOB_RECURSE _include ${_suffix})
+  install(FILES ${_include} DESTINATION include)
+endforeach(_suffix "*.h" "*.hpp")
 install(TARGETS ${TARGET_NAME}
   EXPORT ${TARGET_NAME}-targets
   PUBLIC_HEADER DESTINATION include
