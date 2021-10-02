@@ -29,11 +29,20 @@
 
 float a_inv_sqrt(float x)
 {
+    union
+    {
+        long i32;
+        float f32;
+    } b32[1] = {
+        {
+            .f32 = x,
+        },
+    };
     float xh = 0.5F * x;
-    long i = *(long *)&x;
 
-    i = 0x5F3759DF - (i >> 1);
-    x = *(float *)&i;
+    b32->i32 = 0x5F3759DF - (b32->i32 >> 1);
+    x = b32->f32;
+
     x = x * (1.5F - (xh * x * x));
     x = x * (1.5F - (xh * x * x));
 
