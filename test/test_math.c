@@ -30,8 +30,8 @@
 
 static union
 {
-    long i32;
     float f32;
+    unsigned long u32;
     struct
     {
         unsigned long f : 23;
@@ -43,7 +43,7 @@ static union
 static union
 {
     double f64;
-    long long i64;
+    unsigned long long u64;
     struct
     {
         unsigned long long f : 53;
@@ -69,9 +69,9 @@ int main(void)
     for (unsigned int i = 0; i != sizeof(datat) / sizeof(double); ++i)
     {
         b32->f32 = (float)datat[i];
-        printf("%+f\t0x%zX\t%u,0x%02X,0x%06X\n",
+        printf("%+f\t0x%lX\t%u,0x%02X,0x%06X\n",
                (double)b32->f32,
-               b32->i32,
+               b32->u32,
                b32->s32->s,
                b32->s32->e,
                b32->s32->f);
@@ -81,7 +81,7 @@ int main(void)
         b64->f64 = datat[i];
         printf("%+f\t0x%llX\t%u,0x%03X,0x%014llX\n",
                b64->f64,
-               b64->i64,
+               b64->u64,
                b64->s64->s,
                b64->s64->e,
                (unsigned long long)b64->s64->f);
