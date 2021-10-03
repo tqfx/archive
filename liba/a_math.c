@@ -39,7 +39,8 @@ float a_inv_sqrt(float x)
 
     if (b32->u32 & 0x80000000)
     {
-        x = (0.0F / 0.0F);
+        b32->u32 = 0x7FC00000;
+        x = b32->f32;
     }
     else if (b32->u32 & 0x7FFFFFFF)
     {
@@ -53,7 +54,8 @@ float a_inv_sqrt(float x)
     }
     else
     {
-        x = (1.0F / 0.0F);
+        b32->u32 = 0x7F800000;
+        x = b32->f32;
     }
 
     return x;
