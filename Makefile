@@ -8,6 +8,8 @@ ifndef CMAKE_G
 CMAKE_G = -G "Unix Makefiles"
 endif
 
+PYTHON = python
+
 all: release wheel
 
 .PHONY: debug release install cython wheel format clean test
@@ -23,22 +25,22 @@ release:
 	-cmake --build build
 
 install:
-	-python -m pip install -U -r requirements.txt
+	-$(PYTHON) -m pip install -U -r requirements.txt
 
 wheel:
-	-python -m pip wheel ./test --use-feature=in-tree-build
+	-$(PYTHON) -m pip wheel ./test --use-feature=in-tree-build
 
 cython:
-	-python test/setup.py build_ext --inplace
+	-$(PYTHON) test/setup.py build_ext --inplace
 
 clean:
 	@-git clean -fdX
 
 format: liba
-	@-find $^ test -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format --verbose -style=file -i {} \;
 	@-black -S $(shell find $^ test -regex '.*\.\(py\)')
+	@-find $^ test -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format --verbose -style=file -i {} \;
 
 test: cython
-	-test/test_lpf.py
-	-test/test_pid.py
-	-test/test_polytrack.py
+	-$(PYTHON) test/test_lpf.py
+	-$(PYTHON) test/test_pid.py
+	-$(PYTHON) test/test_polytrack.py
