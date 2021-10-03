@@ -1,3 +1,4 @@
+MAKEFLAGS += --silent
 ifdef MINGW
 CMAKE_G = -G "MinGW Makefiles"
 endif
