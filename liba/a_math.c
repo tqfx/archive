@@ -29,23 +29,23 @@
 
 static union
 {
-    long i32;
     float f32;
+    unsigned long u32;
 } b32[1];
 
 float a_inv_sqrt(float x)
 {
     b32->f32 = x;
 
-    if (b32->i32 & 0x80000000)
+    if (b32->u32 & 0x80000000)
     {
         x = (0.0F / 0.0F);
     }
-    else if (b32->i32 & 0x7FFFFFFF)
+    else if (b32->u32 & 0x7FFFFFFF)
     {
         float xh = 0.5F * x;
 
-        b32->i32 = 0x5F3759DF - (b32->i32 >> 1);
+        b32->u32 = 0x5F3759DF - (b32->u32 >> 1);
         x = b32->f32;
 
         x = x * (1.5F - (xh * x * x));

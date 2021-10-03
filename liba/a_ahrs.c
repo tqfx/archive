@@ -91,8 +91,8 @@ typedef enum
 /* convert between long and float */
 static union
 {
-    long i32;
     float f32;
+    unsigned long u32;
 } b32[3];
 
 /* error integral */
@@ -114,15 +114,15 @@ static float a_inv_sqrt(float x)
 {
     b32->f32 = x;
 
-    if (b32->i32 & 0x80000000)
+    if (b32->u32 & 0x80000000)
     {
         x = (0.0F / 0.0F);
     }
-    else if (b32->i32 & 0x7FFFFFFF)
+    else if (b32->u32 & 0x7FFFFFFF)
     {
         float xh = 0.5F * x;
 
-        b32->i32 = 0x5F3759DF - (b32->i32 >> 1);
+        b32->u32 = 0x5F3759DF - (b32->u32 >> 1);
         x = b32->f32;
 
         x = x * (1.5F - (xh * x * x));
@@ -158,9 +158,9 @@ void a_ahrs_mahony(float q[4],
     b32[y].f32 = m[y];
     b32[z].f32 = m[z];
     /* Avoids NaN in magnetometer normalisation */
-    if ((b32[x].i32 & 0x7FFFFFFF) ||
-        (b32[y].i32 & 0x7FFFFFFF) ||
-        (b32[z].i32 & 0x7FFFFFFF))
+    if ((b32[x].u32 & 0x7FFFFFFF) ||
+        (b32[y].u32 & 0x7FFFFFFF) ||
+        (b32[z].u32 & 0x7FFFFFFF))
     /* mx != 0 && my != 0 && mz != 0 */
     {
         /* Normalise magnetometer measurement */
@@ -187,9 +187,9 @@ void a_ahrs_mahony(float q[4],
     b32[y].f32 = a[y];
     b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].i32 & 0x7FFFFFFF) ||
-        (b32[y].i32 & 0x7FFFFFFF) ||
-        (b32[z].i32 & 0x7FFFFFFF))
+    if ((b32[x].u32 & 0x7FFFFFFF) ||
+        (b32[y].u32 & 0x7FFFFFFF) ||
+        (b32[z].u32 & 0x7FFFFFFF))
     /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
@@ -267,9 +267,9 @@ void a_ahrs_mahony(float q[4],
         b32[y].f32 = e[y];
         b32[z].f32 = e[z];
         /* PI */
-        if ((b32[x].i32 & 0x7FFFFFFF) ||
-            (b32[y].i32 & 0x7FFFFFFF) ||
-            (b32[z].i32 & 0x7FFFFFFF))
+        if ((b32[x].u32 & 0x7FFFFFFF) ||
+            (b32[y].u32 & 0x7FFFFFFF) ||
+            (b32[z].u32 & 0x7FFFFFFF))
         /* ex != 0 && ey != 0 && ez != 0 */
         {
             eix += e[x] * KI * ht;
@@ -314,9 +314,9 @@ void a_ahrs_mahony_imu(float q[4],
     b32[y].f32 = a[y];
     b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].i32 & 0x7FFFFFFF) ||
-        (b32[y].i32 & 0x7FFFFFFF) ||
-        (b32[z].i32 & 0x7FFFFFFF))
+    if ((b32[x].u32 & 0x7FFFFFFF) ||
+        (b32[y].u32 & 0x7FFFFFFF) ||
+        (b32[z].u32 & 0x7FFFFFFF))
     /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
@@ -344,9 +344,9 @@ void a_ahrs_mahony_imu(float q[4],
         b32[y].f32 = e[y];
         b32[z].f32 = e[z];
         /* PI */
-        if ((b32[x].i32 & 0x7FFFFFFF) ||
-            (b32[y].i32 & 0x7FFFFFFF) ||
-            (b32[z].i32 & 0x7FFFFFFF))
+        if ((b32[x].u32 & 0x7FFFFFFF) ||
+            (b32[y].u32 & 0x7FFFFFFF) ||
+            (b32[z].u32 & 0x7FFFFFFF))
         /* ex != 0 && ey != 0 && ez != 0 */
         {
             eix += e[x] * KI * ht;
@@ -384,9 +384,9 @@ void a_ahrs_madgwick(float q[4],
     b32[y].f32 = m[y];
     b32[z].f32 = m[z];
     /* Avoids NaN in magnetometer normalisation */
-    if ((b32[x].i32 & 0x7FFFFFFF) ||
-        (b32[y].i32 & 0x7FFFFFFF) ||
-        (b32[z].i32 & 0x7FFFFFFF))
+    if ((b32[x].u32 & 0x7FFFFFFF) ||
+        (b32[y].u32 & 0x7FFFFFFF) ||
+        (b32[z].u32 & 0x7FFFFFFF))
     /* mx != 0 && my != 0 && mz != 0 */
     {
         /* Normalise magnetometer measurement */
@@ -407,9 +407,9 @@ void a_ahrs_madgwick(float q[4],
     b32[y].f32 = a[y];
     b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].i32 & 0x7FFFFFFF) ||
-        (b32[y].i32 & 0x7FFFFFFF) ||
-        (b32[z].i32 & 0x7FFFFFFF))
+    if ((b32[x].u32 & 0x7FFFFFFF) ||
+        (b32[y].u32 & 0x7FFFFFFF) ||
+        (b32[z].u32 & 0x7FFFFFFF))
     /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
@@ -575,9 +575,9 @@ void a_ahrs_madgwick_imu(float q[4],
     b32[y].f32 = a[y];
     b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].i32 & 0x7FFFFFFF) ||
-        (b32[y].i32 & 0x7FFFFFFF) ||
-        (b32[z].i32 & 0x7FFFFFFF))
+    if ((b32[x].u32 & 0x7FFFFFFF) ||
+        (b32[y].u32 & 0x7FFFFFFF) ||
+        (b32[z].u32 & 0x7FFFFFFF))
     /* ax != 0 && ay != 0 && az != 0 */
     {
         /* Normalise accelerometer measurement */
