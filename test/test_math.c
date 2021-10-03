@@ -55,6 +55,8 @@ static union
 int main(void)
 {
     static double datat[] = {
+        (double)NAN,
+        (double)INFINITY,
         -0.0,
         1,
         1.0625,
