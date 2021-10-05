@@ -1,7 +1,7 @@
 # test math
-add_executable(math test_math.c)
-target_link_libraries(math a m)
+ADD_EXECUTABLE(math test_math.c)
+TARGET_LINK_LIBRARIES(math a m)
 
 # test notefreqs
-add_executable(notefreqs test_notefreqs.c)
-target_link_libraries(notefreqs a)
+ADD_EXECUTABLE(notefreqs test_notefreqs.c)
+TARGET_LINK_LIBRARIES(notefreqs a)
