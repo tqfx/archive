@@ -48,14 +48,14 @@ a_lpf_t(32);
 a_lpf_t(64);
 #undef a_lpf_t
 
-#define __A_LPF_INIT(bit, ctx, k, t)                \
-    __STATIC_INLINE                                 \
-    void a_lpf_f##bit##_init(a_lpf_f##bit##_t *ctx, \
-                             float##bit##_t k,      \
-                             float##bit##_t t)      \
-    {                                               \
-        ctx->t = t;                                 \
-        ctx->k = k;                                 \
+#define __A_LPF_INIT(bit, ctx, k, t)                 \
+    __STATIC_INLINE                                  \
+    void a_lpf_f##bit##_init(a_lpf_f##bit##_t *ctx,  \
+                             const float##bit##_t k, \
+                             const float##bit##_t t) \
+    {                                                \
+        ctx->t = t;                                  \
+        ctx->k = k;                                  \
     }
 __A_LPF_INIT(32, ctx, k, t)
 __A_LPF_INIT(64, ctx, k, t)
@@ -64,7 +64,7 @@ __A_LPF_INIT(64, ctx, k, t)
 #define __A_LPF(bit, ctx, x)                                \
     __STATIC_INLINE                                         \
     float##bit##_t a_lpf_f##bit(a_lpf_f##bit##_t *ctx,      \
-                                float##bit##_t x)           \
+                                const float##bit##_t x)     \
     {                                                       \
         float##bit##_t inv_kt = ctx->t / (ctx->k + ctx->t); \
                                                             \

@@ -73,10 +73,11 @@ __BEGIN_DECLS
 
 /* function for cubic polynomial trajectory */
 
-#define a_polytrack3_init(bit, ctx, source, target)                      \
-    extern void a_polytrack3_f##bit##_init(a_polytrack3_f##bit##_t *ctx, \
-                                           float##bit##_t source[3],     \
-                                           float##bit##_t target[3])
+#define a_polytrack3_init(bit, ctx, source, target) \
+    extern void a_polytrack3_f##bit##_init(         \
+        a_polytrack3_f##bit##_t *ctx,               \
+        const float##bit##_t source[3],             \
+        const float##bit##_t target[3])
 a_polytrack3_init(32, ctx, source, target);
 a_polytrack3_init(64, ctx, source, target);
 #undef a_polytrack3_init
@@ -84,7 +85,7 @@ a_polytrack3_init(64, ctx, source, target);
 #define a_polytrack3_pos(bit, ctx, t)                \
     extern float##bit##_t a_polytrack3_f##bit##_pos( \
         const a_polytrack3_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack3_pos(32, ctx, t);
 a_polytrack3_pos(64, ctx, t);
 #undef a_polytrack3_pos
@@ -92,7 +93,7 @@ a_polytrack3_pos(64, ctx, t);
 #define a_polytrack3_vec(bit, ctx, t)                \
     extern float##bit##_t a_polytrack3_f##bit##_vec( \
         const a_polytrack3_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack3_vec(32, ctx, t);
 a_polytrack3_vec(64, ctx, t);
 #undef a_polytrack3_vec
@@ -100,26 +101,27 @@ a_polytrack3_vec(64, ctx, t);
 #define a_polytrack3_acc(bit, ctx, t)                \
     extern float##bit##_t a_polytrack3_f##bit##_acc( \
         const a_polytrack3_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack3_acc(32, ctx, t);
 a_polytrack3_acc(64, ctx, t);
 #undef a_polytrack3_acc
 
-#define a_polytrack3_all(bit, ctx, o, t)    \
+#define a_polytrack3_all(bit, ctx, t, o)    \
     void a_polytrack3_f##bit##_all(         \
         const a_polytrack3_f##bit##_t *ctx, \
-        float##bit##_t o[3],                \
-        float##bit##_t t)
-a_polytrack3_all(32, ctx, o, t);
-a_polytrack3_all(64, ctx, o, t);
+        const float##bit##_t t,             \
+        float##bit##_t o[3])
+a_polytrack3_all(32, ctx, t, o);
+a_polytrack3_all(64, ctx, t, o);
 #undef a_polytrack3_all
 
 /* function for quintic polynomial trajectory */
 
-#define a_polytrack5_init(bit, ctx, source, target)                      \
-    extern void a_polytrack5_f##bit##_init(a_polytrack5_f##bit##_t *ctx, \
-                                           float##bit##_t source[4],     \
-                                           float##bit##_t target[4])
+#define a_polytrack5_init(bit, ctx, source, target) \
+    extern void a_polytrack5_f##bit##_init(         \
+        a_polytrack5_f##bit##_t *ctx,               \
+        const float##bit##_t source[4],             \
+        const float##bit##_t target[4])
 a_polytrack5_init(32, ctx, source, target);
 a_polytrack5_init(64, ctx, source, target);
 #undef a_polytrack5_init
@@ -127,7 +129,7 @@ a_polytrack5_init(64, ctx, source, target);
 #define a_polytrack5_pos(bit, ctx, t)                \
     extern float##bit##_t a_polytrack5_f##bit##_pos( \
         const a_polytrack5_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack5_pos(32, ctx, t);
 a_polytrack5_pos(64, ctx, t);
 #undef a_polytrack5_pos
@@ -135,7 +137,7 @@ a_polytrack5_pos(64, ctx, t);
 #define a_polytrack5_vec(bit, ctx, t)                \
     extern float##bit##_t a_polytrack5_f##bit##_vec( \
         const a_polytrack5_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack5_vec(32, ctx, t);
 a_polytrack5_vec(64, ctx, t);
 #undef a_polytrack5_vec
@@ -143,26 +145,27 @@ a_polytrack5_vec(64, ctx, t);
 #define a_polytrack5_acc(bit, ctx, t)                \
     extern float##bit##_t a_polytrack5_f##bit##_acc( \
         const a_polytrack5_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack5_acc(32, ctx, t);
 a_polytrack5_acc(64, ctx, t);
 #undef a_polytrack5_acc
 
-#define a_polytrack5_all(bit, ctx, o, t)    \
+#define a_polytrack5_all(bit, ctx, t, o)    \
     void a_polytrack5_f##bit##_all(         \
         const a_polytrack5_f##bit##_t *ctx, \
-        float##bit##_t o[3],                \
-        float##bit##_t t)
-a_polytrack5_all(32, ctx, o, t);
-a_polytrack5_all(64, ctx, o, t);
+        const float##bit##_t t,             \
+        float##bit##_t o[3])
+a_polytrack5_all(32, ctx, t, o);
+a_polytrack5_all(64, ctx, t, o);
 #undef a_polytrack5_all
 
 /* function for hepta polynomial trajectory */
 
-#define a_polytrack7_init(bit, ctx, source, target)                      \
-    extern void a_polytrack7_f##bit##_init(a_polytrack7_f##bit##_t *ctx, \
-                                           float##bit##_t source[5],     \
-                                           float##bit##_t target[5])
+#define a_polytrack7_init(bit, ctx, source, target) \
+    extern void a_polytrack7_f##bit##_init(         \
+        a_polytrack7_f##bit##_t *ctx,               \
+        const float##bit##_t source[5],             \
+        const float##bit##_t target[5])
 a_polytrack7_init(32, ctx, source, target);
 a_polytrack7_init(64, ctx, source, target);
 #undef a_polytrack7_init
@@ -170,7 +173,7 @@ a_polytrack7_init(64, ctx, source, target);
 #define a_polytrack7_pos(bit, ctx, t)                \
     extern float##bit##_t a_polytrack7_f##bit##_pos( \
         const a_polytrack7_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack7_pos(32, ctx, t);
 a_polytrack7_pos(64, ctx, t);
 #undef a_polytrack7_pos
@@ -178,7 +181,7 @@ a_polytrack7_pos(64, ctx, t);
 #define a_polytrack7_vec(bit, ctx, t)                \
     extern float##bit##_t a_polytrack7_f##bit##_vec( \
         const a_polytrack7_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack7_vec(32, ctx, t);
 a_polytrack7_vec(64, ctx, t);
 #undef a_polytrack7_vec
@@ -186,7 +189,7 @@ a_polytrack7_vec(64, ctx, t);
 #define a_polytrack7_acc(bit, ctx, t)                \
     extern float##bit##_t a_polytrack7_f##bit##_acc( \
         const a_polytrack7_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack7_acc(32, ctx, t);
 a_polytrack7_acc(64, ctx, t);
 #undef a_polytrack7_acc
@@ -194,18 +197,18 @@ a_polytrack7_acc(64, ctx, t);
 #define a_polytrack7_jer(bit, ctx, t)                \
     extern float##bit##_t a_polytrack7_f##bit##_jer( \
         const a_polytrack7_f##bit##_t *ctx,          \
-        float##bit##_t t)
+        const float##bit##_t t)
 a_polytrack7_jer(32, ctx, t);
 a_polytrack7_jer(64, ctx, t);
 #undef a_polytrack7_jer
 
-#define a_polytrack7_all(bit, ctx, o, t)    \
+#define a_polytrack7_all(bit, ctx, t, o)    \
     void a_polytrack7_f##bit##_all(         \
         const a_polytrack7_f##bit##_t *ctx, \
-        float##bit##_t o[4],                \
-        float##bit##_t t)
-a_polytrack7_all(32, ctx, o, t);
-a_polytrack7_all(64, ctx, o, t);
+        const float##bit##_t t,             \
+        float##bit##_t o[4])
+a_polytrack7_all(32, ctx, t, o);
+a_polytrack7_all(64, ctx, t, o);
 #undef a_polytrack7_all
 
 __END_DECLS
@@ -319,14 +322,14 @@ __END_DECLS
  \f}
  @param[in]      bit: bits for the floating-point data
  @param[in]      ctx: points to an instance of cubic polynomial trajectory
+ @param[in]      t: current time
  @param[out]     o: buffer of result
   @arg           0 position output
   @arg           1 velocity output
   @arg           2 acceleration output
- @param[in]      t: current time
 */
-#define a_polytrack3_all(bit, ctx, o, t) \
-    a_polytrack3_f##bit##_all(ctx, o, t)
+#define a_polytrack3_all(bit, ctx, t, o) \
+    a_polytrack3_f##bit##_all(ctx, t, o)
 
 /*!
  @brief          Initialization function for quintic polynomial trajectory
@@ -419,14 +422,14 @@ __END_DECLS
  \f}
  @param[in]      bit: bits for the floating-point data
  @param[in]      ctx: points to an instance of quintic polynomial trajectory
+ @param[in]      t: current time
  @param[out]     o: buffer of result
   @arg           0 position output
   @arg           1 velocity output
   @arg           2 acceleration output
- @param[in]      t: current time
 */
-#define a_polytrack5_all(bit, ctx, o, t) \
-    a_polytrack5_f##bit##_all(ctx, o, t)
+#define a_polytrack5_all(bit, ctx, t, o) \
+    a_polytrack5_f##bit##_all(ctx, t, o)
 
 /*!
  @brief          Initialization function for hepta polynomial trajectory
@@ -541,14 +544,14 @@ __END_DECLS
  @param[in]      bit: bits for the floating-point data
  @param[in]      ctx: points to an instance of hepta polynomial trajectory
  @param[out]     o: buffer of result
+ @param[in]      t: current time
   @arg           0 position output
   @arg           1 velocity output
   @arg           2 acceleration output
   @arg           3 jerk output
- @param[in]      t: current time
 */
-#define a_polytrack7_all(bit, ctx, o, t) \
-    a_polytrack7_f##bit##_all(ctx, o, t)
+#define a_polytrack7_all(bit, ctx, t, o) \
+    a_polytrack7_f##bit##_all(ctx, t, o)
 
 /*!< @} */
 

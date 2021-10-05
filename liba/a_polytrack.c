@@ -27,29 +27,30 @@
 #include "a_polytrack.h"
 
 #undef __A_POLYTRACK3_INIT
-#define __A_POLYTRACK3_INIT(bit)                                  \
-    void a_polytrack3_f##bit##_init(a_polytrack3_f##bit##_t *ctx, \
-                                    float##bit##_t source[3],     \
-                                    float##bit##_t target[3])     \
-    {                                                             \
-        ctx->t[0] = source[0];                                    \
-        ctx->q[0] = source[1];                                    \
-        ctx->v[0] = source[2];                                    \
-        ctx->t[1] = target[0];                                    \
-        ctx->q[1] = target[1];                                    \
-        ctx->v[1] = target[2];                                    \
-                                                                  \
-        float##bit##_t dist = ctx->q[1] - ctx->q[0];              \
-        float##bit##_t t1 = ctx->t[1] - ctx->t[0];                \
-        float##bit##_t inv_t1 = 1 / t1;                           \
-        float##bit##_t inv_t2 = inv_t1 * inv_t1;                  \
-        float##bit##_t inv_t3 = inv_t1 * inv_t2;                  \
-        float##bit##_t vt = (ctx->v[0] + ctx->v[1]) * t1;         \
-                                                                  \
-        ctx->k[0] = ctx->q[0];                                    \
-        ctx->k[1] = ctx->v[0];                                    \
-        ctx->k[2] = inv_t2 * (3 * dist - ctx->v[0] * t1 - vt);    \
-        ctx->k[3] = inv_t3 * (vt - 2 * dist);                     \
+#define __A_POLYTRACK3_INIT(bit)                               \
+    void a_polytrack3_f##bit##_init(                           \
+        a_polytrack3_f##bit##_t *ctx,                          \
+        const float##bit##_t source[3],                        \
+        const float##bit##_t target[3])                        \
+    {                                                          \
+        ctx->t[0] = source[0];                                 \
+        ctx->q[0] = source[1];                                 \
+        ctx->v[0] = source[2];                                 \
+        ctx->t[1] = target[0];                                 \
+        ctx->q[1] = target[1];                                 \
+        ctx->v[1] = target[2];                                 \
+                                                               \
+        float##bit##_t dist = ctx->q[1] - ctx->q[0];           \
+        float##bit##_t t1 = ctx->t[1] - ctx->t[0];             \
+        float##bit##_t inv_t1 = 1 / t1;                        \
+        float##bit##_t inv_t2 = inv_t1 * inv_t1;               \
+        float##bit##_t inv_t3 = inv_t1 * inv_t2;               \
+        float##bit##_t vt = (ctx->v[0] + ctx->v[1]) * t1;      \
+                                                               \
+        ctx->k[0] = ctx->q[0];                                 \
+        ctx->k[1] = ctx->v[0];                                 \
+        ctx->k[2] = inv_t2 * (3 * dist - ctx->v[0] * t1 - vt); \
+        ctx->k[3] = inv_t3 * (vt - 2 * dist);                  \
     }
 __A_POLYTRACK3_INIT(32)
 __A_POLYTRACK3_INIT(64)
@@ -58,7 +59,7 @@ __A_POLYTRACK3_INIT(64)
 #define __A_POLYTRACK3_POS(bit)               \
     float##bit##_t a_polytrack3_f##bit##_pos( \
         const a_polytrack3_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -75,7 +76,7 @@ __A_POLYTRACK3_POS(64)
 #define __A_POLYTRACK3_VEC(bit)               \
     float##bit##_t a_polytrack3_f##bit##_vec( \
         const a_polytrack3_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -90,7 +91,7 @@ __A_POLYTRACK3_VEC(64)
 #define __A_POLYTRACK3_ACC(bit)               \
     float##bit##_t a_polytrack3_f##bit##_acc( \
         const a_polytrack3_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         return (ctx->k[2] * 2 +               \
@@ -103,8 +104,8 @@ __A_POLYTRACK3_ACC(64)
 #define __A_POLYTRACK3_ALL(bit)             \
     void a_polytrack3_f##bit##_all(         \
         const a_polytrack3_f##bit##_t *ctx, \
-        float##bit##_t o[3],                \
-        float##bit##_t t)                   \
+        const float##bit##_t t,             \
+        float##bit##_t o[3])                \
     {                                       \
         float##bit##_t t1 = t - ctx->t[0];  \
         float##bit##_t t2 = t1 * t1;        \
@@ -124,9 +125,10 @@ __A_POLYTRACK3_ALL(64)
 
 #undef __A_POLYTRACK5_INIT
 #define __A_POLYTRACK5_INIT(bit)                                                \
-    void a_polytrack5_f##bit##_init(a_polytrack5_f##bit##_t *ctx,               \
-                                    float##bit##_t source[4],                   \
-                                    float##bit##_t target[4])                   \
+    void a_polytrack5_f##bit##_init(                                            \
+        a_polytrack5_f##bit##_t *ctx,                                           \
+        const float##bit##_t source[4],                                         \
+        const float##bit##_t target[4])                                         \
     {                                                                           \
         ctx->t[0] = source[0];                                                  \
         ctx->q[0] = source[1];                                                  \
@@ -167,7 +169,7 @@ __A_POLYTRACK5_INIT(64)
 #define __A_POLYTRACK5_POS(bit)               \
     float##bit##_t a_polytrack5_f##bit##_pos( \
         const a_polytrack5_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -188,7 +190,7 @@ __A_POLYTRACK5_POS(64)
 #define __A_POLYTRACK5_VEC(bit)               \
     float##bit##_t a_polytrack5_f##bit##_vec( \
         const a_polytrack5_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -207,7 +209,7 @@ __A_POLYTRACK5_VEC(64)
 #define __A_POLYTRACK5_ACC(bit)               \
     float##bit##_t a_polytrack5_f##bit##_acc( \
         const a_polytrack5_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -224,8 +226,8 @@ __A_POLYTRACK5_ACC(64)
 #define __A_POLYTRACK5_ALL(bit)             \
     void a_polytrack5_f##bit##_all(         \
         const a_polytrack5_f##bit##_t *ctx, \
-        float##bit##_t o[3],                \
-        float##bit##_t t)                   \
+        const float##bit##_t t,             \
+        float##bit##_t o[3])                \
     {                                       \
         float##bit##_t t1 = t - ctx->t[0];  \
         float##bit##_t t2 = t1 * t1;        \
@@ -253,9 +255,10 @@ __A_POLYTRACK5_ALL(64)
 
 #undef __A_POLYTRACK7_INIT
 #define __A_POLYTRACK7_INIT(bit)                                   \
-    void a_polytrack7_f##bit##_init(a_polytrack7_f##bit##_t *ctx,  \
-                                    float##bit##_t source[5],      \
-                                    float##bit##_t target[5])      \
+    void a_polytrack7_f##bit##_init(                               \
+        a_polytrack7_f##bit##_t *ctx,                              \
+        const float##bit##_t source[5],                            \
+        const float##bit##_t target[5])                            \
     {                                                              \
         ctx->t[0] = source[0];                                     \
         ctx->q[0] = source[1];                                     \
@@ -310,7 +313,7 @@ __A_POLYTRACK7_INIT(64)
 #define __A_POLYTRACK7_POS(bit)               \
     float##bit##_t a_polytrack7_f##bit##_pos( \
         const a_polytrack7_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -335,7 +338,7 @@ __A_POLYTRACK7_POS(64)
 #define __A_POLYTRACK7_VEC(bit)               \
     float##bit##_t a_polytrack7_f##bit##_vec( \
         const a_polytrack7_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -358,7 +361,7 @@ __A_POLYTRACK7_VEC(64)
 #define __A_POLYTRACK7_ACC(bit)               \
     float##bit##_t a_polytrack7_f##bit##_acc( \
         const a_polytrack7_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -379,7 +382,7 @@ __A_POLYTRACK7_ACC(64)
 #define __A_POLYTRACK7_JER(bit)               \
     float##bit##_t a_polytrack7_f##bit##_jer( \
         const a_polytrack7_f##bit##_t *ctx,   \
-        float##bit##_t t)                     \
+        const float##bit##_t t)               \
     {                                         \
         float##bit##_t t1 = t - ctx->t[0];    \
         float##bit##_t t2 = t1 * t1;          \
@@ -398,8 +401,8 @@ __A_POLYTRACK7_JER(64)
 #define __A_POLYTRACK7_ALL(bit)             \
     void a_polytrack7_f##bit##_all(         \
         const a_polytrack7_f##bit##_t *ctx, \
-        float##bit##_t o[4],                \
-        float##bit##_t t)                   \
+        const float##bit##_t t,             \
+        float##bit##_t o[4])                \
     {                                       \
         float##bit##_t t1 = t - ctx->t[0];  \
         float##bit##_t t2 = t1 * t1;        \

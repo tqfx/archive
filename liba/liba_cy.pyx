@@ -13,8 +13,8 @@ cdef extern from "a_lpf.h":
         float64_t o
         float64_t k
         float64_t t
-    void a_lpf_f64_init(a_lpf_f64_t *ctx, float64_t k, float64_t t)
-    float64_t a_lpf_f64(a_lpf_f64_t *ctx, float64_t x)
+    void a_lpf_f64_init(a_lpf_f64_t *ctx, const float64_t k, const float64_t t)
+    float64_t a_lpf_f64(a_lpf_f64_t *ctx, const float64_t x)
     void a_lpf_f64_reset(a_lpf_f64_t *ctx)
 
 @cython.wraparound(False)
@@ -51,10 +51,24 @@ cdef extern from "a_pid.h":
         float64_t a[3]
         float64_t x[2]
         float64_t y
-    void a_pid_f64_init(a_pid_f64_t *ctx, a_pid_mode_t mode, const float64_t kpid[3], const float64_t omin, const float64_t omax, const float64_t omaxi)
-    void a_pid_f64_pos(a_pid_f64_t *ctx, const float64_t kpid[3], float64_t omin, float64_t omax, float64_t omaxi)
-    void a_pid_f64_inc(a_pid_f64_t *ctx, const float64_t kpid[3], float64_t omin, float64_t omax)
-    float64_t a_pid_f64(a_pid_f64_t *ctx, const float64_t ref, const float64_t set)
+    void a_pid_f64_init(a_pid_f64_t *ctx,
+        const a_pid_mode_t mode,
+        const float64_t kpid[3],
+        const float64_t omin,
+        const float64_t omax,
+        const float64_t omaxi)
+    void a_pid_f64_pos(a_pid_f64_t *ctx,
+        const float64_t kpid[3],
+        const float64_t omin,
+        const float64_t omax,
+        const float64_t omaxi)
+    void a_pid_f64_inc(a_pid_f64_t *ctx,
+        const float64_t kpid[3],
+        const float64_t omin,
+        const float64_t omax)
+    float64_t a_pid_f64(a_pid_f64_t *ctx,
+        const float64_t ref,
+        const float64_t set)
     void a_pid_f64_reset(a_pid_f64_t *ctx)
 
 @cython.wraparound(False)
@@ -62,7 +76,10 @@ cdef extern from "a_pid.h":
 cdef class a_pid:
     cdef a_pid_f64_t ctx[1]
 
-    def __cinit__(self, a_pid_mode_t mode, float64_t kp, float64_t ki, float64_t kd, float64_t omin, float64_t omax, float64_t omaxi):
+    def __cinit__(self, a_pid_mode_t mode,
+            float64_t kp, float64_t ki, float64_t kd,
+            float64_t omin, float64_t omax, float64_t omaxi
+        ):
         cdef float64_t kpid[3]
         kpid[0] = kp
         kpid[1] = ki
@@ -82,11 +99,13 @@ cdef extern from "a_polytrack.h":
         float64_t q[2]
         float64_t v[2]
         float64_t k[4]
-    void a_polytrack3_f64_init(a_polytrack3_f64_t *ctx, float64_t source[3], float64_t target[3])
-    float64_t a_polytrack3_f64_pos(const a_polytrack3_f64_t *ctx, float64_t t)
-    float64_t a_polytrack3_f64_vec(const a_polytrack3_f64_t *ctx, float64_t t)
-    float64_t a_polytrack3_f64_acc(const a_polytrack3_f64_t *ctx, float64_t t)
-    void a_polytrack3_f64_all(const a_polytrack3_f64_t *ctx, float64_t o[3], float64_t t)
+    void a_polytrack3_f64_init(a_polytrack3_f64_t *ctx,
+        const float64_t source[3],
+        const float64_t target[3])
+    float64_t a_polytrack3_f64_pos(const a_polytrack3_f64_t *ctx, const float64_t t)
+    float64_t a_polytrack3_f64_vec(const a_polytrack3_f64_t *ctx, const float64_t t)
+    float64_t a_polytrack3_f64_acc(const a_polytrack3_f64_t *ctx, const float64_t t)
+    void a_polytrack3_f64_all(const a_polytrack3_f64_t *ctx, const float64_t t, float64_t o[3])
 
     ctypedef struct a_polytrack5_f64_t:
         float64_t t[2]
@@ -94,11 +113,13 @@ cdef extern from "a_polytrack.h":
         float64_t v[2]
         float64_t a[2]
         float64_t k[6]
-    void a_polytrack5_f64_init(a_polytrack5_f64_t *ctx, float64_t source[4], float64_t target[4])
-    float64_t a_polytrack5_f64_pos(const a_polytrack5_f64_t *ctx, float64_t t)
-    float64_t a_polytrack5_f64_vec(const a_polytrack5_f64_t *ctx, float64_t t)
-    float64_t a_polytrack5_f64_acc(const a_polytrack5_f64_t *ctx, float64_t t)
-    void a_polytrack5_f64_all(const a_polytrack5_f64_t *ctx, float64_t o[3], float64_t t)
+    void a_polytrack5_f64_init(a_polytrack5_f64_t *ctx,
+        const float64_t source[4],
+        const float64_t target[4])
+    float64_t a_polytrack5_f64_pos(const a_polytrack5_f64_t *ctx, const float64_t t)
+    float64_t a_polytrack5_f64_vec(const a_polytrack5_f64_t *ctx, const float64_t t)
+    float64_t a_polytrack5_f64_acc(const a_polytrack5_f64_t *ctx, const float64_t t)
+    void a_polytrack5_f64_all(const a_polytrack5_f64_t *ctx, const float64_t t, float64_t o[3])
 
     ctypedef struct a_polytrack7_f64_t:
         float64_t t[2]
@@ -107,12 +128,14 @@ cdef extern from "a_polytrack.h":
         float64_t a[2]
         float64_t j[2]
         float64_t k[8]
-    void a_polytrack7_f64_init(a_polytrack7_f64_t *ctx, float64_t source[5], float64_t target[5])
-    float64_t a_polytrack7_f64_pos(const a_polytrack7_f64_t *ctx, float64_t t)
-    float64_t a_polytrack7_f64_vec(const a_polytrack7_f64_t *ctx, float64_t t)
-    float64_t a_polytrack7_f64_acc(const a_polytrack7_f64_t *ctx, float64_t t)
-    float64_t a_polytrack7_f64_jer(const a_polytrack7_f64_t *ctx, float64_t t)
-    void a_polytrack7_f64_all(const a_polytrack7_f64_t *ctx, float64_t o[4], float64_t t)
+    void a_polytrack7_f64_init(a_polytrack7_f64_t *ctx,
+        const float64_t source[5],
+        const float64_t target[5])
+    float64_t a_polytrack7_f64_pos(const a_polytrack7_f64_t *ctx, const float64_t t)
+    float64_t a_polytrack7_f64_vec(const a_polytrack7_f64_t *ctx, const float64_t t)
+    float64_t a_polytrack7_f64_acc(const a_polytrack7_f64_t *ctx, const float64_t t)
+    float64_t a_polytrack7_f64_jer(const a_polytrack7_f64_t *ctx, const float64_t t)
+    void a_polytrack7_f64_all(const a_polytrack7_f64_t *ctx, const float64_t t, float64_t o[4])
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
@@ -153,12 +176,12 @@ cdef class a_polytrack3:
             yield a_polytrack3_f64_acc(self.ctx, i)
 
     cpdef tuple _all(self, float64_t t):
-        a_polytrack3_f64_all(self.ctx, self.out, t)
+        a_polytrack3_f64_all(self.ctx, t, self.out)
         return (self.out[0], self.out[1], self.out[2])
 
     def all(self, t):
         for i in t:
-            a_polytrack3_f64_all(self.ctx, self.out, i)
+            a_polytrack3_f64_all(self.ctx, i, self.out)
             yield self.out[0], self.out[1], self.out[2]
 
     cpdef label(self):
@@ -231,12 +254,12 @@ cdef class a_polytrack5:
             yield a_polytrack5_f64_acc(self.ctx, i)
 
     cpdef tuple _all(self, float64_t t):
-        a_polytrack5_f64_all(self.ctx, self.out, t)
+        a_polytrack5_f64_all(self.ctx, t, self.out)
         return (self.out[0], self.out[1], self.out[2])
 
     def all(self, t):
         for i in t:
-            a_polytrack5_f64_all(self.ctx, self.out, i)
+            a_polytrack5_f64_all(self.ctx, i, self.out)
             yield self.out[0], self.out[1], self.out[2]
 
     cpdef label(self):
@@ -330,12 +353,12 @@ cdef class a_polytrack7:
             yield a_polytrack7_f64_jer(self.ctx, i)
 
     cpdef tuple _all(self, float64_t t):
-        a_polytrack7_f64_all(self.ctx, self.out, t)
+        a_polytrack7_f64_all(self.ctx, t, self.out)
         return (self.out[0], self.out[1], self.out[2], self.out[3])
 
     def all(self, t):
         for i in t:
-            a_polytrack7_f64_all(self.ctx, self.out, i)
+            a_polytrack7_f64_all(self.ctx, i, self.out)
             yield self.out[0], self.out[1], self.out[2], self.out[3]
 
     cpdef label(self):

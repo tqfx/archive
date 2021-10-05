@@ -70,7 +70,7 @@
 #undef __A_PID_INIT
 #define __A_PID_INIT(bit)                                  \
     void a_pid_f##bit##_init(a_pid_f##bit##_t *ctx,        \
-                             a_pid_mode_t mode,            \
+                             const a_pid_mode_t mode,      \
                              const float##bit##_t kpid[3], \
                              const float##bit##_t omin,    \
                              const float##bit##_t omax,    \

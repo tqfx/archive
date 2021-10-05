@@ -131,7 +131,7 @@ __BEGIN_DECLS
 
 #define a_pid_init(bit, ctx, mode, kpid, omin, omax, omaxi)       \
     extern void a_pid_f##bit##_init(a_pid_f##bit##_t *ctx,        \
-                                    a_pid_mode_t mode,            \
+                                    const a_pid_mode_t mode,      \
                                     const float##bit##_t kpid[3], \
                                     const float##bit##_t omin,    \
                                     const float##bit##_t omax,    \
@@ -165,9 +165,9 @@ __A_PID_RESET(64, ctx)
     __STATIC_INLINE                                                   \
     void a_pid_f##bit##_pos(a_pid_f##bit##_t *ctx,                    \
                             const float##bit##_t kpid[3],             \
-                            float##bit##_t omin,                      \
-                            float##bit##_t omax,                      \
-                            float##bit##_t omaxi)                     \
+                            const float##bit##_t omin,                \
+                            const float##bit##_t omax,                \
+                            const float##bit##_t omaxi)               \
     {                                                                 \
         a_pid_f##bit##_init(ctx, A_PID_POS, kpid, omin, omax, omaxi); \
     }
@@ -179,8 +179,8 @@ __A_PID_POS(64, ctx, kpid, omin, omax, omaxi)
     __STATIC_INLINE                                               \
     void a_pid_f##bit##_inc(a_pid_f##bit##_t *ctx,                \
                             const float##bit##_t kpid[3],         \
-                            float##bit##_t omin,                  \
-                            float##bit##_t omax)                  \
+                            const float##bit##_t omin,            \
+                            const float##bit##_t omax)            \
     {                                                             \
         a_pid_f##bit##_init(ctx, A_PID_INC, kpid, omin, omax, 0); \
     }
@@ -225,8 +225,7 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
  @param[in]      set: Set point
  @return         Output
 */
-#define a_pid(bit, ctx, ref, set) \
-    a_pid_f##bit(ctx, ref, set)
+#define a_pid(bit, ctx, ref, set) a_pid_f##bit(ctx, ref, set)
 
 /*!
  @brief          Reset function for the floating-point PID Control
