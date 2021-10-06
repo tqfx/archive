@@ -88,6 +88,8 @@ int main(void)
                (double)a_inv_sqrt(datasqrt[i]));
     }
 
+    printf("%lu\t%llu\n", a_sqrt_u32(4), a_sqrt_u64(4));
+
     return 0;
 }
 

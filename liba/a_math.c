@@ -43,13 +43,13 @@ float a_inv_sqrt(float x)
     return x;
 }
 
-unsigned int a_sqrt_u32(unsigned int x)
+unsigned long a_sqrt_u32(unsigned long x)
 {
-    unsigned int y = 0;
+    unsigned long y = 0;
 
     for (unsigned int i = 0; i != 32; i += 2)
     {
-        unsigned int k = 0x40000000UL >> i;
+        unsigned long k = 0x40000000UL >> i;
 
         if (k + y <= x)
         {

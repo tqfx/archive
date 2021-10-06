@@ -8,18 +8,15 @@
  @copyright      Copyright (C) 2020 tqfx
 */
 
-/* Includes */
 #include "a_ahrs.h"
 
-/* Private includes */
 #include "a_math.h"
 
 #include <math.h>
 #include <stdint.h>
 
-/* gain */
-#undef KI
 #undef KP
+#undef KI
 #undef KP2
 
 /*!
@@ -35,13 +32,11 @@
 */
 #define KP2 0.1F
 
-/* Normalise */
 #undef NORM3
 /* Normalise 3 measurement */
 #define NORM3(_x, _y, _z)                                     \
     do                                                        \
     {                                                         \
-        /* Fast inverse square-root */                        \
         float norm = a_inv_sqrt(_x * _x + _y * _y + _z * _z); \
         _x *= norm;                                           \
         _y *= norm;                                           \
@@ -53,7 +48,6 @@
 #define NORM4(_w, _x, _y, _z)                       \
     do                                              \
     {                                               \
-        /* Fast inverse square-root */              \
         float norm = a_inv_sqrt(_w * _w + _x * _x + \
                                 _y * _y + _z * _z); \
         _w *= norm;                                 \
@@ -61,8 +55,6 @@
         _y *= norm;                                 \
         _z *= norm;                                 \
     } while (0);
-
-/* ahrs type */
 
 typedef enum
 {
@@ -77,16 +69,15 @@ static union
     unsigned long u32;
 } b32[3];
 
-/* error integral */
 static float eix; /* error integral of x axis */
-static float eiy; /* error integral of x axis */
-static float eiz; /* error integral of x axis */
+static float eiy; /* error integral of y axis */
+static float eiz; /* error integral of z axis */
 
 /* inv_sqrt */
 #ifndef __A_MATH_H__
 /*!
  @brief          fast inverse square-root, to calculate 1 / sqrtf(x)
-                 http://en.wikipedia.org/wiki/Fast_inverse_square_root
+ @details        http://en.wikipedia.org/wiki/Fast_inverse_square_root
  @param[in]      x: the number need to be calculated
  @return         1 / sqrtf(x)
 */
@@ -121,11 +112,9 @@ static float a_inv_sqrt(float x)
 }
 #endif /* __A_MATH_H__ */
 
-/* Private macro */
-#undef x /* Remove x */
-#undef y /* Remove y */
-#undef z /* Remove z */
-
+#undef x
+#undef y
+#undef z
 #define x 0 /*!< x axis */
 #define y 1 /*!< y axis */
 #define z 2 /*!< z axis */
@@ -200,17 +189,17 @@ void a_ahrs_mahony(float q[4],
 
         /*!
          \f{aligned}{
-        \left[\begin{array}{ccc}
-        1 - 2(q_{2}^{2} + q_{3}^{2}) &
-        2\left(q_{1} q_{2}-q_{0} q_{3}\right) &
-        2\left(q_{1} q_{3}+q_{0} q_{2}\right) \\
-        2\left(q_{1} q_{2}+q_{0} q_{3}\right) &
-        1 - 2(q_{1}^{2} + q_{3}^{2}) &
-        2\left(q_{2} q_{3}-q_{0} q_{1}\right) \\
-        2\left(q_{1} q_{3}-q_{0} q_{2}\right) &
-        2\left(q_{2} q_{3}+q_{0} q_{1}\right) &
-        1 - 2(q_{1}^{2} + q_{2}^{2})
-        \end{array}\right]
+            \left[\begin{array}{ccc}
+            1 - 2(q_{2}^{2} + q_{3}^{2}) &
+            2\left(q_{1} q_{2}-q_{0} q_{3}\right) &
+            2\left(q_{1} q_{3}+q_{0} q_{2}\right) \\
+            2\left(q_{1} q_{2}+q_{0} q_{3}\right) &
+            1 - 2(q_{1}^{2} + q_{3}^{2}) &
+            2\left(q_{2} q_{3}-q_{0} q_{1}\right) \\
+            2\left(q_{1} q_{3}-q_{0} q_{2}\right) &
+            2\left(q_{2} q_{3}+q_{0} q_{1}\right) &
+            1 - 2(q_{1}^{2} + q_{2}^{2})
+            \end{array}\right]
          \f}
         */
 
@@ -628,9 +617,8 @@ void a_ahrs_madgwick_imu(float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-/* Remove macro */
-#undef x /* Remove x */
-#undef y /* Remove y */
-#undef z /* Remove z */
+#undef x
+#undef y
+#undef z
 
 /* END OF FILE */

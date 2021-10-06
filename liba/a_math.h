@@ -60,15 +60,12 @@
 #endif /* A_SQRT1_2 */
 
 #undef A_ABS
-/* The absolute value of x */
 #define A_ABS(x) ((x) < 0 ? -(x) : (x))
 
 #undef A_SQ
-/* The square of the x */
 #define A_SQ(x) ((x) * (x))
 
 #undef A_LIMIT
-/* Limiting macro */
 #define A_LIMIT(x, min, max) \
     ((min) < (x)             \
          ? ((x) < (max)      \
@@ -80,7 +77,7 @@ __BEGIN_DECLS
 
 /*!
  @brief          Fast inverse square-root, to calculate 1 / sqrtf(x)
-                 http://en.wikipedia.org/wiki/Fast_inverse_square_root
+ @details        http://en.wikipedia.org/wiki/Fast_inverse_square_root
  @param[in]      x: Number need to be calculated
  @return         1 / sqrtf(x)
 */
@@ -91,7 +88,7 @@ extern float a_inv_sqrt(float x);
  @param[in]      x: Number need to be calculated
  @return         sqrt(x)
 */
-extern unsigned int a_sqrt_u32(unsigned int x);
+extern unsigned long a_sqrt_u32(unsigned long x);
 
 /*!
  @brief          Fast sqrt for unsigned uint64

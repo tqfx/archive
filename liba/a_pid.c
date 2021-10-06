@@ -36,7 +36,6 @@
 */
 
 #ifndef __A_MATH_H__
-/* Limiting macro */
 #define A_LIMIT(x, min, max) \
     ((min) < (x)             \
          ? ((x) < (max)      \
@@ -58,31 +57,23 @@
                              const float##bit##_t omax,    \
                              const float##bit##_t omaxi)   \
     {                                                      \
-        /* Set mode of PID Control */                      \
         ctx->mode = mode;                                  \
-        /* Set Proportional constant */                    \
         ctx->kp = kpid[0];                                 \
-        /* Set Integral constant */                        \
         ctx->ki = kpid[1];                                 \
-        /* Set Derivative constant */                      \
         ctx->kd = kpid[2];                                 \
-        /* Set minimum output */                           \
         ctx->omin = omin;                                  \
-        /* Set maximum output */                           \
         ctx->omax = omax;                                  \
                                                            \
         switch (ctx->mode)                                 \
         {                                                  \
         case A_PID_POS:                                    \
         {                                                  \
-            /* Set maximum intergral output */             \
             ctx->omaxi = omaxi;                            \
             if (ctx->omaxi < 0)                            \
             {                                              \
                 ctx->omaxi = -ctx->omaxi;                  \
             }                                              \
                                                            \
-            /* Set derived gain */                         \
             ctx->a[0] = ctx->kp + ctx->kd;                 \
             ctx->a[1] = -ctx->kd;                          \
             ctx->a[2] = ctx->ki;                           \
@@ -91,10 +82,8 @@
                                                            \
         case A_PID_INC:                                    \
         {                                                  \
-            /* Reset maximum intergral output */           \
             ctx->omaxi = 0;                                \
                                                            \
-            /* Set derived gain */                         \
             ctx->a[0] = ctx->kp + ctx->ki + ctx->kd;       \
             ctx->a[1] = -ctx->kp - 2 * ctx->kd;            \
             ctx->a[2] = ctx->kd;                           \
@@ -114,9 +103,7 @@ __A_PID_INIT(64)
                                 const float##bit##_t ref,               \
                                 const float##bit##_t set)               \
     {                                                                   \
-        /* Output */                                                    \
         float##bit##_t out = 0;                                         \
-        /* Input */                                                     \
         float##bit##_t in = set - ref;                                  \
                                                                         \
         switch (ctx->mode)                                              \
@@ -138,7 +125,6 @@ __A_PID_INIT(64)
             out += ctx->a[1] * ctx->x[0];                               \
             out += ctx->y;                                              \
                                                                         \
-            /* Restrict the output of the PID */                        \
             out = A_LIMIT(out, ctx->omin, ctx->omax);                   \
         }                                                               \
         break;                                                          \
@@ -150,9 +136,7 @@ __A_PID_INIT(64)
             ctx->y += ctx->a[1] * ctx->x[0];                            \
             ctx->y += ctx->a[2] * ctx->x[1];                            \
                                                                         \
-            /* Restrict the output of the PID */                        \
             ctx->y = A_LIMIT(ctx->y, ctx->omin, ctx->omax);             \
-            /* Export output */                                         \
             out = ctx->y;                                               \
         }                                                               \
         break;                                                          \
@@ -161,7 +145,6 @@ __A_PID_INIT(64)
             break;                                                      \
         }                                                               \
                                                                         \
-        /* Cache data */                                                \
         ctx->x[1] = ctx->x[0];                                          \
         ctx->x[0] = in;                                                 \
                                                                         \

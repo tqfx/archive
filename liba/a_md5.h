@@ -28,11 +28,9 @@
 
 #include <stdlib.h> /* alloc */
 
-/* exported defines */
 #define MD5_BLOCKSIZE  0x40
 #define MD5_DIGESTSIZE 0x10
 
-/* exported types */
 typedef uint32_t md5_u32_t;
 typedef uint64_t md5_u64_t;
 typedef struct md5_t

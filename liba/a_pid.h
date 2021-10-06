@@ -134,7 +134,6 @@ __END_DECLS
     __STATIC_INLINE                                  \
     void a_pid_f##bit##_reset(a_pid_f##bit##_t *ctx) \
     {                                                \
-        /* Reset buffer */                           \
         ctx->x[0] = ctx->x[1] = ctx->y = 0;          \
     }
 __A_PID_RESET(32, ctx)

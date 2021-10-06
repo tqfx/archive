@@ -1,21 +1,7 @@
 /*!
  @file           a_md5.c
  @brief          RFC 1321 compliant MD5 implementation
- @details
- This is an OpenSSL-compatible implementation of the RSA Data Security,
- Inc. MD5 Message-Digest Algorithm (RFC 1321).
- \n \n
- Written by Solar Designer <solar at openwall.com> in 2001, and placed
- in the public domain.  There's absolutely no warranty.
- \n \n
- This differs from Colin Plumb's older public domain implementation in
- that no 32-bit integer data type is required, there's no compile-time
- endianness configuration, and the function prototypes match OpenSSL's.
- The primary goals are portability and ease of use.
- \n \n
- This implementation is meant to be fast, but not as fast as possible.
- Some known optimizations are not included to reduce source code size
- and avoid compile-time configuration.
+ @details        https://www.ietf.org/rfc/rfc1321.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
@@ -58,7 +44,6 @@ void md5_compress(md5_t *ctx, const unsigned char *buf)
 #undef G
 #undef H
 #undef I
-/* The basic MD5 functions. */
 #define F(x, y, z) ((z) ^ ((x) & ((y) ^ (z))))
 #define G(x, y, z) ((y) ^ ((z) & ((x) ^ (y))))
 #define H(x, y, z) ((x) ^ (y) ^ (z))
@@ -68,7 +53,6 @@ void md5_compress(md5_t *ctx, const unsigned char *buf)
 #undef GG
 #undef HH
 #undef II
-/* The MD5 transformation functions. */
 #define FF(a, b, c, d, M, s, t)   \
     a = (a + F(b, c, d) + M + t); \
     a = ROLc(a, s) + b;
