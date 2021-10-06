@@ -1,3 +1,9 @@
+'''
+ @file           liba_cy.pyx
+ @brief          Algorithm library cython
+ @author         tqfx tqfx@foxmail.com
+ @copyright      Copyright (C) 2020 tqfx
+'''
 cimport cython
 from libc.stdint cimport *
 from libc.stdlib cimport *

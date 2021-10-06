@@ -24,40 +24,22 @@
  but is approximately 345 m/s at "room temperature."
  http://pages.mtu.edu/~suits/notefreqs.html
  @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2021 tqfx
- \n \n
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- \n \n
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
- \n \n
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
+ @copyright      Copyright (C) 2020 tqfx
 */
 
 /* Define to prevent recursive inclusion */
 #ifndef __A_NOTEFREQS_H__
 #define __A_NOTEFREQS_H__
 
-#if !defined(NOTEFREQS_PROPORT)
+#ifndef NOTEFREQS_PROPORT
 #define NOTEFREQS_PROPORT 0
 #endif /* NOTEFREQS_PROPORT */
 
-#if !defined(NOTEFREQS_TYPE)
+#ifndef NOTEFREQS_TYPE
 #define NOTEFREQS_TYPE unsigned int
 #endif /* NOTEFREQS_TYPE */
 
-#if !defined(NOTEFREQS_MIDDLE_A4)
+#ifndef NOTEFREQS_MIDDLE_A4
 #define NOTEFREQS_MIDDLE_A4 440
 #endif /* NOTEFREQS_MIDDLE_A4 */
 
