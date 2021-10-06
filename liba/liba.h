@@ -47,20 +47,20 @@
 #endif /* __cplusplus */
 
 /* gcc version check */
-#if defined __GNUC__ && defined __GNUC_MINOR__
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
 #define __GNUC_PREREQ(maj, min) \
     ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
 #else
 #define __GNUC_PREREQ(maj, min) 0
-#endif /* defined __GNUC__ && defined __GNUC_MINOR__ */
+#endif /* defined(__GNUC__) && defined(__GNUC_MINOR__) */
 
 /* clang version check */
-#if defined __clang_major__ && defined __clang_minor__
+#if defined(__clang_major__) && defined(__clang_minor__)
 #define __glibc_clang_prereq(maj, min) \
     ((__clang_major__ << 16) + __clang_minor__ >= ((maj) << 16) + (min))
 #else
 #define __glibc_clang_prereq(maj, min) 0
-#endif /* defined __clang_major__ && defined __clang_minor__ */
+#endif /* defined(__clang_major__) && defined(__clang_minor__) */
 
 /* attribute nonnull */
 #undef __NONNULL
@@ -97,7 +97,7 @@
 /* static inline */
 #undef __STATIC_INLINE
 
-#define __STATIC_INLINE static inline
+#define __STATIC_INLINE static __inline
 
 #ifndef __static_inline
 #define __static_inline __STATIC_INLINE
@@ -120,7 +120,7 @@
 #undef __PREDICT_TRUE
 #undef __PREDICT_FALSE
 
-#if defined __GNUC__
+#if defined(__GNUC__)
 #if __GNUC__ >= 3
 #define __PREDICT_TRUE(_EXP_)  __builtin_expect((_EXP_), 1)
 #define __PREDICT_FALSE(_EXP_) __builtin_expect((_EXP_), 0)
@@ -143,7 +143,7 @@
 /* attribute weak */
 #undef __WEAK
 
-#if defined __GNUC__
+#if defined(__GNUC__)
 #if __GNUC__ >= 3
 #define __WEAK __attribute__((__weak__))
 #else /* __GNUC__ < 3 */
@@ -170,22 +170,168 @@
 #define __unused __UNUSED
 #endif /* __unused */
 
-/* pointer free */
-#undef __PFREE
+#include <stdint.h>
 
-#define __PFREE(_FUN_, _P_) ((void)_FUN_(_P_), _P_ = 0)
+/* Endian Neutral macros that work on all platforms */
 
-#ifndef __pfree
-#define __pfree(_fun_, _p_) __PFREE(_fun_, _p_)
-#endif /* __pfree */
+#define STORE32L(x, y)                            \
+    do                                            \
+    {                                             \
+        (y)[3] = (uint8_t)(((x) >> 0x18) & 0xFF); \
+        (y)[2] = (uint8_t)(((x) >> 0x10) & 0xFF); \
+        (y)[1] = (uint8_t)(((x) >> 0x08) & 0xFF); \
+        (y)[0] = (uint8_t)(((x) >> 0x00) & 0xFF); \
+    } while (0)
+
+#define LOAD32L(x, y)                             \
+    do                                            \
+    {                                             \
+        x = ((uint32_t)((y)[3] & 0xFF) << 0x18) | \
+            ((uint32_t)((y)[2] & 0xFF) << 0x10) | \
+            ((uint32_t)((y)[1] & 0xFF) << 0x08) | \
+            ((uint32_t)((y)[0] & 0xFF) << 0x00);  \
+    } while (0)
+
+#define STORE64L(x, y)                            \
+    do                                            \
+    {                                             \
+        (y)[7] = (uint8_t)(((x) >> 0x38) & 0xFF); \
+        (y)[6] = (uint8_t)(((x) >> 0x30) & 0xFF); \
+        (y)[5] = (uint8_t)(((x) >> 0x28) & 0xFF); \
+        (y)[4] = (uint8_t)(((x) >> 0x20) & 0xFF); \
+        (y)[3] = (uint8_t)(((x) >> 0x18) & 0xFF); \
+        (y)[2] = (uint8_t)(((x) >> 0x10) & 0xFF); \
+        (y)[1] = (uint8_t)(((x) >> 0x08) & 0xFF); \
+        (y)[0] = (uint8_t)(((x) >> 0x00) & 0xFF); \
+    } while (0)
+
+#define LOAD64L(x, y)                               \
+    do                                              \
+    {                                               \
+        x = (((uint64_t)((y)[7] & 0xFF)) << 0x38) | \
+            (((uint64_t)((y)[6] & 0xFF)) << 0x30) | \
+            (((uint64_t)((y)[5] & 0xFF)) << 0x28) | \
+            (((uint64_t)((y)[4] & 0xFF)) << 0x20) | \
+            (((uint64_t)((y)[3] & 0xFF)) << 0x18) | \
+            (((uint64_t)((y)[2] & 0xFF)) << 0x10) | \
+            (((uint64_t)((y)[1] & 0xFF)) << 0x08) | \
+            (((uint64_t)((y)[0] & 0xFF)) << 0x00);  \
+    } while (0)
+
+#define STORE32H(x, y)                            \
+    do                                            \
+    {                                             \
+        (y)[0] = (uint8_t)(((x) >> 0x18) & 0xFF); \
+        (y)[1] = (uint8_t)(((x) >> 0x10) & 0xFF); \
+        (y)[2] = (uint8_t)(((x) >> 0x08) & 0xFF); \
+        (y)[3] = (uint8_t)(((x) >> 0x00) & 0xFF); \
+    } while (0)
+
+#define LOAD32H(x, y)                             \
+    do                                            \
+    {                                             \
+        x = ((uint32_t)((y)[0] & 0xFF) << 0x18) | \
+            ((uint32_t)((y)[1] & 0xFF) << 0x10) | \
+            ((uint32_t)((y)[2] & 0xFF) << 0x08) | \
+            ((uint32_t)((y)[3] & 0xFF) << 0x00);  \
+    } while (0)
+
+#define STORE64H(x, y)                            \
+    do                                            \
+    {                                             \
+        (y)[0] = (uint8_t)(((x) >> 0x38) & 0xFF); \
+        (y)[1] = (uint8_t)(((x) >> 0x30) & 0xFF); \
+        (y)[2] = (uint8_t)(((x) >> 0x28) & 0xFF); \
+        (y)[3] = (uint8_t)(((x) >> 0x20) & 0xFF); \
+        (y)[4] = (uint8_t)(((x) >> 0x18) & 0xFF); \
+        (y)[5] = (uint8_t)(((x) >> 0x10) & 0xFF); \
+        (y)[6] = (uint8_t)(((x) >> 0x08) & 0xFF); \
+        (y)[7] = (uint8_t)(((x) >> 0x00) & 0xFF); \
+    } while (0)
+
+#define LOAD64H(x, y)                               \
+    do                                              \
+    {                                               \
+        x = (((uint64_t)((y)[0] & 0xFF)) << 0x38) | \
+            (((uint64_t)((y)[1] & 0xFF)) << 0x30) | \
+            (((uint64_t)((y)[2] & 0xFF)) << 0x28) | \
+            (((uint64_t)((y)[3] & 0xFF)) << 0x20) | \
+            (((uint64_t)((y)[4] & 0xFF)) << 0x18) | \
+            (((uint64_t)((y)[5] & 0xFF)) << 0x10) | \
+            (((uint64_t)((y)[6] & 0xFF)) << 0x08) | \
+            (((uint64_t)((y)[7] & 0xFF)) << 0x00);  \
+    } while (0)
+
+#define BSWAP(x) (((x >> 0x18) & 0x000000FF) | \
+                  ((x << 0x18) & 0xFF000000) | \
+                  ((x >> 0x08) & 0x0000FF00) | \
+                  ((x << 0x08) & 0x00FF0000))
+
+/* 32-bit Rotates */
+#if defined(_MSC_VER)
+
+/* instrinsic rotate */
+#pragma intrinsic(_rotr, _rotl)
+#define ROR(x, n)  _rotr(x, n)
+#define ROL(x, n)  _rotl(x, n)
+#define RORc(x, n) ROR(x, n)
+#define ROLc(x, n) ROL(x, n)
+
+#else /* rotates the hard way */
+
+#define ROL(x, y)  ((((uint32_t)(x) << (uint32_t)((y)&31)) | (((uint32_t)(x)&0xFFFFFFFF) >> (uint32_t)((32 - ((y)&31)) & 31))) & 0xFFFFFFFF)
+#define ROR(x, y)  (((((uint32_t)(x)&0xFFFFFFFF) >> (uint32_t)((y)&31)) | ((uint32_t)(x) << (uint32_t)((32 - ((y)&31)) & 31))) & 0xFFFFFFFF)
+#define ROLc(x, y) ((((uint32_t)(x) << (uint32_t)((y)&31)) | (((uint32_t)(x)&0xFFFFFFFF) >> (uint32_t)((32 - ((y)&31)) & 31))) & 0xFFFFFFFF)
+#define RORc(x, y) (((((uint32_t)(x)&0xFFFFFFFF) >> (uint32_t)((y)&31)) | ((uint32_t)(x) << (uint32_t)((32 - ((y)&31)) & 31))) & 0xFFFFFFFF)
+
+#endif /* 32-bit Rotates */
+
+/* 64-bit Rotates */
+#if defined(_MSC_VER)
+
+/* instrinsic rotate */
+#pragma intrinsic(_rotr64, _rotr64)
+#define ROR64(x, n)  _rotr64(x, n)
+#define ROL64(x, n)  _rotl64(x, n)
+#define ROR64c(x, n) ROR64(x, n)
+#define ROL64c(x, n) ROL64(x, n)
+
+#else /* rotates the hard way */
+
+#define ROL64(x, y)  ((((uint64_t)(x) << ((uint64_t)(y)&63)) | (((uint64_t)(x)&0xFFFFFFFFFFFFFFFF) >> (uint64_t)((64 - ((y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
+#define ROR64(x, y)  ((((uint64_t)((x)&0xFFFFFFFFFFFFFFFF) >> ((uint64_t)(y)&63)) | ((uint64_t)(x) << (uint64_t)((64 - ((y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
+#define ROL64c(x, y) ((((uint64_t)(x) << ((uint64_t)(y)&63)) | (((uint64_t)(x)&0xFFFFFFFFFFFFFFFF) >> (uint64_t)((64 - ((y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
+#define ROR64c(x, y) (((((uint64_t)(x)&0xFFFFFFFFFFFFFFFF) >> ((uint64_t)(y)&63)) | ((uint64_t)(x) << (uint64_t)((64 - ((y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
+
+#endif /* 64-bit Rotates */
+
+/* a_alloc */
+#ifndef a_alloc
+#define a_alloc(n) malloc(n)
+#endif /* a_alloc */
+
+/* a_calloc */
+#ifndef a_calloc
+#define a_calloc(n, sz) calloc(n, sz)
+#endif /* a_calloc */
+
+/* a_realloc */
+#ifndef a_realloc
+#define a_realloc(p, n) realloc(p, n)
+#endif /* a_realloc */
+
+/* a_free */
+#ifndef a_free
+#define a_free(p) free(p)
+#endif /* a_free */
+
+typedef float float32_t;
+typedef double float64_t;
 
 /*!
  @endcond
  @defgroup       LIBA Algorithm
 */
-
-typedef float float32_t;
-typedef double float64_t;
 
 /*!
  @brief          Computational algorithm
