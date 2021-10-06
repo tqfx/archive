@@ -51,8 +51,6 @@
 
 #include "liba.h"
 
-#include <stdint.h>
-
 /*!
  @ingroup        LIBA
  @defgroup       LIBA_PID Proportional Integral Derivative
