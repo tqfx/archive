@@ -10,7 +10,7 @@
 
 #include <string.h> /* memcpy */
 
-void md5_init(md5_t *ctx)
+void a_md5_init(a_md5_t *ctx)
 {
     ctx->curlen = 0;
     ctx->length = 0;
@@ -21,11 +21,11 @@ void md5_init(md5_t *ctx)
     ctx->state[3] = 0x10325476;
 }
 
-void md5_compress(md5_t *ctx, const unsigned char *buf)
+void a_md5_compress(a_md5_t *ctx, const unsigned char *buf)
 {
     union
     {
-        md5_u32_t *w;
+        uint32_t *w;
         unsigned char *buf;
     } up[1];
 
@@ -34,7 +34,7 @@ void md5_compress(md5_t *ctx, const unsigned char *buf)
     if (ctx->buf != buf)
     {
         /* copy the state into 512-bits into W[0..15] */
-        for (md5_u32_t i = 0; i != MD5_DIGESTSIZE; ++i)
+        for (unsigned int i = 0; i != A_MD5_DIGESTSIZE; ++i)
         {
             LOAD32L(up->w[i], buf + (i << 2));
         }
@@ -67,10 +67,10 @@ void md5_compress(md5_t *ctx, const unsigned char *buf)
     a = ROLc(a, s) + b;
 
     /* copy state */
-    md5_u32_t a = ctx->state[0];
-    md5_u32_t b = ctx->state[1];
-    md5_u32_t c = ctx->state[2];
-    md5_u32_t d = ctx->state[3];
+    uint32_t a = ctx->state[0];
+    uint32_t b = ctx->state[1];
+    uint32_t c = ctx->state[2];
+    uint32_t d = ctx->state[3];
 
     FF(a, b, c, d, up->w[0x0], 0x07, 0xd76aa478)
     FF(d, a, b, c, up->w[0x1], 0x0c, 0xe8c7b756)
@@ -146,40 +146,40 @@ void md5_compress(md5_t *ctx, const unsigned char *buf)
     ctx->state[3] += d;
 }
 
-void md5_process(md5_t *ctx, const void *p, size_t n)
+void a_md5_process(a_md5_t *ctx, const void *p, size_t n)
 {
     const unsigned char *s = (const unsigned char *)p;
 
     while (n)
     {
-        if ((0 == ctx->curlen) && (MD5_BLOCKSIZE - 1 < n))
+        if ((0 == ctx->curlen) && (A_MD5_BLOCKSIZE - 1 < n))
         {
-            md5_compress(ctx, s);
-            ctx->length += (MD5_BLOCKSIZE << 3);
-            s += MD5_BLOCKSIZE;
-            n -= MD5_BLOCKSIZE;
+            a_md5_compress(ctx, s);
+            ctx->length += (A_MD5_BLOCKSIZE << 3);
+            s += A_MD5_BLOCKSIZE;
+            n -= A_MD5_BLOCKSIZE;
         }
         else
         {
-            md5_u32_t m = MD5_BLOCKSIZE - ctx->curlen;
-            m = n < m ? (md5_u32_t)n : m;
+            uint32_t m = A_MD5_BLOCKSIZE - ctx->curlen;
+            m = n < m ? (uint32_t)n : m;
             (void)memcpy(ctx->buf + ctx->curlen, s, m);
             ctx->curlen += m;
             s += m;
             n -= m;
-            if (MD5_BLOCKSIZE == ctx->curlen)
+            if (A_MD5_BLOCKSIZE == ctx->curlen)
             {
-                md5_compress(ctx, ctx->buf);
-                ctx->length += (MD5_BLOCKSIZE << 3);
+                a_md5_compress(ctx, ctx->buf);
+                ctx->length += (A_MD5_BLOCKSIZE << 3);
                 ctx->curlen = 0;
             }
         }
     }
 }
 
-unsigned char *md5_done(md5_t *ctx, unsigned char *out)
+unsigned char *a_md5_done(a_md5_t *ctx, unsigned char *out)
 {
-    if (MD5_BLOCKSIZE - 1 < ctx->curlen)
+    if (A_MD5_BLOCKSIZE - 1 < ctx->curlen)
     {
         return 0;
     }
@@ -200,7 +200,7 @@ unsigned char *md5_done(md5_t *ctx, unsigned char *out)
         {
             ctx->buf[ctx->curlen++] = 0;
         }
-        md5_compress(ctx, ctx->buf);
+        a_md5_compress(ctx, ctx->buf);
         ctx->curlen = 0;
     }
 
@@ -212,7 +212,7 @@ unsigned char *md5_done(md5_t *ctx, unsigned char *out)
 
     /* store length */
     STORE64L(ctx->length, ctx->buf + 0x38);
-    md5_compress(ctx, ctx->buf);
+    a_md5_compress(ctx, ctx->buf);
 
     /* copy output */
     for (unsigned int i = 0; i != 4; ++i)
@@ -221,61 +221,26 @@ unsigned char *md5_done(md5_t *ctx, unsigned char *out)
     }
     if (out && ctx->out != out)
     {
-        (void)memcpy(out, ctx->out, MD5_DIGESTSIZE);
+        (void)memcpy(out, ctx->out, A_MD5_DIGESTSIZE);
     }
 
     return ctx->out;
 }
 
-unsigned char *md5_hash(const void *p, size_t n, unsigned char *out)
+unsigned char *a_md5(const void *p, size_t n, unsigned char *out)
 {
-    md5_t ctx[1];
+    a_md5_t ctx[1];
 
-    md5_init(ctx);
-    md5_process(ctx, p, n);
-    md5_done(ctx, out);
+    a_md5_init(ctx);
+    a_md5_process(ctx, p, n);
+    a_md5_done(ctx, out);
 
-    if (0 == out && (out = (unsigned char *)a_alloc(MD5_DIGESTSIZE)))
+    if (0 == out && (out = (unsigned char *)a_alloc(A_MD5_DIGESTSIZE)))
     {
-        (void)memcpy(out, ctx->out, MD5_DIGESTSIZE);
+        (void)memcpy(out, ctx->out, A_MD5_DIGESTSIZE);
     }
 
     return out;
-}
-
-char *md5_digest(const unsigned char *digest, size_t n, char *out)
-{
-    static const char hexits[] = "0123456789abcdef";
-
-    char *s = 0;
-
-    if (out)
-    {
-        s = out;
-    }
-    else if ((out = (char *)a_alloc((n << 1) + 1)))
-    {
-        s = out;
-    }
-
-    if (s)
-    {
-        for (size_t i = 0; i != n; ++i)
-        {
-            *s++ = hexits[digest[i] >> 0x4];
-            *s++ = hexits[digest[i] & 0x0F];
-        }
-        *s = 0;
-    }
-
-    return out;
-}
-
-char *md5(const void *p, size_t n, char *out)
-{
-    unsigned char digest[MD5_DIGESTSIZE];
-
-    return md5_digest(md5_hash(p, n, digest), MD5_DIGESTSIZE, out);
 }
 
 /* END OF FILE */
