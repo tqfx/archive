@@ -10,17 +10,6 @@
 
 #include <string.h> /* memcpy */
 
-void a_md5_init(a_md5_t *ctx)
-{
-    ctx->curlen = 0;
-    ctx->length = 0;
-
-    ctx->state[0] = 0x67452301;
-    ctx->state[1] = 0xefcdab89;
-    ctx->state[2] = 0x98badcfe;
-    ctx->state[3] = 0x10325476;
-}
-
 #undef F
 #undef G
 #undef H
@@ -158,6 +147,17 @@ void a_md5_compress(a_md5_t *ctx, const unsigned char *buf)
 #undef G
 #undef H
 #undef I
+
+void a_md5_init(a_md5_t *ctx)
+{
+    ctx->curlen = 0;
+    ctx->length = 0;
+
+    ctx->state[0] = 0x67452301;
+    ctx->state[1] = 0xefcdab89;
+    ctx->state[2] = 0x98badcfe;
+    ctx->state[3] = 0x10325476;
+}
 
 void a_md5_process(a_md5_t *ctx, const void *p, size_t n)
 {

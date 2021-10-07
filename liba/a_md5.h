@@ -21,7 +21,7 @@ typedef struct a_md5_t
 {
     uint64_t length; /*!< total lenght */
     uint32_t curlen; /*!< current length */
-    uint32_t state[4];
+    uint32_t state[A_MD5_DIGESTSIZE >> 2];
     unsigned char buf[A_MD5_BLOCKSIZE];
     unsigned char out[A_MD5_DIGESTSIZE];
 } a_md5_t;
@@ -29,17 +29,17 @@ typedef struct a_md5_t
 __BEGIN_DECLS
 
 /*!
- @brief          Initialization function for MD5.
- @param[in,out]  ctx: points to an instance of MD5.
-*/
-extern void a_md5_init(a_md5_t *ctx);
-
-/*!
  @brief          Compress function for MD5.
  @param[in,out]  ctx: points to an instance of MD5.
  @param[in]      buf: points to buffer(512-bits).
 */
 extern void a_md5_compress(a_md5_t *ctx, const unsigned char *buf);
+
+/*!
+ @brief          Initialization function for MD5.
+ @param[in,out]  ctx: points to an instance of MD5.
+*/
+extern void a_md5_init(a_md5_t *ctx);
 
 /*!
  @brief          Process function for MD5.

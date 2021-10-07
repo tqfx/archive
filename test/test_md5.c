@@ -70,15 +70,11 @@ int main(int argc, char **argv)
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
             {0x57, 0xed, 0xf4, 0xa2, 0x2b, 0xe3, 0xc9, 0x55, 0xac, 0x49, 0xda, 0x2e, 0x21, 0x07, 0xb6, 0x7a},
         },
-        {
-            0,
-            {0},
-        },
     };
 
     a_md5_t ctx[1];
 
-    for (int i = 0; 0 != tests[i].msg; ++i)
+    for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_md5(tests[i].msg, strlen(tests[i].msg), ctx->out);
         if (memcmp(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE))
