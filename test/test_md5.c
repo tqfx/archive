@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     static const struct
     {
         const char *msg;
-        unsigned char hash[16];
+        unsigned char hash[A_MD5_DIGESTSIZE];
     } tests[] = {
         {
             "",
