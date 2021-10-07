@@ -9,3 +9,7 @@ TARGET_LINK_LIBRARIES(notefreqs a)
 # test md5
 ADD_EXECUTABLE(md5 test_md5.c)
 TARGET_LINK_LIBRARIES(md5 a)
+
+# test sha1
+ADD_EXECUTABLE(sha1 test_sha1.c)
+TARGET_LINK_LIBRARIES(sha1 a)
