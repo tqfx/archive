@@ -36,7 +36,7 @@ __BEGIN_DECLS
 extern void a_sha1_compress(a_sha1_t *ctx, const unsigned char *buf);
 
 /*!
- @brief          Initialization function for SHA1.
+ @brief          Initialize function for SHA1.
  @param[in,out]  ctx: points to an instance of SHA1.
 */
 extern void a_sha1_init(a_sha1_t *ctx);

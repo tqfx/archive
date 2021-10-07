@@ -36,7 +36,7 @@ __BEGIN_DECLS
 extern void a_md5_compress(a_md5_t *ctx, const unsigned char *buf);
 
 /*!
- @brief          Initialization function for MD5.
+ @brief          Initialize function for MD5.
  @param[in,out]  ctx: points to an instance of MD5.
 */
 extern void a_md5_init(a_md5_t *ctx);

@@ -179,7 +179,7 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
 #define a_pid_t(bit) a_pid_f##bit##_t
 
 /*!
- @brief          Initialization function for the floating-point PID Control
+ @brief          Initialize function for the floating-point PID Control
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      mode: The mode of PID Control
@@ -214,7 +214,7 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
 #define a_pid_reset(bit, ctx) a_pid_f##bit##_reset(ctx)
 
 /*!
- @brief          Initialization function for the floating-point position PID Control
+ @brief          Initialize function for the floating-point position PID Control
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      kpid: constant array
@@ -229,7 +229,7 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
     a_pid_f##bit##_pos(ctx, kpid, omin, omax, omaxi)
 
 /*!
- @brief          Initialization function for the floating-point incremental PID Control
+ @brief          Initialize function for the floating-point incremental PID Control
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      kpid: constant array

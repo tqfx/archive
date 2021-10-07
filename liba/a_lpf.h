@@ -90,7 +90,7 @@ __A_LPF_RESET(64, ctx)
 #define a_lpf_t(bit) a_lpf_f##bit##_t
 
 /*!
- @brief          Initialization function for Low Pass Filter
+ @brief          Initialize function for Low Pass Filter
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of Low Pass Filter structure
  @param[in]      k: Parameter of filtering

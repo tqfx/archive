@@ -218,7 +218,7 @@ __END_DECLS
 #define a_polytrack7_t(bit) a_polytrack7_f##bit##_t
 
 /*!
- @brief          Initialization function for cubic polynomial trajectory
+ @brief          Initialize function for cubic polynomial trajectory
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
@@ -314,7 +314,7 @@ __END_DECLS
     a_polytrack3_f##bit##_all(ctx, t, o)
 
 /*!
- @brief          Initialization function for quintic polynomial trajectory
+ @brief          Initialize function for quintic polynomial trajectory
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
@@ -414,7 +414,7 @@ __END_DECLS
     a_polytrack5_f##bit##_all(ctx, t, o)
 
 /*!
- @brief          Initialization function for hepta polynomial trajectory
+ @brief          Initialize function for hepta polynomial trajectory
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
