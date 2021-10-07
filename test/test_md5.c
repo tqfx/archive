@@ -6,32 +6,33 @@
 */
 
 #include "a_md5.h"
+#include "a_convert.h"
 
 #include <stdio.h>
 #include <string.h>
 
-static void md5_fprocess(md5_t *ctx, FILE *fp)
+static void a_md5_fprocess(a_md5_t *ctx, FILE *fp)
 {
     long idx = ftell(fp);
 
     for (;;)
     {
-        size_t m = MD5_BLOCKSIZE - ctx->curlen;
+        size_t m = A_MD5_BLOCKSIZE - ctx->curlen;
         size_t n = fread(ctx->buf + ctx->curlen, 1, m, fp);
-        if (MD5_BLOCKSIZE == ctx->curlen + n)
+        if (A_MD5_BLOCKSIZE == ctx->curlen + n)
         {
-            md5_compress(ctx, ctx->buf);
-            ctx->length += (MD5_BLOCKSIZE << 3);
+            a_md5_compress(ctx, ctx->buf);
+            ctx->length += (A_MD5_BLOCKSIZE << 3);
             ctx->curlen = 0;
         }
         else
         {
-            ctx->curlen += (md5_u32_t)n;
+            ctx->curlen += (uint32_t)n;
             break;
         }
     }
 
-    (void)fseek(fp, idx, SEEK_SET);
+    fseek(fp, idx, SEEK_SET);
 }
 
 int main(int argc, char **argv)
@@ -75,21 +76,19 @@ int main(int argc, char **argv)
         },
     };
 
-    md5_t ctx[1];
+    a_md5_t ctx[1];
 
     for (int i = 0; 0 != tests[i].msg; ++i)
     {
-        md5_init(ctx);
-        md5_process(ctx, tests[i].msg, strlen(tests[i].msg));
-        md5_done(ctx, ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, MD5_DIGESTSIZE))
+        a_md5(tests[i].msg, strlen(tests[i].msg), ctx->out);
+        if (memcmp(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE))
         {
-            for (int j = 0; j != MD5_DIGESTSIZE; ++j)
+            for (int j = 0; j != A_MD5_DIGESTSIZE; ++j)
             {
                 printf("%02x", ctx->out[j]);
             }
             printf(" ");
-            for (int j = 0; j != MD5_DIGESTSIZE; ++j)
+            for (int j = 0; j != A_MD5_DIGESTSIZE; ++j)
             {
                 printf("%02x", tests[i].hash[j]);
             }
@@ -102,18 +101,18 @@ int main(int argc, char **argv)
         FILE *fp = fopen(argv[i], "rb");
         if (fp)
         {
-            md5_init(ctx);
-            md5_fprocess(ctx, fp);
-            md5_done(ctx, ctx->out);
+            a_md5_init(ctx);
+
+            a_md5_fprocess(ctx, fp);
             if (fclose(fp))
             {
                 clearerr(fp);
             }
-            for (int j = 0; j != MD5_DIGESTSIZE; ++j)
-            {
-                printf("%02x", ctx->out[j]);
-            }
-            printf(" %s\n", argv[i]);
+
+            a_md5_done(ctx, ctx->out);
+
+            a_digest(ctx->out, A_MD5_DIGESTSIZE, (char *)ctx->buf);
+            printf("%s %s\n", ctx->buf, argv[i]);
         }
     }
 
