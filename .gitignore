@@ -180,6 +180,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# multiple build environments
+build*
+
 # Visual Studio Code
 .vscode
 
