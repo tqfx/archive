@@ -15,7 +15,7 @@
 #include <stdlib.h> /* alloc */
 
 #define A_SHA512_BLOCKSIZE  0x80
-#define A_SHA512_DIGESTSIZE 0x40
+#define A_SHA512_DIGESTSIZE (512 >> 3)
 
 typedef struct a_sha512_t
 {
@@ -45,7 +45,7 @@ extern void a_sha512_init(a_sha512_t *ctx);
  @brief          Process function for SHA512.
  @param[in,out]  ctx: points to an instance of SHA512.
  @param[in]      p: points to data.
- @param[in]      n: size of data.
+ @param[in]      n: length of data.
 */
 extern void a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
 
@@ -60,9 +60,9 @@ extern void a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
 extern unsigned char *a_sha512_done(a_sha512_t *ctx, unsigned char *out);
 
 /*!
- @brief          Created SHA512 hash from a string of characters on hex encoding.
- @param[in]      p: points to an array.
- @param[in]      n: size of an array.
+ @brief          Create SHA512 hash from a string of characters on hex encoding.
+ @param[in]      p: points to data.
+ @param[in]      n: length of data.
  @param[in,out]  out: points to buffer(64-bytes) that holds the digest.
  @return         a pointer containing the digest.
  @note           When out is 0, you need to use @ref a_free to release the memory.

@@ -15,7 +15,7 @@
 #include <stdlib.h> /* alloc */
 
 #define A_SHA256_BLOCKSIZE  0x40
-#define A_SHA256_DIGESTSIZE 0x20
+#define A_SHA256_DIGESTSIZE (256 >> 3)
 
 typedef struct a_sha256_t
 {
@@ -45,7 +45,7 @@ extern void a_sha256_init(a_sha256_t *ctx);
  @brief          Process function for SHA256.
  @param[in,out]  ctx: points to an instance of SHA256.
  @param[in]      p: points to data.
- @param[in]      n: size of data.
+ @param[in]      n: length of data.
 */
 extern void a_sha256_process(a_sha256_t *ctx, const void *p, size_t n);
 
@@ -60,9 +60,9 @@ extern void a_sha256_process(a_sha256_t *ctx, const void *p, size_t n);
 extern unsigned char *a_sha256_done(a_sha256_t *ctx, unsigned char *out);
 
 /*!
- @brief          Created SHA256 hash from a string of characters on hex encoding.
- @param[in]      p: points to an array.
- @param[in]      n: size of an array.
+ @brief          Create SHA256 hash from a string of characters on hex encoding.
+ @param[in]      p: points to data.
+ @param[in]      n: length of data.
  @param[in,out]  out: points to buffer(32-bytes) that holds the digest.
  @return         a pointer containing the digest.
  @note           When out is 0, you need to use @ref a_free to release the memory.

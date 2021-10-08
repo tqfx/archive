@@ -236,7 +236,7 @@ unsigned char *a_sha512_done(a_sha512_t *ctx, unsigned char *out)
     {
         STORE64H(ctx->state[i], ctx->out + (i << 3));
     }
-    if (out && ctx->out != out)
+    if (out && out != ctx->out)
     {
         (void)memcpy(out, ctx->out, sizeof(ctx->state));
     }

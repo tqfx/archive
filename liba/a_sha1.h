@@ -45,7 +45,7 @@ extern void a_sha1_init(a_sha1_t *ctx);
  @brief          Process function for SHA1.
  @param[in,out]  ctx: points to an instance of SHA1.
  @param[in]      p: points to data.
- @param[in]      n: size of data.
+ @param[in]      n: length of data.
 */
 extern void a_sha1_process(a_sha1_t *ctx, const void *p, size_t n);
 
@@ -60,9 +60,9 @@ extern void a_sha1_process(a_sha1_t *ctx, const void *p, size_t n);
 extern unsigned char *a_sha1_done(a_sha1_t *ctx, unsigned char *out);
 
 /*!
- @brief          Created SHA1 hash from a string of characters on hex encoding.
- @param[in]      p: points to an array.
- @param[in]      n: size of an array.
+ @brief          Create SHA1 hash from a string of characters on hex encoding.
+ @param[in]      p: points to data.
+ @param[in]      n: length of data.
  @param[in,out]  out: points to buffer(20-bytes) that holds the digest.
  @return         a pointer containing the digest.
  @note           When out is 0, you need to use @ref a_free to release the memory.

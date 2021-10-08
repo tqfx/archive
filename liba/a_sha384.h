@@ -17,9 +17,11 @@
 #include <stdlib.h> /* alloc */
 
 #define A_SHA384_BLOCKSIZE  A_SHA512_BLOCKSIZE
-#define A_SHA384_DIGESTSIZE 0x30
+#define A_SHA384_DIGESTSIZE (384 >> 3)
 
 #define a_sha384_t a_sha512_t
+
+__BEGIN_DECLS
 
 /*!
  @brief          Compress function for SHA384.
@@ -29,20 +31,18 @@
 #define a_sha384_compress(ctx, buf) a_sha512_compress(ctx, buf)
 
 /*!
- @brief          Process function for SHA384.
- @param[in,out]  ctx: points to an instance of SHA384.
- @param[in]      p: points to data.
- @param[in]      n: size of data.
-*/
-#define a_sha384_process(ctx, p, n) a_sha512_process(ctx, p, n)
-
-__BEGIN_DECLS
-
-/*!
  @brief          Initialize function for SHA384.
  @param[in,out]  ctx: points to an instance of SHA384.
 */
 extern void a_sha384_init(a_sha384_t *ctx);
+
+/*!
+ @brief          Process function for SHA384.
+ @param[in,out]  ctx: points to an instance of SHA384.
+ @param[in]      p: points to data.
+ @param[in]      n: length of data.
+*/
+#define a_sha384_process(ctx, p, n) a_sha512_process(ctx, p, n)
 
 /*!
  @brief          Terminate function for SHA384.
@@ -55,9 +55,9 @@ extern void a_sha384_init(a_sha384_t *ctx);
 extern unsigned char *a_sha384_done(a_sha384_t *ctx, unsigned char *out);
 
 /*!
- @brief          Created SHA384 hash from a string of characters on hex encoding.
- @param[in]      p: points to an array.
- @param[in]      n: size of an array.
+ @brief          Create SHA384 hash from a string of characters on hex encoding.
+ @param[in]      p: points to data.
+ @param[in]      n: length of data.
  @param[in,out]  out: points to buffer(48-bytes) that holds the digest.
  @return         a pointer containing the digest.
  @note           When out is 0, you need to use @ref a_free to release the memory.

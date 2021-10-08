@@ -31,7 +31,7 @@
 
 void a_sha256_compress(a_sha256_t *ctx, const unsigned char *buf)
 {
-    uint32_t w[64], t0, t1;
+    uint32_t w[0x40], t0, t1;
     uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* copy state into s */
@@ -202,7 +202,7 @@ unsigned char *a_sha256_done(a_sha256_t *ctx, unsigned char *out)
     {
         STORE32H(ctx->state[i], ctx->out + (i << 2));
     }
-    if (out && ctx->out != out)
+    if (out && out != ctx->out)
     {
         (void)memcpy(out, ctx->out, sizeof(ctx->state));
     }

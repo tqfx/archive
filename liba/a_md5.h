@@ -45,7 +45,7 @@ extern void a_md5_init(a_md5_t *ctx);
  @brief          Process function for MD5.
  @param[in,out]  ctx: points to an instance of MD5.
  @param[in]      p: points to data.
- @param[in]      n: size of data.
+ @param[in]      n: length of data.
 */
 extern void a_md5_process(a_md5_t *ctx, const void *p, size_t n);
 
@@ -60,9 +60,9 @@ extern void a_md5_process(a_md5_t *ctx, const void *p, size_t n);
 extern unsigned char *a_md5_done(a_md5_t *ctx, unsigned char *out);
 
 /*!
- @brief          Created MD5 hash from a string of characters on hex encoding.
- @param[in]      p: points to an array.
- @param[in]      n: size of an array.
+ @brief          Create MD5 hash from a string of characters on hex encoding.
+ @param[in]      p: points to data.
+ @param[in]      n: length of data.
  @param[in,out]  out: points to buffer(16-bytes) that holds the digest.
  @return         a pointer containing the digest.
  @note           When out is 0, you need to use @ref a_free to release the memory.

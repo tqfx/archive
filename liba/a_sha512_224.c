@@ -29,7 +29,7 @@ unsigned char *a_sha512_224_done(a_sha512_224_t *ctx, unsigned char *out)
 {
     a_sha512_done(ctx, ctx->out);
 
-    if (out && ctx->out != out)
+    if (out && out != ctx->out)
     {
         (void)memcpy(out, ctx->out, A_SHA512_224_DIGESTSIZE);
     }

@@ -21,11 +21,7 @@
 
 void a_md5_compress(a_md5_t *ctx, const unsigned char *buf)
 {
-    /* copy state */
-    uint32_t a = ctx->state[0];
-    uint32_t b = ctx->state[1];
-    uint32_t c = ctx->state[2];
-    uint32_t d = ctx->state[3];
+    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* (unsigned char *) -> (uint32_t *) */
     union
@@ -41,6 +37,12 @@ void a_md5_compress(a_md5_t *ctx, const unsigned char *buf)
         {
             LOAD32L(up->w[i], buf + (i << 2));
         }
+    }
+
+    /* copy state into s */
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    {
+        s[i] = ctx->state[i];
     }
 
     /* compress */
@@ -64,79 +66,79 @@ void a_md5_compress(a_md5_t *ctx, const unsigned char *buf)
     a = ROLc(a, s) + b;
 
     /* round one */
-    FF(a, b, c, d, up->w[0x0], 0x07, 0xd76aa478)
-    FF(d, a, b, c, up->w[0x1], 0x0c, 0xe8c7b756)
-    FF(c, d, a, b, up->w[0x2], 0x11, 0x242070db)
-    FF(b, c, d, a, up->w[0x3], 0x16, 0xc1bdceee)
-    FF(a, b, c, d, up->w[0x4], 0x07, 0xf57c0faf)
-    FF(d, a, b, c, up->w[0x5], 0x0c, 0x4787c62a)
-    FF(c, d, a, b, up->w[0x6], 0x11, 0xa8304613)
-    FF(b, c, d, a, up->w[0x7], 0x16, 0xfd469501)
-    FF(a, b, c, d, up->w[0x8], 0x07, 0x698098d8)
-    FF(d, a, b, c, up->w[0x9], 0x0c, 0x8b44f7af)
-    FF(c, d, a, b, up->w[0xa], 0x11, 0xffff5bb1)
-    FF(b, c, d, a, up->w[0xb], 0x16, 0x895cd7be)
-    FF(a, b, c, d, up->w[0xc], 0x07, 0x6b901122)
-    FF(d, a, b, c, up->w[0xd], 0x0c, 0xfd987193)
-    FF(c, d, a, b, up->w[0xe], 0x11, 0xa679438e)
-    FF(b, c, d, a, up->w[0xf], 0x16, 0x49b40821)
+    FF(s[0], s[1], s[2], s[3], up->w[0x0], 0x07, 0xd76aa478)
+    FF(s[3], s[0], s[1], s[2], up->w[0x1], 0x0c, 0xe8c7b756)
+    FF(s[2], s[3], s[0], s[1], up->w[0x2], 0x11, 0x242070db)
+    FF(s[1], s[2], s[3], s[0], up->w[0x3], 0x16, 0xc1bdceee)
+    FF(s[0], s[1], s[2], s[3], up->w[0x4], 0x07, 0xf57c0faf)
+    FF(s[3], s[0], s[1], s[2], up->w[0x5], 0x0c, 0x4787c62a)
+    FF(s[2], s[3], s[0], s[1], up->w[0x6], 0x11, 0xa8304613)
+    FF(s[1], s[2], s[3], s[0], up->w[0x7], 0x16, 0xfd469501)
+    FF(s[0], s[1], s[2], s[3], up->w[0x8], 0x07, 0x698098d8)
+    FF(s[3], s[0], s[1], s[2], up->w[0x9], 0x0c, 0x8b44f7af)
+    FF(s[2], s[3], s[0], s[1], up->w[0xa], 0x11, 0xffff5bb1)
+    FF(s[1], s[2], s[3], s[0], up->w[0xb], 0x16, 0x895cd7be)
+    FF(s[0], s[1], s[2], s[3], up->w[0xc], 0x07, 0x6b901122)
+    FF(s[3], s[0], s[1], s[2], up->w[0xd], 0x0c, 0xfd987193)
+    FF(s[2], s[3], s[0], s[1], up->w[0xe], 0x11, 0xa679438e)
+    FF(s[1], s[2], s[3], s[0], up->w[0xf], 0x16, 0x49b40821)
     /* round two */
-    GG(a, b, c, d, up->w[0x1], 0x05, 0xf61e2562)
-    GG(d, a, b, c, up->w[0x6], 0x09, 0xc040b340)
-    GG(c, d, a, b, up->w[0xb], 0x0e, 0x265e5a51)
-    GG(b, c, d, a, up->w[0x0], 0x14, 0xe9b6c7aa)
-    GG(a, b, c, d, up->w[0x5], 0x05, 0xd62f105d)
-    GG(d, a, b, c, up->w[0xa], 0x09, 0x02441453)
-    GG(c, d, a, b, up->w[0xf], 0x0e, 0xd8a1e681)
-    GG(b, c, d, a, up->w[0x4], 0x14, 0xe7d3fbc8)
-    GG(a, b, c, d, up->w[0x9], 0x05, 0x21e1cde6)
-    GG(d, a, b, c, up->w[0xe], 0x09, 0xc33707d6)
-    GG(c, d, a, b, up->w[0x3], 0x0e, 0xf4d50d87)
-    GG(b, c, d, a, up->w[0x8], 0x14, 0x455a14ed)
-    GG(a, b, c, d, up->w[0xd], 0x05, 0xa9e3e905)
-    GG(d, a, b, c, up->w[0x2], 0x09, 0xfcefa3f8)
-    GG(c, d, a, b, up->w[0x7], 0x0e, 0x676f02d9)
-    GG(b, c, d, a, up->w[0xc], 0x14, 0x8d2a4c8a)
+    GG(s[0], s[1], s[2], s[3], up->w[0x1], 0x05, 0xf61e2562)
+    GG(s[3], s[0], s[1], s[2], up->w[0x6], 0x09, 0xc040b340)
+    GG(s[2], s[3], s[0], s[1], up->w[0xb], 0x0e, 0x265e5a51)
+    GG(s[1], s[2], s[3], s[0], up->w[0x0], 0x14, 0xe9b6c7aa)
+    GG(s[0], s[1], s[2], s[3], up->w[0x5], 0x05, 0xd62f105d)
+    GG(s[3], s[0], s[1], s[2], up->w[0xa], 0x09, 0x02441453)
+    GG(s[2], s[3], s[0], s[1], up->w[0xf], 0x0e, 0xd8a1e681)
+    GG(s[1], s[2], s[3], s[0], up->w[0x4], 0x14, 0xe7d3fbc8)
+    GG(s[0], s[1], s[2], s[3], up->w[0x9], 0x05, 0x21e1cde6)
+    GG(s[3], s[0], s[1], s[2], up->w[0xe], 0x09, 0xc33707d6)
+    GG(s[2], s[3], s[0], s[1], up->w[0x3], 0x0e, 0xf4d50d87)
+    GG(s[1], s[2], s[3], s[0], up->w[0x8], 0x14, 0x455a14ed)
+    GG(s[0], s[1], s[2], s[3], up->w[0xd], 0x05, 0xa9e3e905)
+    GG(s[3], s[0], s[1], s[2], up->w[0x2], 0x09, 0xfcefa3f8)
+    GG(s[2], s[3], s[0], s[1], up->w[0x7], 0x0e, 0x676f02d9)
+    GG(s[1], s[2], s[3], s[0], up->w[0xc], 0x14, 0x8d2a4c8a)
     /* round three */
-    HH(a, b, c, d, up->w[0x5], 0x04, 0xfffa3942)
-    HH(d, a, b, c, up->w[0x8], 0x0b, 0x8771f681)
-    HH(c, d, a, b, up->w[0xb], 0x10, 0x6d9d6122)
-    HH(b, c, d, a, up->w[0xe], 0x17, 0xfde5380c)
-    HH(a, b, c, d, up->w[0x1], 0x04, 0xa4beea44)
-    HH(d, a, b, c, up->w[0x4], 0x0b, 0x4bdecfa9)
-    HH(c, d, a, b, up->w[0x7], 0x10, 0xf6bb4b60)
-    HH(b, c, d, a, up->w[0xa], 0x17, 0xbebfbc70)
-    HH(a, b, c, d, up->w[0xd], 0x04, 0x289b7ec6)
-    HH(d, a, b, c, up->w[0x0], 0x0b, 0xeaa127fa)
-    HH(c, d, a, b, up->w[0x3], 0x10, 0xd4ef3085)
-    HH(b, c, d, a, up->w[0x6], 0x17, 0x04881d05)
-    HH(a, b, c, d, up->w[0x9], 0x04, 0xd9d4d039)
-    HH(d, a, b, c, up->w[0xc], 0x0b, 0xe6db99e5)
-    HH(c, d, a, b, up->w[0xf], 0x10, 0x1fa27cf8)
-    HH(b, c, d, a, up->w[0x2], 0x17, 0xc4ac5665)
+    HH(s[0], s[1], s[2], s[3], up->w[0x5], 0x04, 0xfffa3942)
+    HH(s[3], s[0], s[1], s[2], up->w[0x8], 0x0b, 0x8771f681)
+    HH(s[2], s[3], s[0], s[1], up->w[0xb], 0x10, 0x6d9d6122)
+    HH(s[1], s[2], s[3], s[0], up->w[0xe], 0x17, 0xfde5380c)
+    HH(s[0], s[1], s[2], s[3], up->w[0x1], 0x04, 0xa4beea44)
+    HH(s[3], s[0], s[1], s[2], up->w[0x4], 0x0b, 0x4bdecfa9)
+    HH(s[2], s[3], s[0], s[1], up->w[0x7], 0x10, 0xf6bb4b60)
+    HH(s[1], s[2], s[3], s[0], up->w[0xa], 0x17, 0xbebfbc70)
+    HH(s[0], s[1], s[2], s[3], up->w[0xd], 0x04, 0x289b7ec6)
+    HH(s[3], s[0], s[1], s[2], up->w[0x0], 0x0b, 0xeaa127fa)
+    HH(s[2], s[3], s[0], s[1], up->w[0x3], 0x10, 0xd4ef3085)
+    HH(s[1], s[2], s[3], s[0], up->w[0x6], 0x17, 0x04881d05)
+    HH(s[0], s[1], s[2], s[3], up->w[0x9], 0x04, 0xd9d4d039)
+    HH(s[3], s[0], s[1], s[2], up->w[0xc], 0x0b, 0xe6db99e5)
+    HH(s[2], s[3], s[0], s[1], up->w[0xf], 0x10, 0x1fa27cf8)
+    HH(s[1], s[2], s[3], s[0], up->w[0x2], 0x17, 0xc4ac5665)
     /* round four */
-    II(a, b, c, d, up->w[0x0], 0x06, 0xf4292244)
-    II(d, a, b, c, up->w[0x7], 0x0a, 0x432aff97)
-    II(c, d, a, b, up->w[0xe], 0x0f, 0xab9423a7)
-    II(b, c, d, a, up->w[0x5], 0x15, 0xfc93a039)
-    II(a, b, c, d, up->w[0xc], 0x06, 0x655b59c3)
-    II(d, a, b, c, up->w[0x3], 0x0a, 0x8f0ccc92)
-    II(c, d, a, b, up->w[0xa], 0x0f, 0xffeff47d)
-    II(b, c, d, a, up->w[0x1], 0x15, 0x85845dd1)
-    II(a, b, c, d, up->w[0x8], 0x06, 0x6fa87e4f)
-    II(d, a, b, c, up->w[0xf], 0x0a, 0xfe2ce6e0)
-    II(c, d, a, b, up->w[0x6], 0x0f, 0xa3014314)
-    II(b, c, d, a, up->w[0xd], 0x15, 0x4e0811a1)
-    II(a, b, c, d, up->w[0x4], 0x06, 0xf7537e82)
-    II(d, a, b, c, up->w[0xb], 0x0a, 0xbd3af235)
-    II(c, d, a, b, up->w[0x2], 0x0f, 0x2ad7d2bb)
-    II(b, c, d, a, up->w[0x9], 0x15, 0xeb86d391)
+    II(s[0], s[1], s[2], s[3], up->w[0x0], 0x06, 0xf4292244)
+    II(s[3], s[0], s[1], s[2], up->w[0x7], 0x0a, 0x432aff97)
+    II(s[2], s[3], s[0], s[1], up->w[0xe], 0x0f, 0xab9423a7)
+    II(s[1], s[2], s[3], s[0], up->w[0x5], 0x15, 0xfc93a039)
+    II(s[0], s[1], s[2], s[3], up->w[0xc], 0x06, 0x655b59c3)
+    II(s[3], s[0], s[1], s[2], up->w[0x3], 0x0a, 0x8f0ccc92)
+    II(s[2], s[3], s[0], s[1], up->w[0xa], 0x0f, 0xffeff47d)
+    II(s[1], s[2], s[3], s[0], up->w[0x1], 0x15, 0x85845dd1)
+    II(s[0], s[1], s[2], s[3], up->w[0x8], 0x06, 0x6fa87e4f)
+    II(s[3], s[0], s[1], s[2], up->w[0xf], 0x0a, 0xfe2ce6e0)
+    II(s[2], s[3], s[0], s[1], up->w[0x6], 0x0f, 0xa3014314)
+    II(s[1], s[2], s[3], s[0], up->w[0xd], 0x15, 0x4e0811a1)
+    II(s[0], s[1], s[2], s[3], up->w[0x4], 0x06, 0xf7537e82)
+    II(s[3], s[0], s[1], s[2], up->w[0xb], 0x0a, 0xbd3af235)
+    II(s[2], s[3], s[0], s[1], up->w[0x2], 0x0f, 0x2ad7d2bb)
+    II(s[1], s[2], s[3], s[0], up->w[0x9], 0x15, 0xeb86d391)
 
-    /* store */
-    ctx->state[0] += a;
-    ctx->state[1] += b;
-    ctx->state[2] += c;
-    ctx->state[3] += d;
+    /* feedback */
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    {
+        ctx->state[i] += s[i];
+    }
 }
 
 #undef FF
@@ -203,7 +205,7 @@ unsigned char *a_md5_done(a_md5_t *ctx, unsigned char *out)
     {
         STORE32L(ctx->state[i], ctx->out + (i << 2));
     }
-    if (out && ctx->out != out)
+    if (out && out != ctx->out)
     {
         (void)memcpy(out, ctx->out, sizeof(ctx->state));
     }

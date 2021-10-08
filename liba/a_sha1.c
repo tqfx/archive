@@ -21,13 +21,14 @@
 
 void a_sha1_compress(a_sha1_t *ctx, const unsigned char *buf)
 {
-    uint32_t w[80];
-    /* copy state */
-    uint32_t a = ctx->state[0];
-    uint32_t b = ctx->state[1];
-    uint32_t c = ctx->state[2];
-    uint32_t d = ctx->state[3];
-    uint32_t e = ctx->state[4];
+    uint32_t w[0x50];
+    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
+
+    /* copy state into s */
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    {
+        s[i] = ctx->state[i];
+    }
 
     /* copy the state into 512-bits into w[0..15] */
     for (unsigned int i = 0x00; i != 0x10; ++i)
@@ -66,49 +67,48 @@ void a_sha1_compress(a_sha1_t *ctx, const unsigned char *buf)
     /* round one */
     while (i != 0x14)
     {
-        FF0(a, b, c, d, e, i++);
-        FF0(e, a, b, c, d, i++);
-        FF0(d, e, a, b, c, i++);
-        FF0(c, d, e, a, b, i++);
-        FF0(b, c, d, e, a, i++);
+        FF0(s[0], s[1], s[2], s[3], s[4], i++);
+        FF0(s[4], s[0], s[1], s[2], s[3], i++);
+        FF0(s[3], s[4], s[0], s[1], s[2], i++);
+        FF0(s[2], s[3], s[4], s[0], s[1], i++);
+        FF0(s[1], s[2], s[3], s[4], s[0], i++);
     }
 
     /* round two */
     while (i != 0x28)
     {
-        FF1(a, b, c, d, e, i++);
-        FF1(e, a, b, c, d, i++);
-        FF1(d, e, a, b, c, i++);
-        FF1(c, d, e, a, b, i++);
-        FF1(b, c, d, e, a, i++);
+        FF1(s[0], s[1], s[2], s[3], s[4], i++);
+        FF1(s[4], s[0], s[1], s[2], s[3], i++);
+        FF1(s[3], s[4], s[0], s[1], s[2], i++);
+        FF1(s[2], s[3], s[4], s[0], s[1], i++);
+        FF1(s[1], s[2], s[3], s[4], s[0], i++);
     }
 
     /* round three */
     while (i != 0x3c)
     {
-        FF2(a, b, c, d, e, i++);
-        FF2(e, a, b, c, d, i++);
-        FF2(d, e, a, b, c, i++);
-        FF2(c, d, e, a, b, i++);
-        FF2(b, c, d, e, a, i++);
+        FF2(s[0], s[1], s[2], s[3], s[4], i++);
+        FF2(s[4], s[0], s[1], s[2], s[3], i++);
+        FF2(s[3], s[4], s[0], s[1], s[2], i++);
+        FF2(s[2], s[3], s[4], s[0], s[1], i++);
+        FF2(s[1], s[2], s[3], s[4], s[0], i++);
     }
 
     /* round four */
     while (i != 0x50)
     {
-        FF3(a, b, c, d, e, i++);
-        FF3(e, a, b, c, d, i++);
-        FF3(d, e, a, b, c, i++);
-        FF3(c, d, e, a, b, i++);
-        FF3(b, c, d, e, a, i++);
+        FF3(s[0], s[1], s[2], s[3], s[4], i++);
+        FF3(s[4], s[0], s[1], s[2], s[3], i++);
+        FF3(s[3], s[4], s[0], s[1], s[2], i++);
+        FF3(s[2], s[3], s[4], s[0], s[1], i++);
+        FF3(s[1], s[2], s[3], s[4], s[0], i++);
     }
 
-    /* store */
-    ctx->state[0] += a;
-    ctx->state[1] += b;
-    ctx->state[2] += c;
-    ctx->state[3] += d;
-    ctx->state[4] += e;
+    /* feedback */
+    for (i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    {
+        ctx->state[i] += s[i];
+    }
 }
 
 #undef FF0
@@ -176,7 +176,7 @@ unsigned char *a_sha1_done(a_sha1_t *ctx, unsigned char *out)
     {
         STORE32H(ctx->state[i], ctx->out + (i << 2));
     }
-    if (out && ctx->out != out)
+    if (out && out != ctx->out)
     {
         (void)memcpy(out, ctx->out, sizeof(ctx->state));
     }
