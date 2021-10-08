@@ -156,6 +156,11 @@
 
 /* Endian Neutral macros that work on all platforms */
 
+#define BSWAP(x) (((x >> 0x18) & 0x000000FF) | \
+                  ((x << 0x18) & 0xFF000000) | \
+                  ((x >> 0x08) & 0x0000FF00) | \
+                  ((x << 0x08) & 0x00FF0000))
+
 #define STORE32L(x, y)                            \
     do                                            \
     {                                             \
@@ -244,11 +249,6 @@
             (((uint64_t)((y)[7] & 0xFF)) << 0x00);  \
     } while (0)
 
-#define BSWAP(x) (((x >> 0x18) & 0x000000FF) | \
-                  ((x << 0x18) & 0xFF000000) | \
-                  ((x >> 0x08) & 0x0000FF00) | \
-                  ((x << 0x08) & 0x00FF0000))
-
 /* 32-bit Rotates */
 #if defined(_MSC_VER)
 
@@ -287,28 +287,60 @@
 
 #endif /* 64-bit Rotates */
 
-/* a_alloc */
+/* allocate memory */
 #ifndef a_alloc
 #define a_alloc(n) malloc(n)
 #endif /* a_alloc */
 
-/* a_calloc */
+/* callocate memory */
 #ifndef a_calloc
 #define a_calloc(n, sz) calloc(n, sz)
 #endif /* a_calloc */
 
-/* a_realloc */
+/* reallocate memory */
 #ifndef a_realloc
 #define a_realloc(p, n) realloc(p, n)
 #endif /* a_realloc */
 
-/* a_free */
+/* free memory */
 #ifndef a_free
 #define a_free(p) free(p)
 #endif /* a_free */
 
 typedef float float32_t;
 typedef double float64_t;
+
+#undef __A_HASH_PROCESS
+#define __A_HASH_PROCESS(hash, func, compress)                    \
+    void func(hash *ctx, const void *p, size_t n)                 \
+    {                                                             \
+        const unsigned char *s = (const unsigned char *)p;        \
+        while (n)                                                 \
+        {                                                         \
+            if ((0 == ctx->curlen) && (sizeof(ctx->buf) - 1 < n)) \
+            {                                                     \
+                compress(ctx, s);                                 \
+                ctx->length += (sizeof(ctx->buf) << 3);           \
+                s += sizeof(ctx->buf);                            \
+                n -= sizeof(ctx->buf);                            \
+            }                                                     \
+            else                                                  \
+            {                                                     \
+                uint32_t m = sizeof(ctx->buf) - ctx->curlen;      \
+                m = n < m ? (uint32_t)n : m;                      \
+                (void)memcpy(ctx->buf + ctx->curlen, s, m);       \
+                ctx->curlen += m;                                 \
+                s += m;                                           \
+                n -= m;                                           \
+                if (sizeof(ctx->buf) == ctx->curlen)              \
+                {                                                 \
+                    compress(ctx, ctx->buf);                      \
+                    ctx->length += (sizeof(ctx->buf) << 3);       \
+                    ctx->curlen = 0;                              \
+                }                                                 \
+            }                                                     \
+        }                                                         \
+    }
 
 /*!
  @endcond

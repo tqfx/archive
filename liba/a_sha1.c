@@ -132,40 +132,11 @@ void a_sha1_init(a_sha1_t *ctx)
     ctx->state[4] = 0xc3d2e1f0;
 }
 
-void a_sha1_process(a_sha1_t *ctx, const void *p, size_t n)
-{
-    const unsigned char *s = (const unsigned char *)p;
-
-    while (n)
-    {
-        if ((0 == ctx->curlen) && (A_SHA1_BLOCKSIZE - 1 < n))
-        {
-            a_sha1_compress(ctx, s);
-            ctx->length += (A_SHA1_BLOCKSIZE << 3);
-            s += A_SHA1_BLOCKSIZE;
-            n -= A_SHA1_BLOCKSIZE;
-        }
-        else
-        {
-            uint32_t m = A_SHA1_BLOCKSIZE - ctx->curlen;
-            m = n < m ? (uint32_t)n : m;
-            (void)memcpy(ctx->buf + ctx->curlen, s, m);
-            ctx->curlen += m;
-            s += m;
-            n -= m;
-            if (A_SHA1_BLOCKSIZE == ctx->curlen)
-            {
-                a_sha1_compress(ctx, ctx->buf);
-                ctx->length += (A_SHA1_BLOCKSIZE << 3);
-                ctx->curlen = 0;
-            }
-        }
-    }
-}
+__A_HASH_PROCESS(a_sha1_t, a_sha1_process, a_sha1_compress)
 
 unsigned char *a_sha1_done(a_sha1_t *ctx, unsigned char *out)
 {
-    if (A_SHA1_BLOCKSIZE - 1 < ctx->curlen)
+    if (sizeof(ctx->buf) - 1 < ctx->curlen)
     {
         return 0;
     }

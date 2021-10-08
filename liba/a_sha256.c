@@ -158,40 +158,11 @@ void a_sha256_init(a_sha256_t *ctx)
     ctx->state[7] = 0x5BE0CD19;
 }
 
-void a_sha256_process(a_sha256_t *ctx, const void *p, size_t n)
-{
-    const unsigned char *s = (const unsigned char *)p;
-
-    while (n)
-    {
-        if ((0 == ctx->curlen) && (A_SHA256_BLOCKSIZE - 1 < n))
-        {
-            a_sha256_compress(ctx, s);
-            ctx->length += (A_SHA256_BLOCKSIZE << 3);
-            s += A_SHA256_BLOCKSIZE;
-            n -= A_SHA256_BLOCKSIZE;
-        }
-        else
-        {
-            uint32_t m = A_SHA256_BLOCKSIZE - ctx->curlen;
-            m = n < m ? (uint32_t)n : m;
-            (void)memcpy(ctx->buf + ctx->curlen, s, m);
-            ctx->curlen += m;
-            s += m;
-            n -= m;
-            if (A_SHA256_BLOCKSIZE == ctx->curlen)
-            {
-                a_sha256_compress(ctx, ctx->buf);
-                ctx->length += (A_SHA256_BLOCKSIZE << 3);
-                ctx->curlen = 0;
-            }
-        }
-    }
-}
+__A_HASH_PROCESS(a_sha256_t, a_sha256_process, a_sha256_compress)
 
 unsigned char *a_sha256_done(a_sha256_t *ctx, unsigned char *out)
 {
-    if (A_SHA256_BLOCKSIZE - 1 < ctx->curlen)
+    if (sizeof(ctx->buf) - 1 < ctx->curlen)
     {
         return 0;
     }

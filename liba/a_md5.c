@@ -159,40 +159,11 @@ void a_md5_init(a_md5_t *ctx)
     ctx->state[3] = 0x10325476;
 }
 
-void a_md5_process(a_md5_t *ctx, const void *p, size_t n)
-{
-    const unsigned char *s = (const unsigned char *)p;
-
-    while (n)
-    {
-        if ((0 == ctx->curlen) && (A_MD5_BLOCKSIZE - 1 < n))
-        {
-            a_md5_compress(ctx, s);
-            ctx->length += (A_MD5_BLOCKSIZE << 3);
-            s += A_MD5_BLOCKSIZE;
-            n -= A_MD5_BLOCKSIZE;
-        }
-        else
-        {
-            uint32_t m = A_MD5_BLOCKSIZE - ctx->curlen;
-            m = n < m ? (uint32_t)n : m;
-            (void)memcpy(ctx->buf + ctx->curlen, s, m);
-            ctx->curlen += m;
-            s += m;
-            n -= m;
-            if (A_MD5_BLOCKSIZE == ctx->curlen)
-            {
-                a_md5_compress(ctx, ctx->buf);
-                ctx->length += (A_MD5_BLOCKSIZE << 3);
-                ctx->curlen = 0;
-            }
-        }
-    }
-}
+__A_HASH_PROCESS(a_md5_t, a_md5_process, a_md5_compress)
 
 unsigned char *a_md5_done(a_md5_t *ctx, unsigned char *out)
 {
-    if (A_MD5_BLOCKSIZE - 1 < ctx->curlen)
+    if (sizeof(ctx->buf) - 1 < ctx->curlen)
     {
         return 0;
     }
