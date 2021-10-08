@@ -255,7 +255,7 @@ void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
     if (!ctx->xof_flag)
     {
         /* shake_xof operation must be done only once */
-        ctx->s[ctx->word_index] ^= (ctx->saved ^ (0x1FUL << (ctx->byte_index << 3)));
+        ctx->s[ctx->word_index] ^= (ctx->saved ^ (0x1FU << (ctx->byte_index << 3)));
         ctx->s[SHA3_KECCAK_SPONGE_WORDS - ctx->capacity_words - 1] ^= 0x8000000000000000;
         keccakf(ctx->s);
         /* store sha3.s[] as little-endian bytes into sha3.sb */
