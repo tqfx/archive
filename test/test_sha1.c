@@ -1,6 +1,6 @@
 /*!
  @file           test_sha1.c
- @brief          sha1 test
+ @brief          test sha1
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
@@ -11,9 +11,7 @@
 
 #include <string.h>
 
-__HASH_FPROCESS(a_sha1_t, a_sha1_fprocess, a_sha1_compress)
-
-int main(int argc, char **argv)
+int main(void)
 {
     static const struct
     {
@@ -38,28 +36,6 @@ int main(int argc, char **argv)
         if (memcmp(ctx->out, tests[i].hash, A_SHA1_DIGESTSIZE))
         {
             __HASH_DIFF(ctx->out, tests[i].hash, A_SHA1_DIGESTSIZE);
-        }
-    }
-
-    char buf[(A_SHA1_DIGESTSIZE << 1) + 1];
-
-    for (int i = 1; i != argc; ++i)
-    {
-        FILE *fp = fopen(argv[i], "rb");
-        if (fp)
-        {
-            a_sha1_init(ctx);
-
-            a_sha1_fprocess(ctx, fp);
-            if (fclose(fp))
-            {
-                clearerr(fp);
-            }
-
-            a_sha1_done(ctx, ctx->out);
-
-            a_digest(ctx->out, A_SHA1_DIGESTSIZE, buf);
-            printf("%s %s\n", buf, argv[i]);
         }
     }
 

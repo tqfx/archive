@@ -158,6 +158,21 @@ void a_sha256_init(a_sha256_t *ctx)
     ctx->state[7] = 0x5BE0CD19;
 }
 
+void a_sha224_init(a_sha256_t *ctx)
+{
+    ctx->curlen = 0;
+    ctx->length = 0;
+
+    ctx->state[0] = 0xc1059ed8;
+    ctx->state[1] = 0x367cd507;
+    ctx->state[2] = 0x3070dd17;
+    ctx->state[3] = 0xf70e5939;
+    ctx->state[4] = 0xffc00b31;
+    ctx->state[5] = 0x68581511;
+    ctx->state[6] = 0x64f98fa7;
+    ctx->state[7] = 0xbefa4fa4;
+}
+
 __A_HASH_PROCESS(a_sha256_t, a_sha256_process, a_sha256_compress)
 
 unsigned char *a_sha256_done(a_sha256_t *ctx, unsigned char *out)
@@ -210,20 +225,35 @@ unsigned char *a_sha256_done(a_sha256_t *ctx, unsigned char *out)
     return ctx->out;
 }
 
-unsigned char *a_sha256(const void *p, size_t n, unsigned char *out)
+unsigned char *a_sha224_done(a_sha256_t *ctx, unsigned char *out)
 {
-    a_sha256_t ctx[1];
+    a_sha256_done(ctx, ctx->out);
 
-    a_sha256_init(ctx);
-    a_sha256_process(ctx, p, n);
-    a_sha256_done(ctx, out);
-
-    if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state))))
+    if (out && out != ctx->out)
     {
-        (void)memcpy(out, ctx->out, sizeof(ctx->state));
+        (void)memcpy(out, ctx->out, A_SHA224_DIGESTSIZE);
     }
 
-    return out;
+    return ctx->out;
 }
+
+#define __A_SHA256(func, size)                                       \
+    unsigned char *func(const void *p, size_t n, unsigned char *out) \
+    {                                                                \
+        a_sha256_t ctx[1];                                           \
+                                                                     \
+        func##_init(ctx);                                            \
+        a_sha256_process(ctx, p, n);                                 \
+        func##_done(ctx, out);                                       \
+                                                                     \
+        if (0 == out && (out = (unsigned char *)a_alloc(size)))      \
+        {                                                            \
+            (void)memcpy(out, ctx->out, size);                       \
+        }                                                            \
+                                                                     \
+        return out;                                                  \
+    }
+__A_SHA256(a_sha256, sizeof(ctx->state))
+__A_SHA256(a_sha224, A_SHA224_DIGESTSIZE)
 
 /* END OF FILE */

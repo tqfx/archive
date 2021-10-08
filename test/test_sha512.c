@@ -1,6 +1,6 @@
 /*!
  @file           test_sha512.c
- @brief          sha512 test
+ @brief          test sha512 sha384 sha512_224 sha512_256
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
@@ -11,9 +11,7 @@
 
 #include <string.h>
 
-__HASH_FPROCESS(a_sha512_t, a_sha512_fprocess, a_sha512_compress)
-
-int main(int argc, char **argv)
+static void test_sha512(void)
 {
     static const struct
     {
@@ -40,28 +38,101 @@ int main(int argc, char **argv)
             __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_DIGESTSIZE);
         }
     }
+}
 
-    char buf[(A_SHA512_DIGESTSIZE << 1) + 1];
-
-    for (int i = 1; i != argc; ++i)
+static void test_sha384(void)
+{
+    static const struct
     {
-        FILE *fp = fopen(argv[i], "rb");
-        if (fp)
+        const char *msg;
+        unsigned char hash[A_SHA384_DIGESTSIZE];
+    } tests[] = {
         {
-            a_sha512_init(ctx);
+            "abc",
+            {0xcb, 0x00, 0x75, 0x3f, 0x45, 0xa3, 0x5e, 0x8b, 0xb5, 0xa0, 0x3d, 0x69, 0x9a, 0xc6, 0x50, 0x07, 0x27, 0x2c, 0x32, 0xab, 0x0e, 0xde, 0xd1, 0x63, 0x1a, 0x8b, 0x60, 0x5a, 0x43, 0xff, 0x5b, 0xed, 0x80, 0x86, 0x07, 0x2b, 0xa1, 0xe7, 0xcc, 0x23, 0x58, 0xba, 0xec, 0xa1, 0x34, 0xc8, 0x25, 0xa7},
+        },
+        {
+            "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
+            {0x09, 0x33, 0x0c, 0x33, 0xf7, 0x11, 0x47, 0xe8, 0x3d, 0x19, 0x2f, 0xc7, 0x82, 0xcd, 0x1b, 0x47, 0x53, 0x11, 0x1b, 0x17, 0x3b, 0x3b, 0x05, 0xd2, 0x2f, 0xa0, 0x80, 0x86, 0xe3, 0xb0, 0xf7, 0x12, 0xfc, 0xc7, 0xc7, 0x1a, 0x55, 0x7e, 0x2d, 0xb9, 0x66, 0xc3, 0xe9, 0xfa, 0x91, 0x74, 0x60, 0x39},
+        },
+    };
 
-            a_sha512_fprocess(ctx, fp);
-            if (fclose(fp))
-            {
-                clearerr(fp);
-            }
+    a_sha384_t ctx[1];
 
-            a_sha512_done(ctx, ctx->out);
-
-            a_digest(ctx->out, A_SHA512_DIGESTSIZE, buf);
-            printf("%s %s\n", buf, argv[i]);
+    for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
+    {
+        a_sha384(tests[i].msg, strlen(tests[i].msg), ctx->out);
+        if (memcmp(ctx->out, tests[i].hash, A_SHA384_DIGESTSIZE))
+        {
+            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA384_DIGESTSIZE);
         }
     }
+}
+
+static void test_sha512_224(void)
+{
+    static const struct
+    {
+        const char *msg;
+        unsigned char hash[A_SHA512_224_DIGESTSIZE];
+    } tests[] = {
+        {
+            "abc",
+            {0x46, 0x34, 0x27, 0x0F, 0x70, 0x7B, 0x6A, 0x54, 0xDA, 0xAE, 0x75, 0x30, 0x46, 0x08, 0x42, 0xE2, 0x0E, 0x37, 0xED, 0x26, 0x5C, 0xEE, 0xE9, 0xA4, 0x3E, 0x89, 0x24, 0xAA},
+        },
+        {
+            "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
+            {0x23, 0xFE, 0xC5, 0xBB, 0x94, 0xD6, 0x0B, 0x23, 0x30, 0x81, 0x92, 0x64, 0x0B, 0x0C, 0x45, 0x33, 0x35, 0xD6, 0x64, 0x73, 0x4F, 0xE4, 0x0E, 0x72, 0x68, 0x67, 0x4A, 0xF9},
+        },
+    };
+
+    a_sha512_224_t ctx[1];
+
+    for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
+    {
+        a_sha512_224(tests[i].msg, strlen(tests[i].msg), ctx->out);
+        if (memcmp(ctx->out, tests[i].hash, A_SHA512_224_DIGESTSIZE))
+        {
+            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_224_DIGESTSIZE);
+        }
+    }
+}
+
+static void test_sha512_256(void)
+{
+    static const struct
+    {
+        const char *msg;
+        unsigned char hash[A_SHA512_256_DIGESTSIZE];
+    } tests[] = {
+        {
+            "abc",
+            {0x53, 0x04, 0x8E, 0x26, 0x81, 0x94, 0x1E, 0xF9, 0x9B, 0x2E, 0x29, 0xB7, 0x6B, 0x4C, 0x7D, 0xAB, 0xE4, 0xC2, 0xD0, 0xC6, 0x34, 0xFC, 0x6D, 0x46, 0xE0, 0xE2, 0xF1, 0x31, 0x07, 0xE7, 0xAF, 0x23},
+        },
+        {
+            "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
+            {0x39, 0x28, 0xE1, 0x84, 0xFB, 0x86, 0x90, 0xF8, 0x40, 0xDA, 0x39, 0x88, 0x12, 0x1D, 0x31, 0xBE, 0x65, 0xCB, 0x9D, 0x3E, 0xF8, 0x3E, 0xE6, 0x14, 0x6F, 0xEA, 0xC8, 0x61, 0xE1, 0x9B, 0x56, 0x3A},
+        },
+    };
+
+    a_sha512_256_t ctx[1];
+
+    for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
+    {
+        a_sha512_256(tests[i].msg, strlen(tests[i].msg), ctx->out);
+        if (memcmp(ctx->out, tests[i].hash, A_SHA512_256_DIGESTSIZE))
+        {
+            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_256_DIGESTSIZE);
+        }
+    }
+}
+
+int main(void)
+{
+    test_sha512();
+    test_sha384();
+    test_sha512_224();
+    test_sha512_256();
 
     return 0;
 }

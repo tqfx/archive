@@ -1,6 +1,6 @@
 /*!
  @file           test_md5.c
- @brief          md5 test
+ @brief          test md5
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
@@ -11,9 +11,7 @@
 
 #include <string.h>
 
-__HASH_FPROCESS(a_md5_t, a_md5_fprocess, a_md5_compress)
-
-int main(int argc, char **argv)
+int main(void)
 {
     static const struct
     {
@@ -58,28 +56,6 @@ int main(int argc, char **argv)
         if (memcmp(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE))
         {
             __HASH_DIFF(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE);
-        }
-    }
-
-    char buf[(A_MD5_DIGESTSIZE << 1) + 1];
-
-    for (int i = 1; i != argc; ++i)
-    {
-        FILE *fp = fopen(argv[i], "rb");
-        if (fp)
-        {
-            a_md5_init(ctx);
-
-            a_md5_fprocess(ctx, fp);
-            if (fclose(fp))
-            {
-                clearerr(fp);
-            }
-
-            a_md5_done(ctx, ctx->out);
-
-            a_digest(ctx->out, A_MD5_DIGESTSIZE, buf);
-            printf("%s %s\n", buf, argv[i]);
         }
     }
 

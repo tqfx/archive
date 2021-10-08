@@ -189,6 +189,51 @@ void a_sha512_init(a_sha512_t *ctx)
     ctx->state[7] = 0x5be0cd19137e2179;
 }
 
+void a_sha384_init(a_sha512_t *ctx)
+{
+    ctx->curlen = 0;
+    ctx->length = 0;
+
+    ctx->state[0] = 0xcbbb9d5dc1059ed8;
+    ctx->state[1] = 0x629a292a367cd507;
+    ctx->state[2] = 0x9159015a3070dd17;
+    ctx->state[3] = 0x152fecd8f70e5939;
+    ctx->state[4] = 0x67332667ffc00b31;
+    ctx->state[5] = 0x8eb44a8768581511;
+    ctx->state[6] = 0xdb0c2e0d64f98fa7;
+    ctx->state[7] = 0x47b5481dbefa4fa4;
+}
+
+void a_sha512_224_init(a_sha512_t *ctx)
+{
+    ctx->curlen = 0;
+    ctx->length = 0;
+
+    ctx->state[0] = 0x8C3D37C819544DA2;
+    ctx->state[1] = 0x73E1996689DCD4D6;
+    ctx->state[2] = 0x1DFAB7AE32FF9C82;
+    ctx->state[3] = 0x679DD514582F9FCF;
+    ctx->state[4] = 0x0F6D2B697BD44DA8;
+    ctx->state[5] = 0x77E36F7304C48942;
+    ctx->state[6] = 0x3F9D85A86A1D36C8;
+    ctx->state[7] = 0x1112E6AD91D692A1;
+}
+
+void a_sha512_256_init(a_sha512_t *ctx)
+{
+    ctx->curlen = 0;
+    ctx->length = 0;
+
+    ctx->state[0] = 0x22312194FC2BF72C;
+    ctx->state[1] = 0x9F555FA3C84C64C2;
+    ctx->state[2] = 0x2393B86B6F53B151;
+    ctx->state[3] = 0x963877195940EABD;
+    ctx->state[4] = 0x96283EE2A88EFFE3;
+    ctx->state[5] = 0xBE5E1E2553863992;
+    ctx->state[6] = 0x2B0199FC2C85B8AA;
+    ctx->state[7] = 0x0EB72DDC81C52CA2;
+}
+
 __A_HASH_PROCESS(a_sha512_t, a_sha512_process, a_sha512_compress)
 
 unsigned char *a_sha512_done(a_sha512_t *ctx, unsigned char *out)
@@ -244,20 +289,41 @@ unsigned char *a_sha512_done(a_sha512_t *ctx, unsigned char *out)
     return ctx->out;
 }
 
-unsigned char *a_sha512(const void *p, size_t n, unsigned char *out)
-{
-    a_sha512_t ctx[1];
-
-    a_sha512_init(ctx);
-    a_sha512_process(ctx, p, n);
-    a_sha512_done(ctx, out);
-
-    if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state))))
-    {
-        (void)memcpy(out, ctx->out, sizeof(ctx->state));
+#define __A_SHA512_DONE(func, size)                          \
+    unsigned char *func(a_sha512_t *ctx, unsigned char *out) \
+    {                                                        \
+        a_sha512_done(ctx, ctx->out);                        \
+                                                             \
+        if (out && out != ctx->out)                          \
+        {                                                    \
+            (void)memcpy(out, ctx->out, size);               \
+        }                                                    \
+                                                             \
+        return ctx->out;                                     \
     }
+__A_SHA512_DONE(a_sha384_done, A_SHA384_DIGESTSIZE)
+__A_SHA512_DONE(a_sha512_224_done, A_SHA512_224_DIGESTSIZE)
+__A_SHA512_DONE(a_sha512_256_done, A_SHA512_256_DIGESTSIZE)
 
-    return out;
-}
+#define __A_SHA512(func, size)                                       \
+    unsigned char *func(const void *p, size_t n, unsigned char *out) \
+    {                                                                \
+        a_sha512_t ctx[1];                                           \
+                                                                     \
+        func##_init(ctx);                                            \
+        a_sha512_process(ctx, p, n);                                 \
+        func##_done(ctx, out);                                       \
+                                                                     \
+        if (0 == out && (out = (unsigned char *)a_alloc(size)))      \
+        {                                                            \
+            (void)memcpy(out, ctx->out, size);                       \
+        }                                                            \
+                                                                     \
+        return out;                                                  \
+    }
+__A_SHA512(a_sha512, sizeof(ctx->state))
+__A_SHA512(a_sha384, A_SHA384_DIGESTSIZE)
+__A_SHA512(a_sha512_224, A_SHA512_224_DIGESTSIZE)
+__A_SHA512(a_sha512_256, A_SHA512_256_DIGESTSIZE)
 
 /* END OF FILE */

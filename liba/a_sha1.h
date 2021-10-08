@@ -55,7 +55,7 @@ extern void a_sha1_process(a_sha1_t *ctx, const void *p, size_t n);
  @param[in,out]  out: points to buffer(20-bytes) that holds the digest.
  @return         ctx->out the digest internal buffer.
   @retval        ctx->out the digest internal buffer.
-  @retval        0 Generic invalid argument.
+  @retval        0 generic invalid argument.
 */
 extern unsigned char *a_sha1_done(a_sha1_t *ctx, unsigned char *out);
 

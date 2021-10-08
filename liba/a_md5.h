@@ -55,7 +55,7 @@ extern void a_md5_process(a_md5_t *ctx, const void *p, size_t n);
  @param[in,out]  out: points to buffer(16-bytes) that holds the digest.
  @return         ctx->out the digest internal buffer.
   @retval        ctx->out the digest internal buffer.
-  @retval        0 Generic invalid argument.
+  @retval        0 generic invalid argument.
 */
 extern unsigned char *a_md5_done(a_md5_t *ctx, unsigned char *out);
 
