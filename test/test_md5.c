@@ -8,32 +8,11 @@
 #include "a_md5.h"
 #include "a_convert.h"
 
-#include <stdio.h>
+#include "test_hash.h"
+
 #include <string.h>
 
-static void a_md5_fprocess(a_md5_t *ctx, FILE *fp)
-{
-    long idx = ftell(fp);
-
-    for (;;)
-    {
-        size_t m = A_MD5_BLOCKSIZE - ctx->curlen;
-        size_t n = fread(ctx->buf + ctx->curlen, 1, m, fp);
-        if (A_MD5_BLOCKSIZE == ctx->curlen + n)
-        {
-            a_md5_compress(ctx, ctx->buf);
-            ctx->length += (A_MD5_BLOCKSIZE << 3);
-            ctx->curlen = 0;
-        }
-        else
-        {
-            ctx->curlen += (uint32_t)n;
-            break;
-        }
-    }
-
-    fseek(fp, idx, SEEK_SET);
-}
+__HASH_FPROCESS(a_md5_t, a_md5_fprocess, a_md5_compress)
 
 int main(int argc, char **argv)
 {

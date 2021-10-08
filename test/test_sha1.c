@@ -8,32 +8,11 @@
 #include "a_sha1.h"
 #include "a_convert.h"
 
-#include <stdio.h>
+#include "test_hash.h"
+
 #include <string.h>
 
-static void a_sha1_fprocess(a_sha1_t *ctx, FILE *fp)
-{
-    long idx = ftell(fp);
-
-    for (;;)
-    {
-        size_t m = A_SHA1_BLOCKSIZE - ctx->curlen;
-        size_t n = fread(ctx->buf + ctx->curlen, 1, m, fp);
-        if (A_SHA1_BLOCKSIZE == ctx->curlen + n)
-        {
-            a_sha1_compress(ctx, ctx->buf);
-            ctx->length += (A_SHA1_BLOCKSIZE << 3);
-            ctx->curlen = 0;
-        }
-        else
-        {
-            ctx->curlen += (uint32_t)n;
-            break;
-        }
-    }
-
-    fseek(fp, idx, SEEK_SET);
-}
+__HASH_FPROCESS(a_sha1_t, a_sha1_fprocess, a_sha1_compress)
 
 int main(int argc, char **argv)
 {

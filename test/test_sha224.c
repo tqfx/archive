@@ -8,32 +8,11 @@
 #include "a_sha224.h"
 #include "a_convert.h"
 
-#include <stdio.h>
+#include "test_hash.h"
+
 #include <string.h>
 
-static void a_sha224_fprocess(a_sha224_t *ctx, FILE *fp)
-{
-    long idx = ftell(fp);
-
-    for (;;)
-    {
-        size_t m = A_SHA224_BLOCKSIZE - ctx->curlen;
-        size_t n = fread(ctx->buf + ctx->curlen, 1, m, fp);
-        if (A_SHA224_BLOCKSIZE == ctx->curlen + n)
-        {
-            a_sha224_compress(ctx, ctx->buf);
-            ctx->length += (A_SHA224_BLOCKSIZE << 3);
-            ctx->curlen = 0;
-        }
-        else
-        {
-            ctx->curlen += (uint32_t)n;
-            break;
-        }
-    }
-
-    fseek(fp, idx, SEEK_SET);
-}
+__HASH_FPROCESS(a_sha224_t, a_sha224_fprocess, a_sha224_compress)
 
 int main(int argc, char **argv)
 {
