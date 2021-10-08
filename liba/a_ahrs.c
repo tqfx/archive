@@ -13,7 +13,6 @@
 #include "a_math.h"
 
 #include <math.h>
-#include <stdint.h>
 
 #undef KP
 #undef KI

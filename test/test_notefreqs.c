@@ -1,6 +1,6 @@
 /*!
  @file           test_notefreqs.c
- @brief          Note frequency test
+ @brief          test note frequency
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
@@ -9,7 +9,7 @@
 
 #define NOTEFREQS_PROPORT ((180000000 >> 1) / 200)
 #define NOTEFREQS_TYPE    double
-#include "liba.h"
+#include "a_notefreqs.h"
 
 static double song[][2] = {
     {NOTEFREQS_FREQ_C0, NOTEFREQS_C0},

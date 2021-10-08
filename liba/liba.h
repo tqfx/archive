@@ -347,37 +347,6 @@ typedef double float64_t;
  @defgroup       LIBA Algorithm
 */
 
-/*!
- @brief          Computational algorithm
-*/
-#include "a_math.h"
-
-/*!
- @brief          Control algorithm
-*/
-#include "a_pid.h"
-
-/*!
- @brief          Filtering algorithm
-*/
-#include "a_lpf.h"
-
-/*!
- @brief          Conversion algorithm
-*/
-#include "a_ahrs.h"
-#include "a_zyx.h"
-
-/*!
- @brief         Frequencies for equal-tempered scale
-*/
-#include "a_notefreqs.h"
-
-/*!
- @brief         Polynomial interpolated trajectory
-*/
-#include "a_polytrack.h"
-
 /* Enddef to prevent recursive inclusion */
 #endif /* __LIBA_H__ */
 

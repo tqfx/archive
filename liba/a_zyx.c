@@ -9,6 +9,8 @@
 
 #include "a_zyx.h"
 
+#include "a_math.h"
+
 #include <math.h>
 
 void a_zyx_euler_quat(const double e[3], double q[4])

@@ -1,11 +1,11 @@
 /*!
  @file           test_math.c
- @brief          math test
+ @brief          test math
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "liba.h"
+#include "a_math.h"
 
 #include <stdio.h>
 #include <math.h>
