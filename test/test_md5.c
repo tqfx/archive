@@ -92,6 +92,8 @@ int main(int argc, char **argv)
         }
     }
 
+    char buf[(A_MD5_DIGESTSIZE << 1) + 1];
+
     for (int i = 1; i != argc; ++i)
     {
         FILE *fp = fopen(argv[i], "rb");
@@ -107,8 +109,8 @@ int main(int argc, char **argv)
 
             a_md5_done(ctx, ctx->out);
 
-            a_digest(ctx->out, A_MD5_DIGESTSIZE, (char *)ctx->buf);
-            printf("%s %s\n", ctx->buf, argv[i]);
+            a_digest(ctx->out, A_MD5_DIGESTSIZE, buf);
+            printf("%s %s\n", buf, argv[i]);
         }
     }
 
