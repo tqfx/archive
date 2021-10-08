@@ -6,7 +6,6 @@
 */
 
 #include "a_md5.h"
-#include "a_convert.h"
 
 #include "test_hash.h"
 
@@ -58,16 +57,7 @@ int main(int argc, char **argv)
         a_md5(tests[i].msg, strlen(tests[i].msg), ctx->out);
         if (memcmp(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE))
         {
-            for (int j = 0; j != A_MD5_DIGESTSIZE; ++j)
-            {
-                printf("%02x", ctx->out[j]);
-            }
-            printf(" ");
-            for (int j = 0; j != A_MD5_DIGESTSIZE; ++j)
-            {
-                printf("%02x", tests[i].hash[j]);
-            }
-            printf("\n");
+            __HASH_DIFF(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE);
         }
     }
 
