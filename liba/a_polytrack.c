@@ -36,6 +36,7 @@
     }
 __A_POLYTRACK3_INIT(32)
 __A_POLYTRACK3_INIT(64)
+#undef __A_POLYTRACK3_INIT
 
 #undef __A_POLYTRACK3_POS
 #define __A_POLYTRACK3_POS(bit)               \
@@ -53,6 +54,7 @@ __A_POLYTRACK3_INIT(64)
     }
 __A_POLYTRACK3_POS(32)
 __A_POLYTRACK3_POS(64)
+#undef __A_POLYTRACK3_POS
 
 #undef __A_POLYTRACK3_VEC
 #define __A_POLYTRACK3_VEC(bit)               \
@@ -68,6 +70,7 @@ __A_POLYTRACK3_POS(64)
     }
 __A_POLYTRACK3_VEC(32)
 __A_POLYTRACK3_VEC(64)
+#undef __A_POLYTRACK3_VEC
 
 #undef __A_POLYTRACK3_ACC
 #define __A_POLYTRACK3_ACC(bit)               \
@@ -81,6 +84,7 @@ __A_POLYTRACK3_VEC(64)
     }
 __A_POLYTRACK3_ACC(32)
 __A_POLYTRACK3_ACC(64)
+#undef __A_POLYTRACK3_ACC
 
 #undef __A_POLYTRACK3_ALL
 #define __A_POLYTRACK3_ALL(bit)             \
@@ -104,6 +108,7 @@ __A_POLYTRACK3_ACC(64)
     }
 __A_POLYTRACK3_ALL(32)
 __A_POLYTRACK3_ALL(64)
+#undef __A_POLYTRACK3_ALL
 
 #undef __A_POLYTRACK5_INIT
 #define __A_POLYTRACK5_INIT(bit)                                                \
@@ -146,6 +151,7 @@ __A_POLYTRACK3_ALL(64)
     }
 __A_POLYTRACK5_INIT(32)
 __A_POLYTRACK5_INIT(64)
+#undef __A_POLYTRACK5_INIT
 
 #undef __A_POLYTRACK5_POS
 #define __A_POLYTRACK5_POS(bit)               \
@@ -167,6 +173,7 @@ __A_POLYTRACK5_INIT(64)
     }
 __A_POLYTRACK5_POS(32)
 __A_POLYTRACK5_POS(64)
+#undef __A_POLYTRACK5_POS
 
 #undef __A_POLYTRACK5_VEC
 #define __A_POLYTRACK5_VEC(bit)               \
@@ -186,6 +193,7 @@ __A_POLYTRACK5_POS(64)
     }
 __A_POLYTRACK5_VEC(32)
 __A_POLYTRACK5_VEC(64)
+#undef __A_POLYTRACK5_VEC
 
 #undef __A_POLYTRACK5_ACC
 #define __A_POLYTRACK5_ACC(bit)               \
@@ -203,6 +211,7 @@ __A_POLYTRACK5_VEC(64)
     }
 __A_POLYTRACK5_ACC(32)
 __A_POLYTRACK5_ACC(64)
+#undef __A_POLYTRACK5_ACC
 
 #undef __A_POLYTRACK5_ALL
 #define __A_POLYTRACK5_ALL(bit)             \
@@ -234,6 +243,7 @@ __A_POLYTRACK5_ACC(64)
     }
 __A_POLYTRACK5_ALL(32)
 __A_POLYTRACK5_ALL(64)
+#undef __A_POLYTRACK5_ALL
 
 #undef __A_POLYTRACK7_INIT
 #define __A_POLYTRACK7_INIT(bit)                                   \
@@ -290,6 +300,7 @@ __A_POLYTRACK5_ALL(64)
     }
 __A_POLYTRACK7_INIT(32)
 __A_POLYTRACK7_INIT(64)
+#undef __A_POLYTRACK7_INIT
 
 #undef __A_POLYTRACK7_POS
 #define __A_POLYTRACK7_POS(bit)               \
@@ -315,6 +326,7 @@ __A_POLYTRACK7_INIT(64)
     }
 __A_POLYTRACK7_POS(32)
 __A_POLYTRACK7_POS(64)
+#undef __A_POLYTRACK7_POS
 
 #undef __A_POLYTRACK7_VEC
 #define __A_POLYTRACK7_VEC(bit)               \
@@ -338,6 +350,7 @@ __A_POLYTRACK7_POS(64)
     }
 __A_POLYTRACK7_VEC(32)
 __A_POLYTRACK7_VEC(64)
+#undef __A_POLYTRACK7_VEC
 
 #undef __A_POLYTRACK7_ACC
 #define __A_POLYTRACK7_ACC(bit)               \
@@ -359,6 +372,7 @@ __A_POLYTRACK7_VEC(64)
     }
 __A_POLYTRACK7_ACC(32)
 __A_POLYTRACK7_ACC(64)
+#undef __A_POLYTRACK7_ACC
 
 #undef __A_POLYTRACK7_JER
 #define __A_POLYTRACK7_JER(bit)               \
@@ -378,6 +392,7 @@ __A_POLYTRACK7_ACC(64)
     }
 __A_POLYTRACK7_JER(32)
 __A_POLYTRACK7_JER(64)
+#undef __A_POLYTRACK7_JER
 
 #undef __A_POLYTRACK7_ALL
 #define __A_POLYTRACK7_ALL(bit)             \
@@ -422,5 +437,6 @@ __A_POLYTRACK7_JER(64)
     }
 __A_POLYTRACK7_ALL(32)
 __A_POLYTRACK7_ALL(64)
+#undef __A_POLYTRACK7_ALL
 
 /* END OF FILE */

@@ -19,17 +19,19 @@
 
 #include "liba.h"
 
-#define a_lpf_t(bit)                                                \
+#undef __A_LPF_T
+#define __A_LPF_T(bit)                                              \
     typedef struct a_lpf_f##bit##_t                                 \
     {                                                               \
         float##bit##_t o; /* Output */                              \
         float##bit##_t k; /* Parameter of filtering              */ \
         float##bit##_t t; /* Time interval of filtering, unit /s */ \
     } a_lpf_f##bit##_t
-a_lpf_t(32);
-a_lpf_t(64);
-#undef a_lpf_t
+__A_LPF_T(32);
+__A_LPF_T(64);
+#undef __A_LPF_T
 
+#undef __A_LPF_INIT
 #define __A_LPF_INIT(bit, ctx, k, t)                 \
     __STATIC_INLINE                                  \
     void a_lpf_f##bit##_init(a_lpf_f##bit##_t *ctx,  \
@@ -43,6 +45,7 @@ __A_LPF_INIT(32, ctx, k, t)
 __A_LPF_INIT(64, ctx, k, t)
 #undef __A_LPF_INIT
 
+#undef __A_LPF
 #define __A_LPF(bit, ctx, x)                                \
     __STATIC_INLINE                                         \
     float##bit##_t a_lpf_f##bit(a_lpf_f##bit##_t *ctx,      \
@@ -60,6 +63,7 @@ __A_LPF(32, ctx, x)
 __A_LPF(64, ctx, x)
 #undef __A_LPF
 
+#undef __A_LPF_RESET
 #define __A_LPF_RESET(bit, ctx)                      \
     __STATIC_INLINE                                  \
     void a_lpf_f##bit##_reset(a_lpf_f##bit##_t *ctx) \
@@ -84,12 +88,15 @@ __A_LPF_RESET(64, ctx)
  @{
 */
 
+#ifndef a_lpf_t
 /*!
  @brief          Instance structure for Low Pass Filter
  @param[in]      bit: bits for the floating-point data
 */
 #define a_lpf_t(bit) a_lpf_f##bit##_t
+#endif /* a_lpf_t */
 
+#ifndef a_lpf_init
 /*!
  @brief          Initialize function for Low Pass Filter
  @param[in]      bit: bits for the floating-point data
@@ -98,7 +105,9 @@ __A_LPF_RESET(64, ctx)
  @param[in]      t: Time interval of filtering, unit /s
 */
 #define a_lpf_init(bit, ctx, k, t) a_lpf_f##bit##_init(ctx, k, t)
+#endif /* a_lpf_init */
 
+#ifndef a_lpf
 /*!
  @brief          Process function for Low Pass Filter
  \f{aligned}{
@@ -111,13 +120,16 @@ __A_LPF_RESET(64, ctx)
  @return         Output
 */
 #define a_lpf(bit, ctx, x) a_lpf_f##bit(ctx, x)
+#endif /* a_lpf */
 
+#ifndef a_lpf_reset
 /*!
  @brief          Reset function for Low Pass Filter
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of Low Pass Filter structure
 */
 #define a_lpf_reset(bit, ctx) a_lpf_f##bit##_reset(ctx)
+#endif /* a_lpf_reset */
 
 /*!< @} */
 

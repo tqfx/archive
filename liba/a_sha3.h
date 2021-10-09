@@ -34,19 +34,25 @@ typedef struct a_sha3_t
     unsigned short xof_flag;
 } a_sha3_t;
 
-#define a_keccak_t     a_sha3_t
+#ifndef a_keccak_t
+#define a_keccak_t a_sha3_t
+#endif /* a_keccak_t */
+#ifndef a_sha3_shake_t
 #define a_sha3_shake_t a_sha3_t
+#endif /* a_sha3_shake_t */
 
 __BEGIN_DECLS
 
-#define a_sha3_init(bit, ctx) \
+#undef __A_SHA3_INIT
+#define __A_SHA3_INIT(bit, ctx) \
     void a_sha3_##bit##_init(a_sha3_t *ctx)
-extern a_sha3_init(224, ctx);
-extern a_sha3_init(256, ctx);
-extern a_sha3_init(384, ctx);
-extern a_sha3_init(512, ctx);
-#undef a_sha3_init
+extern __A_SHA3_INIT(224, ctx);
+extern __A_SHA3_INIT(256, ctx);
+extern __A_SHA3_INIT(384, ctx);
+extern __A_SHA3_INIT(512, ctx);
+#undef __A_SHA3_INIT
 
+#ifndef a_sha3_init
 /*!
  @brief          Initialize function for SHA3.
  @param[in]      bit: bits for SHA3.
@@ -57,6 +63,7 @@ extern a_sha3_init(512, ctx);
  @param[in,out]  ctx: points to an instance of SHA3.
 */
 #define a_sha3_init(bit, ctx) a_sha3_##bit##_init(ctx)
+#endif /* a_sha3_init */
 
 /*!
  @brief          Process function for SHA3.
@@ -74,14 +81,16 @@ extern void a_sha3_process(a_sha3_t *ctx, const void *p, size_t n);
 */
 extern unsigned char *a_sha3_done(a_sha3_t *ctx, unsigned char *out);
 
-#define a_sha3(bit, p, n, out) \
+#undef __A_SHA3
+#define __A_SHA3(bit, p, n, out) \
     unsigned char *a_sha3_##bit(const void *p, size_t n, unsigned char *out)
-extern a_sha3(224, p, n, out);
-extern a_sha3(256, p, n, out);
-extern a_sha3(384, p, n, out);
-extern a_sha3(512, p, n, out);
-#undef a_sha3
+extern __A_SHA3(224, p, n, out);
+extern __A_SHA3(256, p, n, out);
+extern __A_SHA3(384, p, n, out);
+extern __A_SHA3(512, p, n, out);
+#undef __A_SHA3
 
+#ifndef a_sha3
 /*!
  @brief          Create SHA3 hash from a string of characters on hex encoding.
  @param[in]      bit: bits for SHA3.
@@ -96,7 +105,9 @@ extern a_sha3(512, p, n, out);
  @note           When out is 0, you need to use @ref a_free to release the memory.
 */
 #define a_sha3(bit, p, n, out) a_sha3_##bit(p, n, out)
+#endif /* a_sha3 */
 
+#ifndef a_keccak_init
 /*!
  @brief          Initialize function for KECCAK.
  @param[in]      bit: bits for KECCAK.
@@ -107,12 +118,22 @@ extern a_sha3(512, p, n, out);
  @param[in,out]  ctx: points to an instance of SHA3.
 */
 #define a_keccak_init(bit, ctx) a_sha3_##bit##_init(ctx)
+#endif /* a_keccak_init */
 
+#ifndef a_keccak_224_init
 #define a_keccak_224_init(ctx) a_sha3_224_init(ctx)
+#endif /* a_keccak_224_init */
+#ifndef a_keccak_256_init
 #define a_keccak_256_init(ctx) a_sha3_256_init(ctx)
+#endif /* a_keccak_256_init */
+#ifndef a_keccak_384_init
 #define a_keccak_384_init(ctx) a_sha3_384_init(ctx)
+#endif /* a_keccak_384_init */
+#ifndef a_keccak_512_init
 #define a_keccak_512_init(ctx) a_sha3_512_init(ctx)
+#endif /* a_keccak_512_init */
 
+#ifndef a_keccak_process
 /*!
  @brief          Process function for KECCAK.
  @param[in,out]  ctx: points to an instance of SHA3.
@@ -120,6 +141,7 @@ extern a_sha3(512, p, n, out);
  @param[in]      n: length of data.
 */
 #define a_keccak_process(ctx, p, n) a_sha3_process(ctx, p, n)
+#endif /* a_keccak_process */
 
 /*!
  @brief          Terminate function for KECCAK.
@@ -129,14 +151,16 @@ extern a_sha3(512, p, n, out);
 */
 extern unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out);
 
-#define a_keccak(bit, p, n, out) \
+#undef __A_KECCAK
+#define __A_KECCAK(bit, p, n, out) \
     unsigned char *a_keccak_##bit(const void *p, size_t n, unsigned char *out)
-extern a_keccak(224, p, n, out);
-extern a_keccak(256, p, n, out);
-extern a_keccak(384, p, n, out);
-extern a_keccak(512, p, n, out);
-#undef a_keccak
+extern __A_KECCAK(224, p, n, out);
+extern __A_KECCAK(256, p, n, out);
+extern __A_KECCAK(384, p, n, out);
+extern __A_KECCAK(512, p, n, out);
+#undef __A_KECCAK
 
+#ifndef a_keccak
 /*!
  @brief          Create KECCAK hash from a string of characters on hex encoding.
  @param[in]      bit: bits for KECCAK.
@@ -151,6 +175,7 @@ extern a_keccak(512, p, n, out);
  @note           When out is 0, you need to use @ref a_free to release the memory.
 */
 #define a_keccak(bit, p, n, out) a_keccak_##bit(p, n, out)
+#endif /* a_keccak */
 
 /*!
  @brief          Initialize function for SHA3/SHAKE.
@@ -164,6 +189,7 @@ extern a_keccak(512, p, n, out);
 */
 extern int a_sha3_shake_init(a_sha3_t *ctx, unsigned int num);
 
+#ifndef a_sha3_shake_process
 /*!
  @brief          Process function for SHA3/SHAKE.
  @param[in,out]  ctx: points to an instance of SHA3.
@@ -171,6 +197,7 @@ extern int a_sha3_shake_init(a_sha3_t *ctx, unsigned int num);
  @param[in]      n: length of data.
 */
 #define a_sha3_shake_process(ctx, p, n) a_sha3_process(ctx, p, n)
+#endif /* a_sha3_shake_process */
 
 /*!
  @brief          Terminate function for SHA3/SHAKE.

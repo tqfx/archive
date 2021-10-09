@@ -72,7 +72,8 @@ typedef enum a_pid_mode_t
 
 /*!< @} */
 
-#define a_pid_t(bit)                                            \
+#undef __A_PID_T
+#define __A_PID_T(bit)                                          \
     typedef struct a_pid_f##bit##_t                             \
     {                                                           \
         a_pid_mode_t mode; /* Mode for PID Control     */       \
@@ -103,33 +104,36 @@ typedef enum a_pid_mode_t
                           /* - A_PID_POS integral output */     \
                           /* - A_PID_INC all output      */     \
     } a_pid_f##bit##_t
-a_pid_t(32);
-a_pid_t(64);
-#undef a_pid_t
+__A_PID_T(32);
+__A_PID_T(64);
+#undef __A_PID_T
 
 __BEGIN_DECLS
 
-#define a_pid_init(bit, ctx, mode, kpid, omin, omax, omaxi) \
-    void a_pid_f##bit##_init(a_pid_f##bit##_t *ctx,         \
-                             const a_pid_mode_t mode,       \
-                             const float##bit##_t kpid[3],  \
-                             const float##bit##_t omin,     \
-                             const float##bit##_t omax,     \
+#undef __A_PID_INIT
+#define __A_PID_INIT(bit, ctx, mode, kpid, omin, omax, omaxi) \
+    void a_pid_f##bit##_init(a_pid_f##bit##_t *ctx,           \
+                             const a_pid_mode_t mode,         \
+                             const float##bit##_t kpid[3],    \
+                             const float##bit##_t omin,       \
+                             const float##bit##_t omax,       \
                              const float##bit##_t omaxi)
-extern a_pid_init(32, ctx, mode, kpid, omin, omax, omaxi);
-extern a_pid_init(64, ctx, mode, kpid, omin, omax, omaxi);
-#undef a_pid_init
+extern __A_PID_INIT(32, ctx, mode, kpid, omin, omax, omaxi);
+extern __A_PID_INIT(64, ctx, mode, kpid, omin, omax, omaxi);
+#undef __A_PID_INIT
 
-#define a_pid(bit, ctx, ref, set)                         \
+#undef __A_PID
+#define __A_PID(bit, ctx, ref, set)                       \
     float##bit##_t a_pid_f##bit(a_pid_f##bit##_t *ctx,    \
                                 const float##bit##_t ref, \
                                 const float##bit##_t set)
-extern a_pid(32, ctx, ref, set);
-extern a_pid(64, ctx, ref, set);
-#undef a_pid
+extern __A_PID(32, ctx, ref, set);
+extern __A_PID(64, ctx, ref, set);
+#undef __A_PID
 
 __END_DECLS
 
+#undef __A_PID_RESET
 #define __A_PID_RESET(bit, ctx)                      \
     __STATIC_INLINE                                  \
     void a_pid_f##bit##_reset(a_pid_f##bit##_t *ctx) \
@@ -140,6 +144,7 @@ __A_PID_RESET(32, ctx)
 __A_PID_RESET(64, ctx)
 #undef __A_PID_RESET
 
+#undef __A_PID_POS
 #define __A_PID_POS(bit, ctx, kpid, omin, omax, omaxi)                \
     __STATIC_INLINE                                                   \
     void a_pid_f##bit##_pos(a_pid_f##bit##_t *ctx,                    \
@@ -154,6 +159,7 @@ __A_PID_POS(32, ctx, kpid, omin, omax, omaxi)
 __A_PID_POS(64, ctx, kpid, omin, omax, omaxi)
 #undef __A_PID_POS
 
+#undef __A_PID_INC
 #define __A_PID_INC(bit, ctx, kpid, omin, omax)                   \
     __STATIC_INLINE                                               \
     void a_pid_f##bit##_inc(a_pid_f##bit##_t *ctx,                \
@@ -172,12 +178,15 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
  @{
 */
 
+#ifndef a_pid_t
 /*!
  @brief          Instance structure for the floating-point PID Control
  @param[in]      bit: bits for the floating-point data
 */
 #define a_pid_t(bit) a_pid_f##bit##_t
+#endif /* a_pid_t */
 
+#ifndef a_pid_init
 /*!
  @brief          Initialize function for the floating-point PID Control
  @param[in]      bit: bits for the floating-point data
@@ -195,7 +204,9 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
 */
 #define a_pid_init(bit, ctx, mode, kpid, omin, omax, omaxi) \
     a_pid_f##bit##_init(ctx, mode, kpid, omin, omax, omaxi)
+#endif /* a_pid_init */
 
+#ifndef a_pid
 /*!
  @brief          Process function for the floating-point PID Control
  @param[in]      bit: bits for the floating-point data
@@ -205,14 +216,18 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
  @return         Output
 */
 #define a_pid(bit, ctx, ref, set) a_pid_f##bit(ctx, ref, set)
+#endif /* a_pid */
 
+#ifndef a_pid_reset
 /*!
  @brief          Reset function for the floating-point PID Control
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
 */
 #define a_pid_reset(bit, ctx) a_pid_f##bit##_reset(ctx)
+#endif /* a_pid_reset */
 
+#ifndef a_pid_pos
 /*!
  @brief          Initialize function for the floating-point position PID Control
  @param[in]      bit: bits for the floating-point data
@@ -227,7 +242,9 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
 */
 #define a_pid_pos(bit, ctx, kpid, omin, omax, omaxi) \
     a_pid_f##bit##_pos(ctx, kpid, omin, omax, omaxi)
+#endif /* a_pid_pos */
 
+#ifndef a_pid_inc
 /*!
  @brief          Initialize function for the floating-point incremental PID Control
  @param[in]      bit: bits for the floating-point data
@@ -241,6 +258,7 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
 */
 #define a_pid_inc(bit, ctx, kpid, omin, omax) \
     a_pid_f##bit##_inc(ctx, kpid, omin, omax)
+#endif /* a_pid_inc */
 
 /*!< @} */
 

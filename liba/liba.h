@@ -164,11 +164,13 @@ typedef double float64_t;
 
 /* Endian Neutral macros that work on all platforms */
 
+#undef BSWAP
 #define BSWAP(x) (((x >> 0x18) & 0x000000FF) | \
                   ((x << 0x18) & 0xFF000000) | \
                   ((x >> 0x08) & 0x0000FF00) | \
                   ((x << 0x08) & 0x00FF0000))
 
+#undef STORE32L
 #define STORE32L(x, y)                            \
     do                                            \
     {                                             \
@@ -178,6 +180,7 @@ typedef double float64_t;
         (y)[0] = (uint8_t)(((x) >> 0x00) & 0xFF); \
     } while (0)
 
+#undef LOAD32L
 #define LOAD32L(x, y)                             \
     do                                            \
     {                                             \
@@ -187,6 +190,7 @@ typedef double float64_t;
             ((uint32_t)((y)[0] & 0xFF) << 0x00);  \
     } while (0)
 
+#undef STORE64L
 #define STORE64L(x, y)                            \
     do                                            \
     {                                             \
@@ -200,6 +204,7 @@ typedef double float64_t;
         (y)[0] = (uint8_t)(((x) >> 0x00) & 0xFF); \
     } while (0)
 
+#undef LOAD64L
 #define LOAD64L(x, y)                               \
     do                                              \
     {                                               \
@@ -213,6 +218,7 @@ typedef double float64_t;
             (((uint64_t)((y)[0] & 0xFF)) << 0x00);  \
     } while (0)
 
+#undef STORE32H
 #define STORE32H(x, y)                            \
     do                                            \
     {                                             \
@@ -222,6 +228,7 @@ typedef double float64_t;
         (y)[3] = (uint8_t)(((x) >> 0x00) & 0xFF); \
     } while (0)
 
+#undef LOAD32H
 #define LOAD32H(x, y)                             \
     do                                            \
     {                                             \
@@ -231,6 +238,7 @@ typedef double float64_t;
             ((uint32_t)((y)[3] & 0xFF) << 0x00);  \
     } while (0)
 
+#undef STORE64H
 #define STORE64H(x, y)                            \
     do                                            \
     {                                             \
@@ -244,6 +252,7 @@ typedef double float64_t;
         (y)[7] = (uint8_t)(((x) >> 0x00) & 0xFF); \
     } while (0)
 
+#undef LOAD64H
 #define LOAD64H(x, y)                               \
     do                                              \
     {                                               \
@@ -258,6 +267,10 @@ typedef double float64_t;
     } while (0)
 
 /* 32-bit Rotates */
+#undef ROR
+#undef ROL
+#undef RORc
+#undef ROLc
 #if defined(_MSC_VER)
 
 /* instrinsic rotate */
@@ -277,6 +290,10 @@ typedef double float64_t;
 #endif /* 32-bit Rotates */
 
 /* 64-bit Rotates */
+#undef ROR64
+#undef ROL64
+#undef ROR64c
+#undef ROL64c
 #if defined(_MSC_VER)
 
 /* instrinsic rotate */
@@ -296,6 +313,7 @@ typedef double float64_t;
 #endif /* 64-bit Rotates */
 
 /* extract a byte portably */
+#undef A_BYTE
 #define A_BYTE(x, n) ((uint8_t)((x) >> ((n) << 3)))
 
 /* allocate memory */

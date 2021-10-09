@@ -28,7 +28,9 @@ typedef struct a_sha256_t
     unsigned char out[A_SHA256_DIGESTSIZE];
 } a_sha256_t;
 
+#ifndef a_sha224_t
 #define a_sha224_t a_sha256_t
+#endif /* a_sha224_t */
 
 __BEGIN_DECLS
 
@@ -38,12 +40,14 @@ __BEGIN_DECLS
  @param[in]      buf: points to buffer(512-bits).
 */
 extern void a_sha256_compress(a_sha256_t *ctx, const unsigned char *buf);
+#ifndef a_sha224_compress
 /*!
  @brief          Compress function for SHA256/224.
  @param[in,out]  ctx: points to an instance of SHA256.
  @param[in]      buf: points to buffer(512-bits).
 */
 #define a_sha224_compress(ctx, buf) a_sha256_compress(ctx, buf)
+#endif /* a_sha224_compress */
 
 /*!
  @brief          Initialize function for SHA256.
@@ -63,6 +67,7 @@ extern void a_sha224_init(a_sha256_t *ctx);
  @param[in]      n: length of data.
 */
 extern void a_sha256_process(a_sha256_t *ctx, const void *p, size_t n);
+#ifndef a_sha224_process
 /*!
  @brief          Process function for SHA256/224.
  @param[in,out]  ctx: points to an instance of SHA256.
@@ -70,6 +75,7 @@ extern void a_sha256_process(a_sha256_t *ctx, const void *p, size_t n);
  @param[in]      n: length of data.
 */
 #define a_sha224_process(ctx, p, n) a_sha256_process(ctx, p, n)
+#endif /* a_sha224_process */
 
 /*!
  @brief          Terminate function for SHA256.

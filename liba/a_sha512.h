@@ -30,9 +30,15 @@ typedef struct a_sha512_t
     unsigned char out[A_SHA512_DIGESTSIZE];
 } a_sha512_t;
 
-#define a_sha384_t     a_sha512_t
+#ifndef a_sha384_t
+#define a_sha384_t a_sha512_t
+#endif /* a_sha384_t */
+#ifndef a_sha512_224_t
 #define a_sha512_224_t a_sha512_t
+#endif /* a_sha512_224_t */
+#ifndef a_sha512_256_t
 #define a_sha512_256_t a_sha512_t
+#endif /* a_sha512_256_t */
 
 __BEGIN_DECLS
 
@@ -42,24 +48,30 @@ __BEGIN_DECLS
  @param[in]      buf: points to buffer(1024-bits).
 */
 extern void a_sha512_compress(a_sha512_t *ctx, const unsigned char *buf);
+#ifndef a_sha384_compress
 /*!
  @brief          Compress function for SHA384.
  @param[in,out]  ctx: points to an instance of SHA512.
  @param[in]      buf: points to buffer(1024-bits).
 */
 #define a_sha384_compress(ctx, buf) a_sha512_compress(ctx, buf)
+#endif /* a_sha384_compress */
+#ifndef a_sha512_224_compress
 /*!
  @brief          Compress function for SHA512/224.
  @param[in,out]  ctx: points to an instance of SHA512.
  @param[in]      buf: points to buffer(1024-bits).
 */
 #define a_sha512_224_compress(ctx, buf) a_sha512_compress(ctx, buf)
+#endif /* a_sha512_224_compress */
+#ifndef a_sha512_256_compress
 /*!
  @brief          Compress function for SHA512/256.
  @param[in,out]  ctx: points to an instance of SHA512.
  @param[in]      buf: points to buffer(1024-bits).
 */
 #define a_sha512_256_compress(ctx, buf) a_sha512_compress(ctx, buf)
+#endif /* a_sha512_256_compress */
 
 /*!
  @brief          Initialize function for SHA512.
@@ -89,6 +101,7 @@ extern void a_sha512_256_init(a_sha512_t *ctx);
  @param[in]      n: length of data.
 */
 extern void a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
+#ifndef a_sha384_process
 /*!
  @brief          Process function for SHA384.
  @param[in,out]  ctx: points to an instance of SHA512.
@@ -96,6 +109,8 @@ extern void a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
  @param[in]      n: length of data.
 */
 #define a_sha384_process(ctx, p, n) a_sha512_process(ctx, p, n)
+#endif /* a_sha384_process */
+#ifndef a_sha512_224_process
 /*!
  @brief          Process function for SHA512/224.
  @param[in,out]  ctx: points to an instance of SHA512.
@@ -103,6 +118,8 @@ extern void a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
  @param[in]      n: length of data.
 */
 #define a_sha512_224_process(ctx, p, n) a_sha512_process(ctx, p, n)
+#endif /* a_sha512_224_process */
+#ifndef a_sha512_256_process
 /*!
  @brief          Process function for SHA512/256.
  @param[in,out]  ctx: points to an instance of SHA512.
@@ -110,6 +127,7 @@ extern void a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
  @param[in]      n: length of data.
 */
 #define a_sha512_256_process(ctx, p, n) a_sha512_process(ctx, p, n)
+#endif /* a_sha512_256_process */
 
 /*!
  @brief          Terminate function for SHA512.

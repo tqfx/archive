@@ -9,6 +9,7 @@
 
 #include <string.h> /* memset, memcpy*/
 
+#undef SHA3_KECCAK_SPONGE_WORDS
 #define SHA3_KECCAK_SPONGE_WORDS 25 /* 1600 bits -> 200 bytes -> (25 << 3) */
 
 static const unsigned int keccakf_piln[24] = {
@@ -239,6 +240,7 @@ __A_SHA3(keccak, 224)
 __A_SHA3(keccak, 256)
 __A_SHA3(keccak, 384)
 __A_SHA3(keccak, 512)
+#undef __A_SHA3
 
 void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
 {

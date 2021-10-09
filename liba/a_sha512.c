@@ -195,6 +195,7 @@ __A_HASH_DONE(a_sha512_t, a_sha512_done, a_sha512_compress, STORE64H, STORE64H, 
 __A_SHA512_DONE(a_sha384_done, A_SHA384_DIGESTSIZE)
 __A_SHA512_DONE(a_sha512_224_done, A_SHA512_224_DIGESTSIZE)
 __A_SHA512_DONE(a_sha512_256_done, A_SHA512_256_DIGESTSIZE)
+#undef __A_SHA512_DONE
 
 #undef __A_SHA512
 #define __A_SHA512(func, size)                                       \
@@ -217,5 +218,6 @@ __A_SHA512(a_sha512, sizeof(ctx->state))
 __A_SHA512(a_sha384, A_SHA384_DIGESTSIZE)
 __A_SHA512(a_sha512_224, A_SHA512_224_DIGESTSIZE)
 __A_SHA512(a_sha512_256, A_SHA512_256_DIGESTSIZE)
+#undef __A_SHA512
 
 /* END OF FILE */

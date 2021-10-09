@@ -168,5 +168,6 @@ unsigned char *a_sha224_done(a_sha256_t *ctx, unsigned char *out)
     }
 __A_SHA256(a_sha256, sizeof(ctx->state))
 __A_SHA256(a_sha224, A_SHA224_DIGESTSIZE)
+#undef __A_SHA256
 
 /* END OF FILE */

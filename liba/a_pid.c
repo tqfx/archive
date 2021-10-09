@@ -96,6 +96,7 @@
     }
 __A_PID_INIT(32)
 __A_PID_INIT(64)
+#undef __A_PID_INIT
 
 #undef __A_PID
 #define __A_PID(bit)                                                    \
@@ -152,5 +153,6 @@ __A_PID_INIT(64)
     }
 __A_PID(32)
 __A_PID(64)
+#undef __A_PID
 
 /* END OF FILE */

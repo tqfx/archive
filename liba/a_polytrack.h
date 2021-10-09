@@ -12,7 +12,8 @@
 
 #include "liba.h"
 
-#define a_polytrack3_t(bit)                 \
+#undef __A_POLYTRACK3_T
+#define __A_POLYTRACK3_T(bit)               \
     typedef struct a_polytrack3_f##bit##_t  \
     {                                       \
         float##bit##_t t[2]; /* time     */ \
@@ -20,11 +21,12 @@
         float##bit##_t v[2]; /* velocity */ \
         float##bit##_t k[4]; /* quantity */ \
     } a_polytrack3_f##bit##_t
-a_polytrack3_t(32);
-a_polytrack3_t(64);
-#undef a_polytrack3_t
+__A_POLYTRACK3_T(32);
+__A_POLYTRACK3_T(64);
+#undef __A_POLYTRACK3_T
 
-#define a_polytrack5_t(bit)                     \
+#undef __A_POLYTRACK5_T
+#define __A_POLYTRACK5_T(bit)                   \
     typedef struct a_polytrack5_f##bit##_t      \
     {                                           \
         float##bit##_t t[2]; /* time         */ \
@@ -33,11 +35,12 @@ a_polytrack3_t(64);
         float##bit##_t a[2]; /* acceleration */ \
         float##bit##_t k[6]; /* quantity     */ \
     } a_polytrack5_f##bit##_t
-a_polytrack5_t(32);
-a_polytrack5_t(64);
-#undef a_polytrack5_t
+__A_POLYTRACK5_T(32);
+__A_POLYTRACK5_T(64);
+#undef __A_POLYTRACK5_T
 
-#define a_polytrack7_t(bit)                     \
+#undef __A_POLYTRACK7_T
+#define __A_POLYTRACK7_T(bit)                   \
     typedef struct a_polytrack7_f##bit##_t      \
     {                                           \
         float##bit##_t t[2]; /* time         */ \
@@ -47,151 +50,167 @@ a_polytrack5_t(64);
         float##bit##_t j[2]; /* jerk         */ \
         float##bit##_t k[8]; /* quantity     */ \
     } a_polytrack7_f##bit##_t
-a_polytrack7_t(32);
-a_polytrack7_t(64);
-#undef a_polytrack7_t
+__A_POLYTRACK7_T(32);
+__A_POLYTRACK7_T(64);
+#undef __A_POLYTRACK7_T
 
 __BEGIN_DECLS
 
 /* function for cubic polynomial trajectory */
 
-#define a_polytrack3_init(bit, ctx, source, target) \
-    void a_polytrack3_f##bit##_init(                \
-        a_polytrack3_f##bit##_t *ctx,               \
-        const float##bit##_t source[3],             \
+#undef __A_POLYTRACK3_INIT
+#define __A_POLYTRACK3_INIT(bit, ctx, source, target) \
+    void a_polytrack3_f##bit##_init(                  \
+        a_polytrack3_f##bit##_t *ctx,                 \
+        const float##bit##_t source[3],               \
         const float##bit##_t target[3])
-extern a_polytrack3_init(32, ctx, source, target);
-extern a_polytrack3_init(64, ctx, source, target);
-#undef a_polytrack3_init
+extern __A_POLYTRACK3_INIT(32, ctx, source, target);
+extern __A_POLYTRACK3_INIT(64, ctx, source, target);
+#undef __A_POLYTRACK3_INIT
 
-#define a_polytrack3_pos(bit, ctx, t)         \
+#undef __A_POLYTRACK3_POS
+#define __A_POLYTRACK3_POS(bit, ctx, t)       \
     float##bit##_t a_polytrack3_f##bit##_pos( \
         const a_polytrack3_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack3_pos(32, ctx, t);
-extern a_polytrack3_pos(64, ctx, t);
-#undef a_polytrack3_pos
+extern __A_POLYTRACK3_POS(32, ctx, t);
+extern __A_POLYTRACK3_POS(64, ctx, t);
+#undef __A_POLYTRACK3_POS
 
-#define a_polytrack3_vec(bit, ctx, t)         \
+#undef __A_POLYTRACK3_VEC
+#define __A_POLYTRACK3_VEC(bit, ctx, t)       \
     float##bit##_t a_polytrack3_f##bit##_vec( \
         const a_polytrack3_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack3_vec(32, ctx, t);
-extern a_polytrack3_vec(64, ctx, t);
-#undef a_polytrack3_vec
+extern __A_POLYTRACK3_VEC(32, ctx, t);
+extern __A_POLYTRACK3_VEC(64, ctx, t);
+#undef __A_POLYTRACK3_VEC
 
-#define a_polytrack3_acc(bit, ctx, t)         \
+#undef __A_POLYTRACK3_ACC
+#define __A_POLYTRACK3_ACC(bit, ctx, t)       \
     float##bit##_t a_polytrack3_f##bit##_acc( \
         const a_polytrack3_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack3_acc(32, ctx, t);
-extern a_polytrack3_acc(64, ctx, t);
-#undef a_polytrack3_acc
+extern __A_POLYTRACK3_ACC(32, ctx, t);
+extern __A_POLYTRACK3_ACC(64, ctx, t);
+#undef __A_POLYTRACK3_ACC
 
-#define a_polytrack3_all(bit, ctx, t, o)    \
+#undef __A_POLYTRACK3_ALL
+#define __A_POLYTRACK3_ALL(bit, ctx, t, o)  \
     void a_polytrack3_f##bit##_all(         \
         const a_polytrack3_f##bit##_t *ctx, \
         const float##bit##_t t,             \
         float##bit##_t o[3])
-extern a_polytrack3_all(32, ctx, t, o);
-extern a_polytrack3_all(64, ctx, t, o);
-#undef a_polytrack3_all
+extern __A_POLYTRACK3_ALL(32, ctx, t, o);
+extern __A_POLYTRACK3_ALL(64, ctx, t, o);
+#undef __A_POLYTRACK3_ALL
 
 /* function for quintic polynomial trajectory */
 
-#define a_polytrack5_init(bit, ctx, source, target) \
-    void a_polytrack5_f##bit##_init(                \
-        a_polytrack5_f##bit##_t *ctx,               \
-        const float##bit##_t source[4],             \
+#undef __A_POLYTRACK5_INIT
+#define __A_POLYTRACK5_INIT(bit, ctx, source, target) \
+    void a_polytrack5_f##bit##_init(                  \
+        a_polytrack5_f##bit##_t *ctx,                 \
+        const float##bit##_t source[4],               \
         const float##bit##_t target[4])
-extern a_polytrack5_init(32, ctx, source, target);
-extern a_polytrack5_init(64, ctx, source, target);
-#undef a_polytrack5_init
+extern __A_POLYTRACK5_INIT(32, ctx, source, target);
+extern __A_POLYTRACK5_INIT(64, ctx, source, target);
+#undef __A_POLYTRACK5_INIT
 
-#define a_polytrack5_pos(bit, ctx, t)         \
+#undef __A_POLYTRACK5_POS
+#define __A_POLYTRACK5_POS(bit, ctx, t)       \
     float##bit##_t a_polytrack5_f##bit##_pos( \
         const a_polytrack5_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack5_pos(32, ctx, t);
-extern a_polytrack5_pos(64, ctx, t);
-#undef a_polytrack5_pos
+extern __A_POLYTRACK5_POS(32, ctx, t);
+extern __A_POLYTRACK5_POS(64, ctx, t);
+#undef __A_POLYTRACK5_POS
 
-#define a_polytrack5_vec(bit, ctx, t)         \
+#undef __A_POLYTRACK5_VEC
+#define __A_POLYTRACK5_VEC(bit, ctx, t)       \
     float##bit##_t a_polytrack5_f##bit##_vec( \
         const a_polytrack5_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack5_vec(32, ctx, t);
-extern a_polytrack5_vec(64, ctx, t);
-#undef a_polytrack5_vec
+extern __A_POLYTRACK5_VEC(32, ctx, t);
+extern __A_POLYTRACK5_VEC(64, ctx, t);
+#undef __A_POLYTRACK5_VEC
 
-#define a_polytrack5_acc(bit, ctx, t)         \
+#undef __A_POLYTRACK5_ACC
+#define __A_POLYTRACK5_ACC(bit, ctx, t)       \
     float##bit##_t a_polytrack5_f##bit##_acc( \
         const a_polytrack5_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack5_acc(32, ctx, t);
-extern a_polytrack5_acc(64, ctx, t);
-#undef a_polytrack5_acc
+extern __A_POLYTRACK5_ACC(32, ctx, t);
+extern __A_POLYTRACK5_ACC(64, ctx, t);
+#undef __A_POLYTRACK5_ACC
 
-#define a_polytrack5_all(bit, ctx, t, o)    \
+#undef __A_POLYTRACK5_ALL
+#define __A_POLYTRACK5_ALL(bit, ctx, t, o)  \
     void a_polytrack5_f##bit##_all(         \
         const a_polytrack5_f##bit##_t *ctx, \
         const float##bit##_t t,             \
         float##bit##_t o[3])
-extern a_polytrack5_all(32, ctx, t, o);
-extern a_polytrack5_all(64, ctx, t, o);
-#undef a_polytrack5_all
+extern __A_POLYTRACK5_ALL(32, ctx, t, o);
+extern __A_POLYTRACK5_ALL(64, ctx, t, o);
+#undef __A_POLYTRACK5_ALL
 
 /* function for hepta polynomial trajectory */
 
-#define a_polytrack7_init(bit, ctx, source, target) \
-    void a_polytrack7_f##bit##_init(                \
-        a_polytrack7_f##bit##_t *ctx,               \
-        const float##bit##_t source[5],             \
+#undef __A_POLYTRACK7_INIT
+#define __A_POLYTRACK7_INIT(bit, ctx, source, target) \
+    void a_polytrack7_f##bit##_init(                  \
+        a_polytrack7_f##bit##_t *ctx,                 \
+        const float##bit##_t source[5],               \
         const float##bit##_t target[5])
-extern a_polytrack7_init(32, ctx, source, target);
-extern a_polytrack7_init(64, ctx, source, target);
-#undef a_polytrack7_init
+extern __A_POLYTRACK7_INIT(32, ctx, source, target);
+extern __A_POLYTRACK7_INIT(64, ctx, source, target);
+#undef __A_POLYTRACK7_INIT
 
-#define a_polytrack7_pos(bit, ctx, t)         \
+#undef __A_POLYTRACK7_POS
+#define __A_POLYTRACK7_POS(bit, ctx, t)       \
     float##bit##_t a_polytrack7_f##bit##_pos( \
         const a_polytrack7_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack7_pos(32, ctx, t);
-extern a_polytrack7_pos(64, ctx, t);
-#undef a_polytrack7_pos
+extern __A_POLYTRACK7_POS(32, ctx, t);
+extern __A_POLYTRACK7_POS(64, ctx, t);
+#undef __A_POLYTRACK7_POS
 
-#define a_polytrack7_vec(bit, ctx, t)         \
+#undef __A_POLYTRACK7_VEC
+#define __A_POLYTRACK7_VEC(bit, ctx, t)       \
     float##bit##_t a_polytrack7_f##bit##_vec( \
         const a_polytrack7_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack7_vec(32, ctx, t);
-extern a_polytrack7_vec(64, ctx, t);
-#undef a_polytrack7_vec
+extern __A_POLYTRACK7_VEC(32, ctx, t);
+extern __A_POLYTRACK7_VEC(64, ctx, t);
+#undef __A_POLYTRACK7_VEC
 
-#define a_polytrack7_acc(bit, ctx, t)         \
+#undef __A_POLYTRACK7_ACC
+#define __A_POLYTRACK7_ACC(bit, ctx, t)       \
     float##bit##_t a_polytrack7_f##bit##_acc( \
         const a_polytrack7_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack7_acc(32, ctx, t);
-extern a_polytrack7_acc(64, ctx, t);
-#undef a_polytrack7_acc
+extern __A_POLYTRACK7_ACC(32, ctx, t);
+extern __A_POLYTRACK7_ACC(64, ctx, t);
+#undef __A_POLYTRACK7_ACC
 
-#define a_polytrack7_jer(bit, ctx, t)         \
+#undef __A_POLYTRACK7_JER
+#define __A_POLYTRACK7_JER(bit, ctx, t)       \
     float##bit##_t a_polytrack7_f##bit##_jer( \
         const a_polytrack7_f##bit##_t *ctx,   \
         const float##bit##_t t)
-extern a_polytrack7_jer(32, ctx, t);
-extern a_polytrack7_jer(64, ctx, t);
-#undef a_polytrack7_jer
+extern __A_POLYTRACK7_JER(32, ctx, t);
+extern __A_POLYTRACK7_JER(64, ctx, t);
+#undef __A_POLYTRACK7_JER
 
-#define a_polytrack7_all(bit, ctx, t, o)    \
+#undef __A_POLYTRACK7_ALL
+#define __A_POLYTRACK7_ALL(bit, ctx, t, o)  \
     void a_polytrack7_f##bit##_all(         \
         const a_polytrack7_f##bit##_t *ctx, \
         const float##bit##_t t,             \
         float##bit##_t o[4])
-extern a_polytrack7_all(32, ctx, t, o);
-extern a_polytrack7_all(64, ctx, t, o);
-#undef a_polytrack7_all
+extern __A_POLYTRACK7_ALL(32, ctx, t, o);
+extern __A_POLYTRACK7_ALL(64, ctx, t, o);
+#undef __A_POLYTRACK7_ALL
 
 __END_DECLS
 
@@ -201,22 +220,29 @@ __END_DECLS
  @{
 */
 
+#ifndef a_polytrack3_t
 /*!
  @brief          Instance structure for cubic polynomial trajectory
  @param[in]      bit: bits for the floating-point data
 */
 #define a_polytrack3_t(bit) a_polytrack3_f##bit##_t
+#endif /* a_polytrack3_t */
+#ifndef a_polytrack5_t
 /*!
  @brief          Instance structure for quintic polynomial trajectory
  @param[in]      bit: bits for the floating-point data
 */
 #define a_polytrack5_t(bit) a_polytrack5_f##bit##_t
+#endif /* a_polytrack5_t */
+#ifndef a_polytrack7_t
 /*!
  @brief          Instance structure for hepta polynomial trajectory
  @param[in]      bit: bits for the floating-point data
 */
 #define a_polytrack7_t(bit) a_polytrack7_f##bit##_t
+#endif /* a_polytrack7_t */
 
+#ifndef a_polytrack3_init
 /*!
  @brief          Initialize function for cubic polynomial trajectory
  @details
@@ -243,7 +269,9 @@ __END_DECLS
 */
 #define a_polytrack3_init(bit, ctx, source, target) \
     a_polytrack3_f##bit##_init(ctx, source, target)
+#endif /* a_polytrack3_init */
 
+#ifndef a_polytrack3_pos
 /*!
  @brief          Process function for cubic polynomial trajectory
  @details
@@ -259,7 +287,9 @@ __END_DECLS
 */
 #define a_polytrack3_pos(bit, ctx, t) \
     a_polytrack3_f##bit##_pos(ctx, t)
+#endif /* a_polytrack3_pos */
 
+#ifndef a_polytrack3_vec
 /*!
  @brief          Process function for cubic polynomial trajectory
  @details
@@ -275,7 +305,9 @@ __END_DECLS
 */
 #define a_polytrack3_vec(bit, ctx, t) \
     a_polytrack3_f##bit##_vec(ctx, t)
+#endif /* a_polytrack3_vec */
 
+#ifndef a_polytrack3_acc
 /*!
  @brief          Process function for cubic polynomial trajectory
  @details
@@ -291,7 +323,9 @@ __END_DECLS
 */
 #define a_polytrack3_acc(bit, ctx, t) \
     a_polytrack3_f##bit##_acc(ctx, t)
+#endif /* a_polytrack3_acc */
 
+#ifndef a_polytrack3_all
 /*!
  @brief          Process function for cubic polynomial trajectory
  @details
@@ -312,7 +346,9 @@ __END_DECLS
 */
 #define a_polytrack3_all(bit, ctx, t, o) \
     a_polytrack3_f##bit##_all(ctx, t, o)
+#endif /* a_polytrack3_all */
 
+#ifndef a_polytrack5_init
 /*!
  @brief          Initialize function for quintic polynomial trajectory
  @details
@@ -343,7 +379,9 @@ __END_DECLS
 */
 #define a_polytrack5_init(bit, ctx, source, target) \
     a_polytrack5_f##bit##_init(ctx, source, target)
+#endif /* a_polytrack5_init */
 
+#ifndef a_polytrack5_pos
 /*!
  @brief          Process function for quintic polynomial trajectory
  @details
@@ -359,7 +397,9 @@ __END_DECLS
 */
 #define a_polytrack5_pos(bit, ctx, t) \
     a_polytrack5_f##bit##_pos(ctx, t)
+#endif /* a_polytrack5_pos */
 
+#ifndef a_polytrack5_vec
 /*!
  @brief          Process function for quintic polynomial trajectory
  @details
@@ -375,7 +415,9 @@ __END_DECLS
 */
 #define a_polytrack5_vec(bit, ctx, t) \
     a_polytrack5_f##bit##_vec(ctx, t)
+#endif /* a_polytrack5_vec */
 
+#ifndef a_polytrack5_acc
 /*!
  @brief          Process function for quintic polynomial trajectory
  @details
@@ -391,7 +433,9 @@ __END_DECLS
 */
 #define a_polytrack5_acc(bit, ctx, t) \
     a_polytrack5_f##bit##_acc(ctx, t)
+#endif /* a_polytrack5_acc */
 
+#ifndef a_polytrack5_all
 /*!
  @brief          Process function for quintic polynomial trajectory
  @details
@@ -412,7 +456,9 @@ __END_DECLS
 */
 #define a_polytrack5_all(bit, ctx, t, o) \
     a_polytrack5_f##bit##_all(ctx, t, o)
+#endif /* a_polytrack5_all */
 
+#ifndef a_polytrack7_init
 /*!
  @brief          Initialize function for hepta polynomial trajectory
  @details
@@ -447,7 +493,9 @@ __END_DECLS
 */
 #define a_polytrack7_init(bit, ctx, source, target) \
     a_polytrack7_f##bit##_init(ctx, source, target)
+#endif /* a_polytrack7_init */
 
+#ifndef a_polytrack7_pos
 /*!
  @brief          Process function for hepta polynomial trajectory
  @details
@@ -463,7 +511,9 @@ __END_DECLS
 */
 #define a_polytrack7_pos(bit, ctx, t) \
     a_polytrack7_f##bit##_pos(ctx, t)
+#endif /* a_polytrack7_pos */
 
+#ifndef a_polytrack7_vec
 /*!
  @brief          Process function for hepta polynomial trajectory
  @details
@@ -479,7 +529,9 @@ __END_DECLS
 */
 #define a_polytrack7_vec(bit, ctx, t) \
     a_polytrack7_f##bit##_vec(ctx, t)
+#endif /* a_polytrack7_vec */
 
+#ifndef a_polytrack7_acc
 /*!
  @brief          Process function for hepta polynomial trajectory
  @details
@@ -495,7 +547,9 @@ __END_DECLS
 */
 #define a_polytrack7_acc(bit, ctx, t) \
     a_polytrack7_f##bit##_acc(ctx, t)
+#endif /* a_polytrack7_acc */
 
+#ifndef a_polytrack7_jer
 /*!
  @brief          Process function for hepta polynomial trajectory
  @details
@@ -511,7 +565,9 @@ __END_DECLS
 */
 #define a_polytrack7_jer(bit, ctx, t) \
     a_polytrack7_f##bit##_jer(ctx, t)
+#endif /* a_polytrack7_jer */
 
+#ifndef a_polytrack7_all
 /*!
  @brief          Process function for hepta polynomial trajectory
  @details
@@ -534,6 +590,7 @@ __END_DECLS
 */
 #define a_polytrack7_all(bit, ctx, t, o) \
     a_polytrack7_f##bit##_all(ctx, t, o)
+#endif /* a_polytrack7_all */
 
 /*!< @} */
 
