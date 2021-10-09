@@ -152,7 +152,7 @@ unsigned char *a_md4(const void *p, size_t n, unsigned char *out)
     a_md4_process(ctx, p, n);
     a_md4_done(ctx, out);
 
-    if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state))))
+    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out))
     {
         memcpy(out, ctx->out, sizeof(ctx->state));
     }

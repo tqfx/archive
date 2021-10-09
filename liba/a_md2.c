@@ -137,7 +137,7 @@ unsigned char *a_md2(const void *p, size_t n, unsigned char *out)
     a_md2_process(ctx, p, n);
     a_md2_done(ctx, out);
 
-    if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->buf))))
+    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->buf)), out))
     {
         memcpy(out, ctx->x, sizeof(ctx->buf));
     }

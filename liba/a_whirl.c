@@ -212,7 +212,7 @@ unsigned char *a_whirlpool(const void *p, size_t n, unsigned char *out)
     a_whirlpool_process(ctx, p, n);
     a_whirlpool_done(ctx, out);
 
-    if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state))))
+    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out))
     {
         memcpy(out, ctx->out, sizeof(ctx->state));
     }

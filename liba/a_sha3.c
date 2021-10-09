@@ -225,7 +225,7 @@ unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out)
         a_sha3_process(ctx, p, n);                                               \
         a_##name##_done(ctx, out);                                               \
                                                                                  \
-        if (0 == out && (out = (unsigned char *)a_alloc((bit) >> 3)))            \
+        if ((0 == out) && (out = (unsigned char *)a_alloc((bit) >> 3), out))     \
         {                                                                        \
             memcpy(out, ctx->sb, (bit) >> 3);                                    \
         }                                                                        \

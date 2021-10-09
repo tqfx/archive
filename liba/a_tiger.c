@@ -412,7 +412,7 @@ unsigned char *a_tiger(const void *p, size_t n, unsigned char *out)
     a_tiger_process(ctx, p, n);
     a_tiger_done(ctx, out);
 
-    if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state))))
+    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out))
     {
         memcpy(out, ctx->out, sizeof(ctx->state));
     }

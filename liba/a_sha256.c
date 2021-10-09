@@ -141,7 +141,7 @@ unsigned char *a_sha224_done(a_sha256_t *ctx, unsigned char *out)
 {
     a_sha256_done(ctx, ctx->out);
 
-    if (out && out != ctx->out)
+    if (out && (out != ctx->out))
     {
         memcpy(out, ctx->out, A_SHA224_DIGESTSIZE);
     }
@@ -150,21 +150,21 @@ unsigned char *a_sha224_done(a_sha256_t *ctx, unsigned char *out)
 }
 
 #undef __A_SHA256
-#define __A_SHA256(func, size)                                       \
-    unsigned char *func(const void *p, size_t n, unsigned char *out) \
-    {                                                                \
-        a_sha256_t ctx[1];                                           \
-                                                                     \
-        func##_init(ctx);                                            \
-        a_sha256_process(ctx, p, n);                                 \
-        func##_done(ctx, out);                                       \
-                                                                     \
-        if (0 == out && (out = (unsigned char *)a_alloc(size)))      \
-        {                                                            \
-            memcpy(out, ctx->out, size);                             \
-        }                                                            \
-                                                                     \
-        return out;                                                  \
+#define __A_SHA256(func, size)                                         \
+    unsigned char *func(const void *p, size_t n, unsigned char *out)   \
+    {                                                                  \
+        a_sha256_t ctx[1];                                             \
+                                                                       \
+        func##_init(ctx);                                              \
+        a_sha256_process(ctx, p, n);                                   \
+        func##_done(ctx, out);                                         \
+                                                                       \
+        if ((0 == out) && (out = (unsigned char *)a_alloc(size), out)) \
+        {                                                              \
+            memcpy(out, ctx->out, size);                               \
+        }                                                              \
+                                                                       \
+        return out;                                                    \
     }
 __A_SHA256(a_sha256, sizeof(ctx->state))
 __A_SHA256(a_sha224, A_SHA224_DIGESTSIZE)

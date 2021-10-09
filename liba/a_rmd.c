@@ -997,21 +997,21 @@ __A_HASH_DONE(a_rmd256_t, a_rmd256_done, a_rmd256_compress, STORE64L, STORE32L, 
 __A_HASH_DONE(a_rmd320_t, a_rmd320_done, a_rmd320_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 
 #undef __A_RMD
-#define __A_RMD(func)                                                         \
-    unsigned char *func(const void *p, size_t n, unsigned char *out)          \
-    {                                                                         \
-        func##_t ctx[1];                                                      \
-                                                                              \
-        func##_init(ctx);                                                     \
-        func##_process(ctx, p, n);                                            \
-        func##_done(ctx, out);                                                \
-                                                                              \
-        if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state)))) \
-        {                                                                     \
-            memcpy(out, ctx->out, sizeof(ctx->state));                        \
-        }                                                                     \
-                                                                              \
-        return out;                                                           \
+#define __A_RMD(func)                                                                \
+    unsigned char *func(const void *p, size_t n, unsigned char *out)                 \
+    {                                                                                \
+        func##_t ctx[1];                                                             \
+                                                                                     \
+        func##_init(ctx);                                                            \
+        func##_process(ctx, p, n);                                                   \
+        func##_done(ctx, out);                                                       \
+                                                                                     \
+        if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out)) \
+        {                                                                            \
+            memcpy(out, ctx->out, sizeof(ctx->state));                               \
+        }                                                                            \
+                                                                                     \
+        return out;                                                                  \
     }
 __A_RMD(a_rmd128)
 __A_RMD(a_rmd160)

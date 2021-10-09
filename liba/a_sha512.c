@@ -185,7 +185,7 @@ __A_HASH_DONE(a_sha512_t, a_sha512_done, a_sha512_compress, STORE64H, STORE64H, 
     {                                                        \
         a_sha512_done(ctx, ctx->out);                        \
                                                              \
-        if (out && out != ctx->out)                          \
+        if (out && (out != ctx->out))                        \
         {                                                    \
             memcpy(out, ctx->out, size);                     \
         }                                                    \
@@ -198,21 +198,21 @@ __A_SHA512_DONE(a_sha512_256_done, A_SHA512_256_DIGESTSIZE)
 #undef __A_SHA512_DONE
 
 #undef __A_SHA512
-#define __A_SHA512(func, size)                                       \
-    unsigned char *func(const void *p, size_t n, unsigned char *out) \
-    {                                                                \
-        a_sha512_t ctx[1];                                           \
-                                                                     \
-        func##_init(ctx);                                            \
-        a_sha512_process(ctx, p, n);                                 \
-        func##_done(ctx, out);                                       \
-                                                                     \
-        if (0 == out && (out = (unsigned char *)a_alloc(size)))      \
-        {                                                            \
-            memcpy(out, ctx->out, size);                             \
-        }                                                            \
-                                                                     \
-        return out;                                                  \
+#define __A_SHA512(func, size)                                         \
+    unsigned char *func(const void *p, size_t n, unsigned char *out)   \
+    {                                                                  \
+        a_sha512_t ctx[1];                                             \
+                                                                       \
+        func##_init(ctx);                                              \
+        a_sha512_process(ctx, p, n);                                   \
+        func##_done(ctx, out);                                         \
+                                                                       \
+        if ((0 == out) && (out = (unsigned char *)a_alloc(size), out)) \
+        {                                                              \
+            memcpy(out, ctx->out, size);                               \
+        }                                                              \
+                                                                       \
+        return out;                                                    \
     }
 __A_SHA512(a_sha512, sizeof(ctx->state))
 __A_SHA512(a_sha384, A_SHA384_DIGESTSIZE)

@@ -377,7 +377,7 @@ typedef double float64_t;
             return 0;                                                                \
         }                                                                            \
         /* increase the length of the message */                                     \
-        ctx->length += (sizeof(ctx->length) * ctx->curlen);                          \
+        ctx->length += sizeof(ctx->length) * ctx->curlen;                            \
         /* append the '1' bit */                                                     \
         ctx->buf[ctx->curlen++] = (append);                                          \
         /* if the length is currently above (above) bytes we append zeros   */       \
@@ -403,9 +403,9 @@ typedef double float64_t;
         /* copy output */                                                            \
         for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i) \
         {                                                                            \
-            storeout(ctx->state[i], ctx->out + (sizeof(*ctx->state) * i));           \
+            storeout(ctx->state[i], ctx->out + sizeof(*ctx->state) * i);             \
         }                                                                            \
-        if (out && out != ctx->out)                                                  \
+        if (out && (out != ctx->out))                                                \
         {                                                                            \
             memcpy(out, ctx->out, sizeof(ctx->state));                               \
         }                                                                            \
