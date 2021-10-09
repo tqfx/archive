@@ -48,6 +48,7 @@ test: debug cython
 	-cd build;bin/sha256
 	-cd build;bin/sha512
 	-cd build;bin/sha3
+	-cd build;bin/tiger
 	-$(PYTHON) test/test_lpf.py
 	-$(PYTHON) test/test_pid.py
 	-$(PYTHON) test/test_polytrack.py

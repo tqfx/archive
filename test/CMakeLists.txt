@@ -33,3 +33,7 @@ TARGET_LINK_LIBRARIES(sha512 a)
 # test sha3
 ADD_EXECUTABLE(sha3 test_sha3.c)
 TARGET_LINK_LIBRARIES(sha3 a)
+
+# test tiger
+ADD_EXECUTABLE(tiger test_tiger.c)
+TARGET_LINK_LIBRARIES(tiger a)
