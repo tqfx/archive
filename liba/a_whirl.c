@@ -10,7 +10,7 @@
 
 #include <string.h> /* memset, memcpy */
 
-static const uint64_t sbox0[] = {
+static const uint64_t sbox0[0x100] = {
     /* clang-format off */
     0x18186018C07830D8, 0x23238C2305AF4626, 0xC6C63FC67EF991B8, 0xE8E887E8136FCDFB,
     0x878726874CA113CB, 0xB8B8DAB8A9626D11, 0x0101040108050209, 0x4F4F214F426E9E0D,
@@ -197,60 +197,12 @@ void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
 
 void a_whirlpool_init(a_whirlpool_t *ctx)
 {
-    (void)memset(ctx, 0, sizeof(*ctx));
+    memset(ctx, 0, sizeof(*ctx));
 }
 
 __A_HASH_PROCESS(a_whirlpool_t, a_whirlpool_process, a_whirlpool_compress)
 
-unsigned char *a_whirlpool_done(a_whirlpool_t *ctx, unsigned char *out)
-{
-    if (sizeof(ctx->buf) - 1 < ctx->curlen)
-    {
-        return 0;
-    }
-
-    /* increase the length of the message */
-    ctx->length += (ctx->curlen << 3);
-
-    /* append the '1' bit */
-    ctx->buf[ctx->curlen++] = 0x80;
-
-    /* if the length is currently above 32 bytes we append zeros
-     * then compress. Then we can fall back to padding zeros and length
-     * encoding like normal.
-     */
-    if (0x20 < ctx->curlen)
-    {
-        while (ctx->curlen < 0x40)
-        {
-            ctx->buf[ctx->curlen++] = 0;
-        }
-        a_whirlpool_compress(ctx, ctx->buf);
-        ctx->curlen = 0;
-    }
-
-    /* pad up to 56 bytes of zeroes (should be 32 but we only support 64-bit lengths) */
-    while (ctx->curlen < 0x38)
-    {
-        ctx->buf[ctx->curlen++] = 0;
-    }
-
-    /* store length */
-    STORE64H(ctx->length, ctx->buf + 0x38);
-    a_whirlpool_compress(ctx, ctx->buf);
-
-    /* copy output */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
-    {
-        STORE64H(ctx->state[i], ctx->out + (i << 3));
-    }
-    if (out && out != ctx->out)
-    {
-        (void)memcpy(out, ctx->out, sizeof(ctx->state));
-    }
-
-    return ctx->out;
-}
+__A_HASH_DONE(a_whirlpool_t, a_whirlpool_done, a_whirlpool_compress, STORE64H, STORE64H, 0x80, 0x20, 0x38)
 
 unsigned char *a_whirlpool(const void *p, size_t n, unsigned char *out)
 {
@@ -262,7 +214,7 @@ unsigned char *a_whirlpool(const void *p, size_t n, unsigned char *out)
 
     if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state))))
     {
-        (void)memcpy(out, ctx->out, sizeof(ctx->state));
+        memcpy(out, ctx->out, sizeof(ctx->state));
     }
 
     return out;

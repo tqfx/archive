@@ -100,7 +100,7 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
     }
     if (out && out != ctx->sb)
     {
-        (void)memcpy(out, ctx->sb, (unsigned int)ctx->capacity_words << 2);
+        memcpy(out, ctx->sb, (unsigned int)ctx->capacity_words << 2);
     }
 
     return ctx->sb;
@@ -108,25 +108,25 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
 
 void a_sha3_224_init(a_sha3_t *ctx)
 {
-    (void)memset(ctx, 0, sizeof(*ctx));
+    memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = (224 << 1) / (8 << 3);
 }
 
 void a_sha3_256_init(a_sha3_t *ctx)
 {
-    (void)memset(ctx, 0, sizeof(*ctx));
+    memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = (256 << 1) / (8 << 3);
 }
 
 void a_sha3_384_init(a_sha3_t *ctx)
 {
-    (void)memset(ctx, 0, sizeof(*ctx));
+    memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = (384 << 1) / (8 << 3);
 }
 
 void a_sha3_512_init(a_sha3_t *ctx)
 {
-    (void)memset(ctx, 0, sizeof(*ctx));
+    memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = (512 << 1) / (8 << 3);
 }
 
@@ -136,7 +136,7 @@ int a_sha3_shake_init(a_sha3_t *ctx, unsigned int num)
     {
         return -1;
     }
-    (void)memset(ctx, 0, sizeof(*ctx));
+    memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = (unsigned short)((num << 1) / (8 << 3));
     return 0;
 }
@@ -214,6 +214,7 @@ unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out)
     return a_done(ctx, out, 0x01);
 }
 
+#undef __A_SHA3
 #define __A_SHA3(name, bit)                                                      \
     unsigned char *a_##name##_##bit(const void *p, size_t n, unsigned char *out) \
     {                                                                            \
@@ -225,7 +226,7 @@ unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out)
                                                                                  \
         if (0 == out && (out = (unsigned char *)a_alloc((bit) >> 3)))            \
         {                                                                        \
-            (void)memcpy(out, ctx->sb, (bit) >> 3);                              \
+            memcpy(out, ctx->sb, (bit) >> 3);                                    \
         }                                                                        \
                                                                                  \
         return out;                                                              \

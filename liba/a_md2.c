@@ -76,7 +76,7 @@ static void a_md2_compress(a_md2_t *ctx, const void *buf)
 
 void a_md2_init(a_md2_t *ctx)
 {
-    (void)memset(ctx, 0, sizeof(*ctx));
+    memset(ctx, 0, sizeof(*ctx));
 }
 
 void a_md2_process(a_md2_t *ctx, const void *p, size_t n)
@@ -86,7 +86,7 @@ void a_md2_process(a_md2_t *ctx, const void *p, size_t n)
     {
         uint32_t m = sizeof(ctx->buf) - ctx->curlen;
         m = m < n ? m : (uint32_t)n;
-        (void)memcpy(ctx->buf + ctx->curlen, s, m);
+        memcpy(ctx->buf + ctx->curlen, s, m);
         ctx->curlen += m;
         s += m;
         n -= m;
@@ -123,7 +123,7 @@ unsigned char *a_md2_done(a_md2_t *ctx, unsigned char *out)
     if (out && out != ctx->x)
     {
         /* output is lower 16 bytes of x */
-        (void)memcpy(out, ctx->x, 0x10);
+        memcpy(out, ctx->x, 0x10);
     }
 
     return ctx->x;
@@ -139,7 +139,7 @@ unsigned char *a_md2(const void *p, size_t n, unsigned char *out)
 
     if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->buf))))
     {
-        (void)memcpy(out, ctx->x, sizeof(ctx->buf));
+        memcpy(out, ctx->x, sizeof(ctx->buf));
     }
 
     return out;

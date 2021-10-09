@@ -142,55 +142,7 @@ void a_md4_init(a_md4_t *ctx)
 
 __A_HASH_PROCESS(a_md4_t, a_md4_process, a_md4_compress)
 
-unsigned char *a_md4_done(a_md4_t *ctx, unsigned char *out)
-{
-    if (sizeof(ctx->buf) - 1 < ctx->curlen)
-    {
-        return 0;
-    }
-
-    /* increase the length of the message */
-    ctx->length += (ctx->curlen << 3);
-
-    /* append the '1' bit */
-    ctx->buf[ctx->curlen++] = 0x80;
-
-    /* if the length is currently above 56 bytes we append zeros
-     * then compress. Then we can fall back to padding zeros and length
-     * encoding like normal.
-     */
-    if (0x38 < ctx->curlen)
-    {
-        while (ctx->curlen < 0x40)
-        {
-            ctx->buf[ctx->curlen++] = 0;
-        }
-        a_md4_compress(ctx, ctx->buf);
-        ctx->curlen = 0;
-    }
-
-    /* pad up to 56 bytes of zeroes */
-    while (ctx->curlen < 0x38)
-    {
-        ctx->buf[ctx->curlen++] = 0;
-    }
-
-    /* store length */
-    STORE64L(ctx->length, ctx->buf + 0x38);
-    a_md4_compress(ctx, ctx->buf);
-
-    /* copy output */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
-    {
-        STORE32L(ctx->state[i], ctx->out + (i << 2));
-    }
-    if (out && out != ctx->out)
-    {
-        (void)memcpy(out, ctx->out, sizeof(ctx->state));
-    }
-
-    return ctx->out;
-}
+__A_HASH_DONE(a_md4_t, a_md4_done, a_md4_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 
 unsigned char *a_md4(const void *p, size_t n, unsigned char *out)
 {
@@ -202,7 +154,7 @@ unsigned char *a_md4(const void *p, size_t n, unsigned char *out)
 
     if (0 == out && (out = (unsigned char *)a_alloc(sizeof(ctx->state))))
     {
-        (void)memcpy(out, ctx->out, sizeof(ctx->state));
+        memcpy(out, ctx->out, sizeof(ctx->state));
     }
 
     return out;

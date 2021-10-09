@@ -336,7 +336,7 @@ typedef double float64_t;
             {                                                     \
                 uint32_t m = sizeof(ctx->buf) - ctx->curlen;      \
                 m = m < n ? m : (uint32_t)n;                      \
-                (void)memcpy(ctx->buf + ctx->curlen, s, m);       \
+                memcpy(ctx->buf + ctx->curlen, s, m);             \
                 ctx->curlen += m;                                 \
                 s += m;                                           \
                 n -= m;                                           \
@@ -348,6 +348,50 @@ typedef double float64_t;
                 }                                                 \
             }                                                     \
         }                                                         \
+    }
+
+#undef __A_HASH_DONE
+#define __A_HASH_DONE(hash, func, compress, storelen, storeout, append, above, zero) \
+    unsigned char *func(hash *ctx, unsigned char *out)                               \
+    {                                                                                \
+        if (sizeof(ctx->buf) - 1 < ctx->curlen)                                      \
+        {                                                                            \
+            return 0;                                                                \
+        }                                                                            \
+        /* increase the length of the message */                                     \
+        ctx->length += (sizeof(ctx->length) * ctx->curlen);                          \
+        /* append the '1' bit */                                                     \
+        ctx->buf[ctx->curlen++] = (append);                                          \
+        /* if the length is currently above (above) bytes we append zeros   */       \
+        /* then compress. Then we can fall back to padding zeros and length */       \
+        /* encoding like normal.                                            */       \
+        if ((above) < ctx->curlen)                                                   \
+        {                                                                            \
+            while (sizeof(ctx->buf) != ctx->curlen)                                  \
+            {                                                                        \
+                ctx->buf[ctx->curlen++] = 0;                                         \
+            }                                                                        \
+            compress(ctx, ctx->buf);                                                 \
+            ctx->curlen = 0;                                                         \
+        }                                                                            \
+        /* pad up to (zero) bytes of zeroes */                                       \
+        while (ctx->curlen < (zero))                                                 \
+        {                                                                            \
+            ctx->buf[ctx->curlen++] = 0;                                             \
+        }                                                                            \
+        /* store length */                                                           \
+        storelen(ctx->length, ctx->buf + (zero));                                    \
+        compress(ctx, ctx->buf);                                                     \
+        /* copy output */                                                            \
+        for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i) \
+        {                                                                            \
+            storeout(ctx->state[i], ctx->out + (sizeof(*ctx->state) * i));           \
+        }                                                                            \
+        if (out && out != ctx->out)                                                  \
+        {                                                                            \
+            memcpy(out, ctx->out, sizeof(ctx->state));                               \
+        }                                                                            \
+        return ctx->out;                                                             \
     }
 
 /* Enddef to prevent recursive inclusion */

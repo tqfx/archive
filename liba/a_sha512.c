@@ -177,59 +177,9 @@ void a_sha512_256_init(a_sha512_t *ctx)
 
 __A_HASH_PROCESS(a_sha512_t, a_sha512_process, a_sha512_compress)
 
-unsigned char *a_sha512_done(a_sha512_t *ctx, unsigned char *out)
-{
-    if (sizeof(ctx->buf) - 1 < ctx->curlen)
-    {
-        return 0;
-    }
+__A_HASH_DONE(a_sha512_t, a_sha512_done, a_sha512_compress, STORE64H, STORE64H, 0x80, 0x70, 0x78)
 
-    /* increase the length of the message */
-    ctx->length += (ctx->curlen << 3);
-
-    /* append the '1' bit */
-    ctx->buf[ctx->curlen++] = 0x80;
-
-    /* if the length is currently above 112 bytes we append zeros
-     * then compress. Then we can fall back to padding zeros and length
-     * encoding like normal.
-     */
-    if (0x70 < ctx->curlen)
-    {
-        while (ctx->curlen < 0x80)
-        {
-            ctx->buf[ctx->curlen++] = 0;
-        }
-        a_sha512_compress(ctx, ctx->buf);
-        ctx->curlen = 0;
-    }
-
-    /* pad upto 120 bytes of zeroes
-     * note: that from 112 to 120 is the 64 MSB of the length.  We assume that you won't hash
-     * > 2^64 bits of data... :-)
-     */
-    while (ctx->curlen < 0x78)
-    {
-        ctx->buf[ctx->curlen++] = 0;
-    }
-
-    /* store length */
-    STORE64H(ctx->length, ctx->buf + 0x78);
-    a_sha512_compress(ctx, ctx->buf);
-
-    /* copy output */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
-    {
-        STORE64H(ctx->state[i], ctx->out + (i << 3));
-    }
-    if (out && out != ctx->out)
-    {
-        (void)memcpy(out, ctx->out, sizeof(ctx->state));
-    }
-
-    return ctx->out;
-}
-
+#undef __A_SHA512_DONE
 #define __A_SHA512_DONE(func, size)                          \
     unsigned char *func(a_sha512_t *ctx, unsigned char *out) \
     {                                                        \
@@ -237,7 +187,7 @@ unsigned char *a_sha512_done(a_sha512_t *ctx, unsigned char *out)
                                                              \
         if (out && out != ctx->out)                          \
         {                                                    \
-            (void)memcpy(out, ctx->out, size);               \
+            memcpy(out, ctx->out, size);                     \
         }                                                    \
                                                              \
         return ctx->out;                                     \
@@ -246,6 +196,7 @@ __A_SHA512_DONE(a_sha384_done, A_SHA384_DIGESTSIZE)
 __A_SHA512_DONE(a_sha512_224_done, A_SHA512_224_DIGESTSIZE)
 __A_SHA512_DONE(a_sha512_256_done, A_SHA512_256_DIGESTSIZE)
 
+#undef __A_SHA512
 #define __A_SHA512(func, size)                                       \
     unsigned char *func(const void *p, size_t n, unsigned char *out) \
     {                                                                \
@@ -257,7 +208,7 @@ __A_SHA512_DONE(a_sha512_256_done, A_SHA512_256_DIGESTSIZE)
                                                                      \
         if (0 == out && (out = (unsigned char *)a_alloc(size)))      \
         {                                                            \
-            (void)memcpy(out, ctx->out, size);                       \
+            memcpy(out, ctx->out, size);                             \
         }                                                            \
                                                                      \
         return out;                                                  \
