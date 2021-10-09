@@ -6,6 +6,10 @@ TARGET_LINK_LIBRARIES(math a m)
 ADD_EXECUTABLE(notefreqs test_notefreqs.c)
 TARGET_LINK_LIBRARIES(notefreqs a)
 
+# test md4
+ADD_EXECUTABLE(md4 test_md4.c)
+TARGET_LINK_LIBRARIES(md4 a)
+
 # test md5
 ADD_EXECUTABLE(md5 test_md5.c)
 TARGET_LINK_LIBRARIES(md5 a)
