@@ -49,6 +49,7 @@ test: debug cython
 	-cd build;bin/sha512
 	-cd build;bin/sha3
 	-cd build;bin/tiger
+	-cd build;bin/whirl
 	-$(PYTHON) test/test_lpf.py
 	-$(PYTHON) test/test_pid.py
 	-$(PYTHON) test/test_polytrack.py

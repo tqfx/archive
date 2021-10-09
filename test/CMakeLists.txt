@@ -37,3 +37,7 @@ TARGET_LINK_LIBRARIES(sha3 a)
 # test tiger
 ADD_EXECUTABLE(tiger test_tiger.c)
 TARGET_LINK_LIBRARIES(tiger a)
+
+# test whirl
+ADD_EXECUTABLE(whirl test_whirl.c)
+TARGET_LINK_LIBRARIES(whirl a)
