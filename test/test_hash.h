@@ -46,7 +46,7 @@
             char _bdst[((size) << 1) + 1];                       \
             a_digest((const unsigned char *)(src), size, _bsrc); \
             a_digest((const unsigned char *)(dst), size, _bdst); \
-            printf("%s %s\n", _bsrc, _bdst);                     \
+            printf("%s %s %s\n", _bsrc, _bdst, #size);           \
         }                                                        \
     } while (0)
 

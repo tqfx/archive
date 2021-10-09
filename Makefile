@@ -42,7 +42,9 @@ format: liba
 	@-find $^ test -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format --verbose -style=file -i {} \;
 
 test: debug cython
-	-cd build;bin/math
+	-$(PYTHON) test/test_lpf.py
+	-$(PYTHON) test/test_pid.py
+	-$(PYTHON) test/test_polytrack.py
 	-cd build;bin/md2
 	-cd build;bin/md4
 	-cd build;bin/md5
@@ -53,6 +55,4 @@ test: debug cython
 	-cd build;bin/sha3
 	-cd build;bin/tiger
 	-cd build;bin/whirl
-	-$(PYTHON) test/test_lpf.py
-	-$(PYTHON) test/test_pid.py
-	-$(PYTHON) test/test_polytrack.py
+	-cd build;bin/math

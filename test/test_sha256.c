@@ -9,8 +9,6 @@
 
 #include "test_hash.h"
 
-#include <string.h>
-
 static void test_sha256(void)
 {
     static const struct
