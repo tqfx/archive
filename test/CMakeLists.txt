@@ -1,6 +1,6 @@
 # test math
 ADD_EXECUTABLE(math test_math.c)
-TARGET_LINK_LIBRARIES(math a m)
+TARGET_LINK_LIBRARIES(math a)
 
 # test notefreqs
 ADD_EXECUTABLE(notefreqs test_notefreqs.c)
@@ -45,3 +45,15 @@ TARGET_LINK_LIBRARIES(tiger a)
 # test whirl
 ADD_EXECUTABLE(whirl test_whirl.c)
 TARGET_LINK_LIBRARIES(whirl a)
+
+IF("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
+   "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
+   "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
+   "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+
+  TARGET_LINK_LIBRARIES(math m)
+
+ENDIF("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
+      "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
+      "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
+      "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
