@@ -332,7 +332,7 @@ typedef double float64_t;
             else                                                  \
             {                                                     \
                 uint32_t m = sizeof(ctx->buf) - ctx->curlen;      \
-                m = n < m ? (uint32_t)n : m;                      \
+                m = m < n ? m : (uint32_t)n;                      \
                 (void)memcpy(ctx->buf + ctx->curlen, s, m);       \
                 ctx->curlen += m;                                 \
                 s += m;                                           \
