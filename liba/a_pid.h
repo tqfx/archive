@@ -75,7 +75,7 @@ typedef enum a_pid_mode_t
 #define a_pid_t(bit)                                            \
     typedef struct a_pid_f##bit##_t                             \
     {                                                           \
-        a_pid_mode_t mode; /* Mode of PID Control      */       \
+        a_pid_mode_t mode; /* Mode for PID Control     */       \
                                                                 \
         float##bit##_t kp; /* Proportional constant    */       \
         float##bit##_t ki; /* Integral constant        */       \
@@ -109,23 +109,23 @@ a_pid_t(64);
 
 __BEGIN_DECLS
 
-#define a_pid_init(bit, ctx, mode, kpid, omin, omax, omaxi)       \
-    extern void a_pid_f##bit##_init(a_pid_f##bit##_t *ctx,        \
-                                    const a_pid_mode_t mode,      \
-                                    const float##bit##_t kpid[3], \
-                                    const float##bit##_t omin,    \
-                                    const float##bit##_t omax,    \
-                                    const float##bit##_t omaxi)
-a_pid_init(32, ctx, mode, kpid, omin, omax, omaxi);
-a_pid_init(64, ctx, mode, kpid, omin, omax, omaxi);
+#define a_pid_init(bit, ctx, mode, kpid, omin, omax, omaxi) \
+    void a_pid_f##bit##_init(a_pid_f##bit##_t *ctx,         \
+                             const a_pid_mode_t mode,       \
+                             const float##bit##_t kpid[3],  \
+                             const float##bit##_t omin,     \
+                             const float##bit##_t omax,     \
+                             const float##bit##_t omaxi)
+extern a_pid_init(32, ctx, mode, kpid, omin, omax, omaxi);
+extern a_pid_init(64, ctx, mode, kpid, omin, omax, omaxi);
 #undef a_pid_init
 
-#define a_pid(bit, ctx, ref, set)                                \
-    extern float##bit##_t a_pid_f##bit(a_pid_f##bit##_t *ctx,    \
-                                       const float##bit##_t ref, \
-                                       const float##bit##_t set)
-a_pid(32, ctx, ref, set);
-a_pid(64, ctx, ref, set);
+#define a_pid(bit, ctx, ref, set)                         \
+    float##bit##_t a_pid_f##bit(a_pid_f##bit##_t *ctx,    \
+                                const float##bit##_t ref, \
+                                const float##bit##_t set)
+extern a_pid(32, ctx, ref, set);
+extern a_pid(64, ctx, ref, set);
 #undef a_pid
 
 __END_DECLS
@@ -182,13 +182,13 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
  @brief          Initialize function for the floating-point PID Control
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
- @param[in]      mode: The mode of PID Control
+ @param[in]      mode: the mode for PID Control
   @arg @ref      A_PID_POS position pid control
   @arg @ref      A_PID_INC incremental pid control
  @param[in]      kpid: constant array
-  @arg           kpid[0] (Proportional constant)
-  @arg           kpid[1] (Integral constant)
-  @arg           kpid[2] (Derivative constant)
+  @arg           0 Proportional
+  @arg           1 Integral
+  @arg           2 Derivative
  @param[in]      omin: Minimum output
  @param[in]      omax: Maximum output
  @param[in]      omaxi: Maximum intergral output
@@ -200,8 +200,8 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
  @brief          Process function for the floating-point PID Control
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
- @param[in]      ref: Reference point
- @param[in]      set: Set point
+ @param[in]      ref: reference point
+ @param[in]      set: set point
  @return         Output
 */
 #define a_pid(bit, ctx, ref, set) a_pid_f##bit(ctx, ref, set)
@@ -218,9 +218,9 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      kpid: constant array
-  @arg           kpid[0] (Proportional constant)
-  @arg           kpid[1] (Integral constant)
-  @arg           kpid[2] (Derivative constant)
+  @arg           0 Proportional
+  @arg           1 Integral
+  @arg           2 Derivative
  @param[in]      omin: Minimum output
  @param[in]      omax: Maximum output
  @param[in]      omaxi: Maximum intergral output
@@ -233,9 +233,9 @@ __A_PID_INC(64, ctx, kpid, omin, omax)
  @param[in]      bit: bits for the floating-point data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      kpid: constant array
-  @arg           kpid[0] (Proportional constant)
-  @arg           kpid[1] (Integral constant)
-  @arg           kpid[2] (Derivative constant)
+  @arg           0 Proportional
+  @arg           1 Integral
+  @arg           2 Derivative
  @param[in]      omin: Minimum output
  @param[in]      omax: Maximum output
 */
