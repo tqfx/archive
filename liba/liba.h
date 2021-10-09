@@ -153,6 +153,9 @@
 #endif /* __unused */
 
 #include <stdint.h>
+#if defined(_MSC_VER)
+#include <stdlib.h>
+#endif /* _MSC_VER */
 
 /*!
  @endcond
@@ -336,6 +339,7 @@ typedef double float64_t;
 #define a_free(p) free(p)
 #endif /* a_free */
 
+/* need memcpy in string.h */
 #undef __A_HASH_PROCESS
 #define __A_HASH_PROCESS(hash, func, compress)                    \
     void func(hash *ctx, const void *p, size_t n)                 \
@@ -368,6 +372,7 @@ typedef double float64_t;
         }                                                         \
     }
 
+/* need memcpy in string.h */
 #undef __A_HASH_DONE
 #define __A_HASH_DONE(hash, func, compress, storelen, storeout, append, above, zero) \
     unsigned char *func(hash *ctx, unsigned char *out)                               \
