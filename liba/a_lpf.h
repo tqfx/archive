@@ -86,6 +86,7 @@ __A_LPF_RESET(64, ctx)
 
 /*!
  @brief          Instance structure for Low Pass Filter
+ @param[in]      bit: bits for the floating-point data
 */
 #define a_lpf_t(bit) a_lpf_f##bit##_t
 
