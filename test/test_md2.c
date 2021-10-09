@@ -70,10 +70,7 @@ int main(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_md2(tests[i].msg, strlen(tests[i].msg), out);
-        if (memcmp(out, tests[i].hash, A_MD2_DIGESTSIZE))
-        {
-            __HASH_DIFF(out, tests[i].hash, A_MD2_DIGESTSIZE);
-        }
+        __HASH_DIFF(out, tests[i].hash, A_MD2_DIGESTSIZE);
     }
 
     return 0;

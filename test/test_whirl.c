@@ -152,10 +152,7 @@ int main(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_whirlpool(tests[i].msg, tests[i].len, ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_WHIRLPOOL_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_WHIRLPOOL_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_WHIRLPOOL_DIGESTSIZE);
     }
 
     return 0;

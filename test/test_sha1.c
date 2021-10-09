@@ -41,10 +41,7 @@ int main(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_sha1(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_SHA1_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA1_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA1_DIGESTSIZE);
     }
 
     return 0;

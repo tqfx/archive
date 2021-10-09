@@ -54,10 +54,7 @@ static void test_sha512(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_sha512(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_SHA512_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_DIGESTSIZE);
     }
 }
 
@@ -100,10 +97,7 @@ static void test_sha384(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_sha384(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_SHA384_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA384_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA384_DIGESTSIZE);
     }
 }
 
@@ -142,10 +136,7 @@ static void test_sha512_224(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_sha512_224(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_SHA512_224_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_224_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_224_DIGESTSIZE);
     }
 }
 
@@ -184,10 +175,7 @@ static void test_sha512_256(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_sha512_256(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_SHA512_256_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_256_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_256_DIGESTSIZE);
     }
 }
 

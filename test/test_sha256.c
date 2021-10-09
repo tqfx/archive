@@ -45,10 +45,7 @@ static void test_sha256(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_sha256(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_SHA256_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA256_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA256_DIGESTSIZE);
     }
 }
 
@@ -86,10 +83,7 @@ static void test_sha224(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_sha224(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_SHA224_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_SHA224_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA224_DIGESTSIZE);
     }
 }
 

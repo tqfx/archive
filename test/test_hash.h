@@ -12,6 +12,7 @@
 #include "a_convert.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #define __HASH_FPROCESS(hash, func, compress)                   \
     void func(hash *ctx, FILE *fp)                              \
@@ -36,14 +37,17 @@
         fseek(fp, idx, SEEK_SET);                               \
     }
 
-#define __HASH_DIFF(src, dst, size)                          \
-    do                                                       \
-    {                                                        \
-        char _bsrc[((size) << 1) + 1];                       \
-        char _bdst[((size) << 1) + 1];                       \
-        a_digest((const unsigned char *)(src), size, _bsrc); \
-        a_digest((const unsigned char *)(dst), size, _bdst); \
-        printf("%s %s\n", _bsrc, _bdst);                     \
+#define __HASH_DIFF(src, dst, size)                              \
+    do                                                           \
+    {                                                            \
+        if (memcmp(src, dst, size))                              \
+        {                                                        \
+            char _bsrc[((size) << 1) + 1];                       \
+            char _bdst[((size) << 1) + 1];                       \
+            a_digest((const unsigned char *)(src), size, _bsrc); \
+            a_digest((const unsigned char *)(dst), size, _bdst); \
+            printf("%s %s\n", _bsrc, _bdst);                     \
+        }                                                        \
     } while (0)
 
 /* Enddef to prevent recursive inclusion */

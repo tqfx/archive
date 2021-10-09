@@ -78,10 +78,7 @@ int main(void)
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_md5(tests[i].msg, strlen(tests[i].msg), ctx->out);
-        if (memcmp(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE))
-        {
-            __HASH_DIFF(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE);
-        }
+        __HASH_DIFF(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE);
     }
 
     return 0;

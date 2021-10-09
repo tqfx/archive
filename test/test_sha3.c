@@ -38,27 +38,18 @@ static void test_sha3_224(void)
     /* SHA3-224 on an empty buffer */
     a_sha3_224_init(ctx);
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_224_empty, A_SHA3_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_224_empty, A_SHA3_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_224_empty, A_SHA3_224_DIGESTSIZE);
 
     /* SHA3-224 as a single buffer. [FIPS 202] */
     a_sha3_224(buf, sizeof(buf), hash);
-    if (memcmp(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE);
 
     /* SHA3-224 in two steps. [FIPS 202] */
     a_sha3_224_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE);
 
     /* SHA3-224 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_224_init(ctx);
@@ -67,10 +58,7 @@ static void test_sha3_224(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE);
 }
 
 static void test_sha3_256(void)
@@ -100,27 +88,18 @@ static void test_sha3_256(void)
     /* SHA3-256 on an empty buffer */
     a_sha3_256_init(ctx);
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_256_empty, A_SHA3_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_256_empty, A_SHA3_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_256_empty, A_SHA3_256_DIGESTSIZE);
 
     /* SHA3-256 as a single buffer. [FIPS 202] */
     a_sha3_256(buf, sizeof(buf), hash);
-    if (memcmp(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
 
     /* SHA3-256 in two steps. [FIPS 202] */
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
 
     /* SHA3-256 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_256_init(ctx);
@@ -129,10 +108,7 @@ static void test_sha3_256(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
 
     const char *src = "\xb7\x71\xd5\xce\xf5\xd1\xa4\x1a"
                       "\x93\xd1\x56\x43\xd7\x18\x1d\x2a"
@@ -161,10 +137,7 @@ static void test_sha3_256(void)
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, src, 1080 >> 3);
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, dst, A_SHA3_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_SHA3_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_SHA3_256_DIGESTSIZE);
 }
 
 static void test_sha3_384(void)
@@ -189,20 +162,14 @@ static void test_sha3_384(void)
 
     /* SHA3-384 as a single buffer. [FIPS 202] */
     a_sha3_384(buf, sizeof(buf), hash);
-    if (memcmp(hash, sha3_384_0xa3_200_times, A_SHA3_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
 
     /* SHA3-384 in two steps. [FIPS 202] */
     a_sha3_384_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE);
 
     /* SHA3-384 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_384_init(ctx);
@@ -211,10 +178,7 @@ static void test_sha3_384(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE);
 }
 
 static void test_sha3_512(void)
@@ -241,20 +205,14 @@ static void test_sha3_512(void)
 
     /* SHA3-512 as a single buffer. [FIPS 202] */
     a_sha3_512(buf, sizeof(buf), hash);
-    if (memcmp(hash, sha3_512_0xa3_200_times, A_SHA3_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_256_DIGESTSIZE);
 
     /* SHA3-512 in two steps. [FIPS 202] */
     a_sha3_512_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE);
 
     /* SHA3-512 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_512_init(ctx);
@@ -263,10 +221,7 @@ static void test_sha3_512(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    if (memcmp(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE);
 }
 
 static void test_sha3_shake(void)
@@ -311,17 +266,11 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake256_empty, sizeof(shake256_empty)))
-    {
-        __HASH_DIFF(hash, shake256_empty, sizeof(shake256_empty));
-    }
+    __HASH_DIFF(hash, shake256_empty, sizeof(shake256_empty));
 
     /* SHAKE256 via a_sha3_shake [FIPS 202] */
     a_sha3_shake(0x100, buf, sizeof(buf), hash, 0x200);
-    if (memcmp(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
-    }
+    __HASH_DIFF(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
 
     /* SHAKE256 as a single buffer. [FIPS 202] */
     a_sha3_shake_init(ctx, 0x100);
@@ -330,10 +279,7 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
-    }
+    __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
 
     /* SHAKE256 in two steps. [FIPS 202] */
     a_sha3_shake_init(ctx, 0x100);
@@ -343,10 +289,7 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
-    }
+    __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
 
     /* SHAKE256 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_shake_init(ctx, 0x100);
@@ -358,10 +301,7 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
-    }
+    __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
 
     /* SHAKE128 on an empty buffer */
     a_sha3_shake_init(ctx, 0x80);
@@ -369,17 +309,11 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake128_empty, sizeof(shake128_empty)))
-    {
-        __HASH_DIFF(hash, shake128_empty, sizeof(shake128_empty));
-    }
+    __HASH_DIFF(hash, shake128_empty, sizeof(shake128_empty));
 
     /* SHAKE128 via a_sha3_shake [FIPS 202] */
     a_sha3_shake(0x80, buf, sizeof(buf), hash, 0x200);
-    if (memcmp(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
-    }
+    __HASH_DIFF(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
 
     /* SHAKE128 as a single buffer. [FIPS 202] */
     a_sha3_shake_init(ctx, 0x80);
@@ -388,10 +322,7 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
-    }
+    __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
 
     /* SHAKE128 in two steps. [FIPS 202] */
     a_sha3_shake_init(ctx, 0x80);
@@ -401,10 +332,7 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
-    }
+    __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
 
     /* SHAKE128 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_shake_init(ctx, 0x80);
@@ -416,10 +344,7 @@ static void test_sha3_shake(void)
     {
         a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    if (memcmp(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
-    {
-        __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
-    }
+    __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
 }
 
 static void test_keccak_224(void)
@@ -434,10 +359,7 @@ static void test_keccak_224(void)
                       "\x89\x9f\x28\x02";
 
     a_keccak_224(src, 1, hash);
-    if (memcmp(hash, dst, A_KECCAK_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
 
     src = "\x41\xfb";
     dst = "\x61\x5b\xa3\x67\xaf\xdc\x35\xaa"
@@ -448,10 +370,7 @@ static void test_keccak_224(void)
     a_keccak_224_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -463,10 +382,7 @@ static void test_keccak_224(void)
     a_keccak_224_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -489,10 +405,7 @@ static void test_keccak_224(void)
     a_keccak_224_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_224_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE);
 }
 
 static void test_keccak_256(void)
@@ -507,10 +420,7 @@ static void test_keccak_256(void)
                       "\x1e\x84\xa5\x4b\xd9\x97\x0b\x8a";
 
     a_keccak_256(src, 1, hash);
-    if (memcmp(hash, dst, A_KECCAK_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
 
     src = "\x41\xfb";
     dst = "\xa8\xea\xce\xda\x4d\x47\xb3\x28"
@@ -521,10 +431,7 @@ static void test_keccak_256(void)
     a_keccak_256_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -536,10 +443,7 @@ static void test_keccak_256(void)
     a_keccak_256_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -562,10 +466,7 @@ static void test_keccak_256(void)
     a_keccak_256_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_256_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE);
 }
 
 static void test_keccak_384(void)
@@ -582,10 +483,7 @@ static void test_keccak_384(void)
                       "\x36\xee\x7b\x11\xc5\x8f\x73\xe9";
 
     a_keccak_384(src, 1, hash);
-    if (memcmp(hash, dst, A_KECCAK_384_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
 
     src = "\x41\xfb";
     dst = "\x49\x5c\xce\x27\x14\xcd\x72\xc8"
@@ -598,10 +496,7 @@ static void test_keccak_384(void)
     a_keccak_384_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_384_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -615,10 +510,7 @@ static void test_keccak_384(void)
     a_keccak_384_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_384_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -643,10 +535,7 @@ static void test_keccak_384(void)
     a_keccak_384_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_384_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE);
 }
 
 static void test_keccak_512(void)
@@ -665,10 +554,7 @@ static void test_keccak_512(void)
                       "\x37\x14\x41\xa5\xac\x66\x6e\xb9";
 
     a_keccak_512(src, 1, hash);
-    if (memcmp(hash, dst, A_KECCAK_512_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
 
     src = "\x41\xfb";
     dst = "\x55\x1d\xa6\x23\x6f\x8b\x96\xfc"
@@ -683,10 +569,7 @@ static void test_keccak_512(void)
     a_keccak_512_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_512_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -702,10 +585,7 @@ static void test_keccak_512(void)
     a_keccak_512_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_512_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -732,10 +612,7 @@ static void test_keccak_512(void)
     a_keccak_512_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    if (memcmp(hash, dst, A_KECCAK_512_DIGESTSIZE))
-    {
-        __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
-    }
+    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE);
 }
 
 int main(void)
