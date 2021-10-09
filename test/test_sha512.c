@@ -13,12 +13,12 @@
 
 static void test_sha512(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_SHA512_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "abc",
             {
@@ -46,8 +46,8 @@ static void test_sha512(void)
                 0x5E, 0x96, 0xE5, 0x5B, 0x87, 0x4B, 0xE9, 0x09,
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     a_sha512_t ctx[1];
 
@@ -63,12 +63,12 @@ static void test_sha512(void)
 
 static void test_sha384(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_SHA384_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "abc",
             {
@@ -92,8 +92,8 @@ static void test_sha384(void)
                 0x66, 0xC3, 0xE9, 0xFA, 0x91, 0x74, 0x60, 0x39,
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     a_sha384_t ctx[1];
 
@@ -109,12 +109,12 @@ static void test_sha384(void)
 
 static void test_sha512_224(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_SHA512_224_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "abc",
             {
@@ -134,8 +134,8 @@ static void test_sha512_224(void)
                 0x68, 0x67, 0x4A, 0xF9,
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     a_sha512_224_t ctx[1];
 
@@ -151,12 +151,12 @@ static void test_sha512_224(void)
 
 static void test_sha512_256(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_SHA512_256_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "abc",
             {
@@ -176,8 +176,8 @@ static void test_sha512_256(void)
                 0x6F, 0xEA, 0xC8, 0x61, 0xE1, 0x9B, 0x56, 0x3A,
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     a_sha512_256_t ctx[1];
 

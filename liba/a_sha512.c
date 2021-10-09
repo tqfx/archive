@@ -31,8 +31,8 @@
 
 void a_sha512_compress(a_sha512_t *ctx, const unsigned char *buf)
 {
-    /* clang-format off */
     static const uint64_t k[0x50] = {
+        /* clang-format off */
         0x428A2F98D728AE22, 0x7137449123EF65CD, 0xB5C0FBCFEC4D3B2F, 0xE9B5DBA58189DBBC,
         0x3956C25BF348B538, 0x59F111F1B605D019, 0x923F82A4AF194F9B, 0xAB1C5ED5DA6D8118,
         0xD807AA98A3030242, 0x12835B0145706FBE, 0x243185BE4EE4B28C, 0x550C7DC3D5FFB4E2,
@@ -53,8 +53,8 @@ void a_sha512_compress(a_sha512_t *ctx, const unsigned char *buf)
         0x06F067AA72176FBA, 0x0A637DC5A2C898A6, 0x113F9804BEF90DAE, 0x1B710B35131C471B,
         0x28DB77F523047D84, 0x32CAAB7B40C72493, 0x3C9EBE0A15C9BEBC, 0x431D67C49C100D4C,
         0x4CC5D4BECB3E42B6, 0x597F299CFC657E2A, 0x5FCB6FAB3AD6FAEC, 0x6C44198C4A475817,
+        /* clang-format on */
     };
-    /* clang-format on */
 
     uint64_t w[0x50], t0, t1;
     uint64_t s[sizeof(ctx->state) / sizeof(*ctx->state)];

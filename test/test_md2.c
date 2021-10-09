@@ -13,12 +13,12 @@
 
 int main(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_MD2_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "",
             {
@@ -62,8 +62,8 @@ int main(void)
                 0xC9, 0x80, 0x6C, 0x3C, 0x66, 0xF3, 0xEF, 0xD8
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     unsigned char out[A_MD2_DIGESTSIZE];
 

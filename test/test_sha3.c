@@ -306,10 +306,10 @@ static void test_sha3_shake(void)
     memset(buf, c1, sizeof(buf));
 
     /* SHAKE256 on an empty buffer */
-    a_sha3_shake_init(ctx, 256);
-    for (unsigned int i = 0; i != 16; ++i)
+    a_sha3_shake_init(ctx, 0x100);
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake256_empty, sizeof(shake256_empty)))
     {
@@ -317,18 +317,18 @@ static void test_sha3_shake(void)
     }
 
     /* SHAKE256 via a_sha3_shake [FIPS 202] */
-    a_sha3_shake(256, buf, sizeof(buf), hash, 512);
-    if (memcmp(hash + 480, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
+    a_sha3_shake(0x100, buf, sizeof(buf), hash, 0x200);
+    if (memcmp(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
     {
-        __HASH_DIFF(hash + 480, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
+        __HASH_DIFF(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times));
     }
 
     /* SHAKE256 as a single buffer. [FIPS 202] */
-    a_sha3_shake_init(ctx, 256);
+    a_sha3_shake_init(ctx, 0x100);
     a_sha3_shake_process(ctx, buf, sizeof(buf));
-    for (unsigned int i = 0; i != 16; ++i)
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
     {
@@ -336,12 +336,12 @@ static void test_sha3_shake(void)
     }
 
     /* SHAKE256 in two steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 256);
+    a_sha3_shake_init(ctx, 0x100);
     a_sha3_shake_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_shake_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
-    for (unsigned int i = 0; i != 16; ++i)
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
     {
@@ -349,14 +349,14 @@ static void test_sha3_shake(void)
     }
 
     /* SHAKE256 byte-by-byte: 200 steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 256);
+    a_sha3_shake_init(ctx, 0x100);
     for (unsigned int i = 0; i != 200; ++i)
     {
         a_sha3_shake_process(ctx, &c1, 1);
     }
-    for (unsigned int i = 0; i != 16; ++i)
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times)))
     {
@@ -364,10 +364,10 @@ static void test_sha3_shake(void)
     }
 
     /* SHAKE128 on an empty buffer */
-    a_sha3_shake_init(ctx, 128);
-    for (unsigned int i = 0; i != 16; ++i)
+    a_sha3_shake_init(ctx, 0x80);
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake128_empty, sizeof(shake128_empty)))
     {
@@ -375,18 +375,18 @@ static void test_sha3_shake(void)
     }
 
     /* SHAKE128 via a_sha3_shake [FIPS 202] */
-    a_sha3_shake(128, buf, sizeof(buf), hash, 512);
-    if (memcmp(hash + 480, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
+    a_sha3_shake(0x80, buf, sizeof(buf), hash, 0x200);
+    if (memcmp(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
     {
-        __HASH_DIFF(hash + 480, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
+        __HASH_DIFF(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times));
     }
 
     /* SHAKE128 as a single buffer. [FIPS 202] */
-    a_sha3_shake_init(ctx, 128);
+    a_sha3_shake_init(ctx, 0x80);
     a_sha3_shake_process(ctx, buf, sizeof(buf));
-    for (unsigned int i = 0; i != 16; ++i)
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
     {
@@ -394,12 +394,12 @@ static void test_sha3_shake(void)
     }
 
     /* SHAKE128 in two steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 128);
+    a_sha3_shake_init(ctx, 0x80);
     a_sha3_shake_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_shake_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
-    for (unsigned int i = 0; i != 16; ++i)
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
     {
@@ -407,14 +407,14 @@ static void test_sha3_shake(void)
     }
 
     /* SHAKE128 byte-by-byte: 200 steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 128);
+    a_sha3_shake_init(ctx, 0x80);
     for (unsigned int i = 0; i != 200; ++i)
     {
         a_sha3_shake_process(ctx, &c1, 1);
     }
-    for (unsigned int i = 0; i != 16; ++i)
+    for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 32); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     if (memcmp(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times)))
     {
@@ -461,7 +461,7 @@ static void test_keccak_224(void)
           "\x40\x70\x4e\x57";
 
     a_keccak_224_init(ctx);
-    a_keccak_process(ctx, src, 16);
+    a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
     if (memcmp(hash, dst, A_KECCAK_224_DIGESTSIZE))
     {
@@ -534,7 +534,7 @@ static void test_keccak_256(void)
           "\xdd\xf9\x56\xfe\x33\x2a\x5f\x95";
 
     a_keccak_256_init(ctx);
-    a_keccak_process(ctx, src, 16);
+    a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
     if (memcmp(hash, dst, A_KECCAK_256_DIGESTSIZE))
     {
@@ -613,7 +613,7 @@ static void test_keccak_384(void)
           "\x63\x31\xd2\x86\x83\xf4\x88\xeb";
 
     a_keccak_384_init(ctx);
-    a_keccak_process(ctx, src, 16);
+    a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
     if (memcmp(hash, dst, A_KECCAK_384_DIGESTSIZE))
     {
@@ -700,7 +700,7 @@ static void test_keccak_512(void)
           "\xce\xa3\x81\x86\x8c\xbd\x43\xd1";
 
     a_keccak_512_init(ctx);
-    a_keccak_process(ctx, src, 16);
+    a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
     if (memcmp(hash, dst, A_KECCAK_512_DIGESTSIZE))
     {

@@ -13,12 +13,12 @@
 
 static void test_sha256(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_SHA256_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "abc",
             {
@@ -37,8 +37,8 @@ static void test_sha256(void)
                 0xF6, 0xEC, 0xED, 0xD4, 0x19, 0xDB, 0x06, 0xC1,
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     a_sha256_t ctx[1];
 
@@ -54,12 +54,12 @@ static void test_sha256(void)
 
 static void test_sha224(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_SHA224_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "abc",
             {
@@ -78,8 +78,8 @@ static void test_sha224(void)
                 0x52, 0x52, 0x25, 0x25,
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     a_sha224_t ctx[1];
 

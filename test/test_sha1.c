@@ -13,12 +13,12 @@
 
 int main(void)
 {
-    /* clang-format off */
     static const struct
     {
         const char *msg;
         unsigned char hash[A_SHA1_DIGESTSIZE];
     } tests[] = {
+        /* clang-format off */
         {
             "abc",
             {
@@ -33,8 +33,8 @@ int main(void)
                 0x4A, 0xA1, 0xF9, 0x51, 0x29, 0xE5, 0xE5, 0x46, 0x70, 0xF1,
             },
         },
+        /* clang-format on */
     };
-    /* clang-format on */
 
     a_sha1_t ctx[1];
 
