@@ -43,7 +43,10 @@ format: liba
 
 test: debug cython
 	-cd build;bin/math
+	-cd build;bin/md2
+	-cd build;bin/md4
 	-cd build;bin/md5
+	-cd build;bin/rmd
 	-cd build;bin/sha1
 	-cd build;bin/sha256
 	-cd build;bin/sha512

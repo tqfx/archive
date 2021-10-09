@@ -18,6 +18,10 @@ TARGET_LINK_LIBRARIES(md4 a)
 ADD_EXECUTABLE(md5 test_md5.c)
 TARGET_LINK_LIBRARIES(md5 a)
 
+# test rmd
+ADD_EXECUTABLE(rmd test_rmd.c)
+TARGET_LINK_LIBRARIES(rmd a)
+
 # test sha1
 ADD_EXECUTABLE(sha1 test_sha1.c)
 TARGET_LINK_LIBRARIES(sha1 a)
