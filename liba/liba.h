@@ -154,6 +154,14 @@
 
 #include <stdint.h>
 
+/*!
+ @endcond
+ @defgroup       LIBA Algorithm library
+*/
+
+typedef float float32_t;
+typedef double float64_t;
+
 /* Endian Neutral macros that work on all platforms */
 
 #define BSWAP(x) (((x >> 0x18) & 0x000000FF) | \
@@ -307,9 +315,6 @@
 #define a_free(p) free(p)
 #endif /* a_free */
 
-typedef float float32_t;
-typedef double float64_t;
-
 #undef __A_HASH_PROCESS
 #define __A_HASH_PROCESS(hash, func, compress)                    \
     void func(hash *ctx, const void *p, size_t n)                 \
@@ -341,11 +346,6 @@ typedef double float64_t;
             }                                                     \
         }                                                         \
     }
-
-/*!
- @endcond
- @defgroup       LIBA Algorithm
-*/
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __LIBA_H__ */
