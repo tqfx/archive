@@ -7,8 +7,8 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __A_MD5_h__
-#define __A_MD5_h__
+#ifndef __A_MD5_H__
+#define __A_MD5_H__
 
 #include "liba.h"
 

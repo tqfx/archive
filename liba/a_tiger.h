@@ -7,8 +7,8 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __A_TIGER_h__
-#define __A_TIGER_h__
+#ifndef __A_TIGER_H__
+#define __A_TIGER_H__
 
 #include "liba.h"
 

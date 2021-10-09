@@ -7,8 +7,8 @@
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __A_SHA256_h__
-#define __A_SHA256_h__
+#ifndef __A_SHA256_H__
+#define __A_SHA256_H__
 
 #include "liba.h"
 
