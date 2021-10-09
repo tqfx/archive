@@ -66,8 +66,8 @@ int main(void)
         printf("%+f\t0x%llX\t%u,0x%03X,0x%014llX\n",
                b64->f64,
                b64->u64,
-               b64->s64->s,
-               b64->s64->e,
+               (unsigned int)b64->s64->s,
+               (unsigned int)b64->s64->e,
                (unsigned long long)b64->s64->f);
     }
 
