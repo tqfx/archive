@@ -295,6 +295,9 @@ typedef double float64_t;
 
 #endif /* 64-bit Rotates */
 
+/* extract a byte portably */
+#define A_BYTE(x, n) ((uint8_t)((x) >> ((n) << 3)))
+
 /* allocate memory */
 #ifndef a_alloc
 #define a_alloc(n) malloc(n)
