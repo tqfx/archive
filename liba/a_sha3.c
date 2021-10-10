@@ -292,8 +292,9 @@ int a_sha3_shake(unsigned int num,
 {
     a_sha3_t ctx[1];
 
-    int ret = -1;
-    if (a_sha3_shake_init(ctx, num) == 0)
+    int ret = a_sha3_shake_init(ctx, num);
+
+    if (0 == ret)
     {
         a_sha3_process(ctx, p, n);
         a_sha3_shake_done(ctx, out, len);
