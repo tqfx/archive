@@ -11,8 +11,8 @@
 #define NOTEFREQS_TYPE    double
 #include "a_notefreqs.h"
 
-/* clang-format off */
 static double song[][2] = {
+    /* clang-format off */
     {NOTEFREQS_FREQ_C0,  NOTEFREQS_C0},  {NOTEFREQS_FREQ_C_0, NOTEFREQS_C_0},
     {NOTEFREQS_FREQ_D0,  NOTEFREQS_D0},  {NOTEFREQS_FREQ_D_0, NOTEFREQS_D_0},
     {NOTEFREQS_FREQ_E0,  NOTEFREQS_E0},  {NOTEFREQS_FREQ_F0,  NOTEFREQS_F0},
@@ -67,8 +67,8 @@ static double song[][2] = {
     {NOTEFREQS_FREQ_F_8, NOTEFREQS_F_8}, {NOTEFREQS_FREQ_G8,  NOTEFREQS_G8},
     {NOTEFREQS_FREQ_G_8, NOTEFREQS_G_8}, {NOTEFREQS_FREQ_A8,  NOTEFREQS_A8},
     {NOTEFREQS_FREQ_A_8, NOTEFREQS_A_8}, {NOTEFREQS_FREQ_B8,  NOTEFREQS_B8},
+    /* clang-format on */
 };
-/* clang-format on */
 
 int main(void)
 {
