@@ -29,10 +29,10 @@ install:
 	-$(PYTHON) -m pip install -U -r requirements.txt
 
 wheel:
-	-$(PYTHON) -m pip wheel ./test --use-feature=in-tree-build
+	-$(PYTHON) -m pip wheel --use-feature=in-tree-build ./test
 
 cython:
-	-$(PYTHON) test/setup.py build_ext --inplace
+	-$(PYTHON) test/setup.py --quiet build_ext --inplace
 
 clean:
 	@-git clean -fdX
