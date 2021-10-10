@@ -6,10 +6,17 @@
  @copyright      Copyright (C) 2020 tqfx
 '''
 import os
-import numpy as np
-import matplotlib.pyplot as plt
+import math
 from sys import argv
-from liba import *
+
+try:
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from liba import *
+except Exception as e:
+    print(e)
+    exit()
+
 
 data = np.arange(0, 64 * np.pi, 0.01)
 

@@ -6,10 +6,15 @@
  @copyright      Copyright (C) 2020 tqfx
 '''
 import os
-import numpy as np
-import matplotlib.pyplot as plt
 from sys import argv
-from liba import *
+
+try:
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from liba import *
+except Exception as e:
+    print(e)
+    exit()
 
 t = (0, 1)
 q = (0, 1)
