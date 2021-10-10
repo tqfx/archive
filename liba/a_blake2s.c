@@ -49,17 +49,17 @@ enum
     A_PARAM_SIZE = 32,
 };
 
-static __inline void a_blake2s_set_lastnode(a_blake2s_t *ctx)
+static __INLINE void a_blake2s_set_lastnode(a_blake2s_t *ctx)
 {
     ctx->f[1] = 0xFFFFFFFF;
 }
 
-static __inline int a_blake2s_is_lastblock(const a_blake2s_t *ctx)
+static __INLINE int a_blake2s_is_lastblock(const a_blake2s_t *ctx)
 {
     return (0 != ctx->f[0]);
 }
 
-static __inline void a_blake2s_set_lastblock(a_blake2s_t *ctx)
+static __INLINE void a_blake2s_set_lastblock(a_blake2s_t *ctx)
 {
     if (ctx->lastnode)
     {
@@ -68,7 +68,7 @@ static __inline void a_blake2s_set_lastblock(a_blake2s_t *ctx)
     ctx->f[0] = 0xFFFFFFFF;
 }
 
-static __inline void a_blake2s_increment_counter(a_blake2s_t *ctx, uint32_t inc)
+static __INLINE void a_blake2s_increment_counter(a_blake2s_t *ctx, uint32_t inc)
 {
     ctx->t[0] += inc;
     if (ctx->t[0] < inc)

@@ -76,15 +76,6 @@
 #define __result_use_check __RESULT_USE_CHECK
 #endif /* __result_use_check */
 
-/* static inline */
-#undef __STATIC_INLINE
-
-#define __STATIC_INLINE static __inline
-
-#ifndef __static_inline
-#define __static_inline __STATIC_INLINE
-#endif /* __static_inline */
-
 /* attribute always inline */
 #undef __ALWAYS_INLINE
 
@@ -102,18 +93,13 @@
 #undef __PREDICT_TRUE
 #undef __PREDICT_FALSE
 
-#if defined(__GNUC__)
-#if __GNUC__ >= 3
+#if defined(__GNUC__) && (__GNUC__ >= 3)
 #define __PREDICT_TRUE(_EXP_)  __builtin_expect((_EXP_), 1)
 #define __PREDICT_FALSE(_EXP_) __builtin_expect((_EXP_), 0)
-#else /* __GNUC__ < 3 */
+#else
 #define __PREDICT_TRUE(_EXP_)  (_EXP_)
 #define __PREDICT_FALSE(_EXP_) (_EXP_)
-#endif /* __GNUC__ >= 3 */
-#else  /* Not GCC */
-#define __PREDICT_TRUE(_EXP_)  (_EXP_)
-#define __PREDICT_FALSE(_EXP_) (_EXP_)
-#endif /* __GNUC__ */
+#endif /* defined(__GNUC__) && (__GNUC__ >= 3) */
 
 #ifndef __predict_true
 #define __predict_true(_exp_) __PREDICT_TRUE(_exp_)
@@ -125,15 +111,11 @@
 /* attribute weak */
 #undef __WEAK
 
-#if defined(__GNUC__)
-#if __GNUC__ >= 3
+#if defined(__GNUC__) && (__GNUC__ >= 3)
 #define __WEAK __attribute__((__weak__))
-#else /* __GNUC__ < 3 */
+#else
 #define __WEAK
-#endif /* __GNUC__ >= 3 */
-#else  /* Not GCC */
-#define __WEAK
-#endif /* __GNUC__ */
+#endif /* defined(__GNUC__) && (__GNUC__ >= 3) */
 
 #ifndef __weak
 #define __weak __WEAK
@@ -151,6 +133,22 @@
 #ifndef __unused
 #define __unused __UNUSED
 #endif /* __unused */
+
+/* inline */
+#undef __INLINE
+#define __INLINE __inline
+
+/* static inline */
+#undef __STATIC_INLINE
+#define __STATIC_INLINE static __inline
+
+#ifndef __static_inline
+#define __static_inline __STATIC_INLINE
+#endif /* __static_inline */
+
+/* unused param */
+#undef UNUSED_PARAM
+#define UNUSED_PARAM(x) (void)(x)
 
 #include <stdint.h>
 #if defined(_MSC_VER)
