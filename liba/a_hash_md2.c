@@ -1,14 +1,12 @@
 /*!
- @file           a_md2.c
+ @file           a_hash_md2.c
  @brief          RFC 1319 compliant MD2 implementation
  @details        https://www.ietf.org/rfc/rfc1319.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_md2.h"
-
-#include <string.h> /* memset, memcpy */
+#include "a_hash.h"
 
 static const unsigned char PI_SUBST[0x100] = {
     /* clang-format off */
@@ -79,8 +77,13 @@ void a_md2_init(a_md2_t *ctx)
     memset(ctx, 0, sizeof(*ctx));
 }
 
-void a_md2_process(a_md2_t *ctx, const void *p, size_t n)
+int a_md2_process(a_md2_t *ctx, const void *p, size_t n)
 {
+    if (sizeof(ctx->buf) < ctx->curlen)
+    {
+        return A_HASH_INVALID;
+    }
+
     const unsigned char *s = (const unsigned char *)p;
     while (n)
     {
@@ -97,6 +100,8 @@ void a_md2_process(a_md2_t *ctx, const void *p, size_t n)
             ctx->curlen = 0;
         }
     }
+
+    return A_HASH_SUCCESS;
 }
 
 unsigned char *a_md2_done(a_md2_t *ctx, unsigned char *out)
@@ -127,22 +132,6 @@ unsigned char *a_md2_done(a_md2_t *ctx, unsigned char *out)
     }
 
     return ctx->x;
-}
-
-unsigned char *a_md2(const void *p, size_t n, unsigned char *out)
-{
-    a_md2_t ctx[1];
-
-    a_md2_init(ctx);
-    a_md2_process(ctx, p, n);
-    a_md2_done(ctx, out);
-
-    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->buf)), out))
-    {
-        memcpy(out, ctx->x, sizeof(ctx->buf));
-    }
-
-    return out;
 }
 
 /* END OF FILE */

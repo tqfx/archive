@@ -1,14 +1,12 @@
 /*!
- @file           a_tiger.c
+ @file           a_hash_tiger.c
  @brief          TIGER implementation
  @details        https://www.cs.technion.ac.il/~biham/Reports/Tiger
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_tiger.h"
-
-#include <string.h> /* memcpy */
+#include "a_hash.h"
 
 static const uint64_t table[0x400] = {
     /* clang-format off */
@@ -351,7 +349,7 @@ static void a_key_schedule(uint64_t *x)
     x[7] -= x[6] ^ 0x0123456789ABCDEF;
 }
 
-void a_tiger_compress(a_tiger_t *ctx, const unsigned char *buf)
+static void a_tiger_compress(a_tiger_t *ctx, const unsigned char *buf)
 {
     uint64_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
@@ -403,21 +401,5 @@ void a_tiger_init(a_tiger_t *ctx)
 __A_HASH_PROCESS(a_tiger_t, a_tiger_process, a_tiger_compress)
 
 __A_HASH_DONE(a_tiger_t, a_tiger_done, a_tiger_compress, STORE64L, STORE64L, 0x01, 0x38, 0x38)
-
-unsigned char *a_tiger(const void *p, size_t n, unsigned char *out)
-{
-    a_tiger_t ctx[1];
-
-    a_tiger_init(ctx);
-    a_tiger_process(ctx, p, n);
-    a_tiger_done(ctx, out);
-
-    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out))
-    {
-        memcpy(out, ctx->out, sizeof(ctx->state));
-    }
-
-    return out;
-}
 
 /* END OF FILE */

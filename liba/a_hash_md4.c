@@ -1,14 +1,12 @@
 /*!
- @file           a_md4.c
+ @file           a_hash_md4.c
  @brief          RFC 1320 compliant MD4 implementation
  @details        https://www.ietf.org/rfc/rfc1320.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_md4.h"
-
-#include <string.h> /* memcpy */
+#include "a_hash.h"
 
 #undef F
 #undef G
@@ -19,7 +17,7 @@
 #undef HH
 #undef II
 
-void a_md4_compress(a_md4_t *ctx, const unsigned char *buf)
+static void a_md4_compress(a_md4_t *ctx, const unsigned char *buf)
 {
     uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
@@ -143,21 +141,5 @@ void a_md4_init(a_md4_t *ctx)
 __A_HASH_PROCESS(a_md4_t, a_md4_process, a_md4_compress)
 
 __A_HASH_DONE(a_md4_t, a_md4_done, a_md4_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-
-unsigned char *a_md4(const void *p, size_t n, unsigned char *out)
-{
-    a_md4_t ctx[1];
-
-    a_md4_init(ctx);
-    a_md4_process(ctx, p, n);
-    a_md4_done(ctx, out);
-
-    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out))
-    {
-        memcpy(out, ctx->out, sizeof(ctx->state));
-    }
-
-    return out;
-}
 
 /* END OF FILE */

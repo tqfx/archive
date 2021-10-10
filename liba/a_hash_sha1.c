@@ -1,14 +1,12 @@
 /*!
- @file           a_sha1.c
+ @file           a_hash_sha1.c
  @brief          RFC 3174 compliant SHA1 implementation
  @details        https://www.ietf.org/rfc/rfc3174.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_sha1.h"
-
-#include <string.h> /* memcpy */
+#include "a_hash.h"
 
 #undef F0
 #undef F1
@@ -19,7 +17,7 @@
 #undef FF2
 #undef FF3
 
-void a_sha1_compress(a_sha1_t *ctx, const unsigned char *buf)
+static void a_sha1_compress(a_sha1_t *ctx, const unsigned char *buf)
 {
     uint32_t w[0x50];
     uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
@@ -135,21 +133,5 @@ void a_sha1_init(a_sha1_t *ctx)
 __A_HASH_PROCESS(a_sha1_t, a_sha1_process, a_sha1_compress)
 
 __A_HASH_DONE(a_sha1_t, a_sha1_done, a_sha1_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)
-
-unsigned char *a_sha1(const void *p, size_t n, unsigned char *out)
-{
-    a_sha1_t ctx[1];
-
-    a_sha1_init(ctx);
-    a_sha1_process(ctx, p, n);
-    a_sha1_done(ctx, out);
-
-    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out))
-    {
-        memcpy(out, ctx->out, sizeof(ctx->state));
-    }
-
-    return out;
-}
 
 /* END OF FILE */

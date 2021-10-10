@@ -37,7 +37,7 @@
         fseek(fp, idx, SEEK_SET);                               \
     }
 
-#define __HASH_DIFF(src, dst, size)                              \
+#define __HASH_DIFF(src, dst, size, info)                        \
     do                                                           \
     {                                                            \
         if (memcmp(src, dst, size))                              \
@@ -46,7 +46,7 @@
             char _bdst[((size) << 1) + 1];                       \
             a_digest((const unsigned char *)(src), size, _bsrc); \
             a_digest((const unsigned char *)(dst), size, _bdst); \
-            printf("%s %s %s\n", _bsrc, _bdst, #size);           \
+            printf("%s %s %s\n", _bsrc, _bdst, info);            \
         }                                                        \
     } while (0)
 

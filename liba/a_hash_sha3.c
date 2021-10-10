@@ -1,13 +1,11 @@
 /*!
- @file           a_sha3.c
+ @file           a_hash_sha3.c
  @brief          SHA3 implementation
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_sha3.h"
-
-#include <string.h> /* memset, memcpy*/
+#include "a_hash.h"
 
 #undef SHA3_KECCAK_SPONGE_WORDS
 #define SHA3_KECCAK_SPONGE_WORDS 25 /* 1600 bits -> 200 bytes -> (25 << 3) */
@@ -144,17 +142,16 @@ int a_sha3_shake_init(a_sha3_t *ctx, unsigned int num)
     return 0;
 }
 
-void a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
+int a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
 {
-    const unsigned char *s = (const unsigned char *)p;
-
     if (0 == n) /* nothing to do */
     {
-        return;
+        return A_HASH_SUCCESS;
     }
 
     /* 0...7 -- how much is needed to have a word */
     unsigned int old_tail = (8 - ctx->byte_index) & 7;
+    const unsigned char *s = (const unsigned char *)p;
 
     if (n < old_tail)
     {
@@ -163,7 +160,7 @@ void a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
         {
             ctx->saved |= (uint64_t)(*(s++)) << ((ctx->byte_index++) << 3);
         }
-        return;
+        return A_HASH_SUCCESS;
     }
 
     if (old_tail)
@@ -205,6 +202,8 @@ void a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
     {
         ctx->saved |= (uint64_t)(*(s++)) << ((ctx->byte_index++) << 3);
     }
+
+    return A_HASH_SUCCESS;
 }
 
 unsigned char *a_sha3_done(a_sha3_t *ctx, unsigned char *out)
@@ -217,37 +216,9 @@ unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out)
     return a_done(ctx, out, 0x01);
 }
 
-#undef __A_SHA3
-#define __A_SHA3(name, bit)                                                      \
-    unsigned char *a_##name##_##bit(const void *p, size_t n, unsigned char *out) \
-    {                                                                            \
-        a_sha3_t ctx[1];                                                         \
-                                                                                 \
-        a_##name##_##bit##_init(ctx);                                            \
-        a_sha3_process(ctx, p, n);                                               \
-        a_##name##_done(ctx, out);                                               \
-                                                                                 \
-        if ((0 == out) && (out = (unsigned char *)a_alloc((bit) >> 3), out))     \
-        {                                                                        \
-            memcpy(out, ctx->sb, (bit) >> 3);                                    \
-        }                                                                        \
-                                                                                 \
-        return out;                                                              \
-    }
-__A_SHA3(sha3, 224)
-__A_SHA3(sha3, 256)
-__A_SHA3(sha3, 384)
-__A_SHA3(sha3, 512)
-__A_SHA3(keccak, 224)
-__A_SHA3(keccak, 256)
-__A_SHA3(keccak, 384)
-__A_SHA3(keccak, 512)
-#undef __A_SHA3
-
 void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
 {
-    /* IMPORTANT NOTE: sha3_shake_done can be called many times */
-
+    /* IMPORTANT NOTE: a_sha3_shake_done can be called many times */
     if (0 == len) /* nothing to do */
     {
         return;
@@ -282,25 +253,6 @@ void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
         }
         out[idx] = ctx->sb[ctx->byte_index++];
     }
-}
-
-int a_sha3_shake(unsigned int num,
-                 const void *p,
-                 size_t n,
-                 unsigned char *out,
-                 unsigned int len)
-{
-    a_sha3_t ctx[1];
-
-    int ret = a_sha3_shake_init(ctx, num);
-
-    if (0 == ret)
-    {
-        a_sha3_process(ctx, p, n);
-        a_sha3_shake_done(ctx, out, len);
-    }
-
-    return ret;
 }
 
 /* END OF FILE */

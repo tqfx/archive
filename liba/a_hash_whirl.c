@@ -1,14 +1,12 @@
 /*!
- @file           a_whirl.c
+ @file           a_hash_whirl.c
  @brief          WHIRLPOOL implementation
  @details        https://web.archive.org/web/20171129084214/http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_whirl.h"
-
-#include <string.h> /* memset, memcpy */
+#include "a_hash.h"
 
 static const uint64_t sbox0[0x100] = {
     /* clang-format off */
@@ -102,7 +100,7 @@ static const uint64_t cont[] = {
 #undef SB6
 #undef SB7
 
-void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
+static void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
 {
     uint64_t k[2][sizeof(ctx->state) / sizeof(*ctx->state)];
     uint64_t t[3][sizeof(ctx->state) / sizeof(*ctx->state)];
@@ -203,21 +201,5 @@ void a_whirlpool_init(a_whirlpool_t *ctx)
 __A_HASH_PROCESS(a_whirlpool_t, a_whirlpool_process, a_whirlpool_compress)
 
 __A_HASH_DONE(a_whirlpool_t, a_whirlpool_done, a_whirlpool_compress, STORE64H, STORE64H, 0x80, 0x20, 0x38)
-
-unsigned char *a_whirlpool(const void *p, size_t n, unsigned char *out)
-{
-    a_whirlpool_t ctx[1];
-
-    a_whirlpool_init(ctx);
-    a_whirlpool_process(ctx, p, n);
-    a_whirlpool_done(ctx, out);
-
-    if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out))
-    {
-        memcpy(out, ctx->out, sizeof(ctx->state));
-    }
-
-    return out;
-}
 
 /* END OF FILE */

@@ -41,20 +41,9 @@ format: liba
 	@-black -S $(shell find $^ test -regex '.*\.\(py\)')
 	@-find $^ test -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format --verbose -style=file -i {} \;
 
-test: debug cython
+test: cython debug
 	-$(PYTHON) test/test_lpf.py
 	-$(PYTHON) test/test_pid.py
 	-$(PYTHON) test/test_polytrack.py
-	-cd build;bin/md2
-	-cd build;bin/md4
-	-cd build;bin/md5
-	-cd build;bin/rmd
-	-cd build;bin/sha1
-	-cd build;bin/sha256
-	-cd build;bin/sha512
-	-cd build;bin/sha3
-	-cd build;bin/tiger
-	-cd build;bin/whirl
-	-cd build;bin/blake2s
-	-cd build;bin/blake2b
-	-cd build;bin/math
+	-cd build;bin/test_hash
+	-cd build;bin/test_math

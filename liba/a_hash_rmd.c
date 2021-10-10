@@ -1,14 +1,12 @@
 /*!
- @file           a_rmd.c
+ @file           a_hash_rmd.c
  @brief          RIPEMD implementation
  @details        https://homes.esat.kuleuven.be/~bosselae/ripemd160.html
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_rmd.h"
-
-#include <string.h> /* memcpy */
+#include "a_hash.h"
 
 #undef F
 #undef G
@@ -59,7 +57,7 @@
     (a) += I((b), (c), (d)) + (x) + 0x50A28BE6; \
     (a) = ROLc((a), (s));
 
-void a_rmd128_compress(a_rmd128_t *ctx, const unsigned char *buf)
+static void a_rmd128_compress(a_rmd128_t *ctx, const unsigned char *buf)
 {
     uint32_t s[(sizeof(ctx->state) / sizeof(*ctx->state)) << 1];
 
@@ -236,7 +234,7 @@ void a_rmd128_compress(a_rmd128_t *ctx, const unsigned char *buf)
     ctx->state[0] = s[7];
 }
 
-void a_rmd256_compress(a_rmd256_t *ctx, const unsigned char *buf)
+static void a_rmd256_compress(a_rmd256_t *ctx, const unsigned char *buf)
 {
     uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
@@ -475,7 +473,7 @@ void a_rmd256_compress(a_rmd256_t *ctx, const unsigned char *buf)
     (a) = ROLc((a), (s)) + (e);                 \
     (c) = ROLc((c), 10);
 
-void a_rmd160_compress(a_rmd160_t *ctx, const unsigned char *buf)
+static void a_rmd160_compress(a_rmd160_t *ctx, const unsigned char *buf)
 {
     uint32_t s[(sizeof(ctx->state) / sizeof(*ctx->state)) << 1];
 
@@ -689,7 +687,7 @@ void a_rmd160_compress(a_rmd160_t *ctx, const unsigned char *buf)
     ctx->state[0x0] = s[8];
 }
 
-void a_rmd320_compress(a_rmd320_t *ctx, const unsigned char *buf)
+static void a_rmd320_compress(a_rmd320_t *ctx, const unsigned char *buf)
 {
     uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
@@ -995,28 +993,5 @@ __A_HASH_DONE(a_rmd128_t, a_rmd128_done, a_rmd128_compress, STORE64L, STORE32L, 
 __A_HASH_DONE(a_rmd160_t, a_rmd160_done, a_rmd160_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 __A_HASH_DONE(a_rmd256_t, a_rmd256_done, a_rmd256_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 __A_HASH_DONE(a_rmd320_t, a_rmd320_done, a_rmd320_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-
-#undef __A_RMD
-#define __A_RMD(func)                                                                \
-    unsigned char *func(const void *p, size_t n, unsigned char *out)                 \
-    {                                                                                \
-        func##_t ctx[1];                                                             \
-                                                                                     \
-        func##_init(ctx);                                                            \
-        func##_process(ctx, p, n);                                                   \
-        func##_done(ctx, out);                                                       \
-                                                                                     \
-        if ((0 == out) && (out = (unsigned char *)a_alloc(sizeof(ctx->state)), out)) \
-        {                                                                            \
-            memcpy(out, ctx->out, sizeof(ctx->state));                               \
-        }                                                                            \
-                                                                                     \
-        return out;                                                                  \
-    }
-__A_RMD(a_rmd128)
-__A_RMD(a_rmd160)
-__A_RMD(a_rmd256)
-__A_RMD(a_rmd320)
-#undef __A_RMD
 
 /* END OF FILE */
