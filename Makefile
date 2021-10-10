@@ -56,4 +56,5 @@ test: debug cython
 	-cd build;bin/tiger
 	-cd build;bin/whirl
 	-cd build;bin/blake2s
+	-cd build;bin/blake2b
 	-cd build;bin/math
