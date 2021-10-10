@@ -97,7 +97,7 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
     /* store sha3.s[] as little-endian bytes into sha3.sb */
     for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
     {
-        STORE64L(ctx->s[i], ctx->sb + (i << 3));
+        STORE64L(ctx->s[i], ctx->sb + sizeof(*ctx->s) * i);
     }
     if (out && out != ctx->sb)
     {
@@ -107,28 +107,30 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
     return ctx->sb;
 }
 
+/* ((2 * x) / (8 * 8)) -> ((x << 1) / (8 << 3)) -> (x >> 5) */
+
 void a_sha3_224_init(a_sha3_t *ctx)
 {
     memset(ctx, 0, sizeof(*ctx));
-    ctx->capacity_words = (224 << 1) / (8 << 3);
+    ctx->capacity_words = 224 >> 5;
 }
 
 void a_sha3_256_init(a_sha3_t *ctx)
 {
     memset(ctx, 0, sizeof(*ctx));
-    ctx->capacity_words = (256 << 1) / (8 << 3);
+    ctx->capacity_words = 256 >> 5;
 }
 
 void a_sha3_384_init(a_sha3_t *ctx)
 {
     memset(ctx, 0, sizeof(*ctx));
-    ctx->capacity_words = (384 << 1) / (8 << 3);
+    ctx->capacity_words = 384 >> 5;
 }
 
 void a_sha3_512_init(a_sha3_t *ctx)
 {
     memset(ctx, 0, sizeof(*ctx));
-    ctx->capacity_words = (512 << 1) / (8 << 3);
+    ctx->capacity_words = 512 >> 5;
 }
 
 int a_sha3_shake_init(a_sha3_t *ctx, unsigned int num)
@@ -138,7 +140,7 @@ int a_sha3_shake_init(a_sha3_t *ctx, unsigned int num)
         return -1;
     }
     memset(ctx, 0, sizeof(*ctx));
-    ctx->capacity_words = (unsigned short)((num << 1) / (8 << 3));
+    ctx->capacity_words = (unsigned short)(num >> 5);
     return 0;
 }
 
@@ -260,7 +262,7 @@ void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
         /* store sha3.s[] as little-endian bytes into sha3.sb */
         for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
         {
-            STORE64L(ctx->s[i], ctx->sb + (i << 3));
+            STORE64L(ctx->s[i], ctx->sb + sizeof(*ctx->s) * i);
         }
         ctx->byte_index = 0;
         ctx->xof_flag = 1;
@@ -274,7 +276,7 @@ void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
             /* store sha3.s[] as little-endian bytes into sha3.sb */
             for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
             {
-                STORE64L(ctx->s[i], ctx->sb + (i << 3));
+                STORE64L(ctx->s[i], ctx->sb + sizeof(*ctx->s) * i);
             }
             ctx->byte_index = 0;
         }

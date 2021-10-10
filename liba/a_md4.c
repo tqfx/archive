@@ -35,7 +35,7 @@ void a_md4_compress(a_md4_t *ctx, const unsigned char *buf)
         /* copy the state into 512-bits into w[0..15] */
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->w[i], buf + (i << 2));
+            LOAD32L(up->w[i], buf + sizeof(*ctx->state) * i);
         }
     }
 

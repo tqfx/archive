@@ -33,7 +33,7 @@ void a_sha1_compress(a_sha1_t *ctx, const unsigned char *buf)
     /* copy the state into 512-bits into w[0..15] */
     for (unsigned int i = 0x00; i != 0x10; ++i)
     {
-        LOAD32H(w[i], buf + (i << 2));
+        LOAD32H(w[i], buf + sizeof(*ctx->state) * i);
     }
 
     /* expand it */

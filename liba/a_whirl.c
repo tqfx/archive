@@ -112,7 +112,7 @@ void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
     {
         k[0][i] = ctx->state[i];
 
-        LOAD64H(t[0][i], buf + (i << 3));
+        LOAD64H(t[0][i], buf + sizeof(*ctx->state) * i);
         t[2][i] = t[0][i];
         t[0][i] ^= k[0][i];
     }

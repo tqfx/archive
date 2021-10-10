@@ -74,7 +74,7 @@ void a_rmd128_compress(a_rmd128_t *ctx, const unsigned char *buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], buf + (i << 2));
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
@@ -251,7 +251,7 @@ void a_rmd256_compress(a_rmd256_t *ctx, const unsigned char *buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], buf + (i << 2));
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
@@ -490,7 +490,7 @@ void a_rmd160_compress(a_rmd160_t *ctx, const unsigned char *buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], buf + (i << 2));
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
@@ -704,7 +704,7 @@ void a_rmd320_compress(a_rmd320_t *ctx, const unsigned char *buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], buf + (i << 2));
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 

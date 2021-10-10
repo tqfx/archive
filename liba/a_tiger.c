@@ -367,7 +367,7 @@ void a_tiger_compress(a_tiger_t *ctx, const unsigned char *buf)
         /* load words */
         for (unsigned int i = 0; i != 8; ++i)
         {
-            LOAD64L(up->x[i], buf + (i << 3));
+            LOAD64L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 

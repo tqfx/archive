@@ -65,13 +65,13 @@ void a_sha512_compress(a_sha512_t *ctx, const unsigned char *buf)
         s[i] = ctx->state[i];
     }
 
-    /* copy the state into 1024-bits into W[0..15] */
+    /* copy the state into 1024-bits into w[0..15] */
     for (unsigned int i = 0x00; i != 0x10; ++i)
     {
-        LOAD64H(w[i], buf + (i << 3));
+        LOAD64H(w[i], buf + sizeof(*ctx->state) * i);
     }
 
-    /* fill W[16..79] */
+    /* fill w[16..79] */
     for (unsigned int i = 0x10; i != 0x50; ++i)
     {
         w[i] = Gamma1(w[i - 2]) + w[i - 7] + Gamma0(w[i - 15]) + w[i - 16];
