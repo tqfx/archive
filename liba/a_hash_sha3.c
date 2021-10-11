@@ -95,14 +95,14 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
     /* store sha3.s[] as little-endian bytes into sha3.sb */
     for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
     {
-        STORE64L(ctx->s[i], ctx->sb + sizeof(*ctx->s) * i);
+        STORE64L(ctx->s[i], ctx->out + sizeof(*ctx->s) * i);
     }
-    if (out && out != ctx->sb)
+    if (out && out != ctx->out)
     {
-        memcpy(out, ctx->sb, (unsigned int)ctx->capacity_words << 2);
+        memcpy(out, ctx->out, (unsigned int)ctx->capacity_words << 2);
     }
 
-    return ctx->sb;
+    return ctx->out;
 }
 
 /* ((2 * x) / (8 * 8)) -> ((x << 1) / (8 << 3)) -> (x >> 5) */
@@ -129,17 +129,6 @@ void a_sha3_512_init(a_sha3_t *ctx)
 {
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = 512 >> 5;
-}
-
-int a_sha3_shake_init(a_sha3_t *ctx, unsigned int num)
-{
-    if (num != 0x80 && num != 0x100)
-    {
-        return -1;
-    }
-    memset(ctx, 0, sizeof(*ctx));
-    ctx->capacity_words = (unsigned short)(num >> 5);
-    return 0;
 }
 
 int a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
@@ -216,9 +205,44 @@ unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out)
     return a_done(ctx, out, 0x01);
 }
 
-void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
+void a_shake128_init(a_sha3_t *ctx)
 {
-    /* IMPORTANT NOTE: a_sha3_shake_done can be called many times */
+    memset(ctx, 0, sizeof(*ctx));
+    ctx->capacity_words = 128 >> 5;
+}
+
+void a_shake256_init(a_sha3_t *ctx)
+{
+    memset(ctx, 0, sizeof(*ctx));
+    ctx->capacity_words = 256 >> 5;
+}
+
+int a_sha3shake_init(a_sha3_t *ctx, unsigned int num)
+{
+    if (num != 0x80 && num != 0x100)
+    {
+        return -1;
+    }
+    memset(ctx, 0, sizeof(*ctx));
+    ctx->capacity_words = (unsigned short)(num >> 5);
+    return 0;
+}
+
+unsigned char *a_shake128_done(a_sha3_t *ctx, unsigned char *out)
+{
+    a_sha3shake_done(ctx, out, 128 >> 3);
+    return out;
+}
+
+unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out)
+{
+    a_sha3shake_done(ctx, out, 256 >> 3);
+    return out;
+}
+
+void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
+{
+    /* IMPORTANT NOTE: a_sha3shake_done can be called many times */
     if (0 == len) /* nothing to do */
     {
         return;
@@ -233,7 +257,7 @@ void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
         /* store sha3.s[] as little-endian bytes into sha3.sb */
         for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
         {
-            STORE64L(ctx->s[i], ctx->sb + sizeof(*ctx->s) * i);
+            STORE64L(ctx->s[i], ctx->out + sizeof(*ctx->s) * i);
         }
         ctx->byte_index = 0;
         ctx->xof_flag = 1;
@@ -247,11 +271,11 @@ void a_sha3_shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
             /* store sha3.s[] as little-endian bytes into sha3.sb */
             for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
             {
-                STORE64L(ctx->s[i], ctx->sb + sizeof(*ctx->s) * i);
+                STORE64L(ctx->s[i], ctx->out + sizeof(*ctx->s) * i);
             }
             ctx->byte_index = 0;
         }
-        out[idx] = ctx->sb[ctx->byte_index++];
+        out[idx] = ctx->out[ctx->byte_index++];
     }
 }
 
