@@ -14,14 +14,6 @@
 #include <stdlib.h> /* alloc */
 #include <string.h> /* memset, memcpy */
 
-enum
-{
-    A_HASH_SUCCESS = 0,
-    A_HASH_FAILURE = -1,
-    A_HASH_INVALID = -2,
-    A_HASH_OVERFLOW = -3,
-};
-
 #define A_RIPEMD_BUFSIZ    0x40
 #define A_RIPEMD128_OUTSIZ (128 >> 3)
 #define A_RIPEMD160_OUTSIZ (160 >> 3)
@@ -50,8 +42,8 @@ __A_RMD_T(320);
 typedef struct a_md2_t
 {
     unsigned char x[0x30];
-    unsigned char buf[0x10];
-    unsigned char chksum[0x10];
+    unsigned char buf[A_MD2_BUFSIZ];
+    unsigned char chksum[A_MD2_BUFSIZ];
     uint32_t curlen;
 } a_md2_t;
 
@@ -104,7 +96,7 @@ typedef struct a_tiger_t
 } a_tiger_t;
 
 #define A_SHA256_BUFSIZ 0x40
-#define A_SHA256_OUTSIZ (0x100 >> 3)
+#define A_SHA256_OUTSIZ (256 >> 3)
 
 typedef struct a_sha256_t
 {
@@ -115,14 +107,14 @@ typedef struct a_sha256_t
     uint32_t curlen;
 } a_sha256_t;
 
-#define A_SHA224_OUTSIZ (0xE0 >> 3)
+#define A_SHA224_OUTSIZ (224 >> 3)
 
 #ifndef a_sha224_t
 #define a_sha224_t a_sha256_t
 #endif /* a_sha224_t */
 
 #define A_SHA512_BUFSIZ 0x80
-#define A_SHA512_OUTSIZ (0x200 >> 3)
+#define A_SHA512_OUTSIZ (512 >> 3)
 
 typedef struct a_sha512_t
 {
@@ -133,9 +125,9 @@ typedef struct a_sha512_t
     uint32_t curlen;
 } a_sha512_t;
 
-#define A_SHA384_OUTSIZ     (0x180 >> 3)
-#define A_SHA512_224_OUTSIZ (0x0E0 >> 3)
-#define A_SHA512_256_OUTSIZ (0x100 >> 3)
+#define A_SHA384_OUTSIZ     (384 >> 3)
+#define A_SHA512_224_OUTSIZ (224 >> 3)
+#define A_SHA512_256_OUTSIZ (256 >> 3)
 
 #ifndef a_sha384_t
 #define a_sha384_t a_sha512_t
@@ -147,43 +139,43 @@ typedef struct a_sha512_t
 #define a_sha512_256_t a_sha512_t
 #endif /* a_sha512_256_t */
 
-#define A_SHA3_224_BUFSIZ 0x90
-#define A_SHA3_256_BUFSIZ 0x88
-#define A_SHA3_384_BUFSIZ 0x68
-#define A_SHA3_512_BUFSIZ 0x48
-#define A_SHA3_224_OUTSIZ (0x0E0 >> 3)
-#define A_SHA3_256_OUTSIZ (0x100 >> 3)
-#define A_SHA3_384_OUTSIZ (0x180 >> 3)
-#define A_SHA3_512_OUTSIZ (0x200 >> 3)
+#define A_SHA3_224_BUFSIZ (200 - (224 >> 2))
+#define A_SHA3_256_BUFSIZ (200 - (256 >> 2))
+#define A_SHA3_384_BUFSIZ (200 - (384 >> 2))
+#define A_SHA3_512_BUFSIZ (200 - (512 >> 2))
+#define A_SHA3_224_OUTSIZ (224 >> 3)
+#define A_SHA3_256_OUTSIZ (256 >> 3)
+#define A_SHA3_384_OUTSIZ (384 >> 3)
+#define A_SHA3_512_OUTSIZ (512 >> 3)
 
 typedef struct a_sha3_t
 {
     uint64_t s[25];
     uint64_t saved;                /* the portion of the input message that we didn't consume yet */
-    unsigned char out[25 << 3];    /* used for storing `uint64_t s[25]` as little-endian bytes */
+    unsigned char out[200];        /* used for storing `uint64_t s[25]` as little-endian bytes */
     unsigned short byte_index;     /* 0..7--the next byte after the set one (starts from 0; 0--none are buffered) */
     unsigned short word_index;     /* 0..24--the next word to integrate input (starts from 0) */
     unsigned short capacity_words; /* the double length of the hash output in words (e.g. 16 for Keccak 512) */
     unsigned short xof_flag;
 } a_sha3_t;
 
-#define A_KECCAK224_BUFSIZ 0x90
-#define A_KECCAK256_BUFSIZ 0x88
-#define A_KECCAK384_BUFSIZ 0x68
-#define A_KECCAK512_BUFSIZ 0x48
-#define A_KECCAK224_OUTSIZ (0x0E0 >> 3)
-#define A_KECCAK256_OUTSIZ (0x100 >> 3)
-#define A_KECCAK384_OUTSIZ (0x180 >> 3)
-#define A_KECCAK512_OUTSIZ (0x200 >> 3)
+#define A_KECCAK224_BUFSIZ (200 - (224 >> 2))
+#define A_KECCAK256_BUFSIZ (200 - (256 >> 2))
+#define A_KECCAK384_BUFSIZ (200 - (384 >> 2))
+#define A_KECCAK512_BUFSIZ (200 - (512 >> 2))
+#define A_KECCAK224_OUTSIZ (224 >> 3)
+#define A_KECCAK256_OUTSIZ (256 >> 3)
+#define A_KECCAK384_OUTSIZ (384 >> 3)
+#define A_KECCAK512_OUTSIZ (512 >> 3)
 
 #ifndef a_keccak_t
 #define a_keccak_t a_sha3_t
 #endif /* a_keccak_t */
 
-#define A_SHAKE128_BUFSIZ 0x40
-#define A_SHAKE256_BUFSIZ 0x80
-#define A_SHAKE128_OUTSIZ (0x080 >> 3)
-#define A_SHAKE256_OUTSIZ (0x100 >> 3)
+#define A_SHAKE128_BUFSIZ (200 - (128 >> 2))
+#define A_SHAKE256_BUFSIZ (200 - (256 >> 2))
+#define A_SHAKE128_OUTSIZ (128 >> 3)
+#define A_SHAKE256_OUTSIZ (256 >> 3)
 
 #ifndef a_sha3_shake_t
 #define a_sha3_shake_t a_sha3_t
@@ -239,91 +231,7 @@ typedef struct a_whirlpool_t
     uint32_t curlen;
 } a_whirlpool_t;
 
-typedef union a_hash_stat_t
-{
-    int state;
-    a_md2_t md2[1];
-    a_md4_t md4[1];
-    a_md5_t md5[1];
-    a_sha1_t sha1[1];
-    a_sha3_t sha3[1];
-    a_tiger_t tiger[1];
-    a_sha256_t sha256[1];
-    a_sha512_t sha512[1];
-    a_rmd128_t rmd128[1];
-    a_rmd160_t rmd160[1];
-    a_rmd256_t rmd256[1];
-    a_rmd320_t rmd320[1];
-    a_blake2s_t blake2s[1];
-    a_blake2b_t blake2b[1];
-    a_whirlpool_t whirlpool[1];
-} a_hash_stat_t;
-
-typedef struct a_hash_t
-{
-    /*!< size of block */
-    unsigned int bufsiz;
-    /*!< size of digest */
-    unsigned int outsiz;
-    /*!
-     @brief          Initialize function for hash.
-     @param[in,out]  ctx: points to an instance of hash.
-    */
-    void (*init)(a_hash_stat_t *ctx);
-    /*!
-     @brief          Process function for hash.
-     @param[in,out]  ctx: points to an instance of hash.
-     @param[in]      p: points to data.
-     @param[in]      n: length of data.
-    */
-    int (*process)(a_hash_stat_t *ctx, const void *p, size_t n);
-    /*!
-     @brief          Terminate function for hash.
-     @param[in,out]  ctx: points to an instance of hash.
-     @param[in,out]  out: points to buffer(16-bytes) that holds the digest.
-     @return         buf the digest internal buffer.
-      @retval        buf the digest internal buffer.
-      @retval        0 generic invalid argument.
-    */
-    unsigned char *(*done)(a_hash_stat_t *ctx, unsigned char *out);
-} a_hash_t;
-
 __BEGIN_DECLS
-
-extern const a_hash_t a_hash_md2;
-extern const a_hash_t a_hash_md4;
-extern const a_hash_t a_hash_md5;
-extern const a_hash_t a_hash_sha1;
-extern const a_hash_t a_hash_tiger;
-extern const a_hash_t a_hash_rmd128;
-extern const a_hash_t a_hash_rmd160;
-extern const a_hash_t a_hash_rmd256;
-extern const a_hash_t a_hash_rmd320;
-extern const a_hash_t a_hash_sha224;
-extern const a_hash_t a_hash_sha256;
-extern const a_hash_t a_hash_sha384;
-extern const a_hash_t a_hash_sha512;
-extern const a_hash_t a_hash_sha512_224;
-extern const a_hash_t a_hash_sha512_256;
-extern const a_hash_t a_hash_sha3_224;
-extern const a_hash_t a_hash_sha3_256;
-extern const a_hash_t a_hash_sha3_384;
-extern const a_hash_t a_hash_sha3_512;
-extern const a_hash_t a_hash_shake128;
-extern const a_hash_t a_hash_shake256;
-extern const a_hash_t a_hash_keccak224;
-extern const a_hash_t a_hash_keccak256;
-extern const a_hash_t a_hash_keccak384;
-extern const a_hash_t a_hash_keccak512;
-extern const a_hash_t a_hash_whirlpool;
-extern const a_hash_t a_hash_blake2s_128;
-extern const a_hash_t a_hash_blake2s_160;
-extern const a_hash_t a_hash_blake2s_224;
-extern const a_hash_t a_hash_blake2s_256;
-extern const a_hash_t a_hash_blake2b_160;
-extern const a_hash_t a_hash_blake2b_256;
-extern const a_hash_t a_hash_blake2b_384;
-extern const a_hash_t a_hash_blake2b_512;
 
 extern void a_md2_init(a_md2_t *ctx);
 extern int a_md2_process(a_md2_t *ctx, const void *p, size_t n);
@@ -402,12 +310,12 @@ extern unsigned char *a_sha3_done(a_sha3_t *ctx, unsigned char *out);
 
 extern void a_shake128_init(a_sha3_t *ctx);
 extern void a_shake256_init(a_sha3_t *ctx);
-extern unsigned char *a_shake128_done(a_sha3_t *ctx, unsigned char *out);
-extern unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out);
-extern int a_sha3shake_init(a_sha3_t *ctx, unsigned int num);
 #ifndef a_sha3shake_process
 #define a_sha3shake_process(ctx, p, n) a_sha3_process(ctx, p, n)
 #endif /* a_sha3shake_process */
+extern unsigned char *a_shake128_done(a_sha3_t *ctx, unsigned char *out);
+extern unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out);
+extern int a_sha3shake_init(a_sha3_t *ctx, unsigned int num);
 extern void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len);
 
 #ifndef a_keccak224_init
@@ -431,21 +339,125 @@ extern void a_blake2s_128_init(a_blake2s_t *ctx);
 extern void a_blake2s_160_init(a_blake2s_t *ctx);
 extern void a_blake2s_224_init(a_blake2s_t *ctx);
 extern void a_blake2s_256_init(a_blake2s_t *ctx);
-extern int a_blake2s_init(a_blake2s_t *ctx, size_t len, const void *p, size_t n);
 extern int a_blake2s_process(a_blake2s_t *ctx, const void *p, size_t n);
 extern unsigned char *a_blake2s_done(a_blake2s_t *ctx, unsigned char *out);
+extern int a_blake2s_init(a_blake2s_t *ctx, size_t len, const void *p, size_t n);
 
 extern void a_blake2b_160_init(a_blake2b_t *ctx);
 extern void a_blake2b_256_init(a_blake2b_t *ctx);
 extern void a_blake2b_384_init(a_blake2b_t *ctx);
 extern void a_blake2b_512_init(a_blake2b_t *ctx);
-extern int a_blake2b_init(a_blake2b_t *ctx, size_t len, const void *p, size_t n);
 extern int a_blake2b_process(a_blake2b_t *ctx, const void *p, size_t n);
 extern unsigned char *a_blake2b_done(a_blake2b_t *ctx, unsigned char *out);
+extern int a_blake2b_init(a_blake2b_t *ctx, size_t len, const void *p, size_t n);
 
 extern void a_whirlpool_init(a_whirlpool_t *ctx);
 extern int a_whirlpool_process(a_whirlpool_t *ctx, const void *p, size_t n);
 extern unsigned char *a_whirlpool_done(a_whirlpool_t *ctx, unsigned char *out);
+
+__END_DECLS
+
+/*!
+    shake128    0xA8    168
+    sha3-224    0x90    144
+*/
+#define A_HASH_BUFSIZ 0xA8
+
+enum
+{
+    A_HASH_SUCCESS = 0,
+    A_HASH_FAILURE = -1,
+    A_HASH_INVALID = -2,
+    A_HASH_OVERFLOW = -3,
+};
+
+typedef union a_hash_stat_t
+{
+    int state;
+    a_md2_t md2[1];
+    a_md4_t md4[1];
+    a_md5_t md5[1];
+    a_sha1_t sha1[1];
+    a_sha3_t sha3[1];
+    a_tiger_t tiger[1];
+    a_sha256_t sha256[1];
+    a_sha512_t sha512[1];
+    a_rmd128_t rmd128[1];
+    a_rmd160_t rmd160[1];
+    a_rmd256_t rmd256[1];
+    a_rmd320_t rmd320[1];
+    a_blake2s_t blake2s[1];
+    a_blake2b_t blake2b[1];
+    a_whirlpool_t whirlpool[1];
+} a_hash_stat_t;
+
+typedef struct a_hash_t
+{
+    /*!< size of block */
+    unsigned int bufsiz;
+    /*!< size of digest */
+    unsigned int outsiz;
+    /*!
+     @brief          Initialize function for hash.
+     @param[in,out]  ctx: points to an instance of hash.
+    */
+    void (*init)(a_hash_stat_t *ctx);
+    /*!
+     @brief          Process function for hash.
+     @param[in,out]  ctx: points to an instance of hash.
+     @param[in]      p: points to data.
+     @param[in]      n: length of data.
+     @return         the execution state of the function
+      @retval        0 success
+    */
+    int (*process)(a_hash_stat_t *ctx, const void *p, size_t n);
+    /*!
+     @brief          Terminate function for hash.
+     @param[in,out]  ctx: points to an instance of hash.
+     @param[in,out]  out: points to buffer that holds the digest.
+     @return         p the digest internal buffer.
+      @retval        p the digest internal buffer.
+      @retval        0 generic invalid argument.
+    */
+    unsigned char *(*done)(a_hash_stat_t *ctx, unsigned char *out);
+} a_hash_t;
+
+__BEGIN_DECLS
+
+extern const a_hash_t a_hash_md2;
+extern const a_hash_t a_hash_md4;
+extern const a_hash_t a_hash_md5;
+extern const a_hash_t a_hash_sha1;
+extern const a_hash_t a_hash_tiger;
+extern const a_hash_t a_hash_rmd128;
+extern const a_hash_t a_hash_rmd160;
+extern const a_hash_t a_hash_rmd256;
+extern const a_hash_t a_hash_rmd320;
+extern const a_hash_t a_hash_sha224;
+extern const a_hash_t a_hash_sha256;
+extern const a_hash_t a_hash_sha384;
+extern const a_hash_t a_hash_sha512;
+extern const a_hash_t a_hash_sha512_224;
+extern const a_hash_t a_hash_sha512_256;
+extern const a_hash_t a_hash_sha3_224;
+extern const a_hash_t a_hash_sha3_256;
+extern const a_hash_t a_hash_sha3_384;
+extern const a_hash_t a_hash_sha3_512;
+extern const a_hash_t a_hash_shake128;
+extern const a_hash_t a_hash_shake256;
+extern const a_hash_t a_hash_keccak224;
+extern const a_hash_t a_hash_keccak256;
+extern const a_hash_t a_hash_keccak384;
+extern const a_hash_t a_hash_keccak512;
+extern const a_hash_t a_hash_whirlpool;
+extern const a_hash_t a_hash_blake2s_128;
+extern const a_hash_t a_hash_blake2s_160;
+extern const a_hash_t a_hash_blake2s_224;
+extern const a_hash_t a_hash_blake2s_256;
+extern const a_hash_t a_hash_blake2b_160;
+extern const a_hash_t a_hash_blake2b_256;
+extern const a_hash_t a_hash_blake2b_384;
+extern const a_hash_t a_hash_blake2b_512;
 
 __END_DECLS
 
@@ -454,6 +466,7 @@ __END_DECLS
     __STATIC_INLINE                     \
     void func(a_hash_stat_t *ctx)       \
     {                                   \
+        /* assert(ctx) */               \
         init(ctx->stat);                \
     }
 __A_HASH_INIT(md2, a_md2_init, a_hash_init_md2)
@@ -497,6 +510,8 @@ __A_HASH_INIT(blake2b, a_blake2b_512_init, a_hash_init_blake2b_512)
     __STATIC_INLINE                                       \
     int func(a_hash_stat_t *ctx, const void *p, size_t n) \
     {                                                     \
+        /* assert(ctx) */                                 \
+        /* assert(!n || p) */                             \
         return process(ctx->stat, p, n);                  \
     }
 __A_HASH_PROCESS(md2, a_md2_process, a_hash_process_md2)
@@ -537,6 +552,8 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
 #define __A_HASH_PROCESS(hash, func, compress)                    \
     int func(hash *ctx, const void *p, size_t n)                  \
     {                                                             \
+        /* assert(ctx) */                                         \
+        /* assert(!n || p) */                                     \
         if (sizeof(ctx->buf) < ctx->curlen)                       \
         {                                                         \
             return A_HASH_INVALID;                                \
@@ -551,7 +568,7 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
             if ((0 == ctx->curlen) && (sizeof(ctx->buf) - 1 < n)) \
             {                                                     \
                 compress(ctx, s);                                 \
-                ctx->length += (sizeof(ctx->buf) << 3);           \
+                ctx->length += sizeof(ctx->buf) << 3;             \
                 s += sizeof(ctx->buf);                            \
                 n -= sizeof(ctx->buf);                            \
             }                                                     \
@@ -566,7 +583,7 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
                 if (sizeof(ctx->buf) == ctx->curlen)              \
                 {                                                 \
                     compress(ctx, ctx->buf);                      \
-                    ctx->length += (sizeof(ctx->buf) << 3);       \
+                    ctx->length += sizeof(ctx->buf) << 3;         \
                     ctx->curlen = 0;                              \
                 }                                                 \
             }                                                     \
@@ -579,6 +596,7 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
     __STATIC_INLINE                                             \
     unsigned char *func(a_hash_stat_t *ctx, unsigned char *out) \
     {                                                           \
+        /* assert(ctx) */                                       \
         return done(ctx->stat, out);                            \
     }
 __A_HASH_DONE(md2, a_md2_done, a_hash_done_md2)
@@ -619,6 +637,7 @@ __A_HASH_DONE(blake2b, a_blake2b_done, a_hash_done_blake2b_512)
 #define __A_HASH_DONE(hash, func, compress, storelen, storeout, append, above, zero) \
     unsigned char *func(hash *ctx, unsigned char *out)                               \
     {                                                                                \
+        /* assert(ctx) */                                                            \
         if (sizeof(ctx->buf) - 1 < ctx->curlen)                                      \
         {                                                                            \
             return 0;                                                                \

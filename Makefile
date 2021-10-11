@@ -46,4 +46,5 @@ test: cython debug
 	-$(PYTHON) test/test_pid.py
 	-$(PYTHON) test/test_polytrack.py
 	-cd build;bin/test_hash
+	-cd build;bin/test_hmac
 	-cd build;bin/test_math

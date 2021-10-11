@@ -74,11 +74,14 @@ static void a_md2_compress(a_md2_t *ctx, const void *buf)
 
 void a_md2_init(a_md2_t *ctx)
 {
+    /* assert(ctx) */
     memset(ctx, 0, sizeof(*ctx));
 }
 
 int a_md2_process(a_md2_t *ctx, const void *p, size_t n)
 {
+    /* assert(ctx) */
+    /* assert(!n || p) */
     if (sizeof(ctx->buf) < ctx->curlen)
     {
         return A_HASH_INVALID;
@@ -106,6 +109,7 @@ int a_md2_process(a_md2_t *ctx, const void *p, size_t n)
 
 unsigned char *a_md2_done(a_md2_t *ctx, unsigned char *out)
 {
+    /* assert(ctx) */
     if (sizeof(ctx->buf) - 1 < ctx->curlen)
     {
         return 0;

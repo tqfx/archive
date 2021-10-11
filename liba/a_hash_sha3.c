@@ -92,7 +92,7 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
     ctx->s[SHA3_KECCAK_SPONGE_WORDS - 1 - ctx->capacity_words] ^= 0x8000000000000000;
     keccakf(ctx->s);
 
-    /* store sha3.s[] as little-endian bytes into sha3.sb */
+    /* store ctx->s[] as little-endian bytes into ctx->out */
     for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
     {
         STORE64L(ctx->s[i], ctx->out + sizeof(*ctx->s) * i);
@@ -109,30 +109,36 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
 
 void a_sha3_224_init(a_sha3_t *ctx)
 {
+    /* assert(ctx) */
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = 224 >> 5;
 }
 
 void a_sha3_256_init(a_sha3_t *ctx)
 {
+    /* assert(ctx) */
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = 256 >> 5;
 }
 
 void a_sha3_384_init(a_sha3_t *ctx)
 {
+    /* assert(ctx) */
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = 384 >> 5;
 }
 
 void a_sha3_512_init(a_sha3_t *ctx)
 {
+    /* assert(ctx) */
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = 512 >> 5;
 }
 
 int a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
 {
+    /* assert(ctx) */
+    /* assert(!n || p) */
     if (0 == n) /* nothing to do */
     {
         return A_HASH_SUCCESS;
@@ -197,45 +203,52 @@ int a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
 
 unsigned char *a_sha3_done(a_sha3_t *ctx, unsigned char *out)
 {
+    /* assert(ctx) */
     return a_done(ctx, out, 0x06);
 }
 
 unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out)
 {
+    /* assert(ctx) */
     return a_done(ctx, out, 0x01);
 }
 
 void a_shake128_init(a_sha3_t *ctx)
 {
+    /* assert(ctx) */
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = 128 >> 5;
 }
 
 void a_shake256_init(a_sha3_t *ctx)
 {
+    /* assert(ctx) */
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = 256 >> 5;
 }
 
 int a_sha3shake_init(a_sha3_t *ctx, unsigned int num)
 {
+    /* assert(ctx) */
     if (num != 0x80 && num != 0x100)
     {
-        return -1;
+        return A_HASH_INVALID;
     }
     memset(ctx, 0, sizeof(*ctx));
     ctx->capacity_words = (unsigned short)(num >> 5);
-    return 0;
+    return A_HASH_SUCCESS;
 }
 
 unsigned char *a_shake128_done(a_sha3_t *ctx, unsigned char *out)
 {
+    /* assert(ctx) */
     a_sha3shake_done(ctx, out, 128 >> 3);
     return out;
 }
 
 unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out)
 {
+    /* assert(ctx) */
     a_sha3shake_done(ctx, out, 256 >> 3);
     return out;
 }
@@ -243,6 +256,8 @@ unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out)
 void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
 {
     /* IMPORTANT NOTE: a_sha3shake_done can be called many times */
+    /* assert(ctx) */
+    /* assert(!len || out) */
     if (0 == len) /* nothing to do */
     {
         return;
@@ -254,7 +269,7 @@ void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
         ctx->s[ctx->word_index] ^= (ctx->saved ^ (0x1FU << (ctx->byte_index << 3)));
         ctx->s[SHA3_KECCAK_SPONGE_WORDS - ctx->capacity_words - 1] ^= 0x8000000000000000;
         keccakf(ctx->s);
-        /* store sha3.s[] as little-endian bytes into sha3.sb */
+        /* store ctx->s[] as little-endian bytes into ctx->out */
         for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
         {
             STORE64L(ctx->s[i], ctx->out + sizeof(*ctx->s) * i);
@@ -268,7 +283,7 @@ void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
         if (ctx->byte_index >= (SHA3_KECCAK_SPONGE_WORDS - ctx->capacity_words) << 3)
         {
             keccakf(ctx->s);
-            /* store sha3.s[] as little-endian bytes into sha3.sb */
+            /* store ctx->s[] as little-endian bytes into ctx->out */
             for (unsigned int i = 0; i != SHA3_KECCAK_SPONGE_WORDS; ++i)
             {
                 STORE64L(ctx->s[i], ctx->out + sizeof(*ctx->s) * i);

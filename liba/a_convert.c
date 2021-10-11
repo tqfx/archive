@@ -9,6 +9,7 @@
 
 char *a_digest(const unsigned char *p, size_t n, char *out)
 {
+    /* assert(!n || p) */
     static const char hexits[] = "0123456789abcdef";
 
     char *s = out ? out : (out = (char *)a_alloc((n << 1) + 1), out);

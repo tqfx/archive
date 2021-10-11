@@ -120,6 +120,7 @@ static void a_sha1_compress(a_sha1_t *ctx, const unsigned char *buf)
 
 void a_sha1_init(a_sha1_t *ctx)
 {
+    /* assert(ctx) */
     ctx->curlen = 0;
     ctx->length = 0;
 

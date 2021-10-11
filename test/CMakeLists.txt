@@ -7,6 +7,9 @@ TARGET_LINK_LIBRARIES(test_notefreqs a)
 ADD_EXECUTABLE(test_hash test_hash.c)
 TARGET_LINK_LIBRARIES(test_hash a)
 
+ADD_EXECUTABLE(test_hmac test_hmac.c)
+TARGET_LINK_LIBRARIES(test_hmac a)
+
 IF("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
    "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR

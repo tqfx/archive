@@ -164,6 +164,8 @@ static void a_blake2b_compress(a_blake2b_t *ctx, const unsigned char *buf)
 
 int a_blake2b_init(a_blake2b_t *ctx, size_t len, const void *p, size_t n)
 {
+    /* assert(ctx) */
+    /* assert(!n || p) */
     unsigned char ap[A_PARAM_SIZE] = {0};
 
     if ((0 == len) || (sizeof(ctx->out) < len))
@@ -222,6 +224,8 @@ __A_BLAKE2B_INIT(512, ctx)
 
 int a_blake2b_process(a_blake2b_t *ctx, const void *p, size_t n)
 {
+    /* assert(ctx) */
+    /* assert(!n || p) */
     if (sizeof(ctx->buf) < ctx->curlen)
     {
         return A_HASH_INVALID;
@@ -256,6 +260,7 @@ int a_blake2b_process(a_blake2b_t *ctx, const void *p, size_t n)
 
 unsigned char *a_blake2b_done(a_blake2b_t *ctx, unsigned char *out)
 {
+    /* assert(ctx) */
     if (a_blake2b_is_lastblock(ctx))
     {
         return 0;
