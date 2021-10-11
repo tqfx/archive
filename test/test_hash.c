@@ -14,7 +14,7 @@ static void test_md2(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_MD2_DIGESTSIZE];
+        unsigned char hash[A_MD2_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -65,14 +65,14 @@ static void test_md2(void)
 
     a_md2_t ctx[1];
 
-    unsigned char out[A_MD2_DIGESTSIZE];
+    unsigned char out[A_MD2_OUTSIZ];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
         a_md2_init(ctx);
         a_md2_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_md2_done(ctx, out);
-        __HASH_DIFF(out, tests[i].hash, A_MD2_DIGESTSIZE, "MD2");
+        __HASH_DIFF(out, tests[i].hash, A_MD2_OUTSIZ, "MD2");
     }
 }
 
@@ -81,7 +81,7 @@ static void test_md4(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_MD4_DIGESTSIZE];
+        unsigned char hash[A_MD4_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -144,7 +144,7 @@ static void test_md4(void)
         a_md4_init(ctx);
         a_md4_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_md4_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_MD4_DIGESTSIZE, "MD4");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_MD4_OUTSIZ, "MD4");
     }
 }
 
@@ -153,7 +153,7 @@ static void test_md5(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_MD5_DIGESTSIZE];
+        unsigned char hash[A_MD5_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -217,7 +217,7 @@ static void test_md5(void)
         a_md5_init(ctx);
         a_md5_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_md5_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_MD5_DIGESTSIZE, "MD5");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_MD5_OUTSIZ, "MD5");
     }
 }
 
@@ -226,7 +226,7 @@ static void test_rmd128(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_RIPEMD128_DIGESTSIZE];
+        unsigned char hash[A_RIPEMD128_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -281,7 +281,7 @@ static void test_rmd128(void)
         a_rmd128_init(ctx);
         a_rmd128_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd128_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD128_DIGESTSIZE, "RIPEMD128");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD128_OUTSIZ, "RIPEMD128");
     }
 }
 
@@ -290,7 +290,7 @@ static void test_rmd160(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_RIPEMD160_DIGESTSIZE];
+        unsigned char hash[A_RIPEMD160_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -351,7 +351,7 @@ static void test_rmd160(void)
         a_rmd160_init(ctx);
         a_rmd160_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd160_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD160_DIGESTSIZE, "RIPEMD160");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD160_OUTSIZ, "RIPEMD160");
     }
 }
 
@@ -360,7 +360,7 @@ static void test_rmd256(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_RIPEMD256_DIGESTSIZE];
+        unsigned char hash[A_RIPEMD256_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -427,7 +427,7 @@ static void test_rmd256(void)
         a_rmd256_init(ctx);
         a_rmd256_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd256_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_DIGESTSIZE, "RIPEMD256");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_OUTSIZ, "RIPEMD256");
     }
 }
 
@@ -436,7 +436,7 @@ static void test_rmd320(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_RIPEMD320_DIGESTSIZE];
+        unsigned char hash[A_RIPEMD320_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -509,7 +509,7 @@ static void test_rmd320(void)
         a_rmd320_init(ctx);
         a_rmd320_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd320_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_DIGESTSIZE, "RIPEMD320");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_OUTSIZ, "RIPEMD320");
     }
 }
 
@@ -518,7 +518,7 @@ static void test_sha1(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_SHA1_DIGESTSIZE];
+        unsigned char hash[A_SHA1_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -545,7 +545,7 @@ static void test_sha1(void)
         a_sha1_init(ctx);
         a_sha1_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha1_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA1_DIGESTSIZE, "SHA1");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA1_OUTSIZ, "SHA1");
     }
 }
 
@@ -554,7 +554,7 @@ static void test_sha256(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_SHA256_DIGESTSIZE];
+        unsigned char hash[A_SHA256_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -585,7 +585,7 @@ static void test_sha256(void)
         a_sha256_init(ctx);
         a_sha256_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha256_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA256_DIGESTSIZE, "SHA256");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA256_OUTSIZ, "SHA256");
     }
 }
 
@@ -594,7 +594,7 @@ static void test_sha224(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_SHA224_DIGESTSIZE];
+        unsigned char hash[A_SHA224_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -625,7 +625,7 @@ static void test_sha224(void)
         a_sha224_init(ctx);
         a_sha224_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha224_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA224_DIGESTSIZE, "SHA224");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA224_OUTSIZ, "SHA224");
     }
 }
 
@@ -634,7 +634,7 @@ static void test_sha512(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_SHA512_DIGESTSIZE];
+        unsigned char hash[A_SHA512_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -674,7 +674,7 @@ static void test_sha512(void)
         a_sha512_init(ctx);
         a_sha512_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha512_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_DIGESTSIZE, "SHA512");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_OUTSIZ, "SHA512");
     }
 }
 
@@ -683,7 +683,7 @@ static void test_sha384(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_SHA384_DIGESTSIZE];
+        unsigned char hash[A_SHA384_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -719,7 +719,7 @@ static void test_sha384(void)
         a_sha384_init(ctx);
         a_sha384_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha384_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA384_DIGESTSIZE, "SHA384");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA384_OUTSIZ, "SHA384");
     }
 }
 
@@ -728,7 +728,7 @@ static void test_sha512_224(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_SHA512_224_DIGESTSIZE];
+        unsigned char hash[A_SHA512_224_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -760,7 +760,7 @@ static void test_sha512_224(void)
         a_sha512_224_init(ctx);
         a_sha512_224_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha512_224_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_224_DIGESTSIZE, "SHA512/224");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_224_OUTSIZ, "SHA512/224");
     }
 }
 
@@ -769,7 +769,7 @@ static void test_sha512_256(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_SHA512_256_DIGESTSIZE];
+        unsigned char hash[A_SHA512_256_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -801,20 +801,20 @@ static void test_sha512_256(void)
         a_sha512_256_init(ctx);
         a_sha512_256_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha512_256_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_256_DIGESTSIZE, "SHA512/256");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_256_OUTSIZ, "SHA512/256");
     }
 }
 
 static void test_sha3_224(void)
 {
     /* clang-format off */
-    const unsigned char sha3_224_empty[A_SHA3_224_DIGESTSIZE] = {
+    const unsigned char sha3_224_empty[A_SHA3_224_OUTSIZ] = {
         0x6B, 0x4E, 0x03, 0x42, 0x36, 0x67, 0xDB, 0xB7,
         0x3B, 0x6E, 0x15, 0x45, 0x4F, 0x0E, 0xB1, 0xAB,
         0xD4, 0x59, 0x7F, 0x9A, 0x1B, 0x07, 0x8E, 0x3F,
         0x5B, 0x5A, 0x6B, 0xC7,
     };
-    const unsigned char sha3_224_0xa3_200_times[A_SHA3_224_DIGESTSIZE] = {
+    const unsigned char sha3_224_0xa3_200_times[A_SHA3_224_OUTSIZ] = {
         0x93, 0x76, 0x81, 0x6A, 0xBA, 0x50, 0x3F, 0x72,
         0xF9, 0x6C, 0xE7, 0xEB, 0x65, 0xAC, 0x09, 0x5D,
         0xEE, 0xE3, 0xBE, 0x4B, 0xF9, 0xBB, 0xC2, 0xA1,
@@ -824,7 +824,7 @@ static void test_sha3_224(void)
 
     a_sha3_t ctx[1];
 
-    unsigned char buf[200], hash[A_SHA3_224_DIGESTSIZE];
+    unsigned char buf[200], hash[A_SHA3_224_OUTSIZ];
 
     const unsigned char c1 = 0xa3;
     memset(buf, c1, sizeof(buf));
@@ -832,20 +832,20 @@ static void test_sha3_224(void)
     /* SHA3-224 on an empty buffer */
     a_sha3_224_init(ctx);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_empty, A_SHA3_224_DIGESTSIZE, "SHA3/224");
+    __HASH_DIFF(hash, sha3_224_empty, A_SHA3_224_OUTSIZ, "SHA3/224");
 
     /* SHA3-224 as a single buffer. [FIPS 202] */
     a_sha3_224_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE, "SHA3/224");
+    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "SHA3/224");
 
     /* SHA3-224 in two steps. [FIPS 202] */
     a_sha3_224_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE, "SHA3/224");
+    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "SHA3/224");
 
     /* SHA3-224 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_224_init(ctx);
@@ -854,19 +854,19 @@ static void test_sha3_224(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_DIGESTSIZE, "SHA3/224");
+    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "SHA3/224");
 }
 
 static void test_sha3_256(void)
 {
     /* clang-format off */
-    const unsigned char sha3_256_empty[A_SHA3_256_DIGESTSIZE] = {
+    const unsigned char sha3_256_empty[A_SHA3_256_OUTSIZ] = {
         0xA7, 0xFF, 0xC6, 0xF8, 0xBF, 0x1E, 0xD7, 0x66,
         0x51, 0xC1, 0x47, 0x56, 0xA0, 0x61, 0xD6, 0x62,
         0xF5, 0x80, 0xFF, 0x4D, 0xE4, 0x3B, 0x49, 0xFA,
         0x82, 0xD8, 0x0A, 0x4B, 0x80, 0xF8, 0x43, 0x4A,
     };
-    const unsigned char sha3_256_0xa3_200_times[A_SHA3_256_DIGESTSIZE] = {
+    const unsigned char sha3_256_0xa3_200_times[A_SHA3_256_OUTSIZ] = {
         0x79, 0xF3, 0x8A, 0xDE, 0xC5, 0xC2, 0x03, 0x07,
         0xA9, 0x8E, 0xF7, 0x6E, 0x83, 0x24, 0xAF, 0xBF,
         0xD4, 0x6C, 0xFD, 0x81, 0xB2, 0x2E, 0x39, 0x73,
@@ -876,7 +876,7 @@ static void test_sha3_256(void)
 
     a_sha3_t ctx[1];
 
-    unsigned char buf[200], hash[A_SHA3_256_DIGESTSIZE];
+    unsigned char buf[200], hash[A_SHA3_256_OUTSIZ];
 
     const unsigned char c1 = 0xa3;
     memset(buf, c1, sizeof(buf));
@@ -884,20 +884,20 @@ static void test_sha3_256(void)
     /* SHA3-256 on an empty buffer */
     a_sha3_256_init(ctx);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_empty, A_SHA3_256_DIGESTSIZE, "SHA3/256");
+    __HASH_DIFF(hash, sha3_256_empty, A_SHA3_256_OUTSIZ, "SHA3/256");
 
     /* SHA3-256 as a single buffer. [FIPS 202] */
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE, "SHA3/256");
+    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "SHA3/256");
 
     /* SHA3-256 in two steps. [FIPS 202] */
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE, "SHA3/256");
+    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "SHA3/256");
 
     /* SHA3-256 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_256_init(ctx);
@@ -906,7 +906,7 @@ static void test_sha3_256(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_DIGESTSIZE, "SHA3/256");
+    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "SHA3/256");
 
     const char *src = "\xb7\x71\xd5\xce\xf5\xd1\xa4\x1a"
                       "\x93\xd1\x56\x43\xd7\x18\x1d\x2a"
@@ -935,13 +935,13 @@ static void test_sha3_256(void)
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, src, 1080 >> 3);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_SHA3_256_DIGESTSIZE, "SHA3/256");
+    __HASH_DIFF(hash, dst, A_SHA3_256_OUTSIZ, "SHA3/256");
 }
 
 static void test_sha3_384(void)
 {
     /* clang-format off */
-    const unsigned char sha3_384_0xa3_200_times[A_SHA3_384_DIGESTSIZE] = {
+    const unsigned char sha3_384_0xa3_200_times[A_SHA3_384_OUTSIZ] = {
         0x18, 0x81, 0xDE, 0x2C, 0xA7, 0xE4, 0x1E, 0xF9,
         0x5D, 0xC4, 0x73, 0x2B, 0x8F, 0x5F, 0x00, 0x2B,
         0x18, 0x9C, 0xC1, 0xE4, 0x2B, 0x74, 0x16, 0x8E,
@@ -953,7 +953,7 @@ static void test_sha3_384(void)
 
     a_sha3_t ctx[1];
 
-    unsigned char buf[200], hash[A_SHA3_384_DIGESTSIZE];
+    unsigned char buf[200], hash[A_SHA3_384_OUTSIZ];
 
     const unsigned char c1 = 0xa3;
     memset(buf, c1, sizeof(buf));
@@ -962,14 +962,14 @@ static void test_sha3_384(void)
     a_sha3_384_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_256_DIGESTSIZE, "SHA3/384");
+    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_256_OUTSIZ, "SHA3/384");
 
     /* SHA3-384 in two steps. [FIPS 202] */
     a_sha3_384_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE, "SHA3/384");
+    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_OUTSIZ, "SHA3/384");
 
     /* SHA3-384 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_384_init(ctx);
@@ -978,13 +978,13 @@ static void test_sha3_384(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_DIGESTSIZE, "SHA3/384");
+    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_OUTSIZ, "SHA3/384");
 }
 
 static void test_sha3_512(void)
 {
     /* clang-format off */
-    const unsigned char sha3_512_0xa3_200_times[A_SHA3_512_DIGESTSIZE] = {
+    const unsigned char sha3_512_0xa3_200_times[A_SHA3_512_OUTSIZ] = {
         0xE7, 0x6D, 0xFA, 0xD2, 0x20, 0x84, 0xA8, 0xB1,
         0x46, 0x7F, 0xCF, 0x2F, 0xFA, 0x58, 0x36, 0x1B,
         0xEC, 0x76, 0x28, 0xED, 0xF5, 0xF3, 0xFD, 0xC0,
@@ -998,7 +998,7 @@ static void test_sha3_512(void)
 
     a_sha3_t ctx[1];
 
-    unsigned char buf[200], hash[A_SHA3_512_DIGESTSIZE];
+    unsigned char buf[200], hash[A_SHA3_512_OUTSIZ];
 
     const unsigned char c1 = 0xa3;
     memset(buf, c1, sizeof(buf));
@@ -1007,14 +1007,14 @@ static void test_sha3_512(void)
     a_sha3_512_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_256_DIGESTSIZE, "SHA3/384");
+    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_256_OUTSIZ, "SHA3/384");
 
     /* SHA3-512 in two steps. [FIPS 202] */
     a_sha3_512_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE, "SHA3/384");
+    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_OUTSIZ, "SHA3/384");
 
     /* SHA3-512 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_512_init(ctx);
@@ -1023,10 +1023,10 @@ static void test_sha3_512(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_DIGESTSIZE, "SHA3/384");
+    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_OUTSIZ, "SHA3/384");
 }
 
-static void test_sha3_shake(void)
+static void test_sha3shake(void)
 {
     /* clang-format off */
     const unsigned char shake256_empty[32] = {
@@ -1063,100 +1063,100 @@ static void test_sha3_shake(void)
     memset(buf, c1, sizeof(buf));
 
     /* SHAKE256 on an empty buffer */
-    a_sha3_shake_init(ctx, 0x100);
+    a_sha3shake_init(ctx, 0x100);
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake256_empty, sizeof(shake256_empty), "SHA3/SHAKE/256");
 
-    /* SHAKE256 via a_sha3_shake [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x100);
-    a_sha3_shake_process(ctx, buf, sizeof(buf));
-    a_sha3_shake_done(ctx, hash, 0x200);
+    /* SHAKE256 via [FIPS 202] */
+    a_sha3shake_init(ctx, 0x100);
+    a_sha3shake_process(ctx, buf, sizeof(buf));
+    a_sha3shake_done(ctx, hash, 0x200);
     __HASH_DIFF(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "SHA3/SHAKE/256");
 
     /* SHAKE256 as a single buffer. [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x100);
-    a_sha3_shake_process(ctx, buf, sizeof(buf));
+    a_sha3shake_init(ctx, 0x100);
+    a_sha3shake_process(ctx, buf, sizeof(buf));
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "SHA3/SHAKE/256");
 
     /* SHAKE256 in two steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x100);
-    a_sha3_shake_process(ctx, buf, sizeof(buf) >> 1);
-    a_sha3_shake_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
+    a_sha3shake_init(ctx, 0x100);
+    a_sha3shake_process(ctx, buf, sizeof(buf) >> 1);
+    a_sha3shake_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "SHA3/SHAKE/256");
 
     /* SHAKE256 byte-by-byte: 200 steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x100);
+    a_sha3shake_init(ctx, 0x100);
     for (unsigned int i = 0; i != 200; ++i)
     {
-        a_sha3_shake_process(ctx, &c1, 1);
+        a_sha3shake_process(ctx, &c1, 1);
     }
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "SHA3/SHAKE/256");
 
     /* SHAKE128 on an empty buffer */
-    a_sha3_shake_init(ctx, 0x80);
+    a_sha3shake_init(ctx, 0x80);
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake128_empty, sizeof(shake128_empty), "SHA3/SHAKE/128");
 
-    /* SHAKE128 via a_sha3_shake [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x80);
-    a_sha3_shake_process(ctx, buf, sizeof(buf));
-    a_sha3_shake_done(ctx, hash, 0x200);
+    /* SHAKE128 via [FIPS 202] */
+    a_sha3shake_init(ctx, 0x80);
+    a_sha3shake_process(ctx, buf, sizeof(buf));
+    a_sha3shake_done(ctx, hash, 0x200);
     __HASH_DIFF(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "SHA3/SHAKE/128");
 
     /* SHAKE128 as a single buffer. [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x80);
-    a_sha3_shake_process(ctx, buf, sizeof(buf));
+    a_sha3shake_init(ctx, 0x80);
+    a_sha3shake_process(ctx, buf, sizeof(buf));
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "SHA3/SHAKE/128");
 
     /* SHAKE128 in two steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x80);
-    a_sha3_shake_process(ctx, buf, sizeof(buf) >> 1);
-    a_sha3_shake_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
+    a_sha3shake_init(ctx, 0x80);
+    a_sha3shake_process(ctx, buf, sizeof(buf) >> 1);
+    a_sha3shake_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "SHA3/SHAKE/128");
 
     /* SHAKE128 byte-by-byte: 200 steps. [FIPS 202] */
-    a_sha3_shake_init(ctx, 0x80);
+    a_sha3shake_init(ctx, 0x80);
     for (unsigned int i = 0; i != 200; ++i)
     {
-        a_sha3_shake_process(ctx, &c1, 1);
+        a_sha3shake_process(ctx, &c1, 1);
     }
     for (unsigned int i = 0; i != 0x10; ++i)
     {
-        a_sha3_shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
+        a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
     __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "SHA3/SHAKE/128");
 }
 
-static void test_keccak_224(void)
+static void test_keccak224(void)
 {
     a_sha3_t ctx[1];
-    unsigned char hash[A_KECCAK_224_DIGESTSIZE];
+    unsigned char hash[A_KECCAK224_OUTSIZ];
 
     const char *src = "\xcc";
     const char *dst = "\xa9\xca\xb5\x9e\xb4\x0a\x10\xb2"
@@ -1164,10 +1164,10 @@ static void test_keccak_224(void)
                       "\x36\x89\xfa\xf1\xd2\x6b\x47\x0c"
                       "\x89\x9f\x28\x02";
 
-    a_keccak_224_init(ctx);
+    a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE, "KECCAK/224");
+    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "KECCAK224");
 
     src = "\x41\xfb";
     dst = "\x61\x5b\xa3\x67\xaf\xdc\x35\xaa"
@@ -1175,10 +1175,10 @@ static void test_keccak_224(void)
           "\x6a\x73\x4b\x24\x98\x6d\x5d\x97"
           "\x8f\xef\xd6\x2c";
 
-    a_keccak_224_init(ctx);
+    a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE, "KECCAK/224");
+    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "KECCAK224");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1187,10 +1187,10 @@ static void test_keccak_224(void)
           "\xcf\x27\xb2\xeb\xb6\xa5\xf9\x03"
           "\x40\x70\x4e\x57";
 
-    a_keccak_224_init(ctx);
+    a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE, "KECCAK/224");
+    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "KECCAK224");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1210,16 +1210,16 @@ static void test_keccak_224(void)
           "\x8e\x21\x3b\x5f\x89\x34\x60\x4b"
           "\xfd\x4d\x2c\x3a";
 
-    a_keccak_224_init(ctx);
+    a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_224_DIGESTSIZE, "KECCAK/224");
+    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "KECCAK224");
 }
 
-static void test_keccak_256(void)
+static void test_keccak256(void)
 {
     a_sha3_t ctx[1];
-    unsigned char hash[A_KECCAK_256_DIGESTSIZE];
+    unsigned char hash[A_KECCAK256_OUTSIZ];
 
     const char *src = "\xcc";
     const char *dst = "\xee\xad\x6d\xbf\xc7\x34\x0a\x56"
@@ -1227,10 +1227,10 @@ static void test_keccak_256(void)
                       "\x70\x54\x9a\x6a\x7f\x6f\x56\x96"
                       "\x1e\x84\xa5\x4b\xd9\x97\x0b\x8a";
 
-    a_keccak_256_init(ctx);
+    a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE, "KECCAK/256");
+    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "KECCAK256");
 
     src = "\x41\xfb";
     dst = "\xa8\xea\xce\xda\x4d\x47\xb3\x28"
@@ -1238,10 +1238,10 @@ static void test_keccak_256(void)
           "\xb4\x07\xba\xf9\xaa\xbc\xb9\xe1"
           "\x8b\x57\x17\xb7\x87\x35\x37\xd2";
 
-    a_keccak_256_init(ctx);
+    a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE, "KECCAK/256");
+    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "KECCAK256");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1250,10 +1250,10 @@ static void test_keccak_256(void)
           "\xf1\xd3\x24\x97\x12\xf5\x8e\xe0"
           "\xdd\xf9\x56\xfe\x33\x2a\x5f\x95";
 
-    a_keccak_256_init(ctx);
+    a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE, "KECCAK/256");
+    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "KECCAK256");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1273,16 +1273,16 @@ static void test_keccak_256(void)
           "\x29\x4d\x90\x06\xee\x9f\x3f\x9d"
           "\x41\x9c\x8d\x42\x77\x48\xdc\x41";
 
-    a_keccak_256_init(ctx);
+    a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_256_DIGESTSIZE, "KECCAK/256");
+    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "KECCAK256");
 }
 
-static void test_keccak_384(void)
+static void test_keccak384(void)
 {
     a_sha3_t ctx[1];
-    unsigned char hash[A_KECCAK_384_DIGESTSIZE];
+    unsigned char hash[A_KECCAK384_OUTSIZ];
 
     const char *src = "\xcc";
     const char *dst = "\x1b\x84\xe6\x2a\x46\xe5\xa2\x01"
@@ -1292,10 +1292,10 @@ static void test_keccak_384(void)
                       "\xf5\xfa\x1e\x86\x41\xd7\x95\x83"
                       "\x36\xee\x7b\x11\xc5\x8f\x73\xe9";
 
-    a_keccak_384_init(ctx);
+    a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE, "KECCAK/384");
+    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "KECCAK384");
 
     src = "\x41\xfb";
     dst = "\x49\x5c\xce\x27\x14\xcd\x72\xc8"
@@ -1305,10 +1305,10 @@ static void test_keccak_384(void)
           "\xb8\x41\x0e\x75\xee\xfe\xa6\x55"
           "\xe3\x9d\x46\x70\xec\x0b\x17\x92";
 
-    a_keccak_384_init(ctx);
+    a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE, "KECCAK/384");
+    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "KECCAK384");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1319,10 +1319,10 @@ static void test_keccak_384(void)
           "\xba\x96\x67\x2e\xed\xda\x8c\x5a"
           "\x63\x31\xd2\x86\x83\xf4\x88\xeb";
 
-    a_keccak_384_init(ctx);
+    a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE, "KECCAK/384");
+    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "KECCAK384");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1344,16 +1344,16 @@ static void test_keccak_384(void)
           "\x96\xd1\x84\x10\x0b\x38\x48\x68"
           "\x24\x9f\x1d\x8b\x8f\xda\xa2\xc9";
 
-    a_keccak_384_init(ctx);
+    a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_384_DIGESTSIZE, "KECCAK/384");
+    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "KECCAK384");
 }
 
-static void test_keccak_512(void)
+static void test_keccak512(void)
 {
     a_sha3_t ctx[1];
-    unsigned char hash[A_KECCAK_512_DIGESTSIZE];
+    unsigned char hash[A_KECCAK512_OUTSIZ];
 
     const char *src = "\xcc";
     const char *dst = "\x86\x30\xc1\x3c\xbd\x06\x6e\xa7"
@@ -1365,10 +1365,10 @@ static void test_keccak_512(void)
                       "\xbc\x3b\x62\x25\xec\xe7\xa8\x10"
                       "\x37\x14\x41\xa5\xac\x66\x6e\xb9";
 
-    a_keccak_512_init(ctx);
+    a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE, "KECCAK/512");
+    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "KECCAK512");
 
     src = "\x41\xfb";
     dst = "\x55\x1d\xa6\x23\x6f\x8b\x96\xfc"
@@ -1380,10 +1380,10 @@ static void test_keccak_512(void)
           "\xcd\xeb\x39\x31\xf9\x38\x03\x66"
           "\x2a\x28\xdf\x1c\xd5\x35\xb7\x31";
 
-    a_keccak_512_init(ctx);
+    a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE, "KECCAK/512");
+    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "KECCAK512");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1396,10 +1396,10 @@ static void test_keccak_512(void)
           "\x14\xba\x7b\x0e\x26\x4d\xad\xf0"
           "\xce\xa3\x81\x86\x8c\xbd\x43\xd1";
 
-    a_keccak_512_init(ctx);
+    a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE, "KECCAK/512");
+    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "KECCAK512");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1423,10 +1423,10 @@ static void test_keccak_512(void)
           "\xdc\x03\xea\xed\xe4\x53\x67\x6a"
           "\x6e\xc8\xfe\x03\xa1\xad\x0e\xab";
 
-    a_keccak_512_init(ctx);
+    a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK_512_DIGESTSIZE, "KECCAK/512");
+    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "KECCAK512");
 }
 
 static void test_tiger(void)
@@ -1434,7 +1434,7 @@ static void test_tiger(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_TIGER_DIGESTSIZE];
+        unsigned char hash[A_TIGER_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1488,7 +1488,7 @@ static void test_tiger(void)
         a_tiger_init(ctx);
         a_tiger_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_tiger_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_TIGER_DIGESTSIZE, "TIGER");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_TIGER_OUTSIZ, "TIGER");
     }
 }
 
@@ -1498,7 +1498,7 @@ static void test_whirlpool(void)
     {
         unsigned int len;
         unsigned char msg[0x80];
-        unsigned char hash[A_WHIRLPOOL_DIGESTSIZE];
+        unsigned char hash[A_WHIRLPOOL_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         /* NULL Message */
@@ -1635,7 +1635,7 @@ static void test_whirlpool(void)
         a_whirlpool_init(ctx);
         a_whirlpool_process(ctx, tests[i].msg, tests[i].len);
         a_whirlpool_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_WHIRLPOOL_DIGESTSIZE, "WHIRLPOOL");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_WHIRLPOOL_OUTSIZ, "WHIRLPOOL");
     }
 }
 
@@ -1644,7 +1644,7 @@ static void test_blake2s_128(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2S_128_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2S_128_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1671,7 +1671,7 @@ static void test_blake2s_128(void)
         a_blake2s_128_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_128_DIGESTSIZE, "BLAKE2S/128");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_128_OUTSIZ, "BLAKE2S/128");
     }
 }
 
@@ -1680,7 +1680,7 @@ static void test_blake2s_160(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2S_160_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2S_160_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1709,7 +1709,7 @@ static void test_blake2s_160(void)
         a_blake2s_160_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_160_DIGESTSIZE, "BLAKE2S/160");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_160_OUTSIZ, "BLAKE2S/160");
     }
 }
 
@@ -1718,7 +1718,7 @@ static void test_blake2s_224(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2S_224_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2S_224_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1749,7 +1749,7 @@ static void test_blake2s_224(void)
         a_blake2s_224_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_224_DIGESTSIZE, "BLAKE2S/224");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_224_OUTSIZ, "BLAKE2S/224");
     }
 }
 
@@ -1758,7 +1758,7 @@ static void test_blake2s_256(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2S_256_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2S_256_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1803,7 +1803,7 @@ static void test_blake2s_256(void)
         a_blake2s_256_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_256_DIGESTSIZE, "BLAKE2S/256");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_256_OUTSIZ, "BLAKE2S/256");
     }
 }
 
@@ -1812,7 +1812,7 @@ static void test_blake2b_160(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2B_160_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2B_160_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1840,7 +1840,7 @@ static void test_blake2b_160(void)
         a_blake2b_160_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_160_DIGESTSIZE, "BLAKE2B/160");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_160_OUTSIZ, "BLAKE2B/160");
     }
 }
 
@@ -1849,7 +1849,7 @@ static void test_blake2b_256(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2B_256_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2B_256_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1894,7 +1894,7 @@ static void test_blake2b_256(void)
         a_blake2b_256_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_256_DIGESTSIZE, "BLAKE2B/256");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_256_OUTSIZ, "BLAKE2B/256");
     }
 }
 
@@ -1903,7 +1903,7 @@ static void test_blake2b_384(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2B_384_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2B_384_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1938,7 +1938,7 @@ static void test_blake2b_384(void)
         a_blake2b_384_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_384_DIGESTSIZE, "BLAKE2B/384");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_384_OUTSIZ, "BLAKE2B/384");
     }
 }
 
@@ -1947,7 +1947,7 @@ static void test_blake2b_512(void)
     static const struct
     {
         const char *msg;
-        unsigned char hash[A_BLAKE2B_512_DIGESTSIZE];
+        unsigned char hash[A_BLAKE2B_512_OUTSIZ];
     } tests[] = {
         /* clang-format off */
         {
@@ -1986,7 +1986,7 @@ static void test_blake2b_512(void)
         a_blake2b_512_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_512_DIGESTSIZE, "BLAKE2B/512");
+        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_512_OUTSIZ, "BLAKE2B/512");
     }
 }
 
@@ -2014,11 +2014,11 @@ int main(void)
     test_sha3_256();
     test_sha3_384();
     test_sha3_512();
-    test_sha3_shake();
-    test_keccak_224();
-    test_keccak_256();
-    test_keccak_384();
-    test_keccak_512();
+    test_sha3shake();
+    test_keccak224();
+    test_keccak256();
+    test_keccak384();
+    test_keccak512();
 
     test_tiger();
 
