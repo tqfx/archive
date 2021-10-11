@@ -316,7 +316,7 @@ extern void a_shake256_init(a_sha3_t *ctx);
 extern unsigned char *a_shake128_done(a_sha3_t *ctx, unsigned char *out);
 extern unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out);
 extern int a_sha3shake_init(a_sha3_t *ctx, unsigned int num);
-extern void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len);
+extern void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int siz);
 
 #ifndef a_keccak224_init
 #define a_keccak224_init(ctx) a_sha3_224_init(ctx)
@@ -341,7 +341,7 @@ extern void a_blake2s_224_init(a_blake2s_t *ctx);
 extern void a_blake2s_256_init(a_blake2s_t *ctx);
 extern int a_blake2s_process(a_blake2s_t *ctx, const void *p, size_t n);
 extern unsigned char *a_blake2s_done(a_blake2s_t *ctx, unsigned char *out);
-extern int a_blake2s_init(a_blake2s_t *ctx, size_t len, const void *p, size_t n);
+extern int a_blake2s_init(a_blake2s_t *ctx, size_t siz, const void *p, size_t n);
 
 extern void a_blake2b_160_init(a_blake2b_t *ctx);
 extern void a_blake2b_256_init(a_blake2b_t *ctx);
@@ -349,7 +349,7 @@ extern void a_blake2b_384_init(a_blake2b_t *ctx);
 extern void a_blake2b_512_init(a_blake2b_t *ctx);
 extern int a_blake2b_process(a_blake2b_t *ctx, const void *p, size_t n);
 extern unsigned char *a_blake2b_done(a_blake2b_t *ctx, unsigned char *out);
-extern int a_blake2b_init(a_blake2b_t *ctx, size_t len, const void *p, size_t n);
+extern int a_blake2b_init(a_blake2b_t *ctx, size_t siz, const void *p, size_t n);
 
 extern void a_whirlpool_init(a_whirlpool_t *ctx);
 extern int a_whirlpool_process(a_whirlpool_t *ctx, const void *p, size_t n);

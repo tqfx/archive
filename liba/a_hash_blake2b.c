@@ -162,13 +162,13 @@ static void a_blake2b_compress(a_blake2b_t *ctx, const unsigned char *buf)
 #undef G
 #undef ROUND
 
-int a_blake2b_init(a_blake2b_t *ctx, size_t len, const void *p, size_t n)
+int a_blake2b_init(a_blake2b_t *ctx, size_t siz, const void *p, size_t n)
 {
     /* assert(ctx) */
     /* assert(!n || p) */
     unsigned char ap[A_PARAM_SIZE] = {0};
 
-    if ((0 == len) || (sizeof(ctx->out) < len))
+    if ((0 == siz) || (sizeof(ctx->out) < siz))
     {
         return A_HASH_INVALID;
     }
@@ -179,7 +179,7 @@ int a_blake2b_init(a_blake2b_t *ctx, size_t len, const void *p, size_t n)
         return A_HASH_INVALID;
     }
 
-    ap[O_DIGEST_LENGTH] = (unsigned char)len;
+    ap[O_DIGEST_LENGTH] = (unsigned char)siz;
     ap[O_KEY_LENGTH] = (unsigned char)n;
     ap[O_FANOUT] = 1;
     ap[O_DEPTH] = 1;

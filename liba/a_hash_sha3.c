@@ -253,12 +253,12 @@ unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out)
     return out;
 }
 
-void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
+void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int siz)
 {
     /* IMPORTANT NOTE: a_sha3shake_done can be called many times */
     /* assert(ctx) */
-    /* assert(!len || out) */
-    if (0 == len) /* nothing to do */
+    /* assert(!siz || out) */
+    if (0 == siz) /* nothing to do */
     {
         return;
     }
@@ -278,7 +278,7 @@ void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int len)
         ctx->xof_flag = 1;
     }
 
-    for (unsigned int idx = 0; idx != len; ++idx)
+    for (unsigned int idx = 0; idx != siz; ++idx)
     {
         if (ctx->byte_index >= (SHA3_KECCAK_SPONGE_WORDS - ctx->capacity_words) << 3)
         {
