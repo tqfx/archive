@@ -66,7 +66,7 @@ int a_hmac_process(a_hmac_t *ctx, const void *p, size_t n)
     return ctx->hash->process(ctx->state, p, n);
 }
 
-unsigned char *a_hmac_done(a_hmac_t *ctx, unsigned char *out)
+unsigned char *a_hmac_done(a_hmac_t *ctx, void *out)
 {
     /* assert(ctx) */
     unsigned char buf[sizeof(ctx->buf)];

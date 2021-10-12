@@ -86,7 +86,7 @@ static __INLINE void keccakf(uint64_t s[SHA3_KECCAK_SPONGE_WORDS])
 #undef KECCAK_ROUNDS
 }
 
-static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
+static unsigned char *a_done(a_sha3_t *ctx, void *out, uint64_t pad)
 {
     ctx->s[ctx->word_index] ^= (ctx->saved ^ (pad << (ctx->byte_index << 3)));
     ctx->s[SHA3_KECCAK_SPONGE_WORDS - 1 - ctx->capacity_words] ^= 0x8000000000000000;
@@ -97,7 +97,8 @@ static unsigned char *a_done(a_sha3_t *ctx, unsigned char *out, uint64_t pad)
     {
         STORE64L(ctx->s[i], ctx->out + sizeof(*ctx->s) * i);
     }
-    if (out && out != ctx->out)
+
+    if (out && (out != ctx->out))
     {
         memcpy(out, ctx->out, (unsigned int)ctx->capacity_words << 2);
     }
@@ -201,13 +202,13 @@ int a_sha3_process(a_sha3_t *ctx, const void *p, size_t n)
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_sha3_done(a_sha3_t *ctx, unsigned char *out)
+unsigned char *a_sha3_done(a_sha3_t *ctx, void *out)
 {
     /* assert(ctx) */
     return a_done(ctx, out, 0x06);
 }
 
-unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out)
+unsigned char *a_keccak_done(a_sha3_t *ctx, void *out)
 {
     /* assert(ctx) */
     return a_done(ctx, out, 0x01);
@@ -239,18 +240,26 @@ int a_sha3shake_init(a_sha3_t *ctx, unsigned int num)
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_shake128_done(a_sha3_t *ctx, unsigned char *out)
+unsigned char *a_shake128_done(a_sha3_t *ctx, void *out)
 {
     /* assert(ctx) */
-    a_sha3shake_done(ctx, out, 128 >> 3);
-    return out;
+    a_sha3shake_done(ctx, ctx->out, 128 >> 3);
+    if (out && (out != ctx->out))
+    {
+        memcpy(out, ctx->out, 128 >> 3);
+    }
+    return ctx->out;
 }
 
-unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out)
+unsigned char *a_shake256_done(a_sha3_t *ctx, void *out)
 {
     /* assert(ctx) */
-    a_sha3shake_done(ctx, out, 256 >> 3);
-    return out;
+    a_sha3shake_done(ctx, ctx->out, 256 >> 3);
+    if (out && (out != ctx->out))
+    {
+        memcpy(out, ctx->out, 256 >> 3);
+    }
+    return ctx->out;
 }
 
 void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int siz)

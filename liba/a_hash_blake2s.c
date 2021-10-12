@@ -194,7 +194,7 @@ int a_blake2s_init(a_blake2s_t *ctx, size_t siz, const void *p, size_t n)
         ctx->state[i] ^= t;
     }
 
-    ctx->outlen = ap[O_DIGEST_LENGTH];
+    ctx->outsiz = ap[O_DIGEST_LENGTH];
 
     if (s)
     {
@@ -221,7 +221,7 @@ int a_blake2s_process(a_blake2s_t *ctx, const void *p, size_t n)
 {
     /* assert(ctx) */
     /* assert(!n || p) */
-    if (sizeof(ctx->buf) < ctx->curlen)
+    if (sizeof(ctx->buf) < ctx->cursiz)
     {
         return A_HASH_INVALID;
     }
@@ -229,13 +229,13 @@ int a_blake2s_process(a_blake2s_t *ctx, const void *p, size_t n)
     const unsigned char *s = (const unsigned char *)p;
     if (n)
     {
-        uint32_t m = sizeof(ctx->buf) - ctx->curlen;
+        uint32_t m = sizeof(ctx->buf) - ctx->cursiz;
         if (n > m)
         {
-            memcpy(ctx->buf + ctx->curlen, s, m);
+            memcpy(ctx->buf + ctx->cursiz, s, m);
             a_blake2s_increment_counter(ctx, sizeof(ctx->buf));
             a_blake2s_compress(ctx, ctx->buf);
-            ctx->curlen = 0;
+            ctx->cursiz = 0;
             s += m;
             n -= m;
             while (n > sizeof(ctx->buf) - 1)
@@ -246,14 +246,14 @@ int a_blake2s_process(a_blake2s_t *ctx, const void *p, size_t n)
                 n -= sizeof(ctx->buf);
             }
         }
-        memcpy(ctx->buf + ctx->curlen, s, n);
-        ctx->curlen += (uint32_t)n;
+        memcpy(ctx->buf + ctx->cursiz, s, n);
+        ctx->cursiz += (uint32_t)n;
     }
 
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_blake2s_done(a_blake2s_t *ctx, unsigned char *out)
+unsigned char *a_blake2s_done(a_blake2s_t *ctx, void *out)
 {
     /* assert(ctx) */
     if (a_blake2s_is_lastblock(ctx))
@@ -261,11 +261,11 @@ unsigned char *a_blake2s_done(a_blake2s_t *ctx, unsigned char *out)
         return 0;
     }
 
-    a_blake2s_increment_counter(ctx, ctx->curlen);
+    a_blake2s_increment_counter(ctx, ctx->cursiz);
     a_blake2s_set_lastblock(ctx);
 
     /* padding */
-    memset(ctx->buf + ctx->curlen, 0, sizeof(ctx->buf) - ctx->curlen);
+    memset(ctx->buf + ctx->cursiz, 0, sizeof(ctx->buf) - ctx->cursiz);
     a_blake2s_compress(ctx, ctx->buf);
 
     /* copy output */
@@ -273,9 +273,10 @@ unsigned char *a_blake2s_done(a_blake2s_t *ctx, unsigned char *out)
     {
         STORE32L(ctx->state[i], ctx->out + sizeof(*ctx->state) * i);
     }
+
     if (out && (out != ctx->out))
     {
-        memcpy(out, ctx->out, ctx->outlen);
+        memcpy(out, ctx->out, ctx->outsiz);
     }
 
     return ctx->out;

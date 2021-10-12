@@ -151,7 +151,7 @@ static void a_md5_compress(a_md5_t *ctx, const unsigned char *buf)
 void a_md5_init(a_md5_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0x67452301;

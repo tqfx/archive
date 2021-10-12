@@ -199,7 +199,7 @@ static void a_sha512_compress(a_sha512_t *ctx, const unsigned char *buf)
 void a_sha256_init(a_sha256_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0x6A09E667;
@@ -215,7 +215,7 @@ void a_sha256_init(a_sha256_t *ctx)
 void a_sha224_init(a_sha256_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0xC1059ED8;
@@ -231,7 +231,7 @@ void a_sha224_init(a_sha256_t *ctx)
 void a_sha512_init(a_sha512_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0x6A09E667F3BCC908;
@@ -247,7 +247,7 @@ void a_sha512_init(a_sha512_t *ctx)
 void a_sha384_init(a_sha512_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0xCBBB9D5DC1059ED8;
@@ -263,7 +263,7 @@ void a_sha384_init(a_sha512_t *ctx)
 void a_sha512_224_init(a_sha512_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0x8C3D37C819544DA2;
@@ -279,7 +279,7 @@ void a_sha512_224_init(a_sha512_t *ctx)
 void a_sha512_256_init(a_sha512_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0x22312194FC2BF72C;
@@ -299,17 +299,17 @@ __A_HASH_DONE(a_sha256_t, a_sha256_done, a_sha256_compress, STORE64H, STORE32H, 
 __A_HASH_DONE(a_sha512_t, a_sha512_done, a_sha512_compress, STORE64H, STORE64H, 0x80, 0x70, 0x78)
 
 #undef __A_SHA2_DONE
-#define __A_SHA2_DONE(bit, func, size)                           \
-    unsigned char *func(a_sha##bit##_t *ctx, unsigned char *out) \
-    {                                                            \
-        unsigned char *ret = a_sha##bit##_done(ctx, ctx->out);   \
-                                                                 \
-        if (ret && out && (out != ctx->out))                     \
-        {                                                        \
-            memcpy(out, ctx->out, size);                         \
-        }                                                        \
-                                                                 \
-        return ret;                                              \
+#define __A_SHA2_DONE(bit, func, size)                         \
+    unsigned char *func(a_sha##bit##_t *ctx, void *out)        \
+    {                                                          \
+        unsigned char *ret = a_sha##bit##_done(ctx, ctx->out); \
+                                                               \
+        if (ret && out && (out != ctx->out))                   \
+        {                                                      \
+            memcpy(out, ctx->out, size);                       \
+        }                                                      \
+                                                               \
+        return ret;                                            \
     }
 __A_SHA2_DONE(256, a_sha224_done, 224 >> 3)
 __A_SHA2_DONE(512, a_sha384_done, 382 >> 3)

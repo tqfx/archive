@@ -11,7 +11,6 @@
 
 #include "liba.h"
 
-#include <stdlib.h> /* alloc */
 #include <string.h> /* memset, memcpy */
 
 #define A_RIPEMD_BUFSIZ    0x40
@@ -28,7 +27,7 @@
         unsigned char buf[A_RIPEMD_BUFSIZ]; \
         unsigned char out[bit >> 3];        \
         uint32_t state[(bit >> 3) >> 2];    \
-        uint32_t curlen;                    \
+        uint32_t cursiz;                    \
     } a_rmd##bit##_t
 __A_RMD_T(128);
 __A_RMD_T(160);
@@ -44,7 +43,7 @@ typedef struct a_md2_t
     unsigned char x[0x30];
     unsigned char buf[A_MD2_BUFSIZ];
     unsigned char chksum[A_MD2_BUFSIZ];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_md2_t;
 
 #define A_MD4_BUFSIZ 0x40
@@ -56,7 +55,7 @@ typedef struct a_md4_t
     unsigned char buf[A_MD4_BUFSIZ];
     unsigned char out[A_MD4_OUTSIZ];
     uint32_t state[A_MD4_OUTSIZ >> 2];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_md4_t;
 
 #define A_MD5_BUFSIZ 0x40
@@ -68,7 +67,7 @@ typedef struct a_md5_t
     unsigned char buf[A_MD5_BUFSIZ];
     unsigned char out[A_MD5_OUTSIZ];
     uint32_t state[A_MD5_OUTSIZ >> 2];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_md5_t;
 
 #define A_SHA1_BUFSIZ 0x40
@@ -80,7 +79,7 @@ typedef struct a_sha1_t
     unsigned char buf[A_SHA1_BUFSIZ];
     unsigned char out[A_SHA1_OUTSIZ];
     uint32_t state[A_SHA1_OUTSIZ >> 2];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_sha1_t;
 
 #define A_TIGER_BUFSIZ 0x40
@@ -92,7 +91,7 @@ typedef struct a_tiger_t
     unsigned char buf[A_TIGER_BUFSIZ];
     unsigned char out[A_TIGER_OUTSIZ];
     uint64_t state[A_TIGER_OUTSIZ >> 3];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_tiger_t;
 
 #define A_SHA256_BUFSIZ 0x40
@@ -104,7 +103,7 @@ typedef struct a_sha256_t
     unsigned char buf[A_SHA256_BUFSIZ];
     unsigned char out[A_SHA256_OUTSIZ];
     uint32_t state[A_SHA256_OUTSIZ >> 2];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_sha256_t;
 
 #define A_SHA224_OUTSIZ (224 >> 3)
@@ -122,7 +121,7 @@ typedef struct a_sha512_t
     unsigned char buf[A_SHA512_BUFSIZ];
     unsigned char out[A_SHA512_OUTSIZ];
     uint64_t state[A_SHA512_OUTSIZ >> 3];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_sha512_t;
 
 #define A_SHA384_OUTSIZ     (384 >> 3)
@@ -192,8 +191,8 @@ typedef struct a_blake2s_t
 {
     uint32_t t[2];
     uint32_t f[2];
-    uint32_t curlen;
-    uint32_t outlen;
+    uint32_t cursiz;
+    uint32_t outsiz;
     uint32_t state[A_BLAKE2S_OUTSIZ >> 2];
     unsigned char out[A_BLAKE2S_OUTSIZ];
     unsigned char buf[A_BLAKE2S_BUFSIZ];
@@ -211,8 +210,8 @@ typedef struct a_blake2b_t
 {
     uint64_t t[2];
     uint64_t f[2];
-    uint32_t curlen;
-    uint32_t outlen;
+    uint32_t cursiz;
+    uint32_t outsiz;
     uint64_t state[A_BLAKE2B_OUTSIZ >> 3];
     unsigned char out[A_BLAKE2B_OUTSIZ];
     unsigned char buf[A_BLAKE2B_BUFSIZ];
@@ -228,93 +227,93 @@ typedef struct a_whirlpool_t
     unsigned char buf[A_WHIRLPOOL_BUFSIZ];
     unsigned char out[A_WHIRLPOOL_OUTSIZ];
     uint64_t state[A_WHIRLPOOL_OUTSIZ >> 3];
-    uint32_t curlen;
+    uint32_t cursiz;
 } a_whirlpool_t;
 
 __BEGIN_DECLS
 
 extern void a_md2_init(a_md2_t *ctx);
 extern int a_md2_process(a_md2_t *ctx, const void *p, size_t n);
-extern unsigned char *a_md2_done(a_md2_t *ctx, unsigned char *out);
+extern unsigned char *a_md2_done(a_md2_t *ctx, void *out);
 
 extern void a_md4_init(a_md4_t *ctx);
 extern int a_md4_process(a_md4_t *ctx, const void *p, size_t n);
-extern unsigned char *a_md4_done(a_md4_t *ctx, unsigned char *out);
+extern unsigned char *a_md4_done(a_md4_t *ctx, void *out);
 
 extern void a_md5_init(a_md5_t *ctx);
 extern int a_md5_process(a_md5_t *ctx, const void *p, size_t n);
-extern unsigned char *a_md5_done(a_md5_t *ctx, unsigned char *out);
+extern unsigned char *a_md5_done(a_md5_t *ctx, void *out);
 
 extern void a_sha1_init(a_sha1_t *ctx);
 extern int a_sha1_process(a_sha1_t *ctx, const void *p, size_t n);
-extern unsigned char *a_sha1_done(a_sha1_t *ctx, unsigned char *out);
+extern unsigned char *a_sha1_done(a_sha1_t *ctx, void *out);
 
 extern void a_tiger_init(a_tiger_t *ctx);
 extern int a_tiger_process(a_tiger_t *ctx, const void *p, size_t n);
-extern unsigned char *a_tiger_done(a_tiger_t *ctx, unsigned char *out);
+extern unsigned char *a_tiger_done(a_tiger_t *ctx, void *out);
 
 extern void a_rmd128_init(a_rmd128_t *ctx);
 extern int a_rmd128_process(a_rmd128_t *ctx, const void *p, size_t n);
-extern unsigned char *a_rmd128_done(a_rmd128_t *ctx, unsigned char *out);
+extern unsigned char *a_rmd128_done(a_rmd128_t *ctx, void *out);
 
 extern void a_rmd160_init(a_rmd160_t *ctx);
 extern int a_rmd160_process(a_rmd160_t *ctx, const void *p, size_t n);
-extern unsigned char *a_rmd160_done(a_rmd160_t *ctx, unsigned char *out);
+extern unsigned char *a_rmd160_done(a_rmd160_t *ctx, void *out);
 
 extern void a_rmd256_init(a_rmd256_t *ctx);
 extern int a_rmd256_process(a_rmd256_t *ctx, const void *p, size_t n);
-extern unsigned char *a_rmd256_done(a_rmd256_t *ctx, unsigned char *out);
+extern unsigned char *a_rmd256_done(a_rmd256_t *ctx, void *out);
 
 extern void a_rmd320_init(a_rmd320_t *ctx);
 extern int a_rmd320_process(a_rmd320_t *ctx, const void *p, size_t n);
-extern unsigned char *a_rmd320_done(a_rmd320_t *ctx, unsigned char *out);
+extern unsigned char *a_rmd320_done(a_rmd320_t *ctx, void *out);
 
 extern void a_sha256_init(a_sha256_t *ctx);
 extern int a_sha256_process(a_sha256_t *ctx, const void *p, size_t n);
-extern unsigned char *a_sha256_done(a_sha256_t *ctx, unsigned char *out);
+extern unsigned char *a_sha256_done(a_sha256_t *ctx, void *out);
 
 extern void a_sha224_init(a_sha256_t *ctx);
 #ifndef a_sha224_process
 #define a_sha224_process(ctx, p, n) a_sha256_process(ctx, p, n)
 #endif /* a_sha224_process */
-extern unsigned char *a_sha224_done(a_sha256_t *ctx, unsigned char *out);
+extern unsigned char *a_sha224_done(a_sha256_t *ctx, void *out);
 
 extern void a_sha512_init(a_sha512_t *ctx);
 extern int a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
-extern unsigned char *a_sha512_done(a_sha512_t *ctx, unsigned char *out);
+extern unsigned char *a_sha512_done(a_sha512_t *ctx, void *out);
 
 extern void a_sha384_init(a_sha512_t *ctx);
 #ifndef a_sha384_process
 #define a_sha384_process(ctx, p, n) a_sha512_process(ctx, p, n)
 #endif /* a_sha384_process */
-extern unsigned char *a_sha384_done(a_sha512_t *ctx, unsigned char *out);
+extern unsigned char *a_sha384_done(a_sha512_t *ctx, void *out);
 
 extern void a_sha512_224_init(a_sha512_t *ctx);
 #ifndef a_sha512_224_process
 #define a_sha512_224_process(ctx, p, n) a_sha512_process(ctx, p, n)
 #endif /* a_sha512_224_process */
-extern unsigned char *a_sha512_224_done(a_sha512_t *ctx, unsigned char *out);
+extern unsigned char *a_sha512_224_done(a_sha512_t *ctx, void *out);
 
 extern void a_sha512_256_init(a_sha512_t *ctx);
 #ifndef a_sha512_256_process
 #define a_sha512_256_process(ctx, p, n) a_sha512_process(ctx, p, n)
 #endif /* a_sha512_256_process */
-extern unsigned char *a_sha512_256_done(a_sha512_t *ctx, unsigned char *out);
+extern unsigned char *a_sha512_256_done(a_sha512_t *ctx, void *out);
 
 extern void a_sha3_224_init(a_sha3_t *ctx);
 extern void a_sha3_256_init(a_sha3_t *ctx);
 extern void a_sha3_384_init(a_sha3_t *ctx);
 extern void a_sha3_512_init(a_sha3_t *ctx);
 extern int a_sha3_process(a_sha3_t *ctx, const void *p, size_t n);
-extern unsigned char *a_sha3_done(a_sha3_t *ctx, unsigned char *out);
+extern unsigned char *a_sha3_done(a_sha3_t *ctx, void *out);
 
 extern void a_shake128_init(a_sha3_t *ctx);
 extern void a_shake256_init(a_sha3_t *ctx);
 #ifndef a_sha3shake_process
 #define a_sha3shake_process(ctx, p, n) a_sha3_process(ctx, p, n)
 #endif /* a_sha3shake_process */
-extern unsigned char *a_shake128_done(a_sha3_t *ctx, unsigned char *out);
-extern unsigned char *a_shake256_done(a_sha3_t *ctx, unsigned char *out);
+extern unsigned char *a_shake128_done(a_sha3_t *ctx, void *out);
+extern unsigned char *a_shake256_done(a_sha3_t *ctx, void *out);
 extern int a_sha3shake_init(a_sha3_t *ctx, unsigned int num);
 extern void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int siz);
 
@@ -333,14 +332,14 @@ extern void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int siz
 #ifndef a_keccak_process
 #define a_keccak_process(ctx, p, n) a_sha3_process(ctx, p, n)
 #endif /* a_keccak_process */
-extern unsigned char *a_keccak_done(a_sha3_t *ctx, unsigned char *out);
+extern unsigned char *a_keccak_done(a_sha3_t *ctx, void *out);
 
 extern void a_blake2s_128_init(a_blake2s_t *ctx);
 extern void a_blake2s_160_init(a_blake2s_t *ctx);
 extern void a_blake2s_224_init(a_blake2s_t *ctx);
 extern void a_blake2s_256_init(a_blake2s_t *ctx);
 extern int a_blake2s_process(a_blake2s_t *ctx, const void *p, size_t n);
-extern unsigned char *a_blake2s_done(a_blake2s_t *ctx, unsigned char *out);
+extern unsigned char *a_blake2s_done(a_blake2s_t *ctx, void *out);
 extern int a_blake2s_init(a_blake2s_t *ctx, size_t siz, const void *p, size_t n);
 
 extern void a_blake2b_160_init(a_blake2b_t *ctx);
@@ -348,12 +347,12 @@ extern void a_blake2b_256_init(a_blake2b_t *ctx);
 extern void a_blake2b_384_init(a_blake2b_t *ctx);
 extern void a_blake2b_512_init(a_blake2b_t *ctx);
 extern int a_blake2b_process(a_blake2b_t *ctx, const void *p, size_t n);
-extern unsigned char *a_blake2b_done(a_blake2b_t *ctx, unsigned char *out);
+extern unsigned char *a_blake2b_done(a_blake2b_t *ctx, void *out);
 extern int a_blake2b_init(a_blake2b_t *ctx, size_t siz, const void *p, size_t n);
 
 extern void a_whirlpool_init(a_whirlpool_t *ctx);
 extern int a_whirlpool_process(a_whirlpool_t *ctx, const void *p, size_t n);
-extern unsigned char *a_whirlpool_done(a_whirlpool_t *ctx, unsigned char *out);
+extern unsigned char *a_whirlpool_done(a_whirlpool_t *ctx, void *out);
 
 __END_DECLS
 
@@ -419,7 +418,7 @@ typedef struct a_hash_t
       @retval        p the digest internal buffer.
       @retval        0 generic invalid argument.
     */
-    unsigned char *(*done)(a_hash_stat_t *ctx, unsigned char *out);
+    unsigned char *(*done)(a_hash_stat_t *ctx, void *out);
 } a_hash_t;
 
 __BEGIN_DECLS
@@ -554,7 +553,7 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
     {                                                             \
         /* assert(ctx) */                                         \
         /* assert(!n || p) */                                     \
-        if (sizeof(ctx->buf) < ctx->curlen)                       \
+        if (sizeof(ctx->buf) < ctx->cursiz)                       \
         {                                                         \
             return A_HASH_INVALID;                                \
         }                                                         \
@@ -565,7 +564,7 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
         const unsigned char *s = (const unsigned char *)p;        \
         while (n)                                                 \
         {                                                         \
-            if ((0 == ctx->curlen) && (sizeof(ctx->buf) - 1 < n)) \
+            if ((0 == ctx->cursiz) && (sizeof(ctx->buf) - 1 < n)) \
             {                                                     \
                 compress(ctx, s);                                 \
                 ctx->length += sizeof(ctx->buf) << 3;             \
@@ -574,17 +573,17 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
             }                                                     \
             else                                                  \
             {                                                     \
-                uint32_t m = sizeof(ctx->buf) - ctx->curlen;      \
+                uint32_t m = sizeof(ctx->buf) - ctx->cursiz;      \
                 m = m < n ? m : (uint32_t)n;                      \
-                memcpy(ctx->buf + ctx->curlen, s, m);             \
-                ctx->curlen += m;                                 \
+                memcpy(ctx->buf + ctx->cursiz, s, m);             \
+                ctx->cursiz += m;                                 \
                 s += m;                                           \
                 n -= m;                                           \
-                if (sizeof(ctx->buf) == ctx->curlen)              \
+                if (sizeof(ctx->buf) == ctx->cursiz)              \
                 {                                                 \
                     compress(ctx, ctx->buf);                      \
                     ctx->length += sizeof(ctx->buf) << 3;         \
-                    ctx->curlen = 0;                              \
+                    ctx->cursiz = 0;                              \
                 }                                                 \
             }                                                     \
         }                                                         \
@@ -592,12 +591,12 @@ __A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
     }
 
 #undef __A_HASH_DONE
-#define __A_HASH_DONE(stat, done, func)                         \
-    __STATIC_INLINE                                             \
-    unsigned char *func(a_hash_stat_t *ctx, unsigned char *out) \
-    {                                                           \
-        /* assert(ctx) */                                       \
-        return done(ctx->stat, out);                            \
+#define __A_HASH_DONE(stat, done, func)                \
+    __STATIC_INLINE                                    \
+    unsigned char *func(a_hash_stat_t *ctx, void *out) \
+    {                                                  \
+        /* assert(ctx) */                              \
+        return done(ctx->stat, out);                   \
     }
 __A_HASH_DONE(md2, a_md2_done, a_hash_done_md2)
 __A_HASH_DONE(md4, a_md4_done, a_hash_done_md4)
@@ -635,33 +634,33 @@ __A_HASH_DONE(blake2b, a_blake2b_done, a_hash_done_blake2b_384)
 __A_HASH_DONE(blake2b, a_blake2b_done, a_hash_done_blake2b_512)
 #undef __A_HASH_DONE
 #define __A_HASH_DONE(hash, func, compress, storelen, storeout, append, above, zero) \
-    unsigned char *func(hash *ctx, unsigned char *out)                               \
+    unsigned char *func(hash *ctx, void *out)                                        \
     {                                                                                \
         /* assert(ctx) */                                                            \
-        if (sizeof(ctx->buf) - 1 < ctx->curlen)                                      \
+        if (sizeof(ctx->buf) - 1 < ctx->cursiz)                                      \
         {                                                                            \
             return 0;                                                                \
         }                                                                            \
         /* increase the length of the message */                                     \
-        ctx->length += sizeof(ctx->length) * ctx->curlen;                            \
+        ctx->length += sizeof(ctx->length) * ctx->cursiz;                            \
         /* append the '1' bit */                                                     \
-        ctx->buf[ctx->curlen++] = (append);                                          \
+        ctx->buf[ctx->cursiz++] = (append);                                          \
         /* if the length is currently above (above) bytes we append zeros   */       \
         /* then compress. Then we can fall back to padding zeros and length */       \
         /* encoding like normal.                                            */       \
-        if ((above) < ctx->curlen)                                                   \
+        if ((above) < ctx->cursiz)                                                   \
         {                                                                            \
-            while (sizeof(ctx->buf) != ctx->curlen)                                  \
+            while (sizeof(ctx->buf) != ctx->cursiz)                                  \
             {                                                                        \
-                ctx->buf[ctx->curlen++] = 0;                                         \
+                ctx->buf[ctx->cursiz++] = 0;                                         \
             }                                                                        \
             compress(ctx, ctx->buf);                                                 \
-            ctx->curlen = 0;                                                         \
+            ctx->cursiz = 0;                                                         \
         }                                                                            \
         /* pad up to (zero) bytes of zeroes */                                       \
-        while (ctx->curlen < (zero))                                                 \
+        while (ctx->cursiz < (zero))                                                 \
         {                                                                            \
-            ctx->buf[ctx->curlen++] = 0;                                             \
+            ctx->buf[ctx->cursiz++] = 0;                                             \
         }                                                                            \
         /* store length */                                                           \
         storelen(ctx->length, ctx->buf + (zero));                                    \

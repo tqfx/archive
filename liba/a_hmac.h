@@ -61,7 +61,7 @@ extern int a_hmac_process(a_hmac_t *ctx, const void *p, size_t n);
   @retval        p the digest internal buffer.
   @retval        0 generic invalid argument.
 */
-extern unsigned char *a_hmac_done(a_hmac_t *ctx, unsigned char *out);
+extern unsigned char *a_hmac_done(a_hmac_t *ctx, void *out);
 
 __END_DECLS
 

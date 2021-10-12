@@ -23,7 +23,7 @@ __BEGIN_DECLS
  @return         a pointer to the string.
  @note           When out is 0, you need to use @ref a_free to release the memory.
 */
-extern char *a_digest(const unsigned char *p, size_t n, void *out);
+extern void *a_digest(const void *p, size_t n, void *out);
 
 __END_DECLS
 

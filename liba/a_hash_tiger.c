@@ -391,7 +391,7 @@ static void a_tiger_compress(a_tiger_t *ctx, const unsigned char *buf)
 void a_tiger_init(a_tiger_t *ctx)
 {
     /* assert(ctx) */
-    ctx->curlen = 0;
+    ctx->cursiz = 0;
     ctx->length = 0;
 
     ctx->state[0] = 0x0123456789ABCDEF;

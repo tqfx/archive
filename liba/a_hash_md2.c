@@ -82,7 +82,7 @@ int a_md2_process(a_md2_t *ctx, const void *p, size_t n)
 {
     /* assert(ctx) */
     /* assert(!n || p) */
-    if (sizeof(ctx->buf) < ctx->curlen)
+    if (sizeof(ctx->buf) < ctx->cursiz)
     {
         return A_HASH_INVALID;
     }
@@ -90,34 +90,34 @@ int a_md2_process(a_md2_t *ctx, const void *p, size_t n)
     const unsigned char *s = (const unsigned char *)p;
     while (n)
     {
-        uint32_t m = sizeof(ctx->buf) - ctx->curlen;
+        uint32_t m = sizeof(ctx->buf) - ctx->cursiz;
         m = m < n ? m : (uint32_t)n;
-        memcpy(ctx->buf + ctx->curlen, s, m);
-        ctx->curlen += m;
+        memcpy(ctx->buf + ctx->cursiz, s, m);
+        ctx->cursiz += m;
         s += m;
         n -= m;
-        if (sizeof(ctx->buf) == ctx->curlen)
+        if (sizeof(ctx->buf) == ctx->cursiz)
         {
             a_md2_compress(ctx, ctx->buf);
             a_md2_update_chksum(ctx);
-            ctx->curlen = 0;
+            ctx->cursiz = 0;
         }
     }
 
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_md2_done(a_md2_t *ctx, unsigned char *out)
+unsigned char *a_md2_done(a_md2_t *ctx, void *out)
 {
     /* assert(ctx) */
-    if (sizeof(ctx->buf) - 1 < ctx->curlen)
+    if (sizeof(ctx->buf) - 1 < ctx->cursiz)
     {
         return 0;
     }
 
     /* pad the message */
-    unsigned int k = 0x10 - ctx->curlen;
-    for (unsigned int i = ctx->curlen; i != 0x10; ++i)
+    unsigned int k = 0x10 - ctx->cursiz;
+    for (unsigned int i = ctx->cursiz; i != 0x10; ++i)
     {
         ctx->buf[i] = (unsigned char)k;
     }
@@ -129,7 +129,7 @@ unsigned char *a_md2_done(a_md2_t *ctx, unsigned char *out)
     /* hash checksum */
     a_md2_compress(ctx, ctx->chksum);
 
-    if (out && out != ctx->x)
+    if (out && (out != ctx->x))
     {
         /* output is lower 16 bytes of x */
         memcpy(out, ctx->x, 0x10);
