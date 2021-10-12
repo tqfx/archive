@@ -368,6 +368,7 @@ enum
     A_HASH_FAILURE = -1,
     A_HASH_INVALID = -2,
     A_HASH_OVERFLOW = -3,
+    A_HASH_NOTFOUND = -4,
 };
 
 typedef union a_hash_stat_t
@@ -398,21 +399,21 @@ typedef struct a_hash_t
     unsigned int outsiz;
     /*!
      @brief          Initialize function for hash.
-     @param[in,out]  ctx: points to an instance of hash.
+     @param[in,out]  ctx: points to an instance of hash state.
     */
     void (*init)(a_hash_stat_t *ctx);
     /*!
      @brief          Process function for hash.
-     @param[in,out]  ctx: points to an instance of hash.
-     @param[in]      p: points to data.
-     @param[in]      n: length of data.
-     @return         the execution state of the function
+     @param[in,out]  ctx: points to an instance of hash state.
+     @param[in]      p: points to data to hash.
+     @param[in]      n: length of data to hash.
+     @return         the execution state of the function.
       @retval        0 success
     */
     int (*process)(a_hash_stat_t *ctx, const void *p, size_t n);
     /*!
      @brief          Terminate function for hash.
-     @param[in,out]  ctx: points to an instance of hash.
+     @param[in,out]  ctx: points to an instance of hash state.
      @param[in,out]  out: points to buffer that holds the digest.
      @return         p the digest internal buffer.
       @retval        p the digest internal buffer.
