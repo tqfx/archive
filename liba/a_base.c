@@ -10,7 +10,10 @@
 
 int a_base16_encode(const void *p, size_t n, void *out, size_t *siz, unsigned int id)
 {
-    static const char *alphabets[2] = {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
+    static const char *alphabets[A_BASE16_BUFSIZ] = {
         "0123456789abcdef",
         "0123456789ABCDEF",
     };
@@ -31,7 +34,7 @@ int a_base16_encode(const void *p, size_t n, void *out, size_t *siz, unsigned in
     *siz = --x; /* returning the length without terminating NUL */
 
     char *o = (char *)out;
-    const char *map = alphabets[id % 2];
+    const char *map = alphabets[id % A_BASE16_BUFSIZ];
     const unsigned char *s = (const unsigned char *)p;
     for (size_t i = 0; i != x; i += 2)
     {
@@ -46,6 +49,9 @@ int a_base16_encode(const void *p, size_t n, void *out, size_t *siz, unsigned in
 
 int a_base16_decode(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     static const unsigned char hashmap[] = {
         /* clang-format off */
          0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, /* 01234567 */
@@ -95,6 +101,9 @@ int a_base16_decode(const void *p, size_t n, void *out, size_t *siz)
 
 int a_base32_encode(const void *p, size_t n, void *out, size_t *siz, unsigned int id)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     static const char *alphabet[A_BASE32_BUFSIZ] = {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", /* id = RFC4648   */
         "0123456789ABCDEFGHIJKLMNOPQRSTUV", /* id = BASE32HEX */
@@ -167,6 +176,9 @@ int a_base32_encode(const void *p, size_t n, void *out, size_t *siz, unsigned in
 
 int a_base32_decode(const void *p, size_t n, void *out, size_t *siz, unsigned int id)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     const unsigned char tables[A_BASE32_BUFSIZ][43] = {
         /* id = RFC4648 : ABCDEFGHIJKLMNOPQRSTUVWXYZ234567 */
         {
@@ -366,16 +378,25 @@ static int a_base64_encode_internal(const void *p,
 
 int a_base64_encode(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_encode_internal(p, n, out, siz, codes_base64, strict);
 }
 
 int a_base64url_encode(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_encode_internal(p, n, out, siz, codes_base64url, insane);
 }
 
 int a_base64url_encode_strict(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_encode_internal(p, n, out, siz, codes_base64url, strict);
 }
 
@@ -542,31 +563,49 @@ static int a_base64_decode_internal(const void *p,
 
 int a_base64_decode(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_decode_internal(p, n, out, siz, map_base64, insane);
 }
 
 int a_base64_decode_strict(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_decode_internal(p, n, out, siz, map_base64, strict);
 }
 
 int a_base64_decode_sane(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_decode_internal(p, n, out, siz, map_base64, relaxed);
 }
 
 int a_base64url_decode(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_decode_internal(p, n, out, siz, map_base64url, insane);
 }
 
 int a_base64url_decode_strict(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_decode_internal(p, n, out, siz, map_base64url, strict);
 }
 
 int a_base64url_decode_sane(const void *p, size_t n, void *out, size_t *siz)
 {
+    /* assert(!n || p) */
+    /* assert(out) */
+    /* assert(siz) */
     return a_base64_decode_internal(p, n, out, siz, map_base64url, relaxed);
 }
 

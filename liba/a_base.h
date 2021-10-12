@@ -24,6 +24,13 @@ enum
 
 enum
 {
+    A_BASE16_LOWER = 0,
+    A_BASE16_UPPER = 1,
+    A_BASE16_BUFSIZ = 2,
+};
+
+enum
+{
     A_BASE32_RFC4648 = 0,
     A_BASE32_BASE32HEX = 1,
     A_BASE32_ZBASE32 = 2,

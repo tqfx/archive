@@ -22,8 +22,17 @@ static void test_base16(void)
     *siz = BUFSIZ;
     memset(buf, 0, sizeof(buf));
     memset(out, 0, sizeof(buf));
-    a_base16_encode(text, strlen(text), buf, siz, 0);
+    a_base16_encode(text, strlen(text), buf, siz, A_BASE16_LOWER);
+    a_base16_decode(buf, *siz, out, siz);
+    if (memcmp(text, out, *siz))
+    {
+        printf("%zu	%s\n", *siz, out);
+    }
 
+    *siz = BUFSIZ;
+    memset(buf, 0, sizeof(buf));
+    memset(out, 0, sizeof(buf));
+    a_base16_encode(text, strlen(text), buf, siz, A_BASE16_UPPER);
     a_base16_decode(buf, *siz, out, siz);
     if (memcmp(text, out, *siz))
     {
