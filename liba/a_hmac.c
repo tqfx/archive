@@ -39,7 +39,7 @@ int a_hmac_init(a_hmac_t *ctx, const a_hash_t *hash, const void *p, size_t n)
         }
         n = ctx->hash->outsiz;
     }
-    else
+    else if (n)
     {
         memcpy(ctx->buf, p, n);
     }
@@ -70,6 +70,7 @@ unsigned char *a_hmac_done(a_hmac_t *ctx, unsigned char *out)
 {
     /* assert(ctx) */
     unsigned char buf[sizeof(ctx->buf)];
+
     if (ctx->hash->done(ctx->state, buf) == 0)
     {
         return 0;

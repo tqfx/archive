@@ -7,24 +7,23 @@
 
 #include "a_convert.h"
 
-char *a_digest(const unsigned char *p, size_t n, char *out)
+char *a_digest(const unsigned char *p, size_t n, void *out)
 {
     /* assert(!n || p) */
     static const char hexits[] = "0123456789abcdef";
 
-    char *s = out ? out : (out = (char *)a_alloc((n << 1) + 1), out);
-
-    if (s)
+    if (out || (out = a_alloc((n << 1) + 1), out))
     {
+        char *o = (char *)out;
         for (size_t i = 0; i != n; ++i)
         {
-            *s++ = hexits[p[i] >> 0x4];
-            *s++ = hexits[p[i] & 0x0F];
+            *o++ = hexits[p[i] >> 0x4];
+            *o++ = hexits[p[i] & 0x0F];
         }
-        *s = 0;
+        *o = 0;
     }
 
-    return out;
+    return (char *)out;
 }
 
 /* END OF FILE */
