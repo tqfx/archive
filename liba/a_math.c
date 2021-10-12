@@ -116,44 +116,30 @@ void a_normalize_f32(unsigned int n, ...)
     va_end(ap);
 }
 
-double a_restrict_loop(double x, double min, double max)
-{
-    double len = max - min;
-    if (x > max)
-    {
-        do
-        {
-            x -= len;
-        } while (x > max);
+#undef __A_RESTRICT_LOOP
+#define __A_RESTRICT_LOOP(func, type)     \
+    type func(type x, type min, type max) \
+    {                                     \
+        type siz = max - min;             \
+        if (x > max)                      \
+        {                                 \
+            do                            \
+            {                             \
+                x -= siz;                 \
+            } while (x > max);            \
+        }                                 \
+        else if (x < min)                 \
+        {                                 \
+            do                            \
+            {                             \
+                x += siz;                 \
+            } while (x < min);            \
+        }                                 \
+        return x;                         \
     }
-    else if (x < min)
-    {
-        do
-        {
-            x += len;
-        } while (x < min);
-    }
-    return x;
-}
-
-float a_restrict_loop_f32(float x, float min, float max)
-{
-    float len = max - min;
-    if (x > max)
-    {
-        do
-        {
-            x -= len;
-        } while (x > max);
-    }
-    else if (x < min)
-    {
-        do
-        {
-            x += len;
-        } while (x < min);
-    }
-    return x;
-}
+__A_RESTRICT_LOOP(a_restrict_loop_f32, float)
+__A_RESTRICT_LOOP(a_restrict_loop_f64, double)
+__A_RESTRICT_LOOP(a_restrict_loop_i32, int32_t)
+#undef __A_RESTRICT_LOOP
 
 /* END OF FILE */

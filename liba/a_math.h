@@ -104,27 +104,26 @@ extern unsigned long long a_sqrt_u64(unsigned long long x);
 */
 extern void a_normalize_f32(unsigned int n, ...);
 
+#undef __A_RESTRICT_LOOP
+#define __A_RESTRICT_LOOP(func, type) \
+    type func(type x, type min, type max)
+extern __A_RESTRICT_LOOP(a_restrict_loop_f32, float);
+extern __A_RESTRICT_LOOP(a_restrict_loop_f64, double);
+extern __A_RESTRICT_LOOP(a_restrict_loop_i32, int32_t);
+#undef __A_RESTRICT_LOOP
+
+#ifndef a_restrict_loop
 /*!
  @brief          Restricted periodic function
+ @param[in]      id: id for the type of the data
  @param[in]      x: Input
  @param[in]      min: Minimum
  @param[in]      max: Minimum
  @return         Output
 */
-extern double a_restrict_loop(double x,
-                              double min,
-                              double max);
-
-/*!
- @brief          Restricted periodic function for the floating-point
- @param[in]      x: Input
- @param[in]      min: Minimum
- @param[in]      max: Minimum
- @return         Output
-*/
-extern float a_restrict_loop_f32(float x,
-                                 float min,
-                                 float max);
+#define a_restrict_loop(id, x, min, max) \
+    a_restrict_loop_##id(x, min, max)
+#endif /* a_restrict_loop */
 
 __END_DECLS
 

@@ -49,63 +49,61 @@
 */
 
 #undef __A_PID_INIT
-#define __A_PID_INIT(bit)                                  \
-    void a_pid_f##bit##_init(a_pid_f##bit##_t *ctx,        \
-                             const a_pid_mode_t mode,      \
-                             const float##bit##_t kpid[3], \
-                             const float##bit##_t omin,    \
-                             const float##bit##_t omax,    \
-                             const float##bit##_t omaxi)   \
-    {                                                      \
-        ctx->mode = mode;                                  \
-        ctx->kp = kpid[0];                                 \
-        ctx->ki = kpid[1];                                 \
-        ctx->kd = kpid[2];                                 \
-        ctx->omin = omin;                                  \
-        ctx->omax = omax;                                  \
-                                                           \
-        switch (ctx->mode)                                 \
-        {                                                  \
-        case A_PID_POS:                                    \
-        {                                                  \
-            ctx->omaxi = omaxi;                            \
-            if (ctx->omaxi < 0)                            \
-            {                                              \
-                ctx->omaxi = -ctx->omaxi;                  \
-            }                                              \
-                                                           \
-            ctx->a[0] = ctx->kp + ctx->kd;                 \
-            ctx->a[1] = -ctx->kd;                          \
-            ctx->a[2] = ctx->ki;                           \
-        }                                                  \
-        break;                                             \
-                                                           \
-        case A_PID_INC:                                    \
-        {                                                  \
-            ctx->omaxi = 0;                                \
-                                                           \
-            ctx->a[0] = ctx->kp + ctx->ki + ctx->kd;       \
-            ctx->a[1] = -ctx->kp - 2 * ctx->kd;            \
-            ctx->a[2] = ctx->kd;                           \
-        }                                                  \
-        break;                                             \
-                                                           \
-        default:                                           \
-            break;                                         \
-        }                                                  \
+#define __A_PID_INIT(id, type, func)                 \
+    void func(a_pid_##id##_t *ctx,                   \
+              const a_pid_mode_t mode,               \
+              const type kpid[3],                    \
+              const type omin,                       \
+              const type omax,                       \
+              const type omaxi)                      \
+    {                                                \
+        ctx->mode = mode;                            \
+        ctx->kp = kpid[0];                           \
+        ctx->ki = kpid[1];                           \
+        ctx->kd = kpid[2];                           \
+        ctx->omin = omin;                            \
+        ctx->omax = omax;                            \
+                                                     \
+        switch (ctx->mode)                           \
+        {                                            \
+        case A_PID_POS:                              \
+        {                                            \
+            ctx->omaxi = omaxi;                      \
+            if (ctx->omaxi < 0)                      \
+            {                                        \
+                ctx->omaxi = -ctx->omaxi;            \
+            }                                        \
+                                                     \
+            ctx->a[0] = ctx->kp + ctx->kd;           \
+            ctx->a[1] = -ctx->kd;                    \
+            ctx->a[2] = ctx->ki;                     \
+        }                                            \
+        break;                                       \
+                                                     \
+        case A_PID_INC:                              \
+        {                                            \
+            ctx->omaxi = 0;                          \
+                                                     \
+            ctx->a[0] = ctx->kp + ctx->ki + ctx->kd; \
+            ctx->a[1] = -ctx->kp - 2 * ctx->kd;      \
+            ctx->a[2] = ctx->kd;                     \
+        }                                            \
+        break;                                       \
+                                                     \
+        default:                                     \
+            break;                                   \
+        }                                            \
     }
-__A_PID_INIT(32)
-__A_PID_INIT(64)
+__A_PID_INIT(f32, float32_t, a_pid_f32_init)
+__A_PID_INIT(f64, float64_t, a_pid_f64_init)
 #undef __A_PID_INIT
 
 #undef __A_PID
-#define __A_PID(bit)                                                    \
-    float##bit##_t a_pid_f##bit(a_pid_f##bit##_t *ctx,                  \
-                                const float##bit##_t ref,               \
-                                const float##bit##_t set)               \
+#define __A_PID(id, type, func)                                         \
+    type func(a_pid_##id##_t *ctx, const type ref, const type set)      \
     {                                                                   \
-        float##bit##_t out = 0;                                         \
-        float##bit##_t in = set - ref;                                  \
+        type out = 0;                                                   \
+        type in = set - ref;                                            \
                                                                         \
         switch (ctx->mode)                                              \
         {                                                               \
@@ -151,8 +149,8 @@ __A_PID_INIT(64)
                                                                         \
         return out;                                                     \
     }
-__A_PID(32)
-__A_PID(64)
+__A_PID(f32, float32_t, a_pid_f32)
+__A_PID(f64, float64_t, a_pid_f64)
 #undef __A_PID
 
 /* END OF FILE */
