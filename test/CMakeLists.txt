@@ -1,3 +1,6 @@
+ADD_EXECUTABLE(test test.c)
+TARGET_LINK_LIBRARIES(test a)
+
 ADD_EXECUTABLE(test_math test_math.c)
 TARGET_LINK_LIBRARIES(test_math a)
 

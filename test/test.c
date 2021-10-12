@@ -1,0 +1,19 @@
+/*!
+ @file           test.c
+ @brief          test
+ @author         tqfx tqfx@foxmail.com
+ @copyright      Copyright (C) 2020 tqfx
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
+
+    return 0;
+}
+
+/* END OF FILE */
