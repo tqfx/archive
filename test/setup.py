@@ -35,7 +35,6 @@ if 1 == len(argv):
     exit(os.system("{} --quiet build_ext --inplace".format(script)))
 del script
 from glob import glob
-from multiprocessing import cpu_count
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 
@@ -65,7 +64,6 @@ try:
         license=license,
         ext_modules=cythonize(
             ext_modules,
-            nthreads=cpu_count(),
             language_level=3,
             annotate=True,
             quiet=True,
