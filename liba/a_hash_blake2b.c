@@ -6,6 +6,7 @@
  @copyright      Copyright (C) 2020 tqfx
 */
 
+#include "a_hash_blake2b.h"
 #include "a_hash.h"
 
 static const uint64_t blake2b_IV[8] = {

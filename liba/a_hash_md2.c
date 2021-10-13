@@ -6,6 +6,7 @@
  @copyright      Copyright (C) 2020 tqfx
 */
 
+#include "a_hash_md2.h"
 #include "a_hash.h"
 
 static const unsigned char PI_SUBST[0x100] = {

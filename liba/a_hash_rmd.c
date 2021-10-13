@@ -6,6 +6,7 @@
  @copyright      Copyright (C) 2020 tqfx
 */
 
+#include "a_hash_rmd.h"
 #include "a_hash.h"
 
 #undef F

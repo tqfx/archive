@@ -6,6 +6,7 @@
  @copyright      Copyright (C) 2020 tqfx
 */
 
+#include "a_hash_sha2.h"
 #include "a_hash.h"
 
 #undef Ch

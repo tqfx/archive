@@ -9,9 +9,9 @@
 #ifndef __LIBA_H__
 #define __LIBA_H__
 
-/*!
- @cond
-*/
+#include <stddef.h>
+
+/*! @cond */
 
 /* C --> C++ */
 #undef __BEGIN_DECLS

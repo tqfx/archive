@@ -6,6 +6,7 @@
  @copyright      Copyright (C) 2020 tqfx
 */
 
+#include "a_hash_whirl.h"
 #include "a_hash.h"
 
 static const uint64_t sbox0[0x100] = {
