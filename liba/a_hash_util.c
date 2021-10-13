@@ -33,7 +33,7 @@ int a_hash_memory(const a_hash_t *ctx, const void *p, size_t n, void *out, size_
     return A_HASH_SUCCESS;
 }
 
-int a_hash_memory_multi(const a_hash_t *ctx, void *out, size_t *siz, const void *p, size_t n, ...)
+int a_hash_mmulti(const a_hash_t *ctx, void *out, size_t *siz, const void *p, size_t n, ...)
 {
     /* assert(ctx) */
     /* assert(out) */

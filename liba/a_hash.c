@@ -7,6 +7,139 @@
 
 #include "a_hash.h"
 
+#undef __A_HASH_INIT
+#define __A_HASH_INIT(stat, init, func) \
+    __STATIC_INLINE                     \
+    void func(a_hash_stat_t *ctx)       \
+    {                                   \
+        /* assert(ctx) */               \
+        init(ctx->stat);                \
+    }
+__A_HASH_INIT(md2, a_md2_init, a_hash_init_md2)
+__A_HASH_INIT(md4, a_md4_init, a_hash_init_md4)
+__A_HASH_INIT(md5, a_md5_init, a_hash_init_md5)
+__A_HASH_INIT(sha1, a_sha1_init, a_hash_init_sha1)
+__A_HASH_INIT(tiger, a_tiger_init, a_hash_init_tiger)
+__A_HASH_INIT(rmd128, a_rmd128_init, a_hash_init_rmd128)
+__A_HASH_INIT(rmd160, a_rmd160_init, a_hash_init_rmd160)
+__A_HASH_INIT(rmd256, a_rmd256_init, a_hash_init_rmd256)
+__A_HASH_INIT(rmd320, a_rmd320_init, a_hash_init_rmd320)
+__A_HASH_INIT(sha256, a_sha256_init, a_hash_init_sha256)
+__A_HASH_INIT(sha256, a_sha224_init, a_hash_init_sha224)
+__A_HASH_INIT(sha512, a_sha512_init, a_hash_init_sha512)
+__A_HASH_INIT(sha512, a_sha384_init, a_hash_init_sha384)
+__A_HASH_INIT(sha512, a_sha512_224_init, a_hash_init_sha512_224)
+__A_HASH_INIT(sha512, a_sha512_256_init, a_hash_init_sha512_256)
+__A_HASH_INIT(sha3, a_sha3_224_init, a_hash_init_sha3_224)
+__A_HASH_INIT(sha3, a_sha3_256_init, a_hash_init_sha3_256)
+__A_HASH_INIT(sha3, a_sha3_384_init, a_hash_init_sha3_384)
+__A_HASH_INIT(sha3, a_sha3_512_init, a_hash_init_sha3_512)
+__A_HASH_INIT(sha3, a_shake128_init, a_hash_init_shake128)
+__A_HASH_INIT(sha3, a_shake256_init, a_hash_init_shake256)
+__A_HASH_INIT(sha3, a_sha3_224_init, a_hash_init_keccak224)
+__A_HASH_INIT(sha3, a_sha3_256_init, a_hash_init_keccak256)
+__A_HASH_INIT(sha3, a_sha3_384_init, a_hash_init_keccak384)
+__A_HASH_INIT(sha3, a_sha3_512_init, a_hash_init_keccak512)
+__A_HASH_INIT(whirlpool, a_whirlpool_init, a_hash_init_whirlpool)
+__A_HASH_INIT(blake2s, a_blake2s_128_init, a_hash_init_blake2s_128)
+__A_HASH_INIT(blake2s, a_blake2s_160_init, a_hash_init_blake2s_160)
+__A_HASH_INIT(blake2s, a_blake2s_224_init, a_hash_init_blake2s_224)
+__A_HASH_INIT(blake2s, a_blake2s_256_init, a_hash_init_blake2s_256)
+__A_HASH_INIT(blake2b, a_blake2b_160_init, a_hash_init_blake2b_160)
+__A_HASH_INIT(blake2b, a_blake2b_256_init, a_hash_init_blake2b_256)
+__A_HASH_INIT(blake2b, a_blake2b_384_init, a_hash_init_blake2b_384)
+__A_HASH_INIT(blake2b, a_blake2b_512_init, a_hash_init_blake2b_512)
+#undef __A_HASH_INIT
+
+#undef __A_HASH_PROCESS
+#define __A_HASH_PROCESS(stat, process, func)             \
+    __STATIC_INLINE                                       \
+    int func(a_hash_stat_t *ctx, const void *p, size_t n) \
+    {                                                     \
+        /* assert(ctx) */                                 \
+        /* assert(!n || p) */                             \
+        return process(ctx->stat, p, n);                  \
+    }
+__A_HASH_PROCESS(md2, a_md2_process, a_hash_process_md2)
+__A_HASH_PROCESS(md4, a_md4_process, a_hash_process_md4)
+__A_HASH_PROCESS(md5, a_md5_process, a_hash_process_md5)
+__A_HASH_PROCESS(sha1, a_sha1_process, a_hash_process_sha1)
+__A_HASH_PROCESS(tiger, a_tiger_process, a_hash_process_tiger)
+__A_HASH_PROCESS(rmd128, a_rmd128_process, a_hash_process_rmd128)
+__A_HASH_PROCESS(rmd160, a_rmd160_process, a_hash_process_rmd160)
+__A_HASH_PROCESS(rmd256, a_rmd256_process, a_hash_process_rmd256)
+__A_HASH_PROCESS(rmd320, a_rmd320_process, a_hash_process_rmd320)
+__A_HASH_PROCESS(sha256, a_sha256_process, a_hash_process_sha256)
+__A_HASH_PROCESS(sha256, a_sha256_process, a_hash_process_sha224)
+__A_HASH_PROCESS(sha512, a_sha512_process, a_hash_process_sha512)
+__A_HASH_PROCESS(sha512, a_sha512_process, a_hash_process_sha384)
+__A_HASH_PROCESS(sha512, a_sha512_process, a_hash_process_sha512_224)
+__A_HASH_PROCESS(sha512, a_sha512_process, a_hash_process_sha512_256)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_sha3_224)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_sha3_256)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_sha3_384)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_sha3_512)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_shake128)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_shake256)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_keccak224)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_keccak256)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_keccak384)
+__A_HASH_PROCESS(sha3, a_sha3_process, a_hash_process_keccak512)
+__A_HASH_PROCESS(whirlpool, a_whirlpool_process, a_hash_process_whirlpool)
+__A_HASH_PROCESS(blake2s, a_blake2s_process, a_hash_process_blake2s_128)
+__A_HASH_PROCESS(blake2s, a_blake2s_process, a_hash_process_blake2s_160)
+__A_HASH_PROCESS(blake2s, a_blake2s_process, a_hash_process_blake2s_224)
+__A_HASH_PROCESS(blake2s, a_blake2s_process, a_hash_process_blake2s_256)
+__A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_160)
+__A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_256)
+__A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_384)
+__A_HASH_PROCESS(blake2b, a_blake2b_process, a_hash_process_blake2b_512)
+#undef __A_HASH_PROCESS
+
+#undef __A_HASH_DONE
+#define __A_HASH_DONE(stat, done, func)                \
+    __STATIC_INLINE                                    \
+    unsigned char *func(a_hash_stat_t *ctx, void *out) \
+    {                                                  \
+        /* assert(ctx) */                              \
+        return done(ctx->stat, out);                   \
+    }
+__A_HASH_DONE(md2, a_md2_done, a_hash_done_md2)
+__A_HASH_DONE(md4, a_md4_done, a_hash_done_md4)
+__A_HASH_DONE(md5, a_md5_done, a_hash_done_md5)
+__A_HASH_DONE(sha1, a_sha1_done, a_hash_done_sha1)
+__A_HASH_DONE(tiger, a_tiger_done, a_hash_done_tiger)
+__A_HASH_DONE(rmd128, a_rmd128_done, a_hash_done_rmd128)
+__A_HASH_DONE(rmd160, a_rmd160_done, a_hash_done_rmd160)
+__A_HASH_DONE(rmd256, a_rmd256_done, a_hash_done_rmd256)
+__A_HASH_DONE(rmd320, a_rmd320_done, a_hash_done_rmd320)
+__A_HASH_DONE(sha256, a_sha256_done, a_hash_done_sha256)
+__A_HASH_DONE(sha256, a_sha256_done, a_hash_done_sha224)
+__A_HASH_DONE(sha512, a_sha512_done, a_hash_done_sha512)
+__A_HASH_DONE(sha512, a_sha512_done, a_hash_done_sha384)
+__A_HASH_DONE(sha512, a_sha512_done, a_hash_done_sha512_224)
+__A_HASH_DONE(sha512, a_sha512_done, a_hash_done_sha512_256)
+__A_HASH_DONE(sha3, a_sha3_done, a_hash_done_sha3_224)
+__A_HASH_DONE(sha3, a_sha3_done, a_hash_done_sha3_256)
+__A_HASH_DONE(sha3, a_sha3_done, a_hash_done_sha3_384)
+__A_HASH_DONE(sha3, a_sha3_done, a_hash_done_sha3_512)
+__A_HASH_DONE(sha3, a_shake128_done, a_hash_done_shake128)
+__A_HASH_DONE(sha3, a_shake256_done, a_hash_done_shake256)
+__A_HASH_DONE(sha3, a_keccak_done, a_hash_done_keccak224)
+__A_HASH_DONE(sha3, a_keccak_done, a_hash_done_keccak256)
+__A_HASH_DONE(sha3, a_keccak_done, a_hash_done_keccak384)
+__A_HASH_DONE(sha3, a_keccak_done, a_hash_done_keccak512)
+__A_HASH_DONE(whirlpool, a_whirlpool_done, a_hash_done_whirlpool)
+__A_HASH_DONE(blake2s, a_blake2s_done, a_hash_done_blake2s_128)
+__A_HASH_DONE(blake2s, a_blake2s_done, a_hash_done_blake2s_160)
+__A_HASH_DONE(blake2s, a_blake2s_done, a_hash_done_blake2s_224)
+__A_HASH_DONE(blake2s, a_blake2s_done, a_hash_done_blake2s_256)
+__A_HASH_DONE(blake2b, a_blake2b_done, a_hash_done_blake2b_160)
+__A_HASH_DONE(blake2b, a_blake2b_done, a_hash_done_blake2b_256)
+__A_HASH_DONE(blake2b, a_blake2b_done, a_hash_done_blake2b_384)
+__A_HASH_DONE(blake2b, a_blake2b_done, a_hash_done_blake2b_512)
+#undef __A_HASH_DONE
+
 const a_hash_t a_hash_md2 = {
     .bufsiz = A_MD2_BUFSIZ,
     .outsiz = A_MD2_OUTSIZ,
