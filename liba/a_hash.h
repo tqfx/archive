@@ -33,11 +33,12 @@
 
 enum
 {
-    A_HASH_SUCCESS = 0,
-    A_HASH_FAILURE = -1,
-    A_HASH_INVALID = -2,
-    A_HASH_OVERFLOW = -3,
-    A_HASH_NOTFOUND = -4,
+    A_HASH_SUCCESS = A_SUCCESS,
+    A_HASH_WARNING = A_WARNING,
+    A_HASH_FAILURE = A_FAILURE,
+    A_HASH_INVALID = A_INVALID,
+    A_HASH_OVERFLOW = A_OVERFLOW,
+    A_HASH_NOTFOUND = A_NOTFOUND,
 };
 
 typedef union a_hash_stat_t

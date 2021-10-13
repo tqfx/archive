@@ -160,6 +160,16 @@
  @defgroup       LIBA Algorithm library
 */
 
+enum
+{
+    A_SUCCESS = 0,
+    A_WARNING = -1,
+    A_FAILURE = -2,
+    A_INVALID = -3,
+    A_OVERFLOW = -4,
+    A_NOTFOUND = -5,
+};
+
 typedef float float32_t;
 typedef double float64_t;
 
