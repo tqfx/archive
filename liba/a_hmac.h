@@ -20,6 +20,7 @@ enum
     A_HMAC_FAILURE = -1,
     A_HMAC_INVALID = -2,
     A_HMAC_OVERFLOW = -3,
+    A_HMAC_NOTFOUND = -4,
 };
 
 typedef struct a_hmac_t
@@ -33,8 +34,8 @@ typedef struct a_hmac_t
 __BEGIN_DECLS
 
 /*!
- @brief          Initialize function for hmac.
- @param[in,out]  ctx: points to an instance of hmac.
+ @brief          Initialize function for HMAC.
+ @param[in,out]  ctx: points to an instance of HMAC.
  @param[in]      hash: points to an instance of hash descriptor.
  @param[in]      p: points to key.
  @param[in]      n: length of key.
@@ -44,8 +45,8 @@ __BEGIN_DECLS
 extern int a_hmac_init(a_hmac_t *ctx, const a_hash_t *hash, const void *p, size_t n);
 
 /*!
- @brief          Process function for hmac.
- @param[in,out]  ctx: points to an instance of hmac.
+ @brief          Process function for HMAC.
+ @param[in,out]  ctx: points to an instance of HMAC.
  @param[in]      p: points to text.
  @param[in]      n: length of text.
  @return         the execution state of the function
@@ -54,8 +55,8 @@ extern int a_hmac_init(a_hmac_t *ctx, const a_hash_t *hash, const void *p, size_
 extern int a_hmac_process(a_hmac_t *ctx, const void *p, size_t n);
 
 /*!
- @brief          Terminate function for hmac.
- @param[in,out]  ctx: points to an instance of hmac.
+ @brief          Terminate function for HMAC.
+ @param[in,out]  ctx: points to an instance of HMAC.
  @param[in,out]  out: points to buffer that holds the digest.
  @return         p the digest internal buffer.
   @retval        p the digest internal buffer.

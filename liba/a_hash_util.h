@@ -28,7 +28,7 @@ __BEGIN_DECLS
 extern int a_hash_memory(const a_hash_t *ctx, const void *p, size_t n, void *out, size_t *siz);
 
 /*!
- @brief          Hash a block of memory and store the digest.
+ @brief          Hash multiple (non-adjacent) blocks of memory at once.
  @param[in]      ctx: points to an instance of hash.
  @param[out]     out: where to store the digest.
  @param[in,out]  siz: max size and resulting size of the digest.
@@ -52,7 +52,7 @@ extern int a_hash_mmulti(const a_hash_t *ctx, void *out, size_t *siz, const void
 extern int a_hash_filehandle(const a_hash_t *ctx, FILE *in, void *out, size_t *siz);
 
 /*!
- @brief          Hash a block of memory and store the digest.
+ @brief          Hash data from an file.
  @param[in]      ctx: points to an instance of hash.
  @param[in]      fname: name of file to hash.
  @param[out]     out: where to store the digest.
