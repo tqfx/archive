@@ -17,7 +17,7 @@
 #undef __BEGIN_DECLS
 #undef __END_DECLS
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 #define __BEGIN_DECLS \
     extern "C"        \
     {
