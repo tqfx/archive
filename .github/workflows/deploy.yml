@@ -1,16 +1,17 @@
-name: release
+name: Deploy
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          lfs: true
       - run: |
           cp LICENSE liba
       - uses: peaceiris/actions-gh-pages@v3
@@ -20,3 +21,15 @@ jobs:
           disable_nojekyll: true
           publish_branch: release
           publish_dir: liba
+      - run: |
+          sudo apt-get install -f -q -qq -y doxygen graphviz
+          doxygen doxygen/Doxyfile
+          cp LICENSE html
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: ${{ github.event.head_commit.message }}
+          disable_nojekyll: true
+          publish_branch: gh-pages
+          force_orphan: true
+          publish_dir: html
