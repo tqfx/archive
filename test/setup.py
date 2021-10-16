@@ -49,7 +49,12 @@ for module in modules:
     source_cpp = glob(module + "/*.cpp", recursive=True)
     source_c = glob(module + "/*.c", recursive=True)
     sources += source_c + source_cpp + source_pyx
-ext_modules = Extension(name=name, sources=sources, include_dirs=modules)
+ext_modules = Extension(
+    name=name,
+    sources=sources,
+    include_dirs=modules,
+    define_macros=[("_CRT_SECURE_NO_WARNINGS", None)],
+)
 del modules
 del sources
 try:

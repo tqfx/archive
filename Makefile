@@ -29,7 +29,7 @@ install:
 	-$(PYTHON) -m pip install -U -r requirements.txt
 
 wheel:
-	-$(PYTHON) -m pip wheel ./test
+	-$(PYTHON) test/setup.py --quiet bdist_wheel
 
 cython:
 	-$(PYTHON) test/setup.py --quiet build_ext --inplace
