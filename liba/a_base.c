@@ -91,7 +91,7 @@ int a_base16_decode(const void *p, size_t n, void *out, size_t *siz)
             return A_BASE_INVALID;
         }
 
-        o[idx >> 1] = (unsigned char)(hashmap[idx0] << 4) | hashmap[idx1];
+        o[idx >> 1] = (unsigned char)((hashmap[idx0] << 4) | hashmap[idx1]);
         idx += 2;
     }
     *siz = idx >> 1;
@@ -257,6 +257,11 @@ int a_base32_decode(const void *p, size_t n, void *out, size_t *siz, unsigned in
         return A_BASE_INVALID;
     }
 
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wshift-count-overflow"
+#endif /* _MSC_VER */
+
     size_t t = 0;
     unsigned int y = 0;
     unsigned char *o = (unsigned char *)out;
@@ -267,7 +272,7 @@ int a_base32_decode(const void *p, size_t n, void *out, size_t *siz, unsigned in
         /* convert to upper case */
         if ((c >= 'a') && (c <= 'z'))
         {
-            c -= 32;
+            c = (char)(c - 32);
         }
         if (c < '0' || c > 'Z' || map[c - '0'] > 31)
         {
@@ -305,6 +310,10 @@ int a_base32_decode(const void *p, size_t n, void *out, size_t *siz, unsigned in
             *o++ = (unsigned char)((t >> 0x08) & 0xFF);
         }
     }
+
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
     return A_BASE_SUCCESS;
 }
