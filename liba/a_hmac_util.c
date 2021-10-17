@@ -21,7 +21,7 @@ int a_hmac_memory(const a_hash_t *ctx,
     /* assert(out) */
     /* assert(siz) */
     /* assert(!keysiz || key) */
-    /* assert(!msgsiz ||msg) */
+    /* assert(!msgsiz || msg) */
     if (*siz < ctx->outsiz)
     {
         *siz = ctx->outsiz;
@@ -56,7 +56,7 @@ int a_hmac_mmulti(const a_hash_t *ctx,
     /* assert(out) */
     /* assert(siz) */
     /* assert(!keysiz || key) */
-    /* assert(!msgsiz ||msg) */
+    /* assert(!msgsiz || msg) */
     if (*siz < ctx->outsiz)
     {
         *siz = ctx->outsiz;
