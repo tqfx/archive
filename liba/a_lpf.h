@@ -19,20 +19,6 @@
 
 #include "liba.h"
 
-/*!
- @ingroup        LIBA
- @defgroup       LIBA_LPF Low Pass Filter
- @details        A low-pass filter is a filter that passes signals with a
-                 frequency lower than a selected cutoff frequency and attenuates
-                 signals with frequencies higher than the cutoff frequency.
- \f{aligned}{
-     y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
-         &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
- \f}
-                 https://en.wikipedia.org/wiki/Low-pass_filter
- @{
-*/
-
 #undef __A_LPF_T
 /*!
  @brief          Instance structure for Low Pass Filter
@@ -100,8 +86,6 @@ __A_LPF_PROCESS(a_lpff, float, a_lpff_process)
 __A_LPF_RESET(a_lpf, a_lpf_reset)
 __A_LPF_RESET(a_lpff, a_lpff_reset)
 #undef __A_LPF_RESET
-
-/*!< @} */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_LPF_H__ */

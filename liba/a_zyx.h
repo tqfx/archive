@@ -13,12 +13,6 @@
 
 #include "liba.h"
 
-/*!
- @ingroup        LIBA
- @defgroup       LIBA_ZYX zyx axis
- @{
-*/
-
 #undef A_ZYX_YAW
 #undef A_ZYX_PITCH
 #undef A_ZYX_ROLL
@@ -33,36 +27,18 @@ __BEGIN_DECLS
  @param[in]    e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
  @param[out]   q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
 */
-extern void a_zyx_euler_quat(const double e[3],
-                             double q[4]);
-
-/*!
- @brief        euler angles to quaternion conversion by ZYX
- @param[in]    e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
- @param[out]   q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
-*/
-extern void a_zyx_f32_euler_quat(const float e[3],
-                                 float q[4]);
+extern void a_zyx_euler_quat(const double e[3], double q[4]);
+extern void a_zyxf_euler_quat(const float e[3], float q[4]);
 
 /*!
  @brief        quaternion to euler angles conversion by ZYX
  @param[in]    q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
  @param[out]   e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
 */
-extern void a_zyx_quat_euler(const double q[4],
-                             double e[3]);
-
-/*!
- @brief        quaternion to euler angles conversion by ZYX
- @param[in]    q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
- @param[out]   e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
-*/
-extern void a_zyx_f32_quat_euler(const float q[4],
-                                 float e[3]);
+extern void a_zyx_quat2euler(const double q[4], double e[3]);
+extern void a_zyxf_quat2euler(const float q[4], float e[3]);
 
 __END_DECLS
-
-/*! @} */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_ZYX_H__ */

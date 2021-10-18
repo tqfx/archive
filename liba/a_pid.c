@@ -35,14 +35,14 @@
  @cond
 */
 
-#ifndef __A_MATH_H__
+#ifndef A_LIMIT
 #define A_LIMIT(x, min, max) \
     ((min) < (x)             \
          ? ((x) < (max)      \
                 ? (x)        \
                 : (max))     \
          : (min))
-#endif /* __A_MATH_H__ */
+#endif /* A_LIMIT */
 
 /*!
  @endcond

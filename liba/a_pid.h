@@ -34,34 +34,6 @@
 #include "liba.h"
 
 /*!
- @ingroup        LIBA
- @defgroup       LIBA_PID Proportional Integral Derivative
- @{
- @details        A proportional integral derivative controller
-                 (PID controller or three-term controller) is a control loop
-                 mechanism employing feedback that is widely used in industrial
-                 control systems and a variety of other applications requiring
-                 continuously modulated control.
-                 - Position pid control
- \f{aligned}{
-    u(k) &= K_p e(k) + K_i \sum^k_{i=0} q e(i) + K_d [e(k) - e(k-1)]\\
-         &= (K_p + K_d) e(k) + (-K_d)e(k - 1) + K_i \sum^k_{i=0} q e(i)\\
-         &\begin{cases}q = 0 & |K_i \sum\limits^{k-1}_{i=0} e(i)| > E, e(k)e(k - 1) < 0 \\
-          q = 1\end{cases}
- \f}
-                 - Incremental pid control
- \f{aligned}{
-    \Delta u(k) &= K_p [e(k) - e(k - 1)]
-                 + K_i e(k)
-                 + K_d [e(k) + e(k - 2) - 2 e(k - 1)] \\
-                &= (K_p + K_i + K_d) e(k)
-                 + (-K_p - 2 K_i) e(k - 1)
-                 + K_d e(k - 2)
- \f}
-                 https://en.wikipedia.org/wiki/PID_controller
-*/
-
-/*!
  @brief          Instance enumeration for PID Control Mode
 */
 typedef enum a_pid_mode_t
@@ -181,8 +153,6 @@ __A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
 __A_PID_INC(a_pid, double, a_pid_init, a_pid_inc)
 __A_PID_INC(a_pidf, float, a_pidf_init, a_pidf_inc)
 #undef __A_PID_INC
-
-/*!< @} */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_PID_H__ */

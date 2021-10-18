@@ -12,12 +12,6 @@
 
 #include "liba.h"
 
-/*!
- @ingroup        LIBA
- @defgroup       LIBA_POLYTRACK polynomial trajectory library
- @{
-*/
-
 #undef __A_POLYTRACK3_T
 /*!
  @brief          Instance structure for cubic polynomial trajectory
@@ -380,8 +374,6 @@ extern void a_polytrack7_all(const a_polytrack7_t *ctx, double t, double o[4]);
 extern void a_polytrack7f_all(const a_polytrack7f_t *ctx, float t, float o[4]);
 
 __END_DECLS
-
-/*!< @} */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_POLYTRACK_H__ */

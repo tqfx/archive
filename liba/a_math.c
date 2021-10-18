@@ -87,17 +87,31 @@ unsigned long long a_sqrt_u64(unsigned long long x)
     return y;
 }
 
-void a_normalize_f32(unsigned int n, ...)
+void a_normalizef(float *p, size_t n)
+{
+    float norm = 0;
+    float *q = p + n;
+
+    for (float *i = p; i != q; ++i)
+    {
+        norm += A_SQ(*i);
+    }
+
+    norm = a_inv_sqrt(norm);
+
+    for (float *i = p; i != q; ++i)
+    {
+        *i *= norm;
+    }
+}
+
+void a_normalizevf(unsigned int n, ...)
 {
     va_list ap;
-
-    unsigned int i;
-
     float norm = 0;
 
     va_start(ap, n);
-    i = n;
-    while (i--)
+    for (unsigned int i = n; i; --i)
     {
         float *p = va_arg(ap, float *);
         norm += A_SQ(*p);
@@ -107,8 +121,7 @@ void a_normalize_f32(unsigned int n, ...)
     norm = a_inv_sqrt(norm);
 
     va_start(ap, n);
-    i = n;
-    while (i--)
+    for (unsigned int i = n; i; --i)
     {
         float *p = va_arg(ap, float *);
         *p *= norm;
@@ -137,9 +150,8 @@ void a_normalize_f32(unsigned int n, ...)
         }                                 \
         return x;                         \
     }
-__A_RESTRICT_LOOP(a_restrict_loop_f32, float)
-__A_RESTRICT_LOOP(a_restrict_loop_f64, double)
-__A_RESTRICT_LOOP(a_restrict_loop_i32, int32_t)
+__A_RESTRICT_LOOP(a_restrict_loop, double)
+__A_RESTRICT_LOOP(a_restrict_loopf, float)
 #undef __A_RESTRICT_LOOP
 
 /* END OF FILE */

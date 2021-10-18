@@ -13,7 +13,7 @@
 
 #include <math.h>
 
-void a_zyx_euler_quat(const double e[3], double q[4])
+void a_zyx_euler2quat(const double e[3], double q[4])
 {
     /* Abbreviations for the various angular functions */
     double cy = cos(e[A_ZYX_YAW] * 0.5);
@@ -29,7 +29,7 @@ void a_zyx_euler_quat(const double e[3], double q[4])
     q[3] = cr * cp * sy - sr * sp * cy;
 }
 
-void a_zyx_f32_euler_quat(const float e[3], float q[4])
+void a_zyxf_euler2quat(const float e[3], float q[4])
 {
     /* Abbreviations for the various angular functions */
     float cy = cosf(e[A_ZYX_YAW] * 0.5F);
@@ -45,7 +45,7 @@ void a_zyx_f32_euler_quat(const float e[3], float q[4])
     q[3] = cr * cp * sy - sr * sp * cy;
 }
 
-void a_zyx_quat_euler(const double q[4], double e[3])
+void a_zyx_quat2euler(const double q[4], double e[3])
 {
     /* roll (x-axis rotation) */
     double sinr_cosp = 2 * (q[0] * q[1] + q[2] * q[3]);
@@ -72,7 +72,7 @@ void a_zyx_quat_euler(const double q[4], double e[3])
     e[A_ZYX_YAW] = atan2(siny_cosp, cosy_cosp);
 }
 
-void a_zyx_f32_quat_euler(const float q[4], float e[3])
+void a_zyxf_quat2euler(const float q[4], float e[3])
 {
     /* roll (x-axis rotation) */
     float sinr_cosp = 2 * (q[0] * q[1] + q[2] * q[3]);

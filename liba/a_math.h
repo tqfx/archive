@@ -13,12 +13,6 @@
 
 #include <float.h>
 
-/*!
- @ingroup        LIBA
- @defgroup       LIBA_MATH math library
- @{
-*/
-
 #ifndef A_E
 #define A_E 2.7182818284590452354
 #endif /* A_E */
@@ -102,39 +96,25 @@ extern unsigned long long a_sqrt_u64(unsigned long long x);
  @param[in]      n: Number of variables
  @param[in,out]  ...: Pointer of variables
 */
-extern void a_normalize_f32(unsigned int n, ...);
+extern void a_normalizevf(unsigned int n, ...);
+extern void a_normalizef(float *p, size_t n);
 
-#undef __A_RESTRICT_LOOP
-#define __A_RESTRICT_LOOP(func, type) \
-    type func(type x, type min, type max)
-extern __A_RESTRICT_LOOP(a_restrict_loop_f32, float);
-extern __A_RESTRICT_LOOP(a_restrict_loop_f64, double);
-extern __A_RESTRICT_LOOP(a_restrict_loop_i32, int32_t);
-#undef __A_RESTRICT_LOOP
-
-#ifndef a_restrict_loop
 /*!
  @brief          Restricted periodic function
- @param[in]      id: id for the type of the data
  @param[in]      x: Input
  @param[in]      min: Minimum
  @param[in]      max: Minimum
  @return         Output
 */
-#define a_restrict_loop(id, x, min, max) \
-    a_restrict_loop_##id(x, min, max)
-#endif /* a_restrict_loop */
+extern double a_restrict_loop(double x, double min, double max);
+extern float a_restrict_loopf(float x, float min, float max);
 
 __END_DECLS
 
-#define a_restrict_angle(x)     a_restrict_loop((x), -180, 180)
-#define a_restrict_angle_f32(x) a_restrict_loop_f32((x), -180, 180)
-#define a_restrict_rad(x)       a_restrict_loop((x), -A_PI, A_PI)
-#define a_restrict_rad_f32(x)   a_restrict_loop_f32((x), -(float)A_PI, (float)A_PI)
-
-/*!
- @}              End of LIBA_MATH group
-*/
+#define a_restrict_angle(x)  a_restrict_loop((x), -180, 180)
+#define a_restrict_anglef(x) a_restrict_loopf((x), -180, 180)
+#define a_restrict_rad(x)    a_restrict_loop((x), -A_PI, A_PI)
+#define a_restrict_radf(x)   a_restrict_loopf((x), -(float)A_PI, (float)A_PI)
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_MATH_H__ */

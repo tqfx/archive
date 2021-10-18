@@ -118,11 +118,7 @@ static float a_inv_sqrt(float x)
 #define y 1 /*!< y axis */
 #define z 2 /*!< z axis */
 
-void a_ahrs_mahony(float q[4],
-                   float g[3],
-                   float a[3],
-                   float m[3],
-                   float ht)
+void a_ahrs_mahony(float q[4], float g[3], float a[3], float m[3], float ht)
 {
     a_ahrs_type_t type = A_AHRS_AXIS9;
 
@@ -267,10 +263,7 @@ void a_ahrs_mahony(float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void a_ahrs_mahony_imu(float q[4],
-                       float g[3],
-                       float a[3],
-                       float ht)
+void a_ahrs_mahony_imu(float q[4], float g[3], float a[3], float ht)
 {
     /* Auxiliary variables to avoid repeated arithmetic */
     float q0q0 = q[0] * q[0];
@@ -344,11 +337,7 @@ void a_ahrs_mahony_imu(float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void a_ahrs_madgwick(float q[4],
-                     float g[3],
-                     float a[3],
-                     float m[3],
-                     float t)
+void a_ahrs_madgwick(float q[4], float g[3], float a[3], float m[3], float t)
 {
     a_ahrs_type_t type = A_AHRS_AXIS9;
 
@@ -532,10 +521,7 @@ void a_ahrs_madgwick(float q[4],
     NORM4(q[0], q[1], q[2], q[3]);
 }
 
-void a_ahrs_madgwick_imu(float q[4],
-                         float g[3],
-                         float a[3],
-                         float t)
+void a_ahrs_madgwick_imu(float q[4], float g[3], float a[3], float t)
 {
     /* Rate of change of quaternion from gyroscope */
     float q_dot1 = 0.5F * (-q[1] * g[x] - q[2] * g[y] - q[3] * g[z]);
