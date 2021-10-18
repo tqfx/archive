@@ -49,13 +49,13 @@
 */
 
 #undef __A_PID_INIT
-#define __A_PID_INIT(id, type, func)                 \
-    void func(a_pid_##id##_t *ctx,                   \
-              const a_pid_mode_t mode,               \
+#define __A_PID_INIT(def, type, func)                \
+    void func(def##_t *ctx,                          \
+              a_pid_mode_t mode,                     \
               const type kpid[3],                    \
-              const type omin,                       \
-              const type omax,                       \
-              const type omaxi)                      \
+              type omin,                             \
+              type omax,                             \
+              type omaxi)                            \
     {                                                \
         ctx->mode = mode;                            \
         ctx->kp = kpid[0];                           \
@@ -94,13 +94,13 @@
             break;                                   \
         }                                            \
     }
-__A_PID_INIT(f32, float32_t, a_pid_f32_init)
-__A_PID_INIT(f64, float64_t, a_pid_f64_init)
+__A_PID_INIT(a_pid, double, a_pid_init)
+__A_PID_INIT(a_pidf, float, a_pidf_init)
 #undef __A_PID_INIT
 
-#undef __A_PID
-#define __A_PID(id, type, func)                                         \
-    type func(a_pid_##id##_t *ctx, const type ref, const type set)      \
+#undef __A_PID_PROCESS
+#define __A_PID_PROCESS(def, type, func)                                \
+    type func(def##_t *ctx, type ref, type set)                         \
     {                                                                   \
         type out = 0;                                                   \
         type in = set - ref;                                            \
@@ -149,8 +149,8 @@ __A_PID_INIT(f64, float64_t, a_pid_f64_init)
                                                                         \
         return out;                                                     \
     }
-__A_PID(f32, float32_t, a_pid_f32)
-__A_PID(f64, float64_t, a_pid_f64)
-#undef __A_PID
+__A_PID_PROCESS(a_pid, double, a_pid_process)
+__A_PID_PROCESS(a_pidf, float, a_pidf_process)
+#undef __A_PID_PROCESS
 
 /* END OF FILE */

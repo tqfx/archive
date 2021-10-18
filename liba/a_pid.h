@@ -70,11 +70,12 @@ typedef enum a_pid_mode_t
     A_PID_INC,  //!< Incremental pid control
 } a_pid_mode_t;
 
-/*!< @} */
-
 #undef __A_PID_T
-#define __A_PID_T(id, type)                               \
-    typedef struct a_pid_##id##_t                         \
+/*!
+ @brief          Instance structure for the floating-point PID Control
+*/
+#define __A_PID_T(def, type)                              \
+    typedef struct def##_t                                \
     {                                                     \
         a_pid_mode_t mode; /* Mode for PID Control     */ \
                                                           \
@@ -103,91 +104,15 @@ typedef enum a_pid_mode_t
         type y; /* Cache variable              */         \
                 /* - A_PID_POS integral output */         \
                 /* - A_PID_INC all output      */         \
-    } a_pid_##id##_t
-__A_PID_T(f32, float32_t);
-__A_PID_T(f64, float64_t);
+    } def##_t
+__A_PID_T(a_pid, double);
+__A_PID_T(a_pidf, float);
 #undef __A_PID_T
 
 __BEGIN_DECLS
 
-#undef __A_PID_INIT
-#define __A_PID_INIT(id, type, func)   \
-    void func(a_pid_##id##_t *ctx,     \
-              const a_pid_mode_t mode, \
-              const type kpid[3],      \
-              const type omin,         \
-              const type omax,         \
-              const type omaxi)
-extern __A_PID_INIT(f32, float32_t, a_pid_f32_init);
-extern __A_PID_INIT(f64, float64_t, a_pid_f64_init);
-#undef __A_PID_INIT
-
-#undef __A_PID
-#define __A_PID(id, type, func) \
-    type func(a_pid_##id##_t *ctx, const type ref, const type set)
-extern __A_PID(f32, float32_t, a_pid_f32);
-extern __A_PID(f64, float64_t, a_pid_f64);
-#undef __A_PID
-
-__END_DECLS
-
-#undef __A_PID_RESET
-#define __A_PID_RESET(id, func)             \
-    __STATIC_INLINE                         \
-    void func(a_pid_##id##_t *ctx)          \
-    {                                       \
-        ctx->x[0] = ctx->x[1] = ctx->y = 0; \
-    }
-__A_PID_RESET(f32, a_pid_f32_reset)
-__A_PID_RESET(f64, a_pid_f64_reset)
-#undef __A_PID_RESET
-
-#undef __A_PID_POS
-#define __A_PID_POS(id, type, init, func)              \
-    __STATIC_INLINE                                    \
-    void func(a_pid_##id##_t *ctx,                     \
-              const type kpid[3],                      \
-              const type omin,                         \
-              const type omax,                         \
-              const type omaxi)                        \
-    {                                                  \
-        init(ctx, A_PID_POS, kpid, omin, omax, omaxi); \
-    }
-__A_PID_POS(f32, float32_t, a_pid_f32_init, a_pid_f32_pos)
-__A_PID_POS(f64, float64_t, a_pid_f64_init, a_pid_f64_pos)
-#undef __A_PID_POS
-
-#undef __A_PID_INC
-#define __A_PID_INC(id, type, init, func)          \
-    __STATIC_INLINE                                \
-    void func(a_pid_##id##_t *ctx,                 \
-              const type kpid[3],                  \
-              const type omin,                     \
-              const type omax)                     \
-    {                                              \
-        init(ctx, A_PID_INC, kpid, omin, omax, 0); \
-    }
-__A_PID_INC(f32, float32_t, a_pid_f32_init, a_pid_f32_inc)
-__A_PID_INC(f64, float64_t, a_pid_f64_init, a_pid_f64_inc)
-#undef __A_PID_INC
-
-/*!
- @ingroup        LIBA_PID
- @{
-*/
-
-#ifndef a_pid_t
-/*!
- @brief          Instance structure for the floating-point PID Control
- @param[in]      id: id for the type of the data
-*/
-#define a_pid_t(id) a_pid_##id##_t
-#endif /* a_pid_t */
-
-#ifndef a_pid_init
 /*!
  @brief          Initialize function for the floating-point PID Control
- @param[in]      id: id for the type of the data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      mode: the mode for PID Control
   @arg @ref      A_PID_POS position pid control
@@ -200,63 +125,62 @@ __A_PID_INC(f64, float64_t, a_pid_f64_init, a_pid_f64_inc)
  @param[in]      omax: Maximum output
  @param[in]      omaxi: Maximum intergral output
 */
-#define a_pid_init(id, ctx, mode, kpid, omin, omax, omaxi) \
-    a_pid_##id##_init(ctx, mode, kpid, omin, omax, omaxi)
-#endif /* a_pid_init */
+extern void a_pid_init(a_pid_t *ctx, a_pid_mode_t mode, const double kpid[3], double omin, double omax, double omaxi);
+extern void a_pidf_init(a_pidf_t *ctx, a_pid_mode_t mode, const float kpid[3], float omin, float omax, float omaxi);
 
-#ifndef a_pid
 /*!
  @brief          Process function for the floating-point PID Control
- @param[in]      id: id for the type of the data
  @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
  @param[in]      ref: reference point
  @param[in]      set: set point
  @return         Output
 */
-#define a_pid(id, ctx, ref, set) a_pid_##id(ctx, ref, set)
-#endif /* a_pid */
+extern double a_pid_process(a_pid_t *ctx, double ref, double set);
+extern float a_pidf_process(a_pidf_t *ctx, float ref, float set);
 
-#ifndef a_pid_reset
+__END_DECLS
+
+#undef __A_PID_RESET
 /*!
  @brief          Reset function for the floating-point PID Control
- @param[in]      id: id for the type of the data
- @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
 */
-#define a_pid_reset(id, ctx) a_pid_##id##_reset(ctx)
-#endif /* a_pid_reset */
+#define __A_PID_RESET(def, func)            \
+    __STATIC_INLINE                         \
+    void func(def##_t *ctx)                 \
+    {                                       \
+        ctx->x[0] = ctx->x[1] = ctx->y = 0; \
+    }
+__A_PID_RESET(a_pid, a_pid_reset)
+__A_PID_RESET(a_pidf, a_pidf_reset)
+#undef __A_PID_RESET
 
-#ifndef a_pid_pos
+#undef __A_PID_POS
 /*!
  @brief          Initialize function for the floating-point position PID Control
- @param[in]      id: id for the type of the data
- @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
- @param[in]      kpid: constant array
-  @arg           0 Proportional
-  @arg           1 Integral
-  @arg           2 Derivative
- @param[in]      omin: Minimum output
- @param[in]      omax: Maximum output
- @param[in]      omaxi: Maximum intergral output
 */
-#define a_pid_pos(id, ctx, kpid, omin, omax, omaxi) \
-    a_pid_##id##_pos(ctx, kpid, omin, omax, omaxi)
-#endif /* a_pid_pos */
+#define __A_PID_POS(def, type, init, func)                                        \
+    __STATIC_INLINE                                                               \
+    void func(def##_t *ctx, const type kpid[3], type omin, type omax, type omaxi) \
+    {                                                                             \
+        init(ctx, A_PID_POS, kpid, omin, omax, omaxi);                            \
+    }
+__A_PID_POS(a_pid, double, a_pid_init, a_pid_pos)
+__A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
+#undef __A_PID_POS
 
-#ifndef a_pid_inc
+#undef __A_PID_INC
 /*!
  @brief          Initialize function for the floating-point incremental PID Control
- @param[in]      id: id for the type of the data
- @param[in,out]  ctx: points to an instance of the floating-point PID Control structure
- @param[in]      kpid: constant array
-  @arg           0 Proportional
-  @arg           1 Integral
-  @arg           2 Derivative
- @param[in]      omin: Minimum output
- @param[in]      omax: Maximum output
 */
-#define a_pid_inc(id, ctx, kpid, omin, omax) \
-    a_pid_##id##_inc(ctx, kpid, omin, omax)
-#endif /* a_pid_inc */
+#define __A_PID_INC(def, type, init, func)                            \
+    __STATIC_INLINE                                                   \
+    void func(def##_t *ctx, const type kpid[3], type omin, type omax) \
+    {                                                                 \
+        init(ctx, A_PID_INC, kpid, omin, omax, 0);                    \
+    }
+__A_PID_INC(a_pid, double, a_pid_init, a_pid_inc)
+__A_PID_INC(a_pidf, float, a_pidf_init, a_pidf_inc)
+#undef __A_PID_INC
 
 /*!< @} */
 
