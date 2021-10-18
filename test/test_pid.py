@@ -34,7 +34,7 @@ setpoint = []
 faceback = []
 x = 0
 for i in data:
-    x = a.pid(f(x), 100)
+    x = a.process(f(x), 100)
     setpoint.append(100)
     faceback.append(x)
 

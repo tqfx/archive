@@ -35,11 +35,11 @@ cdef class a_lpf:
         a_lpf_reset(self.ctx)
         return self
 
-    def lpf(self, x):
+    def process(self, x):
         for i in x:
             yield a_lpf_process(self.ctx, i)
 
-    cpdef double _lpf(self, double x):
+    cpdef double _process(self, double x):
         return a_lpf_process(self.ctx, x)
 
 cdef extern from "a_pid.h":
@@ -82,7 +82,7 @@ cdef class a_pid:
         a_pid_reset(self.ctx)
         return self
 
-    cpdef double pid(self, double ref, double set):
+    cpdef double process(self, double ref, double set):
         return a_pid_process(self.ctx, ref, set)
 
 cdef extern from "a_polytrack.h":

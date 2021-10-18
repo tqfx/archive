@@ -29,7 +29,7 @@ a = a_lpf(1, 0.01).reset()
 
 plt.figure("Low Pass Filter")
 plt.title("Low Pass Filter")
-plt.plot(data, np.sin(data), "r-", data, tuple(a.lpf(np.sin(data))), "b-")
+plt.plot(data, np.sin(data), "r-", data, tuple(a.process(np.sin(data))), "b-")
 plt.ylabel("o")
 plt.xlabel('i')
 plt.savefig(prefix + "/lpf.png")
