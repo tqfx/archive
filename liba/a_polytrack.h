@@ -72,12 +72,12 @@ __BEGIN_DECLS
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
-  T=t_{1}-t_{0} \\
-  h=q_{1}-q_{0} \\
-  k_{0}=q_{0} \\
-  k_{1}=v_{0} \\
-  k_{2}=\cfrac{3 h-\left(2 v_{0}+v_{1}\right) T}{T^{2}} \\
-  k_{3}=\cfrac{-2 h+\left(v_{0}+v_{1}\right) T}{T^{3}}
+  t=t_{1}-t_{0}\\
+  q=q_{1}-q_{0}\\
+  k_{0}=q_{0}\\
+  k_{1}=v_{0}\\
+  k_{2}=\cfrac{\left(-2\,v_{0}-v_{1}\right)\,t+3\,q}{t^2}\\
+  k_{3}=\cfrac{\left(v_{0}+v_{1}\right)\,t-2\,q}{t^3}
   \end{array}\right.
  \f}
  @param[in,out]  ctx: points to an instance of cubic polynomial trajectory
@@ -165,14 +165,14 @@ extern void a_polytrack3f_all(const a_polytrack3f_t *ctx, float t, float o[3]);
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
-  T=t_{1}-t_{0} \\
-  h=q_{1}-q_{0} \\
-  k_{0}=q_{0} \\
-  k_{1}=v_{0} \\
-  k_{2}=\cfrac{a_{0}}{2} \\
-  k_{3}=\cfrac{1}{2 T^{3}}\left[20 h-\left(8 v_{1}+12 v_{0}\right) T-\left(3 a_{0}-a_{1}\right) T^{2}\right] \\
-  k_{4}=\cfrac{1}{2 T^{4}}\left[-30 h+\left(14 v_{1}+16 v_{0}\right) T+\left(3 a_{0}-2 a_{1}\right) T^{2}\right] \\
-  k_{5}=\cfrac{1}{2 T^{5}}\left[12 h-6\left(v_{1}+v_{0}\right) T+\left(a_{1}-a_{0}\right) T^{2}\right]
+  t=t_{1}-t_{0}\\
+  q=q_{1}-q_{0}\\
+  k_{0}=q_{0}\\
+  k_{1}=v_{0}\\
+  k_{2}=\cfrac{a_{0}}{2}\\
+  k_{3}=\cfrac{\left(a_{1}-3\,a_{0}\right)\,t^2+\left(-12\,v_{0}-8\,v_{1}\right)\,t+20\,q}{2\,t^3}\\
+  k_{4}=\cfrac{\left(3\,a_{0}-2\,a_{1}\right)\,t^2+\left(16\,v_{0}+14\,v_{1}\right)\,t-30\,q}{2\,t^4}\\
+  k_{5}=\cfrac{\left(a_{1}-a_{0}\right)\,t^2+\left(-6\,v_{0}-6\,v_{1}\right)\,t+12\,q}{2\,t^5}
   \end{array}\right.
  \f}
  @param[in,out]  ctx: points to an instance of quintic polynomial trajectory
@@ -262,16 +262,16 @@ extern void a_polytrack5f_all(const a_polytrack5f_t *ctx, float t, float o[3]);
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
-  T=t_{1}-t_{0} \\
-  h=q_{1}-q_{0} \\
-  k_{0}=q_{0} \\
-  k_{1}=v_{0} \\
-  k_{2}=\cfrac{a_{0}}{2} \\
-  k_{3}=\cfrac{j_{0}}{6} \\
-  k_{4}=\cfrac{210 h-T\left[\left(30 a_{0}-15 a_{1}\right) T+\left(4 j_{0}+j_{1}\right) T^{2}+120 v_{0}+90 v_{1}\right]}{6 T^{4}} \\
-  k_{5}=\cfrac{-168 h+T\left[\left(20 a_{0}-14 a_{1}\right) T+\left(2 j_{0}+j_{1}\right) T^{2}+90 v_{0}+78 v_{1}\right]}{2 T^{5}} \\
-  k_{6}=\cfrac{420 h-T\left[\left(45 a_{0}-39 a_{1}\right) T+\left(4 j_{0}+3 j_{1}\right) T^{2}+216 v_{0}+204 v_{1}\right]}{6 T^{6}} \\
-  k_{7}=\cfrac{-120 h+T\left[\left(12 a_{0}-12 a_{1}\right) T+\left(j_{0}+j_{1}\right) T^{2}+60 v_{0}+60 v_{1}\right]}{6 T^{7}}
+  t=t_{1}-t_{0}\\
+  q=q_{1}-q_{0}\\
+  k_{0}=q_{0}\\
+  k_{1}=v_{0}\\
+  k_{2}=\cfrac{a_{0}}{2}\\
+  k_{3}=\cfrac{j_{0}}{6}\\
+  k_{4}=\cfrac{\left(-4\,j_{0}-j_{1}\right)\,t^3+\left(15\,a_{1}-30\,a_{0}\right)\,t^2+\left(-120\,v_{0}-90\,v_{1}\right)\,t+210\,q}{6\,t^4}\\
+  k_{5}=\cfrac{\left(2\,j_{0}+j_{1}\right)\,t^3+\left(20\,a_{0}-14\,a_{1}\right)\,t^2+\left(90\,v_{0}+78\,v_{1}\right)\,t-168\,q}{2\,t^5}\\
+  k_{6}=\cfrac{\left(-4\,j_{0}-3\,j_{1}\right)\,t^3+\left(39\,a_{1}-45\,a_{0}\right)\,t^2+\left(-216\,v_{0}-204\,v_{1}\right)\,t+420\,q}{6\,t^6}\\
+  k_{7}=\cfrac{\left(j_{0}+j_{1}\right)\,t^3+\left(12\,a_{0}-12\,a_{1}\right)\,t^2+\left(60\,v_{0}+60\,v_{1}\right)\,t-120\,q}{6\,t^7}
   \end{array}\right.
  \f}
  @param[in,out]  ctx: points to an instance of hepta polynomial trajectory
