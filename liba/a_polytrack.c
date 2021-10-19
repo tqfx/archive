@@ -22,17 +22,18 @@
         ctx->q[1] = target[1];                                          \
         ctx->v[1] = target[2];                                          \
                                                                         \
-        type dist = ctx->q[1] - ctx->q[0];                              \
-        type t1 = ctx->t[1] - ctx->t[0];                                \
-        type inv_t1 = 1 / t1;                                           \
+        type q = ctx->q[1] - ctx->q[0];                                 \
+        type t = ctx->t[1] - ctx->t[0];                                 \
+        type inv_t1 = 1 / t;                                            \
         type inv_t2 = inv_t1 * inv_t1;                                  \
         type inv_t3 = inv_t1 * inv_t2;                                  \
-        type vt = (ctx->v[0] + ctx->v[1]) * t1;                         \
                                                                         \
         ctx->k[0] = ctx->q[0];                                          \
         ctx->k[1] = ctx->v[0];                                          \
-        ctx->k[2] = inv_t2 * (3 * dist - ctx->v[0] * t1 - vt);          \
-        ctx->k[3] = inv_t3 * (vt - 2 * dist);                           \
+        ctx->k[2] = inv_t1 * (-2 * ctx->v[0] - ctx->v[1]) +             \
+                    inv_t2 * q * 3;                                     \
+        ctx->k[3] = inv_t2 * (ctx->v[0] + ctx->v[1]) -                  \
+                    inv_t3 * q * 2;                                     \
     }
 __A_POLYTRACK3_INIT(a_polytrack3, double, a_polytrack3_init)
 __A_POLYTRACK3_INIT(a_polytrack3f, float, a_polytrack3f_init)
@@ -108,40 +109,41 @@ __A_POLYTRACK3_ALL(a_polytrack3f, float, a_polytrack3f_all, a_hornerf)
 /* function for quintic polynomial trajectory */
 
 #undef __A_POLYTRACK5_INIT
-#define __A_POLYTRACK5_INIT(def, type, func)                                    \
-    void func(def##_t *ctx, const type source[4], const type target[4])         \
-    {                                                                           \
-        ctx->t[0] = source[0];                                                  \
-        ctx->q[0] = source[1];                                                  \
-        ctx->v[0] = source[2];                                                  \
-        ctx->a[0] = source[3];                                                  \
-        ctx->t[1] = target[0];                                                  \
-        ctx->q[1] = target[1];                                                  \
-        ctx->v[1] = target[2];                                                  \
-        ctx->a[1] = target[3];                                                  \
-                                                                                \
-        type dist = ctx->q[1] - ctx->q[0];                                      \
-        type t1 = ctx->t[1] - ctx->t[0];                                        \
-        type t2 = t1 * t1;                                                      \
-        type inv_t1 = 1 / t1;                                                   \
-        type inv_t2 = inv_t1 * inv_t1;                                          \
-        type inv_t3 = inv_t1 * inv_t2;                                          \
-        type inv_t4 = inv_t2 * inv_t2;                                          \
-        type inv_t5 = inv_t2 * inv_t3;                                          \
-        type v0t1 = ctx->v[0] * t1;                                             \
-        type v1t1 = ctx->v[1] * t1;                                             \
-        type a0t2 = ctx->a[0] * t2;                                             \
-        type a1t2 = ctx->a[1] * t2;                                             \
-                                                                                \
-        ctx->k[0] = ctx->q[0];                                                  \
-        ctx->k[1] = ctx->v[0];                                                  \
-        ctx->k[2] = ctx->a[0] * (type)(1 / 2.0);                                \
-        ctx->k[3] = (type)(1 / 2.0) * inv_t3 *                                  \
-                    (20 * dist - 8 * v1t1 - 12 * v0t1 + a1t2 - 3 * a0t2);       \
-        ctx->k[4] = (type)(1 / 2.0) * inv_t4 *                                  \
-                    (-30 * dist + 14 * v1t1 + 16 * v0t1 + 3 * a0t2 - 2 * a1t2); \
-        ctx->k[5] = (type)(1 / 2.0) * inv_t5 *                                  \
-                    (12 * dist - 6 * (v1t1 + v0t1) + a1t2 - a0t2);              \
+#define __A_POLYTRACK5_INIT(def, type, func)                            \
+    void func(def##_t *ctx, const type source[4], const type target[4]) \
+    {                                                                   \
+        ctx->t[0] = source[0];                                          \
+        ctx->q[0] = source[1];                                          \
+        ctx->v[0] = source[2];                                          \
+        ctx->a[0] = source[3];                                          \
+        ctx->t[1] = target[0];                                          \
+        ctx->q[1] = target[1];                                          \
+        ctx->v[1] = target[2];                                          \
+        ctx->a[1] = target[3];                                          \
+                                                                        \
+        type q = ctx->q[1] - ctx->q[0];                                 \
+        type t = ctx->t[1] - ctx->t[0];                                 \
+        type inv_t1 = 1 / t;                                            \
+        type inv_t2 = inv_t1 * inv_t1;                                  \
+        type inv_t3 = inv_t1 * inv_t2;                                  \
+        type inv_t4 = inv_t2 * inv_t2;                                  \
+        type inv_t5 = inv_t2 * inv_t3;                                  \
+                                                                        \
+        ctx->k[0] = ctx->q[0];                                          \
+        ctx->k[1] = ctx->v[0];                                          \
+        ctx->k[2] = ctx->a[0] * (type)(1 / 2.0);                        \
+        ctx->k[3] = (inv_t1 * (ctx->a[1] - 3 * ctx->a[0]) -             \
+                     inv_t2 * (12 * ctx->v[0] + 8 * ctx->v[1]) +        \
+                     inv_t3 * q * 20) *                                 \
+                    (type)(1 / 2.0);                                    \
+        ctx->k[4] = (inv_t2 * (3 * ctx->a[0] - 2 * ctx->a[1]) +         \
+                     inv_t3 * (16 * ctx->v[0] + 14 * ctx->v[1]) -       \
+                     inv_t4 * q * 30) *                                 \
+                    (type)(1 / 2.0);                                    \
+        ctx->k[5] = (inv_t3 * (ctx->a[1] - ctx->a[0]) -                 \
+                     inv_t4 * (ctx->v[0] + ctx->v[1]) * 6 +             \
+                     inv_t5 * q * 12) *                                 \
+                    (type)(1 / 2.0);                                    \
     }
 __A_POLYTRACK5_INIT(a_polytrack5, double, a_polytrack5_init)
 __A_POLYTRACK5_INIT(a_polytrack5f, float, a_polytrack5f_init)
@@ -243,40 +245,40 @@ __A_POLYTRACK5_ALL(a_polytrack5f, float, a_polytrack5f_all, a_hornerf)
         ctx->a[1] = target[3];                                          \
         ctx->j[1] = target[4];                                          \
                                                                         \
-        type dist = ctx->q[1] - ctx->q[0];                              \
-        type t1 = ctx->t[1] - ctx->t[0];                                \
-        type t2 = t1 * t1;                                              \
-        type t3 = t1 * t2;                                              \
-        type inv_t1 = 1 / t1;                                           \
+        type q = ctx->q[1] - ctx->q[0];                                 \
+        type t = ctx->t[1] - ctx->t[0];                                 \
+        type inv_t1 = 1 / t;                                            \
         type inv_t2 = inv_t1 * inv_t1;                                  \
         type inv_t3 = inv_t1 * inv_t2;                                  \
         type inv_t4 = inv_t2 * inv_t2;                                  \
         type inv_t5 = inv_t2 * inv_t3;                                  \
         type inv_t6 = inv_t3 * inv_t3;                                  \
         type inv_t7 = inv_t3 * inv_t4;                                  \
-        type v0t1 = ctx->v[0] * t1;                                     \
-        type v1t1 = ctx->v[1] * t1;                                     \
-        type a0t2 = ctx->a[0] * t2;                                     \
-        type a1t2 = ctx->a[1] * t2;                                     \
-        type j0t3 = ctx->j[0] * t3;                                     \
-        type j1t3 = ctx->j[1] * t3;                                     \
                                                                         \
         ctx->k[0] = ctx->q[0];                                          \
         ctx->k[1] = ctx->v[0];                                          \
         ctx->k[2] = ctx->a[0] * (type)(1 / 2.0);                        \
         ctx->k[3] = ctx->j[0] * (type)(1 / 6.0);                        \
-        ctx->k[4] = (type)(1 / 6.0) * inv_t4 *                          \
-                    (210 * dist - 120 * v0t1 - 90 * v0t1 -              \
-                     30 * a0t2 + 15 * a1t2 - 4 * j0t3 - j1t3);          \
-        ctx->k[5] = (type)(1 / 2.0) * inv_t5 *                          \
-                    (-168 * dist + 90 * v0t1 + 78 * v1t1 +              \
-                     20 * a0t2 - 14 * a1t2 + 2 * j0t3 + j1t3);          \
-        ctx->k[6] = (type)(1 / 6.0) * inv_t6 *                          \
-                    (420 * dist - 216 * v0t1 - 204 * v1t1 -             \
-                     45 * a0t2 + 39 * a1t2 - 4 * j0t3 - 3 * j1t3);      \
-        ctx->k[7] = (type)(1 / 6.0) * inv_t7 *                          \
-                    (-120 * dist + 60 * (v0t1 + v1t1) +                 \
-                     12 * (a0t2 - a1t2) + j0t3 + j1t3);                 \
+        ctx->k[4] = (inv_t1 * (-4 * ctx->j[0] - ctx->j[1]) +            \
+                     inv_t2 * (15 * ctx->a[1] - 30 * ctx->a[0]) -       \
+                     inv_t3 * (120 * ctx->v[0] + 90 * ctx->v[1]) +      \
+                     inv_t4 * q * 210) *                                \
+                    (type)(1 / 6.0);                                    \
+        ctx->k[5] = (inv_t2 * (2 * ctx->j[0] + ctx->j[1]) +             \
+                     inv_t3 * (20 * ctx->a[0] - 14 * ctx->a[1]) +       \
+                     inv_t4 * (90 * ctx->v[0] + 78 * ctx->v[1]) -       \
+                     inv_t5 * q * 168) *                                \
+                    (type)(1 / 2.0);                                    \
+        ctx->k[6] = (inv_t3 * (-4 * ctx->j[0] - 3 * ctx->j[1]) +        \
+                     inv_t4 * (39 * ctx->a[1] - 45 * ctx->a[0]) -       \
+                     inv_t5 * (216 * ctx->v[0] + 204 * ctx->v[1]) +     \
+                     inv_t6 * q * 420) *                                \
+                    (type)(1 / 6.0);                                    \
+        ctx->k[7] = (inv_t4 * (ctx->j[0] + ctx->j[1]) +                 \
+                     inv_t5 * (ctx->a[0] - ctx->a[1]) * 12 +            \
+                     inv_t6 * (ctx->v[0] + ctx->v[1]) * 60 -            \
+                     inv_t7 * q * 120) *                                \
+                    (type)(1 / 6.0);                                    \
     }
 __A_POLYTRACK7_INIT(a_polytrack7, double, a_polytrack7_init)
 __A_POLYTRACK7_INIT(a_polytrack7f, float, a_polytrack7f_init)
