@@ -3,3 +3,4 @@ wheel
 cython
 matplotlib
 numpy
+scipy
