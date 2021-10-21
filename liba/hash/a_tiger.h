@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_tiger.h
+ @file           a_tiger.h
  @brief          TIGER implementation
  @details        https://www.cs.technion.ac.il/~biham/Reports/Tiger
  @author         tqfx tqfx@foxmail.com

@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_md4.c
+ @file           a_md4.c
  @brief          RFC 1320 compliant MD4 implementation
  @details        https://www.ietf.org/rfc/rfc1320.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_md4.h"
+#include "a_md4.h"
 #include "a_hash.h"
 
 #undef F

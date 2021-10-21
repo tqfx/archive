@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_sha1.c
+ @file           a_sha1.c
  @brief          RFC 3174 compliant SHA1 implementation
  @details        https://www.ietf.org/rfc/rfc3174.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_sha1.h"
+#include "a_sha1.h"
 #include "a_hash.h"
 
 #undef F0

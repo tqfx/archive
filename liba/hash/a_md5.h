@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_md5.h
+ @file           a_md5.h
  @brief          RFC 1321 compliant MD5 implementation
  @details        https://www.ietf.org/rfc/rfc1321.txt
  @author         tqfx tqfx@foxmail.com

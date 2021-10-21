@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_sha3.h
+ @file           a_sha3.h
  @brief          SHA3 implementation
  @details        https://en.wikipedia.org/wiki/SHA-3
  @author         tqfx tqfx@foxmail.com

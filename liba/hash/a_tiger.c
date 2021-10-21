@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_tiger.c
+ @file           a_tiger.c
  @brief          TIGER implementation
  @details        https://www.cs.technion.ac.il/~biham/Reports/Tiger
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_tiger.h"
+#include "a_tiger.h"
 #include "a_hash.h"
 
 static const uint64_t table[0x400] = {

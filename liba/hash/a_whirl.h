@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_whirl.h
+ @file           a_whirl.h
  @brief          WHIRLPOOL implementation
  @details        https://web.archive.org/web/20171129084214/http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html
  @author         tqfx tqfx@foxmail.com

@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_blake2s.c
+ @file           a_blake2s.c
  @brief          RFC 7693 compliant BLAKE implementation
  @details        https://www.ietf.org/rfc/rfc7693.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_blake2s.h"
+#include "a_blake2s.h"
 #include "a_hash.h"
 
 static const uint32_t blake2s_IV[8] = {

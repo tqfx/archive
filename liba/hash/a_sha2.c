@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_sha2.c
+ @file           a_sha2.c
  @brief          RFC 5754 compliant SHA2 implementation
  @details        https://www.ietf.org/rfc/rfc5754.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_sha2.h"
+#include "a_sha2.h"
 #include "a_hash.h"
 
 #undef Ch

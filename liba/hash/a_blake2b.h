@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_blake2b.h
+ @file           a_blake2b.h
  @brief          RFC 7693 compliant BLAKE implementation
  @details        https://www.ietf.org/rfc/rfc7693.txt
  @author         tqfx tqfx@foxmail.com

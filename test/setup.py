@@ -8,7 +8,7 @@
 import os
 from sys import argv
 
-modules = ["../liba"]
+modules = ["../liba", "../liba/poly", "../liba/hash"]
 
 name = "liba"
 version = "0.1"

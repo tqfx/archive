@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_whirl.c
+ @file           a_whirl.c
  @brief          WHIRLPOOL implementation
  @details        https://web.archive.org/web/20171129084214/http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_whirl.h"
+#include "a_whirl.h"
 #include "a_hash.h"
 
 static const uint64_t sbox0[0x100] = {

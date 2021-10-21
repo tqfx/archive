@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_sha3.c
+ @file           a_sha3.c
  @brief          SHA3 implementation
  @details        https://en.wikipedia.org/wiki/SHA-3
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_sha3.h"
+#include "a_sha3.h"
 #include "a_hash.h"
 
 #undef SHA3_KECCAK_SPONGE_WORDS

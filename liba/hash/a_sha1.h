@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_sha1.h
+ @file           a_sha1.h
  @brief          RFC 3174 compliant SHA1 implementation
  @details        https://www.ietf.org/rfc/rfc3174.txt
  @author         tqfx tqfx@foxmail.com

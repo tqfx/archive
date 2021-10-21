@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_md2.c
+ @file           a_md2.c
  @brief          RFC 1319 compliant MD2 implementation
  @details        https://www.ietf.org/rfc/rfc1319.txt
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_md2.h"
+#include "a_md2.h"
 #include "a_hash.h"
 
 static const unsigned char PI_SUBST[0x100] = {

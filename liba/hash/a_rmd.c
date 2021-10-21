@@ -1,12 +1,12 @@
 /*!
- @file           a_hash_rmd.c
+ @file           a_rmd.c
  @brief          RIPEMD implementation
  @details        https://homes.esat.kuleuven.be/~bosselae/ripemd160.html
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
 
-#include "a_hash_rmd.h"
+#include "a_rmd.h"
 #include "a_hash.h"
 
 #undef F

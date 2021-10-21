@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_md4.h
+ @file           a_md4.h
  @brief          RFC 1320 compliant MD4 implementation
  @details        https://www.ietf.org/rfc/rfc1320.txt
  @author         tqfx tqfx@foxmail.com

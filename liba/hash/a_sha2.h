@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_sha2.h
+ @file           a_sha2.h
  @brief          RFC 5754 compliant SHA2 implementation
  @details        https://www.ietf.org/rfc/rfc5754.txt
  @author         tqfx tqfx@foxmail.com

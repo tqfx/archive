@@ -1,29 +1,17 @@
-ADD_EXECUTABLE(test test.c)
-TARGET_LINK_LIBRARIES(test a)
+add_executable(test test.c)
+target_link_libraries(test a)
 
-ADD_EXECUTABLE(test_math test_math.c)
-TARGET_LINK_LIBRARIES(test_math a)
+add_executable(test_math test_math.c)
+target_link_libraries(test_math a)
 
-ADD_EXECUTABLE(test_notefreqs test_notefreqs.c)
-TARGET_LINK_LIBRARIES(test_notefreqs a)
+add_executable(test_notefreqs test_notefreqs.c)
+target_link_libraries(test_notefreqs a)
 
-ADD_EXECUTABLE(test_hash test_hash.c)
-TARGET_LINK_LIBRARIES(test_hash a)
+add_executable(test_hash test_hash.c)
+target_link_libraries(test_hash a)
 
-ADD_EXECUTABLE(test_hmac test_hmac.c)
-TARGET_LINK_LIBRARIES(test_hmac a)
+add_executable(test_hmac test_hmac.c)
+target_link_libraries(test_hmac a)
 
-ADD_EXECUTABLE(test_base test_base.c)
-TARGET_LINK_LIBRARIES(test_base a)
-
-IF("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
-   "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
-   "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
-   "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-
-  TARGET_LINK_LIBRARIES(test_math m)
-
-ENDIF("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
-      "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
-      "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
-      "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+add_executable(test_base test_base.c)
+target_link_libraries(test_base a)

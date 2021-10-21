@@ -13,17 +13,17 @@
 
 #include <string.h> /* memset, memcpy */
 
-#include "a_hash_md2.h"
-#include "a_hash_md4.h"
-#include "a_hash_md5.h"
-#include "a_hash_rmd.h"
-#include "a_hash_sha1.h"
-#include "a_hash_sha2.h"
-#include "a_hash_sha3.h"
-#include "a_hash_tiger.h"
-#include "a_hash_whirl.h"
-#include "a_hash_blake2s.h"
-#include "a_hash_blake2b.h"
+#include "a_md2.h"
+#include "a_md4.h"
+#include "a_md5.h"
+#include "a_rmd.h"
+#include "a_sha1.h"
+#include "a_sha2.h"
+#include "a_sha3.h"
+#include "a_tiger.h"
+#include "a_whirl.h"
+#include "a_blake2s.h"
+#include "a_blake2b.h"
 
 /*!
     shake128    0xA8    168

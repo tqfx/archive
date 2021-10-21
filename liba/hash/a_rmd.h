@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_rmd.h
+ @file           a_rmd.h
  @brief          RIPEMD implementation
  @details        https://homes.esat.kuleuven.be/~bosselae/ripemd160.html
  @author         tqfx tqfx@foxmail.com

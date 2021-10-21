@@ -1,5 +1,5 @@
 /*!
- @file           a_hash_md2.h
+ @file           a_md2.h
  @brief          RFC 1319 compliant MD2 implementation
  @details        https://www.ietf.org/rfc/rfc1319.txt
  @author         tqfx tqfx@foxmail.com
