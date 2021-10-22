@@ -10,18 +10,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: true
           lfs: true
-      - run: |
-          cp LICENSE liba
+          submodules: true
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_message: ${{ github.event.head_commit.message }}
           disable_nojekyll: true
-          publish_branch: release
+          publish_branch: latest
           publish_dir: liba
       - uses: mattnotmitt/doxygen-action@v1
         with:
           doxyfile-path: docs/Doxyfile
-          enable-latex: true
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: ${{ github.event.head_commit.message }}
+          disable_nojekyll: true
+          publish_branch: gh-pages
+          force_orphan: true
+          publish_dir: html
