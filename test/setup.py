@@ -8,11 +8,12 @@
 import os
 from sys import argv
 
-modules = ["../liba", "../liba/poly", "../liba/hash"]
+amodule = ".."
+modules = ["liba", "liba/poly", "liba/hash"]
 
 name = "liba"
 version = "0.1"
-description = "The algorithm library is based on C language."
+description = "algorithm library based on C language."
 long_description = ''
 author = "tqfx"
 author_email = "tqfx@foxmail.com"
@@ -42,6 +43,7 @@ from Cython.Build import cythonize
 sources = []
 source_cpyx = []
 for i in range(len(modules)):
+    modules[i] = os.path.join(amodule, modules[i])
     modules[i] = os.path.abspath(modules[i])
 for module in modules:
     source_pyx = glob(module + "/*.pyx", recursive=True)
@@ -55,6 +57,7 @@ ext_modules = Extension(
     include_dirs=modules,
     define_macros=[("_CRT_SECURE_NO_WARNINGS", None)],
 )
+del amodule
 del modules
 del sources
 try:
