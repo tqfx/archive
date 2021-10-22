@@ -1,0 +1,5 @@
+CURRENT_DIR = $(lastword $(dir $(MAKEFILE_LIST)))
+
+C_INCLUDES += -I$(CURRENT_DIR)
+C_INCLUDES += -I$(CURRENT_DIR)poly
+C_INCLUDES += -I$(CURRENT_DIR)hash
