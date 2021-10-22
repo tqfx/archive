@@ -2,25 +2,30 @@
 .clang-format       eol=lf
 .gitmodules         eol=lf
 .gitignore          eol=lf
-LICENSE     eol=lf
 Makefile    eol=lf
+LICENSE     eol=lf
+*.s         eol=lf
+*.c         eol=lf
+*.h         eol=lf
+*.in        eol=lf
+*.py        eol=lf
+*.mk        eol=lf
 *.md        eol=lf
+*.pyx       eol=lf
+*.cxx       eol=lf
+*.hxx       eol=lf
+*.cpp       eol=lf
+*.hpp       eol=lf
 *.txt       eol=lf
 *.xml       eol=lf
 *.yml       eol=lf
 *.json      eol=lf
 *.cmake     eol=lf
 *.ninja     eol=lf
-*.s         eol=lf
-*.c         eol=lf
-*.h         eol=lf
-*.in        eol=lf
-*.py        eol=lf
-*.pyx       eol=lf
-*.cpp       eol=lf
-*.hpp       eol=lf
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.gif filter=lfs diff=lfs merge=lfs -text
 *.pdf filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
 *.dat filter=lfs diff=lfs merge=lfs -text
