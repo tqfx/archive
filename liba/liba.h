@@ -1,6 +1,6 @@
 /*!
  @file           liba.h
- @brief          Algorithm library
+ @brief          algorithm library
  @author         tqfx tqfx@foxmail.com
  @copyright      Copyright (C) 2020 tqfx
 */
