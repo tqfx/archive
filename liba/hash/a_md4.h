@@ -26,9 +26,9 @@ typedef struct a_md4_t
 
 __BEGIN_DECLS
 
-extern void a_md4_init(a_md4_t *ctx);
-extern int a_md4_process(a_md4_t *ctx, const void *p, size_t n);
-extern unsigned char *a_md4_done(a_md4_t *ctx, void *out);
+extern void a_md4_init(a_md4_t *ctx) __NONNULL_ALL;
+extern int a_md4_process(a_md4_t *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_md4_done(a_md4_t *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

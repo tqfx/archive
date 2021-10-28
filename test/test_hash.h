@@ -14,17 +14,17 @@
 #include <stdio.h>
 #include <string.h>
 
-#define __HASH_DIFF(src, dst, size, info)                              \
-    do                                                                 \
-    {                                                                  \
-        if (memcmp(src, dst, size))                                    \
-        {                                                              \
-            char _bsrc[((size) << 1) + 1];                             \
-            char _bdst[((size) << 1) + 1];                             \
-            a_digest_upper((const unsigned char *)(src), size, _bsrc); \
-            a_digest_upper((const unsigned char *)(dst), size, _bdst); \
-            printf("%s %s %s\n", _bsrc, _bdst, info);                  \
-        }                                                              \
+#define __HASH_DIFF(_src, _dst, _size, _info)          \
+    do                                                 \
+    {                                                  \
+        if (memcmp(_src, _dst, _size))                 \
+        {                                              \
+            char _bsrc[((_size) << 1) + 1];            \
+            char _bdst[((_size) << 1) + 1];            \
+            a_digest_upper(_src, _size, _bsrc);        \
+            a_digest_upper(_dst, _size, _bdst);        \
+            printf("%s %s %s\n", _bsrc, _bdst, _info); \
+        }                                              \
     } while (0)
 
 /* Enddef to prevent recursive inclusion */

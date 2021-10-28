@@ -22,7 +22,7 @@ enum
 __BEGIN_DECLS
 
 /*!
- @brief          Convert hexadecimal to decimal
+ @brief          convert hexadecimal to decimal.
  @param[in]      x: '0'-'9', 'a'-'f', 'A'-'F'
  @return         0 ~ 15
   @retval        -1 failure
@@ -30,39 +30,39 @@ __BEGIN_DECLS
 extern int a_xdigit(int x);
 
 /*!
- @brief          Convert a digest to a string.
+ @brief          convert a string to a lower string.
+ @param[in]      p: points to data to convert.
+ @param[in]      n: length of data to convert.
+ @param[in,out]  o: points to buffer that holds the string.
+ @return         a pointer to the string.
+ @note           When out is 0, you need to use @ref a_free to release the memory.
+*/
+extern void *a_lower(const void *p, size_t n, void *o);
+
+/*!
+ @brief          convert a string to a upper string.
+ @param[in]      p: points to data to convert.
+ @param[in]      n: length of data to convert.
+ @param[in,out]  o: points to buffer that holds the string.
+ @return         a pointer to the string.
+ @note           When out is 0, you need to use @ref a_free to release the memory.
+*/
+extern void *a_upper(const void *p, size_t n, void *o);
+
+/*!
+ @brief          convert a digest to a string.
  @param[in]      p: points to data to convert.
  @param[in]      n: length of data to convert.
  @param[in]      x: select the converted case.
   @arg           A_DIGEST_LOWER lower
   @arg           A_DIGEST_UPPER upper
- @param[in,out]  out: points to buffer that holds the string.
+ @param[in,out]  o: points to buffer that holds the string.
  @return         a pointer to the string.
  @note           When out is 0, you need to use @ref a_free to release the memory.
 */
-extern void *a_digest(const void *p, size_t n, unsigned int x, void *out);
-extern void *a_digest_lower(const void *p, size_t n, void *out);
-extern void *a_digest_upper(const void *p, size_t n, void *out);
-
-/*!
- @brief          Convert a string to a lower string.
- @param[in]      p: points to data to convert.
- @param[in]      n: length of data to convert.
- @param[in,out]  out: points to buffer that holds the string.
- @return         a pointer to the string.
- @note           When out is 0, you need to use @ref a_free to release the memory.
-*/
-extern void *a_lower(const void *p, size_t n, void *out);
-
-/*!
- @brief          Convert a string to a upper string.
- @param[in]      p: points to data to convert.
- @param[in]      n: length of data to convert.
- @param[in,out]  out: points to buffer that holds the string.
- @return         a pointer to the string.
- @note           When out is 0, you need to use @ref a_free to release the memory.
-*/
-extern void *a_upper(const void *p, size_t n, void *out);
+extern void *a_digest(const void *p, size_t n, unsigned int x, void *o);
+extern void *a_digest_lower(const void *p, size_t n, void *o);
+extern void *a_digest_upper(const void *p, size_t n, void *o);
 
 __END_DECLS
 

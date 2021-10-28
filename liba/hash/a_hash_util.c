@@ -9,112 +9,116 @@
 
 #include <stdarg.h>
 
-int a_hash_memory(const a_hash_t *ctx, const void *p, size_t n, void *out, size_t *siz)
+int a_hash_memory(const a_hash_t *_ctx, const void *_p, size_t _n, void *_out, size_t *_siz)
 {
-    /* assert(ctx) */
-    /* assert(out) */
-    /* assert(siz) */
-    /* assert(!n || p) */
-    if (*siz < ctx->outsiz)
+    a_assert(_ctx);
+    a_assert(_out);
+    a_assert(_siz);
+    a_assert(!_n || _p);
+
+    if (*_siz < _ctx->outsiz)
     {
-        *siz = ctx->outsiz;
+        *_siz = _ctx->outsiz;
         return A_HASH_OVERFLOW;
     }
 
     a_hash_stat_t stat[1];
 
-    ctx->init(stat);
-    if (ctx->process(stat, p, n) != A_HASH_SUCCESS)
+    _ctx->init(stat);
+    if (_ctx->process(stat, _p, _n) != A_HASH_SUCCESS)
     {
         return A_HASH_FAILURE;
     }
-    *siz = (ctx->done(stat, out) ? ctx->outsiz : 0);
+    *_siz = _ctx->done(stat, _out) ? _ctx->outsiz : 0;
 
     return A_HASH_SUCCESS;
 }
 
-int a_hash_mmulti(const a_hash_t *ctx, void *out, size_t *siz, const void *p, size_t n, ...)
+int a_hash_mmulti(const a_hash_t *_ctx, void *_out, size_t *_siz, const void *_p, size_t _n, ...)
 {
-    /* assert(ctx) */
-    /* assert(out) */
-    /* assert(siz) */
-    /* assert(!n || p) */
-    if (*siz < ctx->outsiz)
+    a_assert(_ctx);
+    a_assert(_out);
+    a_assert(_siz);
+    a_assert(!_n || _p);
+
+    if (*_siz < _ctx->outsiz)
     {
-        *siz = ctx->outsiz;
+        *_siz = _ctx->outsiz;
         return A_HASH_OVERFLOW;
     }
 
     va_list arg;
-    va_start(arg, n);
+    va_start(arg, _n);
     a_hash_stat_t stat[1];
 
-    ctx->init(stat);
+    _ctx->init(stat);
     for (;;)
     {
-        if (ctx->process(stat, p, n) != A_HASH_SUCCESS)
+        if (_ctx->process(stat, _p, _n) != A_HASH_SUCCESS)
         {
             va_end(arg);
             return A_HASH_FAILURE;
         }
-        p = va_arg(arg, const void *);
-        if (0 == p)
+        _p = va_arg(arg, const void *);
+        if (0 == _p)
         {
             va_end(arg);
             break;
         }
-        n = va_arg(arg, size_t);
+        _n = va_arg(arg, size_t);
     };
-    *siz = (ctx->done(stat, out) ? ctx->outsiz : 0);
+    *_siz = _ctx->done(stat, _out) ? _ctx->outsiz : 0;
 
     return A_HASH_SUCCESS;
 }
 
-int a_hash_filehandle(const a_hash_t *ctx, FILE *in, void *out, size_t *siz)
+int a_hash_filehandle(const a_hash_t *_ctx, FILE *_in, void *_out, size_t *_siz)
 {
-    /* assert(in) */
-    /* assert(ctx) */
-    /* assert(out) */
-    /* assert(siz) */
-    if (*siz < ctx->outsiz)
+    a_assert(_in);
+    a_assert(_ctx);
+    a_assert(_out);
+    a_assert(_siz);
+
+    if (*_siz < _ctx->outsiz)
     {
-        *siz = ctx->outsiz;
+        *_siz = _ctx->outsiz;
         return A_HASH_OVERFLOW;
     }
 
     a_hash_stat_t stat[1];
 
     char buf[BUFSIZ];
-    ctx->init(stat);
+    _ctx->init(stat);
     do
     {
-        *siz = fread(buf, 1, BUFSIZ, in);
-        ctx->process(stat, buf, *siz);
-    } while (*siz == BUFSIZ);
-    *siz = (ctx->done(stat, out) ? ctx->outsiz : 0);
+        *_siz = fread(buf, 1, BUFSIZ, _in);
+        _ctx->process(stat, buf, *_siz);
+    } while (*_siz == BUFSIZ);
+    *_siz = _ctx->done(stat, _out) ? _ctx->outsiz : 0;
 
     return A_HASH_SUCCESS;
 }
 
-int a_hash_file(const a_hash_t *ctx, const char *fname, void *out, size_t *siz)
+int a_hash_file(const a_hash_t *_ctx, const char *_fname, void *_out, size_t *_siz)
 {
-    /* assert(ctx) */
-    /* assert(out) */
-    /* assert(siz) */
-    /* assert(fname) */
-    if (*siz < ctx->outsiz)
+    a_assert(_ctx);
+    a_assert(_out);
+    a_assert(_siz);
+    a_assert(_fname);
+
+    if (*_siz < _ctx->outsiz)
     {
-        *siz = ctx->outsiz;
+        *_siz = _ctx->outsiz;
         return A_HASH_OVERFLOW;
     }
 
-    FILE *in = fopen(fname, "rb");
+    FILE *in = fopen(_fname, "rb");
     if (0 == in)
     {
         return A_HASH_NOTFOUND;
     }
 
-    int ret = a_hash_filehandle(ctx, in, out, siz);
+    int ret = a_hash_filehandle(_ctx, in, _out, _siz);
 
     if (fclose(in))
     {

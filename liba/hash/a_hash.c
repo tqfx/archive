@@ -8,11 +8,12 @@
 #include "a_hash.h"
 
 #undef __A_HASH_INIT
-#define __A_HASH_INIT(stat, init, func)           \
-    static __INLINE void func(a_hash_stat_t *ctx) \
-    {                                             \
-        /* assert(ctx) */                         \
-        init(ctx->stat);                          \
+#define __A_HASH_INIT(_stat, _init, _func)          \
+    __NONNULL_ALL                                   \
+    static __INLINE void _func(a_hash_stat_t *_ctx) \
+    {                                               \
+        a_assert(_ctx);                             \
+        _init(_ctx->_stat);                         \
     }
 
 #if defined(__A_HASH_MD2_H__)
@@ -85,12 +86,13 @@ __A_HASH_INIT(whirlpool, a_whirlpool_init, a_hash_init_whirlpool)
 #undef __A_HASH_INIT
 
 #undef __A_HASH_PROCESS
-#define __A_HASH_PROCESS(stat, process, func)                             \
-    static __INLINE int func(a_hash_stat_t *ctx, const void *p, size_t n) \
-    {                                                                     \
-        /* assert(ctx) */                                                 \
-        /* assert(!n || p) */                                             \
-        return process(ctx->stat, p, n);                                  \
+#define __A_HASH_PROCESS(_stat, _process, _func)                              \
+    __NONNULL((1))                                                            \
+    static __INLINE int _func(a_hash_stat_t *_ctx, const void *_p, size_t _n) \
+    {                                                                         \
+        a_assert(_ctx);                                                       \
+        a_assert(!_n || _p);                                                  \
+        return _process(_ctx->_stat, _p, _n);                                 \
     }
 
 #if defined(__A_HASH_MD2_H__)
@@ -163,11 +165,12 @@ __A_HASH_PROCESS(whirlpool, a_whirlpool_process, a_hash_process_whirlpool)
 #undef __A_HASH_PROCESS
 
 #undef __A_HASH_DONE
-#define __A_HASH_DONE(stat, done, func)                                \
-    static __INLINE unsigned char *func(a_hash_stat_t *ctx, void *out) \
-    {                                                                  \
-        /* assert(ctx) */                                              \
-        return done(ctx->stat, out);                                   \
+#define __A_HASH_DONE(_stat, _done, _func)                                \
+    __NONNULL((1))                                                        \
+    static __INLINE unsigned char *_func(a_hash_stat_t *_ctx, void *_out) \
+    {                                                                     \
+        a_assert(_ctx);                                                   \
+        return _done(_ctx->_stat, _out);                                  \
     }
 
 #if defined(__A_HASH_MD2_H__)

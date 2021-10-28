@@ -4,6 +4,9 @@ target_link_libraries(test a)
 add_executable(test_math test_math.c)
 target_link_libraries(test_math a)
 
+add_executable(test_mean test_mean.c)
+target_link_libraries(test_mean a)
+
 add_executable(test_notefreqs test_notefreqs.c)
 target_link_libraries(test_notefreqs a)
 

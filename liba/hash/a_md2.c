@@ -7,6 +7,7 @@
 */
 
 #include "a_md2.h"
+
 #include "a_hash.h"
 
 static const unsigned char PI_SUBST[0x100] = {
@@ -31,33 +32,33 @@ static const unsigned char PI_SUBST[0x100] = {
 };
 
 /* adds 16 bytes to the checksum */
-static void a_md2_update_chksum(a_md2_t *ctx)
+static void a_md2_update_chksum(a_md2_t *_ctx)
 {
-    unsigned char l = ctx->chksum[0xF];
+    unsigned char l = _ctx->chksum[0xF];
     for (unsigned int j = 0; j != 0x10; ++j)
     {
         /*
          caution, the RFC says its "C[j] = S[M[i*16+j] xor l]" but the reference source code
          [and test vectors] say otherwise.
         */
-        l = (ctx->chksum[j] ^= PI_SUBST[(int)(ctx->buf[j] ^ l)] & 0xFF);
+        l = (_ctx->chksum[j] ^= PI_SUBST[(int)(_ctx->buf[j] ^ l)] & 0xFF);
     }
 }
 
-static void a_md2_compress(a_md2_t *ctx, const void *buf)
+static void a_md2_compress(a_md2_t *_ctx, const void *_buf)
 {
-    const unsigned char *p = ctx->buf;
+    const unsigned char *p = _ctx->buf;
 
-    if (ctx->buf != buf)
+    if (_ctx->buf != _buf)
     {
-        p = (const unsigned char *)buf;
+        p = (const unsigned char *)_buf;
     }
 
     /* copy block */
     for (unsigned int j = 0; j != 0x10; ++j)
     {
-        ctx->x[0x10 + j] = p[j];
-        ctx->x[0x20 + j] = ctx->x[j] ^ ctx->x[0x10 + j];
+        _ctx->x[0x10 + j] = p[j];
+        _ctx->x[0x20 + j] = _ctx->x[j] ^ _ctx->x[0x10 + j];
     }
 
     unsigned char t = 0;
@@ -65,78 +66,81 @@ static void a_md2_compress(a_md2_t *ctx, const void *buf)
     /* do 18 rounds */
     for (unsigned int j = 0; j != 18; ++j)
     {
-        for (unsigned int k = 0; k != sizeof(ctx->x); ++k)
+        for (unsigned int k = 0; k != sizeof(_ctx->x); ++k)
         {
-            t = (ctx->x[k] ^= PI_SUBST[(int)(t & 0xFF)]);
+            t = (_ctx->x[k] ^= PI_SUBST[(int)(t & 0xFF)]);
         }
         t = (t + (unsigned char)j) & 0xFF;
     }
 }
 
-void a_md2_init(a_md2_t *ctx)
+void a_md2_init(a_md2_t *_ctx)
 {
-    /* assert(ctx) */
-    memset(ctx, 0, sizeof(*ctx));
+    a_assert(_ctx);
+
+    memset(_ctx, 0, sizeof(*_ctx));
 }
 
-int a_md2_process(a_md2_t *ctx, const void *p, size_t n)
+int a_md2_process(a_md2_t *_ctx, const void *_p, size_t _n)
 {
-    /* assert(ctx) */
-    /* assert(!n || p) */
-    if (sizeof(ctx->buf) < ctx->cursiz)
+    a_assert(_ctx);
+    a_assert(!_n || _p);
+
+    if (sizeof(_ctx->buf) < _ctx->cursiz)
     {
         return A_HASH_INVALID;
     }
 
-    const unsigned char *s = (const unsigned char *)p;
-    while (n)
+    const unsigned char *p = (const unsigned char *)_p;
+    while (_n)
     {
-        uint32_t m = sizeof(ctx->buf) - ctx->cursiz;
-        m = m < n ? m : (uint32_t)n;
-        memcpy(ctx->buf + ctx->cursiz, s, m);
-        ctx->cursiz += m;
-        s += m;
-        n -= m;
-        if (sizeof(ctx->buf) == ctx->cursiz)
+        uint32_t n = sizeof(_ctx->buf) - _ctx->cursiz;
+        n = n < _n ? n : (uint32_t)_n;
+        memcpy(_ctx->buf + _ctx->cursiz, p, n);
+        _ctx->cursiz += n;
+        _n -= n;
+        p += n;
+        if (sizeof(_ctx->buf) == _ctx->cursiz)
         {
-            a_md2_compress(ctx, ctx->buf);
-            a_md2_update_chksum(ctx);
-            ctx->cursiz = 0;
+            a_md2_compress(_ctx, _ctx->buf);
+            a_md2_update_chksum(_ctx);
+            _ctx->cursiz = 0;
         }
     }
 
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_md2_done(a_md2_t *ctx, void *out)
+unsigned char *a_md2_done(a_md2_t *_ctx, void *_out)
 {
-    /* assert(ctx) */
-    if (sizeof(ctx->buf) - 1 < ctx->cursiz)
+    a_assert(_ctx);
+
+    if (sizeof(_ctx->buf) - 1 < _ctx->cursiz)
     {
         return 0;
     }
 
     /* pad the message */
-    unsigned int k = 0x10 - ctx->cursiz;
-    for (unsigned int i = ctx->cursiz; i != 0x10; ++i)
+    unsigned int k = 0x10 - _ctx->cursiz;
+    for (unsigned int i = _ctx->cursiz; i != 0x10; ++i)
     {
-        ctx->buf[i] = (unsigned char)k;
+        _ctx->buf[i] = (unsigned char)k;
     }
 
     /* hash and update */
-    a_md2_compress(ctx, ctx->buf);
-    a_md2_update_chksum(ctx);
+    a_md2_compress(_ctx, _ctx->buf);
+    a_md2_update_chksum(_ctx);
 
     /* hash checksum */
-    a_md2_compress(ctx, ctx->chksum);
+    a_md2_compress(_ctx, _ctx->chksum);
 
-    if (out && (out != ctx->x))
+    if (_out && (_out != _ctx->x))
     {
         /* output is lower 16 bytes of x */
-        memcpy(out, ctx->x, 0x10);
+        memcpy(_out, _ctx->x, 0x10);
     }
 
-    return ctx->x;
+    return _ctx->x;
 }
 
 /* END OF FILE */

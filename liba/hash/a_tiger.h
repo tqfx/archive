@@ -26,9 +26,9 @@ typedef struct a_tiger_t
 
 __BEGIN_DECLS
 
-extern void a_tiger_init(a_tiger_t *ctx);
-extern int a_tiger_process(a_tiger_t *ctx, const void *p, size_t n);
-extern unsigned char *a_tiger_done(a_tiger_t *ctx, void *out);
+extern void a_tiger_init(a_tiger_t *ctx) __NONNULL_ALL;
+extern int a_tiger_process(a_tiger_t *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_tiger_done(a_tiger_t *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

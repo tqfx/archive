@@ -54,18 +54,18 @@
 #endif /* A_SQRT1_2 */
 
 #undef A_ABS
-#define A_ABS(x) ((x) < 0 ? -(x) : (x))
+#define A_ABS(_x) ((_x) < 0 ? -(_x) : (_x))
 
 #undef A_SQ
-#define A_SQ(x) ((x) * (x))
+#define A_SQ(_x) ((_x) * (_x))
 
 #undef A_LIMIT
-#define A_LIMIT(x, min, max) \
-    ((min) < (x)             \
-         ? ((x) < (max)      \
-                ? (x)        \
-                : (max))     \
-         : (min))
+#define A_LIMIT(_x, _min, _max) \
+    ((_min) < (_x)              \
+         ? ((_x) < (_max)       \
+                ? (_x)          \
+                : (_max))       \
+         : (_min))
 
 __BEGIN_DECLS
 
@@ -76,14 +76,10 @@ __BEGIN_DECLS
 extern float a_inv_sqrt(float x);
 
 /*!
- @brief          fast sqrt for unsigned long
+ @brief          fast sqrt for unsigned integer
 */
-extern unsigned long a_sqrt_u32(unsigned long x);
-
-/*!
- @brief          fast sqrt for unsigned long long
-*/
-extern unsigned long long a_sqrt_u64(unsigned long long x);
+extern unsigned long a_sqrtul(unsigned long x);
+extern unsigned long long a_sqrtull(unsigned long long x);
 
 /*!
  @brief          Normalize function for the floating-point
@@ -101,10 +97,10 @@ extern float a_restrict_loopf(float x, float min, float max);
 
 __END_DECLS
 
-#define a_restrict_angle(x)  a_restrict_loop((x), -180, 180)
-#define a_restrict_anglef(x) a_restrict_loopf((x), -180, 180)
-#define a_restrict_rad(x)    a_restrict_loop((x), -A_PI, A_PI)
-#define a_restrict_radf(x)   a_restrict_loopf((x), -(float)A_PI, (float)A_PI)
+#define a_restrict_angle(_x)  a_restrict_loop(_x, -180, 180)
+#define a_restrict_anglef(_x) a_restrict_loopf(_x, -180, 180)
+#define a_restrict_rad(_x)    a_restrict_loop(_x, -A_PI, A_PI)
+#define a_restrict_radf(_x)   a_restrict_loopf(_x, -(float)A_PI, (float)A_PI)
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_MATH_H__ */

@@ -33,7 +33,7 @@ extern int a_hmac_memory(const a_hash_t *ctx,
                          const void *msg,
                          size_t msgsiz,
                          void *out,
-                         size_t *siz);
+                         size_t *siz) __NONNULL((1, 6, 7));
 
 /*!
  @brief          HMAC multiple blocks of memory to produce the authentication tag.
@@ -55,7 +55,7 @@ extern int a_hmac_mmulti(const a_hash_t *ctx,
                          size_t keysiz,
                          const void *msg,
                          size_t msgsiz,
-                         ...);
+                         ...) __NONNULL((1, 2, 3));
 
 /*!
  @brief          HMAC data from an file.
@@ -73,7 +73,7 @@ extern int a_hmac_filehandle(const a_hash_t *ctx,
                              size_t keysiz,
                              FILE *in,
                              void *out,
-                             size_t *siz);
+                             size_t *siz) __NONNULL((1, 4, 5, 6));
 
 /*!
  @brief          HMAC data from an open file handle.
@@ -91,7 +91,7 @@ extern int a_hmac_file(const a_hash_t *ctx,
                        size_t keysiz,
                        const char *fname,
                        void *out,
-                       size_t *siz);
+                       size_t *siz) __NONNULL((1, 4, 5, 6));
 
 __END_DECLS
 

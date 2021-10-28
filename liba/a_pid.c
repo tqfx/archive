@@ -36,12 +36,12 @@
 */
 
 #ifndef A_LIMIT
-#define A_LIMIT(x, min, max) \
-    ((min) < (x)             \
-         ? ((x) < (max)      \
-                ? (x)        \
-                : (max))     \
-         : (min))
+#define A_LIMIT(_x, _min, _max) \
+    ((_min) < (_x)              \
+         ? ((_x) < (_max)       \
+                ? (_x)          \
+                : (_max))       \
+         : (_min))
 #endif /* A_LIMIT */
 
 /*!
@@ -49,94 +49,94 @@
 */
 
 #undef __A_PID_INIT
-#define __A_PID_INIT(def, type, func)                \
-    void func(def##_t *ctx,                          \
-              a_pid_mode_t mode,                     \
-              const type kpid[3],                    \
-              type omin,                             \
-              type omax,                             \
-              type omaxi)                            \
-    {                                                \
-        ctx->mode = mode;                            \
-        ctx->kp = kpid[0];                           \
-        ctx->ki = kpid[1];                           \
-        ctx->kd = kpid[2];                           \
-        ctx->omin = omin;                            \
-        ctx->omax = omax;                            \
-                                                     \
-        switch (ctx->mode)                           \
-        {                                            \
-        case A_PID_POS:                              \
-        {                                            \
-            ctx->omaxi = omaxi;                      \
-            if (ctx->omaxi < 0)                      \
-            {                                        \
-                ctx->omaxi = -ctx->omaxi;            \
-            }                                        \
-                                                     \
-            ctx->a[0] = ctx->kp + ctx->kd;           \
-            ctx->a[1] = -ctx->kd;                    \
-            ctx->a[2] = ctx->ki;                     \
-        }                                            \
-        break;                                       \
-                                                     \
-        case A_PID_INC:                              \
-        {                                            \
-            ctx->omaxi = 0;                          \
-                                                     \
-            ctx->a[0] = ctx->kp + ctx->ki + ctx->kd; \
-            ctx->a[1] = -ctx->kp - 2 * ctx->kd;      \
-            ctx->a[2] = ctx->kd;                     \
-        }                                            \
-        break;                                       \
-                                                     \
-        default:                                     \
-            break;                                   \
-        }                                            \
+#define __A_PID_INIT(_def, _type, _func)                 \
+    void _func(_def##_t *_ctx,                           \
+               a_pid_mode_t _mode,                       \
+               const _type _kpid[3],                     \
+               _type _omin,                              \
+               _type _omax,                              \
+               _type _omaxi)                             \
+    {                                                    \
+        _ctx->mode = _mode;                              \
+        _ctx->kp = _kpid[0];                             \
+        _ctx->ki = _kpid[1];                             \
+        _ctx->kd = _kpid[2];                             \
+        _ctx->omin = _omin;                              \
+        _ctx->omax = _omax;                              \
+                                                         \
+        switch (_ctx->mode)                              \
+        {                                                \
+        case A_PID_POS:                                  \
+        {                                                \
+            _ctx->omaxi = _omaxi;                        \
+            if (_ctx->omaxi < 0)                         \
+            {                                            \
+                _ctx->omaxi = -_ctx->omaxi;              \
+            }                                            \
+                                                         \
+            _ctx->a[0] = _ctx->kp + _ctx->kd;            \
+            _ctx->a[1] = -_ctx->kd;                      \
+            _ctx->a[2] = _ctx->ki;                       \
+        }                                                \
+        break;                                           \
+                                                         \
+        case A_PID_INC:                                  \
+        {                                                \
+            _ctx->omaxi = 0;                             \
+                                                         \
+            _ctx->a[0] = _ctx->kp + _ctx->ki + _ctx->kd; \
+            _ctx->a[1] = -_ctx->kp - 2 * _ctx->kd;       \
+            _ctx->a[2] = _ctx->kd;                       \
+        }                                                \
+        break;                                           \
+                                                         \
+        default:                                         \
+            break;                                       \
+        }                                                \
     }
 __A_PID_INIT(a_pid, double, a_pid_init)
 __A_PID_INIT(a_pidf, float, a_pidf_init)
 #undef __A_PID_INIT
 
 #undef __A_PID_PROCESS
-#define __A_PID_PROCESS(def, type, func)                                \
-    type func(def##_t *ctx, type ref, type set)                         \
+#define __A_PID_PROCESS(_def, _type, _func)                             \
+    _type _func(_def##_t *_ctx, _type _ref, _type _set)                 \
     {                                                                   \
-        type out = 0;                                                   \
-        type in = set - ref;                                            \
+        _type out = 0;                                                  \
+        _type in = _set - _ref;                                         \
                                                                         \
-        switch (ctx->mode)                                              \
+        switch (_ctx->mode)                                             \
         {                                                               \
         case A_PID_POS:                                                 \
         {                                                               \
             /* When the limit of integration is exceeded and */         \
             /* the direction of integration is the same,     */         \
             /* the integration stops                         */         \
-            if ((-ctx->omaxi < ctx->y && ctx->y < ctx->omaxi) ||        \
-                ctx->y * in < 0)                                        \
+            if ((-_ctx->omaxi < _ctx->y && _ctx->y < _ctx->omaxi) ||    \
+                _ctx->y * in < 0)                                       \
             {                                                           \
                 /* y = a[2] * (\sum in) */                              \
-                ctx->y += ctx->a[2] * in;                               \
+                _ctx->y += _ctx->a[2] * in;                             \
             }                                                           \
                                                                         \
             /* out = a[0] * in + a[1] * x[0] + y */                     \
-            out = ctx->a[0] * in;                                       \
-            out += ctx->a[1] * ctx->x[0];                               \
-            out += ctx->y;                                              \
+            out = _ctx->a[0] * in;                                      \
+            out += _ctx->a[1] * _ctx->x[0];                             \
+            out += _ctx->y;                                             \
                                                                         \
-            out = A_LIMIT(out, ctx->omin, ctx->omax);                   \
+            out = A_LIMIT(out, _ctx->omin, _ctx->omax);                 \
         }                                                               \
         break;                                                          \
                                                                         \
         case A_PID_INC:                                                 \
         {                                                               \
             /* y[n] = y[n-1] + a[0] * in + a[1] * x[0] + a[2] * x[1] */ \
-            ctx->y += ctx->a[0] * in;                                   \
-            ctx->y += ctx->a[1] * ctx->x[0];                            \
-            ctx->y += ctx->a[2] * ctx->x[1];                            \
+            _ctx->y += _ctx->a[0] * in;                                 \
+            _ctx->y += _ctx->a[1] * _ctx->x[0];                         \
+            _ctx->y += _ctx->a[2] * _ctx->x[1];                         \
                                                                         \
-            ctx->y = A_LIMIT(ctx->y, ctx->omin, ctx->omax);             \
-            out = ctx->y;                                               \
+            _ctx->y = A_LIMIT(_ctx->y, _ctx->omin, _ctx->omax);         \
+            out = _ctx->y;                                              \
         }                                                               \
         break;                                                          \
                                                                         \
@@ -144,8 +144,8 @@ __A_PID_INIT(a_pidf, float, a_pidf_init)
             break;                                                      \
         }                                                               \
                                                                         \
-        ctx->x[1] = ctx->x[0];                                          \
-        ctx->x[0] = in;                                                 \
+        _ctx->x[1] = _ctx->x[0];                                        \
+        _ctx->x[0] = in;                                                \
                                                                         \
         return out;                                                     \
     }

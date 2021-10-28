@@ -25,7 +25,11 @@ __BEGIN_DECLS
  @return         the execution state of the function.
   @retval        0 success
 */
-extern int a_hash_memory(const a_hash_t *ctx, const void *p, size_t n, void *out, size_t *siz);
+extern int a_hash_memory(const a_hash_t *ctx,
+                         const void *p,
+                         size_t n,
+                         void *out,
+                         size_t *siz) __NONNULL((1, 4, 5));
 
 /*!
  @brief          Hash multiple (non-adjacent) blocks of memory at once.
@@ -38,7 +42,12 @@ extern int a_hash_memory(const a_hash_t *ctx, const void *p, size_t n, void *out
  @return         the execution state of the function.
   @retval        0 success
 */
-extern int a_hash_mmulti(const a_hash_t *ctx, void *out, size_t *siz, const void *p, size_t n, ...);
+extern int a_hash_mmulti(const a_hash_t *ctx,
+                         void *out,
+                         size_t *siz,
+                         const void *p,
+                         size_t n,
+                         ...) __NONNULL((1, 2, 3));
 
 /*!
  @brief          Hash data from an open file handle.
@@ -49,7 +58,10 @@ extern int a_hash_mmulti(const a_hash_t *ctx, void *out, size_t *siz, const void
  @return         the execution state of the function.
   @retval        0 success
 */
-extern int a_hash_filehandle(const a_hash_t *ctx, FILE *in, void *out, size_t *siz);
+extern int a_hash_filehandle(const a_hash_t *ctx,
+                             FILE *in,
+                             void *out,
+                             size_t *siz) __NONNULL_ALL;
 
 /*!
  @brief          Hash data from an file.
@@ -60,7 +72,10 @@ extern int a_hash_filehandle(const a_hash_t *ctx, FILE *in, void *out, size_t *s
  @return         the execution state of the function.
   @retval        0 success
 */
-extern int a_hash_file(const a_hash_t *ctx, const char *fname, void *out, size_t *siz);
+extern int a_hash_file(const a_hash_t *ctx,
+                       const char *fname,
+                       void *out,
+                       size_t *siz) __NONNULL_ALL;
 
 __END_DECLS
 

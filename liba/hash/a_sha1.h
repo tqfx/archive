@@ -26,9 +26,9 @@ typedef struct a_sha1_t
 
 __BEGIN_DECLS
 
-extern void a_sha1_init(a_sha1_t *ctx);
-extern int a_sha1_process(a_sha1_t *ctx, const void *p, size_t n);
-extern unsigned char *a_sha1_done(a_sha1_t *ctx, void *out);
+extern void a_sha1_init(a_sha1_t *ctx) __NONNULL_ALL;
+extern int a_sha1_process(a_sha1_t *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_sha1_done(a_sha1_t *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

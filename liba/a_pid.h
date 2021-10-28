@@ -46,37 +46,37 @@ typedef enum a_pid_mode_t
 /*!
  @brief          Instance structure for the floating-point PID Control
 */
-#define __A_PID_T(def, type)                              \
-    typedef struct def##_t                                \
+#define __A_PID_T(_def, _type)                            \
+    typedef struct _def##_t                               \
     {                                                     \
         a_pid_mode_t mode; /* Mode for PID Control     */ \
                                                           \
-        type kp; /* Proportional constant    */           \
-        type ki; /* Integral constant        */           \
-        type kd; /* Derivative constant      */           \
+        _type kp; /* Proportional constant    */          \
+        _type ki; /* Integral constant        */          \
+        _type kd; /* Derivative constant      */          \
                                                           \
-        type omin;  /* Minimum output           */        \
-        type omax;  /* Maximum output           */        \
-        type omaxi; /* Maximum intergral output */        \
+        _type omin;  /* Minimum output           */       \
+        _type omax;  /* Maximum output           */       \
+        _type omaxi; /* Maximum intergral output */       \
                                                           \
-        type a[3]; /* Derived gain             */         \
-                   /* - A_PID_POS              */         \
-                   /*   - a[0] = Kp + Kd       */         \
-                   /*   - a[1] = - Kd          */         \
-                   /*   - a[2] = Ki            */         \
-                   /* - A_PID_INC              */         \
-                   /*   - a[0] = Kp + Ki + Kd  */         \
-                   /*   - a[1] = -Kp - 2 * Kd  */         \
-                   /*   - a[2] = Kd            */         \
+        _type a[3]; /* Derived gain             */        \
+                    /* - A_PID_POS              */        \
+                    /*   - a[0] = Kp + Kd       */        \
+                    /*   - a[1] = - Kd          */        \
+                    /*   - a[2] = Ki            */        \
+                    /* - A_PID_INC              */        \
+                    /*   - a[0] = Kp + Ki + Kd  */        \
+                    /*   - a[1] = -Kp - 2 * Kd  */        \
+                    /*   - a[2] = Kd            */        \
                                                           \
-        type x[2]; /* State array                  */     \
-                   /* - x[0] (The last error)      */     \
-                   /* - x[1] (The last last error) */     \
+        _type x[2]; /* State array                  */    \
+                    /* - x[0] (The last error)      */    \
+                    /* - x[1] (The last last error) */    \
                                                           \
-        type y; /* Cache variable              */         \
-                /* - A_PID_POS integral output */         \
-                /* - A_PID_INC all output      */         \
-    } def##_t
+        _type y; /* Cache variable              */        \
+                 /* - A_PID_POS integral output */        \
+                 /* - A_PID_INC all output      */        \
+    } _def##_t
 __A_PID_T(a_pid, double);
 __A_PID_T(a_pidf, float);
 #undef __A_PID_T
@@ -97,8 +97,18 @@ __BEGIN_DECLS
  @param[in]      omax: Maximum output
  @param[in]      omaxi: Maximum intergral output
 */
-extern void a_pid_init(a_pid_t *ctx, a_pid_mode_t mode, const double kpid[3], double omin, double omax, double omaxi);
-extern void a_pidf_init(a_pidf_t *ctx, a_pid_mode_t mode, const float kpid[3], float omin, float omax, float omaxi);
+extern void a_pid_init(a_pid_t *ctx,
+                       a_pid_mode_t mode,
+                       const double kpid[3],
+                       double omin,
+                       double omax,
+                       double omaxi) __NONNULL((1, 3));
+extern void a_pidf_init(a_pidf_t *ctx,
+                        a_pid_mode_t mode,
+                        const float kpid[3],
+                        float omin,
+                        float omax,
+                        float omaxi) __NONNULL((1, 3));
 
 /*!
  @brief          Process function for the floating-point PID Control
@@ -107,8 +117,8 @@ extern void a_pidf_init(a_pidf_t *ctx, a_pid_mode_t mode, const float kpid[3], f
  @param[in]      set: set point
  @return         Output
 */
-extern double a_pid_process(a_pid_t *ctx, double ref, double set);
-extern float a_pidf_process(a_pidf_t *ctx, float ref, float set);
+extern double a_pid_process(a_pid_t *ctx, double ref, double set) __NONNULL((1));
+extern float a_pidf_process(a_pidf_t *ctx, float ref, float set) __NONNULL((1));
 
 __END_DECLS
 
@@ -116,11 +126,12 @@ __END_DECLS
 /*!
  @brief          Reset function for the floating-point PID Control
 */
-#define __A_PID_RESET(def, func)            \
-    __STATIC_INLINE                         \
-    void func(def##_t *ctx)                 \
-    {                                       \
-        ctx->x[0] = ctx->x[1] = ctx->y = 0; \
+#define __A_PID_RESET(_def, _func)             \
+    __NONNULL_ALL                              \
+    __STATIC_INLINE                            \
+    void _func(_def##_t *_ctx)                 \
+    {                                          \
+        _ctx->x[0] = _ctx->x[1] = _ctx->y = 0; \
     }
 __A_PID_RESET(a_pid, a_pid_reset)
 __A_PID_RESET(a_pidf, a_pidf_reset)
@@ -130,11 +141,16 @@ __A_PID_RESET(a_pidf, a_pidf_reset)
 /*!
  @brief          Initialize function for the floating-point position PID Control
 */
-#define __A_PID_POS(def, type, init, func)                                        \
-    __STATIC_INLINE                                                               \
-    void func(def##_t *ctx, const type kpid[3], type omin, type omax, type omaxi) \
-    {                                                                             \
-        init(ctx, A_PID_POS, kpid, omin, omax, omaxi);                            \
+#define __A_PID_POS(_def, _type, _init, _func)               \
+    __STATIC_INLINE                                          \
+    __NONNULL((1, 2))                                        \
+    void _func(_def##_t *_ctx,                               \
+               const _type _kpid[3],                         \
+               _type _omin,                                  \
+               _type _omax,                                  \
+               _type _omaxi)                                 \
+    {                                                        \
+        _init(_ctx, A_PID_POS, _kpid, _omin, _omax, _omaxi); \
     }
 __A_PID_POS(a_pid, double, a_pid_init, a_pid_pos)
 __A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
@@ -144,11 +160,15 @@ __A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
 /*!
  @brief          Initialize function for the floating-point incremental PID Control
 */
-#define __A_PID_INC(def, type, init, func)                            \
-    __STATIC_INLINE                                                   \
-    void func(def##_t *ctx, const type kpid[3], type omin, type omax) \
-    {                                                                 \
-        init(ctx, A_PID_INC, kpid, omin, omax, 0);                    \
+#define __A_PID_INC(_def, _type, _init, _func)          \
+    __STATIC_INLINE                                     \
+    __NONNULL((1, 2))                                   \
+    void _func(_def##_t *_ctx,                          \
+               const _type _kpid[3],                    \
+               _type _omin,                             \
+               _type _omax)                             \
+    {                                                   \
+        _init(_ctx, A_PID_INC, _kpid, _omin, _omax, 0); \
     }
 __A_PID_INC(a_pid, double, a_pid_init, a_pid_inc)
 __A_PID_INC(a_pidf, float, a_pidf_init, a_pidf_inc)

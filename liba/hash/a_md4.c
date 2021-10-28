@@ -7,6 +7,7 @@
 */
 
 #include "a_md4.h"
+
 #include "a_hash.h"
 
 #undef F
@@ -18,9 +19,9 @@
 #undef HH
 #undef II
 
-static void a_md4_compress(a_md4_t *ctx, const unsigned char *buf)
+static void a_md4_compress(a_md4_t *_ctx, const unsigned char *_buf)
 {
-    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
+    uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
 
     /* (unsigned char *) -> (uint32_t *) */
     union
@@ -28,37 +29,37 @@ static void a_md4_compress(a_md4_t *ctx, const unsigned char *buf)
         uint32_t *w;
         unsigned char *buf;
     } up[1];
-    up->buf = ctx->buf;
-    if (ctx->buf != buf)
+    up->buf = _ctx->buf;
+    if (_ctx->buf != _buf)
     {
         /* copy the state into 512-bits into w[0..15] */
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->w[i], buf + sizeof(*ctx->state) * i);
+            LOAD32L(up->w[i], _buf + sizeof(*_ctx->state) * i);
         }
     }
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
     {
-        s[i] = ctx->state[i];
+        s[i] = _ctx->state[i];
     }
 
     /* compress */
 
-#define F(x, y, z) (z ^ (x & (y ^ z)))
-#define G(x, y, z) ((x & y) | (z & (x | y)))
-#define H(x, y, z) ((x) ^ (y) ^ (z))
+#define F(_x, _y, _z) (_z ^ (_x & (_y ^ _z)))
+#define G(_x, _y, _z) ((_x & _y) | (_z & (_x | _y)))
+#define H(_x, _y, _z) ((_x) ^ (_y) ^ (_z))
 
-#define FF(a, b, c, d, x, s)       \
-    (a) += F((b), (c), (d)) + (x); \
-    (a) = ROLc((a), (s));
-#define GG(a, b, c, d, x, s)                    \
-    (a) += G((b), (c), (d)) + (x) + 0x5A827999; \
-    (a) = ROLc((a), (s));
-#define HH(a, b, c, d, x, s)                    \
-    (a) += H((b), (c), (d)) + (x) + 0x6ED9EBA1; \
-    (a) = ROLc((a), (s));
+#define FF(_a, _b, _c, _d, _x, _s)      \
+    (_a) += F((_b), (_c), (_d)) + (_x); \
+    (_a) = ROLc((_a), (_s));
+#define GG(_a, _b, _c, _d, _x, _s)                   \
+    (_a) += G((_b), (_c), (_d)) + (_x) + 0x5A827999; \
+    (_a) = ROLc((_a), (_s));
+#define HH(_a, _b, _c, _d, _x, _s)                   \
+    (_a) += H((_b), (_c), (_d)) + (_x) + 0x6ED9EBA1; \
+    (_a) = ROLc((_a), (_s));
 
     /* Round 1 */
     FF(s[0], s[1], s[2], s[3], up->w[0x0], 0x03);
@@ -113,9 +114,9 @@ static void a_md4_compress(a_md4_t *ctx, const unsigned char *buf)
     HH(s[1], s[2], s[3], s[0], up->w[0xF], 0x0F);
 
     /* feedback */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
     {
-        ctx->state[i] += s[i];
+        _ctx->state[i] += s[i];
     }
 }
 
@@ -128,16 +129,17 @@ static void a_md4_compress(a_md4_t *ctx, const unsigned char *buf)
 #undef H
 #undef I
 
-void a_md4_init(a_md4_t *ctx)
+void a_md4_init(a_md4_t *_ctx)
 {
-    /* assert(ctx) */
-    ctx->cursiz = 0;
-    ctx->length = 0;
+    a_assert(_ctx);
 
-    ctx->state[0] = 0x67452301;
-    ctx->state[1] = 0xEFCDAB89;
-    ctx->state[2] = 0x98BADCFE;
-    ctx->state[3] = 0x10325476;
+    _ctx->cursiz = 0;
+    _ctx->length = 0;
+
+    _ctx->state[0] = 0x67452301;
+    _ctx->state[1] = 0xEFCDAB89;
+    _ctx->state[2] = 0x98BADCFE;
+    _ctx->state[3] = 0x10325476;
 }
 
 __A_HASH_PROCESS(a_md4_t, a_md4_process, a_md4_compress)

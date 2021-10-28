@@ -9,11 +9,11 @@
 
 #include <ctype.h>
 
-int a_xdigit(int x)
+int a_xdigit(int _x)
 {
     int ret = -1;
 
-    switch (x)
+    switch (_x)
     {
     case '0':
     case '1':
@@ -27,7 +27,7 @@ int a_xdigit(int x)
     case '9':
     {
         /* 0 ~ 9 */
-        ret = x - '0';
+        ret = _x - '0';
     }
     break;
 
@@ -39,7 +39,7 @@ int a_xdigit(int x)
     case 'f':
     {
         /* a ~ f */
-        ret = x - 'a' + 10;
+        ret = _x - 'a' + 10;
     }
     break;
 
@@ -51,7 +51,7 @@ int a_xdigit(int x)
     case 'F':
     {
         /* A ~ F */
-        ret = x - 'A' + 10;
+        ret = _x - 'A' + 10;
     }
     break;
 
@@ -62,9 +62,30 @@ int a_xdigit(int x)
     return ret;
 }
 
-void *a_digest(const void *p, size_t n, unsigned int x, void *out)
+#undef __A_TO
+#define __A_TO(_func, _tofunc)                       \
+    void *_func(const void *_p, size_t _n, void *_o) \
+    {                                                \
+        a_assert(!_n || _p);                         \
+        const char *p = (const char *)_p;            \
+        if (_o || (_o = a_alloc(_n + 1), _o))        \
+        {                                            \
+            char *o = (char *)_o;                    \
+            _p = (const void *)(p + _n);             \
+            while (p != _p)                          \
+            {                                        \
+                *o++ = (char)_tofunc(*p++);          \
+            }                                        \
+            *o = 0;                                  \
+        }                                            \
+        return _o;                                   \
+    }
+__A_TO(a_lower, tolower)
+__A_TO(a_upper, toupper)
+#undef __A_TO
+
+void *a_digest(const void *_p, size_t _n, unsigned int _x, void *_o)
 {
-    /* assert(!n || p) */
     static const char hexits[2][0x10] = {
         /* clang-format off */
         {
@@ -78,70 +99,34 @@ void *a_digest(const void *p, size_t n, unsigned int x, void *out)
         /* clang-format on */
     };
 
-    const char *hexit = hexits[x % 2];
-    const unsigned char *s = (const unsigned char *)p;
-    if (out || (out = a_alloc((n << 1) + 1), out))
+    a_assert(!_n || _p);
+
+    const char *hexit = hexits[_x % 2];
+    const unsigned char *p = (const unsigned char *)_p;
+    if (_o || (_o = a_alloc((_n << 1) + 1), _o))
     {
-        char *o = (char *)out;
-        p = (const void *)(s + n);
-        while (s != p)
+        char *o = (char *)_o;
+        _p = (const void *)(p + _n);
+        while (p != _p)
         {
-            *o++ = hexit[*s >> 0x4];
-            *o++ = hexit[*s & 0x0F];
-            ++s;
+            *o++ = hexit[*p >> 0x4];
+            *o++ = hexit[*p & 0x0F];
+            ++p;
         }
         *o = 0;
     }
 
-    return out;
+    return _o;
 }
 
-void *a_digest_lower(const void *p, size_t n, void *out)
+void *a_digest_lower(const void *_p, size_t _n, void *_o)
 {
-    return a_digest(p, n, A_DIGEST_LOWER, out);
+    return a_digest(_p, _n, A_DIGEST_LOWER, _o);
 }
 
-void *a_digest_upper(const void *p, size_t n, void *out)
+void *a_digest_upper(const void *_p, size_t _n, void *_o)
 {
-    return a_digest(p, n, A_DIGEST_UPPER, out);
-}
-
-void *a_lower(const void *p, size_t n, void *out)
-{
-    /* assert(!n || p) */
-
-    const char *s = (const char *)p;
-    if (out || (out = a_alloc(n + 1), out))
-    {
-        char *o = (char *)out;
-        p = (const void *)(s + n);
-        while (s != p)
-        {
-            *o++ = (char)tolower(*s++);
-        }
-        *o = 0;
-    }
-
-    return out;
-}
-
-void *a_upper(const void *p, size_t n, void *out)
-{
-    /* assert(!n || p) */
-
-    const char *s = (const char *)p;
-    if (out || (out = a_alloc(n + 1), out))
-    {
-        char *o = (char *)out;
-        p = (const void *)(s + n);
-        while (s != p)
-        {
-            *o++ = (char)toupper(*s++);
-        }
-        *o = 0;
-    }
-
-    return out;
+    return a_digest(_p, _n, A_DIGEST_UPPER, _o);
 }
 
 /* END OF FILE */

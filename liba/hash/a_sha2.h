@@ -60,37 +60,37 @@ typedef struct a_sha512_t
 
 __BEGIN_DECLS
 
-extern void a_sha256_init(a_sha256_t *ctx);
-extern int a_sha256_process(a_sha256_t *ctx, const void *p, size_t n);
-extern unsigned char *a_sha256_done(a_sha256_t *ctx, void *out);
+extern void a_sha256_init(a_sha256_t *ctx) __NONNULL_ALL;
+extern int a_sha256_process(a_sha256_t *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_sha256_done(a_sha256_t *ctx, void *out) __NONNULL((1));
 
-extern void a_sha224_init(a_sha256_t *ctx);
+extern void a_sha224_init(a_sha256_t *ctx) __NONNULL_ALL;
 #ifndef a_sha224_process
-#define a_sha224_process(ctx, p, n) a_sha256_process(ctx, p, n)
+#define a_sha224_process(_ctx, _p, _n) a_sha256_process(_ctx, _p, _n)
 #endif /* a_sha224_process */
-extern unsigned char *a_sha224_done(a_sha256_t *ctx, void *out);
+extern unsigned char *a_sha224_done(a_sha256_t *ctx, void *out) __NONNULL((1));
 
-extern void a_sha512_init(a_sha512_t *ctx);
-extern int a_sha512_process(a_sha512_t *ctx, const void *p, size_t n);
-extern unsigned char *a_sha512_done(a_sha512_t *ctx, void *out);
+extern void a_sha512_init(a_sha512_t *ctx) __NONNULL_ALL;
+extern int a_sha512_process(a_sha512_t *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_sha512_done(a_sha512_t *ctx, void *out) __NONNULL((1));
 
-extern void a_sha384_init(a_sha512_t *ctx);
+extern void a_sha384_init(a_sha512_t *ctx) __NONNULL_ALL;
 #ifndef a_sha384_process
-#define a_sha384_process(ctx, p, n) a_sha512_process(ctx, p, n)
+#define a_sha384_process(_ctx, _p, _n) a_sha512_process(_ctx, _p, _n)
 #endif /* a_sha384_process */
-extern unsigned char *a_sha384_done(a_sha512_t *ctx, void *out);
+extern unsigned char *a_sha384_done(a_sha512_t *ctx, void *out) __NONNULL((1));
 
-extern void a_sha512_224_init(a_sha512_t *ctx);
+extern void a_sha512_224_init(a_sha512_t *ctx) __NONNULL_ALL;
 #ifndef a_sha512_224_process
-#define a_sha512_224_process(ctx, p, n) a_sha512_process(ctx, p, n)
+#define a_sha512_224_process(_ctx, _p, _n) a_sha512_process(_ctx, _p, _n)
 #endif /* a_sha512_224_process */
-extern unsigned char *a_sha512_224_done(a_sha512_t *ctx, void *out);
+extern unsigned char *a_sha512_224_done(a_sha512_t *ctx, void *out) __NONNULL((1));
 
-extern void a_sha512_256_init(a_sha512_t *ctx);
+extern void a_sha512_256_init(a_sha512_t *ctx) __NONNULL_ALL;
 #ifndef a_sha512_256_process
-#define a_sha512_256_process(ctx, p, n) a_sha512_process(ctx, p, n)
+#define a_sha512_256_process(_ctx, _p, _n) a_sha512_process(_ctx, _p, _n)
 #endif /* a_sha512_256_process */
-extern unsigned char *a_sha512_256_done(a_sha512_t *ctx, void *out);
+extern unsigned char *a_sha512_256_done(a_sha512_t *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

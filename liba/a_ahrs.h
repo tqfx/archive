@@ -24,7 +24,11 @@ __BEGIN_DECLS
  @param[in]    m: x,y,z axis of magnetometer
  @param[in]    ht: half of sampling period, unit /s
 */
-extern void a_ahrs_mahony(float q[4], float g[3], float a[3], float m[3], float ht);
+extern void a_ahrs_mahony(float q[4],
+                          float g[3],
+                          float a[3],
+                          float m[3],
+                          float ht) __NONNULL((1, 2, 3, 4));
 
 /*!
  @brief        Mehony AHRS attitude calculation without magnetometer
@@ -33,7 +37,10 @@ extern void a_ahrs_mahony(float q[4], float g[3], float a[3], float m[3], float 
  @param[in]    a: x,y,z axis of accelerometer
  @param[in]    ht: half of sampling period, unit /s
 */
-extern void a_ahrs_mahony_imu(float q[4], float g[3], float a[3], float ht);
+extern void a_ahrs_mahony_imu(float q[4],
+                              float g[3],
+                              float a[3],
+                              float ht) __NONNULL((1, 2, 3));
 
 /*!
  @brief        Madgwick AHRS attitude calculation with magnetometer
@@ -43,7 +50,11 @@ extern void a_ahrs_mahony_imu(float q[4], float g[3], float a[3], float ht);
  @param[in]    m: x,y,z axis of magnetometer
  @param[in]    t: sampling period, unit /s
 */
-extern void a_ahrs_madgwick(float q[4], float g[3], float a[3], float m[3], float t);
+extern void a_ahrs_madgwick(float q[4],
+                            float g[3],
+                            float a[3],
+                            float m[3],
+                            float t) __NONNULL((1, 2, 3, 4));
 
 /*!
  @brief        Madgwick AHRS attitude calculation without magnetometer
@@ -52,7 +63,10 @@ extern void a_ahrs_madgwick(float q[4], float g[3], float a[3], float m[3], floa
  @param[in]    a: x,y,z axis of accelerometer
  @param[in]    t: sampling period, unit /s
 */
-extern void a_ahrs_madgwick_imu(float q[4], float g[3], float a[3], float t);
+extern void a_ahrs_madgwick_imu(float q[4],
+                                float g[3],
+                                float a[3],
+                                float t) __NONNULL((1, 2, 3));
 
 __END_DECLS
 

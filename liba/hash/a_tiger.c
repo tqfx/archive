@@ -7,6 +7,7 @@
 */
 
 #include "a_tiger.h"
+
 #include "a_hash.h"
 
 static const uint64_t table[0x400] = {
@@ -276,33 +277,33 @@ static const uint64_t table[0x400] = {
 #undef t4
 
 /* one round of the hash function */
-static __INLINE void tiger_round(uint64_t *a, uint64_t *b, uint64_t *c, uint64_t x, unsigned int mul)
+static __INLINE void tiger_round(uint64_t *_a, uint64_t *_b, uint64_t *_c, uint64_t _x, unsigned int _mul)
 {
 #define t1 (table + 0x000)
 #define t2 (table + 0x100)
 #define t3 (table + 0x200)
 #define t4 (table + 0x300)
 
-    uint64_t t = (*c ^= x);
-    *a -= t1[A_BYTE(t, 0)] ^ t2[A_BYTE(t, 2)] ^ t3[A_BYTE(t, 4)] ^ t4[A_BYTE(t, 6)];
-    t = (*b += t4[A_BYTE(t, 1)] ^ t3[A_BYTE(t, 3)] ^ t2[A_BYTE(t, 5)] ^ t1[A_BYTE(t, 7)]);
-    switch (mul)
+    uint64_t t = (*_c ^= _x);
+    *_a -= t1[A_BYTE(t, 0)] ^ t2[A_BYTE(t, 2)] ^ t3[A_BYTE(t, 4)] ^ t4[A_BYTE(t, 6)];
+    t = (*_b += t4[A_BYTE(t, 1)] ^ t3[A_BYTE(t, 3)] ^ t2[A_BYTE(t, 5)] ^ t1[A_BYTE(t, 7)]);
+    switch (_mul)
     {
     case 5:
     {
-        *b = (t << 2) + t;
+        *_b = (t << 2) + t;
     }
     break;
 
     case 7:
     {
-        *b = (t << 3) - t;
+        *_b = (t << 3) - t;
     }
     break;
 
     case 9:
     {
-        *b = (t << 3) + t;
+        *_b = (t << 3) + t;
     }
     break;
 
@@ -317,42 +318,42 @@ static __INLINE void tiger_round(uint64_t *a, uint64_t *b, uint64_t *c, uint64_t
 #undef t4
 
 /* one complete pass */
-static void a_pass(uint64_t *a, uint64_t *b, uint64_t *c, const uint64_t *x, unsigned int mul)
+static void a_pass(uint64_t *_a, uint64_t *_b, uint64_t *_c, const uint64_t *_x, unsigned int _mul)
 {
-    tiger_round(a, b, c, x[0], mul);
-    tiger_round(b, c, a, x[1], mul);
-    tiger_round(c, a, b, x[2], mul);
-    tiger_round(a, b, c, x[3], mul);
-    tiger_round(b, c, a, x[4], mul);
-    tiger_round(c, a, b, x[5], mul);
-    tiger_round(a, b, c, x[6], mul);
-    tiger_round(b, c, a, x[7], mul);
+    tiger_round(_a, _b, _c, _x[0], _mul);
+    tiger_round(_b, _c, _a, _x[1], _mul);
+    tiger_round(_c, _a, _b, _x[2], _mul);
+    tiger_round(_a, _b, _c, _x[3], _mul);
+    tiger_round(_b, _c, _a, _x[4], _mul);
+    tiger_round(_c, _a, _b, _x[5], _mul);
+    tiger_round(_a, _b, _c, _x[6], _mul);
+    tiger_round(_b, _c, _a, _x[7], _mul);
 }
 
 /* the key mixing schedule */
-static void a_key_schedule(uint64_t *x)
+static void a_key_schedule(uint64_t *_x)
 {
-    x[0] -= x[7] ^ 0xA5A5A5A5A5A5A5A5;
-    x[1] ^= x[0];
-    x[2] += x[1];
-    x[3] -= x[2] ^ ((~x[1]) << 19);
-    x[4] ^= x[3];
-    x[5] += x[4];
-    x[6] -= x[5] ^ ((~x[4]) >> 23);
-    x[7] ^= x[6];
-    x[0] += x[7];
-    x[1] -= x[0] ^ ((~x[7]) << 19);
-    x[2] ^= x[1];
-    x[3] += x[2];
-    x[4] -= x[3] ^ ((~x[2]) >> 23);
-    x[5] ^= x[4];
-    x[6] += x[5];
-    x[7] -= x[6] ^ 0x0123456789ABCDEF;
+    _x[0] -= _x[7] ^ 0xA5A5A5A5A5A5A5A5;
+    _x[1] ^= _x[0];
+    _x[2] += _x[1];
+    _x[3] -= _x[2] ^ ((~_x[1]) << 19);
+    _x[4] ^= _x[3];
+    _x[5] += _x[4];
+    _x[6] -= _x[5] ^ ((~_x[4]) >> 23);
+    _x[7] ^= _x[6];
+    _x[0] += _x[7];
+    _x[1] -= _x[0] ^ ((~_x[7]) << 19);
+    _x[2] ^= _x[1];
+    _x[3] += _x[2];
+    _x[4] -= _x[3] ^ ((~_x[2]) >> 23);
+    _x[5] ^= _x[4];
+    _x[6] += _x[5];
+    _x[7] -= _x[6] ^ 0x0123456789ABCDEF;
 }
 
-static void a_tiger_compress(a_tiger_t *ctx, const unsigned char *buf)
+static void a_tiger_compress(a_tiger_t *_ctx, const unsigned char *_buf)
 {
-    uint64_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
+    uint64_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
 
     /* (unsigned char *) -> (uint64_t *) */
     union
@@ -360,20 +361,20 @@ static void a_tiger_compress(a_tiger_t *ctx, const unsigned char *buf)
         uint64_t *x;
         unsigned char *buf;
     } up[1];
-    up->buf = ctx->buf;
-    if (ctx->buf != buf)
+    up->buf = _ctx->buf;
+    if (_ctx->buf != _buf)
     {
         /* load words */
         for (unsigned int i = 0; i != 8; ++i)
         {
-            LOAD64L(up->x[i], buf + sizeof(*ctx->state) * i);
+            LOAD64L(up->x[i], _buf + sizeof(*_ctx->state) * i);
         }
     }
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
     {
-        s[i] = ctx->state[i];
+        s[i] = _ctx->state[i];
     }
 
     /* compress */
@@ -384,20 +385,21 @@ static void a_tiger_compress(a_tiger_t *ctx, const unsigned char *buf)
     a_pass(s + 1, s + 2, s + 0, up->x, 9);
 
     /* feedback */
-    ctx->state[0] = s[0] ^ ctx->state[0];
-    ctx->state[1] = s[1] - ctx->state[1];
-    ctx->state[2] = s[2] + ctx->state[2];
+    _ctx->state[0] = s[0] ^ _ctx->state[0];
+    _ctx->state[1] = s[1] - _ctx->state[1];
+    _ctx->state[2] = s[2] + _ctx->state[2];
 }
 
-void a_tiger_init(a_tiger_t *ctx)
+void a_tiger_init(a_tiger_t *_ctx)
 {
-    /* assert(ctx) */
-    ctx->cursiz = 0;
-    ctx->length = 0;
+    a_assert(_ctx);
 
-    ctx->state[0] = 0x0123456789ABCDEF;
-    ctx->state[1] = 0xFEDCBA9876543210;
-    ctx->state[2] = 0xF096A5B4C3B2E187;
+    _ctx->cursiz = 0;
+    _ctx->length = 0;
+
+    _ctx->state[0] = 0x0123456789ABCDEF;
+    _ctx->state[1] = 0xFEDCBA9876543210;
+    _ctx->state[2] = 0xF096A5B4C3B2E187;
 }
 
 __A_HASH_PROCESS(a_tiger_t, a_tiger_process, a_tiger_compress)

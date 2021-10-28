@@ -15,103 +15,85 @@ static union
     unsigned long u32;
 } b32[1];
 
-float a_inv_sqrt(float x)
+float a_inv_sqrt(float _x)
 {
-    b32->f32 = x;
+    b32->f32 = _x;
 
     if (b32->u32 & 0x80000000)
     {
-        b32->u32 = 0x7FC00000;
-        x = b32->f32;
+        b32->u32 = 0xFFC00000;
+        _x = b32->f32;
     }
     else if (b32->u32 & 0x7FFFFFFF)
     {
-        float xh = 0.5F * x;
+        float xh = 0.5F * _x;
 
         b32->u32 = 0x5F3759DF - (b32->u32 >> 1);
-        x = b32->f32;
+        _x = b32->f32;
 
-        x = x * (1.5F - (xh * x * x));
-        x = x * (1.5F - (xh * x * x));
+        _x = _x * (1.5F - (xh * _x * _x));
+        _x = _x * (1.5F - (xh * _x * _x));
     }
     else
     {
         b32->u32 = 0x7F800000;
-        x = b32->f32;
+        _x = b32->f32;
     }
 
-    return x;
+    return _x;
 }
 
-unsigned long a_sqrt_u32(unsigned long x)
-{
-    unsigned long y = 0;
-
-    for (unsigned int i = 0; i != 32; i += 2)
-    {
-        unsigned long k = 0x40000000UL >> i;
-
-        if (k + y <= x)
-        {
-            x -= k + y;
-            y = (y >> 1) | k;
-        }
-        else
-        {
-            y >>= 1;
-        }
+#undef __A_SQRT_UINT
+#define __A_SQRT_UINT(_bit, _func, _type, _k)       \
+    _type _func(_type _x)                           \
+    {                                               \
+        _type y = 0;                                \
+        for (unsigned int i = 0; i != _bit; i += 2) \
+        {                                           \
+            _type k = _k >> i;                      \
+            if (k + y <= _x)                        \
+            {                                       \
+                _x -= k + y;                        \
+                y = (y >> 1) | k;                   \
+            }                                       \
+            else                                    \
+            {                                       \
+                y >>= 1;                            \
+            }                                       \
+        }                                           \
+        return y;                                   \
     }
+__A_SQRT_UINT(32, a_sqrtul, unsigned long, 0x40000000UL)
+__A_SQRT_UINT(64, a_sqrtull, unsigned long long, 0x4000000000000000ULL)
+#undef __A_SQRT_UINT
 
-    return y;
-}
-
-unsigned long long a_sqrt_u64(unsigned long long x)
+void a_normalizef(float *_p, size_t _n)
 {
-    unsigned long long y = 0;
+    a_assert(!_n || _p);
 
-    for (unsigned int i = 0; i != 64; i += 2)
-    {
-        unsigned long long k = 0x4000000000000000ULL >> i;
-
-        if (k + y <= x)
-        {
-            x -= k + y;
-            y = (y >> 1) | k;
-        }
-        else
-        {
-            y >>= 1;
-        }
-    }
-
-    return y;
-}
-
-void a_normalizef(float *p, size_t n)
-{
     float norm = 0;
-    float *q = p + n;
+    float *q = _p + _n;
 
-    for (float *i = p; i != q; ++i)
+    for (float *p = _p; p != q; ++p)
     {
-        norm += A_SQ(*i);
+        norm += A_SQ(*p);
     }
 
     norm = a_inv_sqrt(norm);
 
-    for (float *i = p; i != q; ++i)
+    for (float *p = _p; p != q; ++p)
     {
-        *i *= norm;
+        *p *= norm;
     }
 }
 
-void a_normalizevf(unsigned int n, ...)
+void a_normalizevf(unsigned int _n, ...)
 {
     va_list ap;
     float norm = 0;
 
-    va_start(ap, n);
-    for (unsigned int i = n; i; --i)
+    va_start(ap, _n);
+    for (unsigned int n = _n; n; --n)
     {
         float *p = va_arg(ap, float *);
         norm += A_SQ(*p);
@@ -120,8 +102,8 @@ void a_normalizevf(unsigned int n, ...)
 
     norm = a_inv_sqrt(norm);
 
-    va_start(ap, n);
-    for (unsigned int i = n; i; --i)
+    va_start(ap, _n);
+    for (unsigned int n = _n; n; --n)
     {
         float *p = va_arg(ap, float *);
         *p *= norm;
@@ -130,25 +112,25 @@ void a_normalizevf(unsigned int n, ...)
 }
 
 #undef __A_RESTRICT_LOOP
-#define __A_RESTRICT_LOOP(func, type)     \
-    type func(type x, type min, type max) \
-    {                                     \
-        type siz = max - min;             \
-        if (x > max)                      \
-        {                                 \
-            do                            \
-            {                             \
-                x -= siz;                 \
-            } while (x > max);            \
-        }                                 \
-        else if (x < min)                 \
-        {                                 \
-            do                            \
-            {                             \
-                x += siz;                 \
-            } while (x < min);            \
-        }                                 \
-        return x;                         \
+#define __A_RESTRICT_LOOP(_func, _type)           \
+    _type _func(_type _x, _type _min, _type _max) \
+    {                                             \
+        _type siz = _max - _min;                  \
+        if (_x > _max)                            \
+        {                                         \
+            do                                    \
+            {                                     \
+                _x -= siz;                        \
+            } while (_x > _max);                  \
+        }                                         \
+        else if (_x < _min)                       \
+        {                                         \
+            do                                    \
+            {                                     \
+                _x += siz;                        \
+            } while (_x < _min);                  \
+        }                                         \
+        return _x;                                \
     }
 __A_RESTRICT_LOOP(a_restrict_loop, double)
 __A_RESTRICT_LOOP(a_restrict_loopf, float)

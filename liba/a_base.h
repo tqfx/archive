@@ -24,18 +24,18 @@ enum
 
 enum
 {
-    A_BASE16_LOWER = 0,
-    A_BASE16_UPPER = 1,
-    A_BASE16_BUFSIZ = 2,
+    A_BASE16_LOWER,
+    A_BASE16_UPPER,
+    A_BASE16_ALL,
 };
 
 enum
 {
-    A_BASE32_RFC4648 = 0,
-    A_BASE32_BASE32HEX = 1,
-    A_BASE32_ZBASE32 = 2,
-    A_BASE32_CROCKFORD = 3,
-    A_BASE32_BUFSIZ = 4,
+    A_BASE32_RFC4648,
+    A_BASE32_BASE32HEX,
+    A_BASE32_ZBASE32,
+    A_BASE32_CROCKFORD,
+    A_BASE32_ALL,
 };
 
 __BEGIN_DECLS
@@ -52,7 +52,7 @@ __BEGIN_DECLS
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base16_encode(const void *p, size_t n, void *out, size_t *siz, unsigned int id);
+extern int a_base16_encode(const void *p, size_t n, void *out, size_t *siz, unsigned int id) __NONNULL((3, 4));
 
 /*!
  @brief          Base16 decode a buffer
@@ -63,7 +63,7 @@ extern int a_base16_encode(const void *p, size_t n, void *out, size_t *siz, unsi
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base16_decode(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base16_decode(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          Base32 encode a buffer
@@ -79,7 +79,7 @@ extern int a_base16_decode(const void *p, size_t n, void *out, size_t *siz);
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base32_encode(const void *p, size_t n, void *out, size_t *siz, unsigned int id);
+extern int a_base32_encode(const void *p, size_t n, void *out, size_t *siz, unsigned int id) __NONNULL((3, 4));
 
 /*!
  @brief          Base32 decode a buffer
@@ -95,7 +95,7 @@ extern int a_base32_encode(const void *p, size_t n, void *out, size_t *siz, unsi
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base32_decode(const void *p, size_t n, void *out, size_t *siz, unsigned int id);
+extern int a_base32_decode(const void *p, size_t n, void *out, size_t *siz, unsigned int id) __NONNULL((3, 4));
 
 /*!
  @brief          base64 Encode a buffer (NUL terminated)
@@ -106,7 +106,7 @@ extern int a_base32_decode(const void *p, size_t n, void *out, size_t *siz, unsi
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64_encode(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64_encode(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          Dangerously relaxed base64 decode a block of memory
@@ -117,7 +117,7 @@ extern int a_base64_encode(const void *p, size_t n, void *out, size_t *siz);
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64_decode(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64_decode(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          Strict base64 decode a block of memory
@@ -128,7 +128,7 @@ extern int a_base64_decode(const void *p, size_t n, void *out, size_t *siz);
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64_decode_strict(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64_decode_strict(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          Sane base64 decode a block of memory
@@ -139,7 +139,7 @@ extern int a_base64_decode_strict(const void *p, size_t n, void *out, size_t *si
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64_decode_sane(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64_decode_sane(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          base64 (URL Safe, RFC 4648 section 5) Encode a buffer (NUL terminated)
@@ -150,7 +150,7 @@ extern int a_base64_decode_sane(const void *p, size_t n, void *out, size_t *siz)
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64url_encode(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64url_encode(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          base64 (URL Safe, RFC 4648 section 5) Encode a buffer (NUL terminated)
@@ -161,7 +161,7 @@ extern int a_base64url_encode(const void *p, size_t n, void *out, size_t *siz);
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64url_encode_strict(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64url_encode_strict(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          Dangerously relaxed base64 (URL Safe, RFC 4648 section 5) decode a block of memory
@@ -172,7 +172,7 @@ extern int a_base64url_encode_strict(const void *p, size_t n, void *out, size_t 
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64url_decode(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64url_decode(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          Strict base64 (URL Safe, RFC 4648 section 5) decode a block of memory
@@ -183,7 +183,7 @@ extern int a_base64url_decode(const void *p, size_t n, void *out, size_t *siz);
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64url_decode_strict(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64url_decode_strict(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 /*!
  @brief          Sane base64 (URL Safe, RFC 4648 section 5) decode a block of memory
@@ -194,7 +194,7 @@ extern int a_base64url_decode_strict(const void *p, size_t n, void *out, size_t 
  @return         the execution state of the function
   @retval        0 success
 */
-extern int a_base64url_decode_sane(const void *p, size_t n, void *out, size_t *siz);
+extern int a_base64url_decode_sane(const void *p, size_t n, void *out, size_t *siz) __NONNULL((3, 4));
 
 __END_DECLS
 

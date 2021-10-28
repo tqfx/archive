@@ -7,6 +7,7 @@
 */
 
 #include "a_whirl.h"
+
 #include "a_hash.h"
 
 static const uint64_t sbox0[0x100] = {
@@ -101,52 +102,52 @@ static const uint64_t cont[] = {
 #undef SB6
 #undef SB7
 
-static void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
+static void a_whirlpool_compress(a_whirlpool_t *_ctx, const unsigned char *_buf)
 {
-    uint64_t k[2][sizeof(ctx->state) / sizeof(*ctx->state)];
-    uint64_t t[3][sizeof(ctx->state) / sizeof(*ctx->state)];
+    uint64_t k[2][sizeof(_ctx->state) / sizeof(*_ctx->state)];
+    uint64_t t[3][sizeof(_ctx->state) / sizeof(*_ctx->state)];
 
     /* load the block/state */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
     {
-        k[0][i] = ctx->state[i];
+        k[0][i] = _ctx->state[i];
 
-        LOAD64H(t[0][i], buf + sizeof(*ctx->state) * i);
+        LOAD64H(t[0][i], _buf + sizeof(*_ctx->state) * i);
         t[2][i] = t[0][i];
         t[0][i] ^= k[0][i];
     }
 
 #undef GB
 /* get a_{i,j} */
-#define GB(a, i, j) ((a[(i)&7] >> ((j) << 3)) & 0xFF)
+#define GB(_a, _i, _j) ((_a[(_i)&7] >> ((_j) << 3)) & 0xFF)
 
-#define SB0(i) sbox0[i]
-#define SB1(i) ROR64c(sbox0[i], 0x08)
-#define SB2(i) ROR64c(sbox0[i], 0x10)
-#define SB3(i) ROR64c(sbox0[i], 0x18)
-#define SB4(i) ROR64c(sbox0[i], 0x20)
-#define SB5(i) ROR64c(sbox0[i], 0x28)
-#define SB6(i) ROR64c(sbox0[i], 0x30)
-#define SB7(i) ROR64c(sbox0[i], 0x38)
+#define SB0(_i) sbox0[_i]
+#define SB1(_i) ROR64c(sbox0[_i], 0x08)
+#define SB2(_i) ROR64c(sbox0[_i], 0x10)
+#define SB3(_i) ROR64c(sbox0[_i], 0x18)
+#define SB4(_i) ROR64c(sbox0[_i], 0x20)
+#define SB5(_i) ROR64c(sbox0[_i], 0x28)
+#define SB6(_i) ROR64c(sbox0[_i], 0x30)
+#define SB7(_i) ROR64c(sbox0[_i], 0x38)
 
 #undef theta_pi_gamma
 /* shortcut macro to perform three functions at once */
-#define theta_pi_gamma(a, i) \
-    (SB0(GB(a, i - 0, 7)) ^  \
-     SB1(GB(a, i - 1, 6)) ^  \
-     SB2(GB(a, i - 2, 5)) ^  \
-     SB3(GB(a, i - 3, 4)) ^  \
-     SB4(GB(a, i - 4, 3)) ^  \
-     SB5(GB(a, i - 5, 2)) ^  \
-     SB6(GB(a, i - 6, 1)) ^  \
-     SB7(GB(a, i - 7, 0)))
+#define theta_pi_gamma(_a, _i) \
+    (SB0(GB(_a, _i - 0, 7)) ^  \
+     SB1(GB(_a, _i - 1, 6)) ^  \
+     SB2(GB(_a, _i - 2, 5)) ^  \
+     SB3(GB(_a, _i - 3, 4)) ^  \
+     SB4(GB(_a, _i - 4, 3)) ^  \
+     SB5(GB(_a, _i - 5, 2)) ^  \
+     SB6(GB(_a, _i - 6, 1)) ^  \
+     SB7(GB(_a, _i - 7, 0)))
 
     /* do rounds 1..10 */
     for (unsigned int i = 0; i != 10; i += 2)
     {
         /* odd round */
         /* apply main transform to k[0] into k[1] */
-        for (unsigned int j = 0; j != sizeof(ctx->state) / sizeof(*ctx->state); ++j)
+        for (unsigned int j = 0; j != sizeof(_ctx->state) / sizeof(*_ctx->state); ++j)
         {
             k[1][j] = theta_pi_gamma(k[0], j);
         }
@@ -154,14 +155,14 @@ static void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
         k[1][0] ^= cont[i];
 
         /* apply main transform to t[0] into t[1] */
-        for (unsigned int j = 0; j != sizeof(ctx->state) / sizeof(*ctx->state); ++j)
+        for (unsigned int j = 0; j != sizeof(_ctx->state) / sizeof(*_ctx->state); ++j)
         {
             t[1][j] = theta_pi_gamma(t[0], j) ^ k[1][j];
         }
 
         /* even round */
         /* apply main transform to k[1] into k[0] */
-        for (unsigned int j = 0; j != sizeof(ctx->state) / sizeof(*ctx->state); ++j)
+        for (unsigned int j = 0; j != sizeof(_ctx->state) / sizeof(*_ctx->state); ++j)
         {
             k[0][j] = theta_pi_gamma(k[1], j);
         }
@@ -169,7 +170,7 @@ static void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
         k[0][0] ^= cont[i + 1];
 
         /* apply main transform to t[1] into t[0] */
-        for (unsigned int j = 0; j != sizeof(ctx->state) / sizeof(*ctx->state); ++j)
+        for (unsigned int j = 0; j != sizeof(_ctx->state) / sizeof(*_ctx->state); ++j)
         {
             t[0][j] = theta_pi_gamma(t[1], j) ^ k[0][j];
         }
@@ -179,9 +180,9 @@ static void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
 #undef theta_pi_gamma
 
     /* store state */
-    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
     {
-        ctx->state[i] ^= t[0][i] ^ t[2][i];
+        _ctx->state[i] ^= t[0][i] ^ t[2][i];
     }
 }
 
@@ -194,10 +195,11 @@ static void a_whirlpool_compress(a_whirlpool_t *ctx, const unsigned char *buf)
 #undef SB6
 #undef SB7
 
-void a_whirlpool_init(a_whirlpool_t *ctx)
+void a_whirlpool_init(a_whirlpool_t *_ctx)
 {
-    /* assert(ctx) */
-    memset(ctx, 0, sizeof(*ctx));
+    a_assert(_ctx);
+
+    memset(_ctx, 0, sizeof(*_ctx));
 }
 
 __A_HASH_PROCESS(a_whirlpool_t, a_whirlpool_process, a_whirlpool_compress)
