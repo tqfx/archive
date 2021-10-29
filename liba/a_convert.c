@@ -66,9 +66,9 @@ int a_xdigit(int _x)
 #define __A_TO(_func, _tofunc)                       \
     void *_func(const void *_p, size_t _n, void *_o) \
     {                                                \
-        a_assert(!_n || _p);                         \
+        aassert(!_n || _p);                          \
         const char *p = (const char *)_p;            \
-        if (_o || (_o = a_alloc(_n + 1), _o))        \
+        if (_o || (_o = amalloc(_n + 1), _o))        \
         {                                            \
             char *o = (char *)_o;                    \
             _p = (const void *)(p + _n);             \
@@ -99,11 +99,11 @@ void *a_digest(const void *_p, size_t _n, unsigned int _x, void *_o)
         /* clang-format on */
     };
 
-    a_assert(!_n || _p);
+    aassert(!_n || _p);
 
     const char *hexit = hexits[_x % 2];
     const unsigned char *p = (const unsigned char *)_p;
-    if (_o || (_o = a_alloc((_n << 1) + 1), _o))
+    if (_o || (_o = amalloc((_n << 1) + 1), _o))
     {
         char *o = (char *)_o;
         _p = (const void *)(p + _n);

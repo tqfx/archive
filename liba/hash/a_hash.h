@@ -178,8 +178,8 @@ __END_DECLS
 #define __A_HASH_PROCESS(_hash, _func, _compress)                    \
     int _func(_hash *_ctx, const void *_p, size_t _n)                \
     {                                                                \
-        a_assert(_ctx);                                              \
-        a_assert(!_n || _p);                                         \
+        aassert(_ctx);                                               \
+        aassert(!_n || _p);                                          \
         if (sizeof(_ctx->buf) < _ctx->cursiz)                        \
         {                                                            \
             return A_HASH_INVALID;                                   \
@@ -221,7 +221,7 @@ __END_DECLS
 #define __A_HASH_DONE(_hash, _func, _compress, _storelen, _storeout, _append, _above, _zero) \
     unsigned char *_func(_hash *_ctx, void *_out)                                            \
     {                                                                                        \
-        a_assert(_ctx);                                                                      \
+        aassert(_ctx);                                                                       \
         if (sizeof(_ctx->buf) - 1 < _ctx->cursiz)                                            \
         {                                                                                    \
             return 0;                                                                        \

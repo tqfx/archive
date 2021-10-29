@@ -69,7 +69,7 @@ __A_SQRT_UINT(64, a_sqrtull, unsigned long long, 0x4000000000000000ULL)
 
 void a_normalizef(float *_p, size_t _n)
 {
-    a_assert(!_n || _p);
+    aassert(!_n || _p);
 
     float norm = 0;
     float *q = _p + _n;

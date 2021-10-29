@@ -12,7 +12,7 @@
     __NONNULL_ALL                                   \
     static __INLINE void _func(a_hash_stat_t *_ctx) \
     {                                               \
-        a_assert(_ctx);                             \
+        aassert(_ctx);                              \
         _init(_ctx->_stat);                         \
     }
 
@@ -90,8 +90,8 @@ __A_HASH_INIT(whirlpool, a_whirlpool_init, a_hash_init_whirlpool)
     __NONNULL((1))                                                            \
     static __INLINE int _func(a_hash_stat_t *_ctx, const void *_p, size_t _n) \
     {                                                                         \
-        a_assert(_ctx);                                                       \
-        a_assert(!_n || _p);                                                  \
+        aassert(_ctx);                                                        \
+        aassert(!_n || _p);                                                   \
         return _process(_ctx->_stat, _p, _n);                                 \
     }
 
@@ -169,7 +169,7 @@ __A_HASH_PROCESS(whirlpool, a_whirlpool_process, a_hash_process_whirlpool)
     __NONNULL((1))                                                        \
     static __INLINE unsigned char *_func(a_hash_stat_t *_ctx, void *_out) \
     {                                                                     \
-        a_assert(_ctx);                                                   \
+        aassert(_ctx);                                                    \
         return _done(_ctx->_stat, _out);                                  \
     }
 

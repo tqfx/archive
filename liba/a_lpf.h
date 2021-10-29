@@ -43,7 +43,7 @@ __A_LPF_T(a_lpff, float);
     __STATIC_INLINE                                \
     void _func(_def##_t *_ctx, _type _k, _type _t) \
     {                                              \
-        a_assert(_ctx);                            \
+        aassert(_ctx);                             \
         _ctx->t = _t;                              \
         _ctx->k = _k;                              \
     }
@@ -64,7 +64,7 @@ __A_LPF_INIT(a_lpff, float, a_lpff_init)
     __STATIC_INLINE                                         \
     _type _func(_def##_t *_ctx, _type _x)                   \
     {                                                       \
-        a_assert(_ctx);                                     \
+        aassert(_ctx);                                      \
         _type inv_kt = _ctx->t / (_ctx->k + _ctx->t);       \
         /* y[n] = y[n-1] * k / (k + t) + x * t / (k + t) */ \
         _ctx->o *= 1 - inv_kt;                              \
@@ -84,7 +84,7 @@ __A_LPF_PROCESS(a_lpff, float, a_lpff_process)
     __STATIC_INLINE                \
     void _func(_def##_t *_ctx)     \
     {                              \
-        a_assert(_ctx);            \
+        aassert(_ctx);             \
         _ctx->o = 0;               \
     }
 __A_LPF_RESET(a_lpf, a_lpf_reset)

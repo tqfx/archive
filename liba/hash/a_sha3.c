@@ -113,7 +113,7 @@ static unsigned char *a_done(a_sha3_t *_ctx, void *_out, uint64_t _pad)
 
 void a_sha3_224_init(a_sha3_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
     _ctx->capacity_words = 224 >> 5;
@@ -121,7 +121,7 @@ void a_sha3_224_init(a_sha3_t *_ctx)
 
 void a_sha3_256_init(a_sha3_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
     _ctx->capacity_words = 256 >> 5;
@@ -129,7 +129,7 @@ void a_sha3_256_init(a_sha3_t *_ctx)
 
 void a_sha3_384_init(a_sha3_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
     _ctx->capacity_words = 384 >> 5;
@@ -137,7 +137,7 @@ void a_sha3_384_init(a_sha3_t *_ctx)
 
 void a_sha3_512_init(a_sha3_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
     _ctx->capacity_words = 512 >> 5;
@@ -145,8 +145,8 @@ void a_sha3_512_init(a_sha3_t *_ctx)
 
 int a_sha3_process(a_sha3_t *_ctx, const void *_p, size_t _n)
 {
-    a_assert(_ctx);
-    a_assert(!_n || _p);
+    aassert(_ctx);
+    aassert(!_n || _p);
 
     if (0 == _n) /* nothing to do */
     {
@@ -212,21 +212,21 @@ int a_sha3_process(a_sha3_t *_ctx, const void *_p, size_t _n)
 
 unsigned char *a_sha3_done(a_sha3_t *_ctx, void *_out)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     return a_done(_ctx, _out, 0x06);
 }
 
 unsigned char *a_keccak_done(a_sha3_t *_ctx, void *_out)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     return a_done(_ctx, _out, 0x01);
 }
 
 void a_shake128_init(a_sha3_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
     _ctx->capacity_words = 128 >> 5;
@@ -234,7 +234,7 @@ void a_shake128_init(a_sha3_t *_ctx)
 
 void a_shake256_init(a_sha3_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
     _ctx->capacity_words = 256 >> 5;
@@ -242,7 +242,7 @@ void a_shake256_init(a_sha3_t *_ctx)
 
 int a_sha3shake_init(a_sha3_t *_ctx, unsigned int _num)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     if (_num != 0x80 && _num != 0x100)
     {
@@ -257,7 +257,7 @@ int a_sha3shake_init(a_sha3_t *_ctx, unsigned int _num)
 
 unsigned char *a_shake128_done(a_sha3_t *_ctx, void *_out)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     a_sha3shake_done(_ctx, _ctx->out, 128 >> 3);
     if (_out && (_out != _ctx->out))
@@ -270,7 +270,7 @@ unsigned char *a_shake128_done(a_sha3_t *_ctx, void *_out)
 
 unsigned char *a_shake256_done(a_sha3_t *_ctx, void *_out)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     a_sha3shake_done(_ctx, _ctx->out, 256 >> 3);
     if (_out && (_out != _ctx->out))
@@ -284,8 +284,8 @@ unsigned char *a_shake256_done(a_sha3_t *_ctx, void *_out)
 void a_sha3shake_done(a_sha3_t *_ctx, unsigned char *_out, unsigned int _siz)
 {
     /* IMPORTANT NOTE: a_sha3shake_done can be called many times */
-    a_assert(_ctx);
-    a_assert(!_siz || _out);
+    aassert(_ctx);
+    aassert(!_siz || _out);
 
     if (0 == _siz) /* nothing to do */
     {

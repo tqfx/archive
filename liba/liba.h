@@ -372,29 +372,29 @@ typedef double float64_t;
 #endif /* 64-bit Rotates */
 
 /* assertion */
-#ifndef a_assert
-#define a_assert(_e)
-#endif /* a_assert */
+#ifndef aassert
+#define aassert(_e)
+#endif /* aassert */
 
 /* allocate memory */
-#ifndef a_alloc
-#define a_alloc(_z) malloc(_z)
-#endif /* a_alloc */
+#ifndef amalloc
+#define amalloc(_z) malloc(_z)
+#endif /* amalloc */
 
 /* callocate memory */
-#ifndef a_calloc
-#define a_calloc(_n, _z) calloc(_n, _z)
-#endif /* a_calloc */
+#ifndef acalloc
+#define acalloc(_n, _z) calloc(_n, _z)
+#endif /* acalloc */
 
 /* reallocate memory */
-#ifndef a_realloc
-#define a_realloc(_p, _z) realloc(_p, _z)
-#endif /* a_realloc */
+#ifndef arealloc
+#define arealloc(_p, _z) realloc(_p, _z)
+#endif /* arealloc */
 
 /* free memory */
-#ifndef a_free
-#define a_free(_p) free(_p)
-#endif /* a_free */
+#ifndef afree
+#define afree(_p) free(_p)
+#endif /* afree */
 
 /* reset some GCC warnings */
 #ifndef _MSC_VER

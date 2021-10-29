@@ -16,8 +16,8 @@
 #define __A_MEAN_INIT(_def, _func)                  \
     void _func(_def##_t *_ctx, a_mean_mode_t _mode) \
     {                                               \
-        a_assert(_ctx);                             \
-        a_assert(A_MEAN_ALL <= _mode);              \
+        aassert(_ctx);                              \
+        aassert(A_MEAN_ALL <= _mode);               \
                                                     \
         _ctx->num = 0;                              \
         _ctx->mode = _mode;                         \
@@ -49,8 +49,8 @@ __A_MEAN_INIT(a_meanf, a_meanf_init)
 #define __A_MEAN_PROCESS(_def, _type, _func)               \
     void _func(_def##_t *_ctx, const _type *_p, size_t _n) \
     {                                                      \
-        a_assert(_ctx);                                    \
-        a_assert(!_n || _p);                               \
+        aassert(_ctx);                                     \
+        aassert(!_n || _p);                                \
                                                            \
         const _type *p = _p + _n;                          \
                                                            \
@@ -107,7 +107,7 @@ __A_MEAN_PROCESS(a_meanf, float, a_meanf_process)
 #define __A_MEAN_DONE(_def, _type, _func, _sqrt, _pow)         \
     _type _func(_def##_t *_ctx)                                \
     {                                                          \
-        a_assert(_ctx);                                        \
+        aassert(_ctx);                                         \
                                                                \
         switch (_ctx->mode)                                    \
         {                                                      \

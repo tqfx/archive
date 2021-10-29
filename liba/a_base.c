@@ -15,9 +15,9 @@ int a_base16_encode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigne
         "0123456789ABCDEF",
     };
 
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     /* check the sizes */
     size_t x = (_n << 1) + 1;
@@ -62,9 +62,9 @@ int a_base16_decode(const void *_p, size_t _n, void *_out, size_t *_siz)
         /* clang-format on */
     };
 
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     if (_n % 2)
     {
@@ -110,9 +110,9 @@ int a_base32_encode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigne
         "0123456789ABCDEFGHJKMNPQRSTVWXYZ"  /* id = CROCKFORD */
     };
 
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     /* check the size of output buffer +1 byte for terminating NUL */
     size_t x = ((_n << 3) + 4) / 5 + 1;
@@ -226,9 +226,9 @@ int a_base32_decode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigne
         },
     };
 
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     const char *p = (const char *)_p;
 
@@ -339,9 +339,9 @@ static int a_base64_encode_internal(const void *_p,
                                     const char *_codes,
                                     unsigned int _pad)
 {
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     /* valid output size ? */
     size_t x = ((_n + 2) / 3) << 2;
@@ -488,9 +488,9 @@ static int a_base64_decode_internal(const void *_p,
                                     const unsigned char *_map,
                                     unsigned int _mode)
 {
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     /* '=' counter */
     unsigned int g = 0;

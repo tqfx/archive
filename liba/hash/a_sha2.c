@@ -191,7 +191,7 @@ static void a_sha512_compress(a_sha512_t *_ctx, const unsigned char *_buf)
 
 void a_sha256_init(a_sha256_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -208,7 +208,7 @@ void a_sha256_init(a_sha256_t *_ctx)
 
 void a_sha224_init(a_sha256_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -225,7 +225,7 @@ void a_sha224_init(a_sha256_t *_ctx)
 
 void a_sha512_init(a_sha512_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -242,7 +242,7 @@ void a_sha512_init(a_sha512_t *_ctx)
 
 void a_sha384_init(a_sha512_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -259,7 +259,7 @@ void a_sha384_init(a_sha512_t *_ctx)
 
 void a_sha512_224_init(a_sha512_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -276,7 +276,7 @@ void a_sha512_224_init(a_sha512_t *_ctx)
 
 void a_sha512_256_init(a_sha512_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;

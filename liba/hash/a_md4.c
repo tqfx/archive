@@ -131,7 +131,7 @@ static void a_md4_compress(a_md4_t *_ctx, const unsigned char *_buf)
 
 void a_md4_init(a_md4_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;

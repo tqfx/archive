@@ -11,10 +11,10 @@
 
 int a_hash_memory(const a_hash_t *_ctx, const void *_p, size_t _n, void *_out, size_t *_siz)
 {
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     if (*_siz < _ctx->outsiz)
     {
@@ -36,10 +36,10 @@ int a_hash_memory(const a_hash_t *_ctx, const void *_p, size_t _n, void *_out, s
 
 int a_hash_mmulti(const a_hash_t *_ctx, void *_out, size_t *_siz, const void *_p, size_t _n, ...)
 {
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_n || _p);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_n || _p);
 
     if (*_siz < _ctx->outsiz)
     {
@@ -74,10 +74,10 @@ int a_hash_mmulti(const a_hash_t *_ctx, void *_out, size_t *_siz, const void *_p
 
 int a_hash_filehandle(const a_hash_t *_ctx, FILE *_in, void *_out, size_t *_siz)
 {
-    a_assert(_in);
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
+    aassert(_in);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
 
     if (*_siz < _ctx->outsiz)
     {
@@ -101,10 +101,10 @@ int a_hash_filehandle(const a_hash_t *_ctx, FILE *_in, void *_out, size_t *_siz)
 
 int a_hash_file(const a_hash_t *_ctx, const char *_fname, void *_out, size_t *_siz)
 {
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(_fname);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
+    aassert(_fname);
 
     if (*_siz < _ctx->outsiz)
     {

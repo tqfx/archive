@@ -76,15 +76,15 @@ static void a_md2_compress(a_md2_t *_ctx, const void *_buf)
 
 void a_md2_init(a_md2_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
 }
 
 int a_md2_process(a_md2_t *_ctx, const void *_p, size_t _n)
 {
-    a_assert(_ctx);
-    a_assert(!_n || _p);
+    aassert(_ctx);
+    aassert(!_n || _p);
 
     if (sizeof(_ctx->buf) < _ctx->cursiz)
     {
@@ -113,7 +113,7 @@ int a_md2_process(a_md2_t *_ctx, const void *_p, size_t _n)
 
 unsigned char *a_md2_done(a_md2_t *_ctx, void *_out)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     if (sizeof(_ctx->buf) - 1 < _ctx->cursiz)
     {

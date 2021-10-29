@@ -197,7 +197,7 @@ static void a_whirlpool_compress(a_whirlpool_t *_ctx, const unsigned char *_buf)
 
 void a_whirlpool_init(a_whirlpool_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
 }

@@ -166,7 +166,7 @@ static void a_blake2b_compress(a_blake2b_t *_ctx, const unsigned char *_buf)
 
 int a_blake2b_init(a_blake2b_t *_ctx, size_t siz, const void *_p, size_t _n)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     unsigned char ap[A_PARAM_SIZE] = {0};
 
@@ -225,8 +225,8 @@ __A_BLAKE2B_INIT(512, _ctx)
 
 int a_blake2b_process(a_blake2b_t *_ctx, const void *_p, size_t _n)
 {
-    a_assert(_ctx);
-    a_assert(!_n || _p);
+    aassert(_ctx);
+    aassert(!_n || _p);
 
     if (sizeof(_ctx->buf) < _ctx->cursiz)
     {
@@ -262,7 +262,7 @@ int a_blake2b_process(a_blake2b_t *_ctx, const void *_p, size_t _n)
 
 unsigned char *a_blake2b_done(a_blake2b_t *_ctx, void *_out)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     if (a_blake2b_is_lastblock(_ctx))
     {

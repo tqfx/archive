@@ -131,6 +131,7 @@ __END_DECLS
     __STATIC_INLINE                            \
     void _func(_def##_t *_ctx)                 \
     {                                          \
+        aassert(_ctx);                         \
         _ctx->x[0] = _ctx->x[1] = _ctx->y = 0; \
     }
 __A_PID_RESET(a_pid, a_pid_reset)

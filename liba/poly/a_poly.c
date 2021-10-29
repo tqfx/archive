@@ -11,7 +11,7 @@
 #define __A_HORNER(_func, _type)                \
     _type _func(_type *_a, size_t _n, _type _x) \
     {                                           \
-        a_assert(!_n || _a);                    \
+        aassert(!_n || _a);                     \
                                                 \
         _type y = 0;                            \
                                                 \
@@ -30,7 +30,7 @@ __A_HORNER(a_hornerf, float)
 #define __A_HORNERR(_func, _type)                \
     _type _func(_type *_a, size_t _n, _type _x)  \
     {                                            \
-        a_assert(!_n || _a);                     \
+        aassert(!_n || _a);                      \
                                                  \
         _type y = 0;                             \
                                                  \

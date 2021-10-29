@@ -15,9 +15,9 @@
 
 int a_hmac_init(a_hmac_t *_ctx, const a_hash_t *_hash, const void *_p, size_t _n)
 {
-    a_assert(_ctx);
-    a_assert(_hash);
-    a_assert(!_n || _p);
+    aassert(_ctx);
+    aassert(_hash);
+    aassert(!_n || _p);
 
     if (sizeof(_ctx->buf) < _hash->bufsiz)
     {
@@ -62,15 +62,15 @@ int a_hmac_init(a_hmac_t *_ctx, const a_hash_t *_hash, const void *_p, size_t _n
 
 int a_hmac_process(a_hmac_t *_ctx, const void *_p, size_t _n)
 {
-    a_assert(_ctx);
-    a_assert(!_n || _p);
+    aassert(_ctx);
+    aassert(!_n || _p);
 
     return _ctx->hash->process(_ctx->state, _p, _n);
 }
 
 unsigned char *a_hmac_done(a_hmac_t *_ctx, void *_out)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     unsigned char buf[sizeof(_ctx->buf)];
 

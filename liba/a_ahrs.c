@@ -120,10 +120,10 @@ static float a_inv_sqrt(float _x)
 
 void a_ahrs_mahony(float _q[4], float _g[3], float _a[3], float _m[3], float _ht)
 {
-    a_assert(_q);
-    a_assert(_g);
-    a_assert(_a);
-    a_assert(_m);
+    aassert(_q);
+    aassert(_g);
+    aassert(_a);
+    aassert(_m);
 
     a_ahrs_type_t type = A_AHRS_AXIS9;
 
@@ -270,9 +270,9 @@ void a_ahrs_mahony(float _q[4], float _g[3], float _a[3], float _m[3], float _ht
 
 void a_ahrs_mahony_imu(float _q[4], float _g[3], float _a[3], float ht)
 {
-    a_assert(_q);
-    a_assert(_g);
-    a_assert(_a);
+    aassert(_q);
+    aassert(_g);
+    aassert(_a);
 
     /* Auxiliary variables to avoid repeated arithmetic */
     float q0q0 = _q[0] * _q[0];
@@ -348,10 +348,10 @@ void a_ahrs_mahony_imu(float _q[4], float _g[3], float _a[3], float ht)
 
 void a_ahrs_madgwick(float _q[4], float _g[3], float _a[3], float _m[3], float _t)
 {
-    a_assert(_q);
-    a_assert(_g);
-    a_assert(_a);
-    a_assert(_m);
+    aassert(_q);
+    aassert(_g);
+    aassert(_a);
+    aassert(_m);
 
     a_ahrs_type_t type = A_AHRS_AXIS9;
 
@@ -537,9 +537,9 @@ void a_ahrs_madgwick(float _q[4], float _g[3], float _a[3], float _m[3], float _
 
 void a_ahrs_madgwick_imu(float _q[4], float _g[3], float _a[3], float _t)
 {
-    a_assert(_q);
-    a_assert(_g);
-    a_assert(_a);
+    aassert(_q);
+    aassert(_g);
+    aassert(_a);
 
     /* Rate of change of quaternion from gyroscope */
     float q_dot1 = 0.5F * (-_q[1] * _g[x] - _q[2] * _g[y] - _q[3] * _g[z]);

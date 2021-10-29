@@ -17,11 +17,11 @@ int a_hmac_memory(const a_hash_t *_ctx,
                   void *_out,
                   size_t *_siz)
 {
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_keysiz || _key);
-    a_assert(!_msgsiz || _msg);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_keysiz || _key);
+    aassert(!_msgsiz || _msg);
 
     if (*_siz < _ctx->outsiz)
     {
@@ -53,11 +53,11 @@ int a_hmac_mmulti(const a_hash_t *_ctx,
                   size_t _msgsiz,
                   ...)
 {
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_keysiz || _key);
-    a_assert(!_msgsiz || _msg);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_keysiz || _key);
+    aassert(!_msgsiz || _msg);
 
     if (*_siz < _ctx->outsiz)
     {
@@ -100,11 +100,11 @@ int a_hmac_filehandle(const a_hash_t *_ctx,
                       void *_out,
                       size_t *_siz)
 {
-    a_assert(_in);
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(!_keysiz || _key);
+    aassert(_in);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
+    aassert(!_keysiz || _key);
 
     if (*_siz < _ctx->outsiz)
     {
@@ -139,11 +139,11 @@ int a_hmac_file(const a_hash_t *_ctx,
                 void *_out,
                 size_t *_siz)
 {
-    a_assert(_ctx);
-    a_assert(_out);
-    a_assert(_siz);
-    a_assert(_fname);
-    a_assert(!_keysiz || _key);
+    aassert(_ctx);
+    aassert(_out);
+    aassert(_siz);
+    aassert(_fname);
+    aassert(!_keysiz || _key);
 
     if (*_siz < _ctx->outsiz)
     {

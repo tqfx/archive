@@ -933,7 +933,7 @@ static void a_rmd320_compress(a_rmd320_t *_ctx, const unsigned char *_buf)
 
 void a_rmd128_init(a_rmd128_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -946,7 +946,7 @@ void a_rmd128_init(a_rmd128_t *_ctx)
 
 void a_rmd160_init(a_rmd160_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -960,7 +960,7 @@ void a_rmd160_init(a_rmd160_t *_ctx)
 
 void a_rmd256_init(a_rmd256_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;
@@ -977,7 +977,7 @@ void a_rmd256_init(a_rmd256_t *_ctx)
 
 void a_rmd320_init(a_rmd320_t *_ctx)
 {
-    a_assert(_ctx);
+    aassert(_ctx);
 
     _ctx->cursiz = 0;
     _ctx->length = 0;

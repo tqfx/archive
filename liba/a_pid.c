@@ -57,6 +57,8 @@
                _type _omax,                              \
                _type _omaxi)                             \
     {                                                    \
+        aassert(_ctx);                                   \
+                                                         \
         _ctx->mode = _mode;                              \
         _ctx->kp = _kpid[0];                             \
         _ctx->ki = _kpid[1];                             \
@@ -102,6 +104,8 @@ __A_PID_INIT(a_pidf, float, a_pidf_init)
 #define __A_PID_PROCESS(_def, _type, _func)                             \
     _type _func(_def##_t *_ctx, _type _ref, _type _set)                 \
     {                                                                   \
+        aassert(_ctx);                                                  \
+                                                                        \
         _type out = 0;                                                  \
         _type in = _set - _ref;                                         \
                                                                         \

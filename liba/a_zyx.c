@@ -15,8 +15,8 @@
 
 void a_zyx_euler2quat(const double _e[3], double _q[4])
 {
-    a_assert(_e);
-    a_assert(_q);
+    aassert(_e);
+    aassert(_q);
 
     /* Abbreviations for the various angular functions */
     double cy = cos(_e[A_ZYX_YAW] * 0.5);
@@ -34,8 +34,8 @@ void a_zyx_euler2quat(const double _e[3], double _q[4])
 
 void a_zyxf_euler2quat(const float _e[3], float _q[4])
 {
-    a_assert(_e);
-    a_assert(_q);
+    aassert(_e);
+    aassert(_q);
 
     /* Abbreviations for the various angular functions */
     float cy = cosf(_e[A_ZYX_YAW] * 0.5F);
@@ -53,8 +53,8 @@ void a_zyxf_euler2quat(const float _e[3], float _q[4])
 
 void a_zyx_quat2euler(const double _q[4], double _e[3])
 {
-    a_assert(_q);
-    a_assert(_e);
+    aassert(_q);
+    aassert(_e);
 
     /* roll (x-axis rotation) */
     double sinr_cosp = 2 * (_q[0] * _q[1] + _q[2] * _q[3]);
@@ -83,8 +83,8 @@ void a_zyx_quat2euler(const double _q[4], double _e[3])
 
 void a_zyxf_quat2euler(const float _q[4], float _e[3])
 {
-    a_assert(_q);
-    a_assert(_e);
+    aassert(_q);
+    aassert(_e);
 
     /* roll (x-axis rotation) */
     float sinr_cosp = 2 * (_q[0] * _q[1] + _q[2] * _q[3]);
