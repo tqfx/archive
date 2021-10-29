@@ -13,36 +13,6 @@
 
 /*! @cond */
 
-/* ignore some GCC warnings */
-#ifndef _MSC_VER
-#pragma GCC diagnostic push
-#endif /* _MSC_VER */
-
-/* fallback for __has_builtin */
-#ifndef __has_builtin
-#define __has_builtin(_x) 0
-#endif /* __has_builtin */
-
-/* gcc version check */
-#ifndef __GNUC_PREREQ
-#if defined(__GNUC__) && defined(__GNUC_MINOR__)
-#define __GNUC_PREREQ(_maj, _min) \
-    ((__GNUC__ << 0x10) + __GNUC_MINOR__ >= ((_maj) << 0x10) + (_min))
-#else
-#define __GNUC_PREREQ(_maj, _min) 0
-#endif /* defined(__GNUC__) && defined(__GNUC_MINOR__) */
-#endif /* __GNUC_PREREQ */
-
-/* clang version check */
-#ifndef __glibc_clang_prereq
-#if defined(__clang_major__) && defined(__clang_minor__)
-#define __glibc_clang_prereq(_maj, _min) \
-    ((__clang_major__ << 0x10) + __clang_minor__ >= ((_maj) << 0x10) + (_min))
-#else
-#define __glibc_clang_prereq(_maj, _min) 0
-#endif /* defined(__clang_major__) && defined(__clang_minor__) */
-#endif /* __glibc_clang_prereq */
-
 /* C --> C++ */
 #undef __END_DECLS
 #undef __BEGIN_DECLS
@@ -57,118 +27,107 @@
 #define __BEGIN_DECLS
 #endif /* __cplusplus */
 
+/* ignore some GCC warnings */
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#endif /* _MSC_VER */
+
+/* fallback for __has_builtin */
+#ifndef __has_builtin
+#define __has_builtin(_x) 0
+#endif /* __has_builtin */
+
+/* fallback for __has_attribute */
+#ifndef __has_attribute
+#define __has_attribute(_x) 0
+#endif /* __has_attribute */
+
 /* attribute nonnull */
-#ifndef __NONNULL
-#if __GNUC_PREREQ(3, 3)
+#if __has_attribute(__nonnull__) && !defined(__NONNULL)
 #define __NONNULL(_x) __attribute__((__nonnull__ _x))
 #else
 #define __NONNULL(_x)
-#endif /* __GNUC_PREREQ(3, 3) */
-#endif /* __NONNULL */
-#ifndef __NONNULL_ALL
-#if __GNUC_PREREQ(3, 3)
+#endif /* __has_attribute(__nonnull__) */
+#if __has_attribute(__nonnull__) && !defined(__NONNULL_ALL)
 #define __NONNULL_ALL __attribute__((__nonnull__))
 #else
 #define __NONNULL_ALL
-#endif /* __GNUC_PREREQ(3, 3) */
-#endif /* __NONNULL_ALL */
+#endif /* __has_attribute(__nonnull__) */
 
 /* attribute warn unused result */
-#ifndef __RESULT_USE_CHECK
-#if __GNUC_PREREQ(3, 4)
+#if __has_attribute(__warn_unused_result__) && !defined(__RESULT_USE_CHECK)
 #define __RESULT_USE_CHECK __attribute__((__warn_unused_result__))
 #else
 #define __RESULT_USE_CHECK
-#endif /* __GNUC_PREREQ(3, 4) */
-#endif /* __RESULT_USE_CHECK */
+#endif /* __has_attribute(__warn_unused_result__) */
 
 /* attribute always inline */
-#ifndef __ALWAYS_INLINE
-#if __GNUC_PREREQ(3, 2)
+#if __has_attribute(__always_inline__) && !defined(__ALWAYS_INLINE)
 #define __ALWAYS_INLINE __inline __attribute__((__always_inline__))
 #else
 #define __ALWAYS_INLINE
-#endif /* __GNUC_PREREQ (3, 2) */
-#endif /* __ALWAYS_INLINE */
-
-/* attribute used */
-#ifndef __USED
-#if __GNUC_PREREQ(3, 0)
-#define __USED __attribute__((__used__))
-#else
-#define __USED
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __USED */
+#endif /* __has_attribute(__always_inline__) */
 
 /* attribute weak */
-#ifndef __WEAK
-#if __GNUC_PREREQ(3, 0)
+#if __has_attribute(__weak__) && !defined(__WEAK)
 #define __WEAK __attribute__((__weak__))
 #else
 #define __WEAK
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __WEAK */
+#endif /* __has_attribute(__weak__) */
 
-/* attribute aligned */
-#ifndef __ALIGNED
-#if __GNUC_PREREQ(3, 0)
-#define __ALIGNED(_x) __attribute__((__aligned__(_x)))
+/* attribute used */
+#if __has_attribute(__used__) && !defined(__USED)
+#define __USED __attribute__((__used__))
 #else
-#define __ALIGNED(_x)
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __ALIGNED */
-
-/* attribute packed */
-#ifndef __PACKED
-#if __GNUC_PREREQ(3, 0)
-#define __PACKED __attribute__((__packed__, __aligned__(1)))
-#else
-#define __PACKED
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __PACKED */
-
-/* attribute packed struct */
-#ifndef __PACKED_STRUCT
-#if __GNUC_PREREQ(3, 0)
-#define __PACKED_STRUCT struct __attribute__((__packed__, __aligned__(1)))
-#else
-#define __PACKED_STRUCT
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __PACKED_STRUCT */
-
-/* attribute packed union */
-#ifndef __PACKED_UNION
-#if __GNUC_PREREQ(3, 0)
-#define __PACKED_UNION struct __attribute__((__packed__, __aligned__(1)))
-#else
-#define __PACKED_UNION
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __PACKED_UNION */
-
-/* builtin expect */
-#ifndef __PREDICT_TRUE
-#if __GNUC_PREREQ(3, 0)
-#define __PREDICT_TRUE(_exp) __builtin_expect((_exp), 1)
-#else
-#define __PREDICT_TRUE(_exp) (_exp)
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __PREDICT_TRUE */
-#ifndef __PREDICT_FALSE
-#if __GNUC_PREREQ(3, 0)
-#define __PREDICT_FALSE(_exp) __builtin_expect((_exp), 0)
-#else
-#define __PREDICT_FALSE(_exp) (_exp)
-#endif /* __GNUC_PREREQ (3, 0) */
-#endif /* __PREDICT_FALSE */
+#define __USED
+#endif /* __has_attribute(__used__) */
 
 /* attribute unused */
-#ifndef __UNUSED
-#if __glibc_clang_prereq(3, 3)
+#if __has_attribute(__unused__) && !defined(__UNUSED)
 #define __UNUSED __attribute__((__unused__))
 #else
 #define __UNUSED
-#endif /* __glibc_clang_prereq(3, 3) */
-#endif /* __UNUSED */
+#endif /* __has_attribute(__unused__) */
+
+/* attribute aligned */
+#if __has_attribute(__aligned__) && !defined(__ALIGNED)
+#define __ALIGNED(_x) __attribute__((__aligned__(_x)))
+#else
+#define __ALIGNED(_x)
+#endif /* __has_attribute(__aligned__) */
+
+/* attribute packed */
+#if __has_attribute(__packed__) && __has_attribute(__aligned__) && !defined(__PACKED)
+#define __PACKED __attribute__((__packed__, __aligned__(1)))
+#else
+#define __PACKED
+#endif /* __has_attribute(__packed__) && __has_attribute(__aligned__) */
+
+/* attribute packed struct */
+#if __has_attribute(__packed__) && __has_attribute(__aligned__) && !defined(__PACKED_STRUCT)
+#define __PACKED_STRUCT struct __attribute__((__packed__, __aligned__(1)))
+#else
+#define __PACKED_STRUCT
+#endif /* __has_attribute(__packed__) && __has_attribute(__aligned__) */
+
+/* attribute packed union */
+#if __has_attribute(__packed__) && __has_attribute(__aligned__) && !defined(__PACKED_UNION)
+#define __PACKED_UNION struct __attribute__((__packed__, __aligned__(1)))
+#else
+#define __PACKED_UNION
+#endif /* __has_attribute(__packed__) && __has_attribute(__aligned__) */
+
+/* builtin expect */
+#if __has_builtin(__builtin_expect) && !defined(__PREDICT_TRUE)
+#define __PREDICT_TRUE(_exp) __builtin_expect((_exp), 1)
+#else
+#define __PREDICT_TRUE(_exp) (_exp)
+#endif /* __has_builtin(__builtin_expect) */
+#if __has_builtin(__builtin_expect) && !defined(__PREDICT_FALSE)
+#define __PREDICT_FALSE(_exp) __builtin_expect((_exp), 0)
+#else
+#define __PREDICT_FALSE(_exp) (_exp)
+#endif /* __has_builtin(__builtin_expect) */
 
 /* asm */
 #ifndef __ASM
