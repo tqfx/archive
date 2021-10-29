@@ -18,8 +18,7 @@
 #undef __BEGIN_DECLS
 #if defined(__cplusplus)
 #define __BEGIN_DECLS \
-    extern "C"        \
-    {
+    extern "C" {
 #define __END_DECLS \
     }
 #else
@@ -43,91 +42,91 @@
 #endif /* __has_attribute */
 
 /* attribute nonnull */
-#if __has_attribute(__nonnull__) && !defined(__NONNULL)
+#if !defined(__NONNULL) && __has_attribute(__nonnull__)
 #define __NONNULL(_x) __attribute__((__nonnull__ _x))
 #else
 #define __NONNULL(_x)
-#endif /* __has_attribute(__nonnull__) */
-#if __has_attribute(__nonnull__) && !defined(__NONNULL_ALL)
+#endif /* __NONNULL */
+#if !defined(__NONNULL_ALL) && __has_attribute(__nonnull__)
 #define __NONNULL_ALL __attribute__((__nonnull__))
 #else
 #define __NONNULL_ALL
-#endif /* __has_attribute(__nonnull__) */
+#endif /* __NONNULL_ALL */
 
 /* attribute warn unused result */
-#if __has_attribute(__warn_unused_result__) && !defined(__RESULT_USE_CHECK)
+#if !defined(__RESULT_USE_CHECK) && __has_attribute(__warn_unused_result__)
 #define __RESULT_USE_CHECK __attribute__((__warn_unused_result__))
 #else
 #define __RESULT_USE_CHECK
-#endif /* __has_attribute(__warn_unused_result__) */
+#endif /* __RESULT_USE_CHECK */
 
 /* attribute always inline */
-#if __has_attribute(__always_inline__) && !defined(__ALWAYS_INLINE)
+#if !defined(__ALWAYS_INLINE) && __has_attribute(__always_inline__)
 #define __ALWAYS_INLINE __inline __attribute__((__always_inline__))
 #else
 #define __ALWAYS_INLINE
-#endif /* __has_attribute(__always_inline__) */
+#endif /* __ALWAYS_INLINE */
 
 /* attribute weak */
-#if __has_attribute(__weak__) && !defined(__WEAK)
+#if !defined(__WEAK) && __has_attribute(__weak__)
 #define __WEAK __attribute__((__weak__))
 #else
 #define __WEAK
-#endif /* __has_attribute(__weak__) */
+#endif /* __WEAK */
 
 /* attribute used */
-#if __has_attribute(__used__) && !defined(__USED)
+#if !defined(__USED) && __has_attribute(__used__)
 #define __USED __attribute__((__used__))
 #else
 #define __USED
-#endif /* __has_attribute(__used__) */
+#endif /* __USED */
 
 /* attribute unused */
-#if __has_attribute(__unused__) && !defined(__UNUSED)
+#if !defined(__UNUSED) && __has_attribute(__unused__)
 #define __UNUSED __attribute__((__unused__))
 #else
 #define __UNUSED
-#endif /* __has_attribute(__unused__) */
+#endif /* __UNUSED */
 
 /* attribute aligned */
-#if __has_attribute(__aligned__) && !defined(__ALIGNED)
+#if !defined(__ALIGNED) && __has_attribute(__aligned__)
 #define __ALIGNED(_x) __attribute__((__aligned__(_x)))
 #else
 #define __ALIGNED(_x)
-#endif /* __has_attribute(__aligned__) */
+#endif /* __ALIGNED */
 
 /* attribute packed */
-#if __has_attribute(__packed__) && __has_attribute(__aligned__) && !defined(__PACKED)
+#if !defined(__PACKED) && __has_attribute(__packed__) && __has_attribute(__aligned__)
 #define __PACKED __attribute__((__packed__, __aligned__(1)))
 #else
 #define __PACKED
-#endif /* __has_attribute(__packed__) && __has_attribute(__aligned__) */
+#endif /* __PACKED */
 
 /* attribute packed struct */
-#if __has_attribute(__packed__) && __has_attribute(__aligned__) && !defined(__PACKED_STRUCT)
+#if !defined(__PACKED_STRUCT) && __has_attribute(__packed__) && __has_attribute(__aligned__)
 #define __PACKED_STRUCT struct __attribute__((__packed__, __aligned__(1)))
 #else
 #define __PACKED_STRUCT
-#endif /* __has_attribute(__packed__) && __has_attribute(__aligned__) */
+#endif /* __PACKED_STRUCT */
 
 /* attribute packed union */
-#if __has_attribute(__packed__) && __has_attribute(__aligned__) && !defined(__PACKED_UNION)
+#if !defined(__PACKED_UNION) && __has_attribute(__packed__) && __has_attribute(__aligned__)
 #define __PACKED_UNION struct __attribute__((__packed__, __aligned__(1)))
 #else
 #define __PACKED_UNION
-#endif /* __has_attribute(__packed__) && __has_attribute(__aligned__) */
+#endif /* __PACKED_UNION */
 
 /* builtin expect */
-#if __has_builtin(__builtin_expect) && !defined(__PREDICT_TRUE)
+#if !defined(__PREDICT_TRUE) && __has_builtin(__builtin_expect)
 #define __PREDICT_TRUE(_exp) __builtin_expect((_exp), 1)
 #else
 #define __PREDICT_TRUE(_exp) (_exp)
-#endif /* __has_builtin(__builtin_expect) */
-#if __has_builtin(__builtin_expect) && !defined(__PREDICT_FALSE)
+#endif /* __PREDICT_TRUE */
+#if !defined(__PREDICT_FALSE) && __has_builtin(__builtin_expect)
 #define __PREDICT_FALSE(_exp) __builtin_expect((_exp), 0)
 #else
 #define __PREDICT_FALSE(_exp) (_exp)
-#endif /* __has_builtin(__builtin_expect) */
+#endif /* __PREDICT_FALSE */
 
 /* asm */
 #ifndef __ASM
@@ -371,10 +370,6 @@ typedef double float64_t;
 #define ROL64(_x, _y) ((((uint64_t)(_x) << ((uint64_t)(_y)&63)) | (((uint64_t)(_x)&0xFFFFFFFFFFFFFFFF) >> (uint64_t)((64 - ((_y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
 #define ROR64(_x, _y) ((((uint64_t)((_x)&0xFFFFFFFFFFFFFFFF) >> ((uint64_t)(_y)&63)) | ((uint64_t)(_x) << (uint64_t)((64 - ((_y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
 #endif /* 64-bit Rotates */
-
-/* extract a byte portably */
-#undef A_BYTE
-#define A_BYTE(_x, _n) ((uint8_t)((_x) >> ((_n) << 3)))
 
 /* assertion */
 #ifndef a_assert

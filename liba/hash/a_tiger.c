@@ -275,6 +275,7 @@ static const uint64_t table[0x400] = {
 #undef t2
 #undef t3
 #undef t4
+#undef BYTE
 
 /* one round of the hash function */
 static __INLINE void tiger_round(uint64_t *_a, uint64_t *_b, uint64_t *_c, uint64_t _x, unsigned int _mul)
@@ -283,10 +284,12 @@ static __INLINE void tiger_round(uint64_t *_a, uint64_t *_b, uint64_t *_c, uint6
 #define t2 (table + 0x100)
 #define t3 (table + 0x200)
 #define t4 (table + 0x300)
+/* extract a byte portably */
+#define BYTE(_x, _n) ((uint8_t)((_x) >> ((_n) << 3)))
 
     uint64_t t = (*_c ^= _x);
-    *_a -= t1[A_BYTE(t, 0)] ^ t2[A_BYTE(t, 2)] ^ t3[A_BYTE(t, 4)] ^ t4[A_BYTE(t, 6)];
-    t = (*_b += t4[A_BYTE(t, 1)] ^ t3[A_BYTE(t, 3)] ^ t2[A_BYTE(t, 5)] ^ t1[A_BYTE(t, 7)]);
+    *_a -= t1[BYTE(t, 0)] ^ t2[BYTE(t, 2)] ^ t3[BYTE(t, 4)] ^ t4[BYTE(t, 6)];
+    t = (*_b += t4[BYTE(t, 1)] ^ t3[BYTE(t, 3)] ^ t2[BYTE(t, 5)] ^ t1[BYTE(t, 7)]);
     switch (_mul)
     {
     case 5:
@@ -316,6 +319,7 @@ static __INLINE void tiger_round(uint64_t *_a, uint64_t *_b, uint64_t *_c, uint6
 #undef t2
 #undef t3
 #undef t4
+#undef BYTE
 
 /* one complete pass */
 static void a_pass(uint64_t *_a, uint64_t *_b, uint64_t *_c, const uint64_t *_x, unsigned int _mul)
