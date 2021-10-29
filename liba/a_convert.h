@@ -35,7 +35,7 @@ extern int a_xdigit(int x);
  @param[in]      n: length of data to convert.
  @param[in,out]  o: points to buffer that holds the string.
  @return         a pointer to the string.
- @note           When out is 0, you need to use @ref a_free to release the memory.
+ @note           When out is 0, you need to use @ref afree to release the memory.
 */
 extern void *a_lower(const void *p, size_t n, void *o);
 
@@ -45,7 +45,7 @@ extern void *a_lower(const void *p, size_t n, void *o);
  @param[in]      n: length of data to convert.
  @param[in,out]  o: points to buffer that holds the string.
  @return         a pointer to the string.
- @note           When out is 0, you need to use @ref a_free to release the memory.
+ @note           When out is 0, you need to use @ref afree to release the memory.
 */
 extern void *a_upper(const void *p, size_t n, void *o);
 
@@ -58,7 +58,7 @@ extern void *a_upper(const void *p, size_t n, void *o);
   @arg           A_DIGEST_UPPER upper
  @param[in,out]  o: points to buffer that holds the string.
  @return         a pointer to the string.
- @note           When out is 0, you need to use @ref a_free to release the memory.
+ @note           When out is 0, you need to use @ref afree to release the memory.
 */
 extern void *a_digest(const void *p, size_t n, unsigned int x, void *o);
 extern void *a_digest_lower(const void *p, size_t n, void *o);
