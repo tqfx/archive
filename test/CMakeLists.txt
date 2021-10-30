@@ -18,3 +18,6 @@ target_link_libraries(test_hmac a)
 
 add_executable(test_base test_base.c)
 target_link_libraries(test_base a)
+
+add_executable(test_str test_str.c)
+target_link_libraries(test_str a)
