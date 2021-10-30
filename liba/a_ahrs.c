@@ -1,11 +1,10 @@
 /*!
- @file           a_ahrs.c
- @brief          AHRS(Automatic Heading Reference System) algorithm library
- @details        IMU(Inertial Measurement Unit)
-                 Mehony AHRS
-                 Madgwick AHRS
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_ahrs.c
+ @brief AHRS(Automatic Heading Reference System) algorithm library
+ @details IMU(Inertial Measurement Unit)
+ - Mehony AHRS
+ - Madgwick AHRS
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_ahrs.h"
@@ -75,10 +74,10 @@ static float eiz; /* error integral of z axis */
 /* inv_sqrt */
 #ifndef __A_MATH_H__
 /*!
- @brief          fast inverse square-root, to calculate 1 / sqrtf(x)
- @details        http://en.wikipedia.org/wiki/Fast_inverse_square_root
- @param[in]      x: the number need to be calculated
- @return         1 / sqrtf(x)
+ @brief fast inverse square-root, to calculate 1 / sqrtf(x)
+ @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
+ @param[in] x: the number need to be calculated
+ @return 1 / sqrtf(x)
 */
 static float a_inv_sqrt(float x);
 

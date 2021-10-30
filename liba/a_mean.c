@@ -1,8 +1,7 @@
 /*!
- @file           a_mean.c
- @brief          mean calculation
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_mean.c
+ @brief mean calculation
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_mean.h"

@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 '''
- @file           setup.py
- @brief          python setup.py --quiet build_ext --inplace
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file setup.py
+ @brief python setup.py --quiet build_ext --inplace
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''
 import os
 from sys import argv

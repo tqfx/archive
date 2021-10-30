@@ -1,9 +1,8 @@
 /*!
- @file           a_whirl.h
- @brief          WHIRLPOOL implementation
- @details        https://web.archive.org/web/20171129084214/http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_whirl.h
+ @brief WHIRLPOOL implementation
+ @details https://web.archive.org/web/20171129084214/http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */

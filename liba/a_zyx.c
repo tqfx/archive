@@ -1,10 +1,8 @@
 /*!
- @file           a_zyx.c
- @brief          yaw (Z), pitch (Y), roll (X)
- @details        where the X-axis points forward,
-                 Y-axis to the right and Z-axis downward
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_zyx.c
+ @brief yaw (Z), pitch (Y), roll (X)
+ @details where the X-axis points forward, Y-axis to the right and Z-axis downward
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_zyx.h"

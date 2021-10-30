@@ -1,10 +1,8 @@
 /*!
- @file           a_zyx.h
- @brief          yaw (Z), pitch (Y), roll (X)
- @details        where the X-axis points forward,
-                 Y-axis to the right and Z-axis downward
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_zyx.h
+ @brief yaw (Z), pitch (Y), roll (X)
+ @details where the X-axis points forward, Y-axis to the right and Z-axis downward
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -23,17 +21,17 @@
 __BEGIN_DECLS
 
 /*!
- @brief        euler angles to quaternion conversion by ZYX
- @param[in]    e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
- @param[out]   q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
+ @brief euler angles to quaternion conversion by ZYX
+ @param[in] e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
+ @param[out] q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
 */
 extern void a_zyx_euler_quat(const double e[3], double q[4]) __NONNULL_ALL;
 extern void a_zyxf_euler_quat(const float e[3], float q[4]) __NONNULL_ALL;
 
 /*!
- @brief        quaternion to euler angles conversion by ZYX
- @param[in]    q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
- @param[out]   e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
+ @brief quaternion to euler angles conversion by ZYX
+ @param[in] q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
+ @param[out] e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
 */
 extern void a_zyx_quat2euler(const double q[4], double e[3]) __NONNULL_ALL;
 extern void a_zyxf_quat2euler(const float q[4], float e[3]) __NONNULL_ALL;

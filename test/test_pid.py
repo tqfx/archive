@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 '''
- @file           test_pid.py
- @brief          test Proportional Integral Derivative Algorithm
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_pid.py
+ @brief test Proportional Integral Derivative Algorithm
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''
 import os
 import math

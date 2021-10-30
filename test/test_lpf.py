@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 '''
- @file           test_lpf.py
- @brief          test Low Pass Filter
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_lpf.py
+ @brief test Low Pass Filter
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''
 import os
 import math

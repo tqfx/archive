@@ -1,9 +1,8 @@
 /*!
- @file           a_md5.c
- @brief          RFC 1321 compliant MD5 implementation
- @details        https://www.ietf.org/rfc/rfc1321.txt
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_md5.c
+ @brief RFC 1321 compliant MD5 implementation
+ @details https://www.ietf.org/rfc/rfc1321.txt
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_md5.h"

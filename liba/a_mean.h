@@ -1,8 +1,7 @@
 /*!
- @file           a_mean.h
- @brief          mean calculation
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_mean.h
+ @brief mean calculation
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -12,7 +11,7 @@
 #include "liba.h"
 
 /*!
- @brief          Instance enumeration for the mean calculation
+ @brief Instance enumeration for the mean calculation
 */
 typedef enum a_mean_mode_t
 {
@@ -25,7 +24,7 @@ typedef enum a_mean_mode_t
 
 #undef __A_MEAN_T
 /*!
- @brief          Instance structure for the mean calculation
+ @brief Instance structure for the mean calculation
 */
 #define __A_MEAN_T(_def, _type) \
     typedef struct _def##_t     \
@@ -42,7 +41,7 @@ __BEGIN_DECLS
 
 #undef __A_MEAN
 /*!
- @brief          function for the mean calculation
+ @brief function for the mean calculation
 */
 #define __A_MEAN(_def, _type)                                                           \
     extern void _def##_init(_def##_t *ctx, a_mean_mode_t mode) __NONNULL((1));          \

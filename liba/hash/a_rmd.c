@@ -1,9 +1,8 @@
 /*!
- @file           a_rmd.c
- @brief          RIPEMD implementation
- @details        https://homes.esat.kuleuven.be/~bosselae/ripemd160.html
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_rmd.c
+ @brief RIPEMD implementation
+ @details https://homes.esat.kuleuven.be/~bosselae/ripemd160.html
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_rmd.h"

@@ -1,8 +1,7 @@
 /*!
- @file           liba.h
- @brief          algorithm library
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file liba.h
+ @brief algorithm library
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -155,7 +154,7 @@
 
 /*!
  @endcond
- @defgroup       LIBA Algorithm library
+ @defgroup LIBA Algorithm library
 */
 
 #include <stdint.h>

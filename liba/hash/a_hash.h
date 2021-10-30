@@ -1,8 +1,7 @@
 /*!
- @file           a_hash.h
- @brief          hash library
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_hash.h
+ @brief hash library
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -90,25 +89,25 @@ typedef struct a_hash_t
     /*!< size of digest */
     unsigned int outsiz;
     /*!
-     @brief          Initialize function for hash.
-     @param[in,out]  ctx: points to an instance of hash state.
+     @brief Initialize function for hash.
+     @param[in,out] ctx: points to an instance of hash state.
     */
     void (*init)(a_hash_stat_t *ctx) __NONNULL_ALL;
     /*!
-     @brief          Process function for hash.
-     @param[in,out]  ctx: points to an instance of hash state.
-     @param[in]      p: points to data to hash.
-     @param[in]      n: length of data to hash.
-     @return         the execution state of the function.
-      @retval        0 success
+     @brief Process function for hash.
+     @param[in,out] ctx: points to an instance of hash state.
+     @param[in] p: points to data to hash.
+     @param[in] n: length of data to hash.
+     @return the execution state of the function.
+      @retval 0 success
     */
     int (*process)(a_hash_stat_t *ctx, const void *p, size_t n) __NONNULL((1));
     /*!
-     @brief          Terminate function for hash.
-     @param[in,out]  ctx: points to an instance of hash state.
-     @param[in,out]  out: points to buffer that holds the digest.
-     @return         p the digest internal buffer.
-      @retval        0 generic invalid argument.
+     @brief Terminate function for hash.
+     @param[in,out] ctx: points to an instance of hash state.
+     @param[in,out] out: points to buffer that holds the digest.
+     @return p the digest internal buffer.
+      @retval 0 generic invalid argument.
     */
     unsigned char *(*done)(a_hash_stat_t *ctx, void *out)__NONNULL((1));
 } a_hash_t;

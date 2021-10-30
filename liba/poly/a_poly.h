@@ -1,8 +1,7 @@
 /*!
- @file           a_poly.h
- @brief          polynomial
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_poly.h
+ @brief polynomial
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -14,7 +13,7 @@
 __BEGIN_DECLS
 
 /*!
- @brief          horner function for polynomial
+ @brief horner function for polynomial
  \f[
   \left\{\begin{array}{l}
   S_n = a_n\\

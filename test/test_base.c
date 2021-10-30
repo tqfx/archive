@@ -1,8 +1,7 @@
 /*!
- @file           test_base.c
- @brief          test base library
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_base.c
+ @brief test base library
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_base.h"

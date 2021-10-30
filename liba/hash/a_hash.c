@@ -1,8 +1,7 @@
 /*!
- @file           a_hash.c
- @brief          hash library
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_hash.c
+ @brief hash library
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_hash.h"

@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 '''
- @file           test_polytrack.py
- @brief          test polynomial trajectory
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_polytrack.py
+ @brief test polynomial trajectory
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''
 import os
 from sys import argv

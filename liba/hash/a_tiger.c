@@ -1,9 +1,8 @@
 /*!
- @file           a_tiger.c
- @brief          TIGER implementation
- @details        https://www.cs.technion.ac.il/~biham/Reports/Tiger
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_tiger.c
+ @brief TIGER implementation
+ @details https://www.cs.technion.ac.il/~biham/Reports/Tiger
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_tiger.h"

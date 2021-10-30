@@ -1,16 +1,16 @@
 /*!
- @file           a_lpf.h
- @brief          Low Pass Filter
- @details        A low-pass filter is a filter that passes signals with a
-                 frequency lower than a selected cutoff frequency and attenuates
-                 signals with frequencies higher than the cutoff frequency.
+ @file a_lpf.h
+ @brief Low Pass Filter
+ @details
+ A low-pass filter is a filter that passes signals with a
+ frequency lower than a selected cutoff frequency and attenuates
+ signals with frequencies higher than the cutoff frequency.
  \f{aligned}{
-     y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
-         &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
+  y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
+  &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
  \f}
-                 https://en.wikipedia.org/wiki/Low-pass_filter
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ https://en.wikipedia.org/wiki/Low-pass_filter
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -21,7 +21,7 @@
 
 #undef __A_LPF_T
 /*!
- @brief          Instance structure for Low Pass Filter
+ @brief Instance structure for Low Pass Filter
 */
 #define __A_LPF_T(_def, _type)                             \
     typedef struct _def##_t                                \
@@ -36,7 +36,7 @@ __A_LPF_T(a_lpff, float);
 
 #undef __A_LPF_INIT
 /*!
- @brief          Initialize function for Low Pass Filter
+ @brief Initialize function for Low Pass Filter
 */
 #define __A_LPF_INIT(_def, _type, _func)           \
     __NONNULL((1))                                 \
@@ -53,7 +53,7 @@ __A_LPF_INIT(a_lpff, float, a_lpff_init)
 
 #undef __A_LPF_PROCESS
 /*!
- @brief          Process function for Low Pass Filter
+ @brief Process function for Low Pass Filter
  \f{aligned}{
      y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
          &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
@@ -77,7 +77,7 @@ __A_LPF_PROCESS(a_lpff, float, a_lpff_process)
 
 #undef __A_LPF_RESET
 /*!
- @brief          Reset function for Low Pass Filter
+ @brief Reset function for Low Pass Filter
 */
 #define __A_LPF_RESET(_def, _func) \
     __NONNULL_ALL                  \

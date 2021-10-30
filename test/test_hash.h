@@ -1,8 +1,7 @@
 /*!
- @file           test_hash.h
- @brief          hash library test
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_hash.h
+ @brief hash library test
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */

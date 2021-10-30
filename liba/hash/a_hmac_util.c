@@ -1,8 +1,7 @@
 /*!
- @file           a_hmac_util.c
- @brief          hmac library utils
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_hmac_util.c
+ @brief hmac library utils
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_hmac_util.h"

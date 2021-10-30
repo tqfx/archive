@@ -1,8 +1,7 @@
 /*!
- @file           test_str.c
- @brief          test string library
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_str.c
+ @brief test string library
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_str.h"

@@ -1,9 +1,8 @@
 /*!
- @file           a_md4.h
- @brief          RFC 1320 compliant MD4 implementation
- @details        https://www.ietf.org/rfc/rfc1320.txt
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_md4.h
+ @brief RFC 1320 compliant MD4 implementation
+ @details https://www.ietf.org/rfc/rfc1320.txt
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */

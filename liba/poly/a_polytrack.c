@@ -1,9 +1,8 @@
 /*!
- @file           a_polytrack.c
- @brief          polynomial trajectory
- @details        Trajectory Planning for Automatic Machines and Robots.
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_polytrack.c
+ @brief polynomial trajectory
+ @details Trajectory Planning for Automatic Machines and Robots.
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_polytrack.h"

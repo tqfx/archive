@@ -1,6 +1,6 @@
 /*!
- @file           a_notefreqs.h
- @brief          Note frequency table
+ @file a_notefreqs.h
+ @brief Note frequency table
  @details
  The basic formula for the frequencies of the notes of the equal tempered scale is given by
  \f{aligned}{
@@ -23,8 +23,7 @@
  The speed of sound depends on temperature,
  but is approximately 345 m/s at "room temperature."
  http://pages.mtu.edu/~suits/notefreqs.html
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */

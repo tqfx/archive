@@ -1,9 +1,8 @@
 /*!
- @file           a_base.c
- @brief          RFC 4648 compliant Base implementation
- @details        https://www.ietf.org/rfc/rfc4648.txt
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_base.c
+ @brief RFC 4648 compliant Base implementation
+ @details https://www.ietf.org/rfc/rfc4648.txt
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_base.h"

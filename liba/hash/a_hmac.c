@@ -1,9 +1,8 @@
 /*!
- @file           a_hmac.c
- @brief          RFC 2104 compliant HMAC implementation
- @details        https://www.ietf.org/rfc/rfc2104.txt
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_hmac.c
+ @brief RFC 2104 compliant HMAC implementation
+ @details https://www.ietf.org/rfc/rfc2104.txt
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_hmac.h"

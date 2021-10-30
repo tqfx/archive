@@ -1,9 +1,8 @@
 /*!
- @file           a_sha3.c
- @brief          SHA3 implementation
- @details        https://en.wikipedia.org/wiki/SHA-3
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_sha3.c
+ @brief SHA3 implementation
+ @details https://en.wikipedia.org/wiki/SHA-3
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_sha3.h"

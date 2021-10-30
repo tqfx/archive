@@ -1,8 +1,7 @@
 /*!
- @file           test_math.c
- @brief          test math
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_math.c
+ @brief test math
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_math.h"

@@ -1,8 +1,7 @@
 /*!
- @file           test_notefreqs.c
- @brief          test note frequency
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_notefreqs.c
+ @brief test note frequency
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include <stdio.h>

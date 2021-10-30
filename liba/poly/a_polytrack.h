@@ -1,9 +1,8 @@
 /*!
- @file           a_polytrack.h
- @brief          polynomial trajectory
- @details        Trajectory Planning for Automatic Machines and Robots.
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_polytrack.h
+ @brief polynomial trajectory
+ @details Trajectory Planning for Automatic Machines and Robots.
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -14,7 +13,7 @@
 
 #undef __A_POLYTRACK3_T
 /*!
- @brief          Instance structure for cubic polynomial trajectory
+ @brief Instance structure for cubic polynomial trajectory
 */
 #define __A_POLYTRACK3_T(_def, _type) \
     typedef struct _def##_t           \
@@ -30,7 +29,7 @@ __A_POLYTRACK3_T(a_polytrack3f, float);
 
 #undef __A_POLYTRACK5_T
 /*!
- @brief          Instance structure for quintic polynomial trajectory
+ @brief Instance structure for quintic polynomial trajectory
 */
 #define __A_POLYTRACK5_T(_def, _type)  \
     typedef struct _def##_t            \
@@ -47,7 +46,7 @@ __A_POLYTRACK5_T(a_polytrack5f, float);
 
 #undef __A_POLYTRACK7_T
 /*!
- @brief          Instance structure for hepta polynomial trajectory
+ @brief Instance structure for hepta polynomial trajectory
 */
 #define __A_POLYTRACK7_T(_def, _type)  \
     typedef struct _def##_t            \
@@ -68,7 +67,7 @@ __BEGIN_DECLS
 /* function for cubic polynomial trajectory */
 
 /*!
- @brief          Initialize function for cubic polynomial trajectory
+ @brief Initialize function for cubic polynomial trajectory
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
@@ -80,66 +79,66 @@ __BEGIN_DECLS
   k_{3}=\cfrac{\left(v_{0}+v_{1}\right)\,t-2\,q}{t^3}
   \end{array}\right.
  \f}
- @param[in,out]  ctx: points to an instance of cubic polynomial trajectory
- @param[in]      source: source for trajectory
-  @arg           0 time for source
-  @arg           1 position for source
-  @arg           2 velocity for source
- @param[in]      target: target for trajectory
-  @arg           0 time for target
-  @arg           1 position for target
-  @arg           2 velocity for target
+ @param[in,out] ctx: points to an instance of cubic polynomial trajectory
+ @param[in] source: source for trajectory
+  @arg 0 time for source
+  @arg 1 position for source
+  @arg 2 velocity for source
+ @param[in] target: target for trajectory
+  @arg 0 time for target
+  @arg 1 position for target
+  @arg 2 velocity for target
 */
 extern void a_polytrack3_init(a_polytrack3_t *ctx, const double source[3], const double target[3]) __NONNULL_ALL;
 extern void a_polytrack3f_init(a_polytrack3f_t *ctx, const float source[3], const float target[3]) __NONNULL_ALL;
 
 /*!
- @brief          Process function for cubic polynomial trajectory
+ @brief Process function for cubic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   q(t)=k_{0}+k_{1}\left(t-t_{0}\right)+k_{2}\left(t-t_{0}\right)^{2}+k_{3}\left(t-t_{0}\right)^{3} \\
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of cubic polynomial trajectory
- @param[in]      t: current time
- @return         position output
+ @param[in] ctx: points to an instance of cubic polynomial trajectory
+ @param[in] t: current time
+ @return position output
 */
 extern double a_polytrack3_pos(const a_polytrack3_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack3f_pos(const a_polytrack3f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for cubic polynomial trajectory
+ @brief Process function for cubic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   \dot{q}(t)=k_{1}+2 k_{2}\left(t-t_{0}\right)+3 k_{3}\left(t-t_{0}\right)^{2} \\
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of cubic polynomial trajectory
- @param[in]      t: current time
- @return         velocity output
+ @param[in] ctx: points to an instance of cubic polynomial trajectory
+ @param[in] t: current time
+ @return velocity output
 */
 extern double a_polytrack3_vec(const a_polytrack3_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack3f_vec(const a_polytrack3f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for cubic polynomial trajectory
+ @brief Process function for cubic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of cubic polynomial trajectory
- @param[in]      t: current time
- @return         acceleration output
+ @param[in] ctx: points to an instance of cubic polynomial trajectory
+ @param[in] t: current time
+ @return acceleration output
 */
 extern double a_polytrack3_acc(const a_polytrack3_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack3f_acc(const a_polytrack3f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for cubic polynomial trajectory
+ @brief Process function for cubic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
@@ -148,12 +147,12 @@ extern float a_polytrack3f_acc(const a_polytrack3f_t *ctx, float t) __NONNULL((1
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of cubic polynomial trajectory
- @param[in]      t: current time
- @param[out]     o: buffer for result
-  @arg           0 position output
-  @arg           1 velocity output
-  @arg           2 acceleration output
+ @param[in] ctx: points to an instance of cubic polynomial trajectory
+ @param[in] t: current time
+ @param[out] o: buffer for result
+  @arg 0 position output
+  @arg 1 velocity output
+  @arg 2 acceleration output
 */
 extern void a_polytrack3_all(const a_polytrack3_t *ctx, double t, double o[3]) __NONNULL((1, 3));
 extern void a_polytrack3f_all(const a_polytrack3f_t *ctx, float t, float o[3]) __NONNULL((1, 3));
@@ -161,7 +160,7 @@ extern void a_polytrack3f_all(const a_polytrack3f_t *ctx, float t, float o[3]) _
 /* function for quintic polynomial trajectory */
 
 /*!
- @brief          Initialize function for quintic polynomial trajectory
+ @brief Initialize function for quintic polynomial trajectory
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
@@ -175,68 +174,68 @@ extern void a_polytrack3f_all(const a_polytrack3f_t *ctx, float t, float o[3]) _
   k_{5}=\cfrac{\left(a_{1}-a_{0}\right)\,t^2+\left(-6\,v_{0}-6\,v_{1}\right)\,t+12\,q}{2\,t^5}
   \end{array}\right.
  \f}
- @param[in,out]  ctx: points to an instance of quintic polynomial trajectory
- @param[in]      source: source for trajectory
-  @arg           0 time for source
-  @arg           1 position for source
-  @arg           2 velocity for source
-  @arg           3 acceleration for source
- @param[in]      target: target for trajectory
-  @arg           0 time for target
-  @arg           1 position for target
-  @arg           2 velocity for target
-  @arg           3 acceleration for target
+ @param[in,out] ctx: points to an instance of quintic polynomial trajectory
+ @param[in] source: source for trajectory
+  @arg 0 time for source
+  @arg 1 position for source
+  @arg 2 velocity for source
+  @arg 3 acceleration for source
+ @param[in] target: target for trajectory
+  @arg 0 time for target
+  @arg 1 position for target
+  @arg 2 velocity for target
+  @arg 3 acceleration for target
 */
 extern void a_polytrack5_init(a_polytrack5_t *ctx, const double source[4], const double target[4]) __NONNULL_ALL;
 extern void a_polytrack5f_init(a_polytrack5f_t *ctx, const float source[4], const float target[4]) __NONNULL_ALL;
 
 /*!
- @brief          Process function for quintic polynomial trajectory
+ @brief Process function for quintic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   q(t)=k_{0}+k_{1}\left(t-t_{0}\right)+k_{2}\left(t-t_{0}\right)^{2}+k_{3}\left(t-t_{0}\right)^{3}+k_{4}\left(t-t_{0}\right)^{4}+k_{5}\left(t-t_{0}\right)^{5}\\
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of quintic polynomial trajectory
- @param[in]      t: current time
- @return         position output
+ @param[in] ctx: points to an instance of quintic polynomial trajectory
+ @param[in] t: current time
+ @return position output
 */
 extern double a_polytrack5_pos(const a_polytrack5_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack5f_pos(const a_polytrack5f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for quintic polynomial trajectory
+ @brief Process function for quintic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   \dot{q}(t)=k_{1}+2 k_{2}\left(t-t_{0}\right)+3 k_{3}\left(t-t_{0}\right)^{2}+4 k_{4}\left(t-t_{0}\right)^{3}+5 k_{5}\left(t-t_{0}\right)^{4}\\
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of quintic polynomial trajectory
- @param[in]      t: current time
- @return         velocity output
+ @param[in] ctx: points to an instance of quintic polynomial trajectory
+ @param[in] t: current time
+ @return velocity output
 */
 extern double a_polytrack5_vec(const a_polytrack5_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack5f_vec(const a_polytrack5f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for quintic polynomial trajectory
+ @brief Process function for quintic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)+12 k_{4}\left(t-t_{0}\right)^{2}+20 k_{5}\left(t-t_{0}\right)^{3}
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of quintic polynomial trajectory
- @param[in]      t: current time
- @return         acceleration output
+ @param[in] ctx: points to an instance of quintic polynomial trajectory
+ @param[in] t: current time
+ @return acceleration output
 */
 extern double a_polytrack5_acc(const a_polytrack5_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack5f_acc(const a_polytrack5f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for quintic polynomial trajectory
+ @brief Process function for quintic polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
@@ -245,12 +244,12 @@ extern float a_polytrack5f_acc(const a_polytrack5f_t *ctx, float t) __NONNULL((1
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)+12 k_{4}\left(t-t_{0}\right)^{2}+20 k_{5}\left(t-t_{0}\right)^{3}
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of quintic polynomial trajectory
- @param[in]      t: current time
- @param[out]     o: buffer for result
-  @arg           0 position output
-  @arg           1 velocity output
-  @arg           2 acceleration output
+ @param[in] ctx: points to an instance of quintic polynomial trajectory
+ @param[in] t: current time
+ @param[out] o: buffer for result
+  @arg 0 position output
+  @arg 1 velocity output
+  @arg 2 acceleration output
 */
 extern void a_polytrack5_all(const a_polytrack5_t *ctx, double t, double o[3]) __NONNULL((1, 3));
 extern void a_polytrack5f_all(const a_polytrack5f_t *ctx, float t, float o[3]) __NONNULL((1, 3));
@@ -258,7 +257,7 @@ extern void a_polytrack5f_all(const a_polytrack5f_t *ctx, float t, float o[3]) _
 /* function for hepta polynomial trajectory */
 
 /*!
- @brief          Initialize function for hepta polynomial trajectory
+ @brief Initialize function for hepta polynomial trajectory
  @details
  \f{aligned}{
   \left\{\begin{array}{l}
@@ -274,85 +273,85 @@ extern void a_polytrack5f_all(const a_polytrack5f_t *ctx, float t, float o[3]) _
   k_{7}=\cfrac{\left(j_{0}+j_{1}\right)\,t^3+\left(12\,a_{0}-12\,a_{1}\right)\,t^2+\left(60\,v_{0}+60\,v_{1}\right)\,t-120\,q}{6\,t^7}
   \end{array}\right.
  \f}
- @param[in,out]  ctx: points to an instance of hepta polynomial trajectory
- @param[in]      source: source for trajectory
-  @arg           0 time for source
-  @arg           1 position for source
-  @arg           2 velocity for source
-  @arg           3 acceleration for source
-  @arg           4 jerk for source
- @param[in]      target: target for trajectory
-  @arg           0 time for target
-  @arg           1 position for target
-  @arg           2 velocity for target
-  @arg           3 acceleration for target
-  @arg           4 jerk for target
+ @param[in,out] ctx: points to an instance of hepta polynomial trajectory
+ @param[in] source: source for trajectory
+  @arg 0 time for source
+  @arg 1 position for source
+  @arg 2 velocity for source
+  @arg 3 acceleration for source
+  @arg 4 jerk for source
+ @param[in] target: target for trajectory
+  @arg 0 time for target
+  @arg 1 position for target
+  @arg 2 velocity for target
+  @arg 3 acceleration for target
+  @arg 4 jerk for target
 */
 extern void a_polytrack7_init(a_polytrack7_t *ctx, const double source[5], const double target[5]) __NONNULL_ALL;
 extern void a_polytrack7f_init(a_polytrack7f_t *ctx, const float source[5], const float target[5]) __NONNULL_ALL;
 
 /*!
- @brief          Process function for hepta polynomial trajectory
+ @brief Process function for hepta polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   q(t)=k_{0}+k_{1}\left(t-t_{0}\right)+k_{2}\left(t-t_{0}\right)^{2}+k_{3}\left(t-t_{0}\right)^{3}+k_{4}\left(t-t_{0}\right)^{4}+k_{5}\left(t-t_{0}\right)^{5}+k_{6}\left(t-t_{0}\right)^{6}+k_{7}\left(t-t_{0}\right)^{7}\\
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of hepta polynomial trajectory
- @param[in]      t: current time
- @return         position output
+ @param[in] ctx: points to an instance of hepta polynomial trajectory
+ @param[in] t: current time
+ @return position output
 */
 extern double a_polytrack7_pos(const a_polytrack7_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack7f_pos(const a_polytrack7f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for hepta polynomial trajectory
+ @brief Process function for hepta polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   \dot{q}(t)=k_{1}+2 k_{2}\left(t-t_{0}\right)+3 k_{3}\left(t-t_{0}\right)^{2}+4 k_{4}\left(t-t_{0}\right)^{3}+5 k_{5}\left(t-t_{0}\right)^{4}+6 k_{6}\left(t-t_{0}\right)^{5}+7 k_{7}\left(t-t_{0}\right)^{6}\\
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of hepta polynomial trajectory
- @param[in]      t: current time
- @return         velocity output
+ @param[in] ctx: points to an instance of hepta polynomial trajectory
+ @param[in] t: current time
+ @return velocity output
 */
 extern double a_polytrack7_vec(const a_polytrack7_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack7f_vec(const a_polytrack7f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for hepta polynomial trajectory
+ @brief Process function for hepta polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)+12 k_{4}\left(t-t_{0}\right)^{2}+20 k_{5}\left(t-t_{0}\right)^{3}+30 k_{6}\left(t-t_{0}\right)^{4}+42 k_{7}\left(t-t_{0}\right)^{5}\\
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of hepta polynomial trajectory
- @param[in]      t: current time
- @return         acceleration output
+ @param[in] ctx: points to an instance of hepta polynomial trajectory
+ @param[in] t: current time
+ @return acceleration output
 */
 extern double a_polytrack7_acc(const a_polytrack7_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack7f_acc(const a_polytrack7f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for hepta polynomial trajectory
+ @brief Process function for hepta polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
   q^{(3)}(t)=6 k_{3}+24 k_{4}\left(t-t_{0}\right)+60 k_{5}\left(t-t_{0}\right)^{2}+120 k_{6}\left(t-t_{0}\right)^{3}+210 k_{7}\left(t-t_{0}\right)^{4}
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of hepta polynomial trajectory
- @param[in]      t: current time
- @return         jerk output
+ @param[in] ctx: points to an instance of hepta polynomial trajectory
+ @param[in] t: current time
+ @return jerk output
 */
 extern double a_polytrack7_jer(const a_polytrack7_t *ctx, double t) __NONNULL((1));
 extern float a_polytrack7f_jer(const a_polytrack7f_t *ctx, float t) __NONNULL((1));
 
 /*!
- @brief          Process function for hepta polynomial trajectory
+ @brief Process function for hepta polynomial trajectory
  @details
  \f{aligned}{
   \begin{array}{l}
@@ -362,13 +361,13 @@ extern float a_polytrack7f_jer(const a_polytrack7f_t *ctx, float t) __NONNULL((1
   q^{(3)}(t)=6 k_{3}+24 k_{4}\left(t-t_{0}\right)+60 k_{5}\left(t-t_{0}\right)^{2}+120 k_{6}\left(t-t_{0}\right)^{3}+210 k_{7}\left(t-t_{0}\right)^{4}
   \end{array}
  \f}
- @param[in]      ctx: points to an instance of hepta polynomial trajectory
- @param[in]      t: current time
- @param[out]     o: buffer for result
-  @arg           0 position output
-  @arg           1 velocity output
-  @arg           2 acceleration output
-  @arg           3 jerk output
+ @param[in] ctx: points to an instance of hepta polynomial trajectory
+ @param[in] t: current time
+ @param[out] o: buffer for result
+  @arg 0 position output
+  @arg 1 velocity output
+  @arg 2 acceleration output
+  @arg 3 jerk output
 */
 extern void a_polytrack7_all(const a_polytrack7_t *ctx, double t, double o[4]) __NONNULL((1, 3));
 extern void a_polytrack7f_all(const a_polytrack7f_t *ctx, float t, float o[4]) __NONNULL((1, 3));

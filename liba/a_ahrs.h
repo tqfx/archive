@@ -1,11 +1,10 @@
 /*!
- @file           a_ahrs.h
- @brief          AHRS(Automatic Heading Reference System) algorithm library
- @details        IMU(Inertial Measurement Unit)
-                 Mehony AHRS
-                 Madgwick AHRS
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_ahrs.h
+ @brief AHRS(Automatic Heading Reference System) algorithm library
+ @details IMU(Inertial Measurement Unit)
+ - Mehony AHRS
+ - Madgwick AHRS
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
@@ -17,12 +16,12 @@
 __BEGIN_DECLS
 
 /*!
- @brief        Mehony AHRS attitude calculation with magnetometer
- @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
- @param[in]    g: x,y,z axis of gyroscope
- @param[in]    a: x,y,z axis of accelerometer
- @param[in]    m: x,y,z axis of magnetometer
- @param[in]    ht: half of sampling period, unit /s
+ @brief Mehony AHRS attitude calculation with magnetometer
+ @param[out] q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
+ @param[in] g: x,y,z axis of gyroscope
+ @param[in] a: x,y,z axis of accelerometer
+ @param[in] m: x,y,z axis of magnetometer
+ @param[in] ht: half of sampling period, unit /s
 */
 extern void a_ahrs_mahony(float q[4],
                           float g[3],
@@ -31,11 +30,11 @@ extern void a_ahrs_mahony(float q[4],
                           float ht) __NONNULL((1, 2, 3, 4));
 
 /*!
- @brief        Mehony AHRS attitude calculation without magnetometer
- @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
- @param[in]    g: x,y,z axis of gyroscope
- @param[in]    a: x,y,z axis of accelerometer
- @param[in]    ht: half of sampling period, unit /s
+ @brief Mehony AHRS attitude calculation without magnetometer
+ @param[out] q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
+ @param[in] g: x,y,z axis of gyroscope
+ @param[in] a: x,y,z axis of accelerometer
+ @param[in] ht: half of sampling period, unit /s
 */
 extern void a_ahrs_mahony_imu(float q[4],
                               float g[3],
@@ -43,12 +42,12 @@ extern void a_ahrs_mahony_imu(float q[4],
                               float ht) __NONNULL((1, 2, 3));
 
 /*!
- @brief        Madgwick AHRS attitude calculation with magnetometer
- @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
- @param[in]    g: x,y,z axis of gyroscope
- @param[in]    a: x,y,z axis of accelerometer
- @param[in]    m: x,y,z axis of magnetometer
- @param[in]    t: sampling period, unit /s
+ @brief Madgwick AHRS attitude calculation with magnetometer
+ @param[out] q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
+ @param[in] g: x,y,z axis of gyroscope
+ @param[in] a: x,y,z axis of accelerometer
+ @param[in] m: x,y,z axis of magnetometer
+ @param[in] t: sampling period, unit /s
 */
 extern void a_ahrs_madgwick(float q[4],
                             float g[3],
@@ -57,11 +56,11 @@ extern void a_ahrs_madgwick(float q[4],
                             float t) __NONNULL((1, 2, 3, 4));
 
 /*!
- @brief        Madgwick AHRS attitude calculation without magnetometer
- @param[out]   q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
- @param[in]    g: x,y,z axis of gyroscope
- @param[in]    a: x,y,z axis of accelerometer
- @param[in]    t: sampling period, unit /s
+ @brief Madgwick AHRS attitude calculation without magnetometer
+ @param[out] q: quaternion q[0] + q[1] * i + q[2] * j + q[3] * k
+ @param[in] g: x,y,z axis of gyroscope
+ @param[in] a: x,y,z axis of accelerometer
+ @param[in] t: sampling period, unit /s
 */
 extern void a_ahrs_madgwick_imu(float q[4],
                                 float g[3],

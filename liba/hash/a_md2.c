@@ -1,9 +1,8 @@
 /*!
- @file           a_md2.c
- @brief          RFC 1319 compliant MD2 implementation
- @details        https://www.ietf.org/rfc/rfc1319.txt
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_md2.c
+ @brief RFC 1319 compliant MD2 implementation
+ @details https://www.ietf.org/rfc/rfc1319.txt
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_md2.h"

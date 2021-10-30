@@ -1,8 +1,7 @@
 /*!
- @file           test.c
- @brief          test
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test.c
+ @brief test
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include <stdio.h>

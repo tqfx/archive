@@ -1,8 +1,7 @@
 /*!
- @file           a_str.h
- @brief          basic string library
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_str.h
+ @brief basic string library
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_str.h"
@@ -10,11 +9,11 @@
 #include <stdio.h> /* vsnprintf */
 
 /*!
- @brief          Boyer-Moore algorithm
- @ref            http://www-igm.univ-mlv.fr/~lecroq/string/node14.html
- @param[in]      pat: pointer of search patterns
- @param[in]      m: length of search patterns
- @return         void *prep[m + 0x100]
+ @brief Boyer-Moore algorithm
+ @ref http://www-igm.univ-mlv.fr/~lecroq/string/node14.html
+ @param[in] pat: pointer of search patterns
+ @param[in] m: length of search patterns
+ @return void *prep[m + 0x100]
 */
 static int *bm_prep(const unsigned char *pat, int m);
 

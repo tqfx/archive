@@ -1,8 +1,7 @@
 /*!
- @file           test_mean.c
- @brief          test mean
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file test_mean.c
+ @brief test mean
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_mean.h"

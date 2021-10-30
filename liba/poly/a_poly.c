@@ -1,8 +1,7 @@
 /*!
- @file           a_poly.c
- @brief          polynomial
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_poly.c
+ @brief polynomial
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_poly.h"

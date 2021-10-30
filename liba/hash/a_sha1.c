@@ -1,9 +1,8 @@
 /*!
- @file           a_sha1.c
- @brief          RFC 3174 compliant SHA1 implementation
- @details        https://www.ietf.org/rfc/rfc3174.txt
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file a_sha1.c
+ @brief RFC 3174 compliant SHA1 implementation
+ @details https://www.ietf.org/rfc/rfc3174.txt
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_sha1.h"
