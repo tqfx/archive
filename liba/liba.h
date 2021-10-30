@@ -371,6 +371,17 @@ typedef double float64_t;
 #define ROR64(_x, _y) ((((uint64_t)((_x)&0xFFFFFFFFFFFFFFFF) >> ((uint64_t)(_y)&63)) | ((uint64_t)(_x) << (uint64_t)((64 - ((_y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
 #endif /* 64-bit Rotates */
 
+#ifndef aroundup32
+#define aroundup32(_x)     \
+    (--(_x),               \
+     (_x) |= (_x) >> 0x01, \
+     (_x) |= (_x) >> 0x02, \
+     (_x) |= (_x) >> 0x04, \
+     (_x) |= (_x) >> 0x08, \
+     (_x) |= (_x) >> 0x10, \
+     ++(_x))
+#endif /* aroundup32 */
+
 /* assertion */
 #ifndef aassert
 #define aassert(_e)
