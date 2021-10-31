@@ -24,3 +24,6 @@ target_link_libraries(test_str a)
 
 add_executable(test_vec test_vec.cpp)
 target_link_libraries(test_vec a)
+
+add_executable(test_list test_list.c)
+target_link_libraries(test_list a)
