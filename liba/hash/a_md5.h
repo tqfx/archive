@@ -14,6 +14,7 @@
 #define A_MD5_BUFSIZ 0x40
 #define A_MD5_OUTSIZ 0x10
 
+#pragma pack(push, 4)
 typedef struct a_md5_t
 {
     uint64_t length;
@@ -22,6 +23,7 @@ typedef struct a_md5_t
     uint32_t state[A_MD5_OUTSIZ >> 2];
     uint32_t cursiz;
 } a_md5_t;
+#pragma pack(pop)
 
 __BEGIN_DECLS
 

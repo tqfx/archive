@@ -52,11 +52,11 @@ int main(void)
     for (unsigned int i = 0; i != sizeof(datat) / sizeof(double); ++i)
     {
         b32->f32 = (float)datat[i];
-        printf("0x%lX    %u,0x%02X,0x%06X    %+f\n",
+        printf("0x%lX    %u,0x%02X,0x%06lX    %+f\n",
                b32->u32,
-               b32->s32->s,
-               b32->s32->e,
-               b32->s32->f,
+               (unsigned int)b32->s32->s,
+               (unsigned int)b32->s32->e,
+               (unsigned long)b32->s32->f,
                (double)b32->f32);
     }
     for (unsigned int i = 0; i != sizeof(datat) / sizeof(double); ++i)

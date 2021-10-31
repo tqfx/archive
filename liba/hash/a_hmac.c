@@ -26,7 +26,7 @@ int a_hmac_init(a_hmac_t *_ctx, const a_hash_t *_hash, const void *_p, size_t _n
     _ctx->hash = _hash;
     _ctx->outsiz = _ctx->hash->outsiz;
 
-    if (_n > _ctx->hash->bufsiz)
+    if (_ctx->hash->bufsiz < _n)
     {
         _ctx->hash->init(_ctx->state);
         if (_ctx->hash->process(_ctx->state, _p, _n) != A_HASH_SUCCESS)

@@ -14,6 +14,7 @@
 #define A_TIGER_BUFSIZ 0x40
 #define A_TIGER_OUTSIZ 24
 
+#pragma pack(push, 4)
 typedef struct a_tiger_t
 {
     uint64_t length;
@@ -22,6 +23,7 @@ typedef struct a_tiger_t
     uint64_t state[A_TIGER_OUTSIZ >> 3];
     uint32_t cursiz;
 } a_tiger_t;
+#pragma pack(pop)
 
 __BEGIN_DECLS
 

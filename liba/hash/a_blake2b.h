@@ -18,6 +18,7 @@
 #define A_BLAKE2B_384_OUTSIZ (384 >> 3)
 #define A_BLAKE2B_512_OUTSIZ (512 >> 3)
 
+#pragma pack(push, 1)
 typedef struct a_blake2b_t
 {
     uint64_t t[2];
@@ -29,6 +30,7 @@ typedef struct a_blake2b_t
     unsigned char buf[A_BLAKE2B_BUFSIZ];
     unsigned char lastnode;
 } a_blake2b_t;
+#pragma pack(pop)
 
 __BEGIN_DECLS
 

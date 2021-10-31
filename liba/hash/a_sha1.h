@@ -14,6 +14,7 @@
 #define A_SHA1_BUFSIZ 0x40
 #define A_SHA1_OUTSIZ 20
 
+#pragma pack(push, 4)
 typedef struct a_sha1_t
 {
     uint64_t length;
@@ -22,6 +23,7 @@ typedef struct a_sha1_t
     uint32_t state[A_SHA1_OUTSIZ >> 2];
     uint32_t cursiz;
 } a_sha1_t;
+#pragma pack(pop)
 
 __BEGIN_DECLS
 

@@ -44,39 +44,41 @@ typedef enum a_pid_mode_t
 /*!
  @brief Instance structure for the floating-point PID Control
 */
-#define __A_PID_T(_def, _type)                            \
-    typedef struct _def##_t                               \
-    {                                                     \
-        a_pid_mode_t mode; /* Mode for PID Control     */ \
-                                                          \
-        _type kp; /* Proportional constant    */          \
-        _type ki; /* Integral constant        */          \
-        _type kd; /* Derivative constant      */          \
-                                                          \
-        _type omin;  /* Minimum output           */       \
-        _type omax;  /* Maximum output           */       \
-        _type omaxi; /* Maximum intergral output */       \
-                                                          \
-        _type a[3]; /* Derived gain             */        \
-                    /* - A_PID_POS              */        \
-                    /*   - a[0] = Kp + Kd       */        \
-                    /*   - a[1] = - Kd          */        \
-                    /*   - a[2] = Ki            */        \
-                    /* - A_PID_INC              */        \
-                    /*   - a[0] = Kp + Ki + Kd  */        \
-                    /*   - a[1] = -Kp - 2 * Kd  */        \
-                    /*   - a[2] = Kd            */        \
-                                                          \
-        _type x[2]; /* State array                  */    \
-                    /* - x[0] (The last error)      */    \
-                    /* - x[1] (The last last error) */    \
-                                                          \
-        _type y; /* Cache variable              */        \
-                 /* - A_PID_POS integral output */        \
-                 /* - A_PID_INC all output      */        \
+#define __A_PID_T(_def, _type)                         \
+    typedef struct _def##_t                            \
+    {                                                  \
+        a_pid_mode_t mode; /* Mode for PID Control */  \
+                                                       \
+        _type kp; /* Proportional constant    */       \
+        _type ki; /* Integral constant        */       \
+        _type kd; /* Derivative constant      */       \
+                                                       \
+        _type omin;  /* Minimum output           */    \
+        _type omax;  /* Maximum output           */    \
+        _type omaxi; /* Maximum intergral output */    \
+                                                       \
+        _type a[3]; /* Derived gain             */     \
+                    /* - A_PID_POS              */     \
+                    /*   - a[0] = Kp + Kd       */     \
+                    /*   - a[1] = - Kd          */     \
+                    /*   - a[2] = Ki            */     \
+                    /* - A_PID_INC              */     \
+                    /*   - a[0] = Kp + Ki + Kd  */     \
+                    /*   - a[1] = -Kp - 2 * Kd  */     \
+                    /*   - a[2] = Kd            */     \
+                                                       \
+        _type x[2]; /* State array                  */ \
+                    /* - x[0] (The last error)      */ \
+                    /* - x[1] (The last last error) */ \
+                                                       \
+        _type y; /* Cache variable              */     \
+                 /* - A_PID_POS integral output */     \
+                 /* - A_PID_INC all output      */     \
     } _def##_t
+#pragma pack(push, 4)
 __A_PID_T(a_pid, double);
 __A_PID_T(a_pidf, float);
+#pragma pack(pop)
 #undef __A_PID_T
 
 __BEGIN_DECLS

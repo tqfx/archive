@@ -8,6 +8,8 @@
 
 #include "test_hash.h"
 
+#pragma pack(push, 4)
+
 static void test_md2(void)
 {
     static const struct
@@ -1988,6 +1990,8 @@ static void test_blake2b_512(void)
         __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_512_OUTSIZ, "blake2b-512");
     }
 }
+
+#pragma pack(pop)
 
 int main(void)
 {

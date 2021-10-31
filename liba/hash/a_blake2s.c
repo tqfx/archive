@@ -232,25 +232,25 @@ int a_blake2s_process(a_blake2s_t *_ctx, const void *_p, size_t _n)
     }
 
     const unsigned char *p = (const unsigned char *)_p;
+    uint32_t n = sizeof(_ctx->buf) - _ctx->cursiz;
+    if (_n > n)
+    {
+        memcpy(_ctx->buf + _ctx->cursiz, p, n);
+        a_blake2s_increment_counter(_ctx, sizeof(_ctx->buf));
+        a_blake2s_compress(_ctx, _ctx->buf);
+        _ctx->cursiz = 0;
+        _n -= n;
+        p += n;
+        while (_n > sizeof(_ctx->buf) - 1)
+        {
+            a_blake2s_increment_counter(_ctx, sizeof(_ctx->buf));
+            a_blake2s_compress(_ctx, p);
+            _n -= sizeof(_ctx->buf);
+            p += sizeof(_ctx->buf);
+        }
+    }
     if (_n)
     {
-        uint32_t n = sizeof(_ctx->buf) - _ctx->cursiz;
-        if (_n > n)
-        {
-            memcpy(_ctx->buf + _ctx->cursiz, p, n);
-            a_blake2s_increment_counter(_ctx, sizeof(_ctx->buf));
-            a_blake2s_compress(_ctx, _ctx->buf);
-            _ctx->cursiz = 0;
-            _n -= n;
-            p += n;
-            while (_n > sizeof(_ctx->buf) - 1)
-            {
-                a_blake2s_increment_counter(_ctx, sizeof(_ctx->buf));
-                a_blake2s_compress(_ctx, p);
-                _n -= sizeof(_ctx->buf);
-                p += sizeof(_ctx->buf);
-            }
-        }
         memcpy(_ctx->buf + _ctx->cursiz, p, _n);
         _ctx->cursiz += (uint32_t)_n;
     }

@@ -14,6 +14,7 @@
 #define A_WHIRLPOOL_BUFSIZ 0x40
 #define A_WHIRLPOOL_OUTSIZ 0x40
 
+#pragma pack(push, 4)
 typedef struct a_whirlpool_t
 {
     uint64_t length;
@@ -22,6 +23,7 @@ typedef struct a_whirlpool_t
     uint64_t state[A_WHIRLPOOL_OUTSIZ >> 3];
     uint32_t cursiz;
 } a_whirlpool_t;
+#pragma pack(pop)
 
 __BEGIN_DECLS
 

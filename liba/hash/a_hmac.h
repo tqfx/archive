@@ -23,6 +23,7 @@ enum
     A_HMAC_NOTFOUND = A_NOTFOUND,
 };
 
+#pragma pack(push, 4)
 typedef struct a_hmac_t
 {
     unsigned int outsiz;
@@ -30,6 +31,7 @@ typedef struct a_hmac_t
     a_hash_stat_t state[1];
     unsigned char buf[A_HMAC_BUFSIZ];
 } a_hmac_t;
+#pragma pack(pop)
 
 __BEGIN_DECLS
 

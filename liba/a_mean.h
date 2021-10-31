@@ -29,12 +29,14 @@ typedef enum a_mean_mode_t
 #define __A_MEAN_T(_def, _type) \
     typedef struct _def##_t     \
     {                           \
-        a_mean_mode_t mode;     \
-        size_t num;             \
         _type out;              \
+        size_t num;             \
+        a_mean_mode_t mode;     \
     } _def##_t
+#pragma pack(push, 4)
 __A_MEAN_T(a_mean, double);
 __A_MEAN_T(a_meanf, float);
+#pragma pack(pop)
 #undef __A_MEAN_T
 
 __BEGIN_DECLS
