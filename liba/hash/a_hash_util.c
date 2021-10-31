@@ -59,7 +59,7 @@ int a_hash_mmulti(const a_hash_t *_ctx, void *_out, size_t *_siz, const void *_p
             return A_HASH_FAILURE;
         }
         _p = va_arg(arg, const void *);
-        if (0 == _p)
+        if (_p == 0)
         {
             va_end(arg);
             break;
@@ -86,10 +86,10 @@ int a_hash_filehandle(const a_hash_t *_ctx, FILE *_in, void *_out, size_t *_siz)
 
     a_hash_stat_t stat[1];
 
-    char buf[BUFSIZ];
     _ctx->init(stat);
     do
     {
+        char buf[BUFSIZ];
         *_siz = fread(buf, 1, BUFSIZ, _in);
         _ctx->process(stat, buf, *_siz);
     } while (*_siz == BUFSIZ);
@@ -112,7 +112,7 @@ int a_hash_file(const a_hash_t *_ctx, const char *_fname, void *_out, size_t *_s
     }
 
     FILE *in = fopen(_fname, "rb");
-    if (0 == in)
+    if (in == 0)
     {
         return A_HASH_NOTFOUND;
     }

@@ -80,7 +80,7 @@ int a_hmac_mmulti(const a_hash_t *_ctx,
             return A_HMAC_FAILURE;
         }
         _msg = va_arg(arg, const void *);
-        if (0 == _msg)
+        if (_msg == 0)
         {
             va_end(arg);
             break;
@@ -112,7 +112,6 @@ int a_hmac_filehandle(const a_hash_t *_ctx,
     }
 
     a_hmac_t stat[1];
-    char buf[BUFSIZ];
 
     if (a_hmac_init(stat, _ctx, _key, _keysiz) != A_HMAC_SUCCESS)
     {
@@ -120,6 +119,7 @@ int a_hmac_filehandle(const a_hash_t *_ctx,
     }
     do
     {
+        char buf[BUFSIZ];
         *_siz = fread(buf, 1, BUFSIZ, _in);
         if (a_hmac_process(stat, buf, *_siz) != A_HMAC_SUCCESS)
         {
@@ -151,7 +151,7 @@ int a_hmac_file(const a_hash_t *_ctx,
     }
 
     FILE *in = fopen(_fname, "rb");
-    if (0 == in)
+    if (in == 0)
     {
         return A_HMAC_NOTFOUND;
     }

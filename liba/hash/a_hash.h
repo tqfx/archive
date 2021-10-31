@@ -190,7 +190,7 @@ __END_DECLS
         const unsigned char *p = (const unsigned char *)_p;          \
         while (_n)                                                   \
         {                                                            \
-            if ((0 == _ctx->cursiz) && (sizeof(_ctx->buf) - 1 < _n)) \
+            if ((_ctx->cursiz == 0) && (sizeof(_ctx->buf) - 1 < _n)) \
             {                                                        \
                 _compress(_ctx, p);                                  \
                 _ctx->length += sizeof(_ctx->buf) << 3;              \

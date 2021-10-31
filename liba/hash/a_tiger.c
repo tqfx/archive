@@ -277,7 +277,8 @@ static const uint64_t table[0x400] = {
 #undef BYTE
 
 /* one round of the hash function */
-static __INLINE void tiger_round(uint64_t *_a, uint64_t *_b, uint64_t *_c, uint64_t _x, unsigned int _mul)
+__STATIC_INLINE
+void tiger_round(uint64_t *_a, uint64_t *_b, uint64_t *_c, uint64_t _x, unsigned int _mul)
 {
 #define t1 (table + 0x000)
 #define t2 (table + 0x100)

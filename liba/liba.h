@@ -335,8 +335,6 @@ typedef double float64_t;
 #undef ROR
 #undef ROLc
 #undef RORc
-#define ROLc(_x, _n) ROL(_x, _n)
-#define RORc(_x, _n) ROR(_x, _n)
 #if defined(_MSC_VER)
 /* instrinsic rotate */
 #pragma intrinsic(_rotl, _rotr)
@@ -349,14 +347,14 @@ typedef double float64_t;
 #define ROL(_x, _y) ((((uint32_t)(_x) << (uint32_t)((_y)&31)) | (((uint32_t)(_x)&0xFFFFFFFF) >> (uint32_t)((32 - ((_y)&31)) & 31))) & 0xFFFFFFFF)
 #define ROR(_x, _y) (((((uint32_t)(_x)&0xFFFFFFFF) >> (uint32_t)((_y)&31)) | ((uint32_t)(_x) << (uint32_t)((32 - ((_y)&31)) & 31))) & 0xFFFFFFFF)
 #endif /* 32-bit Rotates */
+#define ROLc(_x, _n) ROL(_x, _n)
+#define RORc(_x, _n) ROR(_x, _n)
 
 /* 64-bit Rotates */
 #undef ROR64
 #undef ROL64
 #undef ROL64c
 #undef ROR64c
-#define ROL64c(_x, _n) ROL64(_x, _n)
-#define ROR64c(_x, _n) ROR64(_x, _n)
 #if defined(_MSC_VER)
 /* instrinsic rotate */
 #pragma intrinsic(_rotl64, _rotr64)
@@ -369,6 +367,8 @@ typedef double float64_t;
 #define ROL64(_x, _y) ((((uint64_t)(_x) << ((uint64_t)(_y)&63)) | (((uint64_t)(_x)&0xFFFFFFFFFFFFFFFF) >> (uint64_t)((64 - ((_y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
 #define ROR64(_x, _y) ((((uint64_t)((_x)&0xFFFFFFFFFFFFFFFF) >> ((uint64_t)(_y)&63)) | ((uint64_t)(_x) << (uint64_t)((64 - ((_y)&63)) & 63))) & 0xFFFFFFFFFFFFFFFF)
 #endif /* 64-bit Rotates */
+#define ROL64c(_x, _n) ROL64(_x, _n)
+#define ROR64c(_x, _n) ROR64(_x, _n)
 
 #ifndef aroundup32
 #define aroundup32(_x)     \

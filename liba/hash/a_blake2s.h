@@ -36,9 +36,9 @@ extern void a_blake2s_128_init(a_blake2s_t *ctx) __NONNULL_ALL;
 extern void a_blake2s_160_init(a_blake2s_t *ctx) __NONNULL_ALL;
 extern void a_blake2s_224_init(a_blake2s_t *ctx) __NONNULL_ALL;
 extern void a_blake2s_256_init(a_blake2s_t *ctx) __NONNULL_ALL;
+extern int a_blake2s_init(a_blake2s_t *ctx, size_t siz, const void *p, size_t n) __NONNULL((1));
 extern int a_blake2s_process(a_blake2s_t *ctx, const void *p, size_t n) __NONNULL((1));
 extern unsigned char *a_blake2s_done(a_blake2s_t *ctx, void *out) __NONNULL((1));
-extern int a_blake2s_init(a_blake2s_t *ctx, size_t siz, const void *p, size_t n) __NONNULL((1));
 
 __END_DECLS
 

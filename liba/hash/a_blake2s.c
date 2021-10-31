@@ -48,17 +48,20 @@ enum
     A_PARAM_SIZE = 32,
 };
 
-static __INLINE void a_blake2s_set_lastnode(a_blake2s_t *_ctx)
+__STATIC_INLINE
+void a_blake2s_set_lastnode(a_blake2s_t *_ctx)
 {
     _ctx->f[1] = 0xFFFFFFFF;
 }
 
-static __INLINE int a_blake2s_is_lastblock(const a_blake2s_t *_ctx)
+__STATIC_INLINE
+int a_blake2s_is_lastblock(const a_blake2s_t *_ctx)
 {
-    return (0 != _ctx->f[0]);
+    return (_ctx->f[0] != 0);
 }
 
-static __INLINE void a_blake2s_set_lastblock(a_blake2s_t *_ctx)
+__STATIC_INLINE
+void a_blake2s_set_lastblock(a_blake2s_t *_ctx)
 {
     if (_ctx->lastnode)
     {
@@ -67,7 +70,8 @@ static __INLINE void a_blake2s_set_lastblock(a_blake2s_t *_ctx)
     _ctx->f[0] = 0xFFFFFFFF;
 }
 
-static __INLINE void a_blake2s_increment_counter(a_blake2s_t *_ctx, uint32_t _inc)
+__STATIC_INLINE
+void a_blake2s_increment_counter(a_blake2s_t *_ctx, uint32_t _inc)
 {
     _ctx->t[0] += _inc;
     if (_ctx->t[0] < _inc)
@@ -158,13 +162,13 @@ static void a_blake2s_compress(a_blake2s_t *_ctx, const unsigned char *_buf)
 #undef G
 #undef ROUND
 
-int a_blake2s_init(a_blake2s_t *_ctx, size_t siz, const void *_p, size_t _n)
+int a_blake2s_init(a_blake2s_t *_ctx, size_t _siz, const void *_p, size_t _n)
 {
     aassert(_ctx);
 
     unsigned char ap[A_PARAM_SIZE] = {0};
 
-    if ((0 == siz) || (sizeof(_ctx->out) < siz))
+    if ((_siz == 0) || (sizeof(_ctx->out) < _siz))
     {
         return A_HASH_INVALID;
     }
@@ -174,7 +178,7 @@ int a_blake2s_init(a_blake2s_t *_ctx, size_t siz, const void *_p, size_t _n)
         return A_HASH_INVALID;
     }
 
-    ap[O_DIGEST_LENGTH] = (unsigned char)siz;
+    ap[O_DIGEST_LENGTH] = (unsigned char)_siz;
     ap[O_KEY_LENGTH] = (unsigned char)_n;
     ap[O_FANOUT] = 1;
     ap[O_DEPTH] = 1;
@@ -206,15 +210,15 @@ int a_blake2s_init(a_blake2s_t *_ctx, size_t siz, const void *_p, size_t _n)
 }
 
 #undef __A_BLAKE2S_INIT
-#define __A_BLAKE2S_INIT(_bit, _ctx)                \
+#define __A_BLAKE2S_INIT(_bit)                      \
     void a_blake2s_##_bit##_init(a_blake2s_t *_ctx) \
     {                                               \
         a_blake2s_init(_ctx, (_bit) >> 3, 0, 0);    \
     }
-__A_BLAKE2S_INIT(128, _ctx)
-__A_BLAKE2S_INIT(160, _ctx)
-__A_BLAKE2S_INIT(224, _ctx)
-__A_BLAKE2S_INIT(256, _ctx)
+__A_BLAKE2S_INIT(128)
+__A_BLAKE2S_INIT(160)
+__A_BLAKE2S_INIT(224)
+__A_BLAKE2S_INIT(256)
 #undef __A_BLAKE2S_INIT
 
 int a_blake2s_process(a_blake2s_t *_ctx, const void *_p, size_t _n)

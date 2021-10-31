@@ -37,7 +37,8 @@ static const uint64_t keccakf_rndc[24] = {
     /* clang-format on */
 };
 
-static __INLINE void keccakf(uint64_t _s[SHA3_KECCAK_SPONGE_WORDS])
+__STATIC_INLINE
+void keccakf(uint64_t _s[SHA3_KECCAK_SPONGE_WORDS])
 {
     uint64_t bc[5], t;
     unsigned int i, j;
@@ -147,7 +148,7 @@ int a_sha3_process(a_sha3_t *_ctx, const void *_p, size_t _n)
     aassert(_ctx);
     aassert(!_n || _p);
 
-    if (0 == _n) /* nothing to do */
+    if (_n == 0) /* nothing to do */
     {
         return A_HASH_SUCCESS;
     }
@@ -286,7 +287,7 @@ void a_sha3shake_done(a_sha3_t *_ctx, unsigned char *_out, unsigned int _siz)
     aassert(_ctx);
     aassert(!_siz || _out);
 
-    if (0 == _siz) /* nothing to do */
+    if (_siz == 0) /* nothing to do */
     {
         return;
     }

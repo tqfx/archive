@@ -126,7 +126,7 @@ int a_base32_encode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigne
 
     char *out = (char *)_out;
     /* no input, nothing to do */
-    if (0 == _n)
+    if (_n == 0)
     {
         *out = 0;
         return A_BASE_SUCCESS;
@@ -238,7 +238,7 @@ int a_base32_decode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigne
     }
 
     /* no input, nothing to do */
-    if (0 == _n)
+    if (_n == 0)
     {
         *_siz = 0;
         return A_BASE_SUCCESS;
