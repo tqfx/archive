@@ -21,3 +21,6 @@ target_link_libraries(test_base a)
 
 add_executable(test_str test_str.c)
 target_link_libraries(test_str a)
+
+add_executable(test_vec test_vec.cpp)
+target_link_libraries(test_vec a)
