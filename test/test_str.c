@@ -42,8 +42,9 @@ void testt(void)
 void testm(void)
 {
     int *p = 0;
-    const char *s = "adcdefghijklmnopqrst";
-    printf("%s %s %s\n", s, "ghi", a_strstr(s, "ghi", &p));
+    const char *pat = "def";
+    const char *s = "abcdefghijklmnopqrst";
+    printf("%s %s %s %s\n", s, pat, a_strstr(s, pat, &p), a_strstr(s, pat, &p));
     afree(p);
 }
 

@@ -10,10 +10,6 @@
 
 #include "liba.h"
 
-#ifndef __STDC_WANT_LIB_EXT1__
-#define __STDC_WANT_LIB_EXT1__ 1
-#endif /* __STDC_WANT_LIB_EXT1__ */
-
 #include <stdlib.h> /* alloc */
 #include <string.h> /* memcpy */
 #include <stdarg.h> /* va_list */
@@ -41,9 +37,7 @@ typedef struct a_str_t
 */
 #define a_str_inits() \
     {                 \
-        .m = 0,       \
-        .n = 0,       \
-        .s = 0,       \
+        0             \
     }
 #endif /* a_str_inits */
 
@@ -51,9 +45,8 @@ typedef struct a_str_t
 /*!
  @brief Free an instance of c string structure
 */
-#define a_str_sfree(_ctx) (              \
-    (_ctx).s ? (afree((_ctx).s), 0) : 0, \
-    (_ctx).m = (_ctx).n = 0)
+#define a_str_sfree(_ctx) ( \
+    (_ctx).s ? (afree((_ctx).s), 0) : 0, (_ctx).m = (_ctx).n = 0)
 #endif /* a_str_sfree */
 
 __NONNULL_ALL
@@ -155,10 +148,10 @@ extern int a_str_putc_(a_str_t *ctx, int c) __NONNULL((1));
  @param[in] n: length of data
  @param[in] pat: pointer of search patterns
  @param[in] m: length of search patterns
- @param[in,out] prep: address of the temporary pointer
+ @param[in,out] prep: address of temporary patterns
   @arg 0 no external memory is used.
-  @arg &(p=0) store patterns to external variables. You need to free memory.
-  @arg &(p=kmalloc(m)) use external memory, at least m bytes.
+  @arg &(0) store patterns to external variables. You need to free memory.
+  @arg &(p) use previous temporary patterns.
  @return address at the head of the block found
   @retval 0 failure
 */
@@ -168,10 +161,10 @@ extern void *a_memmem(const void *str, int n, const void *pat, int m, int **prep
  @brief Locate the substring
  @param[in] str: pointer of string
  @param[in] pat: pointer of search patterns
- @param[in,out] prep: address of the temporary pointer
+ @param[in,out] prep: address of temporary patterns
   @arg 0 no external memory is used.
-  @arg &(p=0) store patterns to external variables. You need to free memory.
-  @arg &(p=kmalloc(m)) use external memory, at least m bytes.
+  @arg &(0) store patterns to external variables. You need to free memory.
+  @arg &(p) use previous temporary patterns.
  @return address at the head of the block found
   @retval 0 failure
 */
@@ -182,10 +175,10 @@ extern char *a_strstr(const char *str, const char *pat, int **prep) __NONNULL((1
  @param[in] str: pointer of string
  @param[in] n: length of string
  @param[in] pat: pointer of search patterns
- @param[in,out] prep: address of the temporary pointer
+ @param[in,out] prep: address of temporary patterns
   @arg 0 no external memory is used.
-  @arg &(p=0) store patterns to external variables. You need to free memory.
-  @arg &(p=kmalloc(m)) use external memory, at least m bytes.
+  @arg &(0) store patterns to external variables. You need to free memory.
+  @arg &(p) use previous temporary patterns.
  @return address at the head of the block found
   @retval 0 failure
 */

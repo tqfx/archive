@@ -11,22 +11,25 @@
 /*!
  @brief Boyer-Moore algorithm
  @ref http://www-igm.univ-mlv.fr/~lecroq/string/node14.html
- @param[in] pat: pointer of search patterns
+ @param[in] pat: points to search patterns
  @param[in] m: length of search patterns
- @return void *prep[m + 0x100]
+ @return int *prep[m + 0x100]. You need to free memory.
 */
-static int *bm_prep(const unsigned char *pat, int m);
+static int *a_bm_prep(const void *pat, int m);
 
-static int *bm_prep(const unsigned char *_pat, int _m)
+static int *a_bm_prep(const void *_pat, int _m)
 {
-    int *prep = (int *)acalloc((size_t)(_m + 0x100), sizeof(int));
+    const unsigned char *pat = (const unsigned char *)_pat;
 
-    int *bmGs = prep;
+    int *suff = (int *)acalloc((size_t)(_m + 0x000), sizeof(int));
+    int *prep = (int *)acalloc((size_t)(_m + 0x100), sizeof(int));
     int *bmBc = prep + _m;
+    int *bmGs = prep;
 
     int m_1 = _m ? _m - 1 : 0;
 
-    { /* preBmBc() */
+    /* preBmBc() */
+    {
         int *pi = bmBc;
         int *pd = bmBc + 0x100;
         while (pi != pd)
@@ -35,17 +38,16 @@ static int *bm_prep(const unsigned char *_pat, int _m)
         }
         for (int i = 0; i != m_1; ++i)
         {
-            bmBc[_pat[i]] = m_1 - i;
+            bmBc[pat[i]] = m_1 - i;
         }
     }
 
-    int *suff = (int *)acalloc((size_t)_m, sizeof(int));
-
-    { /* suffixes() */
+    /* suffixes() */
+    {
         suff[m_1] = _m;
         int f = 0;
         int g = m_1;
-        for (int i = m_1 - 1; - 1 != i; --i)
+        for (int i = m_1 - 1; i != -1; --i)
         {
             if ((i > g) && (suff[i + m_1 - f] < i - g))
             {
@@ -58,7 +60,7 @@ static int *bm_prep(const unsigned char *_pat, int _m)
                     g = i;
                 }
                 f = i;
-                while ((-1 != g) && (_pat[g] == _pat[g + m_1 - f]))
+                while ((g != -1) && (pat[g] == pat[g + m_1 - f]))
                 {
                     --g;
                 }
@@ -67,7 +69,8 @@ static int *bm_prep(const unsigned char *_pat, int _m)
         }
     }
 
-    { /* preBmGs() */
+    /* preBmGs() */
+    {
         int *pi = bmGs;
         int *pd = bmGs + _m;
         while (pi != pd)
@@ -75,7 +78,7 @@ static int *bm_prep(const unsigned char *_pat, int _m)
             *pi++ = _m;
         }
         int j = 0;
-        for (int i = m_1; - 1 != i; --i)
+        for (int i = m_1; i != -1; --i)
         {
             if (suff[i] == i + 1)
             {
@@ -97,7 +100,6 @@ static int *bm_prep(const unsigned char *_pat, int _m)
     }
 
     afree(suff);
-    suff = 0;
 
     return prep;
 }
@@ -113,7 +115,7 @@ void *a_memmem(const void *_str, int _n, const void *_pat, int _m, int **_prep)
     const unsigned char *str = (const unsigned char *)_str;
     const unsigned char *pat = (const unsigned char *)_pat;
 
-    int *prep = ((_prep == 0) || (*_prep == 0)) ? bm_prep(pat, _m) : *_prep;
+    int *prep = ((_prep == 0) || (*_prep == 0)) ? a_bm_prep(pat, _m) : *_prep;
     if (_prep && (*_prep == 0))
     {
         *_prep = prep;
@@ -126,11 +128,11 @@ void *a_memmem(const void *_str, int _n, const void *_pat, int _m, int **_prep)
     while (j <= _n - _m)
     {
         int i = _m - 1;
-        while ((-1 != i) && (pat[i] == str[i + j]))
+        while ((i != -1) && (pat[i] == str[i + j]))
         {
             --i;
         }
-        if (-1 != i)
+        if (i != -1)
         {
             int max = bmBc[str[i + j]] - _m + 1 + i;
             if (max < bmGs[i])
