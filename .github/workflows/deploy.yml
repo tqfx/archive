@@ -21,7 +21,8 @@ jobs:
           publish_dir: liba
       - uses: mattnotmitt/doxygen-action@v1
         with:
-          doxyfile-path: docs/Doxyfile
+          working-directory: liba
+          doxyfile-path: Doxyfile
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -29,4 +30,4 @@ jobs:
           disable_nojekyll: true
           publish_branch: gh-pages
           force_orphan: true
-          publish_dir: html
+          publish_dir: liba/html

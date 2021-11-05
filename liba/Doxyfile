@@ -1,0 +1,54 @@
+# Project related configuration options
+PROJECT_NAME           = a
+PROJECT_BRIEF          = The algorithm library based on C language.
+OPTIMIZE_OUTPUT_FOR_C  = YES
+# Build related configuration options
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+# Configuration options related to warning and progress messages
+# Configuration options related to the input files
+RECURSIVE              = YES
+# Configuration options related to source browsing
+INLINE_SOURCES         = YES
+# Configuration options related to the alphabetical class index
+# Configuration options related to the HTML output
+USE_MATHJAX            = YES
+# Configuration options related to the LaTeX output
+GENERATE_LATEX         = NO
+# Configuration options related to the RTF output
+# Configuration options related to the man page output
+# Configuration options related to the XML output
+# Configuration options related to the DOCBOOK output
+# Configuration options for the AutoGen Definitions output
+# Configuration options related to Sqlite3 output
+# Configuration options related to the Perl module output
+# Configuration options related to the preprocessor
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = YES
+PREDEFINED             = __cplusplus \
+                         "__BEGIN_DECLS:=" \
+                         "__END_DECLS:=" \
+                         "__NONNULL:=" \
+                         "__NONNULL_ALL:=" \
+                         "__RESULT_USE_CHECK:=" \
+                         "__ALWAYS_INLINE:=" \
+                         "__WEAK:=" \
+                         "__USED:=" \
+                         "__UNUSED:=" \
+                         "__ALIGNED:=" \
+                         "__PACKED:=" \
+                         "__PACKED_STRUCT:=" \
+                         "__PACKED_UNION:=" \
+                         "__PREDICT_TRUE:=" \
+                         "__PREDICT_FALSE:=" \
+                         "__ASM:=" \
+                         "__INLINE:=" \
+                         "__RESTRICT:=" \
+                         "__STATIC_INLINE:="
+# Configuration options related to external references
+# Configuration options related to the dot tool
+HAVE_DOT               = YES
+CALL_GRAPH             = YES
+INTERACTIVE_SVG        = YES
+DOT_IMAGE_FORMAT       = svg

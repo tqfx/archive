@@ -1,6 +1,6 @@
 /*!
- @mainpage algorithm library
- @brief algorithm library based on C language.
+ @file liba.c
+ @brief algorithm library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 

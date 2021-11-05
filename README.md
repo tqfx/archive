@@ -8,7 +8,7 @@
 - [python](https://www.python.org/downloads)
 - [winlibs](https://winlibs.com)
 - [tdm-gcc](https://jmeubank.github.io/tdm-gcc/download)
-- [Microsoft C++](https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools)
+- [Microsoft C++](https://visualstudio.microsoft.com/visual-cpp-build-tools)
 
 ## setup
 
