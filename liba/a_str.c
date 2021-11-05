@@ -10,7 +10,7 @@
 
 /*!
  @brief Boyer-Moore algorithm
- @ref http://www-igm.univ-mlv.fr/~lecroq/string/node14.html
+ @details http://www-igm.univ-mlv.fr/~lecroq/string/node14.html
  @param[in] pat: points to search patterns
  @param[in] m: length of search patterns
  @return int *prep[m + 0x100]. You need to free memory.
