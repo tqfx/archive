@@ -20,7 +20,7 @@
 #define A_SHA3_384_OUTSIZ (384 >> 3)
 #define A_SHA3_512_OUTSIZ (512 >> 3)
 
-typedef struct a_sha3_t
+typedef struct a_sha3_s
 {
     uint64_t s[25];
     uint64_t saved;                /* the portion of the input message that we didn't consume yet */
@@ -29,7 +29,7 @@ typedef struct a_sha3_t
     unsigned short word_index;     /* 0..24--the next word to integrate input (starts from 0) */
     unsigned short capacity_words; /* the double length of the hash output in words (e.g. 16 for Keccak 512) */
     unsigned short xof_flag;
-} a_sha3_t;
+} a_sha3_s;
 
 #define A_KECCAK224_BUFSIZ (200 - (224 >> 2))
 #define A_KECCAK256_BUFSIZ (200 - (256 >> 2))
@@ -40,37 +40,37 @@ typedef struct a_sha3_t
 #define A_KECCAK384_OUTSIZ (384 >> 3)
 #define A_KECCAK512_OUTSIZ (512 >> 3)
 
-#ifndef a_keccak_t
-#define a_keccak_t a_sha3_t
-#endif /* a_keccak_t */
+#ifndef a_keccak_s
+#define a_keccak_s a_sha3_s
+#endif /* a_keccak_s */
 
 #define A_SHAKE128_BUFSIZ (200 - (128 >> 2))
 #define A_SHAKE256_BUFSIZ (200 - (256 >> 2))
 #define A_SHAKE128_OUTSIZ (128 >> 3)
 #define A_SHAKE256_OUTSIZ (256 >> 3)
 
-#ifndef a_sha3_shake_t
-#define a_sha3_shake_t a_sha3_t
-#endif /* a_sha3_shake_t */
+#ifndef a_sha3_shake_s
+#define a_sha3_shake_s a_sha3_s
+#endif /* a_sha3_shake_s */
 
 __BEGIN_DECLS
 
-extern void a_sha3_224_init(a_sha3_t *ctx) __NONNULL_ALL;
-extern void a_sha3_256_init(a_sha3_t *ctx) __NONNULL_ALL;
-extern void a_sha3_384_init(a_sha3_t *ctx) __NONNULL_ALL;
-extern void a_sha3_512_init(a_sha3_t *ctx) __NONNULL_ALL;
-extern int a_sha3_process(a_sha3_t *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_sha3_done(a_sha3_t *ctx, void *out) __NONNULL((1));
+extern void a_sha3_224_init(a_sha3_s *ctx) __NONNULL_ALL;
+extern void a_sha3_256_init(a_sha3_s *ctx) __NONNULL_ALL;
+extern void a_sha3_384_init(a_sha3_s *ctx) __NONNULL_ALL;
+extern void a_sha3_512_init(a_sha3_s *ctx) __NONNULL_ALL;
+extern int a_sha3_process(a_sha3_s *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_sha3_done(a_sha3_s *ctx, void *out) __NONNULL((1));
 
-extern void a_shake128_init(a_sha3_t *ctx) __NONNULL_ALL;
-extern void a_shake256_init(a_sha3_t *ctx) __NONNULL_ALL;
+extern void a_shake128_init(a_sha3_s *ctx) __NONNULL_ALL;
+extern void a_shake256_init(a_sha3_s *ctx) __NONNULL_ALL;
 #ifndef a_sha3shake_process
 #define a_sha3shake_process(_ctx, _p, _n) a_sha3_process(_ctx, _p, _n)
 #endif /* a_sha3shake_process */
-extern unsigned char *a_shake128_done(a_sha3_t *ctx, void *out) __NONNULL((1));
-extern unsigned char *a_shake256_done(a_sha3_t *ctx, void *out) __NONNULL((1));
-extern int a_sha3shake_init(a_sha3_t *ctx, unsigned int num) __NONNULL((1));
-extern void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int siz) __NONNULL((1));
+extern unsigned char *a_shake128_done(a_sha3_s *ctx, void *out) __NONNULL((1));
+extern unsigned char *a_shake256_done(a_sha3_s *ctx, void *out) __NONNULL((1));
+extern int a_sha3shake_init(a_sha3_s *ctx, unsigned int num) __NONNULL((1));
+extern void a_sha3shake_done(a_sha3_s *ctx, unsigned char *out, unsigned int siz) __NONNULL((1));
 
 #ifndef a_keccak224_init
 #define a_keccak224_init(_ctx) a_sha3_224_init(_ctx)
@@ -87,7 +87,7 @@ extern void a_sha3shake_done(a_sha3_t *ctx, unsigned char *out, unsigned int siz
 #ifndef a_keccak_process
 #define a_keccak_process(_ctx, _p, _n) a_sha3_process(_ctx, _p, _n)
 #endif /* a_keccak_process */
-extern unsigned char *a_keccak_done(a_sha3_t *ctx, void *out) __NONNULL((1));
+extern unsigned char *a_keccak_done(a_sha3_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

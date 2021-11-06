@@ -12,7 +12,7 @@
 
 #undef __A_POLYTRACK3_INIT
 #define __A_POLYTRACK3_INIT(_def, _type, _func)                                \
-    void _func(_def##_t *_ctx, const _type _source[3], const _type _target[3]) \
+    void _func(_def##_s *_ctx, const _type _source[3], const _type _target[3]) \
     {                                                                          \
         aassert(_ctx);                                                         \
         aassert(_source);                                                      \
@@ -44,7 +44,7 @@ __A_POLYTRACK3_INIT(a_polytrack3f, float, a_polytrack3f_init)
 
 #undef __A_POLYTRACK3_POS
 #define __A_POLYTRACK3_POS(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[4] = {                                \
@@ -61,7 +61,7 @@ __A_POLYTRACK3_POS(a_polytrack3f, float, a_polytrack3f_pos, a_hornerf)
 
 #undef __A_POLYTRACK3_VEC
 #define __A_POLYTRACK3_VEC(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[3] = {                                \
@@ -77,7 +77,7 @@ __A_POLYTRACK3_VEC(a_polytrack3f, float, a_polytrack3f_vec, a_hornerf)
 
 #undef __A_POLYTRACK3_ACC
 #define __A_POLYTRACK3_ACC(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[2] = {                                \
@@ -92,7 +92,7 @@ __A_POLYTRACK3_ACC(a_polytrack3f, float, a_polytrack3f_acc, a_hornerf)
 
 #undef __A_POLYTRACK3_ALL
 #define __A_POLYTRACK3_ALL(_def, _type, _func, _poly)       \
-    void _func(const _def##_t *_ctx, _type _t, _type _o[3]) \
+    void _func(const _def##_s *_ctx, _type _t, _type _o[3]) \
     {                                                       \
         aassert(_o);                                        \
         aassert(_ctx);                                      \
@@ -118,7 +118,7 @@ __A_POLYTRACK3_ALL(a_polytrack3f, float, a_polytrack3f_all, a_hornerf)
 
 #undef __A_POLYTRACK5_INIT
 #define __A_POLYTRACK5_INIT(_def, _type, _func)                                \
-    void _func(_def##_t *_ctx, const _type _source[4], const _type _target[4]) \
+    void _func(_def##_s *_ctx, const _type _source[4], const _type _target[4]) \
     {                                                                          \
         aassert(_ctx);                                                         \
         aassert(_source);                                                      \
@@ -163,7 +163,7 @@ __A_POLYTRACK5_INIT(a_polytrack5f, float, a_polytrack5f_init)
 
 #undef __A_POLYTRACK5_POS
 #define __A_POLYTRACK5_POS(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[6] = {                                \
@@ -182,7 +182,7 @@ __A_POLYTRACK5_POS(a_polytrack5f, float, a_polytrack5f_pos, a_hornerf)
 
 #undef __A_POLYTRACK5_VEC
 #define __A_POLYTRACK5_VEC(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[5] = {                                \
@@ -200,7 +200,7 @@ __A_POLYTRACK5_VEC(a_polytrack5f, float, a_polytrack5f_vec, a_hornerf)
 
 #undef __A_POLYTRACK5_ACC
 #define __A_POLYTRACK5_ACC(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[4] = {                                \
@@ -217,7 +217,7 @@ __A_POLYTRACK5_ACC(a_polytrack5f, float, a_polytrack5f_acc, a_hornerf)
 
 #undef __A_POLYTRACK5_ALL
 #define __A_POLYTRACK5_ALL(_def, _type, _func, _poly)       \
-    void _func(const _def##_t *_ctx, _type _t, _type _o[3]) \
+    void _func(const _def##_s *_ctx, _type _t, _type _o[3]) \
     {                                                       \
         aassert(_o);                                        \
         aassert(_ctx);                                      \
@@ -249,7 +249,7 @@ __A_POLYTRACK5_ALL(a_polytrack5f, float, a_polytrack5f_all, a_hornerf)
 
 #undef __A_POLYTRACK7_INIT
 #define __A_POLYTRACK7_INIT(_def, _type, _func)                                \
-    void _func(_def##_t *_ctx, const _type _source[5], const _type _target[5]) \
+    void _func(_def##_s *_ctx, const _type _source[5], const _type _target[5]) \
     {                                                                          \
         aassert(_ctx);                                                         \
         aassert(_source);                                                      \
@@ -307,7 +307,7 @@ __A_POLYTRACK7_INIT(a_polytrack7f, float, a_polytrack7f_init)
 
 #undef __A_POLYTRACK7_POS
 #define __A_POLYTRACK7_POS(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[8] = {                                \
@@ -328,7 +328,7 @@ __A_POLYTRACK7_POS(a_polytrack7f, float, a_polytrack7f_pos, a_hornerf)
 
 #undef __A_POLYTRACK7_VEC
 #define __A_POLYTRACK7_VEC(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[7] = {                                \
@@ -348,7 +348,7 @@ __A_POLYTRACK7_VEC(a_polytrack7f, float, a_polytrack7f_vec, a_hornerf)
 
 #undef __A_POLYTRACK7_ACC
 #define __A_POLYTRACK7_ACC(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[6] = {                                \
@@ -367,7 +367,7 @@ __A_POLYTRACK7_ACC(a_polytrack7f, float, a_polytrack7f_acc, a_hornerf)
 
 #undef __A_POLYTRACK7_JER
 #define __A_POLYTRACK7_JER(_def, _type, _func, _poly) \
-    _type _func(const _def##_t *_ctx, _type _t)       \
+    _type _func(const _def##_s *_ctx, _type _t)       \
     {                                                 \
         aassert(_ctx);                                \
         _type a[5] = {                                \
@@ -385,7 +385,7 @@ __A_POLYTRACK7_JER(a_polytrack7f, float, a_polytrack7f_jer, a_hornerf)
 
 #undef __A_POLYTRACK7_ALL
 #define __A_POLYTRACK7_ALL(_def, _type, _func, _poly)       \
-    void _func(const _def##_t *_ctx, _type _t, _type _o[4]) \
+    void _func(const _def##_s *_ctx, _type _t, _type _o[4]) \
     {                                                       \
         aassert(_o);                                        \
         aassert(_ctx);                                      \

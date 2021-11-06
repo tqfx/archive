@@ -10,7 +10,7 @@
 
 void tests(void)
 {
-    a_str_t ctx[1] = {a_str_inits()};
+    a_str_s ctx[1] = {a_str_inits()};
     printf("0x%zX ", (size_t)a_str_done(ctx));
     a_str_putc_(ctx, 0);
     a_str_putn_(ctx, 0, 0);
@@ -24,7 +24,7 @@ void tests(void)
 void testt(void)
 {
     char *s = 0;
-    a_str_t *ctx = a_str_init(0, 0);
+    a_str_s *ctx = a_str_init(0, 0);
     a_str_free(ctx);
     ctx = a_str_init("4321+-/\\", 8);
     a_str_putc(ctx, '-');

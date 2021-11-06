@@ -24,16 +24,16 @@
 #endif /* a_vec_s */
 
 #ifndef a_vec_t
-#define a_vec_t(_def) a_vec_##_def##_t
+#define a_vec_t(_def) a_vec_##_def##_s
 #endif /* a_vec_t */
 #ifndef a_vec_type
 #define a_vec_type(_def, _type)     \
-    typedef struct a_vec_##_def##_t \
+    typedef struct a_vec_##_def##_s \
     {                               \
         size_t m; /* memory */      \
         size_t n; /* length */      \
         _type *v; /* vector */      \
-    } a_vec_##_def##_t
+    } a_vec_##_def##_s
 #endif /* a_vec_type */
 
 #ifndef a_vec_siz
@@ -77,12 +77,12 @@
 #endif /* a_vec_init */
 #ifndef a_vec_pinit
 #define a_vec_pinit(_def, _ctx) ( \
-    (_ctx) = (a_vec_##_def##_t *)amalloc(sizeof(*(_ctx))), a_vec_init(*(_ctx)))
+    (_ctx) = (a_vec_t(_def) *)amalloc(sizeof(*(_ctx))), a_vec_init(*(_ctx)))
 #endif /* a_vec_pinit */
 
 #ifndef a_vec_initp
 #define a_vec_initp(_def) ( \
-    (a_vec_##_def##_t *)acalloc(1, sizeof(a_vec_##_def##_t)))
+    (a_vec_t(_def) *)acalloc(1, sizeof(a_vec_t(_def))))
 #endif /* a_vec_initp */
 
 #ifndef a_vec_done

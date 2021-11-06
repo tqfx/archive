@@ -12,7 +12,7 @@
 #define A_HMAC_IPAD 0x36
 #define A_HMAC_OPAD 0x5c
 
-int a_hmac_init(a_hmac_t *_ctx, const a_hash_t *_hash, const void *_p, size_t _n)
+int a_hmac_init(a_hmac_s *_ctx, const a_hash_s *_hash, const void *_p, size_t _n)
 {
     aassert(_ctx);
     aassert(_hash);
@@ -59,7 +59,7 @@ int a_hmac_init(a_hmac_t *_ctx, const a_hash_t *_hash, const void *_p, size_t _n
     return _ctx->hash->process(_ctx->state, buf, _ctx->hash->bufsiz);
 }
 
-int a_hmac_process(a_hmac_t *_ctx, const void *_p, size_t _n)
+int a_hmac_process(a_hmac_s *_ctx, const void *_p, size_t _n)
 {
     aassert(_ctx);
     aassert(!_n || _p);
@@ -67,7 +67,7 @@ int a_hmac_process(a_hmac_t *_ctx, const void *_p, size_t _n)
     return _ctx->hash->process(_ctx->state, _p, _n);
 }
 
-unsigned char *a_hmac_done(a_hmac_t *_ctx, void *_out)
+unsigned char *a_hmac_done(a_hmac_s *_ctx, void *_out)
 {
     aassert(_ctx);
 

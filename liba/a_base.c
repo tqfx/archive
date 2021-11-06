@@ -7,7 +7,9 @@
 
 #include "a_base.h"
 
-int a_base16_encode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigned int _id)
+int a_base16_encode(const void *_p, size_t _n,
+                    void *_out, size_t *_siz,
+                    unsigned int _id)
 {
     static const char *alphabets[A_BASE16_ALL] = {
         "0123456789abcdef",
@@ -100,7 +102,9 @@ int a_base16_decode(const void *_p, size_t _n, void *_out, size_t *_siz)
     return A_BASE_SUCCESS;
 }
 
-int a_base32_encode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigned int _id)
+int a_base32_encode(const void *_p, size_t _n,
+                    void *_out, size_t *_siz,
+                    unsigned int _id)
 {
     static const char *alphabet[A_BASE32_ALL] = {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", /* id = RFC4648   */
@@ -176,7 +180,9 @@ int a_base32_encode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigne
     return A_BASE_SUCCESS;
 }
 
-int a_base32_decode(const void *_p, size_t _n, void *_out, size_t *_siz, unsigned int _id)
+int a_base32_decode(const void *_p, size_t _n,
+                    void *_out, size_t *_siz,
+                    unsigned int _id)
 {
     const unsigned char tables[A_BASE32_ALL][43] = {
         /* id = RFC4648 : ABCDEFGHIJKLMNOPQRSTUVWXYZ234567 */
@@ -331,10 +337,8 @@ enum
 static const char *const codes_base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static const char *const codes_base64url = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
-static int a_base64_encode_internal(const void *_p,
-                                    size_t _n,
-                                    void *_out,
-                                    size_t *_siz,
+static int a_base64_encode_internal(const void *_p, size_t _n,
+                                    void *_out, size_t *_siz,
                                     const char *_codes,
                                     unsigned int _pad)
 {
@@ -480,10 +484,8 @@ static const unsigned char map_base64url[0x100] = {
     /* clang-format on */
 };
 
-static int a_base64_decode_internal(const void *_p,
-                                    size_t _n,
-                                    void *_out,
-                                    size_t *_siz,
+static int a_base64_decode_internal(const void *_p, size_t _n,
+                                    void *_out, size_t *_siz,
                                     const unsigned char *_map,
                                     unsigned int _mode)
 {

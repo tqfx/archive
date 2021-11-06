@@ -15,21 +15,21 @@
 #define A_TIGER_OUTSIZ 24
 
 #pragma pack(push, 4)
-typedef struct a_tiger_t
+typedef struct a_tiger_s
 {
     uint64_t length;
     unsigned char buf[A_TIGER_BUFSIZ];
     unsigned char out[A_TIGER_OUTSIZ];
     uint64_t state[A_TIGER_OUTSIZ >> 3];
     uint32_t cursiz;
-} a_tiger_t;
+} a_tiger_s;
 #pragma pack(pop)
 
 __BEGIN_DECLS
 
-extern void a_tiger_init(a_tiger_t *ctx) __NONNULL_ALL;
-extern int a_tiger_process(a_tiger_t *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_tiger_done(a_tiger_t *ctx, void *out) __NONNULL((1));
+extern void a_tiger_init(a_tiger_s *ctx) __NONNULL_ALL;
+extern int a_tiger_process(a_tiger_s *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_tiger_done(a_tiger_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

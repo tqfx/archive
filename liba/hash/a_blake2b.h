@@ -19,7 +19,7 @@
 #define A_BLAKE2B_512_OUTSIZ (512 >> 3)
 
 #pragma pack(push, 1)
-typedef struct a_blake2b_t
+typedef struct a_blake2b_s
 {
     uint64_t t[2];
     uint64_t f[2];
@@ -29,18 +29,18 @@ typedef struct a_blake2b_t
     unsigned char out[A_BLAKE2B_OUTSIZ];
     unsigned char buf[A_BLAKE2B_BUFSIZ];
     unsigned char lastnode;
-} a_blake2b_t;
+} a_blake2b_s;
 #pragma pack(pop)
 
 __BEGIN_DECLS
 
-extern void a_blake2b_160_init(a_blake2b_t *ctx) __NONNULL_ALL;
-extern void a_blake2b_256_init(a_blake2b_t *ctx) __NONNULL_ALL;
-extern void a_blake2b_384_init(a_blake2b_t *ctx) __NONNULL_ALL;
-extern void a_blake2b_512_init(a_blake2b_t *ctx) __NONNULL_ALL;
-extern int a_blake2b_init(a_blake2b_t *ctx, size_t siz, const void *p, size_t n) __NONNULL((1));
-extern int a_blake2b_process(a_blake2b_t *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_blake2b_done(a_blake2b_t *ctx, void *out) __NONNULL((1));
+extern void a_blake2b_160_init(a_blake2b_s *ctx) __NONNULL_ALL;
+extern void a_blake2b_256_init(a_blake2b_s *ctx) __NONNULL_ALL;
+extern void a_blake2b_384_init(a_blake2b_s *ctx) __NONNULL_ALL;
+extern void a_blake2b_512_init(a_blake2b_s *ctx) __NONNULL_ALL;
+extern int a_blake2b_init(a_blake2b_s *ctx, size_t siz, const void *p, size_t n) __NONNULL((1));
+extern int a_blake2b_process(a_blake2b_s *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_blake2b_done(a_blake2b_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

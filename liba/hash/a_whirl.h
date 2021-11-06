@@ -15,21 +15,21 @@
 #define A_WHIRLPOOL_OUTSIZ 0x40
 
 #pragma pack(push, 4)
-typedef struct a_whirlpool_t
+typedef struct a_whirlpool_s
 {
     uint64_t length;
     unsigned char buf[A_WHIRLPOOL_BUFSIZ];
     unsigned char out[A_WHIRLPOOL_OUTSIZ];
     uint64_t state[A_WHIRLPOOL_OUTSIZ >> 3];
     uint32_t cursiz;
-} a_whirlpool_t;
+} a_whirlpool_s;
 #pragma pack(pop)
 
 __BEGIN_DECLS
 
-extern void a_whirlpool_init(a_whirlpool_t *ctx) __NONNULL_ALL;
-extern int a_whirlpool_process(a_whirlpool_t *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_whirlpool_done(a_whirlpool_t *ctx, void *out) __NONNULL((1));
+extern void a_whirlpool_init(a_whirlpool_s *ctx) __NONNULL_ALL;
+extern int a_whirlpool_process(a_whirlpool_s *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_whirlpool_done(a_whirlpool_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

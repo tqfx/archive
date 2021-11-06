@@ -24,12 +24,12 @@
  @brief Instance structure for Low Pass Filter
 */
 #define __A_LPF_T(_def, _type)                             \
-    typedef struct _def##_t                                \
+    typedef struct _def##_s                                \
     {                                                      \
         _type o; /* Output */                              \
         _type k; /* Parameter of filtering              */ \
         _type t; /* Time interval of filtering, unit /s */ \
-    } _def##_t
+    } _def##_s
 __A_LPF_T(a_lpf, double);
 __A_LPF_T(a_lpff, float);
 #undef __A_LPF_T
@@ -41,7 +41,7 @@ __A_LPF_T(a_lpff, float);
 #define __A_LPF_INIT(_def, _type, _func)           \
     __NONNULL((1))                                 \
     __STATIC_INLINE                                \
-    void _func(_def##_t *_ctx, _type _k, _type _t) \
+    void _func(_def##_s *_ctx, _type _k, _type _t) \
     {                                              \
         aassert(_ctx);                             \
         _ctx->t = _t;                              \
@@ -62,7 +62,7 @@ __A_LPF_INIT(a_lpff, float, a_lpff_init)
 #define __A_LPF_PROCESS(_def, _type, _func)                 \
     __NONNULL((1))                                          \
     __STATIC_INLINE                                         \
-    _type _func(_def##_t *_ctx, _type _x)                   \
+    _type _func(_def##_s *_ctx, _type _x)                   \
     {                                                       \
         aassert(_ctx);                                      \
         _type inv_kt = _ctx->t / (_ctx->k + _ctx->t);       \
@@ -82,7 +82,7 @@ __A_LPF_PROCESS(a_lpff, float, a_lpff_process)
 #define __A_LPF_RESET(_def, _func) \
     __NONNULL_ALL                  \
     __STATIC_INLINE                \
-    void _func(_def##_t *_ctx)     \
+    void _func(_def##_s *_ctx)     \
     {                              \
         aassert(_ctx);             \
         _ctx->o = 0;               \

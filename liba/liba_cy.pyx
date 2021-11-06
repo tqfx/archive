@@ -1,8 +1,7 @@
 '''
- @file           liba_cy.pyx
- @brief          Algorithm library cython
- @author         tqfx tqfx@foxmail.com
- @copyright      Copyright (C) 2020 tqfx
+ @file liba_cy.pyx
+ @brief Algorithm library cython
+ @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''
 cimport cython
 from libc.stdint cimport *
@@ -15,18 +14,18 @@ cdef extern from "liba.h":
     ctypedef double float64_t
 
 cdef extern from "a_lpf.h":
-    ctypedef struct a_lpf_t:
+    ctypedef struct a_lpf_s:
         double o
         double k
         double t
-    void a_lpf_init(a_lpf_t *ctx, double k, double t)
-    double a_lpf_process(a_lpf_t *ctx, double x)
-    void a_lpf_reset(a_lpf_t *ctx)
+    void a_lpf_init(a_lpf_s *ctx, double k, double t)
+    double a_lpf_process(a_lpf_s *ctx, double x)
+    void a_lpf_reset(a_lpf_s *ctx)
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
 cdef class a_lpf:
-    cdef a_lpf_t ctx[1]
+    cdef a_lpf_s ctx[1]
 
     def __cinit__(self, double k, double t):
         a_lpf_init(self.ctx, k, t)
@@ -43,11 +42,11 @@ cdef class a_lpf:
         return a_lpf_process(self.ctx, x)
 
 cdef extern from "a_pid.h":
-    ctypedef enum a_pid_mode_t:
+    ctypedef enum a_pid_e:
         A_PID_POS
         A_PID_INC
-    ctypedef struct a_pid_t:
-        a_pid_mode_t mode
+    ctypedef struct a_pid_s:
+        a_pid_e mode
         double kp
         double ki
         double kd
@@ -57,18 +56,18 @@ cdef extern from "a_pid.h":
         double a[3]
         double x[2]
         double y
-    void a_pid_init(a_pid_t *ctx, a_pid_mode_t mode, const double kpid[3], double omin, double omax, double omaxi)
-    void a_pid_pos(a_pid_t *ctx, const double kpid[3], double omin, double omax, double omaxi)
-    void a_pid_inc(a_pid_t *ctx, const double kpid[3], double omin, double omax)
-    double a_pid_process(a_pid_t *ctx, double ref, double set)
-    void a_pid_reset(a_pid_t *ctx)
+    void a_pid_init(a_pid_s *ctx, a_pid_e mode, const double kpid[3], double omin, double omax, double omaxi)
+    void a_pid_pos(a_pid_s *ctx, const double kpid[3], double omin, double omax, double omaxi)
+    void a_pid_inc(a_pid_s *ctx, const double kpid[3], double omin, double omax)
+    double a_pid_process(a_pid_s *ctx, double ref, double set)
+    void a_pid_reset(a_pid_s *ctx)
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
 cdef class a_pid:
-    cdef a_pid_t ctx[1]
+    cdef a_pid_s ctx[1]
 
-    def __cinit__(self, a_pid_mode_t mode,
+    def __cinit__(self, a_pid_e mode,
             double kp, double ki, double kd,
             double omin, double omax, double omaxi
         ):
@@ -86,47 +85,47 @@ cdef class a_pid:
         return a_pid_process(self.ctx, ref, set)
 
 cdef extern from "a_polytrack.h":
-    ctypedef struct a_polytrack3_t:
+    ctypedef struct a_polytrack3_s:
         double t[2]
         double q[2]
         double v[2]
         double k[4]
-    void a_polytrack3_init(a_polytrack3_t *ctx, const double source[3], const double target[3])
-    double a_polytrack3_pos(const a_polytrack3_t *ctx, double t)
-    double a_polytrack3_vec(const a_polytrack3_t *ctx, double t)
-    double a_polytrack3_acc(const a_polytrack3_t *ctx, double t)
-    void a_polytrack3_all(const a_polytrack3_t *ctx, double t, double o[3])
+    void a_polytrack3_init(a_polytrack3_s *ctx, const double source[3], const double target[3])
+    double a_polytrack3_pos(const a_polytrack3_s *ctx, double t)
+    double a_polytrack3_vec(const a_polytrack3_s *ctx, double t)
+    double a_polytrack3_acc(const a_polytrack3_s *ctx, double t)
+    void a_polytrack3_all(const a_polytrack3_s *ctx, double t, double o[3])
 
-    ctypedef struct a_polytrack5_t:
+    ctypedef struct a_polytrack5_s:
         double t[2]
         double q[2]
         double v[2]
         double a[2]
         double k[6]
-    void a_polytrack5_init(a_polytrack5_t *ctx, const double source[4], const double target[4])
-    double a_polytrack5_pos(const a_polytrack5_t *ctx, double t)
-    double a_polytrack5_vec(const a_polytrack5_t *ctx, double t)
-    double a_polytrack5_acc(const a_polytrack5_t *ctx, double t)
-    void a_polytrack5_all(const a_polytrack5_t *ctx, double t, double o[3])
+    void a_polytrack5_init(a_polytrack5_s *ctx, const double source[4], const double target[4])
+    double a_polytrack5_pos(const a_polytrack5_s *ctx, double t)
+    double a_polytrack5_vec(const a_polytrack5_s *ctx, double t)
+    double a_polytrack5_acc(const a_polytrack5_s *ctx, double t)
+    void a_polytrack5_all(const a_polytrack5_s *ctx, double t, double o[3])
 
-    ctypedef struct a_polytrack7_t:
+    ctypedef struct a_polytrack7_s:
         double t[2]
         double q[2]
         double v[2]
         double a[2]
         double j[2]
         double k[8]
-    void a_polytrack7_init(a_polytrack7_t *ctx, const double source[5], const double target[5])
-    double a_polytrack7_pos(const a_polytrack7_t *ctx, double t)
-    double a_polytrack7_vec(const a_polytrack7_t *ctx, double t)
-    double a_polytrack7_acc(const a_polytrack7_t *ctx, double t)
-    double a_polytrack7_jer(const a_polytrack7_t *ctx, double t)
-    void a_polytrack7_all(const a_polytrack7_t *ctx, double t, double o[4])
+    void a_polytrack7_init(a_polytrack7_s *ctx, const double source[5], const double target[5])
+    double a_polytrack7_pos(const a_polytrack7_s *ctx, double t)
+    double a_polytrack7_vec(const a_polytrack7_s *ctx, double t)
+    double a_polytrack7_acc(const a_polytrack7_s *ctx, double t)
+    double a_polytrack7_jer(const a_polytrack7_s *ctx, double t)
+    void a_polytrack7_all(const a_polytrack7_s *ctx, double t, double o[4])
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
 cdef class a_polytrack3:
-    cdef a_polytrack3_t ctx[1]
+    cdef a_polytrack3_s ctx[1]
     cdef double source[3]
     cdef double target[3]
     cdef double out[3]
@@ -202,7 +201,7 @@ cdef class a_polytrack3:
 @cython.wraparound(False)
 @cython.boundscheck(False)
 cdef class a_polytrack5:
-    cdef a_polytrack5_t ctx[1]
+    cdef a_polytrack5_s ctx[1]
     cdef double source[4]
     cdef double target[4]
     cdef double out[3]
@@ -292,7 +291,7 @@ cdef class a_polytrack5:
 @cython.wraparound(False)
 @cython.boundscheck(False)
 cdef class a_polytrack7:
-    cdef a_polytrack7_t ctx[1]
+    cdef a_polytrack7_s ctx[1]
     cdef double source[5]
     cdef double target[5]
     cdef double out[4]

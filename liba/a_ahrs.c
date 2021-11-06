@@ -58,7 +58,7 @@ typedef enum
 {
     A_AHRS_AXIS9,  //!< 9 axis
     A_AHRS_AXIS6,  //!< 6 axis
-} a_ahrs_type_t;
+} a_ahrs_e;
 
 /* convert between long and float */
 static union
@@ -124,7 +124,7 @@ void a_ahrs_mahony(float _q[4], float _g[3], float _a[3], float _m[3], float _ht
     aassert(_a);
     aassert(_m);
 
-    a_ahrs_type_t type = A_AHRS_AXIS9;
+    a_ahrs_e type = A_AHRS_AXIS9;
 
     b32[x].f32 = _m[x];
     b32[y].f32 = _m[y];
@@ -352,7 +352,7 @@ void a_ahrs_madgwick(float _q[4], float _g[3], float _a[3], float _m[3], float _
     aassert(_a);
     aassert(_m);
 
-    a_ahrs_type_t type = A_AHRS_AXIS9;
+    a_ahrs_e type = A_AHRS_AXIS9;
 
     b32[x].f32 = _m[x];
     b32[y].f32 = _m[y];

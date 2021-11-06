@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[])
 {
-    a_mean_t ctx[1];
+    a_mean_s ctx[1];
 
     size_t n = (size_t)(argc - 1);
     double *a = (double *)amalloc(sizeof(double) * n);

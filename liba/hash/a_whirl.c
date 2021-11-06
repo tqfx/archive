@@ -101,7 +101,7 @@ static const uint64_t cont[] = {
 #undef SB6
 #undef SB7
 
-static void a_whirlpool_compress(a_whirlpool_t *_ctx, const unsigned char *_buf)
+static void a_whirlpool_compress(a_whirlpool_s *_ctx, const unsigned char *_buf)
 {
     uint64_t k[2][sizeof(_ctx->state) / sizeof(*_ctx->state)];
     uint64_t t[3][sizeof(_ctx->state) / sizeof(*_ctx->state)];
@@ -194,15 +194,15 @@ static void a_whirlpool_compress(a_whirlpool_t *_ctx, const unsigned char *_buf)
 #undef SB6
 #undef SB7
 
-void a_whirlpool_init(a_whirlpool_t *_ctx)
+void a_whirlpool_init(a_whirlpool_s *_ctx)
 {
     aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
 }
 
-__A_HASH_PROCESS(a_whirlpool_t, a_whirlpool_process, a_whirlpool_compress)
+__A_HASH_PROCESS(a_whirlpool_s, a_whirlpool_process, a_whirlpool_compress)
 
-__A_HASH_DONE(a_whirlpool_t, a_whirlpool_done, a_whirlpool_compress, STORE64H, STORE64H, 0x80, 0x20, 0x38)
+__A_HASH_DONE(a_whirlpool_s, a_whirlpool_done, a_whirlpool_compress, STORE64H, STORE64H, 0x80, 0x20, 0x38)
 
 /* END OF FILE */

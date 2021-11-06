@@ -18,7 +18,7 @@
 #undef FF2
 #undef FF3
 
-static void a_sha1_compress(a_sha1_t *_ctx, const unsigned char *_buf)
+static void a_sha1_compress(a_sha1_s *_ctx, const unsigned char *_buf)
 {
     uint32_t w[0x50];
     uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
@@ -119,7 +119,7 @@ static void a_sha1_compress(a_sha1_t *_ctx, const unsigned char *_buf)
 #undef F2
 #undef F3
 
-void a_sha1_init(a_sha1_t *_ctx)
+void a_sha1_init(a_sha1_s *_ctx)
 {
     aassert(_ctx);
 
@@ -133,8 +133,8 @@ void a_sha1_init(a_sha1_t *_ctx)
     _ctx->state[4] = 0xC3D2E1F0;
 }
 
-__A_HASH_PROCESS(a_sha1_t, a_sha1_process, a_sha1_compress)
+__A_HASH_PROCESS(a_sha1_s, a_sha1_process, a_sha1_compress)
 
-__A_HASH_DONE(a_sha1_t, a_sha1_done, a_sha1_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)
+__A_HASH_DONE(a_sha1_s, a_sha1_done, a_sha1_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)
 
 /* END OF FILE */

@@ -35,7 +35,7 @@
 #define Gamma0(_x)      (S(_x, 7) ^ S(_x, 18) ^ R(_x, 3))
 #define Gamma1(_x)      (S(_x, 17) ^ S(_x, 19) ^ R(_x, 10))
 
-static void a_sha256_compress(a_sha256_t *_ctx, const unsigned char *_buf)
+static void a_sha256_compress(a_sha256_s *_ctx, const unsigned char *_buf)
 {
     static const uint32_t k[0x40] = {
         /* clang-format off */
@@ -110,7 +110,7 @@ static void a_sha256_compress(a_sha256_t *_ctx, const unsigned char *_buf)
 #define Gamma0(_x)      (S(_x, 1) ^ S(_x, 8) ^ R(_x, 7))
 #define Gamma1(_x)      (S(_x, 19) ^ S(_x, 61) ^ R(_x, 6))
 
-static void a_sha512_compress(a_sha512_t *_ctx, const unsigned char *_buf)
+static void a_sha512_compress(a_sha512_s *_ctx, const unsigned char *_buf)
 {
     static const uint64_t k[0x50] = {
         /* clang-format off */
@@ -188,7 +188,7 @@ static void a_sha512_compress(a_sha512_t *_ctx, const unsigned char *_buf)
 #undef Gamma1
 #undef RND
 
-void a_sha256_init(a_sha256_t *_ctx)
+void a_sha256_init(a_sha256_s *_ctx)
 {
     aassert(_ctx);
 
@@ -205,7 +205,7 @@ void a_sha256_init(a_sha256_t *_ctx)
     _ctx->state[7] = 0x5BE0CD19;
 }
 
-void a_sha224_init(a_sha256_t *_ctx)
+void a_sha224_init(a_sha256_s *_ctx)
 {
     aassert(_ctx);
 
@@ -222,7 +222,7 @@ void a_sha224_init(a_sha256_t *_ctx)
     _ctx->state[7] = 0xBEFA4FA4;
 }
 
-void a_sha512_init(a_sha512_t *_ctx)
+void a_sha512_init(a_sha512_s *_ctx)
 {
     aassert(_ctx);
 
@@ -239,7 +239,7 @@ void a_sha512_init(a_sha512_t *_ctx)
     _ctx->state[7] = 0x5BE0CD19137E2179;
 }
 
-void a_sha384_init(a_sha512_t *_ctx)
+void a_sha384_init(a_sha512_s *_ctx)
 {
     aassert(_ctx);
 
@@ -256,7 +256,7 @@ void a_sha384_init(a_sha512_t *_ctx)
     _ctx->state[7] = 0x47B5481DBEFA4FA4;
 }
 
-void a_sha512_224_init(a_sha512_t *_ctx)
+void a_sha512_224_init(a_sha512_s *_ctx)
 {
     aassert(_ctx);
 
@@ -273,7 +273,7 @@ void a_sha512_224_init(a_sha512_t *_ctx)
     _ctx->state[7] = 0x1112E6AD91D692A1;
 }
 
-void a_sha512_256_init(a_sha512_t *_ctx)
+void a_sha512_256_init(a_sha512_s *_ctx)
 {
     aassert(_ctx);
 
@@ -290,15 +290,15 @@ void a_sha512_256_init(a_sha512_t *_ctx)
     _ctx->state[7] = 0x0EB72DDC81C52CA2;
 }
 
-__A_HASH_PROCESS(a_sha256_t, a_sha256_process, a_sha256_compress)
-__A_HASH_PROCESS(a_sha512_t, a_sha512_process, a_sha512_compress)
+__A_HASH_PROCESS(a_sha256_s, a_sha256_process, a_sha256_compress)
+__A_HASH_PROCESS(a_sha512_s, a_sha512_process, a_sha512_compress)
 
-__A_HASH_DONE(a_sha256_t, a_sha256_done, a_sha256_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)
-__A_HASH_DONE(a_sha512_t, a_sha512_done, a_sha512_compress, STORE64H, STORE64H, 0x80, 0x70, 0x78)
+__A_HASH_DONE(a_sha256_s, a_sha256_done, a_sha256_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)
+__A_HASH_DONE(a_sha512_s, a_sha512_done, a_sha512_compress, STORE64H, STORE64H, 0x80, 0x70, 0x78)
 
 #undef __A_SHA2_DONE
 #define __A_SHA2_DONE(_bit, _func, _size)                         \
-    unsigned char *_func(a_sha##_bit##_t *_ctx, void *_out)       \
+    unsigned char *_func(a_sha##_bit##_s *_ctx, void *_out)       \
     {                                                             \
         unsigned char *ret = a_sha##_bit##_done(_ctx, _ctx->out); \
                                                                   \

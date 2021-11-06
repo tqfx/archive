@@ -48,8 +48,8 @@
 
 #undef __A_PID_INIT
 #define __A_PID_INIT(_def, _type, _func)                 \
-    void _func(_def##_t *_ctx,                           \
-               a_pid_mode_t _mode,                       \
+    void _func(_def##_s *_ctx,                           \
+               a_pid_e _mode,                            \
                const _type _kpid[3],                     \
                _type _omin,                              \
                _type _omax,                              \
@@ -100,7 +100,7 @@ __A_PID_INIT(a_pidf, float, a_pidf_init)
 
 #undef __A_PID_PROCESS
 #define __A_PID_PROCESS(_def, _type, _func)                             \
-    _type _func(_def##_t *_ctx, _type _ref, _type _set)                 \
+    _type _func(_def##_s *_ctx, _type _ref, _type _set)                 \
     {                                                                   \
         aassert(_ctx);                                                  \
                                                                         \

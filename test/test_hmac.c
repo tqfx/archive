@@ -20,7 +20,7 @@ static void test_hmac_md5(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_md5, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -40,7 +40,7 @@ static void test_hmac_sha1(void)
 
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha1, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -60,7 +60,7 @@ static void test_hmac_sha224(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha224, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -80,7 +80,7 @@ static void test_hmac_sha256(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha256, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -102,7 +102,7 @@ static void test_hmac_sha384(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha384, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -126,7 +126,7 @@ static void test_hmac_sha512(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha512, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -146,7 +146,7 @@ static void test_hmac_sha3_224(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha3_224, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -166,7 +166,7 @@ static void test_hmac_sha3_256(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha3_256, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -188,7 +188,7 @@ static void test_hmac_sha3_384(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha3_384, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -212,7 +212,7 @@ static void test_hmac_sha3_512(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_sha3_512, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -232,7 +232,7 @@ static void test_hmac_blake2s(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_blake2s_256, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));
@@ -256,7 +256,7 @@ static void test_hmac_blake2b(void)
         /* clang-format on */
     };
 
-    a_hmac_t ctx[1];
+    a_hmac_s ctx[1];
 
     a_hmac_init(ctx, &a_hash_blake2b_512, key, strlen(key));
     a_hmac_process(ctx, msg, strlen(msg));

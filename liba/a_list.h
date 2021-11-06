@@ -24,17 +24,17 @@
 #endif /* a_mempool_s */
 
 #ifndef a_mempool_t
-#define a_mempool_t(_def) a_mempool_##_def##_t
+#define a_mempool_t(_def) a_mempool_##_def##_s
 #endif /* a_mempool_t */
 #ifndef a_mempool_type
 #define a_mempool_type(_def, _type)     \
-    typedef struct a_mempool_##_def##_t \
+    typedef struct a_mempool_##_def##_s \
     {                                   \
         size_t m;  /* really memory */  \
         size_t n;  /* unused memory */  \
         size_t a;  /* memory alloc */   \
         _type **p; /* memory table */   \
-    } a_mempool_##_def##_t
+    } a_mempool_##_def##_s
 #endif /* a_mempool_type */
 
 #ifndef a_mempool_inits
@@ -118,15 +118,15 @@
 #endif /* a_mempool_pfree */
 
 #ifndef a_list1_t
-#define a_list1_t(_def) a_list1_##_def##_t
+#define a_list1_t(_def) a_list1_##_def##_s
 #endif /* a_list1_t */
 #ifndef a_list1_type
 #define a_list1_type(_def, _type)        \
-    typedef struct a_list1_##_def##_t    \
+    typedef struct a_list1_##_def##_s    \
     {                                    \
-        struct a_list1_##_def##_t *next; \
+        struct a_list1_##_def##_s *next; \
         _type data;                      \
-    } a_list1_##_def##_t
+    } a_list1_##_def##_s
 #endif /* a_list1_type */
 
 #ifndef a_list1_data
@@ -138,16 +138,16 @@
 #endif /* a_list1_next */
 
 #ifndef a_list2_t
-#define a_list2_t(_def) a_list2_##_def##_t
+#define a_list2_t(_def) a_list2_##_def##_s
 #endif /* a_list2_t */
 #ifndef a_list2_type
 #define a_list2_type(_def, _type)        \
-    typedef struct a_list2_##_def##_t    \
+    typedef struct a_list2_##_def##_s    \
     {                                    \
-        struct a_list2_##_def##_t *last; \
-        struct a_list2_##_def##_t *next; \
+        struct a_list2_##_def##_s *last; \
+        struct a_list2_##_def##_s *next; \
         _type data;                      \
-    } a_list2_##_def##_t
+    } a_list2_##_def##_s
 #endif /* a_list2_type */
 
 #ifndef a_list2_data
@@ -163,19 +163,19 @@
 #endif /* a_list2_last */
 
 #ifndef a_list_t
-#define a_list_t(_def) a_list_##_def##_t
+#define a_list_t(_def) a_list_##_def##_s
 #endif /* a_list_t */
 #ifndef a_list_type
 #define a_list_type(_def, _type)           \
     a_list1_type(_def, _type);             \
     a_mempool_type(_def, a_list1_t(_def)); \
-    typedef struct a_list_##_def##_t       \
+    typedef struct a_list_##_def##_s       \
     {                                      \
         a_list1_t(_def) * head;            \
         a_list1_t(_def) * tail;            \
         a_mempool_t(_def) mem;             \
         size_t siz;                        \
-    } a_list_##_def##_t
+    } a_list_##_def##_s
 #endif /* a_list_type */
 
 #ifndef a_list_head

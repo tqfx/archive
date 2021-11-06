@@ -355,7 +355,7 @@ static void a_key_schedule(uint64_t *_x)
     _x[7] -= _x[6] ^ 0x0123456789ABCDEF;
 }
 
-static void a_tiger_compress(a_tiger_t *_ctx, const unsigned char *_buf)
+static void a_tiger_compress(a_tiger_s *_ctx, const unsigned char *_buf)
 {
     uint64_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
 
@@ -394,7 +394,7 @@ static void a_tiger_compress(a_tiger_t *_ctx, const unsigned char *_buf)
     _ctx->state[2] = s[2] + _ctx->state[2];
 }
 
-void a_tiger_init(a_tiger_t *_ctx)
+void a_tiger_init(a_tiger_s *_ctx)
 {
     aassert(_ctx);
 
@@ -406,8 +406,8 @@ void a_tiger_init(a_tiger_t *_ctx)
     _ctx->state[2] = 0xF096A5B4C3B2E187;
 }
 
-__A_HASH_PROCESS(a_tiger_t, a_tiger_process, a_tiger_compress)
+__A_HASH_PROCESS(a_tiger_s, a_tiger_process, a_tiger_compress)
 
-__A_HASH_DONE(a_tiger_t, a_tiger_done, a_tiger_compress, STORE64L, STORE64L, 0x01, 0x38, 0x38)
+__A_HASH_DONE(a_tiger_s, a_tiger_done, a_tiger_compress, STORE64L, STORE64L, 0x01, 0x38, 0x38)
 
 /* END OF FILE */

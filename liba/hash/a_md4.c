@@ -18,7 +18,7 @@
 #undef HH
 #undef II
 
-static void a_md4_compress(a_md4_t *_ctx, const unsigned char *_buf)
+static void a_md4_compress(a_md4_s *_ctx, const unsigned char *_buf)
 {
     uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
 
@@ -128,7 +128,7 @@ static void a_md4_compress(a_md4_t *_ctx, const unsigned char *_buf)
 #undef H
 #undef I
 
-void a_md4_init(a_md4_t *_ctx)
+void a_md4_init(a_md4_s *_ctx)
 {
     aassert(_ctx);
 
@@ -141,8 +141,8 @@ void a_md4_init(a_md4_t *_ctx)
     _ctx->state[3] = 0x10325476;
 }
 
-__A_HASH_PROCESS(a_md4_t, a_md4_process, a_md4_compress)
+__A_HASH_PROCESS(a_md4_s, a_md4_process, a_md4_compress)
 
-__A_HASH_DONE(a_md4_t, a_md4_done, a_md4_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+__A_HASH_DONE(a_md4_s, a_md4_done, a_md4_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 
 /* END OF FILE */

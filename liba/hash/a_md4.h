@@ -15,21 +15,21 @@
 #define A_MD4_OUTSIZ 0x10
 
 #pragma pack(push, 4)
-typedef struct a_md4_t
+typedef struct a_md4_s
 {
     uint64_t length;
     unsigned char buf[A_MD4_BUFSIZ];
     unsigned char out[A_MD4_OUTSIZ];
     uint32_t state[A_MD4_OUTSIZ >> 2];
     uint32_t cursiz;
-} a_md4_t;
+} a_md4_s;
 #pragma pack(pop)
 
 __BEGIN_DECLS
 
-extern void a_md4_init(a_md4_t *ctx) __NONNULL_ALL;
-extern int a_md4_process(a_md4_t *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_md4_done(a_md4_t *ctx, void *out) __NONNULL((1));
+extern void a_md4_init(a_md4_s *ctx) __NONNULL_ALL;
+extern int a_md4_process(a_md4_s *ctx, const void *p, size_t n) __NONNULL((1));
+extern unsigned char *a_md4_done(a_md4_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

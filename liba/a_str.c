@@ -167,9 +167,9 @@ char *a_strstr(const char *_str, const char *_pat, int **_prep)
     return (char *)a_memmem(_str, (int)strlen(_str), _pat, (int)strlen(_pat), _prep);
 }
 
-a_str_t *a_str_init(const void *_p, size_t _n)
+a_str_s *a_str_init(const void *_p, size_t _n)
 {
-    a_str_t *ctx = (a_str_t *)amalloc(sizeof(a_str_t));
+    a_str_s *ctx = (a_str_s *)amalloc(sizeof(a_str_s));
     if (ctx)
     {
         ctx->n = _n;
@@ -185,7 +185,7 @@ a_str_t *a_str_init(const void *_p, size_t _n)
     return ctx;
 }
 
-char *a_str_done(a_str_t *_ctx)
+char *a_str_done(a_str_s *_ctx)
 {
     aassert(_ctx);
     char *s = _ctx->s;
@@ -199,7 +199,7 @@ char *a_str_done(a_str_t *_ctx)
     return s;
 }
 
-void a_str_free(a_str_t *_ctx)
+void a_str_free(a_str_s *_ctx)
 {
     if (_ctx)
     {
@@ -212,7 +212,7 @@ void a_str_free(a_str_t *_ctx)
     }
 }
 
-int a_str_resize_(a_str_t *_ctx, size_t _m)
+int a_str_resize_(a_str_s *_ctx, size_t _m)
 {
     aassert(_ctx);
     aroundup32(_m);
@@ -226,7 +226,7 @@ int a_str_resize_(a_str_t *_ctx, size_t _m)
     return 0;
 }
 
-int a_str_resize(a_str_t *_ctx, size_t _m)
+int a_str_resize(a_str_s *_ctx, size_t _m)
 {
     aassert(_ctx);
     if (_ctx->m < _m)
@@ -236,7 +236,7 @@ int a_str_resize(a_str_t *_ctx, size_t _m)
     return 0;
 }
 
-int a_str_putn_(a_str_t *_ctx, const void *_p, size_t _n)
+int a_str_putn_(a_str_s *_ctx, const void *_p, size_t _n)
 {
     aassert(_ctx);
     if (_p && _n)
@@ -251,7 +251,7 @@ int a_str_putn_(a_str_t *_ctx, const void *_p, size_t _n)
     return 0;
 }
 
-int a_str_putn(a_str_t *_ctx, const void *_p, size_t _n)
+int a_str_putn(a_str_s *_ctx, const void *_p, size_t _n)
 {
     aassert(_ctx);
     if (_p && _n)
@@ -267,14 +267,14 @@ int a_str_putn(a_str_t *_ctx, const void *_p, size_t _n)
     return 0;
 }
 
-int a_str_puts(a_str_t *_ctx, const char *_s)
+int a_str_puts(a_str_s *_ctx, const char *_s)
 {
     aassert(_s);
     aassert(_ctx);
     return a_str_putn(_ctx, _s, strlen(_s));
 }
 
-int a_str_putc_(a_str_t *_ctx, int _c)
+int a_str_putc_(a_str_s *_ctx, int _c)
 {
     aassert(_ctx);
     if (a_str_resize(_ctx, _ctx->n + 1))
@@ -285,7 +285,7 @@ int a_str_putc_(a_str_t *_ctx, int _c)
     return _c;
 }
 
-int a_str_putc(a_str_t *_ctx, int _c)
+int a_str_putc(a_str_s *_ctx, int _c)
 {
     aassert(_ctx);
     if (_c == 0)
@@ -301,7 +301,7 @@ int a_str_putc(a_str_t *_ctx, int _c)
     return _c;
 }
 
-int a_str_vprintf(a_str_t *_ctx, const char *_fmt, va_list _ap)
+int a_str_vprintf(a_str_s *_ctx, const char *_fmt, va_list _ap)
 {
     aassert(_ctx);
     aassert(_fmt);
@@ -330,7 +330,7 @@ int a_str_vprintf(a_str_t *_ctx, const char *_fmt, va_list _ap)
     return ret;
 }
 
-int a_str_printf(a_str_t *_ctx, const char *_fmt, ...)
+int a_str_printf(a_str_s *_ctx, const char *_fmt, ...)
 {
     aassert(_ctx);
     aassert(_fmt);

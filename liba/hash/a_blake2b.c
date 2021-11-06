@@ -52,19 +52,19 @@ enum
 };
 
 __STATIC_INLINE
-void a_blake2b_set_lastnode(a_blake2b_t *_ctx)
+void a_blake2b_set_lastnode(a_blake2b_s *_ctx)
 {
     _ctx->f[1] = 0xFFFFFFFFFFFFFFFF;
 }
 
 __STATIC_INLINE
-int a_blake2b_is_lastblock(const a_blake2b_t *_ctx)
+int a_blake2b_is_lastblock(const a_blake2b_s *_ctx)
 {
     return (_ctx->f[0] != 0);
 }
 
 __STATIC_INLINE
-void a_blake2b_set_lastblock(a_blake2b_t *_ctx)
+void a_blake2b_set_lastblock(a_blake2b_s *_ctx)
 {
     if (_ctx->lastnode)
     {
@@ -74,7 +74,7 @@ void a_blake2b_set_lastblock(a_blake2b_t *_ctx)
 }
 
 __STATIC_INLINE
-void a_blake2b_increment_counter(a_blake2b_t *_ctx, uint64_t _inc)
+void a_blake2b_increment_counter(a_blake2b_s *_ctx, uint64_t _inc)
 {
     _ctx->t[0] += _inc;
     if (_ctx->t[0] < _inc)
@@ -86,7 +86,7 @@ void a_blake2b_increment_counter(a_blake2b_t *_ctx, uint64_t _inc)
 #undef G
 #undef ROUND
 
-static void a_blake2b_compress(a_blake2b_t *_ctx, const unsigned char *_buf)
+static void a_blake2b_compress(a_blake2b_s *_ctx, const unsigned char *_buf)
 {
     uint64_t v[0x10];
 
@@ -167,7 +167,7 @@ static void a_blake2b_compress(a_blake2b_t *_ctx, const unsigned char *_buf)
 #undef G
 #undef ROUND
 
-int a_blake2b_init(a_blake2b_t *_ctx, size_t _siz, const void *_p, size_t _n)
+int a_blake2b_init(a_blake2b_s *_ctx, size_t _siz, const void *_p, size_t _n)
 {
     aassert(_ctx);
 
@@ -216,7 +216,7 @@ int a_blake2b_init(a_blake2b_t *_ctx, size_t _siz, const void *_p, size_t _n)
 
 #undef __A_BLAKE2B_INIT
 #define __A_BLAKE2B_INIT(_bit)                      \
-    void a_blake2b_##_bit##_init(a_blake2b_t *_ctx) \
+    void a_blake2b_##_bit##_init(a_blake2b_s *_ctx) \
     {                                               \
         a_blake2b_init(_ctx, (_bit) >> 3, 0, 0);    \
     }
@@ -226,7 +226,7 @@ __A_BLAKE2B_INIT(384)
 __A_BLAKE2B_INIT(512)
 #undef __A_BLAKE2B_INIT
 
-int a_blake2b_process(a_blake2b_t *_ctx, const void *_p, size_t _n)
+int a_blake2b_process(a_blake2b_s *_ctx, const void *_p, size_t _n)
 {
     aassert(_ctx);
     aassert(!_n || _p);
@@ -263,7 +263,7 @@ int a_blake2b_process(a_blake2b_t *_ctx, const void *_p, size_t _n)
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_blake2b_done(a_blake2b_t *_ctx, void *_out)
+unsigned char *a_blake2b_done(a_blake2b_s *_ctx, void *_out)
 {
     aassert(_ctx);
 

@@ -58,7 +58,7 @@
     (_a) += I((_b), (_c), (_d)) + (_x) + 0x50A28BE6; \
     (_a) = ROLc((_a), (_s));
 
-static void a_rmd128_compress(a_rmd128_t *_ctx, const unsigned char *_buf)
+static void a_rmd128_compress(a_rmd128_s *_ctx, const unsigned char *_buf)
 {
     uint32_t s[(sizeof(_ctx->state) / sizeof(*_ctx->state)) << 1];
 
@@ -235,7 +235,7 @@ static void a_rmd128_compress(a_rmd128_t *_ctx, const unsigned char *_buf)
     _ctx->state[0] = s[7];
 }
 
-static void a_rmd256_compress(a_rmd256_t *_ctx, const unsigned char *_buf)
+static void a_rmd256_compress(a_rmd256_s *_ctx, const unsigned char *_buf)
 {
     uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
 
@@ -474,7 +474,7 @@ static void a_rmd256_compress(a_rmd256_t *_ctx, const unsigned char *_buf)
     (_a) = ROLc((_a), (_s)) + (_e);                  \
     (_c) = ROLc((_c), 10);
 
-static void a_rmd160_compress(a_rmd160_t *_ctx, const unsigned char *_buf)
+static void a_rmd160_compress(a_rmd160_s *_ctx, const unsigned char *_buf)
 {
     uint32_t s[(sizeof(_ctx->state) / sizeof(*_ctx->state)) << 1];
 
@@ -688,7 +688,7 @@ static void a_rmd160_compress(a_rmd160_t *_ctx, const unsigned char *_buf)
     _ctx->state[0x0] = s[8];
 }
 
-static void a_rmd320_compress(a_rmd320_t *_ctx, const unsigned char *_buf)
+static void a_rmd320_compress(a_rmd320_s *_ctx, const unsigned char *_buf)
 {
     uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
 
@@ -930,7 +930,7 @@ static void a_rmd320_compress(a_rmd320_t *_ctx, const unsigned char *_buf)
 #undef JJJ
 #undef SWAP
 
-void a_rmd128_init(a_rmd128_t *_ctx)
+void a_rmd128_init(a_rmd128_s *_ctx)
 {
     aassert(_ctx);
 
@@ -943,7 +943,7 @@ void a_rmd128_init(a_rmd128_t *_ctx)
     _ctx->state[3] = 0x10325476;
 }
 
-void a_rmd160_init(a_rmd160_t *_ctx)
+void a_rmd160_init(a_rmd160_s *_ctx)
 {
     aassert(_ctx);
 
@@ -957,7 +957,7 @@ void a_rmd160_init(a_rmd160_t *_ctx)
     _ctx->state[4] = 0xC3D2E1F0;
 }
 
-void a_rmd256_init(a_rmd256_t *_ctx)
+void a_rmd256_init(a_rmd256_s *_ctx)
 {
     aassert(_ctx);
 
@@ -974,7 +974,7 @@ void a_rmd256_init(a_rmd256_t *_ctx)
     _ctx->state[7] = 0x01234567;
 }
 
-void a_rmd320_init(a_rmd320_t *_ctx)
+void a_rmd320_init(a_rmd320_s *_ctx)
 {
     aassert(_ctx);
 
@@ -993,14 +993,14 @@ void a_rmd320_init(a_rmd320_t *_ctx)
     _ctx->state[9] = 0x3C2D1E0F;
 }
 
-__A_HASH_PROCESS(a_rmd128_t, a_rmd128_process, a_rmd128_compress)
-__A_HASH_PROCESS(a_rmd160_t, a_rmd160_process, a_rmd160_compress)
-__A_HASH_PROCESS(a_rmd256_t, a_rmd256_process, a_rmd256_compress)
-__A_HASH_PROCESS(a_rmd320_t, a_rmd320_process, a_rmd320_compress)
+__A_HASH_PROCESS(a_rmd128_s, a_rmd128_process, a_rmd128_compress)
+__A_HASH_PROCESS(a_rmd160_s, a_rmd160_process, a_rmd160_compress)
+__A_HASH_PROCESS(a_rmd256_s, a_rmd256_process, a_rmd256_compress)
+__A_HASH_PROCESS(a_rmd320_s, a_rmd320_process, a_rmd320_compress)
 
-__A_HASH_DONE(a_rmd128_t, a_rmd128_done, a_rmd128_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-__A_HASH_DONE(a_rmd160_t, a_rmd160_done, a_rmd160_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-__A_HASH_DONE(a_rmd256_t, a_rmd256_done, a_rmd256_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-__A_HASH_DONE(a_rmd320_t, a_rmd320_done, a_rmd320_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+__A_HASH_DONE(a_rmd128_s, a_rmd128_done, a_rmd128_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+__A_HASH_DONE(a_rmd160_s, a_rmd160_done, a_rmd160_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+__A_HASH_DONE(a_rmd256_s, a_rmd256_done, a_rmd256_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+__A_HASH_DONE(a_rmd320_s, a_rmd320_done, a_rmd320_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 
 /* END OF FILE */

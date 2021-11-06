@@ -64,7 +64,7 @@ static void test_md2(void)
         /* clang-format on */
     };
 
-    a_md2_t ctx[1];
+    a_md2_s ctx[1];
 
     unsigned char out[A_MD2_OUTSIZ];
 
@@ -138,7 +138,7 @@ static void test_md4(void)
         /* clang-format on */
     };
 
-    a_md4_t ctx[1];
+    a_md4_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -211,7 +211,7 @@ static void test_md5(void)
         /* clang-format on */
     };
 
-    a_md5_t ctx[1];
+    a_md5_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -275,7 +275,7 @@ static void test_rmd128(void)
         /* clang-format on */
     };
 
-    a_rmd128_t ctx[1];
+    a_rmd128_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -345,7 +345,7 @@ static void test_rmd160(void)
         /* clang-format on */
     };
 
-    a_rmd160_t ctx[1];
+    a_rmd160_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -421,7 +421,7 @@ static void test_rmd256(void)
         /* clang-format on */
     };
 
-    a_rmd256_t ctx[1];
+    a_rmd256_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -503,7 +503,7 @@ static void test_rmd320(void)
         /* clang-format on */
     };
 
-    a_rmd320_t ctx[1];
+    a_rmd320_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -539,7 +539,7 @@ static void test_sha1(void)
         /* clang-format on */
     };
 
-    a_sha1_t ctx[1];
+    a_sha1_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -579,7 +579,7 @@ static void test_sha256(void)
         /* clang-format on */
     };
 
-    a_sha256_t ctx[1];
+    a_sha256_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -619,7 +619,7 @@ static void test_sha224(void)
         /* clang-format on */
     };
 
-    a_sha224_t ctx[1];
+    a_sha224_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -668,7 +668,7 @@ static void test_sha512(void)
         /* clang-format on */
     };
 
-    a_sha512_t ctx[1];
+    a_sha512_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -713,7 +713,7 @@ static void test_sha384(void)
         /* clang-format on */
     };
 
-    a_sha384_t ctx[1];
+    a_sha384_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -754,7 +754,7 @@ static void test_sha512_224(void)
         /* clang-format on */
     };
 
-    a_sha512_224_t ctx[1];
+    a_sha512_224_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -795,7 +795,7 @@ static void test_sha512_256(void)
         /* clang-format on */
     };
 
-    a_sha512_256_t ctx[1];
+    a_sha512_256_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -823,7 +823,7 @@ static void test_sha3_224(void)
     };
     /* clang-format on */
 
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
 
     unsigned char buf[200], hash[A_SHA3_224_OUTSIZ];
 
@@ -875,7 +875,7 @@ static void test_sha3_256(void)
     };
     /* clang-format on */
 
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
 
     unsigned char buf[200], hash[A_SHA3_256_OUTSIZ];
 
@@ -952,7 +952,7 @@ static void test_sha3_384(void)
     };
     /* clang-format on */
 
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
 
     unsigned char buf[200], hash[A_SHA3_384_OUTSIZ];
 
@@ -997,7 +997,7 @@ static void test_sha3_512(void)
     };
     /* clang-format on */
 
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
 
     unsigned char buf[200], hash[A_SHA3_512_OUTSIZ];
 
@@ -1056,7 +1056,7 @@ static void test_sha3shake(void)
     };
     /* clang-format on */
 
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
 
     unsigned char buf[200], hash[512];
 
@@ -1156,7 +1156,7 @@ static void test_sha3shake(void)
 
 static void test_keccak224(void)
 {
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
     unsigned char hash[A_KECCAK224_OUTSIZ];
 
     const char *src = "\xcc";
@@ -1219,7 +1219,7 @@ static void test_keccak224(void)
 
 static void test_keccak256(void)
 {
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
     unsigned char hash[A_KECCAK256_OUTSIZ];
 
     const char *src = "\xcc";
@@ -1282,7 +1282,7 @@ static void test_keccak256(void)
 
 static void test_keccak384(void)
 {
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
     unsigned char hash[A_KECCAK384_OUTSIZ];
 
     const char *src = "\xcc";
@@ -1353,7 +1353,7 @@ static void test_keccak384(void)
 
 static void test_keccak512(void)
 {
-    a_sha3_t ctx[1];
+    a_sha3_s ctx[1];
     unsigned char hash[A_KECCAK512_OUTSIZ];
 
     const char *src = "\xcc";
@@ -1482,7 +1482,7 @@ static void test_tiger(void)
         /* clang-format on */
     };
 
-    a_tiger_t ctx[1];
+    a_tiger_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1629,7 +1629,7 @@ static void test_whirlpool(void)
         /* clang-format on */
     };
 
-    a_whirlpool_t ctx[1];
+    a_whirlpool_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1665,7 +1665,7 @@ static void test_blake2s_128(void)
         /* clang-format on */
     };
 
-    a_blake2s_t ctx[1];
+    a_blake2s_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1703,7 +1703,7 @@ static void test_blake2s_160(void)
         /* clang-format on */
     };
 
-    a_blake2s_t ctx[1];
+    a_blake2s_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1743,7 +1743,7 @@ static void test_blake2s_224(void)
         /* clang-format on */
     };
 
-    a_blake2s_t ctx[1];
+    a_blake2s_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1797,7 +1797,7 @@ static void test_blake2s_256(void)
         /* clang-format on */
     };
 
-    a_blake2s_t ctx[1];
+    a_blake2s_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1834,7 +1834,7 @@ static void test_blake2b_160(void)
         /* clang-format on */
     };
 
-    a_blake2b_t ctx[1];
+    a_blake2b_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1888,7 +1888,7 @@ static void test_blake2b_256(void)
         /* clang-format on */
     };
 
-    a_blake2b_t ctx[1];
+    a_blake2b_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1932,7 +1932,7 @@ static void test_blake2b_384(void)
         /* clang-format on */
     };
 
-    a_blake2b_t ctx[1];
+    a_blake2b_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {
@@ -1980,7 +1980,7 @@ static void test_blake2b_512(void)
         /* clang-format on */
     };
 
-    a_blake2b_t ctx[1];
+    a_blake2b_s ctx[1];
 
     for (unsigned int i = 0; i != sizeof(tests) / sizeof(*tests); ++i)
     {

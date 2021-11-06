@@ -89,7 +89,7 @@ void keccakf(uint64_t _s[SHA3_KECCAK_SPONGE_WORDS])
 #undef KECCAK_ROUNDS
 }
 
-static unsigned char *a_done(a_sha3_t *_ctx, void *_out, uint64_t _pad)
+static unsigned char *a_done(a_sha3_s *_ctx, void *_out, uint64_t _pad)
 {
     _ctx->s[_ctx->word_index] ^= (_ctx->saved ^ (_pad << (_ctx->byte_index << 3)));
     _ctx->s[SHA3_KECCAK_SPONGE_WORDS - 1 - _ctx->capacity_words] ^= 0x8000000000000000;
@@ -111,7 +111,7 @@ static unsigned char *a_done(a_sha3_t *_ctx, void *_out, uint64_t _pad)
 
 /* ((2 * x) / (8 * 8)) -> ((x << 1) / (8 << 3)) -> (x >> 5) */
 
-void a_sha3_224_init(a_sha3_t *_ctx)
+void a_sha3_224_init(a_sha3_s *_ctx)
 {
     aassert(_ctx);
 
@@ -119,7 +119,7 @@ void a_sha3_224_init(a_sha3_t *_ctx)
     _ctx->capacity_words = 224 >> 5;
 }
 
-void a_sha3_256_init(a_sha3_t *_ctx)
+void a_sha3_256_init(a_sha3_s *_ctx)
 {
     aassert(_ctx);
 
@@ -127,7 +127,7 @@ void a_sha3_256_init(a_sha3_t *_ctx)
     _ctx->capacity_words = 256 >> 5;
 }
 
-void a_sha3_384_init(a_sha3_t *_ctx)
+void a_sha3_384_init(a_sha3_s *_ctx)
 {
     aassert(_ctx);
 
@@ -135,7 +135,7 @@ void a_sha3_384_init(a_sha3_t *_ctx)
     _ctx->capacity_words = 384 >> 5;
 }
 
-void a_sha3_512_init(a_sha3_t *_ctx)
+void a_sha3_512_init(a_sha3_s *_ctx)
 {
     aassert(_ctx);
 
@@ -143,7 +143,7 @@ void a_sha3_512_init(a_sha3_t *_ctx)
     _ctx->capacity_words = 512 >> 5;
 }
 
-int a_sha3_process(a_sha3_t *_ctx, const void *_p, size_t _n)
+int a_sha3_process(a_sha3_s *_ctx, const void *_p, size_t _n)
 {
     aassert(_ctx);
     aassert(!_n || _p);
@@ -210,21 +210,21 @@ int a_sha3_process(a_sha3_t *_ctx, const void *_p, size_t _n)
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_sha3_done(a_sha3_t *_ctx, void *_out)
+unsigned char *a_sha3_done(a_sha3_s *_ctx, void *_out)
 {
     aassert(_ctx);
 
     return a_done(_ctx, _out, 0x06);
 }
 
-unsigned char *a_keccak_done(a_sha3_t *_ctx, void *_out)
+unsigned char *a_keccak_done(a_sha3_s *_ctx, void *_out)
 {
     aassert(_ctx);
 
     return a_done(_ctx, _out, 0x01);
 }
 
-void a_shake128_init(a_sha3_t *_ctx)
+void a_shake128_init(a_sha3_s *_ctx)
 {
     aassert(_ctx);
 
@@ -232,7 +232,7 @@ void a_shake128_init(a_sha3_t *_ctx)
     _ctx->capacity_words = 128 >> 5;
 }
 
-void a_shake256_init(a_sha3_t *_ctx)
+void a_shake256_init(a_sha3_s *_ctx)
 {
     aassert(_ctx);
 
@@ -240,7 +240,7 @@ void a_shake256_init(a_sha3_t *_ctx)
     _ctx->capacity_words = 256 >> 5;
 }
 
-int a_sha3shake_init(a_sha3_t *_ctx, unsigned int _num)
+int a_sha3shake_init(a_sha3_s *_ctx, unsigned int _num)
 {
     aassert(_ctx);
 
@@ -255,7 +255,7 @@ int a_sha3shake_init(a_sha3_t *_ctx, unsigned int _num)
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_shake128_done(a_sha3_t *_ctx, void *_out)
+unsigned char *a_shake128_done(a_sha3_s *_ctx, void *_out)
 {
     aassert(_ctx);
 
@@ -268,7 +268,7 @@ unsigned char *a_shake128_done(a_sha3_t *_ctx, void *_out)
     return _ctx->out;
 }
 
-unsigned char *a_shake256_done(a_sha3_t *_ctx, void *_out)
+unsigned char *a_shake256_done(a_sha3_s *_ctx, void *_out)
 {
     aassert(_ctx);
 
@@ -281,7 +281,7 @@ unsigned char *a_shake256_done(a_sha3_t *_ctx, void *_out)
     return _ctx->out;
 }
 
-void a_sha3shake_done(a_sha3_t *_ctx, unsigned char *_out, unsigned int _siz)
+void a_sha3shake_done(a_sha3_s *_ctx, unsigned char *_out, unsigned int _siz)
 {
     /* IMPORTANT NOTE: a_sha3shake_done can be called many times */
     aassert(_ctx);

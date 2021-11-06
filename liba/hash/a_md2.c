@@ -31,7 +31,7 @@ static const unsigned char PI_SUBST[0x100] = {
 };
 
 /* adds 16 bytes to the checksum */
-static void a_md2_update_chksum(a_md2_t *_ctx)
+static void a_md2_update_chksum(a_md2_s *_ctx)
 {
     unsigned char l = _ctx->chksum[0xF];
     for (unsigned int j = 0; j != 0x10; ++j)
@@ -44,7 +44,7 @@ static void a_md2_update_chksum(a_md2_t *_ctx)
     }
 }
 
-static void a_md2_compress(a_md2_t *_ctx, const void *_buf)
+static void a_md2_compress(a_md2_s *_ctx, const void *_buf)
 {
     const unsigned char *p = _ctx->buf;
 
@@ -73,14 +73,14 @@ static void a_md2_compress(a_md2_t *_ctx, const void *_buf)
     }
 }
 
-void a_md2_init(a_md2_t *_ctx)
+void a_md2_init(a_md2_s *_ctx)
 {
     aassert(_ctx);
 
     memset(_ctx, 0, sizeof(*_ctx));
 }
 
-int a_md2_process(a_md2_t *_ctx, const void *_p, size_t _n)
+int a_md2_process(a_md2_s *_ctx, const void *_p, size_t _n)
 {
     aassert(_ctx);
     aassert(!_n || _p);
@@ -110,7 +110,7 @@ int a_md2_process(a_md2_t *_ctx, const void *_p, size_t _n)
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_md2_done(a_md2_t *_ctx, void *_out)
+unsigned char *a_md2_done(a_md2_s *_ctx, void *_out)
 {
     aassert(_ctx);
 
