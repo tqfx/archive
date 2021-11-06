@@ -42,7 +42,6 @@ enum
 
 typedef union a_hash_stat_t
 {
-    int state;
 #if defined(__A_HASH_MD2_H__)
     a_md2_t md2[1];
 #endif /* __A_HASH_MD2_H__ */

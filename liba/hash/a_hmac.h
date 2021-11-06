@@ -26,10 +26,10 @@ enum
 #pragma pack(push, 4)
 typedef struct a_hmac_t
 {
-    unsigned int outsiz;
-    const a_hash_t *hash;
-    a_hash_stat_t state[1];
     unsigned char buf[A_HMAC_BUFSIZ];
+    a_hash_stat_t state[1];
+    const a_hash_t *hash;
+    unsigned int outsiz;
 } a_hmac_t;
 #pragma pack(pop)
 
