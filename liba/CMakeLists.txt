@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(a VERSION 0.2.0)
+project(a VERSION 0.2.1)
 
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
@@ -47,7 +47,7 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL 
 endif()
 
 foreach(_prefix ${CMAKE_CURRENT_LIST_DIR})
-  foreach(_suffix "*.h" "*.hxx" "*.hpp")
+  foreach(_suffix "*.h" ".hh" "*.hxx" "*.hpp")
     file(GLOB_RECURSE _include ${_prefix}/${_suffix})
     install(FILES ${_include} DESTINATION include)
   endforeach()

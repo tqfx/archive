@@ -106,7 +106,7 @@
 #define a_vec_vi(_type, _ctx, _idx) (                                          \
     (_idx) < (_ctx).m                                                          \
         ? /*i < m*/                                                            \
-        (_idx) < (_ctx).n ? 0 : (_ctx).n = (_idx) + 1                          \
+        (_idx) < (_ctx).n ? 0 : ((_ctx).n = (_idx) + 1, 0)                     \
         : /*m < i + 1*/                                                        \
         ((_ctx).m = (_ctx).n = (_idx) + 1, aroundup32((_ctx).m),               \
          (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m), \
@@ -121,7 +121,7 @@
 #define a_vec_vip(_type, _ctx, _idx) (                                         \
     (_idx) < (_ctx).m                                                          \
         ? /*i < m*/                                                            \
-        (_idx) < (_ctx).n ? 0 : (_ctx).n = (_idx) + 1                          \
+        (_idx) < (_ctx).n ? 0 : ((_ctx).n = (_idx) + 1, 0)                     \
         : /*m < i + 1*/                                                        \
         ((_ctx).m = (_ctx).n = (_idx) + 1, aroundup32((_ctx).m),               \
          (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m), \
@@ -165,7 +165,7 @@
 #ifndef a_vec_push
 #define a_vec_push(_type, _ctx, _x) (                                          \
     (_ctx).n == (_ctx).m                                                       \
-        ? /*m = n + 1*/                                                        \
+        ? /*n == m*/                                                           \
         ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 2,                            \
          (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m)) \
         : 0 /*n < m*/,                                                         \
@@ -178,7 +178,7 @@
 #ifndef a_vec_pushp
 #define a_vec_pushp(_type, _ctx) (                                             \
     (_ctx).n == (_ctx).m                                                       \
-        ? /*m = n + 1*/                                                        \
+        ? /*n == m*/                                                           \
         ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 2,                            \
          (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m)) \
         : 0 /*n < m*/,                                                         \
