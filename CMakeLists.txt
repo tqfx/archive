@@ -11,7 +11,7 @@ include(cmake/check.cmake OPTIONAL)
 include(cmake/output.cmake OPTIONAL)
 include(cmake/standard.cmake OPTIONAL)
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_BUILD_TYPE "Debug")
   include(cmake/sanitizer.cmake OPTIONAL)
 endif()
 
