@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(a VERSION 0.2.1)
+project(a VERSION 0.2.2)
 
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
