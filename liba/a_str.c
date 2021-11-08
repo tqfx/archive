@@ -159,14 +159,17 @@ void *a_memmem(const void *_str, int _n, const void *_pat, int _m, int **_prep)
     return 0;
 }
 
-char *a_strnstr(const char *_str, int _n, const char *_pat, int **_prep)
+char *a_strnstr(const void *_str, int _n, const void *_pat, int **_prep)
 {
-    return (char *)a_memmem(_str, _n, _pat, (int)strlen(_pat), _prep);
+    const char *pat = (const char *)_pat;
+    return (char *)a_memmem(_str, _n, _pat, (int)strlen(pat), _prep);
 }
 
-char *a_strstr(const char *_str, const char *_pat, int **_prep)
+char *a_strstr(const void *_str, const void *_pat, int **_prep)
 {
-    return (char *)a_memmem(_str, (int)strlen(_str), _pat, (int)strlen(_pat), _prep);
+    const char *str = (const char *)_str;
+    const char *pat = (const char *)_pat;
+    return (char *)a_memmem(_str, (int)strlen(str), _pat, (int)strlen(pat), _prep);
 }
 
 a_str_s *a_str_init(const void *_p, size_t _n)
@@ -272,11 +275,12 @@ int a_str_putn(a_str_s *_ctx, const void *_p, size_t _n)
     return 0;
 }
 
-int a_str_puts(a_str_s *_ctx, const char *_s)
+int a_str_puts(a_str_s *_ctx, const void *_s)
 {
     aassert(_s);
     aassert(_ctx);
-    return a_str_putn(_ctx, _s, strlen(_s));
+    const char *s = (const char *)_s;
+    return a_str_putn(_ctx, s, strlen(s));
 }
 
 int a_str_putc_(a_str_s *_ctx, int _c)
