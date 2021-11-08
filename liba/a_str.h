@@ -46,7 +46,7 @@ typedef struct a_str_s
  @brief Free an instance of c string structure
 */
 #define a_str_sfree(_ctx) ( \
-    (_ctx).s ? (afree((_ctx).s), 0) : 0, (_ctx).m = (_ctx).n = 0)
+    (_ctx).s ? (afree((_ctx).s), (_ctx).s = 0) : 0, (_ctx).m = (_ctx).n = 0)
 #endif /* a_str_sfree */
 
 __NONNULL_ALL
@@ -73,6 +73,19 @@ size_t a_str_len(a_str_s *_ctx)
 {
     aassert(_ctx);
     return _ctx->n;
+}
+
+__NONNULL_ALL
+__STATIC_INLINE
+/*!
+ @brief memory for a pointer to c string structure
+ @param[in] _ctx: points to an instance of c string structure
+ @return memory
+*/
+size_t a_str_mem(a_str_s *_ctx)
+{
+    aassert(_ctx);
+    return _ctx->m;
 }
 
 __BEGIN_DECLS

@@ -110,7 +110,9 @@ void *a_memmem(const void *_str, int _n, const void *_pat, int _m, int **_prep)
     {
         void *ret;
         const unsigned char *p;
-    } up[1] = {{.ret = 0}};
+    } p_u = {
+        .p = 0,
+    };
 
     const unsigned char *str = (const unsigned char *)_str;
     const unsigned char *pat = (const unsigned char *)_pat;
@@ -143,8 +145,8 @@ void *a_memmem(const void *_str, int _n, const void *_pat, int _m, int **_prep)
         }
         else
         {
-            up->p = str + j;
-            return up->ret;
+            p_u.p = str + j;
+            return p_u.ret;
         }
     }
 
@@ -254,14 +256,17 @@ int a_str_putn_(a_str_s *_ctx, const void *_p, size_t _n)
 int a_str_putn(a_str_s *_ctx, const void *_p, size_t _n)
 {
     aassert(_ctx);
-    if (_p && _n)
+    if (_p)
     {
         if (a_str_resize(_ctx, _ctx->n + _n + 1))
         {
             return -1;
         }
-        memcpy(_ctx->s + _ctx->n, _p, _n);
-        _ctx->n = _ctx->n + _n;
+        if (_n)
+        {
+            memcpy(_ctx->s + _ctx->n, _p, _n);
+            _ctx->n = _ctx->n + _n;
+        }
         _ctx->s[_ctx->n] = 0;
     }
     return 0;
