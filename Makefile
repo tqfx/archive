@@ -1,5 +1,6 @@
 MAKEFLAGS += --silent
 
+SOURCE_CLANG += liba/crc
 SOURCE_CLANG += liba/hash
 SOURCE_CLANG += liba/poly
 SOURCE_CLANG += liba

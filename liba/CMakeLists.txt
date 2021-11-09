@@ -19,6 +19,9 @@ unset(SOURCES)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR} SOURCE)
 list(APPEND SOURCES ${SOURCE})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/crc)
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/crc SOURCE)
+list(APPEND SOURCES ${SOURCE})
 include_directories(${CMAKE_CURRENT_LIST_DIR}/poly)
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/poly SOURCE)
 list(APPEND SOURCES ${SOURCE})
@@ -31,6 +34,10 @@ unset(SOURCES)
 target_include_directories(${PROJECT_NAME} INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
   $<INSTALL_INTERFACE:include>
+)
+target_include_directories(${PROJECT_NAME} INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/crc>
+  $<INSTALL_INTERFACE:include/crc>
 )
 target_include_directories(${PROJECT_NAME} INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/poly>
