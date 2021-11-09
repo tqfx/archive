@@ -17,8 +17,15 @@
             uint##_bit##_t crc = (uint8_t)i;           \
             for (unsigned int j = 0; j != 8; ++j)      \
             {                                          \
-                crc = (crc >> 1) ^                     \
-                      ((crc & 1) ? _poly : 0);         \
+                if (crc & 1)                           \
+                {                                      \
+                    crc >>= 1;                         \
+                    crc ^= _poly;                      \
+                }                                      \
+                else                                   \
+                {                                      \
+                    crc >>= 1;                         \
+                }                                      \
             }                                          \
             _tab[i] = crc;                             \
         }                                              \
@@ -39,8 +46,15 @@ __A_CRC_LSB(64)
             uint##_bit##_t crc = (uint8_t)i;           \
             for (unsigned int j = _bit; j; --j)        \
             {                                          \
-                crc = (crc << 1) ^                     \
-                      ((crc & _msk) ? _poly : 0);      \
+                if (crc & _msk)                        \
+                {                                      \
+                    crc <<= 1;                         \
+                    crc ^= _poly;                      \
+                }                                      \
+                else                                   \
+                {                                      \
+                    crc <<= 1;                         \
+                }                                      \
             }                                          \
             _tab[i] = crc;                             \
         }                                              \
