@@ -1,37 +1,36 @@
-CURRENT_DIR = $(lastword $(dir $(MAKEFILE_LIST)))
+CWD = $(lastword $(dir $(MAKEFILE_LIST)))
 MAKEFLAGS += --silent
-BUILD_DIR = build
+BUILD = build
 
 TARGET = a
 
-C_SOURCES += $(wildcard $(CURRENT_DIR)*.c)
-C_SOURCES += $(wildcard $(CURRENT_DIR)poly/*.c)
-C_SOURCES += $(wildcard $(CURRENT_DIR)hash/*.c)
+-include $(CWD)include.mk
 
-C_INCLUDES += -I$(CURRENT_DIR)
-C_INCLUDES += -I$(CURRENT_DIR)poly
-C_INCLUDES += -I$(CURRENT_DIR)hash
+C_SOURCES += $(wildcard $(CWD)*.c)
+C_SOURCES += $(wildcard $(CWD)crc/*.c)
+C_SOURCES += $(wildcard $(CWD)poly/*.c)
+C_SOURCES += $(wildcard $(CWD)hash/*.c)
 
 C_DEFS += -DNDEBUG
 CFLAGS += -std=c11 -O2
 CFLAGS += -Wall -Wextra -Wpedantic
 CFLAGS += $(C_DEFS) $(C_INCLUDES)
 
-OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+OBJECTS += $(addprefix $(BUILD)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
 
-all: $(BUILD_DIR)/lib$(TARGET).so $(BUILD_DIR)/lib$(TARGET).a
+all: $(BUILD)/lib$(TARGET).so $(BUILD)/lib$(TARGET).a
 
-$(BUILD_DIR)/lib$(TARGET).so: $(OBJECTS)
+$(BUILD)/lib$(TARGET).so: $(OBJECTS)
 	@echo $(CC) $@
 	$(CC) -o $@ -shared $^
-$(BUILD_DIR)/lib$(TARGET).a: $(OBJECTS)
+$(BUILD)/lib$(TARGET).a: $(OBJECTS)
 	@echo $(AR) $@
 	$(AR) -rcs $@ $^
-$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+$(BUILD)/%.o: %.c | $(BUILD)
 	@echo $(CC) $^
 	$(CC) -o $@ -c $^ -fPIC $(CFLAGS)
-$(BUILD_DIR):
+$(BUILD):
 	@mkdir $@
 
 .PHONY: clean
