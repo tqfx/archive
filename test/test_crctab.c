@@ -70,6 +70,10 @@ void create_table(const char *_fname)
             exit(EXIT_FAILURE);
         }
     }
+    else
+    {
+        _fname = "crc_tab.c";
+    }
 
     fprintf(fp, "/*!\n");
     fprintf(fp, " @file %s\n", _fname);
