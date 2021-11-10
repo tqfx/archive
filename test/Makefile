@@ -26,7 +26,8 @@ CXXFLAGS += $(CXX_DEFS) $(CXX_INCS)
 
 all: $(BIN)/test $(BIN)/math $(BIN)/mean $(BIN)/notefreqs \
      $(BIN)/hash $(BIN)/hmac $(BIN)/base \
-     $(BIN)/str $(BIN)/vec $(BIN)/list
+     $(BIN)/str $(BIN)/vec $(BIN)/list \
+     $(BIN)/crctab
 
 $(BIN)/test:$(CURDIR)test.c $(LIBA) | $(BIN)
 	@echo $(CC) $@
@@ -56,6 +57,9 @@ $(BIN)/vec:$(CURDIR)test_vec.cpp $(LIBA) | $(BIN)
 	@echo $(CXX) $@
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 $(BIN)/list:$(CURDIR)test_list.c $(LIBA) | $(BIN)
+	@echo $(CC) $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+$(BIN)/crctab:$(CURDIR)test_crctab.c $(LIBA) | $(BIN)
 	@echo $(CC) $@
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 

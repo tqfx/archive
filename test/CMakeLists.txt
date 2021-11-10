@@ -27,3 +27,6 @@ target_link_libraries(vec a)
 
 add_executable(list test_list.c)
 target_link_libraries(list a)
+
+add_executable(crctab test_crctab.c)
+target_link_libraries(crctab a)
