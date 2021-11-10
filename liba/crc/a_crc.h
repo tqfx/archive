@@ -11,6 +11,8 @@
 
 #include "liba.h"
 
+#define A_CRC_TABSIZ 0x100
+
 #define A_CRC8_POLY 0x31
 #define A_CRC8_INIT 0x00
 
