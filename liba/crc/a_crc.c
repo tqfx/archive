@@ -7,6 +7,11 @@
 
 #include "a_crc.h"
 
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#endif /* _MSC_VER */
+
 #undef __A_CRC_LSB
 #define __A_CRC_LSB(_bit)                              \
     void a_crc##_bit##_lsb(uint##_bit##_t _tab[0x100], \
@@ -64,6 +69,10 @@ __A_CRC_MSB(16, 0x8000)
 __A_CRC_MSB(32, 0x80000000)
 __A_CRC_MSB(64, 0x8000000000000000)
 #undef __A_CRC_MSB
+
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 uint8_t a_crc8(const uint8_t _tab[0x100],
                const void *_p, size_t _n,
