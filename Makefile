@@ -9,7 +9,7 @@ SOURCE_BLACK += test
 
 all: format black
 
-.PHONY: format black clean
+.PHONY: format black test clean
 
 SOURCE_C = $(foreach v,$(SOURCE_CLANG),$(wildcard $(v)/*.[ch]))
 SOURCE_CC = $(foreach v,$(SOURCE_CLANG),$(wildcard $(v)/*.[ch][ch]))
@@ -20,6 +20,9 @@ format: $(SOURCE_C) $(SOURCE_CC) $(SOURCE_CXX)
 SOURCE_PY = $(foreach v,$(SOURCE_BLACK),$(wildcard $(v)/*.py))
 black: $(SOURCE_PY)
 	@$(foreach v,$^,$(shell black -S $(v) --quiet))
+
+test:
+	$(MAKE) -f test/Makefile
 
 clean:
 	@-git clean -fdX
