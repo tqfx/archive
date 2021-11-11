@@ -6,4 +6,5 @@ LIBA_DIRS += $(LIBA_CURDIR)hash
 LIBA_INCS += $(foreach d,$(LIBA_DIRS),-I$(d:/=))
 LIBA_DEPS += $(foreach d,$(LIBA_DIRS),$(foreach c,c cc cxx cpp,$(wildcard $(d:/=)/*.$(c))))
 LIBA_DEPS += $(foreach d,$(LIBA_DIRS),$(foreach h,h hh hxx hpp,$(wildcard $(d:/=)/*.$(h))))
+LIBA_DEPS += $(LIBA_CURDIR)Makefile $(lastword $(MAKEFILE_LIST))
 LDFLAGS += -lm

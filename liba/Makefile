@@ -1,4 +1,5 @@
 MAKEFLAGS += --silent
+MAKEFILE := $(lastword $(MAKEFILE_LIST))
 CURDIR := $(subst \,/,$(lastword $(dir $(MAKEFILE_LIST))))
 BUILD := build
 OBJ := $(BUILD)/obj
@@ -6,10 +7,10 @@ LIB := $(BUILD)/lib
 MK := mkdir
 SZ := size
 
+ARFLAGS := rcs
 FLAGS += -fPIC -O2 -Wall -Wextra -Wpedantic
 CFLAGS += -std=c11 $(FLAGS)
 CXXFLAGS += -std=c++11 $(FLAGS)
-ARFLAGS := rcs
 
 DIRS := $(CURDIR) $(CURDIR)crc $(CURDIR)poly $(CURDIR)hash
 
@@ -49,19 +50,19 @@ $(LIB):$(BUILD)
 	@$(MK) -p $@
 
 vpath %.c $(C_DIRS)
-$(OBJ)/%.c.o:%.c $(C_DEPS) | $(OBJ)
+$(OBJ)/%.c.o:%.c $(C_DEPS) $(MAKEFILE) | $(OBJ)
 	@echo $(CC) $<
 	$(CC) $(CFLAGS) -o $@ -c $<
 vpath %.cc $(CXX_DIRS)
-$(OBJ)/%.cc.o:%.cc $(CXX_DEPS) | $(OBJ)
+$(OBJ)/%.cc.o:%.cc $(CXX_DEPS) $(MAKEFILE) | $(OBJ)
 	@echo $(CXX) $<
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 vpath %.cxx $(CXX_DIRS)
-$(OBJ)/%.cxx.o:%.cxx $(CXX_DEPS) | $(OBJ)
+$(OBJ)/%.cxx.o:%.cxx $(CXX_DEPS) $(MAKEFILE) | $(OBJ)
 	@echo $(CXX) $<
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 vpath %.cpp $(CXX_DIRS)
-$(OBJ)/%.cpp.o:%.cpp $(CXX_DEPS) | $(OBJ)
+$(OBJ)/%.cpp.o:%.cpp $(CXX_DEPS) $(MAKEFILE) | $(OBJ)
 	@echo $(CXX) $<
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 $(OBJ):$(BUILD)
@@ -73,7 +74,7 @@ $(BUILD):
 clean:
 	$(RM) -r $(BUILD)
 help:
-	@echo The following are some of the valid targets for this Makefile:
+	@echo The following are some of the valid targets for this $(MAKEFILE):
 	@echo ... all \(the default if no target is provided\)
 	@echo ... help
 	@echo ... size

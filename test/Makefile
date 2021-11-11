@@ -1,4 +1,5 @@
 MAKEFLAGS += --silent
+MAKEFILE := $(lastword $(MAKEFILE_LIST))
 CURDIR := $(subst \,/,$(lastword $(dir $(MAKEFILE_LIST))))
 BUILD := build
 OBJ := $(BUILD)/obj
@@ -72,7 +73,7 @@ $(BUILD):
 clean:
 	$(RM) -r $(BUILD)
 help:
-	@echo The following are some of the valid targets for this Makefile:
+	@echo The following are some of the valid targets for this $(MAKEFILE):
 	@echo ... all \(the default if no target is provided\)
 	@echo ... help
 	@echo ... clean
