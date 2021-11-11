@@ -9,26 +9,22 @@ MK := mkdir
 FLAGS += -O2 -Wall -Wextra -Wpedantic
 CFLAGS += -std=c11 $(FLAGS)
 CXXFLAGS += -std=c++11 $(FLAGS)
-LDFLAGS += -lm
 
 LIBA := $(LIB)/liba.a
-LIBADIR := $(CURDIR)../liba/
+-include $(CURDIR)../liba/make.mk
 
-DIRS += $(LIBADIR) $(LIBADIR)crc $(LIBADIR)poly $(LIBADIR)hash
+C_INCS += $(foreach d,$(CURDIR),-I$(d:/=))
+CFLAGS += $(C_DEFS) $(C_INCS) $(LIBA_INCS)
 
-C_INCS += $(foreach d,$(DIRS),-I$(d:/=))
-C_DEPS += $(foreach d,$(DIRS),$(wildcard $(d:/=)/*.h))
-CFLAGS += $(C_DEFS) $(C_INCS)
-
-CXX_INCS += $(foreach d,$(DIRS),-I$(d:/=))
-CXX_DEPS += $(foreach h,.hh .hxx .hpp,$(foreach d,$(DIRS),$(wildcard $(d:/=)/*$(h))))
-CXXFLAGS += $(CXX_DEFS) $(CXX_INCS)
+CXX_INCS += $(foreach d,$(CURDIR),-I$(d:/=))
+CXXFLAGS += $(CXX_DEFS) $(CXX_INCS) $(LIBA_INCS)
 
 all: $(BIN)/test $(BIN)/math $(BIN)/mean $(BIN)/notefreqs \
-     $(BIN)/hash $(BIN)/hmac $(BIN)/base \
-     $(BIN)/str $(BIN)/vec $(BIN)/list \
-     $(BIN)/crctab
+     $(BIN)/hash $(BIN)/hmac $(BIN)/base $(BIN)/crc \
+     $(BIN)/str $(BIN)/vec $(BIN)/list
 
+$(LIBA): $(LIBA_DEPS) | $(LIB)
+	$(MAKE) -f $(CURDIR)../liba/Makefile TARGET=a
 $(BIN)/test:$(CURDIR)test.c $(LIBA) | $(BIN)
 	@echo $(CC) $@
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
@@ -50,6 +46,9 @@ $(BIN)/hmac:$(CURDIR)test_hmac.c $(LIBA) | $(BIN)
 $(BIN)/base:$(CURDIR)test_base.c $(LIBA) | $(BIN)
 	@echo $(CC) $@
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+$(BIN)/crc:$(CURDIR)test_crc.c $(LIBA) | $(BIN)
+	@echo $(CC) $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 $(BIN)/str:$(CURDIR)test_str.c $(LIBA) | $(BIN)
 	@echo $(CC) $@
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
@@ -59,12 +58,7 @@ $(BIN)/vec:$(CURDIR)test_vec.cpp $(LIBA) | $(BIN)
 $(BIN)/list:$(CURDIR)test_list.c $(LIBA) | $(BIN)
 	@echo $(CC) $@
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
-$(BIN)/crctab:$(CURDIR)test_crctab.c $(LIBA) | $(BIN)
-	@echo $(CC) $@
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-$(LIBA): $(C_DEPS) $(CXX_DEPS)
-	$(MAKE) -f $(LIBADIR)Makefile TARGET=a
 $(OBJ):$(BUILD)
 	@$(MK) -p $@
 $(LIB):$(BUILD)
@@ -76,7 +70,6 @@ $(BUILD):
 
 .PHONY: clean help
 clean:
-	$(RM) $(BUILD)/lib$(TARGET).so $(BUILD)/lib$(TARGET).a $(C_OBJS) $(CXX_OBJS)
 	$(RM) -r $(BUILD)
 help:
 	@echo The following are some of the valid targets for this Makefile:
