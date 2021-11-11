@@ -21,7 +21,7 @@
             for (size_t j = 0; j != _row; ++j)                                              \
             {                                                                               \
                 fprintf(_out, "0x%0" _fmt "X,", _tab[_row * i + j]);                        \
-                if (j != 7)                                                                 \
+                if (j != _row - 1)                                                          \
                 {                                                                           \
                     fprintf(_out, " ");                                                     \
                 }                                                                           \
