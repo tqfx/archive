@@ -266,7 +266,10 @@ int a_base32_decode(const void *_p, size_t _n,
         return A_BASE_INVALID;
     }
 
-#ifndef _MSC_VER
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4293)
+#else
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wshift-count-overflow"
 #endif /* _MSC_VER */
@@ -320,7 +323,9 @@ int a_base32_decode(const void *_p, size_t _n,
         }
     }
 
-#ifndef _MSC_VER
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#else
 #pragma GCC diagnostic pop
 #endif /* _MSC_VER */
 
