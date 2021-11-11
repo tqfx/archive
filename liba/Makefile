@@ -15,18 +15,18 @@ DIRS := $(CURDIR) $(CURDIR)crc $(CURDIR)poly $(CURDIR)hash
 
 C_DEFS += -DNDEBUG
 CXX_DEFS += -DNDEBUG
-C_SRCS := $(foreach d,$(DIRS),$(wildcard $(d:/=)/*.c))
-CXX_SRCS := $(foreach d,$(DIRS),$(foreach c,.cc .cxx .cpp,$(wildcard $(d:/=)/*$(c))))
+C_SRCS := $(foreach d,$(DIRS),$(foreach c,c,$(wildcard $(d:/=)/*.$(c))))
+CXX_SRCS := $(foreach d,$(DIRS),$(foreach c,cc cxx cpp,$(wildcard $(d:/=)/*.$(c))))
 
 C_DIRS += $(sort $(dir $(C_SRCS)))
 C_INCS += $(foreach d,$(C_DIRS),-I$(d:/=))
-C_DEPS += $(foreach d,$(C_DIRS),$(wildcard $(d)*.h))
+C_DEPS += $(foreach d,$(C_DIRS),$(foreach h,h,$(wildcard $(d)*.$(h))))
 C_OBJS += $(addprefix $(OBJ)/,$(addsuffix .o,$(notdir $(C_SRCS))))
 CFLAGS += $(C_DEFS) $(C_INCS)
 
-CXX_DIRS += $(sort $(dir $(CXX_SRCS)))
+CXX_DIRS += $(sort $(dir $(CXX_SRCS) $(C_SRCS)))
 CXX_INCS += $(foreach d,$(CXX_DIRS),-I$(d:/=))
-CXX_DEPS += $(foreach h,.hh .hxx .hpp,$(foreach d,$(CXX_DIRS),$(wildcard $(d)*$(h))))
+CXX_DEPS += $(foreach d,$(CXX_DIRS),$(foreach h,h hh hxx hpp,$(wildcard $(d)*.$(h))))
 CXX_OBJS += $(addprefix $(OBJ)/,$(addsuffix .o,$(notdir $(CXX_SRCS))))
 CXXFLAGS += $(CXX_DEFS) $(CXX_INCS)
 
@@ -49,21 +49,21 @@ $(LIB):$(BUILD)
 	@$(MK) -p $@
 
 vpath %.c $(C_DIRS)
-$(OBJ)/%.c.o:%.c | $(OBJ) $(C_DEPS)
-	@echo $(CC) $^
-	$(CC) $(CFLAGS) -o $@ -c $^
+$(OBJ)/%.c.o:%.c $(C_DEPS) | $(OBJ)
+	@echo $(CC) $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 vpath %.cc $(CXX_DIRS)
-$(OBJ)/%.cc.o:%.cc | $(OBJ) $(CXX_DEPS)
-	@echo $(CXX) $^
-	$(CXX) $(CXXFLAGS) -o $@ -c $^
+$(OBJ)/%.cc.o:%.cc $(CXX_DEPS) | $(OBJ)
+	@echo $(CXX) $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 vpath %.cxx $(CXX_DIRS)
-$(OBJ)/%.cxx.o:%.cxx | $(OBJ) $(CXX_DEPS)
-	@echo $(CXX) $^
-	$(CXX) $(CXXFLAGS) -o $@ -c $^
+$(OBJ)/%.cxx.o:%.cxx $(CXX_DEPS) | $(OBJ)
+	@echo $(CXX) $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 vpath %.cpp $(CXX_DIRS)
-$(OBJ)/%.cpp.o:%.cpp | $(OBJ) $(CXX_DEPS)
-	@echo $(CXX) $^
-	$(CXX) $(CXXFLAGS) -o $@ -c $^
+$(OBJ)/%.cpp.o:%.cpp $(CXX_DEPS) | $(OBJ)
+	@echo $(CXX) $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 $(OBJ):$(BUILD)
 	@$(MK) -p $@
 $(BUILD):
