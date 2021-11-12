@@ -108,25 +108,37 @@ void test(void)
     printf("POLY: 0x%04X\n", A_CRC16_POLY);
     printf("INIT: 0x%04X\n", A_CRC16_INIT);
     a_crc16_lsb(tab16, A_CRC16_POLY);
-    printf("LSB: 0x%04X\n", a_crc16(tab16, text, size, A_CRC16_INIT));
+    printf("LSB: 0x%04X(L) 0x%04X(H)\n",
+           a_crc16l(tab16, text, size, A_CRC16_INIT),
+           a_crc16h(tab16, text, size, A_CRC16_INIT));
     a_crc16_msb(tab16, A_CRC16_POLY);
-    printf("MSB: 0x%04X\n", a_crc16(tab16, text, size, A_CRC16_INIT));
+    printf("MSB: 0x%04X(L) 0x%04X(H)\n",
+           a_crc16l(tab16, text, size, A_CRC16_INIT),
+           a_crc16h(tab16, text, size, A_CRC16_INIT));
 
     uint32_t tab32[A_CRC_TABSIZ];
     printf("POLY: 0x%08X\n", A_CRC32_POLY);
     printf("INIT: 0x%08X\n", A_CRC32_INIT);
     a_crc32_lsb(tab32, A_CRC32_POLY);
-    printf("LSB: 0x%08X\n", a_crc32(tab32, text, size, A_CRC32_INIT));
+    printf("LSB: 0x%08X(L) 0x%08X(H)\n",
+           a_crc32l(tab32, text, size, A_CRC32_INIT),
+           a_crc32h(tab32, text, size, A_CRC32_INIT));
     a_crc32_msb(tab32, A_CRC32_POLY);
-    printf("MSB: 0x%08X\n", a_crc32(tab32, text, size, A_CRC32_INIT));
+    printf("MSB: 0x%08X(L) 0x%08X(H)\n",
+           a_crc32l(tab32, text, size, A_CRC32_INIT),
+           a_crc32h(tab32, text, size, A_CRC32_INIT));
 
     uint64_t tab64[A_CRC_TABSIZ];
     printf("POLY: 0x%016zX\n", A_CRC64_POLY);
     printf("INIT: 0x%016zX\n", A_CRC64_INIT);
     a_crc64_lsb(tab64, A_CRC64_POLY);
-    printf("LSB: 0x%016zX\n", a_crc64(tab64, text, size, A_CRC64_INIT));
+    printf("LSB: 0x%016zX(L) 0x%016zX(H)\n",
+           a_crc64l(tab64, text, size, A_CRC64_INIT),
+           a_crc64h(tab64, text, size, A_CRC64_INIT));
     a_crc64_msb(tab64, A_CRC64_POLY);
-    printf("MSB: 0x%016zX\n", a_crc64(tab64, text, size, A_CRC64_INIT));
+    printf("LSB: 0x%016zX(L) 0x%016zX(H)\n",
+           a_crc64l(tab64, text, size, A_CRC64_INIT),
+           a_crc64h(tab64, text, size, A_CRC64_INIT));
 }
 
 int main(int argc, char *argv[])
