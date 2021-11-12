@@ -22,6 +22,7 @@ black: $(SOURCE_PY)
 	@$(foreach v,$^,$(shell black -S $(v) --quiet))
 
 test:
+	$(MAKE) -f liba/Makefile
 	$(MAKE) -f test/Makefile
 
 clean:
