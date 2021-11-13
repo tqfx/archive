@@ -10,14 +10,17 @@
 
 static void tests(void)
 {
+    const char *str = 0;
     a_str_s ctx[1] = {a_str_inits()};
-    printf("0x%zX ", (size_t)a_str_done(ctx));
+    str = a_str_done(ctx);
+    printf("0x%zX ", (size_t)str);
     a_str_putc_(ctx, 0);
     a_str_putn_(ctx, 0, 0);
     a_str_putc(ctx, 0);
     a_str_puts(ctx, "");
     a_str_putn(ctx, 0, 0);
-    printf("0x%zX\n", (size_t)a_str_val(ctx));
+    str = a_str_val(ctx);
+    printf("0x%zX\n", (size_t)str);
     a_str_sfree(*ctx);
 }
 
