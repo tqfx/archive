@@ -18,7 +18,7 @@
 
 a_vec_type(u32, unsigned int);
 
-void tests(void)
+static void tests(void)
 {
     a_vec_s(unsigned int) ctx = a_vec_inits();
 
@@ -82,7 +82,7 @@ void tests(void)
     a_vec_done(ctx2);
 }
 
-void testt(void)
+static void testt(void)
 {
     a_vec_t(u32) *ctx = a_vec_initp(u32);
 
@@ -146,7 +146,7 @@ void testt(void)
     a_vec_pdone(pctx);
 }
 
-void test(void)
+static void test(void)
 {
     unsigned int M = 10;
     unsigned int N = 20000000;

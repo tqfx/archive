@@ -10,26 +10,26 @@
 #include <stdlib.h>
 
 #undef __WRITE_TAB
-#define __WRITE_TAB(_bit, _row, _fmt)                                                       \
-    void write_tab##_bit(FILE *_out, uint##_bit##_t _tab[A_CRC_TABSIZ], const char *_label) \
-    {                                                                                       \
-        fprintf(_out, "const uint%u_t %s[0x%X] = {\n", _bit, _label, A_CRC_TABSIZ);         \
-        fprintf(_out, "    /* clang-format off */\n");                                      \
-        for (size_t i = 0; i != A_CRC_TABSIZ / _row; ++i)                                   \
-        {                                                                                   \
-            fprintf(_out, "    ");                                                          \
-            for (size_t j = 0; j != _row; ++j)                                              \
-            {                                                                               \
-                fprintf(_out, "0x%0" _fmt "X,", _tab[_row * i + j]);                        \
-                if (j != _row - 1)                                                          \
-                {                                                                           \
-                    fprintf(_out, " ");                                                     \
-                }                                                                           \
-            }                                                                               \
-            fprintf(_out, "\n");                                                            \
-        }                                                                                   \
-        fprintf(_out, "    /* clang-format on */\n");                                       \
-        fprintf(_out, "};\n\n");                                                            \
+#define __WRITE_TAB(_bit, _row, _fmt)                                                              \
+    static void write_tab##_bit(FILE *_out, uint##_bit##_t _tab[A_CRC_TABSIZ], const char *_label) \
+    {                                                                                              \
+        fprintf(_out, "const uint%u_t %s[0x%X] = {\n", _bit, _label, A_CRC_TABSIZ);                \
+        fprintf(_out, "    /* clang-format off */\n");                                             \
+        for (size_t i = 0; i != A_CRC_TABSIZ / _row; ++i)                                          \
+        {                                                                                          \
+            fprintf(_out, "    ");                                                                 \
+            for (size_t j = 0; j != _row; ++j)                                                     \
+            {                                                                                      \
+                fprintf(_out, "0x%0" _fmt "X,", _tab[_row * i + j]);                               \
+                if (j != _row - 1)                                                                 \
+                {                                                                                  \
+                    fprintf(_out, " ");                                                            \
+                }                                                                                  \
+            }                                                                                      \
+            fprintf(_out, "\n");                                                                   \
+        }                                                                                          \
+        fprintf(_out, "    /* clang-format on */\n");                                              \
+        fprintf(_out, "};\n\n");                                                                   \
     }
 __WRITE_TAB(8, 8, "2")
 __WRITE_TAB(16, 8, "4")
@@ -37,7 +37,7 @@ __WRITE_TAB(32, 8, "8")
 __WRITE_TAB(64, 4, "16z")
 #undef __WRITE_TAB
 
-void create_table(const char *_fname)
+static void create_table(const char *_fname)
 {
     FILE *fp = stdout;
 
@@ -91,7 +91,7 @@ void create_table(const char *_fname)
     fclose(fp);
 }
 
-void test(void)
+static void test(void)
 {
     const char *text = "123456789";
     unsigned int size = sizeof("123456789") - 1;

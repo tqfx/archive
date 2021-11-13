@@ -14,7 +14,7 @@
 a_list_type(i32, int);
 #pragma pack(pop)
 
-void tests(void)
+static void tests(void)
 {
     a_list_t(i32) ctx;
 
@@ -64,7 +64,7 @@ void tests(void)
     printf("\n");
 }
 
-void testt(void)
+static void testt(void)
 {
     a_list_t(i32) * ctx;
 

@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 
-void tests(void)
+static void tests(void)
 {
     a_str_s ctx[1] = {a_str_inits()};
     printf("0x%zX ", (size_t)a_str_done(ctx));
@@ -21,7 +21,7 @@ void tests(void)
     a_str_sfree(*ctx);
 }
 
-void testt(void)
+static void testt(void)
 {
     char *s = 0;
     a_str_s *ctx = a_str_init(0, 0);
@@ -39,7 +39,7 @@ void testt(void)
     a_str_free(ctx);
 }
 
-void testm(void)
+static void testm(void)
 {
     int *p = 0;
     const char *pat = "def";
