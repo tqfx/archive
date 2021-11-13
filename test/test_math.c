@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#pragma pack(push, 4)
 static union
 {
     float f32;
@@ -20,6 +21,7 @@ static union
         unsigned long s : 1;
     } s32[1];
 } b32[1];
+#pragma pack(pop)
 
 static union
 {
