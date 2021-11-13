@@ -12,13 +12,6 @@ jobs:
         with:
           lfs: true
           submodules: true
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: ${{ github.event.head_commit.message }}
-          disable_nojekyll: true
-          publish_branch: latest
-          publish_dir: liba
       - uses: mattnotmitt/doxygen-action@v1
         with:
           working-directory: liba
