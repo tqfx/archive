@@ -37,8 +37,7 @@ static const uint64_t keccakf_rndc[24] = {
     /* clang-format on */
 };
 
-__STATIC_INLINE
-void keccakf(uint64_t _s[SHA3_KECCAK_SPONGE_WORDS])
+static void keccakf(uint64_t _s[SHA3_KECCAK_SPONGE_WORDS])
 {
     uint64_t bc[5], t;
     unsigned int i, j;
