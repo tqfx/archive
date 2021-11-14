@@ -4,8 +4,43 @@ CURDIR := $(subst \,/,$(lastword $(dir $(MAKEFILE_LIST))))
 BUILD := build
 MK := mkdir
 
-FLAGS += -O2 -Wall -Wextra -Wpedantic
+FLAGS += -O2
+FLAGS += -Wall
+FLAGS += -Wextra
+FLAGS += -Wpedantic
+FLAGS += -Wdouble-promotion
+FLAGS += -Wnull-dereference
+FLAGS += -Wmissing-include-dirs
+FLAGS += -Wswitch-default
+FLAGS += -Wswitch-enum
+FLAGS += -Walloca
+FLAGS += -Wattributes
+FLAGS += -Wfloat-equal
+FLAGS += -Wshadow
+FLAGS += -Wundef
+FLAGS += -Wunused
+FLAGS += -Wunused-macros
+FLAGS += -Wcast-qual
+FLAGS += -Wcast-align
+FLAGS += -Wconversion
+FLAGS += -Wdate-time
+FLAGS += -Waggregate-return
+FLAGS += -Wmissing-declarations
+FLAGS += -Wpacked
+FLAGS += -Wpadded
+FLAGS += -Wredundant-decls
+FLAGS += -Winline
+FLAGS += -Winvalid-pch
+FLAGS += -Wdisabled-optimization
+FLAGS += -Wstack-protector
 CFLAGS += -std=c11 $(FLAGS)
+CFLAGS += -Winit-self
+CFLAGS += -Wbad-function-cast
+CFLAGS += -Wc++-compat
+CFLAGS += -Wstrict-prototypes
+CFLAGS += -Wold-style-definition
+CFLAGS += -Wmissing-prototypes
+CFLAGS += -Wnested-externs
 CXXFLAGS += -std=c++11 $(FLAGS)
 
 -include $(CURDIR)../liba/make.mk
