@@ -42,29 +42,6 @@ __A_CRC_LSB(64)
 #undef __A_CRC_LSB
 
 #undef __A_CRC_MSB
-#define __A_CRC_MSB(_bit, _msk)                        \
-    void a_crc##_bit##_msb(uint##_bit##_t _tab[0x100], \
-                           uint##_bit##_t _poly)       \
-    {                                                  \
-        for (unsigned int i = 0; i != 0x100; ++i)      \
-        {                                              \
-            uint##_bit##_t crc = (uint##_bit##_t)i;    \
-            for (unsigned int j = _bit; j; --j)        \
-            {                                          \
-                if (crc & _msk)                        \
-                {                                      \
-                    crc <<= 1;                         \
-                    crc ^= _poly;                      \
-                }                                      \
-                else                                   \
-                {                                      \
-                    crc <<= 1;                         \
-                }                                      \
-            }                                          \
-            _tab[i] = crc;                             \
-        }                                              \
-    }
-#undef __A_CRC_MSB
 #define __A_CRC_MSB(_bit, _msk)                                   \
     void a_crc##_bit##_msb(uint##_bit##_t _tab[0x100],            \
                            uint##_bit##_t _poly)                  \
