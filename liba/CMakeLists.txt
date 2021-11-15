@@ -16,9 +16,6 @@ if(NOT CMAKE_CXX_STANDARD_REQUIRED)
 endif()
 
 unset(SOURCES)
-include_directories(${CMAKE_CURRENT_LIST_DIR})
-aux_source_directory(${CMAKE_CURRENT_LIST_DIR} SOURCE)
-list(APPEND SOURCES ${SOURCE})
 include_directories(${CMAKE_CURRENT_LIST_DIR}/crc)
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/crc SOURCE)
 list(APPEND SOURCES ${SOURCE})
@@ -28,13 +25,12 @@ list(APPEND SOURCES ${SOURCE})
 include_directories(${CMAKE_CURRENT_LIST_DIR}/hash)
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/hash SOURCE)
 list(APPEND SOURCES ${SOURCE})
+include_directories(${CMAKE_CURRENT_LIST_DIR})
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR} SOURCE)
+list(APPEND SOURCES ${SOURCE})
 add_library(${PROJECT_NAME} ${SOURCES})
 unset(SOURCES)
 
-target_include_directories(${PROJECT_NAME} INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
-  $<INSTALL_INTERFACE:include>
-)
 target_include_directories(${PROJECT_NAME} INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/crc>
   $<INSTALL_INTERFACE:include/crc>
@@ -47,18 +43,22 @@ target_include_directories(${PROJECT_NAME} INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/hash>
   $<INSTALL_INTERFACE:include/hash>
 )
+target_include_directories(${PROJECT_NAME} INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+  $<INSTALL_INTERFACE:include>
+)
 
 if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
   "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   target_link_libraries(${PROJECT_NAME} m)
 endif()
 
-foreach(_prefix ${CMAKE_CURRENT_LIST_DIR})
-  foreach(_suffix "*.h" ".hh" "*.hxx" "*.hpp")
-    file(GLOB_RECURSE _include ${_prefix}/${_suffix})
-    install(FILES ${_include} DESTINATION include)
-  endforeach()
-endforeach()
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+  DESTINATION include FILES_MATCHING
+  REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
+  REGEX ".*CMakeFiles.*" EXCLUDE
+  REGEX ".*/build$" EXCLUDE
+)
 install(EXPORT ${PROJECT_NAME}-targets
   FILE ${PROJECT_NAME}-config.cmake
   DESTINATION lib/cmake/${PROJECT_NAME}
