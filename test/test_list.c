@@ -54,7 +54,7 @@ static void tests(void)
     {
         int *px = 0;
         a_list_popp(i32, ctx, px);
-        printf("%i ", *px);
+        printf("%i ", px ? *px : 0);
     }
 
     printf("\nalloc = %zu, free = %zu, real = 0x%zX\n", ctx.mem.a, ctx.mem.n, ctx.mem.m);
@@ -104,7 +104,7 @@ static void testt(void)
     {
         int *px = 0;
         a_list_ppopp(i32, ctx, px);
-        printf("%i ", *px);
+        printf("%i ", px ? *px : 0);
     }
 
     printf("\nalloc = %zu, free = %zu, real = 0x%zX\n", ctx->mem.a, ctx->mem.n, ctx->mem.m);
