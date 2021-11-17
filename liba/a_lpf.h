@@ -35,9 +35,6 @@ __A_LPF_T(a_lpff, float);
 #undef __A_LPF_T
 
 #undef __A_LPF_INIT
-/*!
- @brief Initialize function for Low Pass Filter
-*/
 #define __A_LPF_INIT(_def, _type, _func)           \
     __NONNULL((1))                                 \
     __STATIC_INLINE                                \
@@ -52,13 +49,6 @@ __A_LPF_INIT(a_lpff, float, a_lpff_init)
 #undef __A_LPF_INIT
 
 #undef __A_LPF_PROCESS
-/*!
- @brief Process function for Low Pass Filter
- \f{aligned}{
-     y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
-         &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
- \f}
-*/
 #define __A_LPF_PROCESS(_def, _type, _func)                 \
     __NONNULL((1))                                          \
     __STATIC_INLINE                                         \
@@ -76,9 +66,6 @@ __A_LPF_PROCESS(a_lpff, float, a_lpff_process)
 #undef __A_LPF_PROCESS
 
 #undef __A_LPF_RESET
-/*!
- @brief Reset function for Low Pass Filter
-*/
 #define __A_LPF_RESET(_def, _func) \
     __NONNULL_ALL                  \
     __STATIC_INLINE                \
@@ -90,6 +77,40 @@ __A_LPF_PROCESS(a_lpff, float, a_lpff_process)
 __A_LPF_RESET(a_lpf, a_lpf_reset)
 __A_LPF_RESET(a_lpff, a_lpff_reset)
 #undef __A_LPF_RESET
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+/*!
+ @brief Initialize function for Low Pass Filter
+*/
+#define a_lpf_init(_ctx, _k, _t) \
+    _Generic((_ctx),             \
+             a_lpff_s *          \
+             : a_lpff_init,      \
+               default           \
+             : a_lpf_init)(_ctx, _k, _t)
+/*!
+ @brief Process function for Low Pass Filter
+ \f{aligned}{
+     y_n &= \cfrac {k} {k + t} y_{n-1} + \cfrac {t} {t + k} x \\
+         &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
+ \f}
+*/
+#define a_lpf_process(_ctx, _x) \
+    _Generic((_ctx),            \
+             a_lpff_s *         \
+             : a_lpff_process,  \
+               default          \
+             : a_lpf_process)(_ctx, _x)
+/*!
+ @brief Reset function for Low Pass Filter
+*/
+#define a_lpf_reset(_ctx)    \
+    _Generic((_ctx),         \
+             a_lpff_s *      \
+             : a_lpff_reset, \
+               default       \
+             : a_lpf_reset)(_ctx)
+#endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_LPF_H__ */
