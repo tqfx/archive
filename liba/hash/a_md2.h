@@ -24,9 +24,9 @@ typedef struct a_md2_s
 
 __BEGIN_DECLS
 
-extern void a_md2_init(a_md2_s *ctx) __NONNULL_ALL;
-extern int a_md2_process(a_md2_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_md2_done(a_md2_s *ctx, void *out) __NONNULL((1));
+void a_md2_init(a_md2_s *ctx) __NONNULL_ALL;
+int a_md2_process(a_md2_s *ctx, const void *p, size_t n) __NONNULL((1));
+unsigned char *a_md2_done(a_md2_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

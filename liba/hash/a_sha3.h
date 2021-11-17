@@ -55,22 +55,22 @@ typedef struct a_sha3_s
 
 __BEGIN_DECLS
 
-extern void a_sha3_224_init(a_sha3_s *ctx) __NONNULL_ALL;
-extern void a_sha3_256_init(a_sha3_s *ctx) __NONNULL_ALL;
-extern void a_sha3_384_init(a_sha3_s *ctx) __NONNULL_ALL;
-extern void a_sha3_512_init(a_sha3_s *ctx) __NONNULL_ALL;
-extern int a_sha3_process(a_sha3_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_sha3_done(a_sha3_s *ctx, void *out) __NONNULL((1));
+void a_sha3_224_init(a_sha3_s *ctx) __NONNULL_ALL;
+void a_sha3_256_init(a_sha3_s *ctx) __NONNULL_ALL;
+void a_sha3_384_init(a_sha3_s *ctx) __NONNULL_ALL;
+void a_sha3_512_init(a_sha3_s *ctx) __NONNULL_ALL;
+int a_sha3_process(a_sha3_s *ctx, const void *p, size_t n) __NONNULL((1));
+unsigned char *a_sha3_done(a_sha3_s *ctx, void *out) __NONNULL((1));
 
-extern void a_shake128_init(a_sha3_s *ctx) __NONNULL_ALL;
-extern void a_shake256_init(a_sha3_s *ctx) __NONNULL_ALL;
+void a_shake128_init(a_sha3_s *ctx) __NONNULL_ALL;
+void a_shake256_init(a_sha3_s *ctx) __NONNULL_ALL;
 #ifndef a_sha3shake_process
 #define a_sha3shake_process(_ctx, _p, _n) a_sha3_process(_ctx, _p, _n)
 #endif /* a_sha3shake_process */
-extern unsigned char *a_shake128_done(a_sha3_s *ctx, void *out) __NONNULL((1));
-extern unsigned char *a_shake256_done(a_sha3_s *ctx, void *out) __NONNULL((1));
-extern int a_sha3shake_init(a_sha3_s *ctx, unsigned int num) __NONNULL((1));
-extern void a_sha3shake_done(a_sha3_s *ctx, unsigned char *out, unsigned int siz) __NONNULL((1));
+unsigned char *a_shake128_done(a_sha3_s *ctx, void *out) __NONNULL((1));
+unsigned char *a_shake256_done(a_sha3_s *ctx, void *out) __NONNULL((1));
+int a_sha3shake_init(a_sha3_s *ctx, unsigned int num) __NONNULL((1));
+void a_sha3shake_done(a_sha3_s *ctx, unsigned char *out, unsigned int siz) __NONNULL((1));
 
 #ifndef a_keccak224_init
 #define a_keccak224_init(_ctx) a_sha3_224_init(_ctx)
@@ -87,7 +87,7 @@ extern void a_sha3shake_done(a_sha3_s *ctx, unsigned char *out, unsigned int siz
 #ifndef a_keccak_process
 #define a_keccak_process(_ctx, _p, _n) a_sha3_process(_ctx, _p, _n)
 #endif /* a_keccak_process */
-extern unsigned char *a_keccak_done(a_sha3_s *ctx, void *out) __NONNULL((1));
+unsigned char *a_keccak_done(a_sha3_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

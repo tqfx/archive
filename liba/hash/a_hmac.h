@@ -44,7 +44,7 @@ __BEGIN_DECLS
  @return the execution state of the function
   @retval 0 success
 */
-extern int a_hmac_init(a_hmac_s *ctx, const a_hash_s *hash, const void *p, size_t n) __NONNULL((1, 2));
+int a_hmac_init(a_hmac_s *ctx, const a_hash_s *hash, const void *p, size_t n) __NONNULL((1, 2));
 
 /*!
  @brief Process function for HMAC.
@@ -54,7 +54,7 @@ extern int a_hmac_init(a_hmac_s *ctx, const a_hash_s *hash, const void *p, size_
  @return the execution state of the function
   @retval 0 success
 */
-extern int a_hmac_process(a_hmac_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_hmac_process(a_hmac_s *ctx, const void *p, size_t n) __NONNULL((1));
 
 /*!
  @brief Terminate function for HMAC.
@@ -63,7 +63,7 @@ extern int a_hmac_process(a_hmac_s *ctx, const void *p, size_t n) __NONNULL((1))
  @return p the digest internal buffer.
   @retval 0 generic invalid argument.
 */
-extern unsigned char *a_hmac_done(a_hmac_s *ctx, void *out) __NONNULL((1));
+unsigned char *a_hmac_done(a_hmac_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

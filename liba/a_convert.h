@@ -26,7 +26,7 @@ __BEGIN_DECLS
  @return 0 ~ 15
   @retval -1 failure
 */
-extern int a_xdigit(int x);
+int a_xdigit(int x);
 
 /*!
  @brief convert a string to a lower string.
@@ -36,7 +36,7 @@ extern int a_xdigit(int x);
  @return a pointer to the string.
  @note When out is 0, you need to use @ref afree to release the memory.
 */
-extern void *a_lower(const void *p, size_t n, void *o);
+void *a_lower(const void *p, size_t n, void *o);
 
 /*!
  @brief convert a string to a upper string.
@@ -46,7 +46,7 @@ extern void *a_lower(const void *p, size_t n, void *o);
  @return a pointer to the string.
  @note When out is 0, you need to use @ref afree to release the memory.
 */
-extern void *a_upper(const void *p, size_t n, void *o);
+void *a_upper(const void *p, size_t n, void *o);
 
 /*!
  @brief convert a digest to a string.
@@ -59,9 +59,9 @@ extern void *a_upper(const void *p, size_t n, void *o);
  @return a pointer to the string.
  @note When out is 0, you need to use @ref afree to release the memory.
 */
-extern void *a_digest(const void *p, size_t n, unsigned int x, void *o);
-extern void *a_digest_lower(const void *p, size_t n, void *o);
-extern void *a_digest_upper(const void *p, size_t n, void *o);
+void *a_digest(const void *p, size_t n, unsigned int x, void *o);
+void *a_digest_lower(const void *p, size_t n, void *o);
+void *a_digest_upper(const void *p, size_t n, void *o);
 
 __END_DECLS
 

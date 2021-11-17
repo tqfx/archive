@@ -37,21 +37,21 @@ __A_RMD_T(320);
 
 __BEGIN_DECLS
 
-extern void a_rmd128_init(a_rmd128_s *ctx) __NONNULL_ALL;
-extern int a_rmd128_process(a_rmd128_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_rmd128_done(a_rmd128_s *ctx, void *out) __NONNULL((1));
+void a_rmd128_init(a_rmd128_s *ctx) __NONNULL_ALL;
+int a_rmd128_process(a_rmd128_s *ctx, const void *p, size_t n) __NONNULL((1));
+unsigned char *a_rmd128_done(a_rmd128_s *ctx, void *out) __NONNULL((1));
 
-extern void a_rmd160_init(a_rmd160_s *ctx) __NONNULL_ALL;
-extern int a_rmd160_process(a_rmd160_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_rmd160_done(a_rmd160_s *ctx, void *out) __NONNULL((1));
+void a_rmd160_init(a_rmd160_s *ctx) __NONNULL_ALL;
+int a_rmd160_process(a_rmd160_s *ctx, const void *p, size_t n) __NONNULL((1));
+unsigned char *a_rmd160_done(a_rmd160_s *ctx, void *out) __NONNULL((1));
 
-extern void a_rmd256_init(a_rmd256_s *ctx) __NONNULL_ALL;
-extern int a_rmd256_process(a_rmd256_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_rmd256_done(a_rmd256_s *ctx, void *out) __NONNULL((1));
+void a_rmd256_init(a_rmd256_s *ctx) __NONNULL_ALL;
+int a_rmd256_process(a_rmd256_s *ctx, const void *p, size_t n) __NONNULL((1));
+unsigned char *a_rmd256_done(a_rmd256_s *ctx, void *out) __NONNULL((1));
 
-extern void a_rmd320_init(a_rmd320_s *ctx) __NONNULL_ALL;
-extern int a_rmd320_process(a_rmd320_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_rmd320_done(a_rmd320_s *ctx, void *out) __NONNULL((1));
+void a_rmd320_init(a_rmd320_s *ctx) __NONNULL_ALL;
+int a_rmd320_process(a_rmd320_s *ctx, const void *p, size_t n) __NONNULL((1));
+unsigned char *a_rmd320_done(a_rmd320_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

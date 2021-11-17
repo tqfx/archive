@@ -96,7 +96,7 @@ __BEGIN_DECLS
  @param[in] n: length of data to initialize
  @return a_str_s *
 */
-extern a_str_s *a_str_init(const void *p, size_t n) __RESULT_USE_CHECK;
+a_str_s *a_str_init(const void *p, size_t n) __RESULT_USE_CHECK;
 
 /*!
  @brief Terminate a pointer to c string structure
@@ -104,13 +104,13 @@ extern a_str_s *a_str_init(const void *p, size_t n) __RESULT_USE_CHECK;
  @return string of c string structure
  @note You need to use @ref afree to release the memory
 */
-extern char *a_str_done(a_str_s *ctx) __NONNULL_ALL __RESULT_USE_CHECK;
+char *a_str_done(a_str_s *ctx) __NONNULL_ALL __RESULT_USE_CHECK;
 
 /*!
  @brief Free a pointer to c string structure
  @param[in] ctx: points to an instance of c string structure
 */
-extern void a_str_free(a_str_s *ctx);
+void a_str_free(a_str_s *ctx);
 
 /*!
  @brief Resize memory for a pointer to c string structure
@@ -120,8 +120,8 @@ extern void a_str_free(a_str_s *ctx);
   @retval -1 failure
   @retval 0 success
 */
-extern int a_str_resize(a_str_s *ctx, size_t m) __NONNULL((1));
-extern int a_str_resize_(a_str_s *ctx, size_t m) __NONNULL((1));
+int a_str_resize(a_str_s *ctx, size_t m) __NONNULL((1));
+int a_str_resize_(a_str_s *ctx, size_t m) __NONNULL((1));
 
 /*!
  @brief Put data to an instance of c string structure
@@ -132,8 +132,8 @@ extern int a_str_resize_(a_str_s *ctx, size_t m) __NONNULL((1));
   @retval -1 failure
   @retval 0 success
 */
-extern int a_str_putn(a_str_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern int a_str_putn_(a_str_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_str_putn(a_str_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_str_putn_(a_str_s *ctx, const void *p, size_t n) __NONNULL((1));
 
 /*!
  @brief Put string to an instance of c string structure
@@ -143,7 +143,7 @@ extern int a_str_putn_(a_str_s *ctx, const void *p, size_t n) __NONNULL((1));
   @retval -1 failure
   @retval 0 success
 */
-extern int a_str_puts(a_str_s *ctx, const void *s) __NONNULL_ALL;
+int a_str_puts(a_str_s *ctx, const void *s) __NONNULL_ALL;
 
 /*!
  @brief Put character to an instance of c string structure
@@ -152,8 +152,8 @@ extern int a_str_puts(a_str_s *ctx, const void *s) __NONNULL_ALL;
  @return character
   @retval -1 failure
 */
-extern int a_str_putc(a_str_s *ctx, int c) __NONNULL((1));
-extern int a_str_putc_(a_str_s *ctx, int c) __NONNULL((1));
+int a_str_putc(a_str_s *ctx, int c) __NONNULL((1));
+int a_str_putc_(a_str_s *ctx, int c) __NONNULL((1));
 
 /*!
  @brief Locate the cache
@@ -168,7 +168,7 @@ extern int a_str_putc_(a_str_s *ctx, int c) __NONNULL((1));
  @return address at the head of the block found
   @retval 0 failure
 */
-extern void *a_memmem(const void *str, int n, const void *pat, int m, int **prep) __NONNULL((1, 3));
+void *a_memmem(const void *str, int n, const void *pat, int m, int **prep) __NONNULL((1, 3));
 
 /*!
  @brief Locate the substring
@@ -181,7 +181,7 @@ extern void *a_memmem(const void *str, int n, const void *pat, int m, int **prep
  @return address at the head of the block found
   @retval 0 failure
 */
-extern char *a_strstr(const void *str, const void *pat, int **prep) __NONNULL((1, 2));
+char *a_strstr(const void *str, const void *pat, int **prep) __NONNULL((1, 2));
 
 /*!
  @brief Locate the substring
@@ -195,7 +195,7 @@ extern char *a_strstr(const void *str, const void *pat, int **prep) __NONNULL((1
  @return address at the head of the block found
   @retval 0 failure
 */
-extern char *a_strnstr(const void *str, int n, const void *pat, int **prep) __NONNULL((1, 3));
+char *a_strnstr(const void *str, int n, const void *pat, int **prep) __NONNULL((1, 3));
 
 /*!
  @brief Print string to a pointer to c string structure
@@ -205,7 +205,7 @@ extern char *a_strnstr(const void *str, int n, const void *pat, int **prep) __NO
  @return number of print
   @retval -1 failure
 */
-extern int a_str_vprintf(a_str_s *ctx, const char *fmt, va_list ap) __ATTR_PRINTF(2, 0);
+int a_str_vprintf(a_str_s *ctx, const char *fmt, va_list ap) __ATTR_PRINTF(2, 0);
 
 /*!
  @brief Print string to a pointer to c string structure
@@ -214,7 +214,7 @@ extern int a_str_vprintf(a_str_s *ctx, const char *fmt, va_list ap) __ATTR_PRINT
  @return number of print
   @retval -1 failure
 */
-extern int a_str_printf(a_str_s *ctx, const char *fmt, ...) __ATTR_PRINTF(2, 3);
+int a_str_printf(a_str_s *ctx, const char *fmt, ...) __ATTR_PRINTF(2, 3);
 
 __END_DECLS
 

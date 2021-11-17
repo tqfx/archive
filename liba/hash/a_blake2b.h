@@ -34,13 +34,13 @@ typedef struct a_blake2b_s
 
 __BEGIN_DECLS
 
-extern void a_blake2b_160_init(a_blake2b_s *ctx) __NONNULL_ALL;
-extern void a_blake2b_256_init(a_blake2b_s *ctx) __NONNULL_ALL;
-extern void a_blake2b_384_init(a_blake2b_s *ctx) __NONNULL_ALL;
-extern void a_blake2b_512_init(a_blake2b_s *ctx) __NONNULL_ALL;
-extern int a_blake2b_init(a_blake2b_s *ctx, size_t siz, const void *p, size_t n) __NONNULL((1));
-extern int a_blake2b_process(a_blake2b_s *ctx, const void *p, size_t n) __NONNULL((1));
-extern unsigned char *a_blake2b_done(a_blake2b_s *ctx, void *out) __NONNULL((1));
+void a_blake2b_160_init(a_blake2b_s *ctx) __NONNULL_ALL;
+void a_blake2b_256_init(a_blake2b_s *ctx) __NONNULL_ALL;
+void a_blake2b_384_init(a_blake2b_s *ctx) __NONNULL_ALL;
+void a_blake2b_512_init(a_blake2b_s *ctx) __NONNULL_ALL;
+int a_blake2b_init(a_blake2b_s *ctx, size_t siz, const void *p, size_t n) __NONNULL((1));
+int a_blake2b_process(a_blake2b_s *ctx, const void *p, size_t n) __NONNULL((1));
+unsigned char *a_blake2b_done(a_blake2b_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 

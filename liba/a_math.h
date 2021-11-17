@@ -72,27 +72,27 @@ __BEGIN_DECLS
  @brief fast inverse square-root, to calculate 1 / sqrtf(x)
  @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
 */
-extern float a_inv_sqrt(float x);
+float a_inv_sqrt(float x);
 
 /*!
  @brief fast sqrt for unsigned integer
 */
-extern unsigned long a_sqrtul(unsigned long x);
-extern unsigned long long a_sqrtull(unsigned long long x);
+unsigned long a_sqrtul(unsigned long x);
+unsigned long long a_sqrtull(unsigned long long x);
 
 /*!
  @brief Normalize function for the floating-point
  @param[in] n: number of variables
  @param[in,out] ...: address of variables
 */
-extern void a_normalizevf(unsigned int n, ...);
-extern void a_normalizef(float *p, size_t n);
+void a_normalizevf(unsigned int n, ...);
+void a_normalizef(float *p, size_t n);
 
 /*!
  @brief restricted periodic function
 */
-extern double a_restrict_loop(double x, double min, double max);
-extern float a_restrict_loopf(float x, float min, float max);
+double a_restrict_loop(double x, double min, double max);
+float a_restrict_loopf(float x, float min, float max);
 
 __END_DECLS
 
