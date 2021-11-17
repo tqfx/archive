@@ -22,7 +22,7 @@ BraceWrapping:
   AfterFunction: true
   AfterCaseLabel: true
   AfterNamespace: true
-  AfterExternBlock: true
+  AfterExternBlock: false
   AfterControlStatement: true
   BeforeElse: true
   BeforeCatch: true
@@ -31,7 +31,6 @@ BraceWrapping:
   SplitEmptyNamespace: false
 ColumnLimit: 0
 FixNamespaceComments: false
-IndentExternBlock: NoIndent
 IndentWidth: 4
 KeepEmptyLinesAtTheStartOfBlocks: false
 NamespaceIndentation: All
