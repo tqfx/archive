@@ -25,18 +25,33 @@ __BEGIN_DECLS
  @param[in] e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
  @param[out] q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
 */
-extern void a_zyx_euler2quat(const double e[3], double q[4]) __NONNULL_ALL;
-extern void a_zyxf_euler2quat(const float e[3], float q[4]) __NONNULL_ALL;
+void a_zyx_euler2quat(const double e[3], double q[4]) __NONNULL_ALL;
+void a_zyxf_euler2quat(const float e[3], float q[4]) __NONNULL_ALL;
 
 /*!
  @brief quaternion to euler angles conversion by ZYX
  @param[in] q: 0 (w q0), 1 (x q1), 2 (y q2), 3 (z q3)
  @param[out] e: 0 (yaw), 1 (pitch), 2 (roll), unit /rad
 */
-extern void a_zyx_quat2euler(const double q[4], double e[3]) __NONNULL_ALL;
-extern void a_zyxf_quat2euler(const float q[4], float e[3]) __NONNULL_ALL;
+void a_zyx_quat2euler(const double q[4], double e[3]) __NONNULL_ALL;
+void a_zyxf_quat2euler(const float q[4], float e[3]) __NONNULL_ALL;
 
 __END_DECLS
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#define a_zyx_euler2quat(_e, _q)  \
+    _Generic((_q),                \
+             float *              \
+             : a_zyxf_euler2quat, \
+               default            \
+             : a_zyx_euler2quat)(_e, _q)
+#define a_zyx_quat2euler(_q, _e)  \
+    _Generic((_e),                \
+             float *              \
+             : a_zyxf_quat2euler, \
+               default            \
+             : a_zyx_quat2euler)(_q, _e)
+#endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_ZYX_H__ */

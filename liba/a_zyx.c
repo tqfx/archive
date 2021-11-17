@@ -11,6 +11,7 @@
 
 #include <math.h>
 
+#undef a_zyx_euler2quat
 void a_zyx_euler2quat(const double _e[3], double _q[4])
 {
     aassert(_e);
@@ -49,6 +50,7 @@ void a_zyxf_euler2quat(const float _e[3], float _q[4])
     _q[3] = cr * cp * sy - sr * sp * cy;
 }
 
+#undef a_zyx_quat2euler
 void a_zyx_quat2euler(const double _q[4], double _e[3])
 {
     aassert(_q);
