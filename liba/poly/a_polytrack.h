@@ -89,8 +89,8 @@ __BEGIN_DECLS
   @arg 1 position for target
   @arg 2 velocity for target
 */
-extern void a_polytrack3_init(a_polytrack3_s *ctx, const double source[3], const double target[3]) __NONNULL_ALL;
-extern void a_polytrack3f_init(a_polytrack3f_s *ctx, const float source[3], const float target[3]) __NONNULL_ALL;
+void a_polytrack3_init(a_polytrack3_s *ctx, const double source[3], const double target[3]) __NONNULL_ALL;
+void a_polytrack3f_init(a_polytrack3f_s *ctx, const float source[3], const float target[3]) __NONNULL_ALL;
 
 /*!
  @brief Process function for cubic polynomial trajectory
@@ -104,8 +104,8 @@ extern void a_polytrack3f_init(a_polytrack3f_s *ctx, const float source[3], cons
  @param[in] t: current time
  @return position output
 */
-extern double a_polytrack3_pos(const a_polytrack3_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack3f_pos(const a_polytrack3f_s *ctx, float t) __NONNULL((1));
+double a_polytrack3_pos(const a_polytrack3_s *ctx, double t) __NONNULL((1));
+float a_polytrack3f_pos(const a_polytrack3f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for cubic polynomial trajectory
@@ -119,8 +119,8 @@ extern float a_polytrack3f_pos(const a_polytrack3f_s *ctx, float t) __NONNULL((1
  @param[in] t: current time
  @return velocity output
 */
-extern double a_polytrack3_vec(const a_polytrack3_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack3f_vec(const a_polytrack3f_s *ctx, float t) __NONNULL((1));
+double a_polytrack3_vec(const a_polytrack3_s *ctx, double t) __NONNULL((1));
+float a_polytrack3f_vec(const a_polytrack3f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for cubic polynomial trajectory
@@ -134,8 +134,8 @@ extern float a_polytrack3f_vec(const a_polytrack3f_s *ctx, float t) __NONNULL((1
  @param[in] t: current time
  @return acceleration output
 */
-extern double a_polytrack3_acc(const a_polytrack3_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack3f_acc(const a_polytrack3f_s *ctx, float t) __NONNULL((1));
+double a_polytrack3_acc(const a_polytrack3_s *ctx, double t) __NONNULL((1));
+float a_polytrack3f_acc(const a_polytrack3f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for cubic polynomial trajectory
@@ -154,8 +154,8 @@ extern float a_polytrack3f_acc(const a_polytrack3f_s *ctx, float t) __NONNULL((1
   @arg 1 velocity output
   @arg 2 acceleration output
 */
-extern void a_polytrack3_all(const a_polytrack3_s *ctx, double t, double o[3]) __NONNULL((1, 3));
-extern void a_polytrack3f_all(const a_polytrack3f_s *ctx, float t, float o[3]) __NONNULL((1, 3));
+void a_polytrack3_all(const a_polytrack3_s *ctx, double t, double o[3]) __NONNULL((1, 3));
+void a_polytrack3f_all(const a_polytrack3f_s *ctx, float t, float o[3]) __NONNULL((1, 3));
 
 /* function for quintic polynomial trajectory */
 
@@ -186,8 +186,8 @@ extern void a_polytrack3f_all(const a_polytrack3f_s *ctx, float t, float o[3]) _
   @arg 2 velocity for target
   @arg 3 acceleration for target
 */
-extern void a_polytrack5_init(a_polytrack5_s *ctx, const double source[4], const double target[4]) __NONNULL_ALL;
-extern void a_polytrack5f_init(a_polytrack5f_s *ctx, const float source[4], const float target[4]) __NONNULL_ALL;
+void a_polytrack5_init(a_polytrack5_s *ctx, const double source[4], const double target[4]) __NONNULL_ALL;
+void a_polytrack5f_init(a_polytrack5f_s *ctx, const float source[4], const float target[4]) __NONNULL_ALL;
 
 /*!
  @brief Process function for quintic polynomial trajectory
@@ -201,8 +201,8 @@ extern void a_polytrack5f_init(a_polytrack5f_s *ctx, const float source[4], cons
  @param[in] t: current time
  @return position output
 */
-extern double a_polytrack5_pos(const a_polytrack5_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack5f_pos(const a_polytrack5f_s *ctx, float t) __NONNULL((1));
+double a_polytrack5_pos(const a_polytrack5_s *ctx, double t) __NONNULL((1));
+float a_polytrack5f_pos(const a_polytrack5f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for quintic polynomial trajectory
@@ -216,8 +216,8 @@ extern float a_polytrack5f_pos(const a_polytrack5f_s *ctx, float t) __NONNULL((1
  @param[in] t: current time
  @return velocity output
 */
-extern double a_polytrack5_vec(const a_polytrack5_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack5f_vec(const a_polytrack5f_s *ctx, float t) __NONNULL((1));
+double a_polytrack5_vec(const a_polytrack5_s *ctx, double t) __NONNULL((1));
+float a_polytrack5f_vec(const a_polytrack5f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for quintic polynomial trajectory
@@ -231,8 +231,8 @@ extern float a_polytrack5f_vec(const a_polytrack5f_s *ctx, float t) __NONNULL((1
  @param[in] t: current time
  @return acceleration output
 */
-extern double a_polytrack5_acc(const a_polytrack5_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack5f_acc(const a_polytrack5f_s *ctx, float t) __NONNULL((1));
+double a_polytrack5_acc(const a_polytrack5_s *ctx, double t) __NONNULL((1));
+float a_polytrack5f_acc(const a_polytrack5f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for quintic polynomial trajectory
@@ -251,8 +251,8 @@ extern float a_polytrack5f_acc(const a_polytrack5f_s *ctx, float t) __NONNULL((1
   @arg 1 velocity output
   @arg 2 acceleration output
 */
-extern void a_polytrack5_all(const a_polytrack5_s *ctx, double t, double o[3]) __NONNULL((1, 3));
-extern void a_polytrack5f_all(const a_polytrack5f_s *ctx, float t, float o[3]) __NONNULL((1, 3));
+void a_polytrack5_all(const a_polytrack5_s *ctx, double t, double o[3]) __NONNULL((1, 3));
+void a_polytrack5f_all(const a_polytrack5f_s *ctx, float t, float o[3]) __NONNULL((1, 3));
 
 /* function for hepta polynomial trajectory */
 
@@ -287,8 +287,8 @@ extern void a_polytrack5f_all(const a_polytrack5f_s *ctx, float t, float o[3]) _
   @arg 3 acceleration for target
   @arg 4 jerk for target
 */
-extern void a_polytrack7_init(a_polytrack7_s *ctx, const double source[5], const double target[5]) __NONNULL_ALL;
-extern void a_polytrack7f_init(a_polytrack7f_s *ctx, const float source[5], const float target[5]) __NONNULL_ALL;
+void a_polytrack7_init(a_polytrack7_s *ctx, const double source[5], const double target[5]) __NONNULL_ALL;
+void a_polytrack7f_init(a_polytrack7f_s *ctx, const float source[5], const float target[5]) __NONNULL_ALL;
 
 /*!
  @brief Process function for hepta polynomial trajectory
@@ -302,8 +302,8 @@ extern void a_polytrack7f_init(a_polytrack7f_s *ctx, const float source[5], cons
  @param[in] t: current time
  @return position output
 */
-extern double a_polytrack7_pos(const a_polytrack7_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack7f_pos(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
+double a_polytrack7_pos(const a_polytrack7_s *ctx, double t) __NONNULL((1));
+float a_polytrack7f_pos(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for hepta polynomial trajectory
@@ -317,8 +317,8 @@ extern float a_polytrack7f_pos(const a_polytrack7f_s *ctx, float t) __NONNULL((1
  @param[in] t: current time
  @return velocity output
 */
-extern double a_polytrack7_vec(const a_polytrack7_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack7f_vec(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
+double a_polytrack7_vec(const a_polytrack7_s *ctx, double t) __NONNULL((1));
+float a_polytrack7f_vec(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for hepta polynomial trajectory
@@ -332,8 +332,8 @@ extern float a_polytrack7f_vec(const a_polytrack7f_s *ctx, float t) __NONNULL((1
  @param[in] t: current time
  @return acceleration output
 */
-extern double a_polytrack7_acc(const a_polytrack7_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack7f_acc(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
+double a_polytrack7_acc(const a_polytrack7_s *ctx, double t) __NONNULL((1));
+float a_polytrack7f_acc(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for hepta polynomial trajectory
@@ -347,8 +347,8 @@ extern float a_polytrack7f_acc(const a_polytrack7f_s *ctx, float t) __NONNULL((1
  @param[in] t: current time
  @return jerk output
 */
-extern double a_polytrack7_jer(const a_polytrack7_s *ctx, double t) __NONNULL((1));
-extern float a_polytrack7f_jer(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
+double a_polytrack7_jer(const a_polytrack7_s *ctx, double t) __NONNULL((1));
+float a_polytrack7f_jer(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
 
 /*!
  @brief Process function for hepta polynomial trajectory
@@ -369,10 +369,112 @@ extern float a_polytrack7f_jer(const a_polytrack7f_s *ctx, float t) __NONNULL((1
   @arg 2 acceleration output
   @arg 3 jerk output
 */
-extern void a_polytrack7_all(const a_polytrack7_s *ctx, double t, double o[4]) __NONNULL((1, 3));
-extern void a_polytrack7f_all(const a_polytrack7f_s *ctx, float t, float o[4]) __NONNULL((1, 3));
+void a_polytrack7_all(const a_polytrack7_s *ctx, double t, double o[4]) __NONNULL((1, 3));
+void a_polytrack7f_all(const a_polytrack7f_s *ctx, float t, float o[4]) __NONNULL((1, 3));
 
 __END_DECLS
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+/* function for cubic polynomial trajectory */
+#define a_polytrack3_init(_ctx, _source, _target) \
+    _Generic((_ctx),                              \
+             a_polytrack3f_s *                    \
+             : a_polytrack3f_init,                \
+               default                            \
+             : a_polytrack3_init)(_ctx, _source, _target)
+#define a_polytrack3_pos(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack3f_pos,  \
+               default             \
+             : a_polytrack3_pos)(_ctx, _t)
+#define a_polytrack3_vec(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack3f_vec,  \
+               default             \
+             : a_polytrack3_vec)(_ctx, _t)
+#define a_polytrack3_acc(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack3f_acc,  \
+               default             \
+             : a_polytrack3_acc)(_ctx, _t)
+#define a_polytrack3_all(_ctx, _t, _o) \
+    _Generic((_t),                     \
+             float                     \
+             : a_polytrack3f_all,      \
+               default                 \
+             : a_polytrack3_all)(_ctx, _t, _o)
+/* function for quintic polynomial trajectory */
+#define a_polytrack5_init(_ctx, _source, _target) \
+    _Generic((_ctx),                              \
+             a_polytrack5f_s *                    \
+             : a_polytrack5f_init,                \
+               default                            \
+             : a_polytrack5_init)(_ctx, _source, _target)
+#define a_polytrack5_pos(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack5f_pos,  \
+               default             \
+             : a_polytrack5_pos)(_ctx, _t)
+#define a_polytrack5_vec(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack5f_vec,  \
+               default             \
+             : a_polytrack5_vec)(_ctx, _t)
+#define a_polytrack5_acc(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack5f_acc,  \
+               default             \
+             : a_polytrack5_acc)(_ctx, _t)
+#define a_polytrack5_all(_ctx, _t, _o) \
+    _Generic((_t),                     \
+             float                     \
+             : a_polytrack5f_all,      \
+               default                 \
+             : a_polytrack5_all)(_ctx, _t, _o)
+/* function for hepta polynomial trajectory */
+#define a_polytrack7_init(_ctx, _source, _target) \
+    _Generic((_ctx),                              \
+             a_polytrack7f_s *                    \
+             : a_polytrack7f_init,                \
+               default                            \
+             : a_polytrack7_init)(_ctx, _source, _target)
+#define a_polytrack7_pos(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack7f_pos,  \
+               default             \
+             : a_polytrack7_pos)(_ctx, _t)
+#define a_polytrack7_vec(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack7f_vec,  \
+               default             \
+             : a_polytrack7_vec)(_ctx, _t)
+#define a_polytrack7_acc(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack7f_acc,  \
+               default             \
+             : a_polytrack7_acc)(_ctx, _t)
+#define a_polytrack7_jer(_ctx, _t) \
+    _Generic((_t),                 \
+             float                 \
+             : a_polytrack7f_jer,  \
+               default             \
+             : a_polytrack7_jer)(_ctx, _t)
+#define a_polytrack7_all(_ctx, _t, _o) \
+    _Generic((_t),                     \
+             float                     \
+             : a_polytrack7f_all,      \
+               default                 \
+             : a_polytrack7_all)(_ctx, _t, _o)
+#endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_POLYTRACK_H__ */

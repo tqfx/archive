@@ -6,10 +6,13 @@
 */
 
 #include "a_polytrack.h"
+
 #include "a_poly.h"
+#undef a_horner
 
 /* function for cubic polynomial trajectory */
 
+#undef a_polytrack3_init
 #undef __A_POLYTRACK3_INIT
 #define __A_POLYTRACK3_INIT(_def, _type, _func)                                \
     void _func(_def##_s *_ctx, const _type _source[3], const _type _target[3]) \
@@ -42,6 +45,7 @@ __A_POLYTRACK3_INIT(a_polytrack3, double, a_polytrack3_init)
 __A_POLYTRACK3_INIT(a_polytrack3f, float, a_polytrack3f_init)
 #undef __A_POLYTRACK3_INIT
 
+#undef a_polytrack3_pos
 #undef __A_POLYTRACK3_POS
 #define __A_POLYTRACK3_POS(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -59,6 +63,7 @@ __A_POLYTRACK3_POS(a_polytrack3, double, a_polytrack3_pos, a_horner)
 __A_POLYTRACK3_POS(a_polytrack3f, float, a_polytrack3f_pos, a_hornerf)
 #undef __A_POLYTRACK3_POS
 
+#undef a_polytrack3_vec
 #undef __A_POLYTRACK3_VEC
 #define __A_POLYTRACK3_VEC(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -75,6 +80,7 @@ __A_POLYTRACK3_VEC(a_polytrack3, double, a_polytrack3_vec, a_horner)
 __A_POLYTRACK3_VEC(a_polytrack3f, float, a_polytrack3f_vec, a_hornerf)
 #undef __A_POLYTRACK3_VEC
 
+#undef a_polytrack3_acc
 #undef __A_POLYTRACK3_ACC
 #define __A_POLYTRACK3_ACC(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -90,6 +96,7 @@ __A_POLYTRACK3_ACC(a_polytrack3, double, a_polytrack3_acc, a_horner)
 __A_POLYTRACK3_ACC(a_polytrack3f, float, a_polytrack3f_acc, a_hornerf)
 #undef __A_POLYTRACK3_ACC
 
+#undef a_polytrack3_all
 #undef __A_POLYTRACK3_ALL
 #define __A_POLYTRACK3_ALL(_def, _type, _func, _poly)       \
     void _func(const _def##_s *_ctx, _type _t, _type _o[3]) \
@@ -116,6 +123,7 @@ __A_POLYTRACK3_ALL(a_polytrack3f, float, a_polytrack3f_all, a_hornerf)
 
 /* function for quintic polynomial trajectory */
 
+#undef a_polytrack5_init
 #undef __A_POLYTRACK5_INIT
 #define __A_POLYTRACK5_INIT(_def, _type, _func)                                \
     void _func(_def##_s *_ctx, const _type _source[4], const _type _target[4]) \
@@ -161,6 +169,7 @@ __A_POLYTRACK5_INIT(a_polytrack5, double, a_polytrack5_init)
 __A_POLYTRACK5_INIT(a_polytrack5f, float, a_polytrack5f_init)
 #undef __A_POLYTRACK5_INIT
 
+#undef a_polytrack5_pos
 #undef __A_POLYTRACK5_POS
 #define __A_POLYTRACK5_POS(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -180,6 +189,7 @@ __A_POLYTRACK5_POS(a_polytrack5, double, a_polytrack5_pos, a_horner)
 __A_POLYTRACK5_POS(a_polytrack5f, float, a_polytrack5f_pos, a_hornerf)
 #undef __A_POLYTRACK5_POS
 
+#undef a_polytrack5_vec
 #undef __A_POLYTRACK5_VEC
 #define __A_POLYTRACK5_VEC(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -198,6 +208,7 @@ __A_POLYTRACK5_VEC(a_polytrack5, double, a_polytrack5_vec, a_horner)
 __A_POLYTRACK5_VEC(a_polytrack5f, float, a_polytrack5f_vec, a_hornerf)
 #undef __A_POLYTRACK5_VEC
 
+#undef a_polytrack5_acc
 #undef __A_POLYTRACK5_ACC
 #define __A_POLYTRACK5_ACC(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -215,6 +226,7 @@ __A_POLYTRACK5_ACC(a_polytrack5, double, a_polytrack5_acc, a_horner)
 __A_POLYTRACK5_ACC(a_polytrack5f, float, a_polytrack5f_acc, a_hornerf)
 #undef __A_POLYTRACK5_ACC
 
+#undef a_polytrack5_all
 #undef __A_POLYTRACK5_ALL
 #define __A_POLYTRACK5_ALL(_def, _type, _func, _poly)       \
     void _func(const _def##_s *_ctx, _type _t, _type _o[3]) \
@@ -247,6 +259,7 @@ __A_POLYTRACK5_ALL(a_polytrack5f, float, a_polytrack5f_all, a_hornerf)
 
 /* function for hepta polynomial trajectory */
 
+#undef a_polytrack7_init
 #undef __A_POLYTRACK7_INIT
 #define __A_POLYTRACK7_INIT(_def, _type, _func)                                \
     void _func(_def##_s *_ctx, const _type _source[5], const _type _target[5]) \
@@ -305,6 +318,7 @@ __A_POLYTRACK7_INIT(a_polytrack7, double, a_polytrack7_init)
 __A_POLYTRACK7_INIT(a_polytrack7f, float, a_polytrack7f_init)
 #undef __A_POLYTRACK7_INIT
 
+#undef a_polytrack7_pos
 #undef __A_POLYTRACK7_POS
 #define __A_POLYTRACK7_POS(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -326,6 +340,7 @@ __A_POLYTRACK7_POS(a_polytrack7, double, a_polytrack7_pos, a_horner)
 __A_POLYTRACK7_POS(a_polytrack7f, float, a_polytrack7f_pos, a_hornerf)
 #undef __A_POLYTRACK7_POS
 
+#undef a_polytrack7_vec
 #undef __A_POLYTRACK7_VEC
 #define __A_POLYTRACK7_VEC(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -346,6 +361,7 @@ __A_POLYTRACK7_VEC(a_polytrack7, double, a_polytrack7_vec, a_horner)
 __A_POLYTRACK7_VEC(a_polytrack7f, float, a_polytrack7f_vec, a_hornerf)
 #undef __A_POLYTRACK7_VEC
 
+#undef a_polytrack7_acc
 #undef __A_POLYTRACK7_ACC
 #define __A_POLYTRACK7_ACC(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -365,6 +381,7 @@ __A_POLYTRACK7_ACC(a_polytrack7, double, a_polytrack7_acc, a_horner)
 __A_POLYTRACK7_ACC(a_polytrack7f, float, a_polytrack7f_acc, a_hornerf)
 #undef __A_POLYTRACK7_ACC
 
+#undef a_polytrack7_jer
 #undef __A_POLYTRACK7_JER
 #define __A_POLYTRACK7_JER(_def, _type, _func, _poly) \
     _type _func(const _def##_s *_ctx, _type _t)       \
@@ -383,6 +400,7 @@ __A_POLYTRACK7_JER(a_polytrack7, double, a_polytrack7_jer, a_horner)
 __A_POLYTRACK7_JER(a_polytrack7f, float, a_polytrack7f_jer, a_hornerf)
 #undef __A_POLYTRACK7_JER
 
+#undef a_polytrack7_all
 #undef __A_POLYTRACK7_ALL
 #define __A_POLYTRACK7_ALL(_def, _type, _func, _poly)       \
     void _func(const _def##_s *_ctx, _type _t, _type _o[4]) \
