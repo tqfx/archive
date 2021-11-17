@@ -22,12 +22,27 @@ __BEGIN_DECLS
   \end{array}\right.
  \f]
 */
-extern double a_horner(double *a, size_t n, double x);
-extern float a_hornerf(float *a, size_t n, float x);
-extern double a_hornerr(double *a, size_t n, double x);
-extern float a_hornerrf(float *a, size_t n, float x);
+double a_horner(const double *a, size_t n, double x);
+float a_hornerf(const float *a, size_t n, float x);
+double a_hornerr(const double *a, size_t n, double x);
+float a_hornerrf(const float *a, size_t n, float x);
 
 __END_DECLS
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#define a_horner(_a, _n, _x) \
+    _Generic((_x),           \
+             float           \
+             : a_hornerf,    \
+               default       \
+             : a_horner)(_a, _n, _x)
+#define a_hornerr(_a, _n, _x) \
+    _Generic((_x),            \
+             float            \
+             : a_hornerrf,    \
+               default        \
+             : a_hornerr)(_a, _n, _x)
+#endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_POLY_H__ */
