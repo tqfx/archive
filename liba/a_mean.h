@@ -15,11 +15,11 @@
 */
 typedef enum a_mean_e
 {
-    A_MEAN_ARITHMETIC,  //!< arithmetic mean
-    A_MEAN_GEOMETRIC,   //!< geometric mean
-    A_MEAN_HARMONIC,    //!< harmonic mean
-    A_MEAN_SQUARE,      //!< square mean
-    A_MEAN_ALL,         //!< all mean
+    A_MEAN_ARITHMETIC, //!< arithmetic mean
+    A_MEAN_GEOMETRIC,  //!< geometric mean
+    A_MEAN_HARMONIC,   //!< harmonic mean
+    A_MEAN_SQUARE,     //!< square mean
+    A_MEAN_ALL,        //!< all mean
 } a_mean_e;
 
 #undef __A_MEAN_T

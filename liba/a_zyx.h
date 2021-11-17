@@ -14,9 +14,9 @@
 #undef A_ZYX_YAW
 #undef A_ZYX_PITCH
 #undef A_ZYX_ROLL
-#define A_ZYX_YAW   0  //!< Z (yaw)
-#define A_ZYX_PITCH 1  //!< Y (pitch)
-#define A_ZYX_ROLL  2  //!< X (roll)
+#define A_ZYX_YAW   0 //!< Z (yaw)
+#define A_ZYX_PITCH 1 //!< Y (pitch)
+#define A_ZYX_ROLL  2 //!< X (roll)
 
 __BEGIN_DECLS
 

@@ -40,7 +40,6 @@ SortIncludes: false
 SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: false
 SpaceBeforeInheritanceColon: false
-SpacesBeforeTrailingComments: 2
 SpacesInContainerLiterals: false
 TabWidth: 4
 ...

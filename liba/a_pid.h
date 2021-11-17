@@ -36,8 +36,8 @@
 */
 typedef enum a_pid_e
 {
-    A_PID_POS,  //!< Position pid control
-    A_PID_INC,  //!< Incremental pid control
+    A_PID_POS, //!< Position pid control
+    A_PID_INC, //!< Incremental pid control
 } a_pid_e;
 
 #undef __A_PID_T

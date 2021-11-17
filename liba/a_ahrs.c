@@ -56,8 +56,8 @@
 
 typedef enum
 {
-    A_AHRS_AXIS9,  //!< 9 axis
-    A_AHRS_AXIS6,  //!< 6 axis
+    A_AHRS_AXIS9, //!< 9 axis
+    A_AHRS_AXIS6, //!< 6 axis
 } a_ahrs_e;
 
 /* convert between long and float */
