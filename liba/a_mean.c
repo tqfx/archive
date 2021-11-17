@@ -11,6 +11,7 @@
 #undef A_SQ
 #define A_SQ(_x) ((_x) * (_x))
 
+#undef a_mean_init
 #undef __A_MEAN_INIT
 #define __A_MEAN_INIT(_def, _func)             \
     void _func(_def##_s *_ctx, a_mean_e _mode) \
@@ -44,6 +45,7 @@ __A_MEAN_INIT(a_mean, a_mean_init)
 __A_MEAN_INIT(a_meanf, a_meanf_init)
 #undef __A_MEAN_INIT
 
+#undef a_mean_process
 #undef __A_MEAN_PROCESS
 #define __A_MEAN_PROCESS(_def, _type, _func)               \
     void _func(_def##_s *_ctx, const _type *_p, size_t _n) \
@@ -102,6 +104,7 @@ __A_MEAN_PROCESS(a_mean, double, a_mean_process)
 __A_MEAN_PROCESS(a_meanf, float, a_meanf_process)
 #undef __A_MEAN_PROCESS
 
+#undef a_mean_done
 #undef __A_MEAN_DONE
 #define __A_MEAN_DONE(_def, _type, _func, _sqrt, _pow)         \
     _type _func(_def##_s *_ctx)                                \

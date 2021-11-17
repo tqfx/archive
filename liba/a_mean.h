@@ -45,15 +45,36 @@ __BEGIN_DECLS
 /*!
  @brief function for the mean calculation
 */
-#define __A_MEAN(_def, _type)                                                           \
-    extern void _def##_init(_def##_s *ctx, a_mean_e mode) __NONNULL((1));               \
-    extern void _def##_process(_def##_s *ctx, const _type *p, size_t n) __NONNULL((1)); \
-    extern _type _def##_done(_def##_s *ctx) __NONNULL_ALL;
+#define __A_MEAN(_def, _type)                                                    \
+    void _def##_init(_def##_s *ctx, a_mean_e mode) __NONNULL((1));               \
+    void _def##_process(_def##_s *ctx, const _type *p, size_t n) __NONNULL((1)); \
+    _type _def##_done(_def##_s *ctx) __NONNULL_ALL;
 __A_MEAN(a_mean, double)
 __A_MEAN(a_meanf, float)
 #undef __A_MEAN
 
 __END_DECLS
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#define a_mean_init(_ctx, _mode) \
+    _Generic((_ctx),             \
+             a_meanf_s *         \
+             : a_meanf_init,     \
+               default           \
+             : a_mean_init)(_ctx, _mode)
+#define a_mean_process(_ctx, _p, _n) \
+    _Generic((_ctx),                 \
+             a_meanf_s *             \
+             : a_meanf_process,      \
+               default               \
+             : a_mean_process)(_ctx, _p, _n)
+#define a_mean_done(_ctx)    \
+    _Generic((_ctx),         \
+             a_meanf_s *     \
+             : a_meanf_done, \
+               default       \
+             : a_mean_done)(_ctx)
+#endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_MEAN_H__ */
