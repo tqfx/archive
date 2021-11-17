@@ -378,102 +378,102 @@ __END_DECLS
 /* function for cubic polynomial trajectory */
 #define a_polytrack3_init(_ctx, _source, _target) \
     _Generic((_ctx),                              \
-             a_polytrack3f_s *                    \
-             : a_polytrack3f_init,                \
-               default                            \
-             : a_polytrack3_init)(_ctx, _source, _target)
+             default                              \
+             : a_polytrack3_init,                 \
+               a_polytrack3f_s *                  \
+             : a_polytrack3f_init)(_ctx, _source, _target)
 #define a_polytrack3_pos(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack3f_pos,  \
-               default             \
-             : a_polytrack3_pos)(_ctx, _t)
+             default               \
+             : a_polytrack3_pos,   \
+               float               \
+             : a_polytrack3f_pos)(_ctx, _t)
 #define a_polytrack3_vec(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack3f_vec,  \
-               default             \
-             : a_polytrack3_vec)(_ctx, _t)
+             default               \
+             : a_polytrack3_vec,   \
+               float               \
+             : a_polytrack3f_vec)(_ctx, _t)
 #define a_polytrack3_acc(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack3f_acc,  \
-               default             \
-             : a_polytrack3_acc)(_ctx, _t)
+             default               \
+             : a_polytrack3_acc,   \
+               float               \
+             : a_polytrack3f_acc)(_ctx, _t)
 #define a_polytrack3_all(_ctx, _t, _o) \
     _Generic((_t),                     \
-             float                     \
-             : a_polytrack3f_all,      \
-               default                 \
-             : a_polytrack3_all)(_ctx, _t, _o)
+             default                   \
+             : a_polytrack3_all,       \
+               float                   \
+             : a_polytrack3f_all)(_ctx, _t, _o)
 /* function for quintic polynomial trajectory */
 #define a_polytrack5_init(_ctx, _source, _target) \
     _Generic((_ctx),                              \
-             a_polytrack5f_s *                    \
-             : a_polytrack5f_init,                \
-               default                            \
-             : a_polytrack5_init)(_ctx, _source, _target)
+             default                              \
+             : a_polytrack5_init,                 \
+               a_polytrack5f_s *                  \
+             : a_polytrack5f_init)(_ctx, _source, _target)
 #define a_polytrack5_pos(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack5f_pos,  \
-               default             \
-             : a_polytrack5_pos)(_ctx, _t)
+             default               \
+             : a_polytrack5_pos,   \
+               float               \
+             : a_polytrack5f_pos)(_ctx, _t)
 #define a_polytrack5_vec(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack5f_vec,  \
-               default             \
-             : a_polytrack5_vec)(_ctx, _t)
+             default               \
+             : a_polytrack5_vec,   \
+               float               \
+             : a_polytrack5f_vec)(_ctx, _t)
 #define a_polytrack5_acc(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack5f_acc,  \
-               default             \
-             : a_polytrack5_acc)(_ctx, _t)
+             default               \
+             : a_polytrack5_acc,   \
+               float               \
+             : a_polytrack5f_acc)(_ctx, _t)
 #define a_polytrack5_all(_ctx, _t, _o) \
     _Generic((_t),                     \
-             float                     \
-             : a_polytrack5f_all,      \
-               default                 \
-             : a_polytrack5_all)(_ctx, _t, _o)
+             default                   \
+             : a_polytrack5_all,       \
+               float                   \
+             : a_polytrack5f_all)(_ctx, _t, _o)
 /* function for hepta polynomial trajectory */
 #define a_polytrack7_init(_ctx, _source, _target) \
     _Generic((_ctx),                              \
-             a_polytrack7f_s *                    \
-             : a_polytrack7f_init,                \
-               default                            \
-             : a_polytrack7_init)(_ctx, _source, _target)
+             default                              \
+             : a_polytrack7_init,                 \
+               a_polytrack7f_s *                  \
+             : a_polytrack7f_init)(_ctx, _source, _target)
 #define a_polytrack7_pos(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack7f_pos,  \
-               default             \
-             : a_polytrack7_pos)(_ctx, _t)
+             default               \
+             : a_polytrack7_pos,   \
+               float               \
+             : a_polytrack7f_pos)(_ctx, _t)
 #define a_polytrack7_vec(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack7f_vec,  \
-               default             \
-             : a_polytrack7_vec)(_ctx, _t)
+             default               \
+             : a_polytrack7_vec,   \
+               float               \
+             : a_polytrack7f_vec)(_ctx, _t)
 #define a_polytrack7_acc(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack7f_acc,  \
-               default             \
-             : a_polytrack7_acc)(_ctx, _t)
+             default               \
+             : a_polytrack7_acc,   \
+               float               \
+             : a_polytrack7f_acc)(_ctx, _t)
 #define a_polytrack7_jer(_ctx, _t) \
     _Generic((_t),                 \
-             float                 \
-             : a_polytrack7f_jer,  \
-               default             \
-             : a_polytrack7_jer)(_ctx, _t)
+             default               \
+             : a_polytrack7_jer,   \
+               float               \
+             : a_polytrack7f_jer)(_ctx, _t)
 #define a_polytrack7_all(_ctx, _t, _o) \
     _Generic((_t),                     \
-             float                     \
-             : a_polytrack7f_all,      \
-               default                 \
-             : a_polytrack7_all)(_ctx, _t, _o)
+             default                   \
+             : a_polytrack7_all,       \
+               float                   \
+             : a_polytrack7f_all)(_ctx, _t, _o)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */

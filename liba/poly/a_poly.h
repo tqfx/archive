@@ -32,16 +32,16 @@ __END_DECLS
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
 #define a_horner(_a, _n, _x) \
     _Generic((_x),           \
-             float           \
-             : a_hornerf,    \
-               default       \
-             : a_horner)(_a, _n, _x)
+             default         \
+             : a_horner,     \
+               float         \
+             : a_hornerf)(_a, _n, _x)
 #define a_hornerr(_a, _n, _x) \
     _Generic((_x),            \
-             float            \
-             : a_hornerrf,    \
-               default        \
-             : a_hornerr)(_a, _n, _x)
+             default          \
+             : a_hornerr,     \
+               float          \
+             : a_hornerrf)(_a, _n, _x)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */

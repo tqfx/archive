@@ -58,22 +58,22 @@ __END_DECLS
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
 #define a_mean_init(_ctx, _mode) \
     _Generic((_ctx),             \
-             a_meanf_s *         \
-             : a_meanf_init,     \
-               default           \
-             : a_mean_init)(_ctx, _mode)
+             default             \
+             : a_mean_init,      \
+               a_meanf_s *       \
+             : a_meanf_init)(_ctx, _mode)
 #define a_mean_process(_ctx, _p, _n) \
     _Generic((_ctx),                 \
-             a_meanf_s *             \
-             : a_meanf_process,      \
-               default               \
-             : a_mean_process)(_ctx, _p, _n)
-#define a_mean_done(_ctx)    \
-    _Generic((_ctx),         \
-             a_meanf_s *     \
-             : a_meanf_done, \
-               default       \
-             : a_mean_done)(_ctx)
+             default                 \
+             : a_mean_process,       \
+               a_meanf_s *           \
+             : a_meanf_process)(_ctx, _p, _n)
+#define a_mean_done(_ctx)   \
+    _Generic((_ctx),        \
+             default        \
+             : a_mean_done, \
+               a_meanf_s *  \
+             : a_meanf_done)(_ctx)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */

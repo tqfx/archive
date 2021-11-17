@@ -166,40 +166,40 @@ __A_PID_RESET(a_pidf, a_pidf_reset)
 */
 #define a_pid_pos(_ctx, _kpid, _omin, _omax, _omaxi) \
     _Generic((_ctx),                                 \
-             a_pidf_s *                              \
-             : a_pidf_pos,                           \
-               default                               \
-             : a_pid_pos)(_ctx, _kpid, _omin, _omax, _omaxi)
+             default                                 \
+             : a_pid_pos,                            \
+               a_pidf_s *                            \
+             : a_pidf_pos)(_ctx, _kpid, _omin, _omax, _omaxi)
 /*!
  @brief Initialize function for the floating-point incremental PID Control
 */
 #define a_pid_inc(_ctx, _kpid, _omin, _omax) \
     _Generic((_ctx),                         \
-             a_pidf_s *                      \
-             : a_pidf_inc,                   \
-               default                       \
-             : a_pid_inc)(_ctx, _kpid, _omin, _omax)
+             default                         \
+             : a_pid_inc,                    \
+               a_pidf_s *                    \
+             : a_pidf_inc)(_ctx, _kpid, _omin, _omax)
 #define a_pid_init(_ctx, _mode, _kpid, _omin, _omax, _omaxi) \
     _Generic((_ctx),                                         \
-             a_pidf_s *                                      \
-             : a_pidf_init,                                  \
-               default                                       \
-             : a_pid_init)(_ctx, _mode, _kpid, _omin, _omax, _omaxi)
+             default                                         \
+             : a_pid_init,                                   \
+               a_pidf_s *                                    \
+             : a_pidf_init)(_ctx, _mode, _kpid, _omin, _omax, _omaxi)
 #define a_pid_process(_ctx, _ref, _set) \
     _Generic((_ctx),                    \
-             a_pidf_s *                 \
-             : a_pidf_process,          \
-               default                  \
-             : a_pid_process)(_ctx, _ref, _set)
+             default                    \
+             : a_pid_process,           \
+               a_pidf_s *               \
+             : a_pidf_process)(_ctx, _ref, _set)
 /*!
  @brief Reset function for the floating-point PID Control
 */
-#define a_pid_reset(_ctx)    \
-    _Generic((_ctx),         \
-             a_pidf_s *      \
-             : a_pidf_reset, \
-               default       \
-             : a_pid_reset)(_ctx)
+#define a_pid_reset(_ctx)   \
+    _Generic((_ctx),        \
+             default        \
+             : a_pid_reset, \
+               a_pidf_s *   \
+             : a_pidf_reset)(_ctx)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */

@@ -84,10 +84,10 @@ __A_LPF_RESET(a_lpff, a_lpff_reset)
 */
 #define a_lpf_init(_ctx, _k, _t) \
     _Generic((_ctx),             \
-             a_lpff_s *          \
-             : a_lpff_init,      \
-               default           \
-             : a_lpf_init)(_ctx, _k, _t)
+             default             \
+             : a_lpf_init,       \
+               a_lpff_s *        \
+             : a_lpff_init)(_ctx, _k, _t)
 /*!
  @brief Process function for Low Pass Filter
  \f{aligned}{
@@ -97,19 +97,19 @@ __A_LPF_RESET(a_lpff, a_lpff_reset)
 */
 #define a_lpf_process(_ctx, _x) \
     _Generic((_ctx),            \
-             a_lpff_s *         \
-             : a_lpff_process,  \
-               default          \
-             : a_lpf_process)(_ctx, _x)
+             default            \
+             : a_lpf_process,   \
+               a_lpff_s *       \
+             : a_lpff_process)(_ctx, _x)
 /*!
  @brief Reset function for Low Pass Filter
 */
-#define a_lpf_reset(_ctx)    \
-    _Generic((_ctx),         \
-             a_lpff_s *      \
-             : a_lpff_reset, \
-               default       \
-             : a_lpf_reset)(_ctx)
+#define a_lpf_reset(_ctx)   \
+    _Generic((_ctx),        \
+             default        \
+             : a_lpf_reset, \
+               a_lpff_s *   \
+             : a_lpff_reset)(_ctx)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
