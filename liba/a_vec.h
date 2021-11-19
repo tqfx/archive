@@ -36,19 +36,19 @@
     } a_vec_##_def##_s
 #endif /* a_vec_type */
 
-#ifndef a_vec_siz
-#define a_vec_siz(_ctx) (_ctx).n
-#endif /* a_vec_siz */
-#ifndef a_vec_psiz
-#define a_vec_psiz(_ctx) a_vec_siz(*(_ctx))
-#endif /* a_vec_psiz */
-
 #ifndef a_vec_max
 #define a_vec_max(_ctx) (_ctx).m
 #endif /* a_vec_max */
 #ifndef a_vec_pmax
 #define a_vec_pmax(_ctx) a_vec_max(*(_ctx))
 #endif /* a_vec_pmax */
+
+#ifndef a_vec_siz
+#define a_vec_siz(_ctx) (_ctx).n
+#endif /* a_vec_siz */
+#ifndef a_vec_psiz
+#define a_vec_psiz(_ctx) a_vec_siz(*(_ctx))
+#endif /* a_vec_psiz */
 
 #ifndef a_vec_v
 #define a_vec_v(_ctx, _idx) (_ctx).v[(_idx)]
@@ -76,8 +76,9 @@
     (_ctx).m = (_ctx).n = 0, (_ctx).v = 0)
 #endif /* a_vec_init */
 #ifndef a_vec_pinit
-#define a_vec_pinit(_def, _ctx) ( \
-    (_ctx) = (a_vec_t(_def) *)amalloc(sizeof(*(_ctx))), a_vec_init(*(_ctx)))
+#define a_vec_pinit(_def, _ctx) (                       \
+    (_ctx) = (a_vec_t(_def) *)amalloc(sizeof(*(_ctx))), \
+    (_ctx) ? (a_vec_init(*(_ctx)), 0) : -1)
 #endif /* a_vec_pinit */
 
 #ifndef a_vec_initp
@@ -87,11 +88,11 @@
 
 #ifndef a_vec_done
 #define a_vec_done(_ctx) ( \
-    (_ctx).m = (_ctx).n = 0, afree((_ctx).v), (_ctx).v = 0)
+    (_ctx).m = (_ctx).n = 0, (_ctx).v ? (afree((_ctx).v), (_ctx).v = 0) : 0)
 #endif /* a_vec_done */
 #ifndef a_vec_pdone
 #define a_vec_pdone(_ctx) ( \
-    a_vec_done(*(_ctx)), afree(_ctx), (_ctx) = 0)
+    (_ctx) ? (a_vec_done(*(_ctx)), afree(_ctx), (_ctx) = 0) : 0)
 #endif /* a_vec_pdone */
 
 #ifndef a_vec_resize
