@@ -33,7 +33,7 @@ typedef struct a_str_s
 #ifndef a_str_inits
 /*!
  @brief Initialize an instance of c string structure
- @return {.s = 0, .m = 0, .n = 0}
+ @return {.m = 0, .n = 0, .s = 0}
 */
 #define a_str_inits() \
     {                 \
@@ -52,14 +52,14 @@ typedef struct a_str_s
 __NONNULL_ALL
 __STATIC_INLINE
 /*!
- @brief string for a pointer to c string structure
+ @brief memory for a pointer to c string structure
  @param[in] _ctx: points to an instance of c string structure
- @return string
+ @return memory
 */
-const char *a_str_val(a_str_s *_ctx)
+size_t a_str_mem(const a_str_s *_ctx)
 {
     aassert(_ctx);
-    return _ctx->s;
+    return _ctx->m;
 }
 
 __NONNULL_ALL
@@ -69,7 +69,7 @@ __STATIC_INLINE
  @param[in] _ctx: points to an instance of c string structure
  @return length
 */
-size_t a_str_len(a_str_s *_ctx)
+size_t a_str_len(const a_str_s *_ctx)
 {
     aassert(_ctx);
     return _ctx->n;
@@ -78,14 +78,14 @@ size_t a_str_len(a_str_s *_ctx)
 __NONNULL_ALL
 __STATIC_INLINE
 /*!
- @brief memory for a pointer to c string structure
+ @brief string for a pointer to c string structure
  @param[in] _ctx: points to an instance of c string structure
- @return memory
+ @return string
 */
-size_t a_str_mem(a_str_s *_ctx)
+const char *a_str_val(const a_str_s *_ctx)
 {
     aassert(_ctx);
-    return _ctx->m;
+    return _ctx->s;
 }
 
 __BEGIN_DECLS
