@@ -11,11 +11,6 @@
 
 #include "a_vec.h"
 
-#ifndef _MSC_VER
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
-#endif /* _MSC_VER */
-
 a_vec_type(u32, unsigned int);
 
 static void tests(void)
@@ -242,9 +237,5 @@ int main(void)
 
     return 0;
 }
-
-#ifndef _MSC_VER
-#pragma GCC diagnostic pop
-#endif /* _MSC_VER */
 
 /* END OF FILE */
