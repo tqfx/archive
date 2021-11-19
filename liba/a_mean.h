@@ -55,7 +55,7 @@ __A_MEAN(a_meanf, float)
 
 __END_DECLS
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 #define a_mean_init(_ctx, _mode) \
     _Generic((_ctx),             \
              default             \

@@ -38,7 +38,7 @@ void a_zyxf_quat2euler(const float q[4], float e[3]) __NONNULL_ALL;
 
 __END_DECLS
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 #define a_zyx_euler2quat(_e, _q) \
     _Generic((_q),               \
              default             \

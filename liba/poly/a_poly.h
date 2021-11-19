@@ -29,7 +29,7 @@ float a_hornerrf(const float *a, size_t n, float x);
 
 __END_DECLS
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 #define a_horner(_a, _n, _x) \
     _Generic((_x),           \
              default         \

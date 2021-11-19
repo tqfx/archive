@@ -160,7 +160,7 @@ __A_PID_RESET(a_pid, a_pid_reset)
 __A_PID_RESET(a_pidf, a_pidf_reset)
 #undef __A_PID_RESET
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 /*!
  @brief Initialize function for the floating-point position PID Control
 */

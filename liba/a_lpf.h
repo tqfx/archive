@@ -78,7 +78,7 @@ __A_LPF_RESET(a_lpf, a_lpf_reset)
 __A_LPF_RESET(a_lpff, a_lpff_reset)
 #undef __A_LPF_RESET
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 /*!
  @brief Initialize function for Low Pass Filter
 */

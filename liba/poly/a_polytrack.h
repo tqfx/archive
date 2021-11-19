@@ -374,7 +374,7 @@ void a_polytrack7f_all(const a_polytrack7f_s *ctx, float t, float o[4]) __NONNUL
 
 __END_DECLS
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 /* function for cubic polynomial trajectory */
 #define a_polytrack3_init(_ctx, _source, _target) \
     _Generic((_ctx),                              \
