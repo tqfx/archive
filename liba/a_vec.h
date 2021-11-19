@@ -67,7 +67,7 @@
 #ifndef a_vec_inits
 #define a_vec_inits() \
     {                 \
-        0             \
+        0, 0, 0,      \
     }
 #endif /* a_vec_inits */
 

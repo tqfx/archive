@@ -40,7 +40,7 @@
 #ifndef a_mempool_inits
 #define a_mempool_inits() \
     {                     \
-        0                 \
+        0, 0, 0, 0,       \
     }
 #endif /* a_mempool_inits */
 

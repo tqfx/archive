@@ -37,7 +37,7 @@ typedef struct a_str_s
 */
 #define a_str_inits() \
     {                 \
-        0             \
+        0, 0, 0,      \
     }
 #endif /* a_str_inits */
 
