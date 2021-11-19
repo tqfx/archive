@@ -30,7 +30,6 @@ BraceWrapping:
   SplitEmptyFunction: false
   SplitEmptyNamespace: false
 ColumnLimit: 0
-FixNamespaceComments: false
 IndentWidth: 4
 KeepEmptyLinesAtTheStartOfBlocks: false
 NamespaceIndentation: All
