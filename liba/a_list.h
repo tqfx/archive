@@ -50,13 +50,14 @@
 #endif /* a_mempool_init */
 
 #ifndef a_mempool_pinit
-#define a_mempool_pinit(_def, _ctx) ( \
-    (_ctx) = (a_mempool_t(_def) *)amalloc(sizeof(*(_ctx))), a_mempool_init(*(_ctx)))
+#define a_mempool_pinit(_def, _ctx) (                       \
+    (_ctx) = (a_mempool_t(_def) *)amalloc(sizeof(*(_ctx))), \
+    (_ctx) ? (a_mempool_init(*(_ctx)), 0) : -1)
 #endif /* a_mempool_pinit */
 
 #ifndef a_mempool_initp
-#define a_mempool_initp(_def) \
-    ((a_mempool_t(_def) *)acalloc(1, sizeof(a_mempool_t(_def))))
+#define a_mempool_initp(_def) ( \
+    (a_mempool_t(_def) *)acalloc(1, sizeof(a_mempool_t(_def))))
 #endif /* a_mempool_initp */
 
 #ifndef a_mempool_done
@@ -79,12 +80,15 @@
     } while (0)
 #endif /* a_mempool_done */
 #ifndef a_mempool_pdone
-#define a_mempool_pdone(_ctx, _func)    \
-    do                                  \
-    {                                   \
-        a_mempool_done(*(_ctx), _func); \
-        afree(_ctx);                    \
-        (_ctx) = 0;                     \
+#define a_mempool_pdone(_ctx, _func)        \
+    do                                      \
+    {                                       \
+        if (_ctx)                           \
+        {                                   \
+            a_mempool_done(*(_ctx), _func); \
+            afree(_ctx);                    \
+            (_ctx) = 0;                     \
+        }                                   \
     } while (0)
 #endif /* a_mempool_pdone */
 
@@ -192,19 +196,19 @@
 #define a_list_ptail(_ctx) a_list_tail(*(_ctx))
 #endif /* a_list_ptail */
 
-#ifndef a_list_siz
-#define a_list_siz(_ctx) (_ctx).siz
-#endif /* a_list_siz */
-#ifndef a_list_psiz
-#define a_list_psiz(_ctx) a_list_siz(*(_ctx))
-#endif /* a_list_psiz */
-
 #ifndef a_list_mem
 #define a_list_mem(_ctx) (_ctx).mem
 #endif /* a_list_mem */
 #ifndef a_list_pmem
 #define a_list_pmem(_ctx) a_list_mem(*(_ctx))
 #endif /* a_list_pmem */
+
+#ifndef a_list_siz
+#define a_list_siz(_ctx) (_ctx).siz
+#endif /* a_list_siz */
+#ifndef a_list_psiz
+#define a_list_psiz(_ctx) a_list_siz(*(_ctx))
+#endif /* a_list_psiz */
 
 #ifndef a_list_init
 #define a_list_init(_def, _ctx) (                                             \
@@ -214,8 +218,9 @@
     (_ctx).siz = 0)
 #endif /* a_list_init */
 #ifndef a_list_pinit
-#define a_list_pinit(_def, _ctx) ( \
-    (_ctx) = (a_list_t(_def) *)amalloc(sizeof(*(_ctx))), a_list_init(_def, *(_ctx)))
+#define a_list_pinit(_def, _ctx) (                       \
+    (_ctx) = (a_list_t(_def) *)amalloc(sizeof(*(_ctx))), \
+    (_ctx) ? (a_list_init(_def, *(_ctx)), 0) : -1)
 #endif /* a_list_pinit */
 
 #ifndef a_list_done
@@ -233,12 +238,15 @@
     } while (0)
 #endif /* a_list_done */
 #ifndef a_list_pdone
-#define a_list_pdone(_def, _ctx, _func)    \
-    do                                     \
-    {                                      \
-        a_list_done(_def, *(_ctx), _func); \
-        afree(_ctx);                       \
-        (_ctx) = 0;                        \
+#define a_list_pdone(_def, _ctx, _func)        \
+    do                                         \
+    {                                          \
+        if (_ctx)                              \
+        {                                      \
+            a_list_done(_def, *(_ctx), _func); \
+            afree(_ctx);                       \
+            (_ctx) = 0;                        \
+        }                                      \
     } while (0)
 #endif /* a_list_pdone */
 
