@@ -1,19 +1,26 @@
-cmake_minimum_required(VERSION 3.10)
-
-project(a VERSION 0.2.6)
-
+# default C standard
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
 endif()
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 11)
+if(NOT CMAKE_C_EXTENSIONS)
+  set(CMAKE_C_EXTENSIONS OFF)
 endif()
 if(NOT CMAKE_C_STANDARD_REQUIRED)
   set(CMAKE_C_STANDARD_REQUIRED ON)
 endif()
+# default C++ standard
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+if(NOT CMAKE_CXX_EXTENSIONS)
+  set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
 if(NOT CMAKE_CXX_STANDARD_REQUIRED)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
+cmake_minimum_required(VERSION 3.10)
+
+project(a VERSION 0.2.6)
 
 unset(SOURCES)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/crc)
@@ -28,9 +35,8 @@ list(APPEND SOURCES ${SOURCE})
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR} SOURCE)
 list(APPEND SOURCES ${SOURCE})
-add_library(${PROJECT_NAME} ${SOURCES})
-unset(SOURCES)
 
+add_library(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/crc>
   $<INSTALL_INTERFACE:include/crc>
@@ -48,8 +54,8 @@ target_include_directories(${PROJECT_NAME} INTERFACE
   $<INSTALL_INTERFACE:include>
 )
 
-if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
-  "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "(Apple)?[Cc]lang" OR
+  "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "(Apple)?[Cc]lang")
   target_link_libraries(${PROJECT_NAME} m)
 endif()
 
