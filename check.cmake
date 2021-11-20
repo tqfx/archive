@@ -34,8 +34,8 @@ macro(check_cxx_flag)
   endforeach()
 endmacro()
 
-if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "(Apple)?[Cc]lang" OR
-  "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "(Apple)?[Cc]lang")
+if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_C_COMPILER_ID} MATCHES "(Apple)?[Cc]lang" OR
+  ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "(Apple)?[Cc]lang")
   append_flag(-Wall -Wextra -Wpedantic)
   check_flag(-Wdouble-promotion)
   check_flag(-Wnull-dereference)
@@ -65,14 +65,14 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL 
   check_cflag(-Wold-style-definition)
   check_cflag(-Wmissing-prototypes)
   check_cflag(-Wnested-externs)
-elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+elseif(${CMAKE_C_COMPILER_ID} MATCHES "MSVC" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "MSVC")
   add_link_options(/nologo)
   add_definitions(/D_CRT_SECURE_NO_WARNINGS)
   append_cflag(/nologo /W4 /sdl)
   append_cxxflag(/nologo /W4 /sdl)
 endif()
 # GNU
-if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
   check_flag(-Wstringop-overflow -Wstringop-truncation)
   check_flag(-Walloc-zero)
   check_flag(-Wduplicated-branches -Wduplicated-cond)
@@ -83,7 +83,7 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUA
   check_flag(-Wlogical-op)
 endif()
 # Clang
-if("${CMAKE_C_COMPILER_ID}" STREQUAL "(Apple)?[Cc]lang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "(Apple)?[Cc]lang")
+if(${CMAKE_C_COMPILER_ID} MATCHES "(Apple)?[Cc]lang" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "(Apple)?[Cc]lang")
   check_flag(-Wshadow-all)
   check_flag(-Wzero-length-array)
 endif()
