@@ -77,7 +77,7 @@ install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION bin
 )
 
-find_package(Doxygen REQUIRED dot OPTIONAL_COMPONENTS mscgen dia)
+find_package(Doxygen OPTIONAL_COMPONENTS dot mscgen dia)
 if(DOXYGEN_FOUND)
   # Project related configuration options
   set(DOXYGEN_PROJECT_BRIEF "The algorithm library based on C language.")
