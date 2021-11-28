@@ -8,7 +8,7 @@ import os
 from sys import argv
 
 amodule = ".."
-modules = ["liba", "liba/poly", "liba/hash"]
+modules = ["src", "src/crc", "src/poly", "src/hash"]
 
 name = "liba"
 version = "0.1"
@@ -16,7 +16,7 @@ description = "algorithm library based on C language."
 long_description = ''
 author = "tqfx"
 author_email = "tqfx@foxmail.com"
-url = "https://github.com/tqfx/liba"
+url = "https://github.com/tqfx/liba.git"
 license = "MIT"
 
 

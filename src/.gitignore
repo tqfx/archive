@@ -180,7 +180,7 @@ dmypy.json
 .pyre/
 
 # multiple build environments
-build*
+build[_-]*
 
 # Visual Studio Code
 .vscode
@@ -193,7 +193,6 @@ html
 latex
 
 # Cython
-*_cy.*
-!*_cy.pyx
-!*_cy.pxi
-!*_cy.pxd
+liba.html
+liba.cpp
+liba.c

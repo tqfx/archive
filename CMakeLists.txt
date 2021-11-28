@@ -5,8 +5,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(liba VERSION 0.2.6)
 
-message(STATUS ${CMAKE_SYSTEM})
-
 set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
@@ -20,5 +18,5 @@ if(NOT CMAKE_BUILD_TYPE)
   endif()
 endif()
 
-add_subdirectory(liba)
+add_subdirectory(src)
 add_subdirectory(test)
