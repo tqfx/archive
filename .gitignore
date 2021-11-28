@@ -180,7 +180,7 @@ dmypy.json
 .pyre/
 
 # multiple build environments
-build*
+build[_-]*
 
 # Visual Studio Code
 .vscode
