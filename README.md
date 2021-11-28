@@ -1,6 +1,6 @@
 # algorithm
 
-[![Deploy](https://github.com/tqfx/liba/actions/workflows/deploy.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/deploy.yml)
+[![deploy](https://github.com/tqfx/liba/actions/workflows/deploy.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/deploy.yml)
 
 ## required tools
 
