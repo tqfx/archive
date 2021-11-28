@@ -1,7 +1,7 @@
 # include modules
 include(${CMAKE_CURRENT_LIST_DIR}/append_option.cmake)
-if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_C_COMPILER_ID} MATCHES "(Apple)?[Cc]lang" OR
-  ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "(Apple)?[Cc]lang")
+if("${CMAKE_C_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_C_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang")
   append_flag(-Wall -Wextra -Wpedantic)
   append_flag(-Wdouble-promotion)
   append_flag(-Wnull-dereference)
@@ -31,9 +31,8 @@ if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_C_COMPILER_ID} MATCHES "(Appl
   append_cflag(-Wold-style-definition)
   append_cflag(-Wmissing-prototypes)
   append_cflag(-Wnested-externs)
-elseif(${CMAKE_C_COMPILER_ID} MATCHES "MSVC" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "MSVC")
-  add_link_options(/nologo)
-  add_definitions(/D_CRT_SECURE_NO_WARNINGS)
+elseif("${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+  add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
   append_cflag(/nologo /W4 /sdl)
   append_cxxflag(/nologo /W4 /sdl)
 endif()
