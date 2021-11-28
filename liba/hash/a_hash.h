@@ -173,46 +173,46 @@ extern const a_hash_s a_hash_whirlpool;
 __END_DECLS
 
 #undef __A_HASH_PROCESS
-#define __A_HASH_PROCESS(_hash, _func, _compress)                    \
-    int _func(_hash *_ctx, const void *_p, size_t _n)                \
-    {                                                                \
-        aassert(_ctx);                                               \
-        aassert(!_n || _p);                                          \
-        if (sizeof(_ctx->buf) < _ctx->cursiz)                        \
-        {                                                            \
-            return A_HASH_INVALID;                                   \
-        }                                                            \
-        if (_ctx->length + (_n << 3) < _ctx->length)                 \
-        {                                                            \
-            return A_HASH_OVERFLOW;                                  \
-        }                                                            \
-        const unsigned char *p = (const unsigned char *)_p;          \
-        while (_n)                                                   \
-        {                                                            \
-            if ((_ctx->cursiz == 0) && (sizeof(_ctx->buf) - 1 < _n)) \
-            {                                                        \
-                _compress(_ctx, p);                                  \
-                _ctx->length += sizeof(_ctx->buf) << 3;              \
-                _n -= sizeof(_ctx->buf);                             \
-                p += sizeof(_ctx->buf);                              \
-            }                                                        \
-            else                                                     \
-            {                                                        \
-                uint32_t n = sizeof(_ctx->buf) - _ctx->cursiz;       \
-                n = n < _n ? n : (uint32_t)_n;                       \
-                memcpy(_ctx->buf + _ctx->cursiz, p, n);              \
-                _ctx->cursiz += n;                                   \
-                _n -= n;                                             \
-                p += n;                                              \
-                if (sizeof(_ctx->buf) == _ctx->cursiz)               \
-                {                                                    \
-                    _compress(_ctx, _ctx->buf);                      \
-                    _ctx->length += sizeof(_ctx->buf) << 3;          \
-                    _ctx->cursiz = 0;                                \
-                }                                                    \
-            }                                                        \
-        }                                                            \
-        return A_HASH_SUCCESS;                                       \
+#define __A_HASH_PROCESS(_hash, _func, _compress)                        \
+    int _func(_hash *_ctx, const void *_p, size_t _n)                    \
+    {                                                                    \
+        aassert(_ctx);                                                   \
+        aassert(!_n || _p);                                              \
+        if (sizeof(_ctx->buf) < _ctx->cursiz)                            \
+        {                                                                \
+            return A_HASH_INVALID;                                       \
+        }                                                                \
+        if (_ctx->length + (_n << 3) < _ctx->length)                     \
+        {                                                                \
+            return A_HASH_OVERFLOW;                                      \
+        }                                                                \
+        const unsigned char *p = (const unsigned char *)_p;              \
+        while (_n)                                                       \
+        {                                                                \
+            if ((_ctx->cursiz == 0) && (sizeof(_ctx->buf) - 1 < _n))     \
+            {                                                            \
+                _compress(_ctx, p);                                      \
+                _ctx->length += sizeof(_ctx->buf) << 3;                  \
+                _n -= sizeof(_ctx->buf);                                 \
+                p += sizeof(_ctx->buf);                                  \
+            }                                                            \
+            else                                                         \
+            {                                                            \
+                uint32_t n = (uint32_t)sizeof(_ctx->buf) - _ctx->cursiz; \
+                n = n < _n ? n : (uint32_t)_n;                           \
+                memcpy(_ctx->buf + _ctx->cursiz, p, n);                  \
+                _ctx->cursiz += n;                                       \
+                _n -= n;                                                 \
+                p += n;                                                  \
+                if (sizeof(_ctx->buf) == _ctx->cursiz)                   \
+                {                                                        \
+                    _compress(_ctx, _ctx->buf);                          \
+                    _ctx->length += sizeof(_ctx->buf) << 3;              \
+                    _ctx->cursiz = 0;                                    \
+                }                                                        \
+            }                                                            \
+        }                                                                \
+        return A_HASH_SUCCESS;                                           \
     }
 
 #undef __A_HASH_DONE

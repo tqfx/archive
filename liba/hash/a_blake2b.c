@@ -237,7 +237,7 @@ int a_blake2b_process(a_blake2b_s *_ctx, const void *_p, size_t _n)
     }
 
     const unsigned char *p = (const unsigned char *)_p;
-    uint32_t n = sizeof(_ctx->buf) - _ctx->cursiz;
+    uint32_t n = (uint32_t)sizeof(_ctx->buf) - _ctx->cursiz;
     if (_n > n)
     {
         memcpy(_ctx->buf + _ctx->cursiz, p, n);

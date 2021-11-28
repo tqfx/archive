@@ -93,7 +93,7 @@ int a_md2_process(a_md2_s *_ctx, const void *_p, size_t _n)
     const unsigned char *p = (const unsigned char *)_p;
     while (_n)
     {
-        uint32_t n = sizeof(_ctx->buf) - _ctx->cursiz;
+        uint32_t n = (uint32_t)sizeof(_ctx->buf) - _ctx->cursiz;
         n = n < _n ? n : (uint32_t)_n;
         memcpy(_ctx->buf + _ctx->cursiz, p, n);
         _ctx->cursiz += n;
