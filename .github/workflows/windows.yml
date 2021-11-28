@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  Visual Studio 17 2022:
+  VisualStudio2022:
     runs-on: windows-latest
     continue-on-error: true
     steps:
@@ -16,7 +16,7 @@ jobs:
       - run: |
           cmake -B build_win32 -A win32 -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release
           cmake --build build_win32 --config Release --parallel
-  Visual Studio 16 2019:
+  VisualStudio2019:
     runs-on: windows-2019
     continue-on-error: true
     steps:
@@ -27,7 +27,7 @@ jobs:
       - run: |
           cmake -B build_win32 -A win32 -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release
           cmake --build build_win32 --config Release --parallel
-  Visual Studio 15 2017:
+  VisualStudio2017:
     runs-on: windows-2016
     continue-on-error: true
     steps:
