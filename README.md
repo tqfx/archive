@@ -29,14 +29,14 @@ python -m pip install -r requirements.txt
 
 ```bash
 cmake -B build
-cmake --build build
+cmake --build build --config Debug
 ```
 
 ### release
 
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build
+cmake --build build --config Release
 ```
 
 ### wheel

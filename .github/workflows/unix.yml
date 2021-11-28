@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: sudo apt-get update && sudo apt-get install -y mingw-w64
+      - run: sudo apt-get install -y mingw-w64
       - run: |
           cmake -B build_w64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=cmake/mingw64.cmake
           cmake --build build_w64 --config Release --parallel

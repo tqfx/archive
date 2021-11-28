@@ -43,8 +43,8 @@ CFLAGS += -Wmissing-prototypes
 CFLAGS += -Wnested-externs
 CXXFLAGS += -std=c++11 $(FLAGS)
 
--include $(CURDIR)../liba/make.mk
-LIBA := $(CURDIR)../liba/liba.a
+-include $(CURDIR)../src/make.mk
+LIBA := $(CURDIR)../src/liba.a
 
 C_INCS += $(foreach d,$(CURDIR),-I$(d:/=))
 CFLAGS += $(C_DEFS) $(C_INCS) $(LIBA_INCS)
@@ -91,13 +91,13 @@ $(BUILD)/list:$(CURDIR)test_list.c $(LIBA)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(LIBA): $(LIBA_DEPS) | $(BUILD)
-	@$(MAKE) -f $(CURDIR)../liba/Makefile
+	@$(MAKE) -f $(CURDIR)../src/Makefile
 $(BUILD):
 	@$(MK) -p $@
 
 .PHONY: clean help
 clean:
-	@$(MAKE) -f $(CURDIR)../liba/Makefile clean
+	@$(MAKE) -f $(CURDIR)../src/Makefile clean
 	@$(RM) -r $(BUILD)
 help:
 	@echo The following are some of the valid targets for this $(MAKEFILE):
