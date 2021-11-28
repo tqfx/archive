@@ -1,3 +1,6 @@
+if(${CMAKE_TOOLCHAIN_FILE})
+  include(${CMAKE_TOOLCHAIN_FILE})
+endif()
 cmake_minimum_required(VERSION 3.10)
 
 project(liba VERSION 0.2.6)
