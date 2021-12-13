@@ -1,30 +1,4 @@
-.gitattributes eol=lf
-.clang-format eol=lf
-.gitmodules eol=lf
-.gitignore eol=lf
-Doxyfile eol=lf
-Makefile eol=lf
-LICENSE eol=lf
-*.s eol=lf
-*.c eol=lf
-*.h eol=lf
-*.cc eol=lf
-*.hh eol=lf
-*.py eol=lf
-*.in eol=lf
-*.mk eol=lf
-*.md eol=lf
-*.cxx eol=lf
-*.hxx eol=lf
-*.cpp eol=lf
-*.hpp eol=lf
-*.pyx eol=lf
-*.txt eol=lf
-*.xml eol=lf
-*.yml eol=lf
-*.json eol=lf
-*.cmake eol=lf
-*.ninja eol=lf
+* text=input eol=lf
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.gif filter=lfs diff=lfs merge=lfs -text
