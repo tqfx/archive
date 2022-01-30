@@ -1,4 +1,4 @@
-# algorithm
+# algorithm {#mainpage}
 
 [![unix](https://github.com/tqfx/liba/actions/workflows/unix.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/unix.yml)
 [![windows](https://github.com/tqfx/liba/actions/workflows/windows.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/windows.yml)
@@ -25,18 +25,25 @@ python -m pip install -r requirements.txt
 
 ## build
 
-### debug
-
-```bash
-cmake -B build
-cmake --build build --config Debug
-```
-
 ### release
 
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
+```
+
+### debug
+
+```bash
+cmake -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build --config Debug
+```
+
+### test
+
+```bash
+cmake -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING_LIBA=1
+cmake --build build --config Debug
 ```
 
 ### wheel
@@ -50,3 +57,7 @@ python test/setup.py --quiet bdist_wheel
 ```bash
 python test/setup.py --quiet build_ext --inplace
 ```
+
+### Copyright {#copyright}
+
+Copyright (C) 2020 tqfx. All rights reserved.
