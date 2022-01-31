@@ -45,47 +45,47 @@ typedef struct a_str_s
 /*!
  @brief Free an instance of c string structure
 */
-#define a_str_sfree(_ctx) ( \
-    (_ctx).s ? (afree((_ctx).s), (_ctx).s = 0) : 0, (_ctx).m = (_ctx).n = 0)
+#define a_str_sfree(ctx) ( \
+    (ctx).s ? (free((ctx).s), (ctx).s = 0) : 0, (ctx).m = (ctx).n = 0)
 #endif /* a_str_sfree */
 
 __NONNULL_ALL
 __STATIC_INLINE
 /*!
  @brief memory for a pointer to c string structure
- @param[in] _ctx: points to an instance of c string structure
+ @param[in] ctx: points to an instance of c string structure
  @return memory
 */
-size_t a_str_mem(const a_str_s *_ctx)
+size_t a_str_mem(const a_str_s *ctx)
 {
-    aassert(_ctx);
-    return _ctx->m;
+    AASSERT(ctx);
+    return ctx->m;
 }
 
 __NONNULL_ALL
 __STATIC_INLINE
 /*!
  @brief length for a pointer to c string structure
- @param[in] _ctx: points to an instance of c string structure
+ @param[in] ctx: points to an instance of c string structure
  @return length
 */
-size_t a_str_len(const a_str_s *_ctx)
+size_t a_str_len(const a_str_s *ctx)
 {
-    aassert(_ctx);
-    return _ctx->n;
+    AASSERT(ctx);
+    return ctx->n;
 }
 
 __NONNULL_ALL
 __STATIC_INLINE
 /*!
  @brief string for a pointer to c string structure
- @param[in] _ctx: points to an instance of c string structure
+ @param[in] ctx: points to an instance of c string structure
  @return string
 */
-const char *a_str_val(const a_str_s *_ctx)
+const char *a_str_val(const a_str_s *ctx)
 {
-    aassert(_ctx);
-    return _ctx->s;
+    AASSERT(ctx);
+    return ctx->s;
 }
 
 __BEGIN_DECLS
@@ -102,7 +102,7 @@ a_str_s *a_str_init(const void *p, size_t n) __RESULT_USE_CHECK;
  @brief Terminate a pointer to c string structure
  @param[in] ctx: points to an instance of c string structure
  @return string of c string structure
- @note You need to use @ref afree to release the memory
+ @note You need to use free to release the memory
 */
 char *a_str_done(a_str_s *ctx) __NONNULL_ALL __RESULT_USE_CHECK;
 
@@ -220,5 +220,3 @@ __END_DECLS
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_STR_H__ */
-
-/* END OF FILE */

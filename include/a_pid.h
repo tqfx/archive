@@ -44,37 +44,37 @@ typedef enum a_pid_e
 /*!
  @brief Instance structure for the floating-point PID Control
 */
-#define __A_PID_T(_def, _type)                         \
-    typedef struct _def##_s                            \
-    {                                                  \
-        a_pid_e mode; /* Mode for PID Control */       \
-                                                       \
-        _type kp; /* Proportional constant    */       \
-        _type ki; /* Integral constant        */       \
-        _type kd; /* Derivative constant      */       \
-                                                       \
-        _type omin;  /* Minimum output           */    \
-        _type omax;  /* Maximum output           */    \
-        _type omaxi; /* Maximum intergral output */    \
-                                                       \
-        _type a[3]; /* Derived gain             */     \
-                    /* - A_PID_POS              */     \
-                    /*   - a[0] = Kp + Kd       */     \
-                    /*   - a[1] = - Kd          */     \
-                    /*   - a[2] = Ki            */     \
-                    /* - A_PID_INC              */     \
-                    /*   - a[0] = Kp + Ki + Kd  */     \
-                    /*   - a[1] = -Kp - 2 * Kd  */     \
-                    /*   - a[2] = Kd            */     \
-                                                       \
-        _type x[2]; /* State array                  */ \
-                    /* - x[0] (The last error)      */ \
-                    /* - x[1] (The last last error) */ \
-                                                       \
-        _type y; /* Cache variable              */     \
-                 /* - A_PID_POS integral output */     \
-                 /* - A_PID_INC all output      */     \
-    } _def##_s
+#define __A_PID_T(def, type)                          \
+    typedef struct def##_s                            \
+    {                                                 \
+        a_pid_e mode; /* Mode for PID Control */      \
+                                                      \
+        type kp; /* Proportional constant    */       \
+        type ki; /* Integral constant        */       \
+        type kd; /* Derivative constant      */       \
+                                                      \
+        type omin;  /* Minimum output           */    \
+        type omax;  /* Maximum output           */    \
+        type omaxi; /* Maximum intergral output */    \
+                                                      \
+        type a[3]; /* Derived gain             */     \
+                   /* - A_PID_POS              */     \
+                   /*   - a[0] = Kp + Kd       */     \
+                   /*   - a[1] = - Kd          */     \
+                   /*   - a[2] = Ki            */     \
+                   /* - A_PID_INC              */     \
+                   /*   - a[0] = Kp + Ki + Kd  */     \
+                   /*   - a[1] = -Kp - 2 * Kd  */     \
+                   /*   - a[2] = Kd            */     \
+                                                      \
+        type x[2]; /* State array                  */ \
+                   /* - x[0] (The last error)      */ \
+                   /* - x[1] (The last last error) */ \
+                                                      \
+        type y; /* Cache variable              */     \
+                /* - A_PID_POS integral output */     \
+                /* - A_PID_INC all output      */     \
+    } def##_s
 #pragma pack(push, 4)
 __A_PID_T(a_pid, double);
 __A_PID_T(a_pidf, float);
@@ -119,42 +119,42 @@ float a_pidf_process(a_pidf_s *ctx, float ref, float set) __NONNULL((1));
 __END_DECLS
 
 #undef __A_PID_POS
-#define __A_PID_POS(_def, _type, _init, _func)               \
-    __STATIC_INLINE                                          \
-    __NONNULL((1, 2))                                        \
-    void _func(_def##_s *_ctx,                               \
-               const _type _kpid[3],                         \
-               _type _omin, _type _omax,                     \
-               _type _omaxi)                                 \
-    {                                                        \
-        _init(_ctx, A_PID_POS, _kpid, _omin, _omax, _omaxi); \
+#define __A_PID_POS(def, type, init, func)             \
+    __STATIC_INLINE                                    \
+    __NONNULL((1, 2))                                  \
+    void func(def##_s *ctx,                            \
+              const type kpid[3],                      \
+              type omin, type omax,                    \
+              type omaxi)                              \
+    {                                                  \
+        init(ctx, A_PID_POS, kpid, omin, omax, omaxi); \
     }
 __A_PID_POS(a_pid, double, a_pid_init, a_pid_pos)
 __A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
 #undef __A_PID_POS
 
 #undef __A_PID_INC
-#define __A_PID_INC(_def, _type, _init, _func)          \
-    __STATIC_INLINE                                     \
-    __NONNULL((1, 2))                                   \
-    void _func(_def##_s *_ctx,                          \
-               const _type _kpid[3],                    \
-               _type _omin, _type _omax)                \
-    {                                                   \
-        _init(_ctx, A_PID_INC, _kpid, _omin, _omax, 0); \
+#define __A_PID_INC(def, type, init, func)         \
+    __STATIC_INLINE                                \
+    __NONNULL((1, 2))                              \
+    void func(def##_s *ctx,                        \
+              const type kpid[3],                  \
+              type omin, type omax)                \
+    {                                              \
+        init(ctx, A_PID_INC, kpid, omin, omax, 0); \
     }
 __A_PID_INC(a_pid, double, a_pid_init, a_pid_inc)
 __A_PID_INC(a_pidf, float, a_pidf_init, a_pidf_inc)
 #undef __A_PID_INC
 
 #undef __A_PID_RESET
-#define __A_PID_RESET(_def, _func)             \
-    __NONNULL_ALL                              \
-    __STATIC_INLINE                            \
-    void _func(_def##_s *_ctx)                 \
-    {                                          \
-        aassert(_ctx);                         \
-        _ctx->x[0] = _ctx->x[1] = _ctx->y = 0; \
+#define __A_PID_RESET(def, func)            \
+    __NONNULL_ALL                           \
+    __STATIC_INLINE                         \
+    void func(def##_s *ctx)                 \
+    {                                       \
+        AASSERT(ctx);                       \
+        ctx->x[0] = ctx->x[1] = ctx->y = 0; \
     }
 __A_PID_RESET(a_pid, a_pid_reset)
 __A_PID_RESET(a_pidf, a_pidf_reset)
@@ -164,45 +164,43 @@ __A_PID_RESET(a_pidf, a_pidf_reset)
 /*!
  @brief Initialize function for the floating-point position PID Control
 */
-#define a_pid_pos(_ctx, _kpid, _omin, _omax, _omaxi) \
-    _Generic((_ctx),                                 \
-             default                                 \
-             : a_pid_pos,                            \
-               a_pidf_s *                            \
-             : a_pidf_pos)(_ctx, _kpid, _omin, _omax, _omaxi)
+#define a_pid_pos(ctx, kpid, omin, omax, omaxi) \
+    _Generic((ctx),                             \
+             default                            \
+             : a_pid_pos,                       \
+               a_pidf_s *                       \
+             : a_pidf_pos)(ctx, kpid, omin, omax, omaxi)
 /*!
  @brief Initialize function for the floating-point incremental PID Control
 */
-#define a_pid_inc(_ctx, _kpid, _omin, _omax) \
-    _Generic((_ctx),                         \
-             default                         \
-             : a_pid_inc,                    \
-               a_pidf_s *                    \
-             : a_pidf_inc)(_ctx, _kpid, _omin, _omax)
-#define a_pid_init(_ctx, _mode, _kpid, _omin, _omax, _omaxi) \
-    _Generic((_ctx),                                         \
-             default                                         \
-             : a_pid_init,                                   \
-               a_pidf_s *                                    \
-             : a_pidf_init)(_ctx, _mode, _kpid, _omin, _omax, _omaxi)
-#define a_pid_process(_ctx, _ref, _set) \
-    _Generic((_ctx),                    \
-             default                    \
-             : a_pid_process,           \
-               a_pidf_s *               \
-             : a_pidf_process)(_ctx, _ref, _set)
+#define a_pid_inc(ctx, kpid, omin, omax) \
+    _Generic((ctx),                      \
+             default                     \
+             : a_pid_inc,                \
+               a_pidf_s *                \
+             : a_pidf_inc)(ctx, kpid, omin, omax)
+#define a_pid_init(ctx, mode, kpid, omin, omax, omaxi) \
+    _Generic((ctx),                                    \
+             default                                   \
+             : a_pid_init,                             \
+               a_pidf_s *                              \
+             : a_pidf_init)(ctx, mode, kpid, omin, omax, omaxi)
+#define a_pid_process(ctx, ref, set) \
+    _Generic((ctx),                  \
+             default                 \
+             : a_pid_process,        \
+               a_pidf_s *            \
+             : a_pidf_process)(ctx, ref, set)
 /*!
  @brief Reset function for the floating-point PID Control
 */
-#define a_pid_reset(_ctx)   \
-    _Generic((_ctx),        \
+#define a_pid_reset(ctx)    \
+    _Generic((ctx),         \
              default        \
              : a_pid_reset, \
                a_pidf_s *   \
-             : a_pidf_reset)(_ctx)
+             : a_pidf_reset)(ctx)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_PID_H__ */
-
-/* END OF FILE */

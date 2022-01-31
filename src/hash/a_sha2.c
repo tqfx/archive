@@ -8,6 +8,7 @@
 #include "a_sha2.h"
 
 #include "a_hash.h"
+#include "a_hash_private.h"
 
 #undef Ch
 #undef Maj
@@ -19,23 +20,23 @@
 #undef Gamma1
 
 #undef RND
-#define RND(_a, _b, _c, _d, _e, _f, _g, _h, _i)            \
-    t0 = _h + Sigma1(_e) + Ch(_e, _f, _g) + k[_i] + w[_i]; \
-    t1 = Sigma0(_a) + Maj(_a, _b, _c);                     \
-    _d += t0;                                              \
-    _h = t0 + t1;
+#define RND(a, b, c, d, e, f, g, h, i)              \
+    t0 = h + Sigma1(e) + Ch(e, f, g) + k[i] + w[i]; \
+    t1 = Sigma0(a) + Maj(a, b, c);                  \
+    d += t0;                                        \
+    h = t0 + t1;
 
 /* Various logical functions */
-#define S(_x, _n)       RORc((_x), (_n))
-#define R(_x, _n)       (((_x)&0xFFFFFFFF) >> (_n))
-#define Ch(_x, _y, _z)  (_z ^ (_x & (_y ^ _z)))
-#define Maj(_x, _y, _z) (((_x | _y) & _z) | (_x & _y))
-#define Sigma0(_x)      (S(_x, 2) ^ S(_x, 13) ^ S(_x, 22))
-#define Sigma1(_x)      (S(_x, 6) ^ S(_x, 11) ^ S(_x, 25))
-#define Gamma0(_x)      (S(_x, 7) ^ S(_x, 18) ^ R(_x, 3))
-#define Gamma1(_x)      (S(_x, 17) ^ S(_x, 19) ^ R(_x, 10))
+#define S(x, n)      RORc((x), (n))
+#define R(x, n)      (((x)&0xFFFFFFFF) >> (n))
+#define Ch(x, y, z)  (z ^ (x & (y ^ z)))
+#define Maj(x, y, z) (((x | y) & z) | (x & y))
+#define Sigma0(x)    (S(x, 2) ^ S(x, 13) ^ S(x, 22))
+#define Sigma1(x)    (S(x, 6) ^ S(x, 11) ^ S(x, 25))
+#define Gamma0(x)    (S(x, 7) ^ S(x, 18) ^ R(x, 3))
+#define Gamma1(x)    (S(x, 17) ^ S(x, 19) ^ R(x, 10))
 
-static void a_sha256_compress(a_sha256_s *_ctx, const unsigned char *_buf)
+static void a_sha256_compress(a_sha256_s *ctx, const unsigned char *buf)
 {
     static const uint32_t k[0x40] = {
         /* clang-format off */
@@ -51,18 +52,18 @@ static void a_sha256_compress(a_sha256_s *_ctx, const unsigned char *_buf)
     };
 
     uint32_t w[0x40], t0, t1;
-    uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
+    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = _ctx->state[i];
+        s[i] = ctx->state[i];
     }
 
     /* copy the state into 512-bits into w[0..15] */
     for (unsigned int i = 0x00; i != 0x10; ++i)
     {
-        LOAD32H(w[i], _buf + sizeof(*_ctx->state) * i);
+        LOAD32H(w[i], buf + sizeof(*ctx->state) * i);
     }
 
     /* fill w[16..63] */
@@ -85,9 +86,9 @@ static void a_sha256_compress(a_sha256_s *_ctx, const unsigned char *_buf)
     }
 
     /* feedback */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] += s[i];
+        ctx->state[i] += s[i];
     }
 }
 
@@ -101,16 +102,16 @@ static void a_sha256_compress(a_sha256_s *_ctx, const unsigned char *_buf)
 #undef Gamma1
 
 /* Various logical functions */
-#define S(_x, _n)       ROR64c(_x, _n)
-#define R(_x, _n)       (((_x)&0xFFFFFFFFFFFFFFFF) >> (_n))
-#define Ch(_x, _y, _z)  (_z ^ (_x & (_y ^ _z)))
-#define Maj(_x, _y, _z) (((_x | _y) & _z) | (_x & _y))
-#define Sigma0(_x)      (S(_x, 28) ^ S(_x, 34) ^ S(_x, 39))
-#define Sigma1(_x)      (S(_x, 14) ^ S(_x, 18) ^ S(_x, 41))
-#define Gamma0(_x)      (S(_x, 1) ^ S(_x, 8) ^ R(_x, 7))
-#define Gamma1(_x)      (S(_x, 19) ^ S(_x, 61) ^ R(_x, 6))
+#define S(x, n)      ROR64c(x, n)
+#define R(x, n)      (((x)&0xFFFFFFFFFFFFFFFF) >> (n))
+#define Ch(x, y, z)  (z ^ (x & (y ^ z)))
+#define Maj(x, y, z) (((x | y) & z) | (x & y))
+#define Sigma0(x)    (S(x, 28) ^ S(x, 34) ^ S(x, 39))
+#define Sigma1(x)    (S(x, 14) ^ S(x, 18) ^ S(x, 41))
+#define Gamma0(x)    (S(x, 1) ^ S(x, 8) ^ R(x, 7))
+#define Gamma1(x)    (S(x, 19) ^ S(x, 61) ^ R(x, 6))
 
-static void a_sha512_compress(a_sha512_s *_ctx, const unsigned char *_buf)
+static void a_sha512_compress(a_sha512_s *ctx, const unsigned char *buf)
 {
     static const uint64_t k[0x50] = {
         /* clang-format off */
@@ -138,18 +139,18 @@ static void a_sha512_compress(a_sha512_s *_ctx, const unsigned char *_buf)
     };
 
     uint64_t w[0x50], t0, t1;
-    uint64_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
+    uint64_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = _ctx->state[i];
+        s[i] = ctx->state[i];
     }
 
     /* copy the state into 1024-bits into w[0..15] */
     for (unsigned int i = 0x00; i != 0x10; ++i)
     {
-        LOAD64H(w[i], _buf + sizeof(*_ctx->state) * i);
+        LOAD64H(w[i], buf + sizeof(*ctx->state) * i);
     }
 
     /* fill w[16..79] */
@@ -172,9 +173,9 @@ static void a_sha512_compress(a_sha512_s *_ctx, const unsigned char *_buf)
     }
 
     /* feedback */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] += s[i];
+        ctx->state[i] += s[i];
     }
 }
 
@@ -188,106 +189,106 @@ static void a_sha512_compress(a_sha512_s *_ctx, const unsigned char *_buf)
 #undef Gamma1
 #undef RND
 
-void a_sha256_init(a_sha256_s *_ctx)
+void a_sha256_init(a_sha256_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x6A09E667;
-    _ctx->state[1] = 0xBB67AE85;
-    _ctx->state[2] = 0x3C6EF372;
-    _ctx->state[3] = 0xA54FF53A;
-    _ctx->state[4] = 0x510E527F;
-    _ctx->state[5] = 0x9B05688C;
-    _ctx->state[6] = 0x1F83D9AB;
-    _ctx->state[7] = 0x5BE0CD19;
+    ctx->state[0] = 0x6A09E667;
+    ctx->state[1] = 0xBB67AE85;
+    ctx->state[2] = 0x3C6EF372;
+    ctx->state[3] = 0xA54FF53A;
+    ctx->state[4] = 0x510E527F;
+    ctx->state[5] = 0x9B05688C;
+    ctx->state[6] = 0x1F83D9AB;
+    ctx->state[7] = 0x5BE0CD19;
 }
 
-void a_sha224_init(a_sha256_s *_ctx)
+void a_sha224_init(a_sha256_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0xC1059ED8;
-    _ctx->state[1] = 0x367CD507;
-    _ctx->state[2] = 0x3070DD17;
-    _ctx->state[3] = 0xF70E5939;
-    _ctx->state[4] = 0xFFC00B31;
-    _ctx->state[5] = 0x68581511;
-    _ctx->state[6] = 0x64F98FA7;
-    _ctx->state[7] = 0xBEFA4FA4;
+    ctx->state[0] = 0xC1059ED8;
+    ctx->state[1] = 0x367CD507;
+    ctx->state[2] = 0x3070DD17;
+    ctx->state[3] = 0xF70E5939;
+    ctx->state[4] = 0xFFC00B31;
+    ctx->state[5] = 0x68581511;
+    ctx->state[6] = 0x64F98FA7;
+    ctx->state[7] = 0xBEFA4FA4;
 }
 
-void a_sha512_init(a_sha512_s *_ctx)
+void a_sha512_init(a_sha512_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x6A09E667F3BCC908;
-    _ctx->state[1] = 0xBB67AE8584CAA73B;
-    _ctx->state[2] = 0x3C6EF372FE94F82B;
-    _ctx->state[3] = 0xA54FF53A5F1D36F1;
-    _ctx->state[4] = 0x510E527FADE682D1;
-    _ctx->state[5] = 0x9B05688C2B3E6C1F;
-    _ctx->state[6] = 0x1F83D9ABFB41BD6B;
-    _ctx->state[7] = 0x5BE0CD19137E2179;
+    ctx->state[0] = 0x6A09E667F3BCC908;
+    ctx->state[1] = 0xBB67AE8584CAA73B;
+    ctx->state[2] = 0x3C6EF372FE94F82B;
+    ctx->state[3] = 0xA54FF53A5F1D36F1;
+    ctx->state[4] = 0x510E527FADE682D1;
+    ctx->state[5] = 0x9B05688C2B3E6C1F;
+    ctx->state[6] = 0x1F83D9ABFB41BD6B;
+    ctx->state[7] = 0x5BE0CD19137E2179;
 }
 
-void a_sha384_init(a_sha512_s *_ctx)
+void a_sha384_init(a_sha512_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0xCBBB9D5DC1059ED8;
-    _ctx->state[1] = 0x629A292A367CD507;
-    _ctx->state[2] = 0x9159015A3070DD17;
-    _ctx->state[3] = 0x152FECD8F70E5939;
-    _ctx->state[4] = 0x67332667FFC00B31;
-    _ctx->state[5] = 0x8EB44A8768581511;
-    _ctx->state[6] = 0xDB0C2E0D64F98FA7;
-    _ctx->state[7] = 0x47B5481DBEFA4FA4;
+    ctx->state[0] = 0xCBBB9D5DC1059ED8;
+    ctx->state[1] = 0x629A292A367CD507;
+    ctx->state[2] = 0x9159015A3070DD17;
+    ctx->state[3] = 0x152FECD8F70E5939;
+    ctx->state[4] = 0x67332667FFC00B31;
+    ctx->state[5] = 0x8EB44A8768581511;
+    ctx->state[6] = 0xDB0C2E0D64F98FA7;
+    ctx->state[7] = 0x47B5481DBEFA4FA4;
 }
 
-void a_sha512_224_init(a_sha512_s *_ctx)
+void a_sha512_224_init(a_sha512_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x8C3D37C819544DA2;
-    _ctx->state[1] = 0x73E1996689DCD4D6;
-    _ctx->state[2] = 0x1DFAB7AE32FF9C82;
-    _ctx->state[3] = 0x679DD514582F9FCF;
-    _ctx->state[4] = 0x0F6D2B697BD44DA8;
-    _ctx->state[5] = 0x77E36F7304C48942;
-    _ctx->state[6] = 0x3F9D85A86A1D36C8;
-    _ctx->state[7] = 0x1112E6AD91D692A1;
+    ctx->state[0] = 0x8C3D37C819544DA2;
+    ctx->state[1] = 0x73E1996689DCD4D6;
+    ctx->state[2] = 0x1DFAB7AE32FF9C82;
+    ctx->state[3] = 0x679DD514582F9FCF;
+    ctx->state[4] = 0x0F6D2B697BD44DA8;
+    ctx->state[5] = 0x77E36F7304C48942;
+    ctx->state[6] = 0x3F9D85A86A1D36C8;
+    ctx->state[7] = 0x1112E6AD91D692A1;
 }
 
-void a_sha512_256_init(a_sha512_s *_ctx)
+void a_sha512_256_init(a_sha512_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x22312194FC2BF72C;
-    _ctx->state[1] = 0x9F555FA3C84C64C2;
-    _ctx->state[2] = 0x2393B86B6F53B151;
-    _ctx->state[3] = 0x963877195940EABD;
-    _ctx->state[4] = 0x96283EE2A88EFFE3;
-    _ctx->state[5] = 0xBE5E1E2553863992;
-    _ctx->state[6] = 0x2B0199FC2C85B8AA;
-    _ctx->state[7] = 0x0EB72DDC81C52CA2;
+    ctx->state[0] = 0x22312194FC2BF72C;
+    ctx->state[1] = 0x9F555FA3C84C64C2;
+    ctx->state[2] = 0x2393B86B6F53B151;
+    ctx->state[3] = 0x963877195940EABD;
+    ctx->state[4] = 0x96283EE2A88EFFE3;
+    ctx->state[5] = 0xBE5E1E2553863992;
+    ctx->state[6] = 0x2B0199FC2C85B8AA;
+    ctx->state[7] = 0x0EB72DDC81C52CA2;
 }
 
 __A_HASH_PROCESS(a_sha256_s, a_sha256_process, a_sha256_compress)
@@ -297,22 +298,20 @@ __A_HASH_DONE(a_sha256_s, a_sha256_done, a_sha256_compress, STORE64H, STORE32H, 
 __A_HASH_DONE(a_sha512_s, a_sha512_done, a_sha512_compress, STORE64H, STORE64H, 0x80, 0x70, 0x78)
 
 #undef __A_SHA2_DONE
-#define __A_SHA2_DONE(_bit, _func, _size)                         \
-    unsigned char *_func(a_sha##_bit##_s *_ctx, void *_out)       \
-    {                                                             \
-        unsigned char *ret = a_sha##_bit##_done(_ctx, _ctx->out); \
-                                                                  \
-        if (ret && _out && (_out != _ctx->out))                   \
-        {                                                         \
-            memcpy(_out, _ctx->out, _size);                       \
-        }                                                         \
-                                                                  \
-        return ret;                                               \
+#define __A_SHA2_DONE(bit, func, size)                         \
+    unsigned char *func(a_sha##bit##_s *ctx, void *out)        \
+    {                                                          \
+        unsigned char *ret = a_sha##bit##_done(ctx, ctx->out); \
+                                                               \
+        if (ret && out && (out != ctx->out))                   \
+        {                                                      \
+            memcpy(out, ctx->out, size);                       \
+        }                                                      \
+                                                               \
+        return ret;                                            \
     }
 __A_SHA2_DONE(256, a_sha224_done, 224 >> 3)
 __A_SHA2_DONE(512, a_sha384_done, 382 >> 3)
 __A_SHA2_DONE(512, a_sha512_224_done, 224 >> 3)
 __A_SHA2_DONE(512, a_sha512_256_done, 256 >> 3)
 #undef __A_SHA512_DONE
-
-/* END OF FILE */

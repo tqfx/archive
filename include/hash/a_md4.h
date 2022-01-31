@@ -28,12 +28,10 @@ typedef struct a_md4_s
 __BEGIN_DECLS
 
 void a_md4_init(a_md4_s *ctx) __NONNULL_ALL;
-int a_md4_process(a_md4_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_md4_process(a_md4_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
 unsigned char *a_md4_done(a_md4_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_HASH_MD4_H__ */
-
-/* END OF FILE */

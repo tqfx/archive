@@ -59,13 +59,13 @@ void a_sha3_224_init(a_sha3_s *ctx) __NONNULL_ALL;
 void a_sha3_256_init(a_sha3_s *ctx) __NONNULL_ALL;
 void a_sha3_384_init(a_sha3_s *ctx) __NONNULL_ALL;
 void a_sha3_512_init(a_sha3_s *ctx) __NONNULL_ALL;
-int a_sha3_process(a_sha3_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_sha3_process(a_sha3_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
 unsigned char *a_sha3_done(a_sha3_s *ctx, void *out) __NONNULL((1));
 
 void a_shake128_init(a_sha3_s *ctx) __NONNULL_ALL;
 void a_shake256_init(a_sha3_s *ctx) __NONNULL_ALL;
 #ifndef a_sha3shake_process
-#define a_sha3shake_process(_ctx, _p, _n) a_sha3_process(_ctx, _p, _n)
+#define a_sha3shake_process(ctx, pdata, nbyte) a_sha3_process(ctx, pdata, nbyte)
 #endif /* a_sha3shake_process */
 unsigned char *a_shake128_done(a_sha3_s *ctx, void *out) __NONNULL((1));
 unsigned char *a_shake256_done(a_sha3_s *ctx, void *out) __NONNULL((1));
@@ -73,19 +73,19 @@ int a_sha3shake_init(a_sha3_s *ctx, unsigned int num) __NONNULL((1));
 void a_sha3shake_done(a_sha3_s *ctx, unsigned char *out, unsigned int siz) __NONNULL((1));
 
 #ifndef a_keccak224_init
-#define a_keccak224_init(_ctx) a_sha3_224_init(_ctx)
+#define a_keccak224_init(ctx) a_sha3_224_init(ctx)
 #endif /* a_keccak224_init */
 #ifndef a_keccak256_init
-#define a_keccak256_init(_ctx) a_sha3_256_init(_ctx)
+#define a_keccak256_init(ctx) a_sha3_256_init(ctx)
 #endif /* a_keccak256_init */
 #ifndef a_keccak384_init
-#define a_keccak384_init(_ctx) a_sha3_384_init(_ctx)
+#define a_keccak384_init(ctx) a_sha3_384_init(ctx)
 #endif /* a_keccak384_init */
 #ifndef a_keccak512_init
-#define a_keccak512_init(_ctx) a_sha3_512_init(_ctx)
+#define a_keccak512_init(ctx) a_sha3_512_init(ctx)
 #endif /* a_keccak512_init */
 #ifndef a_keccak_process
-#define a_keccak_process(_ctx, _p, _n) a_sha3_process(_ctx, _p, _n)
+#define a_keccak_process(ctx, pdata, nbyte) a_sha3_process(ctx, pdata, nbyte)
 #endif /* a_keccak_process */
 unsigned char *a_keccak_done(a_sha3_s *ctx, void *out) __NONNULL((1));
 
@@ -93,5 +93,3 @@ __END_DECLS
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_HASH_SHA3_H__ */
-
-/* END OF FILE */

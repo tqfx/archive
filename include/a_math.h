@@ -53,18 +53,18 @@
 #endif /* A_SQRT1_2 */
 
 #undef A_ABS
-#define A_ABS(_x) ((_x) < 0 ? -(_x) : (_x))
+#define A_ABS(x) ((x) < 0 ? -(x) : (x))
 
 #undef A_SQ
-#define A_SQ(_x) ((_x) * (_x))
+#define A_SQ(x) ((x) * (x))
 
 #undef A_LIMIT
-#define A_LIMIT(_x, _min, _max) \
-    ((_min) < (_x)              \
-         ? ((_x) < (_max)       \
-                ? (_x)          \
-                : (_max))       \
-         : (_min))
+#define A_LIMIT(x, min, max) \
+    ((min) < (x)             \
+         ? ((x) < (max)      \
+                ? (x)        \
+                : (max))     \
+         : (min))
 
 __BEGIN_DECLS
 
@@ -82,11 +82,11 @@ unsigned long long a_sqrtull(unsigned long long x);
 
 /*!
  @brief Normalize function for the floating-point
- @param[in] n: number of variables
+ @param[in] num: number of variables
  @param[in,out] ...: address of variables
 */
-void a_normalizevf(unsigned int n, ...);
-void a_normalizef(float *p, size_t n);
+void a_normalizevf(unsigned int num, ...);
+void a_normalizef(float *dat, size_t num);
 
 /*!
  @brief restricted periodic function
@@ -96,12 +96,10 @@ float a_restrict_loopf(float x, float min, float max);
 
 __END_DECLS
 
-#define a_restrict_angle(_x)  a_restrict_loop(_x, -180, 180)
-#define a_restrict_anglef(_x) a_restrict_loopf(_x, -180, 180)
-#define a_restrict_rad(_x)    a_restrict_loop(_x, -A_PI, A_PI)
-#define a_restrict_radf(_x)   a_restrict_loopf(_x, -(float)A_PI, (float)A_PI)
+#define a_restrict_angle(x)  a_restrict_loop(x, -180, 180)
+#define a_restrict_anglef(x) a_restrict_loopf(x, -180, 180)
+#define a_restrict_rad(x)    a_restrict_loop(x, -A_PI, A_PI)
+#define a_restrict_radf(x)   a_restrict_loopf(x, -(float)A_PI, (float)A_PI)
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_MATH_H__ */
-
-/* END OF FILE */

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     a_mean_s ctx[1];
 
     size_t n = (size_t)(argc - 1);
-    double *a = (double *)amalloc(sizeof(double) * n);
+    double *a = (double *)malloc(sizeof(double) * n);
     double *p = a;
 
     printf("%zu: ", n);
@@ -41,9 +41,7 @@ int main(int argc, char *argv[])
     a_mean_process(ctx, a, n);
     printf("square: %g\n", a_mean_done(ctx));
 
-    afree(a);
+    free(a);
 
     return 0;
 }
-
-/* END OF FILE */

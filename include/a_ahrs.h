@@ -71,5 +71,3 @@ __END_DECLS
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_AHRS_H__ */
-
-/* END OF FILE */

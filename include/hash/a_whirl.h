@@ -1,6 +1,6 @@
 /*!
  @file a_whirl.h
- @brief WHIRLPOOL implementation
+ @brief whirlpool implementation
  @details https://web.archive.org/web/20171129084214/http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
@@ -28,12 +28,10 @@ typedef struct a_whirlpool_s
 __BEGIN_DECLS
 
 void a_whirlpool_init(a_whirlpool_s *ctx) __NONNULL_ALL;
-int a_whirlpool_process(a_whirlpool_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_whirlpool_process(a_whirlpool_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
 unsigned char *a_whirlpool_done(a_whirlpool_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_HASH_WHIRL_H__ */
-
-/* END OF FILE */

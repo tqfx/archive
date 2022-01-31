@@ -38,7 +38,7 @@ static void testt(void)
     a_str_printf(ctx, "%u", 4);
     s = a_str_done(ctx);
     printf("%s\n", s);
-    afree(s);
+    free(s);
     a_str_free(ctx);
 }
 
@@ -48,13 +48,12 @@ static void testm(void)
     const char *pat = "def";
     const char *s = "abcdefghijklmnopqrst";
     printf("%s %s %s %s\n", s, pat, a_strstr(s, pat, &p), a_strstr(s, pat, &p));
-    afree(p);
+    free(p);
 }
 
 int main(int argc, char *argv[])
 {
-    (void)argc;
-    (void)argv;
+    (void)argc, (void)argv;
 
     tests();
     testt();
@@ -62,5 +61,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-/* END OF FILE */

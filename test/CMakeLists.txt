@@ -1,3 +1,8 @@
+add_executable(test_a test_a.c)
+target_link_libraries(test_a a)
+set_target_properties(test_a PROPERTIES OUTPUT_NAME a)
+add_test(NAME a COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/a)
+
 add_executable(math test_math.c)
 target_link_libraries(math a)
 add_test(NAME math COMMAND math)

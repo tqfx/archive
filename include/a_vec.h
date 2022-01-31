@@ -76,42 +76,42 @@
     (_ctx).m = (_ctx).n = 0, (_ctx).v = 0)
 #endif /* a_vec_init */
 #ifndef a_vec_pinit
-#define a_vec_pinit(_def, _ctx) (                       \
-    (_ctx) = (a_vec_t(_def) *)amalloc(sizeof(*(_ctx))), \
+#define a_vec_pinit(_def, _ctx) (                      \
+    (_ctx) = (a_vec_t(_def) *)malloc(sizeof(*(_ctx))), \
     (_ctx) ? (a_vec_init(*(_ctx)), 0) : -1)
 #endif /* a_vec_pinit */
 
 #ifndef a_vec_initp
 #define a_vec_initp(_def) ( \
-    (a_vec_t(_def) *)acalloc(1, sizeof(a_vec_t(_def))))
+    (a_vec_t(_def) *)calloc(1, sizeof(a_vec_t(_def))))
 #endif /* a_vec_initp */
 
 #ifndef a_vec_done
 #define a_vec_done(_ctx) ( \
-    (_ctx).m = (_ctx).n = 0, (_ctx).v ? (afree((_ctx).v), (_ctx).v = 0) : 0)
+    (_ctx).m = (_ctx).n = 0, (_ctx).v ? (free((_ctx).v), (_ctx).v = 0) : 0)
 #endif /* a_vec_done */
 #ifndef a_vec_pdone
 #define a_vec_pdone(_ctx) ( \
-    (_ctx) ? (a_vec_done(*(_ctx)), afree(_ctx), (_ctx) = 0) : 0)
+    (_ctx) ? (a_vec_done(*(_ctx)), free(_ctx), (_ctx) = 0) : 0)
 #endif /* a_vec_pdone */
 
 #ifndef a_vec_resize
 #define a_vec_resize(_type, _ctx, _m) ( \
-    (_ctx).m = (_m), (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m))
+    (_ctx).m = (_m), (_ctx).v = (_type *)realloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m))
 #endif /* a_vec_resize */
 #ifndef a_vec_presize
 #define a_vec_presize(_type, _ctx, _m) a_vec_resize(_type, *(_ctx), _m)
 #endif /* a_vec_presize */
 
 #ifndef a_vec_vi
-#define a_vec_vi(_type, _ctx, _idx) (                                          \
-    (_idx) < (_ctx).m                                                          \
-        ? /*i < m*/                                                            \
-        (_idx) < (_ctx).n ? 0 : ((_ctx).n = (_idx) + 1, 0)                     \
-        : /*m < i + 1*/                                                        \
-        ((_ctx).m = (_ctx).n = (_idx) + 1, aroundup32((_ctx).m),               \
-         (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m), \
-         0),                                                                   \
+#define a_vec_vi(_type, _ctx, _idx) (                                         \
+    (_idx) < (_ctx).m                                                         \
+        ? /*i < m*/                                                           \
+        (_idx) < (_ctx).n ? 0 : ((_ctx).n = (_idx) + 1, 0)                    \
+        : /*m < i + 1*/                                                       \
+        ((_ctx).m = (_ctx).n = (_idx) + 1, aroundup32((_ctx).m),              \
+         (_ctx).v = (_type *)realloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m), \
+         0),                                                                  \
     (_ctx).v[(_idx)])
 #endif /* a_vec_vi */
 #ifndef a_vec_pvi
@@ -119,14 +119,14 @@
 #endif /* a_vec_pvi */
 
 #ifndef a_vec_vip
-#define a_vec_vip(_type, _ctx, _idx) (                                         \
-    (_idx) < (_ctx).m                                                          \
-        ? /*i < m*/                                                            \
-        (_idx) < (_ctx).n ? 0 : ((_ctx).n = (_idx) + 1, 0)                     \
-        : /*m < i + 1*/                                                        \
-        ((_ctx).m = (_ctx).n = (_idx) + 1, aroundup32((_ctx).m),               \
-         (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m), \
-         0),                                                                   \
+#define a_vec_vip(_type, _ctx, _idx) (                                        \
+    (_idx) < (_ctx).m                                                         \
+        ? /*i < m*/                                                           \
+        (_idx) < (_ctx).n ? 0 : ((_ctx).n = (_idx) + 1, 0)                    \
+        : /*m < i + 1*/                                                       \
+        ((_ctx).m = (_ctx).n = (_idx) + 1, aroundup32((_ctx).m),              \
+         (_ctx).v = (_type *)realloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m), \
+         0),                                                                  \
     (_ctx).v + (_idx))
 #endif /* a_vec_vip */
 #ifndef a_vec_pvip
@@ -164,12 +164,12 @@
 #endif /* a_vec_ppopp */
 
 #ifndef a_vec_push
-#define a_vec_push(_type, _ctx, _x) (                                          \
-    (_ctx).n == (_ctx).m                                                       \
-        ? /*n == m*/                                                           \
-        ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 2,                            \
-         (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m)) \
-        : 0 /*n < m*/,                                                         \
+#define a_vec_push(_type, _ctx, _x) (                                         \
+    (_ctx).n == (_ctx).m                                                      \
+        ? /*n == m*/                                                          \
+        ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 2,                           \
+         (_ctx).v = (_type *)realloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m)) \
+        : 0 /*n < m*/,                                                        \
     (_ctx).v[(_ctx).n++] = (_x))
 #endif /* a_vec_push */
 #ifndef a_vec_ppush
@@ -177,12 +177,12 @@
 #endif /* a_vec_ppush */
 
 #ifndef a_vec_pushp
-#define a_vec_pushp(_type, _ctx) (                                             \
-    (_ctx).n == (_ctx).m                                                       \
-        ? /*n == m*/                                                           \
-        ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 2,                            \
-         (_ctx).v = (_type *)arealloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m)) \
-        : 0 /*n < m*/,                                                         \
+#define a_vec_pushp(_type, _ctx) (                                            \
+    (_ctx).n == (_ctx).m                                                      \
+        ? /*n == m*/                                                          \
+        ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 2,                           \
+         (_ctx).v = (_type *)realloc((_ctx).v, sizeof(*(_ctx).v) * (_ctx).m)) \
+        : 0 /*n < m*/,                                                        \
     (_ctx).v + (_ctx).n++)
 #endif /* a_vec_pushp */
 #ifndef a_vec_ppushp
@@ -191,5 +191,3 @@
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_VEC_H__ */
-
-/* END OF FILE */

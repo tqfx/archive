@@ -1456,5 +1456,3 @@
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_NOTEFREQS_H__ */
-
-/* END OF FILE */

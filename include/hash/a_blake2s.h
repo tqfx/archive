@@ -38,13 +38,11 @@ void a_blake2s_128_init(a_blake2s_s *ctx) __NONNULL_ALL;
 void a_blake2s_160_init(a_blake2s_s *ctx) __NONNULL_ALL;
 void a_blake2s_224_init(a_blake2s_s *ctx) __NONNULL_ALL;
 void a_blake2s_256_init(a_blake2s_s *ctx) __NONNULL_ALL;
-int a_blake2s_init(a_blake2s_s *ctx, size_t siz, const void *p, size_t n) __NONNULL((1));
-int a_blake2s_process(a_blake2s_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_blake2s_init(a_blake2s_s *ctx, size_t siz, const void *pdata, size_t nbyte) __NONNULL((1));
+int a_blake2s_process(a_blake2s_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
 unsigned char *a_blake2s_done(a_blake2s_s *ctx, void *out) __NONNULL((1));
 
 __END_DECLS
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_HASH_BLAKE2S_H__ */
-
-/* END OF FILE */

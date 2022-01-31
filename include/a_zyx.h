@@ -39,21 +39,19 @@ void a_zyxf_quat2euler(const float q[4], float e[3]) __NONNULL_ALL;
 __END_DECLS
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
-#define a_zyx_euler2quat(_e, _q) \
-    _Generic((_q),               \
+#define a_zyx_euler2quat(e, q)   \
+    _Generic((q),                \
              default             \
              : a_zyx_euler2quat, \
                float *           \
-             : a_zyxf_euler2quat)(_e, _q)
-#define a_zyx_quat2euler(_q, _e) \
-    _Generic((_e),               \
+             : a_zyxf_euler2quat)(e, q)
+#define a_zyx_quat2euler(q, e)   \
+    _Generic((e),                \
              default             \
              : a_zyx_quat2euler, \
                float *           \
-             : a_zyxf_quat2euler)(_q, _e)
+             : a_zyxf_quat2euler)(q, e)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_ZYX_H__ */
-
-/* END OF FILE */

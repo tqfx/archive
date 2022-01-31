@@ -8,6 +8,7 @@
 #include "a_rmd.h"
 
 #include "a_hash.h"
+#include "a_hash_private.h"
 
 #undef F
 #undef G
@@ -15,14 +16,14 @@
 #undef I
 #undef J
 /* the four basic functions F(), G() and H() */
-#define F(_x, _y, _z) ((_x) ^ (_y) ^ (_z))
-#define G(_x, _y, _z) (((_x) & (_y)) | (~(_x) & (_z)))
-#define H(_x, _y, _z) (((_x) | ~(_y)) ^ (_z))
-#define I(_x, _y, _z) (((_x) & (_z)) | ((_y) & ~(_z)))
-#define J(_x, _y, _z) ((_x) ^ ((_y) | ~(_z)))
+#define F(x, y, z) ((x) ^ (y) ^ (z))
+#define G(x, y, z) (((x) & (y)) | (~(x) & (z)))
+#define H(x, y, z) (((x) | ~(y)) ^ (z))
+#define I(x, y, z) (((x) & (z)) | ((y) & ~(z)))
+#define J(x, y, z) ((x) ^ ((y) | ~(z)))
 
 #undef SWAP
-#define SWAP(_x, _y) (t = _x, _x = _y, _y = t)
+#define SWAP(x, y) (t = x, x = y, y = t)
 
 #undef FF
 #undef FFF
@@ -33,34 +34,34 @@
 #undef II
 #undef III
 /* the eight basic operations FF() through III() */
-#define FF(_a, _b, _c, _d, _x, _s)      \
-    (_a) += F((_b), (_c), (_d)) + (_x); \
-    (_a) = ROLc((_a), (_s));
-#define GG(_a, _b, _c, _d, _x, _s)                   \
-    (_a) += G((_b), (_c), (_d)) + (_x) + 0x5A827999; \
-    (_a) = ROLc((_a), (_s));
-#define HH(_a, _b, _c, _d, _x, _s)                   \
-    (_a) += H((_b), (_c), (_d)) + (_x) + 0x6ED9EBA1; \
-    (_a) = ROLc((_a), (_s));
-#define II(_a, _b, _c, _d, _x, _s)                   \
-    (_a) += I((_b), (_c), (_d)) + (_x) + 0x8F1BBCDC; \
-    (_a) = ROLc((_a), (_s));
-#define FFF(_a, _b, _c, _d, _x, _s)     \
-    (_a) += F((_b), (_c), (_d)) + (_x); \
-    (_a) = ROLc((_a), (_s));
-#define GGG(_a, _b, _c, _d, _x, _s)                  \
-    (_a) += G((_b), (_c), (_d)) + (_x) + 0x6D703EF3; \
-    (_a) = ROLc((_a), (_s));
-#define HHH(_a, _b, _c, _d, _x, _s)                  \
-    (_a) += H((_b), (_c), (_d)) + (_x) + 0x5C4DD124; \
-    (_a) = ROLc((_a), (_s));
-#define III(_a, _b, _c, _d, _x, _s)                  \
-    (_a) += I((_b), (_c), (_d)) + (_x) + 0x50A28BE6; \
-    (_a) = ROLc((_a), (_s));
+#define FF(a, b, c, d, x, s)       \
+    (a) += F((b), (c), (d)) + (x); \
+    (a) = ROLc((a), (s));
+#define GG(a, b, c, d, x, s)                    \
+    (a) += G((b), (c), (d)) + (x) + 0x5A827999; \
+    (a) = ROLc((a), (s));
+#define HH(a, b, c, d, x, s)                    \
+    (a) += H((b), (c), (d)) + (x) + 0x6ED9EBA1; \
+    (a) = ROLc((a), (s));
+#define II(a, b, c, d, x, s)                    \
+    (a) += I((b), (c), (d)) + (x) + 0x8F1BBCDC; \
+    (a) = ROLc((a), (s));
+#define FFF(a, b, c, d, x, s)      \
+    (a) += F((b), (c), (d)) + (x); \
+    (a) = ROLc((a), (s));
+#define GGG(a, b, c, d, x, s)                   \
+    (a) += G((b), (c), (d)) + (x) + 0x6D703EF3; \
+    (a) = ROLc((a), (s));
+#define HHH(a, b, c, d, x, s)                   \
+    (a) += H((b), (c), (d)) + (x) + 0x5C4DD124; \
+    (a) = ROLc((a), (s));
+#define III(a, b, c, d, x, s)                   \
+    (a) += I((b), (c), (d)) + (x) + 0x50A28BE6; \
+    (a) = ROLc((a), (s));
 
-static void a_rmd128_compress(a_rmd128_s *_ctx, const unsigned char *_buf)
+static void a_rmd128_compress(a_rmd128_s *ctx, const unsigned char *buf)
 {
-    uint32_t s[(sizeof(_ctx->state) / sizeof(*_ctx->state)) << 1];
+    uint32_t s[(sizeof(ctx->state) / sizeof(*ctx->state)) << 1];
 
     /* (unsigned char *) -> (uint32_t *) */
     union
@@ -68,19 +69,19 @@ static void a_rmd128_compress(a_rmd128_s *_ctx, const unsigned char *_buf)
         uint32_t *x;
         unsigned char *buf;
     } up[1];
-    up->buf = _ctx->buf;
-    if (_ctx->buf != _buf)
+    up->buf = ctx->buf;
+    if (ctx->buf != buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], _buf + sizeof(*_ctx->state) * i);
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = s[i + ((sizeof(s) / sizeof(*s)) >> 1)] = _ctx->state[i];
+        s[i] = s[i + ((sizeof(s) / sizeof(*s)) >> 1)] = ctx->state[i];
     }
 
     /* round 1 */
@@ -228,16 +229,16 @@ static void a_rmd128_compress(a_rmd128_s *_ctx, const unsigned char *_buf)
     FFF(s[5], s[6], s[7], s[4], up->x[0xE], 0x8);
 
     /* combine results */
-    s[7] += s[2] + _ctx->state[1];
-    _ctx->state[1] = _ctx->state[2] + s[3] + s[4];
-    _ctx->state[2] = _ctx->state[3] + s[0] + s[5];
-    _ctx->state[3] = _ctx->state[0] + s[1] + s[6];
-    _ctx->state[0] = s[7];
+    s[7] += s[2] + ctx->state[1];
+    ctx->state[1] = ctx->state[2] + s[3] + s[4];
+    ctx->state[2] = ctx->state[3] + s[0] + s[5];
+    ctx->state[3] = ctx->state[0] + s[1] + s[6];
+    ctx->state[0] = s[7];
 }
 
-static void a_rmd256_compress(a_rmd256_s *_ctx, const unsigned char *_buf)
+static void a_rmd256_compress(a_rmd256_s *ctx, const unsigned char *buf)
 {
-    uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
+    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* (unsigned char *) -> (uint32_t *) */
     union
@@ -245,19 +246,19 @@ static void a_rmd256_compress(a_rmd256_s *_ctx, const unsigned char *_buf)
         uint32_t *x;
         unsigned char *buf;
     } up[1];
-    up->buf = _ctx->buf;
-    if (_ctx->buf != _buf)
+    up->buf = ctx->buf;
+    if (ctx->buf != buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], _buf + sizeof(*_ctx->state) * i);
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = _ctx->state[i];
+        s[i] = ctx->state[i];
     }
 
     /* compress */
@@ -416,9 +417,9 @@ static void a_rmd256_compress(a_rmd256_s *_ctx, const unsigned char *_buf)
     SWAP(s[3], s[3 + ((sizeof(s) / sizeof(*s)) >> 1)]);
 
     /* feedback */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] += s[i];
+        ctx->state[i] += s[i];
     }
 }
 
@@ -433,50 +434,50 @@ static void a_rmd256_compress(a_rmd256_s *_ctx, const unsigned char *_buf)
 #undef JJ
 #undef JJJ
 /* the ten basic operations FF() through III() */
-#define FF(_a, _b, _c, _d, _e, _x, _s)  \
-    (_a) += F((_b), (_c), (_d)) + (_x); \
-    (_a) = ROLc((_a), (_s)) + (_e);     \
-    (_c) = ROLc((_c), 10);
-#define GG(_a, _b, _c, _d, _e, _x, _s)               \
-    (_a) += G((_b), (_c), (_d)) + (_x) + 0x5A827999; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
-#define HH(_a, _b, _c, _d, _e, _x, _s)               \
-    (_a) += H((_b), (_c), (_d)) + (_x) + 0x6ED9EBA1; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
-#define II(_a, _b, _c, _d, _e, _x, _s)               \
-    (_a) += I((_b), (_c), (_d)) + (_x) + 0x8F1BBCDC; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
-#define JJ(_a, _b, _c, _d, _e, _x, _s)               \
-    (_a) += J((_b), (_c), (_d)) + (_x) + 0xA953FD4E; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
-#define FFF(_a, _b, _c, _d, _e, _x, _s) \
-    (_a) += F((_b), (_c), (_d)) + (_x); \
-    (_a) = ROLc((_a), (_s)) + (_e);     \
-    (_c) = ROLc((_c), 10);
-#define GGG(_a, _b, _c, _d, _e, _x, _s)              \
-    (_a) += G((_b), (_c), (_d)) + (_x) + 0x7A6D76E9; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
-#define HHH(_a, _b, _c, _d, _e, _x, _s)              \
-    (_a) += H((_b), (_c), (_d)) + (_x) + 0x6D703EF3; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
-#define III(_a, _b, _c, _d, _e, _x, _s)              \
-    (_a) += I((_b), (_c), (_d)) + (_x) + 0x5C4DD124; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
-#define JJJ(_a, _b, _c, _d, _e, _x, _s)              \
-    (_a) += J((_b), (_c), (_d)) + (_x) + 0x50A28BE6; \
-    (_a) = ROLc((_a), (_s)) + (_e);                  \
-    (_c) = ROLc((_c), 10);
+#define FF(a, b, c, d, e, x, s)    \
+    (a) += F((b), (c), (d)) + (x); \
+    (a) = ROLc((a), (s)) + (e);    \
+    (c) = ROLc((c), 10);
+#define GG(a, b, c, d, e, x, s)                 \
+    (a) += G((b), (c), (d)) + (x) + 0x5A827999; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
+#define HH(a, b, c, d, e, x, s)                 \
+    (a) += H((b), (c), (d)) + (x) + 0x6ED9EBA1; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
+#define II(a, b, c, d, e, x, s)                 \
+    (a) += I((b), (c), (d)) + (x) + 0x8F1BBCDC; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
+#define JJ(a, b, c, d, e, x, s)                 \
+    (a) += J((b), (c), (d)) + (x) + 0xA953FD4E; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
+#define FFF(a, b, c, d, e, x, s)   \
+    (a) += F((b), (c), (d)) + (x); \
+    (a) = ROLc((a), (s)) + (e);    \
+    (c) = ROLc((c), 10);
+#define GGG(a, b, c, d, e, x, s)                \
+    (a) += G((b), (c), (d)) + (x) + 0x7A6D76E9; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
+#define HHH(a, b, c, d, e, x, s)                \
+    (a) += H((b), (c), (d)) + (x) + 0x6D703EF3; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
+#define III(a, b, c, d, e, x, s)                \
+    (a) += I((b), (c), (d)) + (x) + 0x5C4DD124; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
+#define JJJ(a, b, c, d, e, x, s)                \
+    (a) += J((b), (c), (d)) + (x) + 0x50A28BE6; \
+    (a) = ROLc((a), (s)) + (e);                 \
+    (c) = ROLc((c), 10);
 
-static void a_rmd160_compress(a_rmd160_s *_ctx, const unsigned char *_buf)
+static void a_rmd160_compress(a_rmd160_s *ctx, const unsigned char *buf)
 {
-    uint32_t s[(sizeof(_ctx->state) / sizeof(*_ctx->state)) << 1];
+    uint32_t s[(sizeof(ctx->state) / sizeof(*ctx->state)) << 1];
 
     /* (unsigned char *) -> (uint32_t *) */
     union
@@ -484,19 +485,19 @@ static void a_rmd160_compress(a_rmd160_s *_ctx, const unsigned char *_buf)
         uint32_t *x;
         unsigned char *buf;
     } up[1];
-    up->buf = _ctx->buf;
-    if (_ctx->buf != _buf)
+    up->buf = ctx->buf;
+    if (ctx->buf != buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], _buf + sizeof(*_ctx->state) * i);
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = s[i + ((sizeof(s) / sizeof(*s)) >> 1)] = _ctx->state[i];
+        s[i] = s[i + ((sizeof(s) / sizeof(*s)) >> 1)] = ctx->state[i];
     }
 
     /* round 1 */
@@ -680,17 +681,17 @@ static void a_rmd160_compress(a_rmd160_s *_ctx, const unsigned char *_buf)
     FFF(s[6], s[7], s[8], s[9], s[5], up->x[0xB], 0xB);
 
     /* combine results */
-    s[8] += s[2] + _ctx->state[0x1];
-    _ctx->state[0x1] = _ctx->state[0x2] + s[3] + s[9];
-    _ctx->state[0x2] = _ctx->state[0x3] + s[4] + s[5];
-    _ctx->state[0x3] = _ctx->state[0x4] + s[0] + s[6];
-    _ctx->state[0x4] = _ctx->state[0x0] + s[1] + s[7];
-    _ctx->state[0x0] = s[8];
+    s[8] += s[2] + ctx->state[0x1];
+    ctx->state[0x1] = ctx->state[0x2] + s[3] + s[9];
+    ctx->state[0x2] = ctx->state[0x3] + s[4] + s[5];
+    ctx->state[0x3] = ctx->state[0x4] + s[0] + s[6];
+    ctx->state[0x4] = ctx->state[0x0] + s[1] + s[7];
+    ctx->state[0x0] = s[8];
 }
 
-static void a_rmd320_compress(a_rmd320_s *_ctx, const unsigned char *_buf)
+static void a_rmd320_compress(a_rmd320_s *ctx, const unsigned char *buf)
 {
-    uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
+    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* (unsigned char *) -> (uint32_t *) */
     union
@@ -698,19 +699,19 @@ static void a_rmd320_compress(a_rmd320_s *_ctx, const unsigned char *_buf)
         uint32_t *x;
         unsigned char *buf;
     } up[1];
-    up->buf = _ctx->buf;
-    if (_ctx->buf != _buf)
+    up->buf = ctx->buf;
+    if (ctx->buf != buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->x[i], _buf + sizeof(*_ctx->state) * i);
+            LOAD32L(up->x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = _ctx->state[i];
+        s[i] = ctx->state[i];
     }
 
     /* compress */
@@ -907,9 +908,9 @@ static void a_rmd320_compress(a_rmd320_s *_ctx, const unsigned char *_buf)
     SWAP(s[4], s[4 + ((sizeof(s) / sizeof(*s)) >> 1)]);
 
     /* feedback */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] += s[i];
+        ctx->state[i] += s[i];
     }
 }
 
@@ -930,67 +931,67 @@ static void a_rmd320_compress(a_rmd320_s *_ctx, const unsigned char *_buf)
 #undef JJJ
 #undef SWAP
 
-void a_rmd128_init(a_rmd128_s *_ctx)
+void a_rmd128_init(a_rmd128_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x67452301;
-    _ctx->state[1] = 0xEFCDAB89;
-    _ctx->state[2] = 0x98BADCFE;
-    _ctx->state[3] = 0x10325476;
+    ctx->state[0] = 0x67452301;
+    ctx->state[1] = 0xEFCDAB89; // 0x10325476 ^ 0xFFFFFFFF
+    ctx->state[2] = 0x98BADCFE; // 0x67452301 ^ 0xFFFFFFFF
+    ctx->state[3] = 0x10325476;
 }
 
-void a_rmd160_init(a_rmd160_s *_ctx)
+void a_rmd160_init(a_rmd160_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x67452301;
-    _ctx->state[1] = 0xEFCDAB89;
-    _ctx->state[2] = 0x98BADCFE;
-    _ctx->state[3] = 0x10325476;
-    _ctx->state[4] = 0xC3D2E1F0;
+    ctx->state[0] = 0x67452301;
+    ctx->state[1] = 0xEFCDAB89; // 0x10325476 ^ 0xFFFFFFFF
+    ctx->state[2] = 0x98BADCFE; // 0x67452301 ^ 0xFFFFFFFF
+    ctx->state[3] = 0x10325476;
+    ctx->state[4] = 0xC3D2E1F0;
 }
 
-void a_rmd256_init(a_rmd256_s *_ctx)
+void a_rmd256_init(a_rmd256_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x67452301;
-    _ctx->state[1] = 0xEFCDAB89;
-    _ctx->state[2] = 0x98BADCFE;
-    _ctx->state[3] = 0x10325476;
-    _ctx->state[4] = 0x76543210;
-    _ctx->state[5] = 0xFEDCBA98;
-    _ctx->state[6] = 0x89ABCDEF;
-    _ctx->state[7] = 0x01234567;
+    ctx->state[0] = 0x67452301;
+    ctx->state[1] = 0xEFCDAB89; // 0x10325476 ^ 0xFFFFFFFF
+    ctx->state[2] = 0x98BADCFE; // 0x67452301 ^ 0xFFFFFFFF
+    ctx->state[3] = 0x10325476;
+    ctx->state[4] = 0x76543210;
+    ctx->state[5] = 0xFEDCBA98; // 0x01234567 ^ 0xFFFFFFFF
+    ctx->state[6] = 0x89ABCDEF; // 0x76543210 ^ 0xFFFFFFFF
+    ctx->state[7] = 0x01234567;
 }
 
-void a_rmd320_init(a_rmd320_s *_ctx)
+void a_rmd320_init(a_rmd320_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x67452301;
-    _ctx->state[1] = 0xEFCDAB89;
-    _ctx->state[2] = 0x98BADCFE;
-    _ctx->state[3] = 0x10325476;
-    _ctx->state[4] = 0xC3D2E1F0;
-    _ctx->state[5] = 0x76543210;
-    _ctx->state[6] = 0xFEDCBA98;
-    _ctx->state[7] = 0x89ABCDEF;
-    _ctx->state[8] = 0x01234567;
-    _ctx->state[9] = 0x3C2D1E0F;
+    ctx->state[0] = 0x67452301;
+    ctx->state[1] = 0xEFCDAB89; // 0x10325476 ^ 0xFFFFFFFF
+    ctx->state[2] = 0x98BADCFE; // 0x67452301 ^ 0xFFFFFFFF
+    ctx->state[3] = 0x10325476;
+    ctx->state[4] = 0xC3D2E1F0;
+    ctx->state[5] = 0x76543210;
+    ctx->state[6] = 0xFEDCBA98; // 0x01234567 ^ 0xFFFFFFFF
+    ctx->state[7] = 0x89ABCDEF; // 0x76543210 ^ 0xFFFFFFFF
+    ctx->state[8] = 0x01234567;
+    ctx->state[9] = 0x3C2D1E0F; // 0xC3D2E1F0 ^ 0xFFFFFFFF
 }
 
 __A_HASH_PROCESS(a_rmd128_s, a_rmd128_process, a_rmd128_compress)
@@ -1002,5 +1003,3 @@ __A_HASH_DONE(a_rmd128_s, a_rmd128_done, a_rmd128_compress, STORE64L, STORE32L, 
 __A_HASH_DONE(a_rmd160_s, a_rmd160_done, a_rmd160_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 __A_HASH_DONE(a_rmd256_s, a_rmd256_done, a_rmd256_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
 __A_HASH_DONE(a_rmd320_s, a_rmd320_done, a_rmd320_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-
-/* END OF FILE */

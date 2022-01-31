@@ -10,8 +10,6 @@
 
 #include "liba.h"
 
-#include <string.h> /* memset, memcpy */
-
 #include "a_md2.h"
 #include "a_md4.h"
 #include "a_md5.h"
@@ -95,12 +93,12 @@ typedef struct a_hash_s
     /*!
      @brief Process function for hash.
      @param[in,out] ctx: points to an instance of hash state.
-     @param[in] p: points to data to hash.
-     @param[in] n: length of data to hash.
+     @param[in] pdata: points to data to hash.
+     @param[in] nbyte: length of data to hash.
      @return the execution state of the function.
       @retval 0 success
     */
-    int (*process)(a_hash_u *ctx, const void *p, size_t n) __NONNULL((1));
+    int (*process)(a_hash_u *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
     /*!
      @brief Terminate function for hash.
      @param[in,out] ctx: points to an instance of hash state.
@@ -172,95 +170,5 @@ extern const a_hash_s a_hash_whirlpool;
 
 __END_DECLS
 
-#undef __A_HASH_PROCESS
-#define __A_HASH_PROCESS(_hash, _func, _compress)                        \
-    int _func(_hash *_ctx, const void *_p, size_t _n)                    \
-    {                                                                    \
-        aassert(_ctx);                                                   \
-        aassert(!_n || _p);                                              \
-        if (sizeof(_ctx->buf) < _ctx->cursiz)                            \
-        {                                                                \
-            return A_HASH_INVALID;                                       \
-        }                                                                \
-        if (_ctx->length + (_n << 3) < _ctx->length)                     \
-        {                                                                \
-            return A_HASH_OVERFLOW;                                      \
-        }                                                                \
-        const unsigned char *p = (const unsigned char *)_p;              \
-        while (_n)                                                       \
-        {                                                                \
-            if ((_ctx->cursiz == 0) && (sizeof(_ctx->buf) - 1 < _n))     \
-            {                                                            \
-                _compress(_ctx, p);                                      \
-                _ctx->length += sizeof(_ctx->buf) << 3;                  \
-                _n -= sizeof(_ctx->buf);                                 \
-                p += sizeof(_ctx->buf);                                  \
-            }                                                            \
-            else                                                         \
-            {                                                            \
-                uint32_t n = (uint32_t)sizeof(_ctx->buf) - _ctx->cursiz; \
-                n = n < _n ? n : (uint32_t)_n;                           \
-                memcpy(_ctx->buf + _ctx->cursiz, p, n);                  \
-                _ctx->cursiz += n;                                       \
-                _n -= n;                                                 \
-                p += n;                                                  \
-                if (sizeof(_ctx->buf) == _ctx->cursiz)                   \
-                {                                                        \
-                    _compress(_ctx, _ctx->buf);                          \
-                    _ctx->length += sizeof(_ctx->buf) << 3;              \
-                    _ctx->cursiz = 0;                                    \
-                }                                                        \
-            }                                                            \
-        }                                                                \
-        return A_HASH_SUCCESS;                                           \
-    }
-
-#undef __A_HASH_DONE
-#define __A_HASH_DONE(_hash, _func, _compress, _storelen, _storeout, _append, _above, _zero) \
-    unsigned char *_func(_hash *_ctx, void *_out)                                            \
-    {                                                                                        \
-        aassert(_ctx);                                                                       \
-        if (sizeof(_ctx->buf) - 1 < _ctx->cursiz)                                            \
-        {                                                                                    \
-            return 0;                                                                        \
-        }                                                                                    \
-        /* increase the length of the message */                                             \
-        _ctx->length += sizeof(_ctx->length) * _ctx->cursiz;                                 \
-        /* append the '1' bit */                                                             \
-        _ctx->buf[_ctx->cursiz++] = _append;                                                 \
-        /* if the length is currently above _above bytes we append zeros    */               \
-        /* then compress. Then we can fall back to padding zeros and length */               \
-        /* encoding like normal.                                            */               \
-        if ((_above) < _ctx->cursiz)                                                         \
-        {                                                                                    \
-            while (sizeof(_ctx->buf) != _ctx->cursiz)                                        \
-            {                                                                                \
-                _ctx->buf[_ctx->cursiz++] = 0;                                               \
-            }                                                                                \
-            _compress(_ctx, _ctx->buf);                                                      \
-            _ctx->cursiz = 0;                                                                \
-        }                                                                                    \
-        /* pad up to _zero bytes of zeroes */                                                \
-        while (_ctx->cursiz < (_zero))                                                       \
-        {                                                                                    \
-            _ctx->buf[_ctx->cursiz++] = 0;                                                   \
-        }                                                                                    \
-        /* store length */                                                                   \
-        _storelen(_ctx->length, _ctx->buf + (_zero));                                        \
-        _compress(_ctx, _ctx->buf);                                                          \
-        /* copy output */                                                                    \
-        for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)       \
-        {                                                                                    \
-            _storeout(_ctx->state[i], _ctx->out + sizeof(*_ctx->state) * i);                 \
-        }                                                                                    \
-        if (_out && (_out != _ctx->out))                                                     \
-        {                                                                                    \
-            memcpy(_out, _ctx->out, sizeof(_ctx->state));                                    \
-        }                                                                                    \
-        return _ctx->out;                                                                    \
-    }
-
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_HASH_H__ */
-
-/* END OF FILE */

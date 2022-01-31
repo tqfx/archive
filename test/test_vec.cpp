@@ -151,12 +151,12 @@ static void test(void)
     clock_t t = clock();
     for (i = 0; i != M; ++i)
     {
-        unsigned int *array = (unsigned int *)amalloc(sizeof(int) * N);
+        unsigned int *array = (unsigned int *)malloc(sizeof(int) * N);
         for (j = 0; j != N; ++j)
         {
             array[j] = j;
         }
-        afree(array);
+        free(array);
     }
     printf("C array, preallocated: %g sec\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
@@ -170,11 +170,11 @@ static void test(void)
             if (j == max)
             {
                 max = max ? max << 1 : 2;
-                array = (unsigned int *)arealloc(array, sizeof(int) * (size_t)max);
+                array = (unsigned int *)realloc(array, sizeof(int) * (size_t)max);
             }
             array[j] = j;
         }
-        afree(array);
+        free(array);
     }
     printf("C array, dynamic: %g sec\n", (double)(clock() - t) / CLOCKS_PER_SEC);
 
@@ -206,7 +206,7 @@ static void test(void)
     t = clock();
     for (i = 0; i != M; ++i)
     {
-        std::vector<unsigned int> array = {0};
+        std::vector<unsigned int> array = {};
         array.reserve(N);
         for (j = 0; j != N; ++j)
         {
@@ -218,7 +218,7 @@ static void test(void)
     t = clock();
     for (i = 0; i != M; ++i)
     {
-        std::vector<unsigned int> array = {0};
+        std::vector<unsigned int> array = {};
         for (j = 0; j != N; ++j)
         {
             array.push_back(j);
@@ -237,5 +237,3 @@ int main(void)
 
     return 0;
 }
-
-/* END OF FILE */

@@ -8,6 +8,7 @@
 #include "a_blake2b.h"
 
 #include "a_hash.h"
+#include "a_hash_private.h"
 
 static const uint64_t blake2b_IV[8] = {
     /* clang-format off */
@@ -52,41 +53,41 @@ enum
 };
 
 __STATIC_INLINE
-void a_blake2b_set_lastnode(a_blake2b_s *_ctx)
+void a_blake2b_set_lastnode(a_blake2b_s *ctx)
 {
-    _ctx->f[1] = 0xFFFFFFFFFFFFFFFF;
+    ctx->f[1] = 0xFFFFFFFFFFFFFFFF;
 }
 
 __STATIC_INLINE
-int a_blake2b_is_lastblock(const a_blake2b_s *_ctx)
+int a_blake2b_is_lastblock(const a_blake2b_s *ctx)
 {
-    return (_ctx->f[0] != 0);
+    return (ctx->f[0] != 0);
 }
 
 __STATIC_INLINE
-void a_blake2b_set_lastblock(a_blake2b_s *_ctx)
+void a_blake2b_set_lastblock(a_blake2b_s *ctx)
 {
-    if (_ctx->lastnode)
+    if (ctx->lastnode)
     {
-        a_blake2b_set_lastnode(_ctx);
+        a_blake2b_set_lastnode(ctx);
     }
-    _ctx->f[0] = 0xFFFFFFFFFFFFFFFF;
+    ctx->f[0] = 0xFFFFFFFFFFFFFFFF;
 }
 
 __STATIC_INLINE
-void a_blake2b_increment_counter(a_blake2b_s *_ctx, uint64_t _inc)
+void a_blake2b_increment_counter(a_blake2b_s *ctx, uint64_t inc)
 {
-    _ctx->t[0] += _inc;
-    if (_ctx->t[0] < _inc)
+    ctx->t[0] += inc;
+    if (ctx->t[0] < inc)
     {
-        ++_ctx->t[1];
+        ++ctx->t[1];
     }
 }
 
 #undef G
 #undef ROUND
 
-static void a_blake2b_compress(a_blake2b_s *_ctx, const unsigned char *_buf)
+static void a_blake2b_compress(a_blake2b_s *ctx, const unsigned char *buf)
 {
     uint64_t v[0x10];
 
@@ -96,53 +97,53 @@ static void a_blake2b_compress(a_blake2b_s *_ctx, const unsigned char *_buf)
         uint64_t *m;
         unsigned char *buf;
     } up[1];
-    up->buf = _ctx->buf;
-    if (_ctx->buf != _buf)
+    up->buf = ctx->buf;
+    if (ctx->buf != buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD64L(up->m[i], _buf + sizeof(*_ctx->state) * i);
+            LOAD64L(up->m[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
     /* copy state into v */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        v[i] = _ctx->state[i];
+        v[i] = ctx->state[i];
     }
 
     v[8] = blake2b_IV[0];
     v[9] = blake2b_IV[1];
     v[10] = blake2b_IV[2];
     v[11] = blake2b_IV[3];
-    v[12] = _ctx->t[0] ^ blake2b_IV[4];
-    v[13] = _ctx->t[1] ^ blake2b_IV[5];
-    v[14] = _ctx->f[0] ^ blake2b_IV[6];
-    v[15] = _ctx->f[1] ^ blake2b_IV[7];
+    v[12] = ctx->t[0] ^ blake2b_IV[4];
+    v[13] = ctx->t[1] ^ blake2b_IV[5];
+    v[14] = ctx->f[0] ^ blake2b_IV[6];
+    v[15] = ctx->f[1] ^ blake2b_IV[7];
 
-#define G(_r, _i, _a, _b, _c, _d)                               \
-    do                                                          \
-    {                                                           \
-        _a = _a + _b + up->m[blake2b_sigma[_r][(_i << 1) + 0]]; \
-        _d = ROR64(_d ^ _a, 0x20);                              \
-        _c = _c + _d;                                           \
-        _b = ROR64(_b ^ _c, 0x18);                              \
-        _a = _a + _b + up->m[blake2b_sigma[_r][(_i << 1) + 1]]; \
-        _d = ROR64(_d ^ _a, 0x10);                              \
-        _c = _c + _d;                                           \
-        _b = ROR64(_b ^ _c, 0x3F);                              \
+#define G(r, i, a, b, c, d)                                \
+    do                                                     \
+    {                                                      \
+        a = a + b + up->m[blake2b_sigma[r][(i << 1) + 0]]; \
+        d = ROR64(d ^ a, 0x20);                            \
+        c = c + d;                                         \
+        b = ROR64(b ^ c, 0x18);                            \
+        a = a + b + up->m[blake2b_sigma[r][(i << 1) + 1]]; \
+        d = ROR64(d ^ a, 0x10);                            \
+        c = c + d;                                         \
+        b = ROR64(b ^ c, 0x3F);                            \
     } while (0)
-#define ROUND(_r)                                 \
-    do                                            \
-    {                                             \
-        G(_r, 0, v[0x0], v[0x4], v[0x8], v[0xC]); \
-        G(_r, 1, v[0x1], v[0x5], v[0x9], v[0xD]); \
-        G(_r, 2, v[0x2], v[0x6], v[0xA], v[0xE]); \
-        G(_r, 3, v[0x3], v[0x7], v[0xB], v[0xF]); \
-        G(_r, 4, v[0x0], v[0x5], v[0xA], v[0xF]); \
-        G(_r, 5, v[0x1], v[0x6], v[0xB], v[0xC]); \
-        G(_r, 6, v[0x2], v[0x7], v[0x8], v[0xD]); \
-        G(_r, 7, v[0x3], v[0x4], v[0x9], v[0xE]); \
+#define ROUND(r)                                 \
+    do                                           \
+    {                                            \
+        G(r, 0, v[0x0], v[0x4], v[0x8], v[0xC]); \
+        G(r, 1, v[0x1], v[0x5], v[0x9], v[0xD]); \
+        G(r, 2, v[0x2], v[0x6], v[0xA], v[0xE]); \
+        G(r, 3, v[0x3], v[0x7], v[0xB], v[0xF]); \
+        G(r, 4, v[0x0], v[0x5], v[0xA], v[0xF]); \
+        G(r, 5, v[0x1], v[0x6], v[0xB], v[0xC]); \
+        G(r, 6, v[0x2], v[0x7], v[0x8], v[0xD]); \
+        G(r, 7, v[0x3], v[0x4], v[0x9], v[0xE]); \
     } while (0)
 
     ROUND(0x0);
@@ -158,67 +159,67 @@ static void a_blake2b_compress(a_blake2b_s *_ctx, const unsigned char *_buf)
     ROUND(0xA);
     ROUND(0xB);
 
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] = _ctx->state[i] ^ v[i] ^ v[i + 8];
+        ctx->state[i] = ctx->state[i] ^ v[i] ^ v[i + 8];
     }
 }
 
 #undef G
 #undef ROUND
 
-int a_blake2b_init(a_blake2b_s *_ctx, size_t _siz, const void *_p, size_t _n)
+int a_blake2b_init(a_blake2b_s *ctx, size_t siz, const void *pdata, size_t nbyte)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
     unsigned char ap[A_PARAM_SIZE] = {0};
 
-    if ((_siz == 0) || (sizeof(_ctx->out) < _siz))
+    if ((siz == 0) || (sizeof(ctx->out) < siz))
     {
         return A_HASH_INVALID;
     }
 
-    if ((_p && !_n) || (_n && !_p) || (sizeof(_ctx->buf) < _n))
+    if ((pdata && !nbyte) || (nbyte && !pdata) || (sizeof(ctx->buf) < nbyte))
     {
         return A_HASH_INVALID;
     }
 
-    ap[O_DIGEST_LENGTH] = (unsigned char)_siz;
-    ap[O_KEY_LENGTH] = (unsigned char)_n;
+    ap[O_DIGEST_LENGTH] = (unsigned char)siz;
+    ap[O_KEY_LENGTH] = (unsigned char)nbyte;
     ap[O_FANOUT] = 1;
     ap[O_DEPTH] = 1;
 
-    memset(_ctx, 0, sizeof(*_ctx));
+    memset(ctx, 0, sizeof(*ctx));
 
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] = blake2b_IV[i];
+        ctx->state[i] = blake2b_IV[i];
     }
 
     /* IV XOR ParamBlock */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
         uint64_t t;
-        LOAD64L(t, ap + sizeof(*_ctx->state) * i);
-        _ctx->state[i] ^= t;
+        LOAD64L(t, ap + sizeof(*ctx->state) * i);
+        ctx->state[i] ^= t;
     }
 
-    _ctx->outsiz = ap[O_DIGEST_LENGTH];
+    ctx->outsiz = ap[O_DIGEST_LENGTH];
 
-    if (_p)
+    if (pdata)
     {
-        memcpy(_ctx->buf, _p, _n);
-        a_blake2b_process(_ctx, _ctx->buf, sizeof(_ctx->buf));
+        memcpy(ctx->buf, pdata, nbyte);
+        a_blake2b_process(ctx, ctx->buf, sizeof(ctx->buf));
     }
 
     return A_HASH_SUCCESS;
 }
 
 #undef __A_BLAKE2B_INIT
-#define __A_BLAKE2B_INIT(_bit)                      \
-    void a_blake2b_##_bit##_init(a_blake2b_s *_ctx) \
-    {                                               \
-        a_blake2b_init(_ctx, (_bit) >> 3, 0, 0);    \
+#define __A_BLAKE2B_INIT(_bit)                     \
+    void a_blake2b_##_bit##_init(a_blake2b_s *ctx) \
+    {                                              \
+        a_blake2b_init(ctx, (_bit) >> 3, 0, 0);    \
     }
 __A_BLAKE2B_INIT(160)
 __A_BLAKE2B_INIT(256)
@@ -226,71 +227,69 @@ __A_BLAKE2B_INIT(384)
 __A_BLAKE2B_INIT(512)
 #undef __A_BLAKE2B_INIT
 
-int a_blake2b_process(a_blake2b_s *_ctx, const void *_p, size_t _n)
+int a_blake2b_process(a_blake2b_s *ctx, const void *pdata, size_t nbyte)
 {
-    aassert(_ctx);
-    aassert(!_n || _p);
+    AASSERT(ctx);
+    AASSERT(!nbyte || pdata);
 
-    if (sizeof(_ctx->buf) < _ctx->cursiz)
+    if (sizeof(ctx->buf) < ctx->cursiz)
     {
         return A_HASH_INVALID;
     }
 
-    const unsigned char *p = (const unsigned char *)_p;
-    uint32_t n = (uint32_t)sizeof(_ctx->buf) - _ctx->cursiz;
-    if (_n > n)
+    const unsigned char *p = (const unsigned char *)pdata;
+    uint32_t n = (uint32_t)sizeof(ctx->buf) - ctx->cursiz;
+    if (nbyte > n)
     {
-        memcpy(_ctx->buf + _ctx->cursiz, p, n);
-        a_blake2b_increment_counter(_ctx, sizeof(_ctx->buf));
-        a_blake2b_compress(_ctx, _ctx->buf);
-        _ctx->cursiz = 0;
-        _n -= n;
+        memcpy(ctx->buf + ctx->cursiz, p, n);
+        a_blake2b_increment_counter(ctx, sizeof(ctx->buf));
+        a_blake2b_compress(ctx, ctx->buf);
+        ctx->cursiz = 0;
+        nbyte -= n;
         p += n;
-        while (_n > sizeof(_ctx->buf) - 1)
+        while (nbyte > sizeof(ctx->buf) - 1)
         {
-            a_blake2b_increment_counter(_ctx, sizeof(_ctx->buf));
-            a_blake2b_compress(_ctx, p);
-            _n -= sizeof(_ctx->buf);
-            p += sizeof(_ctx->buf);
+            a_blake2b_increment_counter(ctx, sizeof(ctx->buf));
+            a_blake2b_compress(ctx, p);
+            nbyte -= sizeof(ctx->buf);
+            p += sizeof(ctx->buf);
         }
     }
-    if (_n)
+    if (nbyte)
     {
-        memcpy(_ctx->buf + _ctx->cursiz, p, _n);
-        _ctx->cursiz += (uint32_t)_n;
+        memcpy(ctx->buf + ctx->cursiz, p, nbyte);
+        ctx->cursiz += (uint32_t)nbyte;
     }
 
     return A_HASH_SUCCESS;
 }
 
-unsigned char *a_blake2b_done(a_blake2b_s *_ctx, void *_out)
+unsigned char *a_blake2b_done(a_blake2b_s *ctx, void *out)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    if (a_blake2b_is_lastblock(_ctx))
+    if (a_blake2b_is_lastblock(ctx))
     {
         return 0;
     }
 
-    a_blake2b_increment_counter(_ctx, _ctx->cursiz);
-    a_blake2b_set_lastblock(_ctx);
+    a_blake2b_increment_counter(ctx, ctx->cursiz);
+    a_blake2b_set_lastblock(ctx);
 
     /* padding */
-    memset(_ctx->buf + _ctx->cursiz, 0, sizeof(_ctx->buf) - _ctx->cursiz);
-    a_blake2b_compress(_ctx, _ctx->buf);
+    memset(ctx->buf + ctx->cursiz, 0, sizeof(ctx->buf) - ctx->cursiz);
+    a_blake2b_compress(ctx, ctx->buf);
 
     /* copy output */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        STORE64L(_ctx->state[i], _ctx->out + sizeof(*_ctx->state) * i);
+        STORE64L(ctx->state[i], ctx->out + sizeof(*ctx->state) * i);
     }
 
-    if (_out && (_out != _ctx->out))
+    if (out && (out != ctx->out))
     {
-        memcpy(_out, _ctx->out, _ctx->outsiz);
+        memcpy(out, ctx->out, ctx->outsiz);
     }
 
-    return _ctx->out;
+    return ctx->out;
 }
-
-/* END OF FILE */

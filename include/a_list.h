@@ -50,14 +50,14 @@
 #endif /* a_mempool_init */
 
 #ifndef a_mempool_pinit
-#define a_mempool_pinit(_def, _ctx) (                       \
-    (_ctx) = (a_mempool_t(_def) *)amalloc(sizeof(*(_ctx))), \
+#define a_mempool_pinit(_def, _ctx) (                      \
+    (_ctx) = (a_mempool_t(_def) *)malloc(sizeof(*(_ctx))), \
     (_ctx) ? (a_mempool_init(*(_ctx)), 0) : -1)
 #endif /* a_mempool_pinit */
 
 #ifndef a_mempool_initp
 #define a_mempool_initp(_def) ( \
-    (a_mempool_t(_def) *)acalloc(1, sizeof(a_mempool_t(_def))))
+    (a_mempool_t(_def) *)calloc(1, sizeof(a_mempool_t(_def))))
 #endif /* a_mempool_initp */
 
 #ifndef a_mempool_done
@@ -68,12 +68,12 @@
         {                              \
             --(_ctx).n;                \
             _func((_ctx).p[(_ctx).n]); \
-            afree((_ctx).p[(_ctx).n]); \
+            free((_ctx).p[(_ctx).n]);  \
             (_ctx).p[(_ctx).n] = 0;    \
         }                              \
         if ((_ctx).m)                  \
         {                              \
-            afree((_ctx).p);           \
+            free((_ctx).p);            \
             (_ctx).p = 0;              \
             (_ctx).m = 0;              \
         }                              \
@@ -86,7 +86,7 @@
         if (_ctx)                           \
         {                                   \
             a_mempool_done(*(_ctx), _func); \
-            afree(_ctx);                    \
+            free(_ctx);                     \
             (_ctx) = 0;                     \
         }                                   \
     } while (0)
@@ -94,12 +94,12 @@
 
 /* a_mempool_alloc */
 #ifndef a_mempool_alloc
-#define a_mempool_alloc(_type, _ctx) (       \
-    ++(_ctx).a,                              \
-    (_ctx).n == 0                            \
-        ? /*0 = n*/                          \
-        (_type *)amalloc(sizeof(**(_ctx).p)) \
-        : /*n > 0*/                          \
+#define a_mempool_alloc(_type, _ctx) (      \
+    ++(_ctx).a,                             \
+    (_ctx).n == 0                           \
+        ? /*0 = n*/                         \
+        (_type *)malloc(sizeof(**(_ctx).p)) \
+        : /*n > 0*/                         \
         (_ctx).p[--(_ctx).n])
 #endif /* a_mempool_alloc */
 /* a_mempool_palloc */
@@ -108,13 +108,13 @@
 #endif /* a_mempool_palloc */
 
 #ifndef a_mempool_free
-#define a_mempool_free(_type, _ctx, _pdat) (                                    \
-    --(_ctx).a,                                                                 \
-    (_ctx).n == (_ctx).m                                                        \
-        ? /*n == m*/                                                            \
-        ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 0x10,                          \
-         (_ctx).p = (_type **)arealloc((_ctx).p, sizeof(*(_ctx).p) * (_ctx).m)) \
-        : 0 /*n < m*/,                                                          \
+#define a_mempool_free(_type, _ctx, _pdat) (                                   \
+    --(_ctx).a,                                                                \
+    (_ctx).n == (_ctx).m                                                       \
+        ? /*n == m*/                                                           \
+        ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 0x10,                         \
+         (_ctx).p = (_type **)realloc((_ctx).p, sizeof(*(_ctx).p) * (_ctx).m)) \
+        : 0 /*n < m*/,                                                         \
     (_ctx).p[(_ctx).n++] = (_pdat))
 #endif /* a_mempool_free */
 #ifndef a_mempool_pfree
@@ -218,8 +218,8 @@
     (_ctx).siz = 0)
 #endif /* a_list_init */
 #ifndef a_list_pinit
-#define a_list_pinit(_def, _ctx) (                       \
-    (_ctx) = (a_list_t(_def) *)amalloc(sizeof(*(_ctx))), \
+#define a_list_pinit(_def, _ctx) (                      \
+    (_ctx) = (a_list_t(_def) *)malloc(sizeof(*(_ctx))), \
     (_ctx) ? (a_list_init(_def, *(_ctx)), 0) : -1)
 #endif /* a_list_pinit */
 
@@ -244,7 +244,7 @@
         if (_ctx)                              \
         {                                      \
             a_list_done(_def, *(_ctx), _func); \
-            afree(_ctx);                       \
+            free(_ctx);                        \
             (_ctx) = 0;                        \
         }                                      \
     } while (0)
@@ -338,5 +338,3 @@
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_LIST_H__ */
-
-/* END OF FILE */

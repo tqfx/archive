@@ -8,142 +8,142 @@
 
 #include <stdarg.h>
 
-int a_hmac_memory(const a_hash_s *_ctx,
-                  const void *_key, size_t _keysiz,
-                  const void *_msg, size_t _msgsiz,
-                  void *_out, size_t *_siz)
+int a_hmac_memory(const a_hash_s *hash,
+                  const void *pkey, size_t nkey,
+                  const void *pmsg, size_t nmsg,
+                  void *out, size_t *siz)
 {
-    aassert(_ctx);
-    aassert(_out);
-    aassert(_siz);
-    aassert(!_keysiz || _key);
-    aassert(!_msgsiz || _msg);
+    AASSERT(out);
+    AASSERT(siz);
+    AASSERT(hash);
+    AASSERT(!nkey || pkey);
+    AASSERT(!nmsg || pmsg);
 
-    if (*_siz < _ctx->outsiz)
+    if (*siz < hash->outsiz)
     {
-        *_siz = _ctx->outsiz;
+        *siz = hash->outsiz;
         return A_HMAC_OVERFLOW;
     }
 
-    a_hmac_s ctx[1];
+    a_hmac_s hmac[1];
 
-    if (a_hmac_init(ctx, _ctx, _key, _keysiz) != A_HMAC_SUCCESS)
+    if (a_hmac_init(hmac, hash, pkey, nkey) != A_HMAC_SUCCESS)
     {
         return A_HMAC_FAILURE;
     }
-    if (a_hmac_process(ctx, _msg, _msgsiz) != A_HMAC_SUCCESS)
+    if (a_hmac_process(hmac, pmsg, nmsg) != A_HMAC_SUCCESS)
     {
         return A_HMAC_FAILURE;
     }
-    *_siz = a_hmac_done(ctx, _out) ? _ctx->outsiz : 0;
+    *siz = a_hmac_done(hmac, out) ? hash->outsiz : 0;
 
     return A_HMAC_SUCCESS;
 }
 
-int a_hmac_mmulti(const a_hash_s *_ctx,
-                  void *_out, size_t *_siz,
-                  const void *_key, size_t _keysiz,
-                  const void *_msg, size_t _msgsiz, ...)
+int a_hmac_mmulti(const a_hash_s *hash,
+                  void *out, size_t *siz,
+                  const void *pkey, size_t nkey,
+                  const void *pmsg, size_t nmsg, ...)
 {
-    aassert(_ctx);
-    aassert(_out);
-    aassert(_siz);
-    aassert(!_keysiz || _key);
-    aassert(!_msgsiz || _msg);
+    AASSERT(out);
+    AASSERT(siz);
+    AASSERT(hash);
+    AASSERT(!nkey || pkey);
+    AASSERT(!nmsg || pmsg);
 
-    if (*_siz < _ctx->outsiz)
+    if (*siz < hash->outsiz)
     {
-        *_siz = _ctx->outsiz;
+        *siz = hash->outsiz;
         return A_HMAC_OVERFLOW;
     }
 
     va_list arg;
-    a_hmac_s ctx[1];
-    va_start(arg, _msgsiz);
+    a_hmac_s hmac[1];
+    va_start(arg, nmsg);
 
-    if (a_hmac_init(ctx, _ctx, _key, _keysiz) != A_HMAC_SUCCESS)
+    if (a_hmac_init(hmac, hash, pkey, nkey) != A_HMAC_SUCCESS)
     {
         return A_HMAC_FAILURE;
     }
     for (;;)
     {
-        if (a_hmac_process(ctx, _msg, _msgsiz) != A_HMAC_SUCCESS)
+        if (a_hmac_process(hmac, pmsg, nmsg) != A_HMAC_SUCCESS)
         {
             va_end(arg);
             return A_HMAC_FAILURE;
         }
-        _msg = va_arg(arg, const void *);
-        if (_msg == 0)
+        pmsg = va_arg(arg, const void *);
+        if (pmsg == 0)
         {
             va_end(arg);
             break;
         }
-        _msgsiz = va_arg(arg, size_t);
+        nmsg = va_arg(arg, size_t);
     };
-    *_siz = a_hmac_done(ctx, _out) ? _ctx->outsiz : 0;
+    *siz = a_hmac_done(hmac, out) ? hash->outsiz : 0;
 
     return A_HMAC_SUCCESS;
 }
 
-int a_hmac_filehandle(const a_hash_s *_ctx,
-                      const void *_key, size_t _keysiz, FILE *_in,
-                      void *_out, size_t *_siz)
+int a_hmac_filehandle(const a_hash_s *hash,
+                      const void *pkey, size_t nkey, FILE *in,
+                      void *out, size_t *siz)
 {
-    aassert(_in);
-    aassert(_ctx);
-    aassert(_out);
-    aassert(_siz);
-    aassert(!_keysiz || _key);
+    AASSERT(in);
+    AASSERT(out);
+    AASSERT(siz);
+    AASSERT(hash);
+    AASSERT(!nkey || pkey);
 
-    if (*_siz < _ctx->outsiz)
+    if (*siz < hash->outsiz)
     {
-        *_siz = _ctx->outsiz;
+        *siz = hash->outsiz;
         return A_HMAC_OVERFLOW;
     }
 
-    a_hmac_s ctx[1];
+    a_hmac_s hmac[1];
 
-    if (a_hmac_init(ctx, _ctx, _key, _keysiz) != A_HMAC_SUCCESS)
+    if (a_hmac_init(hmac, hash, pkey, nkey) != A_HMAC_SUCCESS)
     {
         return A_HMAC_FAILURE;
     }
     do
     {
         char buf[BUFSIZ];
-        *_siz = fread(buf, 1, BUFSIZ, _in);
-        if (a_hmac_process(ctx, buf, *_siz) != A_HMAC_SUCCESS)
+        *siz = fread(buf, 1, BUFSIZ, in);
+        if (a_hmac_process(hmac, buf, *siz) != A_HMAC_SUCCESS)
         {
             return A_HMAC_FAILURE;
         }
-    } while (*_siz == BUFSIZ);
-    *_siz = a_hmac_done(ctx, _out) ? _ctx->outsiz : 0;
+    } while (*siz == BUFSIZ);
+    *siz = a_hmac_done(hmac, out) ? hash->outsiz : 0;
 
     return A_HMAC_SUCCESS;
 }
 
-int a_hmac_file(const a_hash_s *_ctx,
-                const void *_key, size_t _keysiz, const char *_fname,
-                void *_out, size_t *_siz)
+int a_hmac_file(const a_hash_s *hash,
+                const void *pkey, size_t nkey, const char *fname,
+                void *out, size_t *siz)
 {
-    aassert(_ctx);
-    aassert(_out);
-    aassert(_siz);
-    aassert(_fname);
-    aassert(!_keysiz || _key);
+    AASSERT(out);
+    AASSERT(siz);
+    AASSERT(hash);
+    AASSERT(fname);
+    AASSERT(!nkey || pkey);
 
-    if (*_siz < _ctx->outsiz)
+    if (*siz < hash->outsiz)
     {
-        *_siz = _ctx->outsiz;
+        *siz = hash->outsiz;
         return A_HMAC_OVERFLOW;
     }
 
-    FILE *in = fopen(_fname, "rb");
+    FILE *in = fopen(fname, "rb");
     if (in == 0)
     {
         return A_HMAC_NOTFOUND;
     }
 
-    int ret = a_hmac_filehandle(_ctx, _key, _keysiz, in, _out, _siz);
+    int ret = a_hmac_filehandle(hash, pkey, nkey, in, out, siz);
 
     if (fclose(in))
     {
@@ -152,5 +152,3 @@ int a_hmac_file(const a_hash_s *_ctx,
 
     return ret;
 }
-
-/* END OF FILE */

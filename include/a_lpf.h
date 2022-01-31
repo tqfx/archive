@@ -23,56 +23,56 @@
 /*!
  @brief Instance structure for Low Pass Filter
 */
-#define __A_LPF_T(_def, _type)                             \
-    typedef struct _def##_s                                \
-    {                                                      \
-        _type o; /* Output */                              \
-        _type k; /* Parameter of filtering              */ \
-        _type t; /* Time interval of filtering, unit /s */ \
-    } _def##_s
+#define __A_LPF_T(def, type)                              \
+    typedef struct def##_s                                \
+    {                                                     \
+        type o; /* Output */                              \
+        type k; /* Parameter of filtering              */ \
+        type t; /* Time interval of filtering, unit /s */ \
+    } def##_s
 __A_LPF_T(a_lpf, double);
 __A_LPF_T(a_lpff, float);
 #undef __A_LPF_T
 
 #undef __A_LPF_INIT
-#define __A_LPF_INIT(_def, _type, _func)           \
-    __NONNULL((1))                                 \
-    __STATIC_INLINE                                \
-    void _func(_def##_s *_ctx, _type _k, _type _t) \
-    {                                              \
-        aassert(_ctx);                             \
-        _ctx->t = _t;                              \
-        _ctx->k = _k;                              \
+#define __A_LPF_INIT(def, type, func)       \
+    __NONNULL((1))                          \
+    __STATIC_INLINE                         \
+    void func(def##_s *ctx, type k, type t) \
+    {                                       \
+        AASSERT(ctx);                       \
+        ctx->t = t;                         \
+        ctx->k = k;                         \
     }
 __A_LPF_INIT(a_lpf, double, a_lpf_init)
 __A_LPF_INIT(a_lpff, float, a_lpff_init)
 #undef __A_LPF_INIT
 
 #undef __A_LPF_PROCESS
-#define __A_LPF_PROCESS(_def, _type, _func)                 \
+#define __A_LPF_PROCESS(def, type, func)                    \
     __NONNULL((1))                                          \
     __STATIC_INLINE                                         \
-    _type _func(_def##_s *_ctx, _type _x)                   \
+    type func(def##_s *ctx, type x)                         \
     {                                                       \
-        aassert(_ctx);                                      \
-        _type inv_kt = _ctx->t / (_ctx->k + _ctx->t);       \
+        AASSERT(ctx);                                       \
+        type inv_kt = ctx->t / (ctx->k + ctx->t);           \
         /* y[n] = y[n-1] * k / (k + t) + x * t / (k + t) */ \
-        _ctx->o *= 1 - inv_kt;                              \
-        _ctx->o += _x * inv_kt;                             \
-        return _ctx->o;                                     \
+        ctx->o *= 1 - inv_kt;                               \
+        ctx->o += x * inv_kt;                               \
+        return ctx->o;                                      \
     }
 __A_LPF_PROCESS(a_lpf, double, a_lpf_process)
 __A_LPF_PROCESS(a_lpff, float, a_lpff_process)
 #undef __A_LPF_PROCESS
 
 #undef __A_LPF_RESET
-#define __A_LPF_RESET(_def, _func) \
-    __NONNULL_ALL                  \
-    __STATIC_INLINE                \
-    void _func(_def##_s *_ctx)     \
-    {                              \
-        aassert(_ctx);             \
-        _ctx->o = 0;               \
+#define __A_LPF_RESET(def, func) \
+    __NONNULL_ALL                \
+    __STATIC_INLINE              \
+    void func(def##_s *ctx)      \
+    {                            \
+        AASSERT(ctx);            \
+        ctx->o = 0;              \
     }
 __A_LPF_RESET(a_lpf, a_lpf_reset)
 __A_LPF_RESET(a_lpff, a_lpff_reset)
@@ -82,12 +82,12 @@ __A_LPF_RESET(a_lpff, a_lpff_reset)
 /*!
  @brief Initialize function for Low Pass Filter
 */
-#define a_lpf_init(_ctx, _k, _t) \
-    _Generic((_ctx),             \
-             default             \
-             : a_lpf_init,       \
-               a_lpff_s *        \
-             : a_lpff_init)(_ctx, _k, _t)
+#define a_lpf_init(ctx, k, t) \
+    _Generic((ctx),           \
+             default          \
+             : a_lpf_init,    \
+               a_lpff_s *     \
+             : a_lpff_init)(ctx, k, t)
 /*!
  @brief Process function for Low Pass Filter
  \f{aligned}{
@@ -95,24 +95,22 @@ __A_LPF_RESET(a_lpff, a_lpff_reset)
          &= (1 - \alpha) y_{n-1} + \alpha x, \alpha = \cfrac {t} {t + k}
  \f}
 */
-#define a_lpf_process(_ctx, _x) \
-    _Generic((_ctx),            \
-             default            \
-             : a_lpf_process,   \
-               a_lpff_s *       \
-             : a_lpff_process)(_ctx, _x)
+#define a_lpf_process(ctx, x) \
+    _Generic((ctx),           \
+             default          \
+             : a_lpf_process, \
+               a_lpff_s *     \
+             : a_lpff_process)(ctx, x)
 /*!
  @brief Reset function for Low Pass Filter
 */
-#define a_lpf_reset(_ctx)   \
-    _Generic((_ctx),        \
+#define a_lpf_reset(ctx)    \
+    _Generic((ctx),         \
              default        \
              : a_lpf_reset, \
                a_lpff_s *   \
-             : a_lpff_reset)(_ctx)
+             : a_lpff_reset)(ctx)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_LPF_H__ */
-
-/* END OF FILE */

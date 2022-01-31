@@ -8,6 +8,7 @@
 #include "a_md5.h"
 
 #include "a_hash.h"
+#include "a_hash_private.h"
 
 #undef F
 #undef G
@@ -18,9 +19,9 @@
 #undef HH
 #undef II
 
-static void a_md5_compress(a_md5_s *_ctx, const unsigned char *_buf)
+static void a_md5_compress(a_md5_s *ctx, const unsigned char *buf)
 {
-    uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
+    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* (unsigned char *) -> (uint32_t *) */
     union
@@ -28,43 +29,43 @@ static void a_md5_compress(a_md5_s *_ctx, const unsigned char *_buf)
         uint32_t *w;
         unsigned char *buf;
     } up[1];
-    up->buf = _ctx->buf;
-    if (_ctx->buf != _buf)
+    up->buf = ctx->buf;
+    if (ctx->buf != buf)
     {
         /* copy the state into 512-bits into w[0..15] */
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->w[i], _buf + sizeof(*_ctx->state) * i);
+            LOAD32L(up->w[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = _ctx->state[i];
+        s[i] = ctx->state[i];
     }
 
     /* compress */
 
-#define F(_x, _y, _z) ((_z) ^ ((_x) & ((_y) ^ (_z))))
-#define G(_x, _y, _z) ((_y) ^ ((_z) & ((_x) ^ (_y))))
-#define H(_x, _y, _z) ((_x) ^ (_y) ^ (_z))
-#define I(_x, _y, _z) ((_y) ^ ((_x) | ~(_z)))
+#define F(x, y, z) ((z) ^ ((x) & ((y) ^ (z))))
+#define G(x, y, z) ((y) ^ ((z) & ((x) ^ (y))))
+#define H(x, y, z) ((x) ^ (y) ^ (z))
+#define I(x, y, z) ((y) ^ ((x) | ~(z)))
 
-#define FF(_a, _b, _c, _d, _M, _s, _t)   \
-    _a = (_a + F(_b, _c, _d) + _M + _t); \
-    _a = ROLc(_a, _s) + _b;
-#define GG(_a, _b, _c, _d, _M, _s, _t)   \
-    _a = (_a + G(_b, _c, _d) + _M + _t); \
-    _a = ROLc(_a, _s) + _b;
-#define HH(_a, _b, _c, _d, _M, _s, _t)   \
-    _a = (_a + H(_b, _c, _d) + _M + _t); \
-    _a = ROLc(_a, _s) + _b;
-#define II(_a, _b, _c, _d, _M, _s, _t)   \
-    _a = (_a + I(_b, _c, _d) + _M + _t); \
-    _a = ROLc(_a, _s) + _b;
+#define FF(a, b, c, d, M, s, t)   \
+    a = (a + F(b, c, d) + M + t); \
+    a = ROLc(a, s) + b;
+#define GG(a, b, c, d, M, s, t)   \
+    a = (a + G(b, c, d) + M + t); \
+    a = ROLc(a, s) + b;
+#define HH(a, b, c, d, M, s, t)   \
+    a = (a + H(b, c, d) + M + t); \
+    a = ROLc(a, s) + b;
+#define II(a, b, c, d, M, s, t)   \
+    a = (a + I(b, c, d) + M + t); \
+    a = ROLc(a, s) + b;
 
-    /* round one */
+    /* round 1 */
     FF(s[0], s[1], s[2], s[3], up->w[0x0], 0x07, 0xD76AA478)
     FF(s[3], s[0], s[1], s[2], up->w[0x1], 0x0C, 0xE8C7B756)
     FF(s[2], s[3], s[0], s[1], up->w[0x2], 0x11, 0x242070DB)
@@ -81,7 +82,7 @@ static void a_md5_compress(a_md5_s *_ctx, const unsigned char *_buf)
     FF(s[3], s[0], s[1], s[2], up->w[0xD], 0x0C, 0xFD987193)
     FF(s[2], s[3], s[0], s[1], up->w[0xE], 0x11, 0xA679438E)
     FF(s[1], s[2], s[3], s[0], up->w[0xF], 0x16, 0x49B40821)
-    /* round two */
+    /* round 2 */
     GG(s[0], s[1], s[2], s[3], up->w[0x1], 0x05, 0xF61E2562)
     GG(s[3], s[0], s[1], s[2], up->w[0x6], 0x09, 0xC040B340)
     GG(s[2], s[3], s[0], s[1], up->w[0xB], 0x0E, 0x265E5A51)
@@ -98,7 +99,7 @@ static void a_md5_compress(a_md5_s *_ctx, const unsigned char *_buf)
     GG(s[3], s[0], s[1], s[2], up->w[0x2], 0x09, 0xFCEFA3F8)
     GG(s[2], s[3], s[0], s[1], up->w[0x7], 0x0E, 0x676F02D9)
     GG(s[1], s[2], s[3], s[0], up->w[0xC], 0x14, 0x8D2A4C8A)
-    /* round three */
+    /* round 3 */
     HH(s[0], s[1], s[2], s[3], up->w[0x5], 0x04, 0xFFFA3942)
     HH(s[3], s[0], s[1], s[2], up->w[0x8], 0x0B, 0x8771F681)
     HH(s[2], s[3], s[0], s[1], up->w[0xB], 0x10, 0x6D9D6122)
@@ -115,7 +116,7 @@ static void a_md5_compress(a_md5_s *_ctx, const unsigned char *_buf)
     HH(s[3], s[0], s[1], s[2], up->w[0xC], 0x0B, 0xE6DB99E5)
     HH(s[2], s[3], s[0], s[1], up->w[0xF], 0x10, 0x1FA27CF8)
     HH(s[1], s[2], s[3], s[0], up->w[0x2], 0x17, 0xC4AC5665)
-    /* round four */
+    /* round 4 */
     II(s[0], s[1], s[2], s[3], up->w[0x0], 0x06, 0xF4292244)
     II(s[3], s[0], s[1], s[2], up->w[0x7], 0x0A, 0x432AFF97)
     II(s[2], s[3], s[0], s[1], up->w[0xE], 0x0F, 0xAB9423A7)
@@ -134,9 +135,9 @@ static void a_md5_compress(a_md5_s *_ctx, const unsigned char *_buf)
     II(s[1], s[2], s[3], s[0], up->w[0x9], 0x15, 0xEB86D391)
 
     /* feedback */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] += s[i];
+        ctx->state[i] += s[i];
     }
 }
 
@@ -149,21 +150,19 @@ static void a_md5_compress(a_md5_s *_ctx, const unsigned char *_buf)
 #undef H
 #undef I
 
-void a_md5_init(a_md5_s *_ctx)
+void a_md5_init(a_md5_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x67452301;
-    _ctx->state[1] = 0xEFCDAB89;
-    _ctx->state[2] = 0x98BADCFE;
-    _ctx->state[3] = 0x10325476;
+    ctx->state[0] = 0x67452301;
+    ctx->state[1] = 0xEFCDAB89; // 0x10325476 ^ 0xFFFFFFFF
+    ctx->state[2] = 0x98BADCFE; // 0x67452301 ^ 0xFFFFFFFF
+    ctx->state[3] = 0x10325476;
 }
 
 __A_HASH_PROCESS(a_md5_s, a_md5_process, a_md5_compress)
 
 __A_HASH_DONE(a_md5_s, a_md5_done, a_md5_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-
-/* END OF FILE */

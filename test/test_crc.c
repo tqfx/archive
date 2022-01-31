@@ -29,7 +29,7 @@
             fprintf(_out, "\n");                                                                   \
         }                                                                                          \
         fprintf(_out, "    /* clang-format on */\n");                                              \
-        fprintf(_out, "};\n\n");                                                                   \
+        fprintf(_out, "};\n");                                                                     \
     }
 __WRITE_TAB(8, 8, "2")
 __WRITE_TAB(16, 8, "4")
@@ -87,7 +87,6 @@ static void create_table(const char *_fname)
     a_crc64_msb(tab64, A_CRC64_POLY);
     write_tab64(fp, tab64, "crc64_tabh");
 
-    fprintf(fp, "/* END OF FILE */\n");
     fclose(fp);
 }
 
@@ -152,5 +151,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-/* END OF FILE */

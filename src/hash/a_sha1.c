@@ -8,6 +8,7 @@
 #include "a_sha1.h"
 
 #include "a_hash.h"
+#include "a_hash_private.h"
 
 #undef F0
 #undef F1
@@ -18,21 +19,21 @@
 #undef FF2
 #undef FF3
 
-static void a_sha1_compress(a_sha1_s *_ctx, const unsigned char *_buf)
+static void a_sha1_compress(a_sha1_s *ctx, const unsigned char *buf)
 {
     uint32_t w[0x50];
-    uint32_t s[sizeof(_ctx->state) / sizeof(*_ctx->state)];
+    uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
 
     /* copy state into s */
-    for (unsigned int i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        s[i] = _ctx->state[i];
+        s[i] = ctx->state[i];
     }
 
     /* copy the state into 512-bits into w[0..15] */
     for (unsigned int i = 0x00; i != 0x10; ++i)
     {
-        LOAD32H(w[i], _buf + sizeof(*_ctx->state) * i);
+        LOAD32H(w[i], buf + sizeof(*ctx->state) * i);
     }
 
     /* expand it */
@@ -43,23 +44,23 @@ static void a_sha1_compress(a_sha1_s *_ctx, const unsigned char *_buf)
 
     /* compress */
 
-#define F0(_x, _y, _z) (_z ^ (_x & (_y ^ _z)))
-#define F1(_x, _y, _z) (_x ^ _y ^ _z)
-#define F2(_x, _y, _z) ((_x & _y) | (_z & (_x | _y)))
-#define F3(_x, _y, _z) (_x ^ _y ^ _z)
+#define F0(x, y, z) (z ^ (x & (y ^ z)))
+#define F1(x, y, z) (x ^ y ^ z)
+#define F2(x, y, z) ((x & y) | (z & (x | y)))
+#define F3(x, y, z) (x ^ y ^ z)
 
-#define FF0(_a, _b, _c, _d, _e, _i)                                \
-    _e = (ROLc(_a, 5) + F0(_b, _c, _d) + _e + w[_i] + 0x5A827999); \
-    _b = ROLc(_b, 30);
-#define FF1(_a, _b, _c, _d, _e, _i)                                \
-    _e = (ROLc(_a, 5) + F1(_b, _c, _d) + _e + w[_i] + 0x6ED9EBA1); \
-    _b = ROLc(_b, 30);
-#define FF2(_a, _b, _c, _d, _e, _i)                                \
-    _e = (ROLc(_a, 5) + F2(_b, _c, _d) + _e + w[_i] + 0x8F1BBCDC); \
-    _b = ROLc(_b, 30);
-#define FF3(_a, _b, _c, _d, _e, _i)                                \
-    _e = (ROLc(_a, 5) + F3(_b, _c, _d) + _e + w[_i] + 0xCA62C1D6); \
-    _b = ROLc(_b, 30);
+#define FF0(a, b, c, d, e, i)                               \
+    e = (ROLc(a, 5) + F0(b, c, d) + e + w[i] + 0x5A827999); \
+    b = ROLc(b, 30);
+#define FF1(a, b, c, d, e, i)                               \
+    e = (ROLc(a, 5) + F1(b, c, d) + e + w[i] + 0x6ED9EBA1); \
+    b = ROLc(b, 30);
+#define FF2(a, b, c, d, e, i)                               \
+    e = (ROLc(a, 5) + F2(b, c, d) + e + w[i] + 0x8F1BBCDC); \
+    b = ROLc(b, 30);
+#define FF3(a, b, c, d, e, i)                               \
+    e = (ROLc(a, 5) + F3(b, c, d) + e + w[i] + 0xCA62C1D6); \
+    b = ROLc(b, 30);
 
     unsigned int i = 0;
 
@@ -104,9 +105,9 @@ static void a_sha1_compress(a_sha1_s *_ctx, const unsigned char *_buf)
     }
 
     /* feedback */
-    for (i = 0; i != sizeof(_ctx->state) / sizeof(*_ctx->state); ++i)
+    for (i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
     {
-        _ctx->state[i] += s[i];
+        ctx->state[i] += s[i];
     }
 }
 
@@ -119,22 +120,20 @@ static void a_sha1_compress(a_sha1_s *_ctx, const unsigned char *_buf)
 #undef F2
 #undef F3
 
-void a_sha1_init(a_sha1_s *_ctx)
+void a_sha1_init(a_sha1_s *ctx)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    _ctx->cursiz = 0;
-    _ctx->length = 0;
+    ctx->cursiz = 0;
+    ctx->length = 0;
 
-    _ctx->state[0] = 0x67452301;
-    _ctx->state[1] = 0xEFCDAB89;
-    _ctx->state[2] = 0x98BADCFE;
-    _ctx->state[3] = 0x10325476;
-    _ctx->state[4] = 0xC3D2E1F0;
+    ctx->state[0] = 0x67452301;
+    ctx->state[1] = 0xEFCDAB89; // 0x10325476 ^ 0xFFFFFFFF
+    ctx->state[2] = 0x98BADCFE; // 0x67452301 ^ 0xFFFFFFFF
+    ctx->state[3] = 0x10325476;
+    ctx->state[4] = 0xC3D2E1F0;
 }
 
 __A_HASH_PROCESS(a_sha1_s, a_sha1_process, a_sha1_compress)
 
 __A_HASH_DONE(a_sha1_s, a_sha1_done, a_sha1_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)
-
-/* END OF FILE */

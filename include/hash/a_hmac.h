@@ -39,22 +39,22 @@ __BEGIN_DECLS
  @brief Initialize function for HMAC.
  @param[in,out] ctx: points to an instance of HMAC.
  @param[in] hash: points to an instance of hash descriptor.
- @param[in] p: points to key.
- @param[in] n: length of key.
+ @param[in] pdata: points to key.
+ @param[in] nbyte: length of key.
  @return the execution state of the function
   @retval 0 success
 */
-int a_hmac_init(a_hmac_s *ctx, const a_hash_s *hash, const void *p, size_t n) __NONNULL((1, 2));
+int a_hmac_init(a_hmac_s *ctx, const a_hash_s *hash, const void *pdata, size_t nbyte) __NONNULL((1, 2));
 
 /*!
  @brief Process function for HMAC.
  @param[in,out] ctx: points to an instance of HMAC.
- @param[in] p: points to text.
- @param[in] n: length of text.
+ @param[in] pdata: points to text.
+ @param[in] nbyte: length of text.
  @return the execution state of the function
   @retval 0 success
 */
-int a_hmac_process(a_hmac_s *ctx, const void *p, size_t n) __NONNULL((1));
+int a_hmac_process(a_hmac_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
 
 /*!
  @brief Terminate function for HMAC.
@@ -69,5 +69,3 @@ __END_DECLS
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_HMAC_H__ */
-
-/* END OF FILE */

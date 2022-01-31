@@ -15,14 +15,14 @@
 /*!
  @brief Instance structure for cubic polynomial trajectory
 */
-#define __A_POLYTRACK3_T(_def, _type) \
-    typedef struct _def##_s           \
-    {                                 \
-        _type t[2]; /* time     */    \
-        _type q[2]; /* position */    \
-        _type v[2]; /* velocity */    \
-        _type k[4]; /* quantity */    \
-    } _def##_s
+#define __A_POLYTRACK3_T(def, type) \
+    typedef struct def##_s          \
+    {                               \
+        type t[2]; /* time     */   \
+        type q[2]; /* position */   \
+        type v[2]; /* velocity */   \
+        type k[4]; /* quantity */   \
+    } def##_s
 __A_POLYTRACK3_T(a_polytrack3, double);
 __A_POLYTRACK3_T(a_polytrack3f, float);
 #undef __A_POLYTRACK3_T
@@ -31,15 +31,15 @@ __A_POLYTRACK3_T(a_polytrack3f, float);
 /*!
  @brief Instance structure for quintic polynomial trajectory
 */
-#define __A_POLYTRACK5_T(_def, _type)  \
-    typedef struct _def##_s            \
-    {                                  \
-        _type t[2]; /* time         */ \
-        _type q[2]; /* position     */ \
-        _type v[2]; /* velocity     */ \
-        _type a[2]; /* acceleration */ \
-        _type k[6]; /* quantity     */ \
-    } _def##_s
+#define __A_POLYTRACK5_T(def, type)   \
+    typedef struct def##_s            \
+    {                                 \
+        type t[2]; /* time         */ \
+        type q[2]; /* position     */ \
+        type v[2]; /* velocity     */ \
+        type a[2]; /* acceleration */ \
+        type k[6]; /* quantity     */ \
+    } def##_s
 __A_POLYTRACK5_T(a_polytrack5, double);
 __A_POLYTRACK5_T(a_polytrack5f, float);
 #undef __A_POLYTRACK5_T
@@ -48,16 +48,16 @@ __A_POLYTRACK5_T(a_polytrack5f, float);
 /*!
  @brief Instance structure for hepta polynomial trajectory
 */
-#define __A_POLYTRACK7_T(_def, _type)  \
-    typedef struct _def##_s            \
-    {                                  \
-        _type t[2]; /* time         */ \
-        _type q[2]; /* position     */ \
-        _type v[2]; /* velocity     */ \
-        _type a[2]; /* acceleration */ \
-        _type j[2]; /* jerk         */ \
-        _type k[8]; /* quantity     */ \
-    } _def##_s
+#define __A_POLYTRACK7_T(def, type)   \
+    typedef struct def##_s            \
+    {                                 \
+        type t[2]; /* time         */ \
+        type q[2]; /* position     */ \
+        type v[2]; /* velocity     */ \
+        type a[2]; /* acceleration */ \
+        type j[2]; /* jerk         */ \
+        type k[8]; /* quantity     */ \
+    } def##_s
 __A_POLYTRACK7_T(a_polytrack7, double);
 __A_POLYTRACK7_T(a_polytrack7f, float);
 #undef __A_POLYTRACK7_T
@@ -149,13 +149,13 @@ float a_polytrack3f_acc(const a_polytrack3f_s *ctx, float t) __NONNULL((1));
  \f}
  @param[in] ctx: points to an instance of cubic polynomial trajectory
  @param[in] t: current time
- @param[out] o: buffer for result
+ @param[out] out: buffer for result
   @arg 0 position output
   @arg 1 velocity output
   @arg 2 acceleration output
 */
-void a_polytrack3_all(const a_polytrack3_s *ctx, double t, double o[3]) __NONNULL((1, 3));
-void a_polytrack3f_all(const a_polytrack3f_s *ctx, float t, float o[3]) __NONNULL((1, 3));
+void a_polytrack3_all(const a_polytrack3_s *ctx, double t, double out[3]) __NONNULL((1, 3));
+void a_polytrack3f_all(const a_polytrack3f_s *ctx, float t, float out[3]) __NONNULL((1, 3));
 
 /* function for quintic polynomial trajectory */
 
@@ -246,13 +246,13 @@ float a_polytrack5f_acc(const a_polytrack5f_s *ctx, float t) __NONNULL((1));
  \f}
  @param[in] ctx: points to an instance of quintic polynomial trajectory
  @param[in] t: current time
- @param[out] o: buffer for result
+ @param[out] out: buffer for result
   @arg 0 position output
   @arg 1 velocity output
   @arg 2 acceleration output
 */
-void a_polytrack5_all(const a_polytrack5_s *ctx, double t, double o[3]) __NONNULL((1, 3));
-void a_polytrack5f_all(const a_polytrack5f_s *ctx, float t, float o[3]) __NONNULL((1, 3));
+void a_polytrack5_all(const a_polytrack5_s *ctx, double t, double out[3]) __NONNULL((1, 3));
+void a_polytrack5f_all(const a_polytrack5f_s *ctx, float t, float out[3]) __NONNULL((1, 3));
 
 /* function for hepta polynomial trajectory */
 
@@ -363,120 +363,118 @@ float a_polytrack7f_jer(const a_polytrack7f_s *ctx, float t) __NONNULL((1));
  \f}
  @param[in] ctx: points to an instance of hepta polynomial trajectory
  @param[in] t: current time
- @param[out] o: buffer for result
+ @param[out] out: buffer for result
   @arg 0 position output
   @arg 1 velocity output
   @arg 2 acceleration output
   @arg 3 jerk output
 */
-void a_polytrack7_all(const a_polytrack7_s *ctx, double t, double o[4]) __NONNULL((1, 3));
-void a_polytrack7f_all(const a_polytrack7f_s *ctx, float t, float o[4]) __NONNULL((1, 3));
+void a_polytrack7_all(const a_polytrack7_s *ctx, double t, double out[4]) __NONNULL((1, 3));
+void a_polytrack7f_all(const a_polytrack7f_s *ctx, float t, float out[4]) __NONNULL((1, 3));
 
 __END_DECLS
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 /* function for cubic polynomial trajectory */
-#define a_polytrack3_init(_ctx, _source, _target) \
-    _Generic((_ctx),                              \
-             default                              \
-             : a_polytrack3_init,                 \
-               a_polytrack3f_s *                  \
-             : a_polytrack3f_init)(_ctx, _source, _target)
-#define a_polytrack3_pos(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack3_pos,   \
-               float               \
-             : a_polytrack3f_pos)(_ctx, _t)
-#define a_polytrack3_vec(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack3_vec,   \
-               float               \
-             : a_polytrack3f_vec)(_ctx, _t)
-#define a_polytrack3_acc(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack3_acc,   \
-               float               \
-             : a_polytrack3f_acc)(_ctx, _t)
-#define a_polytrack3_all(_ctx, _t, _o) \
-    _Generic((_t),                     \
-             default                   \
-             : a_polytrack3_all,       \
-               float                   \
-             : a_polytrack3f_all)(_ctx, _t, _o)
+#define a_polytrack3_init(ctx, source, target) \
+    _Generic((ctx),                            \
+             default                           \
+             : a_polytrack3_init,              \
+               a_polytrack3f_s *               \
+             : a_polytrack3f_init)(ctx, source, target)
+#define a_polytrack3_pos(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack3_pos, \
+               float             \
+             : a_polytrack3f_pos)(ctx, t)
+#define a_polytrack3_vec(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack3_vec, \
+               float             \
+             : a_polytrack3f_vec)(ctx, t)
+#define a_polytrack3_acc(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack3_acc, \
+               float             \
+             : a_polytrack3f_acc)(ctx, t)
+#define a_polytrack3_all(ctx, t, out) \
+    _Generic((t),                     \
+             default                  \
+             : a_polytrack3_all,      \
+               float                  \
+             : a_polytrack3f_all)(ctx, t, out)
 /* function for quintic polynomial trajectory */
-#define a_polytrack5_init(_ctx, _source, _target) \
-    _Generic((_ctx),                              \
-             default                              \
-             : a_polytrack5_init,                 \
-               a_polytrack5f_s *                  \
-             : a_polytrack5f_init)(_ctx, _source, _target)
-#define a_polytrack5_pos(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack5_pos,   \
-               float               \
-             : a_polytrack5f_pos)(_ctx, _t)
-#define a_polytrack5_vec(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack5_vec,   \
-               float               \
-             : a_polytrack5f_vec)(_ctx, _t)
-#define a_polytrack5_acc(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack5_acc,   \
-               float               \
-             : a_polytrack5f_acc)(_ctx, _t)
-#define a_polytrack5_all(_ctx, _t, _o) \
-    _Generic((_t),                     \
-             default                   \
-             : a_polytrack5_all,       \
-               float                   \
-             : a_polytrack5f_all)(_ctx, _t, _o)
+#define a_polytrack5_init(ctx, source, target) \
+    _Generic((ctx),                            \
+             default                           \
+             : a_polytrack5_init,              \
+               a_polytrack5f_s *               \
+             : a_polytrack5f_init)(ctx, source, target)
+#define a_polytrack5_pos(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack5_pos, \
+               float             \
+             : a_polytrack5f_pos)(ctx, t)
+#define a_polytrack5_vec(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack5_vec, \
+               float             \
+             : a_polytrack5f_vec)(ctx, t)
+#define a_polytrack5_acc(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack5_acc, \
+               float             \
+             : a_polytrack5f_acc)(ctx, t)
+#define a_polytrack5_all(ctx, t, out) \
+    _Generic((t),                     \
+             default                  \
+             : a_polytrack5_all,      \
+               float                  \
+             : a_polytrack5f_all)(ctx, t, out)
 /* function for hepta polynomial trajectory */
-#define a_polytrack7_init(_ctx, _source, _target) \
-    _Generic((_ctx),                              \
-             default                              \
-             : a_polytrack7_init,                 \
-               a_polytrack7f_s *                  \
-             : a_polytrack7f_init)(_ctx, _source, _target)
-#define a_polytrack7_pos(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack7_pos,   \
-               float               \
-             : a_polytrack7f_pos)(_ctx, _t)
-#define a_polytrack7_vec(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack7_vec,   \
-               float               \
-             : a_polytrack7f_vec)(_ctx, _t)
-#define a_polytrack7_acc(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack7_acc,   \
-               float               \
-             : a_polytrack7f_acc)(_ctx, _t)
-#define a_polytrack7_jer(_ctx, _t) \
-    _Generic((_t),                 \
-             default               \
-             : a_polytrack7_jer,   \
-               float               \
-             : a_polytrack7f_jer)(_ctx, _t)
-#define a_polytrack7_all(_ctx, _t, _o) \
-    _Generic((_t),                     \
-             default                   \
-             : a_polytrack7_all,       \
-               float                   \
-             : a_polytrack7f_all)(_ctx, _t, _o)
+#define a_polytrack7_init(ctx, source, target) \
+    _Generic((ctx),                            \
+             default                           \
+             : a_polytrack7_init,              \
+               a_polytrack7f_s *               \
+             : a_polytrack7f_init)(ctx, source, target)
+#define a_polytrack7_pos(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack7_pos, \
+               float             \
+             : a_polytrack7f_pos)(ctx, t)
+#define a_polytrack7_vec(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack7_vec, \
+               float             \
+             : a_polytrack7f_vec)(ctx, t)
+#define a_polytrack7_acc(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack7_acc, \
+               float             \
+             : a_polytrack7f_acc)(ctx, t)
+#define a_polytrack7_jer(ctx, t) \
+    _Generic((t),                \
+             default             \
+             : a_polytrack7_jer, \
+               float             \
+             : a_polytrack7f_jer)(ctx, t)
+#define a_polytrack7_all(ctx, t, out) \
+    _Generic((t),                     \
+             default                  \
+             : a_polytrack7_all,      \
+               float                  \
+             : a_polytrack7f_all)(ctx, t, out)
 #endif /* __STDC_VERSION__ */
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_POLYTRACK_H__ */
-
-/* END OF FILE */

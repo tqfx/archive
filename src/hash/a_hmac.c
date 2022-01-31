@@ -7,105 +7,105 @@
 
 #include "a_hmac.h"
 
+#include <string.h>
+
 #undef A_HMAC_IPAD
 #undef A_HMAC_OPAD
 #define A_HMAC_IPAD 0x36
 #define A_HMAC_OPAD 0x5c
 
-int a_hmac_init(a_hmac_s *_ctx, const a_hash_s *_hash, const void *_p, size_t _n)
+int a_hmac_init(a_hmac_s *ctx, const a_hash_s *hash, const void *pdata, size_t nbyte)
 {
-    aassert(_ctx);
-    aassert(_hash);
-    aassert(!_n || _p);
+    AASSERT(ctx);
+    AASSERT(hash);
+    AASSERT(!nbyte || pdata);
 
-    if (sizeof(_ctx->buf) < _hash->bufsiz)
+    if (sizeof(ctx->buf) < hash->bufsiz)
     {
         return A_HMAC_OVERFLOW;
     }
 
-    _ctx->hash = _hash;
-    _ctx->outsiz = _ctx->hash->outsiz;
+    ctx->hash = hash;
+    ctx->outsiz = ctx->hash->outsiz;
 
-    if (_ctx->hash->bufsiz < _n)
+    if (ctx->hash->bufsiz < nbyte)
     {
-        _ctx->hash->init(_ctx->state);
-        if (_ctx->hash->process(_ctx->state, _p, _n) != A_HASH_SUCCESS)
+        ctx->hash->init(ctx->state);
+        if (ctx->hash->process(ctx->state, pdata, nbyte) != A_HASH_SUCCESS)
         {
             return A_HMAC_FAILURE;
         }
-        if (_ctx->hash->done(_ctx->state, _ctx->buf) == 0)
+        if (ctx->hash->done(ctx->state, ctx->buf) == 0)
         {
             return A_HMAC_FAILURE;
         }
-        _n = _ctx->hash->outsiz;
+        nbyte = ctx->hash->outsiz;
     }
-    else if (_n)
+    else if (nbyte)
     {
-        memcpy(_ctx->buf, _p, _n);
+        memcpy(ctx->buf, pdata, nbyte);
     }
 
-    if (_n < _ctx->hash->bufsiz)
+    if (nbyte < ctx->hash->bufsiz)
     {
-        memset(_ctx->buf + _n, 0, sizeof(_ctx->buf) - _n);
+        memset(ctx->buf + nbyte, 0, sizeof(ctx->buf) - nbyte);
     }
 
-    unsigned char buf[sizeof(_ctx->buf)];
-    for (unsigned int i = 0; i != _ctx->hash->bufsiz; ++i)
+    unsigned char buf[sizeof(ctx->buf)];
+    for (unsigned int i = 0; i != ctx->hash->bufsiz; ++i)
     {
-        buf[i] = _ctx->buf[i] ^ A_HMAC_IPAD;
+        buf[i] = ctx->buf[i] ^ A_HMAC_IPAD;
     }
 
-    _ctx->hash->init(_ctx->state);
-    return _ctx->hash->process(_ctx->state, buf, _ctx->hash->bufsiz);
+    ctx->hash->init(ctx->state);
+    return ctx->hash->process(ctx->state, buf, ctx->hash->bufsiz);
 }
 
-int a_hmac_process(a_hmac_s *_ctx, const void *_p, size_t _n)
+int a_hmac_process(a_hmac_s *ctx, const void *pdata, size_t nbyte)
 {
-    aassert(_ctx);
-    aassert(!_n || _p);
+    AASSERT(ctx);
+    AASSERT(!nbyte || pdata);
 
-    return _ctx->hash->process(_ctx->state, _p, _n);
+    return ctx->hash->process(ctx->state, pdata, nbyte);
 }
 
-unsigned char *a_hmac_done(a_hmac_s *_ctx, void *_out)
+unsigned char *a_hmac_done(a_hmac_s *ctx, void *out)
 {
-    aassert(_ctx);
+    AASSERT(ctx);
 
-    unsigned char buf[sizeof(_ctx->buf)];
+    unsigned char buf[sizeof(ctx->buf)];
 
-    if (_ctx->hash->done(_ctx->state, buf) == 0)
+    if (ctx->hash->done(ctx->state, buf) == 0)
     {
         return 0;
     }
 
-    for (unsigned int i = 0; i != _ctx->hash->bufsiz; ++i)
+    for (unsigned int i = 0; i != ctx->hash->bufsiz; ++i)
     {
-        _ctx->buf[i] ^= A_HMAC_OPAD;
+        ctx->buf[i] ^= A_HMAC_OPAD;
     }
 
-    _ctx->hash->init(_ctx->state);
-    if (_ctx->hash->process(_ctx->state, _ctx->buf, _ctx->hash->bufsiz) != A_HASH_SUCCESS)
+    ctx->hash->init(ctx->state);
+    if (ctx->hash->process(ctx->state, ctx->buf, ctx->hash->bufsiz) != A_HASH_SUCCESS)
     {
         return 0;
     }
-    if (_ctx->hash->process(_ctx->state, buf, _ctx->hash->outsiz) != A_HASH_SUCCESS)
+    if (ctx->hash->process(ctx->state, buf, ctx->hash->outsiz) != A_HASH_SUCCESS)
     {
         return 0;
     }
-    if (_ctx->hash->done(_ctx->state, _ctx->buf) == 0)
+    if (ctx->hash->done(ctx->state, ctx->buf) == 0)
     {
         return 0;
     }
 
-    if (_out && _out != _ctx->buf)
+    if (out && out != ctx->buf)
     {
-        memcpy(_out, _ctx->buf, _ctx->hash->outsiz);
+        memcpy(out, ctx->buf, ctx->hash->outsiz);
     }
 
-    return _ctx->buf;
+    return ctx->buf;
 }
 
 #undef A_HMAC_IPAD
 #undef A_HMAC_OPAD
-
-/* END OF FILE */
