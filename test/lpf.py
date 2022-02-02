@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
- @file test_lpf.py
+ @file lpf.py
  @brief test Low Pass Filter
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''

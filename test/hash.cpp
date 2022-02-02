@@ -1,12 +1,12 @@
 /*!
- @file test_hash.c
+ @file hash.cpp
  @brief test hash library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_hash.h"
 
-#include "test_hash.h"
+#include "atest.h"
 
 #pragma pack(push, 4)
 

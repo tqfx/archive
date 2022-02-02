@@ -1,12 +1,12 @@
 /*!
- @file test_hmac.c
+ @file hmac.cpp
  @brief test hmac library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 #include "a_hmac.h"
 
-#include "test_hash.h"
+#include "atest.h"
 
 static const char *key = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
 static const char *msg = "text";

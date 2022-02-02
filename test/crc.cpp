@@ -1,5 +1,5 @@
 /*!
- @file test_crc.c
+ @file crc.cpp
  @brief test Cyclic Redundancy Check
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

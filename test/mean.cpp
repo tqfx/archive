@@ -1,5 +1,5 @@
 /*!
- @file test_mean.c
+ @file mean.cpp
  @brief test mean
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

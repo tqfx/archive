@@ -155,6 +155,14 @@
  @defgroup LIBA Algorithm library
 */
 
+#ifndef offsetof
+#define offsetof(type, member) (size_t)(&(((type *)0)->member))
+#endif /* offsetof */
+
+#ifndef containerof
+#define containerof(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
+#endif /* containerof */
+
 #include <assert.h>
 #include <stdint.h>
 
@@ -162,6 +170,17 @@
 #ifndef AASSERT
 #define AASSERT(e) assert(e)
 #endif /* ASSERT */
+
+#ifndef AROUNDUP32
+#define AROUNDUP32(x)    \
+    (--(x),              \
+     (x) |= (x) >> 0x01, \
+     (x) |= (x) >> 0x02, \
+     (x) |= (x) >> 0x04, \
+     (x) |= (x) >> 0x08, \
+     (x) |= (x) >> 0x10, \
+     ++(x))
+#endif /* AROUNDUP32 */
 
 enum
 {
@@ -172,17 +191,6 @@ enum
     A_OVERFLOW = -4,
     A_NOTFOUND = -5,
 };
-
-#ifndef aroundup32
-#define aroundup32(x)    \
-    (--(x),              \
-     (x) |= (x) >> 0x01, \
-     (x) |= (x) >> 0x02, \
-     (x) |= (x) >> 0x04, \
-     (x) |= (x) >> 0x08, \
-     (x) |= (x) >> 0x10, \
-     ++(x))
-#endif /* aroundup32 */
 
 /* reset some GCC warnings */
 #ifndef _MSC_VER

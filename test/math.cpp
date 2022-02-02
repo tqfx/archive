@@ -1,5 +1,5 @@
 /*!
- @file test_math.c
+ @file math.cpp
  @brief test math
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

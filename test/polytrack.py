@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
- @file test_polytrack.py
+ @file polytrack.py
  @brief test polynomial trajectory
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''

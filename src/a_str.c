@@ -1,5 +1,5 @@
 /*!
- @file a_str.h
+ @file a_str.c
  @brief basic string library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
@@ -8,186 +8,34 @@
 
 #include <stdio.h> /* vsnprintf */
 
-/*!
- @brief Boyer-Moore algorithm
- @details http://www-igm.univ-mlv.fr/~lecroq/string/node14.html
- @param[in] pat: points to search patterns
- @param[in] m: length of search patterns
- @return int *prep[m + 0x100]. You need to free memory.
-*/
-static int *a_bm_prep(const void *pat, int m);
-
-static int *a_bm_prep(const void *_pat, int _m)
-{
-    const unsigned char *pat = (const unsigned char *)_pat;
-
-    int *suff = (int *)calloc((size_t)(_m + 0x000), sizeof(int));
-    int *prep = (int *)calloc((size_t)(_m + 0x100), sizeof(int));
-    int *bmBc = prep + _m;
-    int *bmGs = prep;
-
-    int m_1 = _m ? _m - 1 : 0;
-
-    /* preBmBc() */
-    {
-        int *pi = bmBc;
-        int *pd = bmBc + 0x100;
-        while (pi != pd)
-        {
-            *pi++ = _m;
-        }
-        for (int i = 0; i != m_1; ++i)
-        {
-            bmBc[pat[i]] = m_1 - i;
-        }
-    }
-
-    /* suffixes() */
-    {
-        suff[m_1] = _m;
-        int f = 0;
-        int g = m_1;
-        for (int i = m_1 - 1; i != -1; --i)
-        {
-            if ((i > g) && (suff[i + m_1 - f] < i - g))
-            {
-                suff[i] = suff[i + m_1 - f];
-            }
-            else
-            {
-                if (i < g)
-                {
-                    g = i;
-                }
-                f = i;
-                while ((g != -1) && (pat[g] == pat[g + m_1 - f]))
-                {
-                    --g;
-                }
-                suff[i] = f - g;
-            }
-        }
-    }
-
-    /* preBmGs() */
-    {
-        int *pi = bmGs;
-        int *pd = bmGs + _m;
-        while (pi != pd)
-        {
-            *pi++ = _m;
-        }
-        int j = 0;
-        for (int i = m_1; i != -1; --i)
-        {
-            if (suff[i] == i + 1)
-            {
-                int m_1_i = m_1 - i;
-                while (j != m_1_i)
-                {
-                    if (bmGs[j] == _m)
-                    {
-                        bmGs[j] = m_1_i;
-                    }
-                    ++j;
-                }
-            }
-        }
-        for (int i = 0; i != m_1; ++i)
-        {
-            bmGs[m_1 - suff[i]] = m_1 - i;
-        }
-    }
-
-    free(suff);
-
-    return prep;
-}
-
-void *a_memmem(const void *_str, int _n, const void *_pat, int _m, int **_prep)
-{
-    union
-    {
-        void *ret;
-        const unsigned char *p;
-    } p_u = {
-        .p = 0,
-    };
-
-    const unsigned char *str = (const unsigned char *)_str;
-    const unsigned char *pat = (const unsigned char *)_pat;
-
-    int *prep = ((_prep == 0) || (*_prep == 0)) ? a_bm_prep(pat, _m) : *_prep;
-    if (_prep && (*_prep == 0))
-    {
-        *_prep = prep;
-    }
-
-    int *bmGs = prep;
-    int *bmBc = prep + _m;
-
-    int j = 0;
-    while (j <= _n - _m)
-    {
-        int i = _m - 1;
-        while ((i != -1) && (pat[i] == str[i + j]))
-        {
-            --i;
-        }
-        if (i != -1)
-        {
-            int max = bmBc[str[i + j]] - _m + 1 + i;
-            if (max < bmGs[i])
-            {
-                max = bmGs[i];
-            }
-            j += max;
-        }
-        else
-        {
-            p_u.p = str + j;
-            return p_u.ret;
-        }
-    }
-
-    if (_prep == 0)
-    {
-        free(prep);
-        prep = 0;
-    }
-
-    return 0;
-}
-
-char *a_strnstr(const void *_str, int _n, const void *_pat, int **_prep)
-{
-    const char *pat = (const char *)_pat;
-    return (char *)a_memmem(_str, _n, _pat, (int)strlen(pat), _prep);
-}
-
-char *a_strstr(const void *_str, const void *_pat, int **_prep)
-{
-    const char *str = (const char *)_str;
-    const char *pat = (const char *)_pat;
-    return (char *)a_memmem(_str, (int)strlen(str), _pat, (int)strlen(pat), _prep);
-}
-
-a_str_s *a_str_init(const void *_p, size_t _n)
+a_str_s *a_str_init(const void *pdata, size_t nbyte)
 {
     a_str_s *ctx = (a_str_s *)malloc(sizeof(a_str_s));
     if (ctx)
     {
-        ctx->n = _n;
-        ctx->m = _n + 1;
-        aroundup32(ctx->m);
+        ctx->n = nbyte;
+        ctx->m = nbyte + 1;
+        AROUNDUP32(ctx->m);
         ctx->s = (char *)malloc(ctx->m);
-        if (_p && _n)
+        if (pdata && nbyte)
         {
-            memcpy(ctx->s, _p, _n);
+            memcpy(ctx->s, pdata, nbyte);
         }
         ctx->s[ctx->n] = 0;
     }
     return ctx;
+}
+
+void a_str_free(a_str_s *ctx)
+{
+    if (ctx)
+    {
+        if (ctx->s)
+        {
+            free(ctx->s);
+        }
+        free(ctx);
+    }
 }
 
 char *a_str_done(a_str_s *ctx)
@@ -204,150 +52,129 @@ char *a_str_done(a_str_s *ctx)
     return s;
 }
 
-void a_str_free(a_str_s *ctx)
-{
-    if (ctx)
-    {
-        if (ctx->s)
-        {
-            free(ctx->s);
-            ctx->s = 0;
-        }
-        free(ctx);
-    }
-}
-
-int a_str_resize_(a_str_s *ctx, size_t _m)
+int a_str_resize_(a_str_s *ctx, size_t m)
 {
     AASSERT(ctx);
-    aroundup32(_m);
-    char *s = (char *)realloc(ctx->s, _m);
-    if (!s && _m)
+    AROUNDUP32(m);
+    char *s = (char *)realloc(ctx->s, m);
+    if (!s && m)
     {
-        return -1;
+        return ~0;
     }
     ctx->s = s;
-    ctx->m = _m;
+    ctx->m = m;
     return 0;
 }
 
-int a_str_resize(a_str_s *ctx, size_t _m)
+int a_str_resize(a_str_s *ctx, size_t m)
 {
     AASSERT(ctx);
-    if (ctx->m < _m)
+    if (ctx->m < m)
     {
-        return a_str_resize_(ctx, _m);
+        return a_str_resize_(ctx, m);
     }
     return 0;
 }
 
-int a_str_putn_(a_str_s *ctx, const void *_p, size_t _n)
+int a_str_putc_(a_str_s *ctx, int c)
 {
     AASSERT(ctx);
-    if (_p && _n)
+    if (a_str_resize(ctx, ctx->n + 1))
     {
-        if (a_str_resize(ctx, ctx->n + _n))
+        return ~0;
+    }
+    ctx->s[ctx->n++] = (char)c;
+    return c;
+}
+
+int a_str_putc(a_str_s *ctx, int c)
+{
+    AASSERT(ctx);
+    if (c == 0)
+    {
+        return a_str_putc_(ctx, c);
+    }
+    if (a_str_resize(ctx, ctx->n + 2))
+    {
+        return ~0;
+    }
+    ctx->s[ctx->n++] = (char)c;
+    ctx->s[ctx->n] = 0;
+    return c;
+}
+
+int a_str_putn_(a_str_s *ctx, const void *pdata, size_t nbyte)
+{
+    AASSERT(ctx);
+    if (pdata && nbyte)
+    {
+        if (a_str_resize(ctx, ctx->n + nbyte))
         {
-            return -1;
+            return ~0;
         }
-        memcpy(ctx->s + ctx->n, _p, _n);
-        ctx->n = ctx->n + _n;
+        memcpy(ctx->s + ctx->n, pdata, nbyte);
+        ctx->n += nbyte;
     }
     return 0;
 }
 
-int a_str_putn(a_str_s *ctx, const void *_p, size_t _n)
+int a_str_putn(a_str_s *ctx, const void *pdata, size_t nbyte)
 {
     AASSERT(ctx);
-    if (_p)
+    if (pdata)
     {
-        if (a_str_resize(ctx, ctx->n + _n + 1))
+        if (a_str_resize(ctx, ctx->n + nbyte + 1))
         {
-            return -1;
+            return ~0;
         }
-        if (_n)
+        if (nbyte)
         {
-            memcpy(ctx->s + ctx->n, _p, _n);
-            ctx->n = ctx->n + _n;
+            memcpy(ctx->s + ctx->n, pdata, nbyte);
+            ctx->n += nbyte;
         }
         ctx->s[ctx->n] = 0;
     }
     return 0;
 }
 
-int a_str_puts(a_str_s *ctx, const void *_s)
+int a_str_puts(a_str_s *ctx, const void *str)
 {
-    AASSERT(_s);
     AASSERT(ctx);
-    const char *s = (const char *)_s;
-    return a_str_putn(ctx, s, strlen(s));
+    AASSERT(str);
+    return a_str_putn(ctx, str, strlen((const char *)str));
 }
 
-int a_str_putc_(a_str_s *ctx, int _c)
+int a_str_vprintf(a_str_s *ctx, const char *fmt, va_list va)
 {
     AASSERT(ctx);
-    if (a_str_resize(ctx, ctx->n + 1))
-    {
-        return -1;
-    }
-    ctx->s[ctx->n++] = (char)_c;
-    return _c;
-}
-
-int a_str_putc(a_str_s *ctx, int _c)
-{
-    AASSERT(ctx);
-    if (_c == 0)
-    {
-        return a_str_putc_(ctx, _c);
-    }
-    if (a_str_resize(ctx, ctx->n + 2))
-    {
-        return -1;
-    }
-    ctx->s[ctx->n++] = (char)_c;
-    ctx->s[ctx->n] = 0;
-    return _c;
-}
-
-int a_str_vprintf(a_str_s *ctx, const char *_fmt, va_list _ap)
-{
-    AASSERT(ctx);
-    AASSERT(_fmt);
+    AASSERT(fmt);
     va_list ap;
-
-    va_copy(ap, _ap);
+    va_copy(ap, va);
     char *s = ctx->s ? (ctx->s + ctx->n) : 0;
-    int ret = vsnprintf(s, ctx->m - ctx->n, _fmt, ap);
+    int ret = vsnprintf(s, ctx->m - ctx->n, fmt, ap);
     va_end(ap);
-
     if (ctx->m - ctx->n < (size_t)ret + 1)
     {
         if (a_str_resize_(ctx, ctx->n + (size_t)ret + 1))
         {
-            return -1;
+            return ~0;
         }
-
-        va_copy(ap, _ap);
+        va_copy(ap, va);
         s = ctx->s + ctx->n;
-        ret = vsnprintf(s, ctx->m - ctx->n, _fmt, ap);
+        ret = vsnprintf(s, ctx->m - ctx->n, fmt, ap);
         va_end(ap);
     }
-
     ctx->n += (size_t)ret;
-
     return ret;
 }
 
-int a_str_printf(a_str_s *ctx, const char *_fmt, ...)
+int a_str_printf(a_str_s *ctx, const char *fmt, ...)
 {
     AASSERT(ctx);
-    AASSERT(_fmt);
+    AASSERT(fmt);
     va_list ap;
-
-    va_start(ap, _fmt);
-    int ret = a_str_vprintf(ctx, _fmt, ap);
+    va_start(ap, fmt);
+    int ret = a_str_vprintf(ctx, fmt, ap);
     va_end(ap);
-
     return ret;
 }

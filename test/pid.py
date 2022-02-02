@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
- @file test_pid.py
+ @file pid.py
  @brief test Proportional Integral Derivative Algorithm
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 '''

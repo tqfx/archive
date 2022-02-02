@@ -1,6 +1,6 @@
 /*!
  @file a_list.h
- @brief Generic single-linked list and memory pool
+ @brief Circular double-linked list.
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
@@ -10,331 +10,197 @@
 
 #include "liba.h"
 
-#include <stdlib.h> /* alloc */
+typedef struct a_list_s
+{
+    struct a_list_s *next, *last;
+} a_list_s;
 
-#ifndef a_mempool_s
-#define a_mempool_s(_type)             \
-    struct                             \
-    {                                  \
-        size_t m;  /* really memory */ \
-        size_t n;  /* unused memory */ \
-        size_t a;  /* memory alloc */  \
-        _type **p; /* memory table */  \
+#define A_LIST_HEAD_INIT(name) \
+    {                          \
+        &(name), &(name)       \
     }
-#endif /* a_mempool_s */
+#define A_LIST_HEAD(name) a_list_s name[1] = {{name, name}}
 
-#ifndef a_mempool_t
-#define a_mempool_t(_def) a_mempool_##_def##_s
-#endif /* a_mempool_t */
-#ifndef a_mempool_type
-#define a_mempool_type(_def, _type)     \
-    typedef struct a_mempool_##_def##_s \
-    {                                   \
-        size_t m;  /* really memory */  \
-        size_t n;  /* unused memory */  \
-        size_t a;  /* memory alloc */   \
-        _type **p; /* memory table */   \
-    } a_mempool_##_def##_s
-#endif /* a_mempool_type */
+#define a_list_entry(ptr, type, member)      containerof(ptr, type, member)
+#define a_list_entry_next(ptr, type, member) a_list_entry((ptr)->next, type, member)
+#define a_list_entry_last(ptr, type, member) a_list_entry((ptr)->last, type, member)
 
-#ifndef a_mempool_inits
-#define a_mempool_inits() \
-    {                     \
-        0, 0, 0, 0,       \
+#define a_list_for_(p, list, next) \
+    for ((p) = (list)->next; (p) != (list); (p) = (p)->next)
+#define a_list_for_next(p, list) a_list_for_(p, list, next)
+#define a_list_for_last(p, list) a_list_for_(p, list, last)
+
+#define a_list_forsafe_(p, n, list, next) \
+    for ((p) = (list)->next, (n) = (p)->next; (p) != (list); (p) = (n), (n) = (p)->next)
+#define a_list_forsafe_next(p, n, list) a_list_forsafe_(p, n, list, next)
+#define a_list_forsafe_last(p, n, list) a_list_forsafe_(p, n, list, last)
+
+__STATIC_INLINE
+void a_list_ctor(a_list_s *list)
+{
+    list->next = list->last = list;
+}
+__STATIC_INLINE
+void a_list_link(a_list_s *head, a_list_s *tail)
+{
+    /*!
+    \dot
+    digraph a_list_link {
+        node[shape="record"]
+        nodehead[label="{<last>last|<addr>head|<next>next}"]
+        nodetail[label="{<last>last|<addr>tail|<next>next}"]
+        nodehead:next -> nodetail:addr [color=green]
+        nodetail:last -> nodehead:addr [color=green]
+        nodehead -> "..." -> nodetail
     }
-#endif /* a_mempool_inits */
+    \enddot
+    */
+    head->next = tail;
+    tail->last = head;
+}
+__STATIC_INLINE
+void a_list_loop(a_list_s *head, a_list_s *tail)
+{
+    /*!
+    \dot
+    digraph a_list_loop {
+        node[shape="record"]
+        nodehead[label="{<last>last|<addr>head|<next>next}"]
+        nodetail[label="{<last>last|<addr>tail|<next>next}"]
+        nodehead:last -> nodetail:addr [color=green]
+        nodetail:next -> nodehead:addr [color=green]
+        nodehead -> "..." -> nodetail
+    }
+    \enddot
+    */
+    head->last = tail;
+    tail->next = head;
+}
 
-#ifndef a_mempool_init
-#define a_mempool_init(_ctx) ( \
-    (_ctx).m = (_ctx).n = (_ctx).a = 0, (_ctx).p = 0)
-#endif /* a_mempool_init */
+__STATIC_INLINE
+void a_list_add_(a_list_s *head1, a_list_s *tail1,
+                 a_list_s *head2, a_list_s *tail2)
+{
+    /*!
+    \dot
+    digraph a_list_add_ {
+        node[shape="record"]
+        subgraph cluster0 {
+            head1[label="<last>last|<addr>head1|<next>next"]
+            tail1[label="<last>last|<addr>tail1|<next>next"]
+        }
+        subgraph cluster1 {
+            head2[label="<last>last|<addr>head2|<next>next"]
+            tail2[label="<last>last|<addr>tail2|<next>next"]
+        }
+        tail1:next -> head2:addr [color=green]
+        head2:last -> tail1:addr [color=green]
+        tail2:next -> head1:addr [color=green]
+        head1:last -> tail2:addr [color=green]
+    }
+    \enddot
+    */
+    a_list_link(tail1, head2);
+    a_list_link(tail2, head1);
+}
+__STATIC_INLINE
+void a_list_add_node(a_list_s *head, a_list_s *tail, a_list_s *node)
+{
+    a_list_add_(head, tail, node, node);
+}
+__STATIC_INLINE
+void a_list_add_next(a_list_s *list, a_list_s *node)
+{
+    a_list_add_(list->next, list, node, node);
+}
+__STATIC_INLINE
+void a_list_add_last(a_list_s *list, a_list_s *node)
+{
+    a_list_add_(list, list->last, node, node);
+}
+__STATIC_INLINE
+void a_list_mov_next(a_list_s *list1, a_list_s *a_list)
+{
+    a_list_add_(list1->next, list1, a_list->next, a_list->last);
+    a_list_loop(a_list, a_list);
+}
+__STATIC_INLINE
+void a_list_mov_last(a_list_s *list1, a_list_s *a_list)
+{
+    a_list_add_(list1, list1->last, a_list->next, a_list->last);
+    a_list_loop(a_list, a_list);
+}
 
-#ifndef a_mempool_pinit
-#define a_mempool_pinit(_def, _ctx) (                      \
-    (_ctx) = (a_mempool_t(_def) *)malloc(sizeof(*(_ctx))), \
-    (_ctx) ? (a_mempool_init(*(_ctx)), 0) : -1)
-#endif /* a_mempool_pinit */
+__STATIC_INLINE
+void a_list_del_(a_list_s *head, a_list_s *tail)
+{
+    /*!
+    \dot
+    digraph a_list_del_ {
+        node[shape="record"]
+        head[label="<last>last|<addr>head-last|<next>next"]
+        tail[label="<last>last|<addr>tail-next|<next>next"]
+        nodehead[label="<last>last|<addr>head|<next>next"]
+        nodetail[label="<last>last|<addr>tail|<next>next"]
+        head:addr -> nodehead:addr -> "..." -> nodetail:addr -> tail:addr [dir=both]
+        head:next -> tail:addr [color=green]
+        tail:last -> head:addr [color=green]
+    }
+    \enddot
+    */
+    a_list_link(head->last, tail->next);
+}
+__STATIC_INLINE
+void a_list_del_node(a_list_s *node)
+{
+    a_list_del_(node, node);
+}
+__STATIC_INLINE
+void a_list_rot_last(a_list_s *list)
+{
+    a_list_s *node = list->next;
+    a_list_del_(node, node);
+    a_list_add_last(list, node);
+}
+__STATIC_INLINE
+void a_list_rot_next(a_list_s *list)
+{
+    a_list_s *node = list->last;
+    a_list_del_(node, node);
+    a_list_add_next(list, node);
+}
 
-#ifndef a_mempool_initp
-#define a_mempool_initp(_def) ( \
-    (a_mempool_t(_def) *)calloc(1, sizeof(a_mempool_t(_def))))
-#endif /* a_mempool_initp */
+__STATIC_INLINE
+void a_list_replace_(a_list_s *head1, a_list_s *tail1,
+                     a_list_s *head2, a_list_s *tail2)
+{
+    a_list_add_(tail1->next, head1->last, head2, tail2);
+}
+__STATIC_INLINE
+void a_list_replace_node(a_list_s *lold, a_list_s *lnew)
+{
+    (lold != lnew) ? a_list_replace_(lold, lold, lnew, lnew) : (void)0;
+}
 
-#ifndef a_mempool_done
-#define a_mempool_done(_ctx, _func)    \
-    do                                 \
-    {                                  \
-        while ((_ctx).n)               \
-        {                              \
-            --(_ctx).n;                \
-            _func((_ctx).p[(_ctx).n]); \
-            free((_ctx).p[(_ctx).n]);  \
-            (_ctx).p[(_ctx).n] = 0;    \
-        }                              \
-        if ((_ctx).m)                  \
-        {                              \
-            free((_ctx).p);            \
-            (_ctx).p = 0;              \
-            (_ctx).m = 0;              \
-        }                              \
-    } while (0)
-#endif /* a_mempool_done */
-#ifndef a_mempool_pdone
-#define a_mempool_pdone(_ctx, _func)        \
-    do                                      \
-    {                                       \
-        if (_ctx)                           \
-        {                                   \
-            a_mempool_done(*(_ctx), _func); \
-            free(_ctx);                     \
-            (_ctx) = 0;                     \
-        }                                   \
-    } while (0)
-#endif /* a_mempool_pdone */
+__STATIC_INLINE
+void a_list_swap_(a_list_s *head1, a_list_s *tail1,
+                  a_list_s *head2, a_list_s *tail2)
+{
+    a_list_s *head = tail2->next, *tail = head2->last;
+    a_list_add_(tail1->next, head1->last, head2, tail2);
+    a_list_add_(head, tail, head1, tail1);
+}
+__STATIC_INLINE
+void a_list_swap_node(a_list_s *node1, a_list_s *node2)
+{
+    a_list_swap_(node1, node1, node2, node2);
+}
 
-/* a_mempool_alloc */
-#ifndef a_mempool_alloc
-#define a_mempool_alloc(_type, _ctx) (      \
-    ++(_ctx).a,                             \
-    (_ctx).n == 0                           \
-        ? /*0 = n*/                         \
-        (_type *)malloc(sizeof(**(_ctx).p)) \
-        : /*n > 0*/                         \
-        (_ctx).p[--(_ctx).n])
-#endif /* a_mempool_alloc */
-/* a_mempool_palloc */
-#ifndef a_mempool_palloc
-#define a_mempool_palloc(_type, _ctx) a_mempool_alloc(_type, *(_ctx))
-#endif /* a_mempool_palloc */
-
-#ifndef a_mempool_free
-#define a_mempool_free(_type, _ctx, _pdat) (                                   \
-    --(_ctx).a,                                                                \
-    (_ctx).n == (_ctx).m                                                       \
-        ? /*n == m*/                                                           \
-        ((_ctx).m = (_ctx).m ? ((_ctx).m << 1) : 0x10,                         \
-         (_ctx).p = (_type **)realloc((_ctx).p, sizeof(*(_ctx).p) * (_ctx).m)) \
-        : 0 /*n < m*/,                                                         \
-    (_ctx).p[(_ctx).n++] = (_pdat))
-#endif /* a_mempool_free */
-#ifndef a_mempool_pfree
-#define a_mempool_pfree(_type, _ctx, _pdat) a_mempool_free(_type, *(_ctx), _pdat)
-#endif /* a_mempool_pfree */
-
-#ifndef a_list1_t
-#define a_list1_t(_def) a_list1_##_def##_s
-#endif /* a_list1_t */
-#ifndef a_list1_type
-#define a_list1_type(_def, _type)        \
-    typedef struct a_list1_##_def##_s    \
-    {                                    \
-        struct a_list1_##_def##_s *next; \
-        _type data;                      \
-    } a_list1_##_def##_s
-#endif /* a_list1_type */
-
-#ifndef a_list1_data
-#define a_list1_data(_ctx) (_ctx)->data
-#endif /* a_list1_data */
-
-#ifndef a_list1_next
-#define a_list1_next(_ctx) (_ctx)->next
-#endif /* a_list1_next */
-
-#ifndef a_list2_t
-#define a_list2_t(_def) a_list2_##_def##_s
-#endif /* a_list2_t */
-#ifndef a_list2_type
-#define a_list2_type(_def, _type)        \
-    typedef struct a_list2_##_def##_s    \
-    {                                    \
-        struct a_list2_##_def##_s *last; \
-        struct a_list2_##_def##_s *next; \
-        _type data;                      \
-    } a_list2_##_def##_s
-#endif /* a_list2_type */
-
-#ifndef a_list2_data
-#define a_list2_data(_ctx) (_ctx)->data
-#endif /* a_list2_data */
-
-#ifndef a_list2_next
-#define a_list2_next(_ctx) (_ctx)->next
-#endif /* a_list2_next */
-
-#ifndef a_list2_last
-#define a_list2_last(_ctx) (_ctx)->last
-#endif /* a_list2_last */
-
-#ifndef a_list_t
-#define a_list_t(_def) a_list_##_def##_s
-#endif /* a_list_t */
-#ifndef a_list_type
-#define a_list_type(_def, _type)           \
-    a_list1_type(_def, _type);             \
-    a_mempool_type(_def, a_list1_t(_def)); \
-    typedef struct a_list_##_def##_s       \
-    {                                      \
-        a_list1_t(_def) * head;            \
-        a_list1_t(_def) * tail;            \
-        a_mempool_t(_def) mem;             \
-        size_t siz;                        \
-    } a_list_##_def##_s
-#endif /* a_list_type */
-
-#ifndef a_list_head
-#define a_list_head(_ctx) (_ctx).head
-#endif /* a_list_head */
-#ifndef a_list_phead
-#define a_list_phead(_ctx) a_list_head(*(_ctx))
-#endif /* a_list_phead */
-
-#ifndef a_list_tail
-#define a_list_tail(_ctx) (_ctx).tail
-#endif /* a_list_tail */
-#ifndef a_list_ptail
-#define a_list_ptail(_ctx) a_list_tail(*(_ctx))
-#endif /* a_list_ptail */
-
-#ifndef a_list_mem
-#define a_list_mem(_ctx) (_ctx).mem
-#endif /* a_list_mem */
-#ifndef a_list_pmem
-#define a_list_pmem(_ctx) a_list_mem(*(_ctx))
-#endif /* a_list_pmem */
-
-#ifndef a_list_siz
-#define a_list_siz(_ctx) (_ctx).siz
-#endif /* a_list_siz */
-#ifndef a_list_psiz
-#define a_list_psiz(_ctx) a_list_siz(*(_ctx))
-#endif /* a_list_psiz */
-
-#ifndef a_list_init
-#define a_list_init(_def, _ctx) (                                             \
-    a_mempool_init((_ctx).mem),                                               \
-    (_ctx).tail = (_ctx).head = a_mempool_alloc(a_list1_t(_def), (_ctx).mem), \
-    (_ctx).tail->next = 0,                                                    \
-    (_ctx).siz = 0)
-#endif /* a_list_init */
-#ifndef a_list_pinit
-#define a_list_pinit(_def, _ctx) (                      \
-    (_ctx) = (a_list_t(_def) *)malloc(sizeof(*(_ctx))), \
-    (_ctx) ? (a_list_init(_def, *(_ctx)), 0) : -1)
-#endif /* a_list_pinit */
-
-#ifndef a_list_done
-#define a_list_done(_def, _ctx, _func)                                \
-    do                                                                \
-    {                                                                 \
-        while ((_ctx).head)                                           \
-        {                                                             \
-            a_mempool_free(a_list1_t(_def), (_ctx).mem, (_ctx).head); \
-            (_ctx).head = (_ctx).head->next;                          \
-        }                                                             \
-        a_mempool_done((_ctx).mem, _func);                            \
-        (_ctx).tail = 0;                                              \
-        (_ctx).siz = 0;                                               \
-    } while (0)
-#endif /* a_list_done */
-#ifndef a_list_pdone
-#define a_list_pdone(_def, _ctx, _func)        \
-    do                                         \
-    {                                          \
-        if (_ctx)                              \
-        {                                      \
-            a_list_done(_def, *(_ctx), _func); \
-            free(_ctx);                        \
-            (_ctx) = 0;                        \
-        }                                      \
-    } while (0)
-#endif /* a_list_pdone */
-
-#ifndef a_list_push
-#define a_list_push(_def, _ctx, _x) (                                 \
-    ++(_ctx).siz,                                                     \
-    (_ctx).tail->next = a_mempool_alloc(a_list1_t(_def), (_ctx).mem), \
-    (_ctx).tail = (_ctx).tail->next,                                  \
-    (_ctx).tail->data = (_x),                                         \
-    (_ctx).tail->next = 0)
-#endif /* a_list_push */
-#ifndef a_list_ppush
-#define a_list_ppush(_def, _ctx, _x) a_list_push(_def, *(_ctx), _x)
-#endif /* a_list_ppush */
-
-#ifndef a_list_pushp
-#define a_list_pushp(_def, _ctx) (                                    \
-    ++(_ctx).siz,                                                     \
-    (_ctx).tail->next = a_mempool_alloc(a_list1_t(_def), (_ctx).mem), \
-    (_ctx).tail = (_ctx).tail->next,                                  \
-    (_ctx).tail->next = 0,                                            \
-    &(_ctx).tail->data)
-#endif /* a_list_pushp */
-#ifndef a_list_ppushp
-#define a_list_ppushp(_def, _ctx) a_list_pushp(_def, *(_ctx))
-#endif /* a_list_ppushp */
-
-#ifndef a_list_ins
-#define a_list_ins(_def, _ctx, _x)                                          \
-    do                                                                      \
-    {                                                                       \
-        ++(_ctx).siz;                                                       \
-        a_list1_t(_def) *_p = a_mempool_alloc(a_list1_t(_def), (_ctx).mem); \
-        _p->next = (_ctx).head->next;                                       \
-        (_ctx).head->next = _p;                                             \
-        _p->data = (_x);                                                    \
-    } while (0)
-#endif /* a_list_ins */
-#ifndef a_list_pins
-#define a_list_pins(_def, _ctx, _x) a_list_ins(_def, *(_ctx), _x)
-#endif /* a_list_pins */
-
-#ifndef a_list_insp
-#define a_list_insp(_def, _ctx, _px)                                        \
-    do                                                                      \
-    {                                                                       \
-        ++(_ctx).siz;                                                       \
-        a_list1_t(_def) *_p = a_mempool_alloc(a_list1_t(_def), (_ctx).mem); \
-        _p->next = (_ctx).head->next;                                       \
-        (_ctx).head->next = _p;                                             \
-        (_px) = &_p->data;                                                  \
-    } while (0)
-#endif /* a_list_insp */
-#ifndef a_list_pinsp
-#define a_list_pinsp(_def, _ctx, _px) a_list_insp(_def, *(_ctx), _px)
-#endif /* a_list_pinsp */
-
-#ifndef a_list_pop
-#define a_list_pop(_def, _ctx, _x) (                                     \
-    (_ctx).head->next                                                    \
-        ? /*head->next != 0*/                                            \
-        (--(_ctx).siz,                                                   \
-         (_x) = (_ctx).head->next->data,                                 \
-         a_mempool_free(a_list1_t(_def), (_ctx).mem, (_ctx).head->next), \
-         (_ctx).head->next = (_ctx).head->next->next,                    \
-         0)                                                              \
-        : /*head->next == 0*/                                            \
-        -1)
-#endif /* a_list_pop */
-#ifndef a_list_ppop
-#define a_list_ppop(_def, _ctx, _x) a_list_pop(_def, *(_ctx), _x)
-#endif /* a_list_ppop */
-
-#ifndef a_list_popp
-#define a_list_popp(_def, _ctx, _px) (                                   \
-    (_ctx).head->next                                                    \
-        ? /*head->next != 0*/                                            \
-        (--(_ctx).siz,                                                   \
-         (_px) = &(_ctx).head->next->data,                               \
-         a_mempool_free(a_list1_t(_def), (_ctx).mem, (_ctx).head->next), \
-         (_ctx).head->next = (_ctx).head->next->next,                    \
-         0)                                                              \
-        : /*head->next == 0*/                                            \
-        -1)
-#endif /* a_list_popp */
-#ifndef a_list_ppopp
-#define a_list_ppopp(_def, _ctx, _px) a_list_popp(_def, *(_ctx), _px)
-#endif /* a_list_ppop */
+__STATIC_INLINE
+int a_list_empty(const a_list_s *list)
+{
+    return list && (list == list->next) && (list == list->last);
+}
 
 /* Enddef to prevent recursive inclusion */
 #endif /* __A_LIST_H__ */

@@ -1,5 +1,5 @@
 /*!
- @file test_str.c
+ @file str.cpp
  @brief test string library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
@@ -11,7 +11,7 @@
 static void tests(void)
 {
     const char *str = 0;
-    a_str_s ctx[1] = {a_str_inits()};
+    a_str_s ctx[1] = {A_STR_INITS()};
     str = a_str_done(ctx);
     printf("0x%zX ", (size_t)str);
     a_str_putc_(ctx, 0);
@@ -21,7 +21,7 @@ static void tests(void)
     a_str_putn(ctx, 0, 0);
     str = a_str_val(ctx);
     printf("0x%zX\n", (size_t)str);
-    a_str_sfree(*ctx);
+    A_STR_SFREE(*ctx);
 }
 
 static void testt(void)
@@ -42,22 +42,12 @@ static void testt(void)
     a_str_free(ctx);
 }
 
-static void testm(void)
-{
-    int *p = 0;
-    const char *pat = "def";
-    const char *s = "abcdefghijklmnopqrst";
-    printf("%s %s %s %s\n", s, pat, a_strstr(s, pat, &p), a_strstr(s, pat, &p));
-    free(p);
-}
-
 int main(int argc, char *argv[])
 {
     (void)argc, (void)argv;
 
     tests();
     testt();
-    testm();
 
     return 0;
 }

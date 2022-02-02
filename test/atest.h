@@ -1,12 +1,12 @@
 /*!
- @file test_hash.h
- @brief hash library test
+ @file atest.h
+ @brief test header file
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
 /* Define to prevent recursive inclusion */
-#ifndef __TEST_HASH_H__
-#define __TEST_HASH_H__
+#ifndef __ATEST__
+#define __ATEST__
 
 #include "a_convert.h"
 
@@ -27,6 +27,4 @@
     } while (0)
 
 /* Enddef to prevent recursive inclusion */
-#endif /* __TEST_HASH_H__ */
-
-/* END OF FILE */
+#endif /* __ATEST__ */
