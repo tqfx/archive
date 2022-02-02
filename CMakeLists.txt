@@ -52,9 +52,9 @@ if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_C_COMPILER_ID} MATCHES "(Appl
   target_link_libraries(${PROJECT_NAME} m)
 endif()
 
-enable_testing()
-option(BUILD_TESTING_LIBA "Enable building tests" OFF)
-if(BUILD_TESTING_LIBA)
+option(ENABLE_TEST_LIBA "Enable building tests" OFF)
+if(ENABLE_TEST_LIBA)
+  enable_testing()
   add_subdirectory(test)
 endif()
 
