@@ -41,6 +41,11 @@ void a_list_ctor(a_list_s *list)
     list->next = list->last = list;
 }
 __STATIC_INLINE
+int a_list_empty(const a_list_s *list)
+{
+    return list && ((list == list->next) || (list == list->last));
+}
+__STATIC_INLINE
 void a_list_link(a_list_s *head, a_list_s *tail)
 {
     /*!
@@ -119,16 +124,16 @@ void a_list_add_last(a_list_s *list, a_list_s *node)
     a_list_add_(list, list->last, node, node);
 }
 __STATIC_INLINE
-void a_list_mov_next(a_list_s *list1, a_list_s *a_list)
+void a_list_mov_next(a_list_s *list1, a_list_s *list2)
 {
-    a_list_add_(list1->next, list1, a_list->next, a_list->last);
-    a_list_loop(a_list, a_list);
+    a_list_add_(list1->next, list1, list2->next, list2->last);
+    a_list_loop(list2, list2);
 }
 __STATIC_INLINE
-void a_list_mov_last(a_list_s *list1, a_list_s *a_list)
+void a_list_mov_last(a_list_s *list1, a_list_s *list2)
 {
-    a_list_add_(list1, list1->last, a_list->next, a_list->last);
-    a_list_loop(a_list, a_list);
+    a_list_add_(list1, list1->last, list2->next, list2->last);
+    a_list_loop(list2, list2);
 }
 
 __STATIC_INLINE
@@ -194,12 +199,6 @@ __STATIC_INLINE
 void a_list_swap_node(a_list_s *node1, a_list_s *node2)
 {
     a_list_swap_(node1, node1, node2, node2);
-}
-
-__STATIC_INLINE
-int a_list_empty(const a_list_s *list)
-{
-    return list && (list == list->next) && (list == list->last);
 }
 
 /* Enddef to prevent recursive inclusion */
