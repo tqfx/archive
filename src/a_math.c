@@ -8,37 +8,29 @@
 
 #include <stdarg.h>
 
-static union
-{
-    float f32;
-    unsigned long u32;
-} b32[1];
-
 float a_inv_sqrt(float x)
 {
-    b32->f32 = x;
-
-    if (b32->u32 & 0x80000000)
-    {
-        b32->u32 = 0xFFC00000;
-        x = b32->f32;
-    }
-    else if (b32->u32 & 0x7FFFFFFF)
+    if (x > 0)
     {
         float xh = 0.5F * x;
 
-        b32->u32 = 0x5F3759DF - (b32->u32 >> 1);
-        x = b32->f32;
+        uint32_t ul = *(uint32_t *)&x;
+        ul = 0x5F3759DF - (ul >> 1);
+        x = *(float *)&ul;
 
         x = x * (1.5F - (xh * x * x));
         x = x * (1.5F - (xh * x * x));
+    }
+    else if (x < 0)
+    {
+        uint32_t ul = 0xFFC00000;
+        x = *(float *)&ul;
     }
     else
     {
-        b32->u32 = 0x7F800000;
-        x = b32->f32;
+        uint32_t ul = 0x7F800000;
+        x = *(float *)&ul;
     }
-
     return x;
 }
 

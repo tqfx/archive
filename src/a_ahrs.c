@@ -13,18 +13,24 @@
 
 #include <math.h>
 
-#undef KP
-#undef KI
-#undef KP2
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#endif /* _MSC_VER */
 
+#undef KP
 /*!
  Proportional gain governs rate of convergence to accelerometer/magnetometer
 */
 #define KP 2.0F
+
+#undef KI
 /*!
  Integral gain governs rate of convergence of gyroscope biases
 */
 #define KI 0.01F
+
+#undef KP2
 /*!
  2 * proportional gain (Kp)
 */
@@ -60,53 +66,9 @@ typedef enum
     A_AHRS_AXIS6, //!< 6 axis
 } a_ahrs_e;
 
-/* convert between long and float */
-static union
-{
-    float f32;
-    unsigned long u32;
-} b32[3];
-
 static float eix; /* error integral of x axis */
 static float eiy; /* error integral of y axis */
 static float eiz; /* error integral of z axis */
-
-/* inv_sqrt */
-#ifndef __A_MATH_H__
-/*!
- @brief fast inverse square-root, to calculate 1 / sqrtf(x)
- @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
- @param[in] x: the number need to be calculated
- @return 1 / sqrtf(x)
-*/
-static float a_inv_sqrt(float x)
-{
-    b32->f32 = x;
-
-    if (b32->u32 & 0x80000000)
-    {
-        b32->u32 = 0xFFC00000;
-        x = b32->f32;
-    }
-    else if (b32->u32 & 0x7FFFFFFF)
-    {
-        float xh = 0.5F * x;
-
-        b32->u32 = 0x5F3759DF - (b32->u32 >> 1);
-        x = b32->f32;
-
-        x = x * (1.5F - (xh * x * x));
-        x = x * (1.5F - (xh * x * x));
-    }
-    else
-    {
-        b32->u32 = 0x7F800000;
-        x = b32->f32;
-    }
-
-    return x;
-}
-#endif /* __A_MATH_H__ */
 
 #undef x
 #undef y
@@ -124,14 +86,8 @@ void a_ahrs_mahony(float q[4], float g[3], float a[3], float m[3], float ht)
 
     a_ahrs_e type = A_AHRS_AXIS9;
 
-    b32[x].f32 = m[x];
-    b32[y].f32 = m[y];
-    b32[z].f32 = m[z];
     /* Avoids NaN in magnetometer normalisation */
-    if ((b32[x].u32 & 0x7FFFFFFF) ||
-        (b32[y].u32 & 0x7FFFFFFF) ||
-        (b32[z].u32 & 0x7FFFFFFF))
-    /* mx != 0 && my != 0 && mz != 0 */
+    if ((m[x] != 0.0F) || (m[y] != 0.0F) || (m[z] != 0.0F))
     {
         /* Normalise magnetometer measurement */
         NORM3(m[x], m[y], m[z]);
@@ -153,14 +109,8 @@ void a_ahrs_mahony(float q[4], float g[3], float a[3], float m[3], float ht)
     float q2q3 = q[2] * q[3];
     float q3q3 = q[3] * q[3];
 
-    b32[x].f32 = a[x];
-    b32[y].f32 = a[y];
-    b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].u32 & 0x7FFFFFFF) ||
-        (b32[y].u32 & 0x7FFFFFFF) ||
-        (b32[z].u32 & 0x7FFFFFFF))
-    /* ax != 0 && ay != 0 && az != 0 */
+    if ((a[x] != 0.0F) || (a[y] != 0.0F) || (a[z] != 0.0F))
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -233,14 +183,8 @@ void a_ahrs_mahony(float q[4], float g[3], float a[3], float m[3], float ht)
             e[z] += m[x] * wy - m[y] * wx;
         }
 
-        b32[x].f32 = e[x];
-        b32[y].f32 = e[y];
-        b32[z].f32 = e[z];
         /* PI */
-        if ((b32[x].u32 & 0x7FFFFFFF) ||
-            (b32[y].u32 & 0x7FFFFFFF) ||
-            (b32[z].u32 & 0x7FFFFFFF))
-        /* ex != 0 && ey != 0 && ez != 0 */
+        if ((e[x] != 0.0F) || (e[y] != 0.0F) || (e[z] != 0.0F))
         {
             eix += e[x] * KI * ht;
             eiy += e[y] * KI * ht;
@@ -281,14 +225,8 @@ void a_ahrs_mahony_imu(float q[4], float g[3], float a[3], float ht)
     float q2q3 = q[2] * q[3];
     float q3q3 = q[3] * q[3];
 
-    b32[x].f32 = a[x];
-    b32[y].f32 = a[y];
-    b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].u32 & 0x7FFFFFFF) ||
-        (b32[y].u32 & 0x7FFFFFFF) ||
-        (b32[z].u32 & 0x7FFFFFFF))
-    /* ax != 0 && ay != 0 && az != 0 */
+    if ((a[x] != 0.0F) || (a[y] != 0.0F) || (a[z] != 0.0F))
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -311,14 +249,8 @@ void a_ahrs_mahony_imu(float q[4], float g[3], float a[3], float ht)
         e[y] = a[z] * vx - a[x] * vz;
         e[z] = a[x] * vy - a[y] * vx;
 
-        b32[x].f32 = e[x];
-        b32[y].f32 = e[y];
-        b32[z].f32 = e[z];
         /* PI */
-        if ((b32[x].u32 & 0x7FFFFFFF) ||
-            (b32[y].u32 & 0x7FFFFFFF) ||
-            (b32[z].u32 & 0x7FFFFFFF))
-        /* ex != 0 && ey != 0 && ez != 0 */
+        if ((e[x] != 0.0F) || (e[y] != 0.0F) || (e[z] != 0.0F))
         {
             eix += e[x] * KI * ht;
             eiy += e[y] * KI * ht;
@@ -352,14 +284,8 @@ void a_ahrs_madgwick(float q[4], float g[3], float a[3], float m[3], float t)
 
     a_ahrs_e type = A_AHRS_AXIS9;
 
-    b32[x].f32 = m[x];
-    b32[y].f32 = m[y];
-    b32[z].f32 = m[z];
     /* Avoids NaN in magnetometer normalisation */
-    if ((b32[x].u32 & 0x7FFFFFFF) ||
-        (b32[y].u32 & 0x7FFFFFFF) ||
-        (b32[z].u32 & 0x7FFFFFFF))
-    /* mx != 0 && my != 0 && mz != 0 */
+    if ((m[x] != 0.0F) || (m[y] != 0.0F) || (m[z] != 0.0F))
     {
         /* Normalise magnetometer measurement */
         NORM3(m[x], m[y], m[z]);
@@ -375,14 +301,8 @@ void a_ahrs_madgwick(float q[4], float g[3], float a[3], float m[3], float t)
     float q_dot3 = 0.5F * (+q[0] * g[y] - q[1] * g[z] + q[3] * g[x]);
     float q_dot4 = 0.5F * (+q[0] * g[z] + q[1] * g[y] - q[2] * g[x]);
 
-    b32[x].f32 = a[x];
-    b32[y].f32 = a[y];
-    b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].u32 & 0x7FFFFFFF) ||
-        (b32[y].u32 & 0x7FFFFFFF) ||
-        (b32[z].u32 & 0x7FFFFFFF))
-    /* ax != 0 && ay != 0 && az != 0 */
+    if ((a[x] != 0.0F) || (a[y] != 0.0F) || (a[z] != 0.0F))
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -544,14 +464,8 @@ void a_ahrs_madgwick_imu(float q[4], float g[3], float a[3], float t)
     float q_dot3 = 0.5F * (+q[0] * g[y] - q[1] * g[z] + q[3] * g[x]);
     float q_dot4 = 0.5F * (+q[0] * g[z] + q[1] * g[y] - q[2] * g[x]);
 
-    b32[x].f32 = a[x];
-    b32[y].f32 = a[y];
-    b32[z].f32 = a[z];
     /* Avoids NaN in accelerometer normalisation */
-    if ((b32[x].u32 & 0x7FFFFFFF) ||
-        (b32[y].u32 & 0x7FFFFFFF) ||
-        (b32[z].u32 & 0x7FFFFFFF))
-    /* ax != 0 && ay != 0 && az != 0 */
+    if ((a[x] != 0.0F) || (a[y] != 0.0F) || (a[z] != 0.0F))
     {
         /* Normalise accelerometer measurement */
         NORM3(a[x], a[y], a[z]);
@@ -620,3 +534,7 @@ void a_ahrs_madgwick_imu(float q[4], float g[3], float a[3], float t)
 #undef x
 #undef y
 #undef z
+
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
