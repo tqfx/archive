@@ -356,23 +356,21 @@ static void key_schedule(uint64_t *x)
     x[7] -= x[6] ^ 0x0123456789ABCDEF;
 }
 
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-align"
+#endif /* _MSC_VER */
+
 static void a_tiger_compress(a_tiger_s *ctx, const unsigned char *buf)
 {
     uint64_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
-
-    /* (unsigned char *) -> (uint64_t *) */
-    union
-    {
-        uint64_t *x;
-        unsigned char *buf;
-    } up[1];
-    up->buf = ctx->buf;
+    uint64_t *x = (uint64_t *)ctx->buf;
     if (ctx->buf != buf)
     {
         /* load words */
         for (unsigned int i = 0; i != 8; ++i)
         {
-            LOAD64L(up->x[i], buf + sizeof(*ctx->state) * i);
+            LOAD64L(x[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
@@ -383,17 +381,21 @@ static void a_tiger_compress(a_tiger_s *ctx, const unsigned char *buf)
     }
 
     /* compress */
-    pass(s + 0, s + 1, s + 2, up->x, 5);
-    key_schedule(up->x);
-    pass(s + 2, s + 0, s + 1, up->x, 7);
-    key_schedule(up->x);
-    pass(s + 1, s + 2, s + 0, up->x, 9);
+    pass(s + 0, s + 1, s + 2, x, 5);
+    key_schedule(x);
+    pass(s + 2, s + 0, s + 1, x, 7);
+    key_schedule(x);
+    pass(s + 1, s + 2, s + 0, x, 9);
 
     /* feedback */
     ctx->state[0] = s[0] ^ ctx->state[0];
     ctx->state[1] = s[1] - ctx->state[1];
     ctx->state[2] = s[2] + ctx->state[2];
 }
+
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 void a_tiger_init(a_tiger_s *ctx)
 {

@@ -86,23 +86,20 @@ void a_blake2b_increment_counter(a_blake2b_s *ctx, uint64_t inc)
 
 #undef G
 #undef ROUND
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-align"
+#endif /* _MSC_VER */
 
 static void a_blake2b_compress(a_blake2b_s *ctx, const unsigned char *buf)
 {
     uint64_t v[0x10];
-
-    /* (unsigned char *) -> (uint64_t *) */
-    union
-    {
-        uint64_t *m;
-        unsigned char *buf;
-    } up[1];
-    up->buf = ctx->buf;
+    uint64_t *m = (uint64_t *)ctx->buf;
     if (ctx->buf != buf)
     {
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD64L(up->m[i], buf + sizeof(*ctx->state) * i);
+            LOAD64L(m[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
@@ -121,17 +118,17 @@ static void a_blake2b_compress(a_blake2b_s *ctx, const unsigned char *buf)
     v[14] = ctx->f[0] ^ blake2b_IV[6];
     v[15] = ctx->f[1] ^ blake2b_IV[7];
 
-#define G(r, i, a, b, c, d)                                \
-    do                                                     \
-    {                                                      \
-        a = a + b + up->m[blake2b_sigma[r][(i << 1) + 0]]; \
-        d = ROR64(d ^ a, 0x20);                            \
-        c = c + d;                                         \
-        b = ROR64(b ^ c, 0x18);                            \
-        a = a + b + up->m[blake2b_sigma[r][(i << 1) + 1]]; \
-        d = ROR64(d ^ a, 0x10);                            \
-        c = c + d;                                         \
-        b = ROR64(b ^ c, 0x3F);                            \
+#define G(r, i, a, b, c, d)                            \
+    do                                                 \
+    {                                                  \
+        a = a + b + m[blake2b_sigma[r][(i << 1) + 0]]; \
+        d = ROR64(d ^ a, 0x20);                        \
+        c = c + d;                                     \
+        b = ROR64(b ^ c, 0x18);                        \
+        a = a + b + m[blake2b_sigma[r][(i << 1) + 1]]; \
+        d = ROR64(d ^ a, 0x10);                        \
+        c = c + d;                                     \
+        b = ROR64(b ^ c, 0x3F);                        \
     } while (0)
 #define ROUND(r)                                 \
     do                                           \
@@ -167,6 +164,9 @@ static void a_blake2b_compress(a_blake2b_s *ctx, const unsigned char *buf)
 
 #undef G
 #undef ROUND
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 int a_blake2b_init(a_blake2b_s *ctx, size_t siz, const void *pdata, size_t nbyte)
 {

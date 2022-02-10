@@ -18,24 +18,21 @@
 #undef GG
 #undef HH
 #undef II
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-align"
+#endif /* _MSC_VER */
 
 static void a_md4_compress(a_md4_s *ctx, const unsigned char *buf)
 {
     uint32_t s[sizeof(ctx->state) / sizeof(*ctx->state)];
-
-    /* (unsigned char *) -> (uint32_t *) */
-    union
-    {
-        uint32_t *w;
-        unsigned char *buf;
-    } up[1];
-    up->buf = ctx->buf;
+    uint32_t *w = (uint32_t *)ctx->buf;
     if (ctx->buf != buf)
     {
         /* copy the state into 512-bits into w[0..15] */
         for (unsigned int i = 0; i != 0x10; ++i)
         {
-            LOAD32L(up->w[i], buf + sizeof(*ctx->state) * i);
+            LOAD32L(w[i], buf + sizeof(*ctx->state) * i);
         }
     }
 
@@ -62,56 +59,56 @@ static void a_md4_compress(a_md4_s *ctx, const unsigned char *buf)
     (a) = ROLc((a), (s));
 
     /* round 1 */
-    FF(s[0], s[1], s[2], s[3], up->w[0x0], 0x03);
-    FF(s[3], s[0], s[1], s[2], up->w[0x1], 0x07);
-    FF(s[2], s[3], s[0], s[1], up->w[0x2], 0x0B);
-    FF(s[1], s[2], s[3], s[0], up->w[0x3], 0x13);
-    FF(s[0], s[1], s[2], s[3], up->w[0x4], 0x03);
-    FF(s[3], s[0], s[1], s[2], up->w[0x5], 0x07);
-    FF(s[2], s[3], s[0], s[1], up->w[0x6], 0x0B);
-    FF(s[1], s[2], s[3], s[0], up->w[0x7], 0x13);
-    FF(s[0], s[1], s[2], s[3], up->w[0x8], 0x03);
-    FF(s[3], s[0], s[1], s[2], up->w[0x9], 0x07);
-    FF(s[2], s[3], s[0], s[1], up->w[0xA], 0x0B);
-    FF(s[1], s[2], s[3], s[0], up->w[0xB], 0x13);
-    FF(s[0], s[1], s[2], s[3], up->w[0xC], 0x03);
-    FF(s[3], s[0], s[1], s[2], up->w[0xD], 0x07);
-    FF(s[2], s[3], s[0], s[1], up->w[0xE], 0x0B);
-    FF(s[1], s[2], s[3], s[0], up->w[0xF], 0x13);
+    FF(s[0], s[1], s[2], s[3], w[0x0], 0x03);
+    FF(s[3], s[0], s[1], s[2], w[0x1], 0x07);
+    FF(s[2], s[3], s[0], s[1], w[0x2], 0x0B);
+    FF(s[1], s[2], s[3], s[0], w[0x3], 0x13);
+    FF(s[0], s[1], s[2], s[3], w[0x4], 0x03);
+    FF(s[3], s[0], s[1], s[2], w[0x5], 0x07);
+    FF(s[2], s[3], s[0], s[1], w[0x6], 0x0B);
+    FF(s[1], s[2], s[3], s[0], w[0x7], 0x13);
+    FF(s[0], s[1], s[2], s[3], w[0x8], 0x03);
+    FF(s[3], s[0], s[1], s[2], w[0x9], 0x07);
+    FF(s[2], s[3], s[0], s[1], w[0xA], 0x0B);
+    FF(s[1], s[2], s[3], s[0], w[0xB], 0x13);
+    FF(s[0], s[1], s[2], s[3], w[0xC], 0x03);
+    FF(s[3], s[0], s[1], s[2], w[0xD], 0x07);
+    FF(s[2], s[3], s[0], s[1], w[0xE], 0x0B);
+    FF(s[1], s[2], s[3], s[0], w[0xF], 0x13);
     /* round 2 */
-    GG(s[0], s[1], s[2], s[3], up->w[0x0], 0x03);
-    GG(s[3], s[0], s[1], s[2], up->w[0x4], 0x05);
-    GG(s[2], s[3], s[0], s[1], up->w[0x8], 0x09);
-    GG(s[1], s[2], s[3], s[0], up->w[0xC], 0x0D);
-    GG(s[0], s[1], s[2], s[3], up->w[0x1], 0x03);
-    GG(s[3], s[0], s[1], s[2], up->w[0x5], 0x05);
-    GG(s[2], s[3], s[0], s[1], up->w[0x9], 0x09);
-    GG(s[1], s[2], s[3], s[0], up->w[0xD], 0x0D);
-    GG(s[0], s[1], s[2], s[3], up->w[0x2], 0x03);
-    GG(s[3], s[0], s[1], s[2], up->w[0x6], 0x05);
-    GG(s[2], s[3], s[0], s[1], up->w[0xA], 0x09);
-    GG(s[1], s[2], s[3], s[0], up->w[0xE], 0x0D);
-    GG(s[0], s[1], s[2], s[3], up->w[0x3], 0x03);
-    GG(s[3], s[0], s[1], s[2], up->w[0x7], 0x05);
-    GG(s[2], s[3], s[0], s[1], up->w[0xB], 0x09);
-    GG(s[1], s[2], s[3], s[0], up->w[0xF], 0x0D);
+    GG(s[0], s[1], s[2], s[3], w[0x0], 0x03);
+    GG(s[3], s[0], s[1], s[2], w[0x4], 0x05);
+    GG(s[2], s[3], s[0], s[1], w[0x8], 0x09);
+    GG(s[1], s[2], s[3], s[0], w[0xC], 0x0D);
+    GG(s[0], s[1], s[2], s[3], w[0x1], 0x03);
+    GG(s[3], s[0], s[1], s[2], w[0x5], 0x05);
+    GG(s[2], s[3], s[0], s[1], w[0x9], 0x09);
+    GG(s[1], s[2], s[3], s[0], w[0xD], 0x0D);
+    GG(s[0], s[1], s[2], s[3], w[0x2], 0x03);
+    GG(s[3], s[0], s[1], s[2], w[0x6], 0x05);
+    GG(s[2], s[3], s[0], s[1], w[0xA], 0x09);
+    GG(s[1], s[2], s[3], s[0], w[0xE], 0x0D);
+    GG(s[0], s[1], s[2], s[3], w[0x3], 0x03);
+    GG(s[3], s[0], s[1], s[2], w[0x7], 0x05);
+    GG(s[2], s[3], s[0], s[1], w[0xB], 0x09);
+    GG(s[1], s[2], s[3], s[0], w[0xF], 0x0D);
     /* round 3 */
-    HH(s[0], s[1], s[2], s[3], up->w[0x0], 0x03);
-    HH(s[3], s[0], s[1], s[2], up->w[0x8], 0x09);
-    HH(s[2], s[3], s[0], s[1], up->w[0x4], 0x0B);
-    HH(s[1], s[2], s[3], s[0], up->w[0xC], 0x0F);
-    HH(s[0], s[1], s[2], s[3], up->w[0x2], 0x03);
-    HH(s[3], s[0], s[1], s[2], up->w[0xA], 0x09);
-    HH(s[2], s[3], s[0], s[1], up->w[0x6], 0x0B);
-    HH(s[1], s[2], s[3], s[0], up->w[0xE], 0x0F);
-    HH(s[0], s[1], s[2], s[3], up->w[0x1], 0x03);
-    HH(s[3], s[0], s[1], s[2], up->w[0x9], 0x09);
-    HH(s[2], s[3], s[0], s[1], up->w[0x5], 0x0B);
-    HH(s[1], s[2], s[3], s[0], up->w[0xD], 0x0F);
-    HH(s[0], s[1], s[2], s[3], up->w[0x3], 0x03);
-    HH(s[3], s[0], s[1], s[2], up->w[0xB], 0x09);
-    HH(s[2], s[3], s[0], s[1], up->w[0x7], 0x0B);
-    HH(s[1], s[2], s[3], s[0], up->w[0xF], 0x0F);
+    HH(s[0], s[1], s[2], s[3], w[0x0], 0x03);
+    HH(s[3], s[0], s[1], s[2], w[0x8], 0x09);
+    HH(s[2], s[3], s[0], s[1], w[0x4], 0x0B);
+    HH(s[1], s[2], s[3], s[0], w[0xC], 0x0F);
+    HH(s[0], s[1], s[2], s[3], w[0x2], 0x03);
+    HH(s[3], s[0], s[1], s[2], w[0xA], 0x09);
+    HH(s[2], s[3], s[0], s[1], w[0x6], 0x0B);
+    HH(s[1], s[2], s[3], s[0], w[0xE], 0x0F);
+    HH(s[0], s[1], s[2], s[3], w[0x1], 0x03);
+    HH(s[3], s[0], s[1], s[2], w[0x9], 0x09);
+    HH(s[2], s[3], s[0], s[1], w[0x5], 0x0B);
+    HH(s[1], s[2], s[3], s[0], w[0xD], 0x0F);
+    HH(s[0], s[1], s[2], s[3], w[0x3], 0x03);
+    HH(s[3], s[0], s[1], s[2], w[0xB], 0x09);
+    HH(s[2], s[3], s[0], s[1], w[0x7], 0x0B);
+    HH(s[1], s[2], s[3], s[0], w[0xF], 0x0F);
 
     /* feedback */
     for (unsigned int i = 0; i != sizeof(ctx->state) / sizeof(*ctx->state); ++i)
@@ -120,6 +117,9 @@ static void a_md4_compress(a_md4_s *ctx, const unsigned char *buf)
     }
 }
 
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 #undef FF
 #undef GG
 #undef HH
