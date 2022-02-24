@@ -1,44 +1,44 @@
 add_executable(atest a.c)
-target_link_libraries(atest a)
-set_target_properties(atest PROPERTIES OUTPUT_NAME a)
-add_test(NAME atest COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/a)
+target_link_libraries(atest ${PROJECT_NAME})
+set_target_properties(atest PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+add_test(NAME atest COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
 
 add_executable(math math.cpp)
-target_link_libraries(math a)
+target_link_libraries(math ${PROJECT_NAME})
 add_test(NAME math COMMAND math)
 
 add_executable(mean mean.cpp)
-target_link_libraries(mean a)
+target_link_libraries(mean ${PROJECT_NAME})
 add_test(NAME mean COMMAND mean)
 
 add_executable(notefreqs notefreqs.cpp)
-target_link_libraries(notefreqs a)
+target_link_libraries(notefreqs ${PROJECT_NAME})
 add_test(NAME notefreqs COMMAND notefreqs)
 
 add_executable(hash hash.cpp)
-target_link_libraries(hash a)
+target_link_libraries(hash ${PROJECT_NAME})
 add_test(NAME hash COMMAND hash)
 
 add_executable(hmac hmac.cpp)
-target_link_libraries(hmac a)
+target_link_libraries(hmac ${PROJECT_NAME})
 add_test(NAME hmac COMMAND hmac)
 
 add_executable(base base.cpp)
-target_link_libraries(base a)
+target_link_libraries(base ${PROJECT_NAME})
 add_test(NAME base COMMAND base)
 
 add_executable(crc crc.cpp)
-target_link_libraries(crc a)
+target_link_libraries(crc ${PROJECT_NAME})
 add_test(NAME crc COMMAND crc)
 
 add_executable(str str.cpp)
-target_link_libraries(str a)
+target_link_libraries(str ${PROJECT_NAME})
 add_test(NAME str COMMAND str)
 
 add_executable(vec vec.cpp)
-target_link_libraries(vec a)
+target_link_libraries(vec ${PROJECT_NAME})
 add_test(NAME vec COMMAND vec)
 
 add_executable(list list.cpp)
-target_link_libraries(list a)
+target_link_libraries(list ${PROJECT_NAME})
 add_test(NAME list COMMAND list)
