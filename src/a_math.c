@@ -10,28 +10,27 @@
 
 float a_inv_sqrt(float x)
 {
+    union
+    {
+        float x;
+        uint32_t l;
+    } u[1] = {{x}};
     if (x > 0)
     {
         float xh = 0.5F * x;
-
-        uint32_t ul = *(uint32_t *)&x;
-        ul = 0x5F3759DF - (ul >> 1);
-        x = *(float *)&ul;
-
-        x = x * (1.5F - (xh * x * x));
-        x = x * (1.5F - (xh * x * x));
+        u->l = 0x5F3759DF - (u->l >> 1);
+        u->x = u->x * (1.5F - (xh * u->x * u->x));
+        u->x = u->x * (1.5F - (xh * u->x * u->x));
     }
     else if (x < 0)
     {
-        uint32_t ul = 0xFFC00000;
-        x = *(float *)&ul;
+        u->l = 0xFFC00000;
     }
     else
     {
-        uint32_t ul = 0x7F800000;
-        x = *(float *)&ul;
+        u->l = 0x7F800000;
     }
-    return x;
+    return u->x;
 }
 
 #undef __A_SQRT_UINT
