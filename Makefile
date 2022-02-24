@@ -1,9 +1,9 @@
 MAKEFLAGS += --silent
 
-SOURCE_CLANG += src/crc  include/crc
-SOURCE_CLANG += src/poly include/poly
-SOURCE_CLANG += src/hash include/hash
-SOURCE_CLANG += src      include
+SOURCE_CLANG += include/crc  src/crc
+SOURCE_CLANG += include/poly src/poly
+SOURCE_CLANG += include/hash src/hash
+SOURCE_CLANG += include      src
 SOURCE_CLANG += test
 SOURCE_BLACK += test
 
