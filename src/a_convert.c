@@ -10,8 +10,24 @@
 
 int a_xdigit(int x)
 {
-    int ret = -1;
-#if 1
+    int ret = ~0;
+#if 0
+    if ('9' >= x && x >= '0')
+    {
+        /* 0 ~ 9 */
+        ret = x - '0';
+    }
+    else if ('F' >= x && x >= 'A')
+    {
+        /* A ~ F */
+        ret = x - 'A' + 10;
+    }
+    else if ('f' >= x && x >= 'a')
+    {
+        /* a ~ f */
+        ret = x - 'a' + 10;
+    }
+#else
     switch (x)
     {
     case '0':
@@ -56,22 +72,6 @@ int a_xdigit(int x)
 
     default:
         break;
-    }
-#else
-    if ('9' >= x && x >= '0')
-    {
-        /* 0 ~ 9 */
-        ret = x - '0';
-    }
-    else if ('F' >= x && x >= 'A')
-    {
-        /* A ~ F */
-        ret = x - 'A' + 10;
-    }
-    else if ('f' >= x && x >= 'a')
-    {
-        /* a ~ f */
-        ret = x - 'a' + 10;
     }
 #endif
     return ret;
