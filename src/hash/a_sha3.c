@@ -240,17 +240,17 @@ void a_shake256_init(a_sha3_s *ctx)
     ctx->capacity_words = 256 >> 5;
 }
 
-int a_sha3shake_init(a_sha3_s *ctx, unsigned int _num)
+int a_sha3shake_init(a_sha3_s *ctx, unsigned int num)
 {
     AASSERT(ctx);
 
-    if (_num != 0x80 && _num != 0x100)
+    if (num != 0x80 && num != 0x100)
     {
         return A_HASH_INVALID;
     }
 
     memset(ctx, 0, sizeof(*ctx));
-    ctx->capacity_words = (unsigned short)(_num >> 5);
+    ctx->capacity_words = (unsigned short)(num >> 5);
 
     return A_HASH_SUCCESS;
 }
