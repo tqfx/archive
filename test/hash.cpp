@@ -8,7 +8,10 @@
 
 #include "atest.h"
 
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 
 static void test_md2(void)
 {
@@ -1991,7 +1994,9 @@ static void test_blake2b_512(void)
     }
 }
 
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 int main(void)
 {

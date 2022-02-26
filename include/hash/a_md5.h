@@ -14,7 +14,10 @@
 #define A_MD5_BUFSIZ 0x40
 #define A_MD5_OUTSIZ 0x10
 
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 typedef struct a_md5_s
 {
     uint64_t length;
@@ -23,7 +26,9 @@ typedef struct a_md5_s
     uint32_t state[A_MD5_OUTSIZ >> 2];
     uint32_t cursiz;
 } a_md5_s;
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 __BEGIN_DECLS
 

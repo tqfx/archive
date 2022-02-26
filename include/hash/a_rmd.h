@@ -27,12 +27,17 @@
         uint32_t state[(bit >> 3) >> 2];    \
         uint32_t cursiz;                    \
     } a_rmd##bit##_s
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 __A_RMD_T(128);
 __A_RMD_T(160);
 __A_RMD_T(256);
 __A_RMD_T(320);
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 #undef __A_RMD_T
 
 __BEGIN_DECLS

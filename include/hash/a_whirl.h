@@ -14,7 +14,10 @@
 #define A_WHIRLPOOL_BUFSIZ 0x40
 #define A_WHIRLPOOL_OUTSIZ 0x40
 
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 typedef struct a_whirlpool_s
 {
     uint64_t length;
@@ -23,7 +26,9 @@ typedef struct a_whirlpool_s
     uint64_t state[A_WHIRLPOOL_OUTSIZ >> 3];
     uint32_t cursiz;
 } a_whirlpool_s;
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 __BEGIN_DECLS
 

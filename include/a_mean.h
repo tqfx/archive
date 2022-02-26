@@ -33,10 +33,15 @@ typedef enum a_mean_e
         size_t num;           \
         a_mean_e mode;        \
     } def##_s
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 __A_MEAN_T(a_mean, double);
 __A_MEAN_T(a_meanf, float);
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 #undef __A_MEAN_T
 
 __BEGIN_DECLS

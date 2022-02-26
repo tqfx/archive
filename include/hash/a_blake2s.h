@@ -18,7 +18,10 @@
 #define A_BLAKE2S_224_OUTSIZ (224 >> 3)
 #define A_BLAKE2S_256_OUTSIZ (256 >> 3)
 
-#pragma pack(push, 1)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 typedef struct a_blake2s_s
 {
     uint32_t t[2];
@@ -30,7 +33,9 @@ typedef struct a_blake2s_s
     unsigned char buf[A_BLAKE2S_BUFSIZ];
     unsigned char lastnode;
 } a_blake2s_s;
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 __BEGIN_DECLS
 

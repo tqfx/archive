@@ -9,13 +9,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 typedef struct list_int_s
 {
     a_list_s list[1];
     int data;
 } list_int_s;
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 static size_t a_list_len(const a_list_s *list)
 {

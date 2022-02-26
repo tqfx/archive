@@ -10,7 +10,10 @@
 #include <stdio.h>
 #include <inttypes.h>
 
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 static union
 {
     float f32;
@@ -22,7 +25,9 @@ static union
         uint32_t s : 1;
     } s32[1];
 } b32[1];
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 static union
 {

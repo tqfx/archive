@@ -23,7 +23,10 @@ enum
     A_HMAC_NOTFOUND = A_NOTFOUND,
 };
 
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 typedef struct a_hmac_s
 {
     a_hash_u state[1];
@@ -31,7 +34,9 @@ typedef struct a_hmac_s
     const a_hash_s *hash;
     unsigned char buf[A_HMAC_BUFSIZ];
 } a_hmac_s;
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 
 __BEGIN_DECLS
 

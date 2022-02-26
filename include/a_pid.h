@@ -75,10 +75,15 @@ typedef enum a_pid_e
                 /* - A_PID_POS integral output */     \
                 /* - A_PID_INC all output      */     \
     } def##_s
-#pragma pack(push, 4)
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* _MSC_VER */
 __A_PID_T(a_pid, double);
 __A_PID_T(a_pidf, float);
-#pragma pack(pop)
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif /* _MSC_VER */
 #undef __A_PID_T
 
 __BEGIN_DECLS
