@@ -6,19 +6,20 @@
 
 #include "a_math.h"
 
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
+#include <inttypes.h>
 
 #pragma pack(push, 4)
 static union
 {
     float f32;
-    unsigned long u32;
+    uint32_t u32;
     struct
     {
-        unsigned long f : 23;
-        unsigned long e : 8;
-        unsigned long s : 1;
+        uint32_t f : 23;
+        uint32_t e : 8;
+        uint32_t s : 1;
     } s32[1];
 } b32[1];
 #pragma pack(pop)
@@ -26,12 +27,12 @@ static union
 static union
 {
     double f64;
-    unsigned long long u64;
+    uint64_t u64;
     struct
     {
-        unsigned long long f : 53;
-        unsigned long long e : 10;
-        unsigned long long s : 1;
+        uint64_t f : 53;
+        uint64_t e : 10;
+        uint64_t s : 1;
     } s64[1];
 } b64[1];
 
@@ -54,22 +55,14 @@ int main(void)
     for (unsigned int i = 0; i != sizeof(datat) / sizeof(double); ++i)
     {
         b32->f32 = (float)datat[i];
-        printf("0x%lX    %u,0x%02X,0x%06lX    %+f\n",
-               b32->u32,
-               (unsigned int)b32->s32->s,
-               (unsigned int)b32->s32->e,
-               (unsigned long)b32->s32->f,
-               (double)b32->f32);
+        printf("0x%" PRIX32 "    %" PRIu32 ",0x%02" PRIX32 ",0x%06" PRIX32 "    %+f\n",
+               b32->u32, b32->s32->s, b32->s32->e, b32->s32->f, (double)b32->f32);
     }
     for (unsigned int i = 0; i != sizeof(datat) / sizeof(double); ++i)
     {
         b64->f64 = datat[i];
-        printf("0x%llX    %u,0x%03X,0x%014llX    %+f\n",
-               b64->u64,
-               (unsigned int)b64->s64->s,
-               (unsigned int)b64->s64->e,
-               (unsigned long long)b64->s64->f,
-               b64->f64);
+        printf("0x%" PRIX64 "    %" PRIu64 ",0x%03" PRIX64 ",0x%014" PRIX64 "    %+f\n",
+               b64->u64, (uint64_t)b64->s64->s, (uint64_t)b64->s64->e, b64->s64->f, b64->f64);
     }
 
     static float datasqrt[] = {
@@ -83,8 +76,7 @@ int main(void)
 
     for (unsigned int i = 0; i != sizeof(datasqrt) / sizeof(float); ++i)
     {
-        printf("1/sqrt(%g):\t%-10g%-10g\n",
-               (double)datasqrt[i],
+        printf("1/sqrt(%g):\t%-10g%-10g\n", (double)datasqrt[i],
                1 / (double)sqrtf(datasqrt[i]),
                (double)a_inv_sqrt(datasqrt[i]));
     }
