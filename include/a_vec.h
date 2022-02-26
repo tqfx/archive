@@ -11,54 +11,54 @@
 #include "liba.h"
 
 typedef struct a_vec_s a_vec_s;
-typedef struct a_vec_vt_s a_vec_vt_s;
+typedef struct a_vec_vtbl_s a_vec_vtbl_s;
 
 struct a_vec_s
 {
-    a_vec_vt_s *_vt;
-    void *_v;  /* vector */
-    size_t _m; /* memory */
-    size_t _n; /* length */
-    size_t _z; /* sizeof */
+    a_vec_vtbl_s *vptr;
+    void *v;  /* vector */
+    size_t m; /* memory */
+    size_t n; /* length */
+    size_t z; /* sizeof */
 };
 
 __STATIC_INLINE
 void *a_vec_ptr(a_vec_s *ctx)
 {
-    return ctx->_v;
+    return ctx->v;
 }
 __STATIC_INLINE
 void *a_vec_end(a_vec_s *ctx)
 {
-    return (unsigned char *)ctx->_v + ctx->_n * ctx->_z;
+    return (char *)ctx->v + ctx->n * ctx->z;
 }
 __STATIC_INLINE
 size_t a_vec_mem(const a_vec_s *ctx)
 {
-    return ctx->_m;
+    return ctx->m;
 }
 __STATIC_INLINE
 size_t a_vec_num(const a_vec_s *ctx)
 {
-    return ctx->_n;
+    return ctx->n;
 }
 __STATIC_INLINE
 size_t a_vec_siz(const a_vec_s *ctx)
 {
-    return ctx->_z;
+    return ctx->z;
 }
 __STATIC_INLINE
 size_t a_vec_use(const a_vec_s *ctx)
 {
-    return ctx->_n * ctx->_z;
+    return ctx->n * ctx->z;
 }
 __STATIC_INLINE
 void *a_vec_at(a_vec_s *ctx, size_t idx)
 {
-    return (unsigned char *)ctx->_v + ctx->_z * idx;
+    return (char *)ctx->v + ctx->z * idx;
 }
 
-struct a_vec_vt_s
+struct a_vec_vtbl_s
 {
     void (*erase)(a_vec_s *, void *);
     int (*clone)(const a_vec_s *, const void *, void *);

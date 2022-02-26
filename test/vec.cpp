@@ -14,17 +14,17 @@ typedef struct t_vec_s
     a_vec_s vec[1];
 } t_vec_s;
 
-static void test_vec_vt_erase(a_vec_s *ctx, void *ptr)
+static void hook_erase(a_vec_s *ctx, void *ptr)
 {
     (void)ctx;
     char *s = *(char **)ptr;
-    printf("clear %s\n", s);
+    printf("-- erase %s\n", s);
 }
 
 static void test_vec_ctor(t_vec_s *ctx, size_t siz)
 {
     a_vec_ctor(ctx->vec, siz);
-    ctx->vec->_vt->erase = test_vec_vt_erase;
+    ctx->vec->vptr->erase = hook_erase;
 }
 
 static void test0(size_t n)
