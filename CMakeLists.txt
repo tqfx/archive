@@ -60,6 +60,9 @@ endif()
 
 install(TARGETS ${PROJECT_NAME}
   EXPORT ${PROJECT_NAME}-target
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
   )
 install(EXPORT ${PROJECT_NAME}-target
   FILE ${PROJECT_NAME}-config.cmake
