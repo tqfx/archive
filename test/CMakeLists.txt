@@ -29,7 +29,7 @@ add_test(NAME base COMMAND base)
 
 add_executable(crc crc.cpp)
 target_link_libraries(crc ${PROJECT_NAME})
-add_test(NAME crc COMMAND crc)
+add_test(NAME crc COMMAND crc crc_tab.c)
 
 add_executable(str str.cpp)
 target_link_libraries(str ${PROJECT_NAME})
