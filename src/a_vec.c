@@ -14,7 +14,7 @@ void a_vec_erase(a_vec_s *ctx, void *ptr)
     ctx->vptr->erase(ctx, ptr);
 }
 __STATIC_INLINE
-void hook_erase(a_vec_s *ctx, void *ptr)
+void virtual_erase(a_vec_s *ctx, void *ptr)
 {
     (void)ctx, (void)ptr;
 }
@@ -24,7 +24,7 @@ int a_vec_clone(const a_vec_s *ctx, const void *src, void *dst)
     return ctx->vptr->clone(ctx, src, dst);
 }
 __STATIC_INLINE
-int hook_clone(const a_vec_s *ctx, const void *src, void *dst)
+int virtual_clone(const a_vec_s *ctx, const void *src, void *dst)
 {
     memcpy(dst, src, ctx->z);
     return 0;
@@ -34,7 +34,7 @@ int a_vec_swap(const a_vec_s *ctx, void *a, void *b)
 {
     return ctx->vptr->swap(ctx, a, b);
 }
-static int hook_swap(const a_vec_s *ctx, void *a, void *b)
+static int virtual_swap(const a_vec_s *ctx, void *a, void *b)
 {
     void *t = malloc(ctx->z);
     if (t == 0)
@@ -62,9 +62,9 @@ void a_vec_cleanup(a_vec_s *ctx)
 void a_vec_ctor(a_vec_s *ctx, size_t siz)
 {
     static a_vec_vtbl_s vtbl = {
-        hook_erase,
-        hook_clone,
-        hook_swap,
+        virtual_erase,
+        virtual_clone,
+        virtual_swap,
     };
     ctx->vptr = &vtbl;
     ctx->z = siz;
