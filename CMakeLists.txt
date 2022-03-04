@@ -4,7 +4,7 @@ endif()
 
 cmake_minimum_required(VERSION 3.10)
 
-project(a VERSION 0.2.6)
+project(a VERSION 0.2.6 LANGUAGES C CXX)
 
 include(cmake/check.cmake OPTIONAL)
 include(cmake/output.cmake OPTIONAL)
@@ -52,8 +52,8 @@ if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_C_COMPILER_ID} MATCHES "(Appl
   target_link_libraries(${PROJECT_NAME} m)
 endif()
 
-option(ENABLE_TEST_LIBA "Enable building tests" OFF)
-if(ENABLE_TEST_LIBA)
+option(BUILD_TESTING "Enable building tests" OFF)
+if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(test)
 endif()
