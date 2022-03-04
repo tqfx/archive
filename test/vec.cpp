@@ -4,99 +4,88 @@
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
 
+#include "a_vec.h"
+#include "a_vec_util.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "a_vec.h"
-
-typedef struct t_vec_s
+static void test(void)
 {
-    a_vec_s vec[1];
-} t_vec_s;
-
-static void hook_erase(a_vec_s *ctx, void *ptr)
-{
-    (void)ctx;
-    char *s = *(char **)ptr;
-    printf("-- erase %s\n", s);
-}
-
-static void test_vec_ctor(t_vec_s *ctx, size_t siz)
-{
-    a_vec_ctor(ctx->vec, siz);
-    ctx->vec->vptr->erase = hook_erase;
-}
-
-static void test0(size_t n)
-{
-    a_vec_s *ctx = a_vec_new(sizeof(uint32_t));
-    for (size_t i = 0; i != n; ++i)
+    a_vec_s *ctx = a_vec_new();
+    if (a_vec_push(ctx))
     {
-        uint32_t dat = (uint32_t)i;
-        a_vec_push(ctx, &dat);
+        printf("error in line %i!\n", __LINE__);
     }
-    printf("%zu %zu %zu\n", a_vec_mem(ctx), a_vec_use(ctx), a_vec_num(ctx));
-    for (size_t i = 0; i != n; ++i)
+    if (a_vec_mem(ctx))
     {
-        uint32_t out = 0;
-        a_vec_pop(ctx, &out);
+        printf("error in line %i!\n", __LINE__);
     }
-    a_vec_reuse(ctx, sizeof(uint64_t));
-    for (size_t i = 0; i != n; ++i)
+    if (a_vec_len(ctx))
     {
-        uint64_t dat = (uint64_t)i;
-        a_vec_push(ctx, &dat);
+        printf("error in line %i!\n", __LINE__);
     }
-    printf("%zu %zu %zu\n", a_vec_mem(ctx), a_vec_use(ctx), a_vec_num(ctx));
-    for (size_t i = 0; i != n; ++i)
+    if (a_vec_pop(ctx))
     {
-        uint64_t out = 0;
-        a_vec_pop(ctx, &out);
+        printf("error in line %i!\n", __LINE__);
     }
     a_vec_delete(ctx);
 }
 
-static void test1(size_t n)
-{
-    a_vec_s ctx[1];
-    a_vec_ctor(ctx, sizeof(uint32_t));
-    for (size_t i = 0; i != n; ++i)
-    {
-        uint32_t dat = (uint32_t)i;
-        a_vec_push(ctx, &dat);
+#undef __TEST
+#define __TEST(name, type)                            \
+    static void test_##name(size_t n)                 \
+    {                                                 \
+        a_vec_##name##_s *ctx = a_vec_##name##_new(); \
+        for (size_t i = 0; i != n; ++i)               \
+        {                                             \
+            type *p = (type *)a_vec_push(ctx);        \
+            if (p == 0)                               \
+            {                                         \
+                printf("%s ", __FUNCTION__);          \
+                perror("allocation failure!\n");      \
+                exit(EXIT_FAILURE);                   \
+            }                                         \
+            *(type *)a_vec_ptr(ctx, i) = (type)i;     \
+        }                                             \
+        for (size_t i = 0; i != n; ++i)               \
+        {                                             \
+            a_vec_##name##_at(ctx, n - 1 - i);        \
+            a_vec_pop(ctx);                           \
+        }                                             \
+        if (a_vec_len(ctx))                           \
+        {                                             \
+            printf("error in push or pop!\n");        \
+        }                                             \
+        a_vec_##name##_delete(ctx);                   \
     }
-    a_vec_s dst[1];
-    a_vec_copy(ctx, dst);
-    a_vec_dtor(ctx);
-    a_vec_move(dst, ctx);
-    for (size_t i = 0; i != 10; ++i)
-    {
-        uint32_t p = *(uint32_t *)a_vec_at(ctx, i);
-        printf("%u ", p);
-    }
-    putchar('\n');
-    a_vec_dtor(ctx);
-}
-
-static void test2(void)
-{
-    static char s1[] = {'1', 0};
-    static char s2[] = {'2', 0};
-    t_vec_s ctx[1];
-    test_vec_ctor(ctx, sizeof(char *));
-    a_vec_s *vctx = (a_vec_s *)ctx;
-    char *s = s1;
-    a_vec_push(vctx, &s);
-    s = s2;
-    a_vec_push(vctx, &s);
-    a_vec_dtor(vctx);
-}
+__TEST(i8, int8_t)
+__TEST(u8, uint8_t)
+__TEST(i16, int16_t)
+__TEST(u16, uint16_t)
+__TEST(i32, int32_t)
+__TEST(u32, uint32_t)
+__TEST(i64, int64_t)
+__TEST(u64, uint64_t)
+__TEST(f32, float)
+__TEST(f64, double)
+__TEST(char, char)
+#undef __TEST
 
 int main(void)
 {
-    size_t n = 1000000;
-    test0(n);
-    test1(n);
-    test2();
+    test();
+#define N 0xFFFF
+    test_i8(N);
+    test_u8(N);
+    test_i16(N);
+    test_u16(N);
+    test_i32(N);
+    test_u32(N);
+    test_i64(N);
+    test_u64(N);
+    test_f32(N);
+    test_f64(N);
+    test_char(N);
     return 0;
 }

@@ -13,75 +13,60 @@
 typedef struct a_vec_s a_vec_s;
 typedef struct a_vec_vtbl_s a_vec_vtbl_s;
 
+struct a_vec_vtbl_s
+{
+    /*!
+     @retval 0 failure
+    */
+    void *(*address)(a_vec_s *ctx, size_t index);
+    /*!
+     @retval -1 failure
+     @retval 0 success
+    */
+    int (*realloc)(a_vec_s *ctx, size_t capacity);
+};
+
 struct a_vec_s
 {
     a_vec_vtbl_s *vptr;
-    void *v;  /* vector */
-    size_t m; /* memory */
-    size_t n; /* length */
-    size_t z; /* sizeof */
+    size_t capacity;
+    size_t length;
 };
 
 __STATIC_INLINE
-void *a_vec_ptr(a_vec_s *ctx)
+size_t a_vec_mem(const void *vec)
 {
-    return ctx->v;
-}
-__STATIC_INLINE
-void *a_vec_end(a_vec_s *ctx)
-{
-    return (char *)ctx->v + ctx->n * ctx->z;
-}
-__STATIC_INLINE
-size_t a_vec_mem(const a_vec_s *ctx)
-{
-    return ctx->m;
-}
-__STATIC_INLINE
-size_t a_vec_num(const a_vec_s *ctx)
-{
-    return ctx->n;
-}
-__STATIC_INLINE
-size_t a_vec_siz(const a_vec_s *ctx)
-{
-    return ctx->z;
-}
-__STATIC_INLINE
-size_t a_vec_use(const a_vec_s *ctx)
-{
-    return ctx->n * ctx->z;
-}
-__STATIC_INLINE
-void *a_vec_at(a_vec_s *ctx, size_t idx)
-{
-    return (char *)ctx->v + ctx->z * idx;
+    AASSERT(vec);
+    const a_vec_s *ctx = (const a_vec_s *)vec;
+    return ctx->capacity;
 }
 
-struct a_vec_vtbl_s
+__STATIC_INLINE
+size_t a_vec_len(const void *vec)
 {
-    void (*erase)(a_vec_s *, void *);
-    int (*clone)(const a_vec_s *, const void *, void *);
-    int (*swap)(const a_vec_s *, void *, void *);
-};
+    AASSERT(vec);
+    const a_vec_s *ctx = (const a_vec_s *)vec;
+    return ctx->length;
+}
+
+__STATIC_INLINE
+void *a_vec_ptr(void *vec, size_t index)
+{
+    AASSERT(vec);
+    a_vec_s *ctx = (a_vec_s *)vec;
+    return ctx->vptr->address(ctx, index);
+}
 
 __BEGIN_DECLS
 
-void a_vec_ctor(a_vec_s *ctx, size_t siz);
-void a_vec_dtor(a_vec_s *ctx);
-a_vec_s *a_vec_new(size_t siz);
+a_vec_s *a_vec_new(void);
 void a_vec_delete(a_vec_s *ctx);
 
-int a_vec_copy(const a_vec_s *ctx, a_vec_s *dst);
-void a_vec_reuse(a_vec_s *ctx, size_t siz);
-void a_vec_move(a_vec_s *ctx, a_vec_s *dst);
-int a_vec_push(a_vec_s *ctx, void *ptr);
-int a_vec_pop(a_vec_s *ctx, void *ptr);
+void a_vec_ctor(a_vec_s *ctx);
+void a_vec_dtor(a_vec_s *ctx);
 
-void a_vec_cleanup(a_vec_s *ctx);
-void a_vec_erase(a_vec_s *ctx, void *ptr);
-int a_vec_clone(const a_vec_s *ctx, const void *src, void *dst);
-int a_vec_swap(const a_vec_s *ctx, void *a, void *b);
+void *a_vec_push(void *vec);
+void *a_vec_pop(void *vec);
 
 __END_DECLS
 

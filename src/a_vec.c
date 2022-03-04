@@ -6,96 +6,14 @@
 
 #include "a_vec.h"
 
-#include <stdlib.h> /* alloc */
-#include <string.h> /* memcpy */
+#include <stdlib.h>
 
-void a_vec_erase(a_vec_s *ctx, void *ptr)
-{
-    ctx->vptr->erase(ctx, ptr);
-}
-__STATIC_INLINE
-void virtual_erase(a_vec_s *ctx, void *ptr)
-{
-    (void)ctx, (void)ptr;
-}
-
-int a_vec_clone(const a_vec_s *ctx, const void *src, void *dst)
-{
-    return ctx->vptr->clone(ctx, src, dst);
-}
-__STATIC_INLINE
-int virtual_clone(const a_vec_s *ctx, const void *src, void *dst)
-{
-    memcpy(dst, src, ctx->z);
-    return 0;
-}
-
-int a_vec_swap(const a_vec_s *ctx, void *a, void *b)
-{
-    return ctx->vptr->swap(ctx, a, b);
-}
-static int virtual_swap(const a_vec_s *ctx, void *a, void *b)
-{
-    void *t = malloc(ctx->z);
-    if (t == 0)
-    {
-        return ~0;
-    }
-    memcpy(t, a, ctx->z);
-    memcpy(a, b, ctx->z);
-    memcpy(b, t, ctx->z);
-    free(t);
-    return 0;
-}
-
-void a_vec_cleanup(a_vec_s *ctx)
-{
-    char *p = (char *)ctx->v;
-    while (ctx->n)
-    {
-        ctx->vptr->erase(ctx, p);
-        p += ctx->z;
-        --ctx->n;
-    }
-}
-
-void a_vec_ctor(a_vec_s *ctx, size_t siz)
-{
-    static a_vec_vtbl_s vtbl = {
-        virtual_erase,
-        virtual_clone,
-        virtual_swap,
-    };
-    ctx->vptr = &vtbl;
-    ctx->z = siz;
-    ctx->v = 0;
-    ctx->m = 0;
-    ctx->n = 0;
-}
-
-void a_vec_reuse(a_vec_s *ctx, size_t siz)
-{
-    a_vec_cleanup(ctx);
-    ctx->z = siz;
-    ctx->n = 0;
-}
-
-void a_vec_dtor(a_vec_s *ctx)
-{
-    a_vec_cleanup(ctx);
-    free(ctx->v);
-    ctx->v = 0;
-    ctx->m = 0;
-    ctx->n = 0;
-    ctx->z = 0;
-}
-
-a_vec_s *a_vec_new(size_t siz)
+a_vec_s *a_vec_new(void)
 {
     a_vec_s *ctx = (a_vec_s *)malloc(sizeof(a_vec_s));
     if (ctx)
     {
-        a_vec_ctor(ctx, siz);
+        a_vec_ctor(ctx);
     }
     return ctx;
 }
@@ -105,71 +23,66 @@ void a_vec_delete(a_vec_s *ctx)
     if (ctx)
     {
         a_vec_dtor(ctx);
+        free(ctx);
     }
-    free(ctx);
 }
 
-int a_vec_push(a_vec_s *ctx, void *ptr)
+__STATIC_INLINE
+void *virtual_address(a_vec_s *ctx, size_t index)
 {
-    size_t z = ctx->n * ctx->z;
-    if (ctx->m <= z)
+    AASSERT(ctx);
+    (void)ctx, (void)index;
+    return 0;
+}
+
+__STATIC_INLINE
+int virtual_realloc(a_vec_s *ctx, size_t capacity)
+{
+    AASSERT(ctx);
+    (void)ctx, (void)capacity;
+    return ~0;
+}
+
+void a_vec_ctor(a_vec_s *ctx)
+{
+    AASSERT(ctx);
+    static a_vec_vtbl_s vtbl = {
+        virtual_address,
+        virtual_realloc,
+    };
+    ctx->vptr = &vtbl;
+    ctx->capacity = ctx->length = 0;
+}
+
+void a_vec_dtor(a_vec_s *ctx)
+{
+    AASSERT(ctx);
+    ctx->capacity = ctx->length = 0;
+}
+
+void *a_vec_push(void *vec)
+{
+    AASSERT(vec);
+    a_vec_s *ctx = (a_vec_s *)vec;
+    if (ctx->capacity <= ctx->length)
     {
-        size_t m = ctx->m ? ctx->m << 1 : sizeof(size_t) * ctx->z;
-        void *v = realloc(ctx->v, m);
-        if (v == 0)
+        size_t capacity = ctx->capacity + (ctx->capacity >> 1) + 1;
+        if (ctx->vptr->realloc(ctx, capacity))
         {
-            return ~0;
+            return 0;
         }
-        ctx->v = v;
-        ctx->m = m;
+        ctx->capacity = capacity;
     }
-    void *p = (char *)ctx->v + z;
-    memcpy(p, ptr, ctx->z);
-    ++ctx->n;
-    return 0;
+    return ctx->vptr->address(ctx, ctx->length++);
 }
 
-int a_vec_pop(a_vec_s *ctx, void *ptr)
+void *a_vec_pop(void *vec)
 {
-    if (ctx->n == 0)
+    AASSERT(vec);
+    a_vec_s *ctx = (a_vec_s *)vec;
+    if (ctx->length)
     {
-        return ~0;
+        return ctx->vptr->address(ctx, ctx->length--);
     }
-    void *p = (char *)ctx->v + --ctx->n * ctx->z;
-    memcpy(ptr, p, ctx->z);
     return 0;
-}
-
-int a_vec_copy(const a_vec_s *ctx, a_vec_s *dst)
-{
-    size_t m = ctx->n * ctx->z;
-    void *v = malloc(m);
-    if (v == 0)
-    {
-        return ~0;
-    }
-    dst->v = v;
-    dst->m = m;
-    dst->vptr = ctx->vptr;
-    char *q = (char *)dst->v;
-    char *p = (char *)ctx->v;
-    char *d = p + m;
-    while (p != d)
-    {
-        ctx->vptr->clone(ctx, p, q);
-        p += ctx->z;
-        q += ctx->z;
-    }
-    dst->n = ctx->n;
-    dst->z = ctx->z;
-    return 0;
-}
-
-void a_vec_move(a_vec_s *ctx, a_vec_s *dst)
-{
-    memcpy(dst, ctx, sizeof(a_vec_s));
-    ctx->v = 0;
-    ctx->m = 0;
-    ctx->n = 0;
-    ctx->z = 0;
 }
