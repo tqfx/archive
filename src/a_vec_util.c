@@ -94,7 +94,7 @@ __A_VEC_VIRTUAL_REALLOC(char, char)
 #define __A_VEC_CTOR(name)                          \
     void a_vec_##name##_ctor(a_vec_##name##_s *ctx) \
     {                                               \
-        static a_vec_vtbl_s vtbl = {                \
+        static const a_vec_vtbl_s vtbl = {          \
             virtual_address_##name,                 \
             virtual_realloc_##name,                 \
         };                                          \

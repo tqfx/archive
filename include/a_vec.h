@@ -20,15 +20,15 @@ struct a_vec_vtbl_s
     */
     void *(*address)(a_vec_s *ctx, size_t index);
     /*!
-     @retval -1 failure
      @retval 0 success
+     @retval -1 failure
     */
     int (*realloc)(a_vec_s *ctx, size_t capacity);
 };
 
 struct a_vec_s
 {
-    a_vec_vtbl_s *vptr;
+    const a_vec_vtbl_s *vptr;
     size_t capacity;
     size_t length;
 };

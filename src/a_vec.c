@@ -46,7 +46,7 @@ int virtual_realloc(a_vec_s *ctx, size_t capacity)
 void a_vec_ctor(a_vec_s *ctx)
 {
     AASSERT(ctx);
-    static a_vec_vtbl_s vtbl = {
+    static const a_vec_vtbl_s vtbl = {
         virtual_address,
         virtual_realloc,
     };
