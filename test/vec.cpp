@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void test(void)
 {
@@ -69,8 +70,31 @@ __TEST(i64, int64_t)
 __TEST(u64, uint64_t)
 __TEST(f32, float)
 __TEST(f64, double)
-__TEST(char, char)
 #undef __TEST
+
+static void test_str(size_t n)
+{
+    a_vec_str_s *ctx = a_vec_str_new();
+    for (size_t i = 0; i != n; ++i)
+    {
+        char **str = (char **)a_vec_push(ctx);
+        if (str == 0)
+        {
+            printf("%s ", __FUNCTION__);
+            perror("allocation failure!\n");
+            exit(EXIT_FAILURE);
+        }
+        char buf[(sizeof(size_t) << 1) + 3];
+        sprintf(buf, "0x%zX", i);
+        *str = (char *)malloc(strlen(buf) + 1);
+        strcpy(*str, buf);
+    }
+    for (size_t i = 0; i != (n >> 1); ++i)
+    {
+        free(*(char **)a_vec_pop(ctx));
+    }
+    a_vec_str_delete(ctx);
+}
 
 int main(void)
 {
@@ -86,6 +110,6 @@ int main(void)
     test_u64(N);
     test_f32(N);
     test_f64(N);
-    test_char(N);
+    test_str(N);
     return 0;
 }

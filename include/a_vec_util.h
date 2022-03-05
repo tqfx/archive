@@ -27,7 +27,7 @@ __A_VEC_T(i64, int64_t);
 __A_VEC_T(u64, uint64_t);
 __A_VEC_T(f32, float);
 __A_VEC_T(f64, double);
-__A_VEC_T(char, char);
+__A_VEC_T(str, char *);
 #undef __A_VEC_T
 
 #undef __A_VEC_AT
@@ -48,7 +48,7 @@ __A_VEC_AT(i64, int64_t)
 __A_VEC_AT(u64, uint64_t)
 __A_VEC_AT(f32, float)
 __A_VEC_AT(f64, double)
-__A_VEC_AT(char, char)
+__A_VEC_AT(str, char *)
 #undef __A_VEC_AT
 
 __BEGIN_DECLS
@@ -63,7 +63,7 @@ a_vec_i64_s *a_vec_i64_new(void);
 a_vec_u64_s *a_vec_u64_new(void);
 a_vec_f32_s *a_vec_f32_new(void);
 a_vec_f64_s *a_vec_f64_new(void);
-a_vec_char_s *a_vec_char_new(void);
+a_vec_str_s *a_vec_str_new(void);
 
 void a_vec_i8_delete(a_vec_i8_s *ctx);
 void a_vec_u8_delete(a_vec_u8_s *ctx);
@@ -75,7 +75,7 @@ void a_vec_i64_delete(a_vec_i64_s *ctx);
 void a_vec_u64_delete(a_vec_u64_s *ctx);
 void a_vec_f32_delete(a_vec_f32_s *ctx);
 void a_vec_f64_delete(a_vec_f64_s *ctx);
-void a_vec_char_delete(a_vec_char_s *ctx);
+void a_vec_str_delete(a_vec_str_s *ctx);
 
 void a_vec_i8_ctor(a_vec_i8_s *ctx);
 void a_vec_u8_ctor(a_vec_u8_s *ctx);
@@ -87,7 +87,7 @@ void a_vec_i64_ctor(a_vec_i64_s *ctx);
 void a_vec_u64_ctor(a_vec_u64_s *ctx);
 void a_vec_f32_ctor(a_vec_f32_s *ctx);
 void a_vec_f64_ctor(a_vec_f64_s *ctx);
-void a_vec_char_ctor(a_vec_char_s *ctx);
+void a_vec_str_ctor(a_vec_str_s *ctx);
 
 void a_vec_i8_dtor(a_vec_i8_s *ctx);
 void a_vec_u8_dtor(a_vec_u8_s *ctx);
@@ -99,7 +99,7 @@ void a_vec_i64_dtor(a_vec_i64_s *ctx);
 void a_vec_u64_dtor(a_vec_u64_s *ctx);
 void a_vec_f32_dtor(a_vec_f32_s *ctx);
 void a_vec_f64_dtor(a_vec_f64_s *ctx);
-void a_vec_char_dtor(a_vec_char_s *ctx);
+void a_vec_str_dtor(a_vec_str_s *ctx);
 
 __END_DECLS
 
