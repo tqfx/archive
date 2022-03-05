@@ -30,7 +30,6 @@ void a_vec_delete(a_vec_s *ctx)
 __STATIC_INLINE
 void *virtual_address(a_vec_s *ctx, size_t index)
 {
-    AASSERT(ctx);
     (void)ctx, (void)index;
     return 0;
 }
@@ -38,7 +37,6 @@ void *virtual_address(a_vec_s *ctx, size_t index)
 __STATIC_INLINE
 int virtual_realloc(a_vec_s *ctx, size_t capacity)
 {
-    AASSERT(ctx);
     (void)ctx, (void)capacity;
     return ~0;
 }
@@ -82,7 +80,7 @@ void *a_vec_pop(void *vec)
     a_vec_s *ctx = (a_vec_s *)vec;
     if (ctx->length)
     {
-        return ctx->vptr->address(ctx, ctx->length--);
+        return ctx->vptr->address(ctx, --ctx->length);
     }
     return 0;
 }
