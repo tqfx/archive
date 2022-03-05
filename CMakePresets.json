@@ -7,7 +7,7 @@
     },
     "configurePresets": [
         {
-            "name": "Debug",
+            "name": "debug",
             "binaryDir": "build",
             "installDir": "install",
             "displayName": "Default configuration for debug",
@@ -19,7 +19,7 @@
             }
         },
         {
-            "name": "Release",
+            "name": "release",
             "binaryDir": "build",
             "displayName": "Default configuration for release",
             "description": "Default build using default generator for release",
@@ -30,22 +30,22 @@
     ],
     "buildPresets": [
         {
-            "name": "Debug",
-            "configurePreset": "Debug"
+            "name": "debug",
+            "configurePreset": "debug"
         },
         {
-            "name": "Release",
-            "configurePreset": "Release"
+            "name": "release",
+            "configurePreset": "release"
         }
     ],
     "testPresets": [
         {
-            "name": "Debug",
-            "configurePreset": "Debug"
+            "name": "debug",
+            "configurePreset": "debug"
         },
         {
-            "name": "Release",
-            "configurePreset": "Release"
+            "name": "release",
+            "configurePreset": "release"
         }
     ]
 }
