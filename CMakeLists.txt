@@ -17,6 +17,12 @@ elseif("${CMAKE_BUILD_TYPE}" MATCHES "[Dd]ebug")
   endif()
 endif()
 
+set(LIBA_VERSION "${${PROJECT_NAME}_VERSION}")
+configure_file(
+  ${CMAKE_CURRENT_LIST_DIR}/src/liba_private.h.in
+  ${CMAKE_CURRENT_LIST_DIR}/src/liba_private.h
+  )
+
 unset(SOURCES CACHE)
 aux_source_directory(src SOURCES)
 

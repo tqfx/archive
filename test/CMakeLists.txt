@@ -1,7 +1,7 @@
-add_executable(atest a.c)
-target_link_libraries(atest ${PROJECT_NAME})
-set_target_properties(atest PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
-add_test(NAME atest COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
+add_executable(testa a.c)
+target_link_libraries(testa ${PROJECT_NAME})
+set_target_properties(testa PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+add_test(NAME testa COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
 
 add_executable(math math.cpp)
 target_link_libraries(math ${PROJECT_NAME})

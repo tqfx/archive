@@ -6,7 +6,7 @@
 
 #include "a_hash.h"
 
-#include "atest.h"
+#include "a_test.h"
 
 #ifndef _MSC_VER
 #pragma GCC diagnostic push

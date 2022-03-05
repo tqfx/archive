@@ -10,5 +10,7 @@
 
 #include "liba.h"
 
+#cmakedefine LIBA_VERSION "@LIBA_VERSION@"
+
 /* Enddef to prevent recursive inclusion */
 #endif /* __LIBA_PRIVATE_H__ */

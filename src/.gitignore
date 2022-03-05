@@ -2,3 +2,5 @@
 cython.html
 cython.cpp
 cython.c
+# CMake
+liba_private.h

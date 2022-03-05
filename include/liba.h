@@ -9,6 +9,7 @@
 #define __LIBA_H__
 
 #include <stddef.h>
+#include <stdint.h>
 
 /*! @cond */
 
@@ -164,7 +165,6 @@
 #endif /* containerof */
 
 #include <assert.h>
-#include <stdint.h>
 
 /* assertion */
 #ifndef AASSERT
@@ -191,6 +191,12 @@ enum
     A_OVERFLOW = -4,
     A_NOTFOUND = -5,
 };
+
+__BEGIN_DECLS
+
+const char *a_version(void);
+
+__END_DECLS
 
 /* reset some GCC warnings */
 #ifndef _MSC_VER

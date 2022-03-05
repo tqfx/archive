@@ -11,6 +11,6 @@
 int main(int argc, char *argv[])
 {
     (void)argc, (void)argv;
-    printf("0x%X 0x%X\n", ~0, -1);
+    printf("version %s\n", a_version());
     return 0;
 }

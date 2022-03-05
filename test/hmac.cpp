@@ -6,7 +6,7 @@
 
 #include "a_hmac.h"
 
-#include "atest.h"
+#include "a_test.h"
 
 static const char *key = "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
 static const char *msg = "text";
