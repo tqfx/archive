@@ -4,13 +4,13 @@ endif()
 
 cmake_minimum_required(VERSION 3.10)
 
-project(a VERSION 0.2.6 LANGUAGES C CXX)
+project(a VERSION 0.1.0 LANGUAGES C CXX)
 
 include(cmake/check.cmake OPTIONAL)
 include(cmake/output.cmake OPTIONAL)
 include(cmake/standard.cmake OPTIONAL)
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Release")
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 elseif("${CMAKE_BUILD_TYPE}" MATCHES "[Dd]ebug")
   if(UNIX)
     include(cmake/sanitizer.cmake OPTIONAL)

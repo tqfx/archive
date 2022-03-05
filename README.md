@@ -28,22 +28,21 @@ python -m pip install -r requirements.txt
 ### release
 
 ```bash
-cmake -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build --config Release
+cmake --preset=release
+cmake --build --preset=release
 ```
 
 ### debug
 
 ```bash
-cmake -B build -DCMAKE_BUILD_TYPE=Debug
-cmake --build build --config Debug
+cmake --preset=debug
+cmake --build --preset=debug
 ```
 
 ### test
 
 ```bash
-cmake -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING_LIBA=1
-cmake --build build --config Debug
+ctest --preset=debug
 ```
 
 ### wheel

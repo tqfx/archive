@@ -16,6 +16,9 @@
                 "BUILD_TESTING": true,
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            },
+            "warnings": {
+                "deprecated": true
             }
         },
         {
@@ -24,28 +27,75 @@
             "displayName": "Default configuration for release",
             "description": "Default build using default generator for release",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        },
+        {
+            "name": "mingw32",
+            "binaryDir": "build",
+            "toolchainFile": "cmake/mingw32.cmake",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "cmake/mingw32.cmake",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        },
+        {
+            "name": "mingw64",
+            "binaryDir": "build",
+            "toolchainFile": "cmake/mingw64.cmake",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "cmake/mingw64.cmake",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        },
+        {
+            "name": "arm-none-eabi",
+            "binaryDir": "build",
+            "toolchainFile": "cmake/arm-none-eabi.cmake",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "cmake/arm-none-eabi.cmake",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
             }
         }
     ],
     "buildPresets": [
         {
             "name": "debug",
-            "configurePreset": "debug"
+            "configuration": "debug",
+            "configurePreset": "debug",
+            "displayName": "Default build for debug"
         },
         {
             "name": "release",
-            "configurePreset": "release"
+            "configuration": "release",
+            "configurePreset": "release",
+            "displayName": "Default build for release"
+        },
+        {
+            "name": "mingw32",
+            "configuration": "release",
+            "configurePreset": "mingw32"
+        },
+        {
+            "name": "mingw64",
+            "configuration": "release",
+            "configurePreset": "mingw64"
+        },
+        {
+            "name": "arm-none-eabi",
+            "configuration": "release",
+            "configurePreset": "arm-none-eabi"
         }
     ],
     "testPresets": [
         {
             "name": "debug",
+            "configuration": "debug",
             "configurePreset": "debug"
-        },
-        {
-            "name": "release",
-            "configurePreset": "release"
         }
     ]
 }

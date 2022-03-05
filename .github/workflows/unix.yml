@@ -11,18 +11,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
-          cmake --build build --config Debug --parallel
-          cmake --build build --target test
+          cmake --preset=debug
+          cmake --build --preset=debug
+          ctest --preset=debug
+          rm -rf build
   AppleClang:
     continue-on-error: true
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
-          cmake --build build --config Debug --parallel
-          cmake --build build --target test
+          cmake --preset=debug
+          cmake --build --preset=debug
+          ctest --preset=debug
+          rm -rf build
   mingw-w64:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -30,8 +32,10 @@ jobs:
       - uses: actions/checkout@v2
       - run: sudo apt-get install -y mingw-w64
       - run: |
-          cmake -B build_w64 -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DCMAKE_TOOLCHAIN_FILE=cmake/mingw64.cmake
-          cmake --build build_w64 --config Debug --parallel
+          cmake --preset=mingw64
+          cmake --build --preset=mingw64
+          rm -rf build
       - run: |
-          cmake -B build_w32 -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DCMAKE_TOOLCHAIN_FILE=cmake/mingw32.cmake
-          cmake --build build_w32 --config Debug --parallel
+          cmake --preset=mingw32
+          cmake --build --preset=mingw32
+          rm -rf build
