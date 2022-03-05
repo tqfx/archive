@@ -182,6 +182,7 @@ dmypy.json
 # multiple build environments
 cmake[_-]build[_-]*
 build[_-]*
+install
 
 # Visual Studio Code
 .vscode
