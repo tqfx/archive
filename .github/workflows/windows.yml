@@ -30,3 +30,29 @@ jobs:
           cmake --build --preset=debug
           ctest --preset=debug
           rm -r build
+  MSYS2:
+    continue-on-error: true
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: msys2/setup-msys2@v2
+        with:
+          install: >-
+            mingw-w64-i686-cmake
+            mingw-w64-i686-toolchain
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-toolchain
+      - shell: msys2 {0}
+        env:
+          MSYSTEM: MINGW64
+        run: |
+          cmake --preset=mingw64 -G "MinGW Makefiles"
+          cmake --build --preset=mingw64
+          rm -rf build
+      - shell: msys2 {0}
+        env:
+          MSYSTEM: MINGW32
+        run: |
+          cmake --preset=mingw32 -G "MinGW Makefiles"
+          cmake --build --preset=mingw32
+          rm -rf build
