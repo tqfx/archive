@@ -8,51 +8,44 @@ jobs:
   VisualStudio:
     continue-on-error: true
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { host: x64, arch: x64 },
+          { host: x64, arch: win32 },
+          { host: x86, arch: x64 },
+          { host: x86, arch: win32 },
+        ]
     steps:
       - uses: actions/checkout@v2
       - run: |
-          cmake --preset=debug -T host=x64 -A x64
-          cmake --build --preset=debug
-          ctest --preset=debug
-          rm -r build
-      - run: |
-          cmake --preset=debug -T host=x64 -A win32
-          cmake --build --preset=debug
-          ctest --preset=debug
-          rm -r build
-      - run: |
-          cmake --preset=debug -T host=x86 -A x64
-          cmake --build --preset=debug
-          ctest --preset=debug
-          rm -r build
-      - run: |
-          cmake --preset=debug -T host=x86 -A win32
+          cmake --preset=debug -T host=${{ matrix.host }} -A ${{ matrix.arch }}
           cmake --build --preset=debug
           ctest --preset=debug
           rm -r build
   MSYS2:
     continue-on-error: true
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sys: [ MINGW64, MINGW32, UCRT64, CLANG64 ]
     steps:
       - uses: actions/checkout@v2
       - uses: msys2/setup-msys2@v2
         with:
-          install: >-
-            mingw-w64-i686-cmake
-            mingw-w64-i686-toolchain
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-toolchain
+          update: true
+          location: D:\
+          msystem: ${{matrix.sys}}
+          pacboy: >-
+            cmake:p
+            toolchain:p
       - shell: msys2 {0}
         env:
-          MSYSTEM: MINGW64
+          MSYSTEM: ${{matrix.sys}}
         run: |
-          cmake --preset=mingw64 -G "MinGW Makefiles"
-          cmake --build --preset=mingw64
-          rm -rf build
-      - shell: msys2 {0}
-        env:
-          MSYSTEM: MINGW32
-        run: |
-          cmake --preset=mingw32 -G "MinGW Makefiles"
-          cmake --build --preset=mingw32
-          rm -rf build
+          cmake --preset=debug -G "MinGW Makefiles"
+          cmake --build --preset=debug
+          ctest --preset=debug
+          rm -r build
