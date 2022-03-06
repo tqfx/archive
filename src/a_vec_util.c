@@ -48,12 +48,12 @@ __A_VEC_DELETE(str)
 #undef __A_VEC_DELETE
 
 #undef __A_VEC_VIRTUAL_ADDRESS
-#define __A_VEC_VIRTUAL_ADDRESS(name)                        \
-    __STATIC_INLINE                                          \
-    void *virtual_address_##name(a_vec_s *vec, size_t index) \
-    {                                                        \
-        a_vec_##name##_s *ctx = (a_vec_##name##_s *)vec;     \
-        return ctx->ptr + index;                             \
+#define __A_VEC_VIRTUAL_ADDRESS(name)                     \
+    __STATIC_INLINE                                       \
+    void *virtual_address_##name(void *obj, size_t index) \
+    {                                                     \
+        a_vec_##name##_s *ctx = (a_vec_##name##_s *)obj;  \
+        return ctx->ptr + index;                          \
     }
 __A_VEC_VIRTUAL_ADDRESS(i8)
 __A_VEC_VIRTUAL_ADDRESS(u8)
@@ -71,9 +71,9 @@ __A_VEC_VIRTUAL_ADDRESS(str)
 #undef __A_VEC_VIRTUAL_REALLOC
 #define __A_VEC_VIRTUAL_REALLOC(name, type)                             \
     __STATIC_INLINE                                                     \
-    int virtual_realloc_##name(a_vec_s *vec, size_t capacity)           \
+    int virtual_realloc_##name(void *obj, size_t capacity)              \
     {                                                                   \
-        a_vec_##name##_s *ctx = (a_vec_##name##_s *)vec;                \
+        a_vec_##name##_s *ctx = (a_vec_##name##_s *)obj;                \
         type *ptr = (type *)realloc(ctx->ptr, sizeof(type) * capacity); \
         return ptr ? (ctx->ptr = ptr, 0) : ~0;                          \
     }

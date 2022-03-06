@@ -28,16 +28,16 @@ void a_vec_delete(a_vec_s *ctx)
 }
 
 __STATIC_INLINE
-void *virtual_address(a_vec_s *ctx, size_t index)
+void *virtual_address(void *obj, size_t index)
 {
-    (void)ctx, (void)index;
+    (void)obj, (void)index;
     return 0;
 }
 
 __STATIC_INLINE
-int virtual_realloc(a_vec_s *ctx, size_t capacity)
+int virtual_realloc(void *obj, size_t capacity)
 {
-    (void)ctx, (void)capacity;
+    (void)obj, (void)capacity;
     return ~0;
 }
 
@@ -58,10 +58,10 @@ void a_vec_dtor(a_vec_s *ctx)
     ctx->capacity = ctx->length = 0;
 }
 
-void *a_vec_push(void *vec)
+void *a_vec_push(void *obj)
 {
-    AASSERT(vec);
-    a_vec_s *ctx = (a_vec_s *)vec;
+    AASSERT(obj);
+    a_vec_s *ctx = (a_vec_s *)obj;
     if (ctx->capacity <= ctx->length)
     {
         size_t capacity = ctx->capacity + (ctx->capacity >> 1) + 1;
@@ -74,10 +74,10 @@ void *a_vec_push(void *vec)
     return ctx->vptr->address(ctx, ctx->length++);
 }
 
-void *a_vec_pop(void *vec)
+void *a_vec_pop(void *obj)
 {
-    AASSERT(vec);
-    a_vec_s *ctx = (a_vec_s *)vec;
+    AASSERT(obj);
+    a_vec_s *ctx = (a_vec_s *)obj;
     if (ctx->length)
     {
         return ctx->vptr->address(ctx, --ctx->length);
