@@ -4,6 +4,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
 jobs:
   GNU:
     continue-on-error: true
@@ -15,17 +16,7 @@ jobs:
           cmake --build --preset=debug --parallel
           ctest --preset=debug
           rm -rf build
-  AppleClang:
-    continue-on-error: true
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: |
-          cmake --preset=debug
-          cmake --build --preset=debug --parallel
-          ctest --preset=debug
-          rm -rf build
-  mingw-w64:
+  MinGW:
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
@@ -39,3 +30,27 @@ jobs:
           cmake --preset=mingw32
           cmake --build --preset=mingw32 --parallel
           rm -rf build
+  AppleClang:
+    continue-on-error: true
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          cmake --preset=debug
+          cmake --build --preset=debug --parallel
+          ctest --preset=debug
+          rm -rf build
+  FreeBSD:
+    continue-on-error: true
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+      - uses: vmactions/freebsd-vm@v0.1.5
+        with:
+          prepare: |
+            pkg install -y cmake
+          run: |
+            cmake --preset=debug
+            cmake --build --preset=debug
+            ctest --preset=debug
+            rm -rf build
