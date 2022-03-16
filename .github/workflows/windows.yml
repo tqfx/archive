@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           cmake --preset=debug -T host=${{ matrix.host }} -A ${{ matrix.arch }}
-          cmake --build --preset=debug
+          cmake --build --preset=debug --parallel
           ctest --preset=debug
           rm -r build
   MSYS2:
@@ -39,6 +39,7 @@ jobs:
           location: D:\
           msystem: ${{matrix.sys}}
           pacboy: >-
+            make:p
             cmake:p
             toolchain:p
       - shell: msys2 {0}
@@ -46,6 +47,6 @@ jobs:
           MSYSTEM: ${{matrix.sys}}
         run: |
           cmake --preset=debug -G "MinGW Makefiles"
-          cmake --build --preset=debug
+          cmake --build --preset=debug --parallel
           ctest --preset=debug
           rm -r build

@@ -64,33 +64,28 @@
     ],
     "buildPresets": [
         {
-            "jobs": 0,
             "name": "debug",
             "configuration": "debug",
             "configurePreset": "debug",
             "displayName": "Default build for debug"
         },
         {
-            "jobs": 0,
             "name": "release",
             "configuration": "release",
             "configurePreset": "release",
             "displayName": "Default build for release"
         },
         {
-            "jobs": 0,
             "name": "mingw32",
             "configuration": "release",
             "configurePreset": "mingw32"
         },
         {
-            "jobs": 0,
             "name": "mingw64",
             "configuration": "release",
             "configurePreset": "mingw64"
         },
         {
-            "jobs": 0,
             "name": "arm-none-eabi",
             "configuration": "release",
             "configurePreset": "arm-none-eabi"
