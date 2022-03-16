@@ -42,87 +42,87 @@
 /* attribute nonnull */
 #if !defined(__NONNULL) && __has_attribute(__nonnull__)
 #define __NONNULL(x) __attribute__((__nonnull__ x))
-#else
+#elif !defined(__NONNULL)
 #define __NONNULL(x)
 #endif /* __NONNULL */
 #if !defined(__NONNULL_ALL) && __has_attribute(__nonnull__)
 #define __NONNULL_ALL __attribute__((__nonnull__))
-#else
+#elif !defined(__NONNULL_ALL)
 #define __NONNULL_ALL
 #endif /* __NONNULL_ALL */
 
 /* attribute warn unused result */
 #if !defined(__RESULT_USE_CHECK) && __has_attribute(__warn_unused_result__)
 #define __RESULT_USE_CHECK __attribute__((__warn_unused_result__))
-#else
+#elif !defined(__RESULT_USE_CHECK)
 #define __RESULT_USE_CHECK
 #endif /* __RESULT_USE_CHECK */
 
 /* attribute always inline */
 #if !defined(__ALWAYS_INLINE) && __has_attribute(__always_inline__)
 #define __ALWAYS_INLINE __inline __attribute__((__always_inline__))
-#else
+#elif !defined(__ALWAYS_INLINE)
 #define __ALWAYS_INLINE
 #endif /* __ALWAYS_INLINE */
 
 /* attribute weak */
 #if !defined(__WEAK) && __has_attribute(__weak__)
 #define __WEAK __attribute__((__weak__))
-#else
+#elif !defined(__WEAK)
 #define __WEAK
 #endif /* __WEAK */
 
 /* attribute used */
 #if !defined(__USED) && __has_attribute(__used__)
 #define __USED __attribute__((__used__))
-#else
+#elif !defined(__USED)
 #define __USED
 #endif /* __USED */
 
 /* attribute unused */
 #if !defined(__UNUSED) && __has_attribute(__unused__)
 #define __UNUSED __attribute__((__unused__))
-#else
+#elif !defined(__UNUSED)
 #define __UNUSED
 #endif /* __UNUSED */
 
 /* attribute aligned */
 #if !defined(__ALIGNED) && __has_attribute(__aligned__)
 #define __ALIGNED(x) __attribute__((__aligned__(x)))
-#else
+#elif !defined(__ALIGNED)
 #define __ALIGNED(x)
 #endif /* __ALIGNED */
 
 /* attribute packed */
 #if !defined(__PACKED) && __has_attribute(__packed__) && __has_attribute(__aligned__)
 #define __PACKED __attribute__((__packed__, __aligned__(1)))
-#else
+#elif !defined(__PACKED)
 #define __PACKED
 #endif /* __PACKED */
 
 /* attribute packed struct */
 #if !defined(__PACKED_STRUCT) && __has_attribute(__packed__) && __has_attribute(__aligned__)
 #define __PACKED_STRUCT struct __attribute__((__packed__, __aligned__(1)))
-#else
+#elif !defined(__PACKED_STRUCT)
 #define __PACKED_STRUCT
 #endif /* __PACKED_STRUCT */
 
 /* attribute packed union */
 #if !defined(__PACKED_UNION) && __has_attribute(__packed__) && __has_attribute(__aligned__)
 #define __PACKED_UNION struct __attribute__((__packed__, __aligned__(1)))
-#else
+#elif !defined(__PACKED_UNION)
 #define __PACKED_UNION
 #endif /* __PACKED_UNION */
 
 /* builtin expect */
 #if !defined(__PREDICT_TRUE) && __has_builtin(__builtin_expect)
 #define __PREDICT_TRUE(exp) __builtin_expect((exp), 1)
-#else
+#elif !defined(__PREDICT_TRUE)
 #define __PREDICT_TRUE(exp) (exp)
 #endif /* __PREDICT_TRUE */
 #if !defined(__PREDICT_FALSE) && __has_builtin(__builtin_expect)
 #define __PREDICT_FALSE(exp) __builtin_expect((exp), 0)
-#else
+#elif !defined(__PREDICT_FALSE)
 #define __PREDICT_FALSE(exp) (exp)
 #endif /* __PREDICT_FALSE */
 
