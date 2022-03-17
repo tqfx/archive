@@ -32,6 +32,7 @@ __A_VEC_T(str, char *);
 
 #undef __A_VEC_AT
 #define __A_VEC_AT(name, type)                                  \
+    __NONNULL((1))                                              \
     __STATIC_INLINE                                             \
     type a_vec_##name##_at(a_vec_##name##_s *ctx, size_t index) \
     {                                                           \
@@ -53,17 +54,17 @@ __A_VEC_AT(str, char *)
 
 __BEGIN_DECLS
 
-a_vec_i8_s *a_vec_i8_new(void);
-a_vec_u8_s *a_vec_u8_new(void);
-a_vec_i16_s *a_vec_i16_new(void);
-a_vec_u16_s *a_vec_u16_new(void);
-a_vec_i32_s *a_vec_i32_new(void);
-a_vec_u32_s *a_vec_u32_new(void);
-a_vec_i64_s *a_vec_i64_new(void);
-a_vec_u64_s *a_vec_u64_new(void);
-a_vec_f32_s *a_vec_f32_new(void);
-a_vec_f64_s *a_vec_f64_new(void);
-a_vec_str_s *a_vec_str_new(void);
+a_vec_i8_s *a_vec_i8_new(void) __RESULT_USE_CHECK;
+a_vec_u8_s *a_vec_u8_new(void) __RESULT_USE_CHECK;
+a_vec_i16_s *a_vec_i16_new(void) __RESULT_USE_CHECK;
+a_vec_u16_s *a_vec_u16_new(void) __RESULT_USE_CHECK;
+a_vec_i32_s *a_vec_i32_new(void) __RESULT_USE_CHECK;
+a_vec_u32_s *a_vec_u32_new(void) __RESULT_USE_CHECK;
+a_vec_i64_s *a_vec_i64_new(void) __RESULT_USE_CHECK;
+a_vec_u64_s *a_vec_u64_new(void) __RESULT_USE_CHECK;
+a_vec_f32_s *a_vec_f32_new(void) __RESULT_USE_CHECK;
+a_vec_f64_s *a_vec_f64_new(void) __RESULT_USE_CHECK;
+a_vec_str_s *a_vec_str_new(void) __RESULT_USE_CHECK;
 
 void a_vec_i8_delete(a_vec_i8_s *ctx);
 void a_vec_u8_delete(a_vec_u8_s *ctx);
@@ -77,29 +78,29 @@ void a_vec_f32_delete(a_vec_f32_s *ctx);
 void a_vec_f64_delete(a_vec_f64_s *ctx);
 void a_vec_str_delete(a_vec_str_s *ctx);
 
-void a_vec_i8_ctor(a_vec_i8_s *ctx);
-void a_vec_u8_ctor(a_vec_u8_s *ctx);
-void a_vec_i16_ctor(a_vec_i16_s *ctx);
-void a_vec_u16_ctor(a_vec_u16_s *ctx);
-void a_vec_i32_ctor(a_vec_i32_s *ctx);
-void a_vec_u32_ctor(a_vec_u32_s *ctx);
-void a_vec_i64_ctor(a_vec_i64_s *ctx);
-void a_vec_u64_ctor(a_vec_u64_s *ctx);
-void a_vec_f32_ctor(a_vec_f32_s *ctx);
-void a_vec_f64_ctor(a_vec_f64_s *ctx);
-void a_vec_str_ctor(a_vec_str_s *ctx);
+void a_vec_i8_ctor(a_vec_i8_s *ctx) __NONNULL_ALL;
+void a_vec_u8_ctor(a_vec_u8_s *ctx) __NONNULL_ALL;
+void a_vec_i16_ctor(a_vec_i16_s *ctx) __NONNULL_ALL;
+void a_vec_u16_ctor(a_vec_u16_s *ctx) __NONNULL_ALL;
+void a_vec_i32_ctor(a_vec_i32_s *ctx) __NONNULL_ALL;
+void a_vec_u32_ctor(a_vec_u32_s *ctx) __NONNULL_ALL;
+void a_vec_i64_ctor(a_vec_i64_s *ctx) __NONNULL_ALL;
+void a_vec_u64_ctor(a_vec_u64_s *ctx) __NONNULL_ALL;
+void a_vec_f32_ctor(a_vec_f32_s *ctx) __NONNULL_ALL;
+void a_vec_f64_ctor(a_vec_f64_s *ctx) __NONNULL_ALL;
+void a_vec_str_ctor(a_vec_str_s *ctx) __NONNULL_ALL;
 
-void a_vec_i8_dtor(a_vec_i8_s *ctx);
-void a_vec_u8_dtor(a_vec_u8_s *ctx);
-void a_vec_i16_dtor(a_vec_i16_s *ctx);
-void a_vec_u16_dtor(a_vec_u16_s *ctx);
-void a_vec_i32_dtor(a_vec_i32_s *ctx);
-void a_vec_u32_dtor(a_vec_u32_s *ctx);
-void a_vec_i64_dtor(a_vec_i64_s *ctx);
-void a_vec_u64_dtor(a_vec_u64_s *ctx);
-void a_vec_f32_dtor(a_vec_f32_s *ctx);
-void a_vec_f64_dtor(a_vec_f64_s *ctx);
-void a_vec_str_dtor(a_vec_str_s *ctx);
+void a_vec_i8_dtor(a_vec_i8_s *ctx) __NONNULL_ALL;
+void a_vec_u8_dtor(a_vec_u8_s *ctx) __NONNULL_ALL;
+void a_vec_i16_dtor(a_vec_i16_s *ctx) __NONNULL_ALL;
+void a_vec_u16_dtor(a_vec_u16_s *ctx) __NONNULL_ALL;
+void a_vec_i32_dtor(a_vec_i32_s *ctx) __NONNULL_ALL;
+void a_vec_u32_dtor(a_vec_u32_s *ctx) __NONNULL_ALL;
+void a_vec_i64_dtor(a_vec_i64_s *ctx) __NONNULL_ALL;
+void a_vec_u64_dtor(a_vec_u64_s *ctx) __NONNULL_ALL;
+void a_vec_f32_dtor(a_vec_f32_s *ctx) __NONNULL_ALL;
+void a_vec_f64_dtor(a_vec_f64_s *ctx) __NONNULL_ALL;
+void a_vec_str_dtor(a_vec_str_s *ctx) __NONNULL_ALL;
 
 __END_DECLS
 

@@ -35,6 +35,7 @@ typedef struct a_list_s
 #define a_list_forsafe_next(p, n, list) a_list_forsafe_(p, n, list, next)
 #define a_list_forsafe_last(p, n, list) a_list_forsafe_(p, n, list, last)
 
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_ctor(a_list_s *list)
 {
@@ -45,6 +46,7 @@ int a_list_empty(const a_list_s *list)
 {
     return list && ((list == list->next) || (list == list->last));
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_link(a_list_s *head, a_list_s *tail)
 {
@@ -63,6 +65,7 @@ void a_list_link(a_list_s *head, a_list_s *tail)
     head->next = tail;
     tail->last = head;
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_loop(a_list_s *head, a_list_s *tail)
 {
@@ -82,6 +85,7 @@ void a_list_loop(a_list_s *head, a_list_s *tail)
     tail->next = head;
 }
 
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_add_(a_list_s *head1, a_list_s *tail1,
                  a_list_s *head2, a_list_s *tail2)
@@ -108,27 +112,32 @@ void a_list_add_(a_list_s *head1, a_list_s *tail1,
     a_list_link(tail1, head2);
     a_list_link(tail2, head1);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_add_node(a_list_s *head, a_list_s *tail, a_list_s *node)
 {
     a_list_add_(head, tail, node, node);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_add_next(a_list_s *list, a_list_s *node)
 {
     a_list_add_(list->next, list, node, node);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_add_last(a_list_s *list, a_list_s *node)
 {
     a_list_add_(list, list->last, node, node);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_mov_next(a_list_s *list1, a_list_s *list2)
 {
     a_list_add_(list1->next, list1, list2->next, list2->last);
     a_list_loop(list2, list2);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_mov_last(a_list_s *list1, a_list_s *list2)
 {
@@ -136,6 +145,7 @@ void a_list_mov_last(a_list_s *list1, a_list_s *list2)
     a_list_loop(list2, list2);
 }
 
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_del_(a_list_s *head, a_list_s *tail)
 {
@@ -155,11 +165,13 @@ void a_list_del_(a_list_s *head, a_list_s *tail)
     */
     a_list_link(head->last, tail->next);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_del_node(a_list_s *node)
 {
     a_list_del_(node, node);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_rot_last(a_list_s *list)
 {
@@ -167,6 +179,7 @@ void a_list_rot_last(a_list_s *list)
     a_list_del_(node, node);
     a_list_add_last(list, node);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_rot_next(a_list_s *list)
 {
@@ -175,18 +188,21 @@ void a_list_rot_next(a_list_s *list)
     a_list_add_next(list, node);
 }
 
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_replace_(a_list_s *head1, a_list_s *tail1,
                      a_list_s *head2, a_list_s *tail2)
 {
     a_list_add_(tail1->next, head1->last, head2, tail2);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_replace_node(a_list_s *lold, a_list_s *lnew)
 {
     (lold != lnew) ? a_list_replace_(lold, lold, lnew, lnew) : (void)0;
 }
 
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_swap_(a_list_s *head1, a_list_s *tail1,
                   a_list_s *head2, a_list_s *tail2)
@@ -195,6 +211,7 @@ void a_list_swap_(a_list_s *head1, a_list_s *tail1,
     a_list_add_(tail1->next, head1->last, head2, tail2);
     a_list_add_(head, tail, head1, tail1);
 }
+__NONNULL_ALL
 __STATIC_INLINE
 void a_list_swap_node(a_list_s *node1, a_list_s *node2)
 {

@@ -18,12 +18,12 @@ struct a_vec_vtbl_s
     /*!
      @retval 0 failure
     */
-    void *(*address)(void *obj, size_t index);
+    void *(*address)(void *obj, size_t index)__NONNULL((1));
     /*!
      @retval 0 success
      @retval -1 failure
     */
-    int (*realloc)(void *obj, size_t capacity);
+    int (*realloc)(void *obj, size_t capacity) __NONNULL((1));
 };
 
 struct a_vec_s
@@ -33,6 +33,7 @@ struct a_vec_s
     size_t length;
 };
 
+__NONNULL_ALL
 __STATIC_INLINE
 size_t a_vec_mem(const void *obj)
 {
@@ -41,6 +42,7 @@ size_t a_vec_mem(const void *obj)
     return ctx->capacity;
 }
 
+__NONNULL_ALL
 __STATIC_INLINE
 size_t a_vec_len(const void *obj)
 {
@@ -49,6 +51,7 @@ size_t a_vec_len(const void *obj)
     return ctx->length;
 }
 
+__NONNULL((1))
 __STATIC_INLINE
 void *a_vec_ptr(void *obj, size_t index)
 {
@@ -59,14 +62,14 @@ void *a_vec_ptr(void *obj, size_t index)
 
 __BEGIN_DECLS
 
-a_vec_s *a_vec_new(void);
+a_vec_s *a_vec_new(void) __RESULT_USE_CHECK;
 void a_vec_delete(a_vec_s *ctx);
 
-void a_vec_ctor(a_vec_s *ctx);
-void a_vec_dtor(a_vec_s *ctx);
+void a_vec_ctor(a_vec_s *ctx) __NONNULL_ALL;
+void a_vec_dtor(a_vec_s *ctx) __NONNULL_ALL;
 
-void *a_vec_push(void *obj);
-void *a_vec_pop(void *obj);
+void *a_vec_push(void *obj) __NONNULL_ALL __RESULT_USE_CHECK;
+void *a_vec_pop(void *obj) __NONNULL_ALL;
 
 __END_DECLS
 
