@@ -10,9 +10,8 @@
 
 static void tests(void)
 {
-    const char *str = 0;
     a_str_s ctx[1] = {A_STR_INITS()};
-    str = a_str_done(ctx);
+    const char *str = a_str_done(ctx);
     printf("0x%zX ", (size_t)str);
     a_str_putc_(ctx, 0);
     a_str_putn_(ctx, 0, 0);
@@ -21,7 +20,7 @@ static void tests(void)
     a_str_putn(ctx, 0, 0);
     str = a_str_val(ctx);
     printf("0x%zX\n", (size_t)str);
-    A_STR_SFREE(*ctx);
+    a_str_dtor(ctx);
 }
 
 static void testt(void)

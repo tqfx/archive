@@ -13,15 +13,7 @@ a_str_s *a_str_init(const void *pdata, size_t nbyte)
     a_str_s *ctx = (a_str_s *)malloc(sizeof(a_str_s));
     if (ctx)
     {
-        ctx->n = nbyte;
-        ctx->m = nbyte + 1;
-        AROUNDUP32(ctx->m);
-        ctx->s = (char *)malloc(ctx->m);
-        if (pdata && nbyte)
-        {
-            memcpy(ctx->s, pdata, nbyte);
-        }
-        ctx->s[ctx->n] = 0;
+        a_str_ctor(ctx, pdata, nbyte);
     }
     return ctx;
 }
@@ -30,11 +22,34 @@ void a_str_free(a_str_s *ctx)
 {
     if (ctx)
     {
-        if (ctx->s)
-        {
-            free(ctx->s);
-        }
+        a_str_dtor(ctx);
         free(ctx);
+    }
+}
+
+void a_str_ctor(a_str_s *ctx, const void *pdata, size_t nbyte)
+{
+    AASSERT(ctx);
+    ctx->n = nbyte;
+    ctx->m = nbyte + 1;
+    AROUNDUP32(ctx->m);
+    ctx->s = (char *)malloc(ctx->m);
+    if (pdata && nbyte)
+    {
+        memcpy(ctx->s, pdata, nbyte);
+    }
+    ctx->s[ctx->n] = 0;
+}
+
+void a_str_dtor(a_str_s *ctx)
+{
+    AASSERT(ctx);
+    ctx->m = 0;
+    ctx->n = 0;
+    if (ctx->s)
+    {
+        free(ctx->s);
+        ctx->s = 0;
     }
 }
 

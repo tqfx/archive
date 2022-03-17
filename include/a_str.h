@@ -35,14 +35,6 @@ typedef struct a_str_s
     }
 #endif /* A_STR_INITS */
 
-#ifndef A_STR_SFREE
-/*!
- @brief Free an instance of string structure
-*/
-#define A_STR_SFREE(ctx) ( \
-    (ctx).m = (ctx).n = 0, (ctx).s ? (free((ctx).s), (ctx).s = 0) : 0)
-#endif /* A_STR_SFREE */
-
 __NONNULL_ALL
 __STATIC_INLINE
 /*!
@@ -97,6 +89,20 @@ a_str_s *a_str_init(const void *pdata, size_t nbyte) __RESULT_USE_CHECK;
  @param[in] ctx: points to an instance of string structure
 */
 void a_str_free(a_str_s *ctx);
+
+/*!
+ @brief Constructor for string structure
+ @param[in] ctx: points to an instance of string structure
+ @param[in] pdata: points to data to initialize
+ @param[in] nbyte: length of data to initialize
+*/
+void a_str_ctor(a_str_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
+
+/*!
+ @brief Destructor for string structure
+ @param[in] ctx: points to an instance of string structure
+*/
+void a_str_dtor(a_str_s *ctx) __NONNULL_ALL;
 
 /*!
  @brief Terminate a pointer to string structure
