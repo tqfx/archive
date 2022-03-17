@@ -22,6 +22,39 @@ static void test_show(const a_mempool_s *ctx)
            a_mempool_length(ctx));
 }
 
+static void test_str(size_t n)
+{
+    a_mempool_s *ctx = a_mempool_new(sizeof(a_str_s));
+    a_str_s **vec = (a_str_s **)malloc(sizeof(a_str_s *) * n);
+
+    for (size_t i = 0; i != n; ++i)
+    {
+        vec[i] = (a_str_s *)a_mempool_alloc(ctx);
+    }
+    test_show(ctx);
+    for (size_t i = 0; i != n; ++i)
+    {
+        a_mempool_free(ctx, vec[i]);
+    }
+    test_show(ctx);
+
+    for (size_t i = 0; i != n; ++i)
+    {
+        vec[i] = (a_str_s *)a_mempool_alloc(ctx);
+        a_str_ctor(vec[i], 0, 0);
+        a_str_printf(vec[i], "%zu", i);
+    }
+    test_show(ctx);
+    for (size_t i = 0; i != n; ++i)
+    {
+        a_mempool_free(ctx, vec[i]);
+    }
+    test_show(ctx);
+
+    a_mempool_delete(ctx, (void (*)(void *))a_str_free);
+    free(vec);
+}
+
 static void test_list(size_t n)
 {
     a_list_s *next;
@@ -60,42 +93,9 @@ static void test_list(size_t n)
     a_mempool_delete(ctx, 0);
 }
 
-static void test_str(size_t n)
-{
-    a_mempool_s *ctx = a_mempool_new(sizeof(a_str_s));
-    a_str_s **vec = (a_str_s **)malloc(sizeof(a_str_s *) * n);
-
-    for (size_t i = 0; i != n; ++i)
-    {
-        vec[i] = (a_str_s *)a_mempool_alloc(ctx);
-    }
-    test_show(ctx);
-    for (size_t i = 0; i != n; ++i)
-    {
-        a_mempool_free(ctx, vec[i]);
-    }
-    test_show(ctx);
-
-    for (size_t i = 0; i != n; ++i)
-    {
-        vec[i] = (a_str_s *)a_mempool_alloc(ctx);
-        a_str_ctor(vec[i], 0, 0);
-        a_str_printf(vec[i], "%zu", i);
-    }
-    test_show(ctx);
-    for (size_t i = 0; i != n; ++i)
-    {
-        a_mempool_free(ctx, vec[i]);
-    }
-    test_show(ctx);
-
-    a_mempool_delete(ctx, (void (*)(void *))a_str_free);
-    free(vec);
-}
-
 int main(void)
 {
-    test_list(0xFFFF);
-    test_str(0xFFFF);
+    test_str(0xFF);
+    test_list(0xFF);
     return 0;
 }

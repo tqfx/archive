@@ -10,28 +10,28 @@
 
 #include "a_vec.h"
 
-#undef __A_VEC_T
-#define __A_VEC_T(name, type)       \
+#undef A_VEC_T
+#define A_VEC_T(name, type)         \
     typedef struct a_vec_##name##_s \
     {                               \
         a_vec_s vec[1];             \
         type *ptr;                  \
     } a_vec_##name##_s
-__A_VEC_T(i8, int8_t);
-__A_VEC_T(u8, uint8_t);
-__A_VEC_T(i16, int16_t);
-__A_VEC_T(u16, uint16_t);
-__A_VEC_T(i32, int32_t);
-__A_VEC_T(u32, uint32_t);
-__A_VEC_T(i64, int64_t);
-__A_VEC_T(u64, uint64_t);
-__A_VEC_T(f32, float);
-__A_VEC_T(f64, double);
-__A_VEC_T(str, char *);
-#undef __A_VEC_T
+A_VEC_T(i8, int8_t);
+A_VEC_T(u8, uint8_t);
+A_VEC_T(i16, int16_t);
+A_VEC_T(u16, uint16_t);
+A_VEC_T(i32, int32_t);
+A_VEC_T(u32, uint32_t);
+A_VEC_T(i64, int64_t);
+A_VEC_T(u64, uint64_t);
+A_VEC_T(f32, float);
+A_VEC_T(f64, double);
+A_VEC_T(str, char *);
+#undef A_VEC_T
 
-#undef __A_VEC_AT
-#define __A_VEC_AT(name, type)                                  \
+#undef A_VEC_AT
+#define A_VEC_AT(name, type)                                    \
     __NONNULL((1))                                              \
     __STATIC_INLINE                                             \
     type a_vec_##name##_at(a_vec_##name##_s *ctx, size_t index) \
@@ -39,18 +39,18 @@ __A_VEC_T(str, char *);
         AASSERT(ctx);                                           \
         return ctx->ptr[index];                                 \
     }
-__A_VEC_AT(i8, int8_t)
-__A_VEC_AT(u8, uint8_t)
-__A_VEC_AT(i16, int16_t)
-__A_VEC_AT(u16, uint16_t)
-__A_VEC_AT(i32, int32_t)
-__A_VEC_AT(u32, uint32_t)
-__A_VEC_AT(i64, int64_t)
-__A_VEC_AT(u64, uint64_t)
-__A_VEC_AT(f32, float)
-__A_VEC_AT(f64, double)
-__A_VEC_AT(str, char *)
-#undef __A_VEC_AT
+A_VEC_AT(i8, int8_t)
+A_VEC_AT(u8, uint8_t)
+A_VEC_AT(i16, int16_t)
+A_VEC_AT(u16, uint16_t)
+A_VEC_AT(i32, int32_t)
+A_VEC_AT(u32, uint32_t)
+A_VEC_AT(i64, int64_t)
+A_VEC_AT(u64, uint64_t)
+A_VEC_AT(f32, float)
+A_VEC_AT(f64, double)
+A_VEC_AT(str, char *)
+#undef A_VEC_AT
 
 __BEGIN_DECLS
 

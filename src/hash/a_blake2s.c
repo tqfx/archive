@@ -210,17 +210,17 @@ int a_blake2s_init(a_blake2s_s *ctx, size_t siz, const void *pdata, size_t nbyte
     return A_HASH_SUCCESS;
 }
 
-#undef __A_BLAKE2S_INIT
-#define __A_BLAKE2S_INIT(bit)                     \
+#undef A_BLAKE2S_INIT
+#define A_BLAKE2S_INIT(bit)                       \
     void a_blake2s_##bit##_init(a_blake2s_s *ctx) \
     {                                             \
         a_blake2s_init(ctx, (bit) >> 3, 0, 0);    \
     }
-__A_BLAKE2S_INIT(128)
-__A_BLAKE2S_INIT(160)
-__A_BLAKE2S_INIT(224)
-__A_BLAKE2S_INIT(256)
-#undef __A_BLAKE2S_INIT
+A_BLAKE2S_INIT(128)
+A_BLAKE2S_INIT(160)
+A_BLAKE2S_INIT(224)
+A_BLAKE2S_INIT(256)
+#undef A_BLAKE2S_INIT
 
 int a_blake2s_process(a_blake2s_s *ctx, const void *pdata, size_t nbyte)
 {

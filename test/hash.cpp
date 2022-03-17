@@ -76,7 +76,7 @@ static void test_md2(void)
         a_md2_init(ctx);
         a_md2_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_md2_done(ctx, out);
-        __HASH_DIFF(out, tests[i].hash, A_MD2_OUTSIZ, "md2");
+        HASH_DIFF(out, tests[i].hash, A_MD2_OUTSIZ, "md2");
     }
 }
 
@@ -148,7 +148,7 @@ static void test_md4(void)
         a_md4_init(ctx);
         a_md4_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_md4_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_MD4_OUTSIZ, "md4");
+        HASH_DIFF(ctx->out, tests[i].hash, A_MD4_OUTSIZ, "md4");
     }
 }
 
@@ -221,7 +221,7 @@ static void test_md5(void)
         a_md5_init(ctx);
         a_md5_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_md5_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_MD5_OUTSIZ, "md5");
+        HASH_DIFF(ctx->out, tests[i].hash, A_MD5_OUTSIZ, "md5");
     }
 }
 
@@ -285,7 +285,7 @@ static void test_rmd128(void)
         a_rmd128_init(ctx);
         a_rmd128_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd128_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD128_OUTSIZ, "ripemd128");
+        HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD128_OUTSIZ, "ripemd128");
     }
 }
 
@@ -355,7 +355,7 @@ static void test_rmd160(void)
         a_rmd160_init(ctx);
         a_rmd160_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd160_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD160_OUTSIZ, "ripemd160");
+        HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD160_OUTSIZ, "ripemd160");
     }
 }
 
@@ -431,7 +431,7 @@ static void test_rmd256(void)
         a_rmd256_init(ctx);
         a_rmd256_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd256_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_OUTSIZ, "ripemd256");
+        HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_OUTSIZ, "ripemd256");
     }
 }
 
@@ -513,7 +513,7 @@ static void test_rmd320(void)
         a_rmd320_init(ctx);
         a_rmd320_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_rmd320_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_OUTSIZ, "ripemd320");
+        HASH_DIFF(ctx->out, tests[i].hash, A_RIPEMD256_OUTSIZ, "ripemd320");
     }
 }
 
@@ -549,7 +549,7 @@ static void test_sha1(void)
         a_sha1_init(ctx);
         a_sha1_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha1_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA1_OUTSIZ, "sha1");
+        HASH_DIFF(ctx->out, tests[i].hash, A_SHA1_OUTSIZ, "sha1");
     }
 }
 
@@ -589,7 +589,7 @@ static void test_sha256(void)
         a_sha256_init(ctx);
         a_sha256_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha256_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA256_OUTSIZ, "sha256");
+        HASH_DIFF(ctx->out, tests[i].hash, A_SHA256_OUTSIZ, "sha256");
     }
 }
 
@@ -629,7 +629,7 @@ static void test_sha224(void)
         a_sha224_init(ctx);
         a_sha224_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha224_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA224_OUTSIZ, "sha224");
+        HASH_DIFF(ctx->out, tests[i].hash, A_SHA224_OUTSIZ, "sha224");
     }
 }
 
@@ -678,7 +678,7 @@ static void test_sha512(void)
         a_sha512_init(ctx);
         a_sha512_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha512_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_OUTSIZ, "sha512");
+        HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_OUTSIZ, "sha512");
     }
 }
 
@@ -723,7 +723,7 @@ static void test_sha384(void)
         a_sha384_init(ctx);
         a_sha384_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha384_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA384_OUTSIZ, "sha384");
+        HASH_DIFF(ctx->out, tests[i].hash, A_SHA384_OUTSIZ, "sha384");
     }
 }
 
@@ -764,7 +764,7 @@ static void test_sha512_224(void)
         a_sha512_224_init(ctx);
         a_sha512_224_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha512_224_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_224_OUTSIZ, "sha512-224");
+        HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_224_OUTSIZ, "sha512-224");
     }
 }
 
@@ -805,7 +805,7 @@ static void test_sha512_256(void)
         a_sha512_256_init(ctx);
         a_sha512_256_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_sha512_256_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_256_OUTSIZ, "sha512-256");
+        HASH_DIFF(ctx->out, tests[i].hash, A_SHA512_256_OUTSIZ, "sha512-256");
     }
 }
 
@@ -836,20 +836,20 @@ static void test_sha3_224(void)
     /* SHA3-224 on an empty buffer */
     a_sha3_224_init(ctx);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_empty, A_SHA3_224_OUTSIZ, "sha3-224");
+    HASH_DIFF(hash, sha3_224_empty, A_SHA3_224_OUTSIZ, "sha3-224");
 
     /* SHA3-224 as a single buffer. [FIPS 202] */
     a_sha3_224_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "sha3-224");
+    HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "sha3-224");
 
     /* SHA3-224 in two steps. [FIPS 202] */
     a_sha3_224_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "sha3-224");
+    HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "sha3-224");
 
     /* SHA3-224 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_224_init(ctx);
@@ -858,7 +858,7 @@ static void test_sha3_224(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "sha3-224");
+    HASH_DIFF(hash, sha3_224_0xa3_200_times, A_SHA3_224_OUTSIZ, "sha3-224");
 }
 
 static void test_sha3_256(void)
@@ -888,20 +888,20 @@ static void test_sha3_256(void)
     /* SHA3-256 on an empty buffer */
     a_sha3_256_init(ctx);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_empty, A_SHA3_256_OUTSIZ, "sha3-256");
+    HASH_DIFF(hash, sha3_256_empty, A_SHA3_256_OUTSIZ, "sha3-256");
 
     /* SHA3-256 as a single buffer. [FIPS 202] */
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-256");
+    HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-256");
 
     /* SHA3-256 in two steps. [FIPS 202] */
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-256");
+    HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-256");
 
     /* SHA3-256 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_256_init(ctx);
@@ -910,7 +910,7 @@ static void test_sha3_256(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-256");
+    HASH_DIFF(hash, sha3_256_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-256");
 
     const char *src = "\xb7\x71\xd5\xce\xf5\xd1\xa4\x1a"
                       "\x93\xd1\x56\x43\xd7\x18\x1d\x2a"
@@ -939,7 +939,7 @@ static void test_sha3_256(void)
     a_sha3_256_init(ctx);
     a_sha3_process(ctx, src, 1080 >> 3);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_SHA3_256_OUTSIZ, "sha3-256");
+    HASH_DIFF(hash, dst, A_SHA3_256_OUTSIZ, "sha3-256");
 }
 
 static void test_sha3_384(void)
@@ -966,14 +966,14 @@ static void test_sha3_384(void)
     a_sha3_384_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-384");
+    HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-384");
 
     /* SHA3-384 in two steps. [FIPS 202] */
     a_sha3_384_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_OUTSIZ, "sha3-384");
+    HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_OUTSIZ, "sha3-384");
 
     /* SHA3-384 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_384_init(ctx);
@@ -982,7 +982,7 @@ static void test_sha3_384(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_OUTSIZ, "sha3-384");
+    HASH_DIFF(hash, sha3_384_0xa3_200_times, A_SHA3_384_OUTSIZ, "sha3-384");
 }
 
 static void test_sha3_512(void)
@@ -1011,14 +1011,14 @@ static void test_sha3_512(void)
     a_sha3_512_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf));
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-384");
+    HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_256_OUTSIZ, "sha3-384");
 
     /* SHA3-512 in two steps. [FIPS 202] */
     a_sha3_512_init(ctx);
     a_sha3_process(ctx, buf, sizeof(buf) >> 1);
     a_sha3_process(ctx, buf + (sizeof(buf) >> 1), sizeof(buf) >> 1);
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_OUTSIZ, "sha3-384");
+    HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_OUTSIZ, "sha3-384");
 
     /* SHA3-512 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3_512_init(ctx);
@@ -1027,7 +1027,7 @@ static void test_sha3_512(void)
         a_sha3_process(ctx, &c1, 1);
     }
     a_sha3_done(ctx, hash);
-    __HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_OUTSIZ, "sha3-384");
+    HASH_DIFF(hash, sha3_512_0xa3_200_times, A_SHA3_512_OUTSIZ, "sha3-384");
 }
 
 static void test_sha3shake(void)
@@ -1072,13 +1072,13 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake256_empty, sizeof(shake256_empty), "shake256");
+    HASH_DIFF(hash, shake256_empty, sizeof(shake256_empty), "shake256");
 
     /* SHAKE256 via [FIPS 202] */
     a_sha3shake_init(ctx, 0x100);
     a_sha3shake_process(ctx, buf, sizeof(buf));
     a_sha3shake_done(ctx, hash, 0x200);
-    __HASH_DIFF(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
+    HASH_DIFF(hash + 0x200 - 0x20, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
 
     /* SHAKE256 as a single buffer. [FIPS 202] */
     a_sha3shake_init(ctx, 0x100);
@@ -1087,7 +1087,7 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
+    HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
 
     /* SHAKE256 in two steps. [FIPS 202] */
     a_sha3shake_init(ctx, 0x100);
@@ -1097,7 +1097,7 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
+    HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
 
     /* SHAKE256 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3shake_init(ctx, 0x100);
@@ -1109,7 +1109,7 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
+    HASH_DIFF(hash, shake256_0xa3_200_times, sizeof(shake256_0xa3_200_times), "shake256");
 
     /* SHAKE128 on an empty buffer */
     a_sha3shake_init(ctx, 0x80);
@@ -1117,13 +1117,13 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake128_empty, sizeof(shake128_empty), "shake128");
+    HASH_DIFF(hash, shake128_empty, sizeof(shake128_empty), "shake128");
 
     /* SHAKE128 via [FIPS 202] */
     a_sha3shake_init(ctx, 0x80);
     a_sha3shake_process(ctx, buf, sizeof(buf));
     a_sha3shake_done(ctx, hash, 0x200);
-    __HASH_DIFF(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
+    HASH_DIFF(hash + 0x200 - 0x20, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
 
     /* SHAKE128 as a single buffer. [FIPS 202] */
     a_sha3shake_init(ctx, 0x80);
@@ -1132,7 +1132,7 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
+    HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
 
     /* SHAKE128 in two steps. [FIPS 202] */
     a_sha3shake_init(ctx, 0x80);
@@ -1142,7 +1142,7 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
+    HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
 
     /* SHAKE128 byte-by-byte: 200 steps. [FIPS 202] */
     a_sha3shake_init(ctx, 0x80);
@@ -1154,7 +1154,7 @@ static void test_sha3shake(void)
     {
         a_sha3shake_done(ctx, hash, 0x20); /* get 512 bytes, keep in hash the last 32 */
     }
-    __HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
+    HASH_DIFF(hash, shake128_0xa3_200_times, sizeof(shake128_0xa3_200_times), "shake128");
 }
 
 static void test_keccak224(void)
@@ -1171,7 +1171,7 @@ static void test_keccak224(void)
     a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
+    HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
 
     src = "\x41\xfb";
     dst = "\x61\x5b\xa3\x67\xaf\xdc\x35\xaa"
@@ -1182,7 +1182,7 @@ static void test_keccak224(void)
     a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
+    HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1194,7 +1194,7 @@ static void test_keccak224(void)
     a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
+    HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1217,7 +1217,7 @@ static void test_keccak224(void)
     a_keccak224_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
+    HASH_DIFF(hash, dst, A_KECCAK224_OUTSIZ, "keccak224");
 }
 
 static void test_keccak256(void)
@@ -1234,7 +1234,7 @@ static void test_keccak256(void)
     a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
+    HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
 
     src = "\x41\xfb";
     dst = "\xa8\xea\xce\xda\x4d\x47\xb3\x28"
@@ -1245,7 +1245,7 @@ static void test_keccak256(void)
     a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
+    HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1257,7 +1257,7 @@ static void test_keccak256(void)
     a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
+    HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1280,7 +1280,7 @@ static void test_keccak256(void)
     a_keccak256_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
+    HASH_DIFF(hash, dst, A_KECCAK256_OUTSIZ, "keccak256");
 }
 
 static void test_keccak384(void)
@@ -1299,7 +1299,7 @@ static void test_keccak384(void)
     a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
+    HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
 
     src = "\x41\xfb";
     dst = "\x49\x5c\xce\x27\x14\xcd\x72\xc8"
@@ -1312,7 +1312,7 @@ static void test_keccak384(void)
     a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
+    HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1326,7 +1326,7 @@ static void test_keccak384(void)
     a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
+    HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1351,7 +1351,7 @@ static void test_keccak384(void)
     a_keccak384_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
+    HASH_DIFF(hash, dst, A_KECCAK384_OUTSIZ, "keccak384");
 }
 
 static void test_keccak512(void)
@@ -1372,7 +1372,7 @@ static void test_keccak512(void)
     a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 1);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
+    HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
 
     src = "\x41\xfb";
     dst = "\x55\x1d\xa6\x23\x6f\x8b\x96\xfc"
@@ -1387,7 +1387,7 @@ static void test_keccak512(void)
     a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 2);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
+    HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
 
     src = "\x52\xa6\x08\xab\x21\xcc\xdd\x8a"
           "\x44\x57\xa5\x7e\xde\x78\x21\x76";
@@ -1403,7 +1403,7 @@ static void test_keccak512(void)
     a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 0x10);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
+    HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
 
     src = "\x43\x3c\x53\x03\x13\x16\x24\xc0"
           "\x02\x1d\x86\x8a\x30\x82\x54\x75"
@@ -1430,7 +1430,7 @@ static void test_keccak512(void)
     a_keccak512_init(ctx);
     a_keccak_process(ctx, src, 100);
     a_keccak_done(ctx, hash);
-    __HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
+    HASH_DIFF(hash, dst, A_KECCAK512_OUTSIZ, "keccak512");
 }
 
 static void test_tiger(void)
@@ -1492,7 +1492,7 @@ static void test_tiger(void)
         a_tiger_init(ctx);
         a_tiger_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_tiger_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_TIGER_OUTSIZ, "TIGER");
+        HASH_DIFF(ctx->out, tests[i].hash, A_TIGER_OUTSIZ, "TIGER");
     }
 }
 
@@ -1639,7 +1639,7 @@ static void test_whirlpool(void)
         a_whirlpool_init(ctx);
         a_whirlpool_process(ctx, tests[i].msg, tests[i].len);
         a_whirlpool_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_WHIRLPOOL_OUTSIZ, "WHIRLPOOL");
+        HASH_DIFF(ctx->out, tests[i].hash, A_WHIRLPOOL_OUTSIZ, "WHIRLPOOL");
     }
 }
 
@@ -1675,7 +1675,7 @@ static void test_blake2s_128(void)
         a_blake2s_128_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_128_OUTSIZ, "blake2s-128");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_128_OUTSIZ, "blake2s-128");
     }
 }
 
@@ -1713,7 +1713,7 @@ static void test_blake2s_160(void)
         a_blake2s_160_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_160_OUTSIZ, "blake2s-160");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_160_OUTSIZ, "blake2s-160");
     }
 }
 
@@ -1753,7 +1753,7 @@ static void test_blake2s_224(void)
         a_blake2s_224_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_224_OUTSIZ, "blake2s-224");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_224_OUTSIZ, "blake2s-224");
     }
 }
 
@@ -1807,7 +1807,7 @@ static void test_blake2s_256(void)
         a_blake2s_256_init(ctx);
         a_blake2s_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2s_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_256_OUTSIZ, "blake2s-256");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2S_256_OUTSIZ, "blake2s-256");
     }
 }
 
@@ -1844,7 +1844,7 @@ static void test_blake2b_160(void)
         a_blake2b_160_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_160_OUTSIZ, "blake2b-160");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_160_OUTSIZ, "blake2b-160");
     }
 }
 
@@ -1898,7 +1898,7 @@ static void test_blake2b_256(void)
         a_blake2b_256_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_256_OUTSIZ, "blake2b-256");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_256_OUTSIZ, "blake2b-256");
     }
 }
 
@@ -1942,7 +1942,7 @@ static void test_blake2b_384(void)
         a_blake2b_384_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_384_OUTSIZ, "blake2b-384");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_384_OUTSIZ, "blake2b-384");
     }
 }
 
@@ -1990,7 +1990,7 @@ static void test_blake2b_512(void)
         a_blake2b_512_init(ctx);
         a_blake2b_process(ctx, tests[i].msg, strlen(tests[i].msg));
         a_blake2b_done(ctx, ctx->out);
-        __HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_512_OUTSIZ, "blake2b-512");
+        HASH_DIFF(ctx->out, tests[i].hash, A_BLAKE2B_512_OUTSIZ, "blake2b-512");
     }
 }
 

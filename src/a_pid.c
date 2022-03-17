@@ -47,8 +47,8 @@
 */
 
 #undef a_pid_init
-#undef __A_PID_INIT
-#define __A_PID_INIT(def, type, func)                \
+#undef A_PID_INIT
+#define A_PID_INIT(def, type, func)                  \
     void func(def##_s *ctx, a_pid_e mode,            \
               const type kpid[3],                    \
               type omin, type omax,                  \
@@ -93,13 +93,13 @@
             break;                                   \
         }                                            \
     }
-__A_PID_INIT(a_pid, double, a_pid_init)
-__A_PID_INIT(a_pidf, float, a_pidf_init)
-#undef __A_PID_INIT
+A_PID_INIT(a_pid, double, a_pid_init)
+A_PID_INIT(a_pidf, float, a_pidf_init)
+#undef A_PID_INIT
 
 #undef a_pid_process
-#undef __A_PID_PROCESS
-#define __A_PID_PROCESS(def, type, func)                                \
+#undef A_PID_PROCESS
+#define A_PID_PROCESS(def, type, func)                                  \
     type func(def##_s *ctx, type ref, type set)                         \
     {                                                                   \
         AASSERT(ctx);                                                   \
@@ -151,6 +151,6 @@ __A_PID_INIT(a_pidf, float, a_pidf_init)
                                                                         \
         return out;                                                     \
     }
-__A_PID_PROCESS(a_pid, double, a_pid_process)
-__A_PID_PROCESS(a_pidf, float, a_pidf_process)
-#undef __A_PID_PROCESS
+A_PID_PROCESS(a_pid, double, a_pid_process)
+A_PID_PROCESS(a_pidf, float, a_pidf_process)
+#undef A_PID_PROCESS

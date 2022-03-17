@@ -40,11 +40,11 @@ typedef enum a_pid_e
     A_PID_INC, //!< Incremental pid control
 } a_pid_e;
 
-#undef __A_PID_T
+#undef A_PID_T
 /*!
  @brief Instance structure for the floating-point PID Control
 */
-#define __A_PID_T(def, type)                          \
+#define A_PID_T(def, type)                            \
     typedef struct def##_s                            \
     {                                                 \
         a_pid_e mode; /* Mode for PID Control */      \
@@ -79,12 +79,12 @@ typedef enum a_pid_e
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* _MSC_VER */
-__A_PID_T(a_pid, double);
-__A_PID_T(a_pidf, float);
+A_PID_T(a_pid, double);
+A_PID_T(a_pidf, float);
 #ifndef _MSC_VER
 #pragma GCC diagnostic pop
 #endif /* _MSC_VER */
-#undef __A_PID_T
+#undef A_PID_T
 
 __BEGIN_DECLS
 
@@ -123,8 +123,8 @@ float a_pidf_process(a_pidf_s *ctx, float ref, float set) __NONNULL((1));
 
 __END_DECLS
 
-#undef __A_PID_POS
-#define __A_PID_POS(def, type, init, func)             \
+#undef A_PID_POS
+#define A_PID_POS(def, type, init, func)               \
     __STATIC_INLINE                                    \
     __NONNULL((1, 2))                                  \
     void func(def##_s *ctx,                            \
@@ -134,12 +134,12 @@ __END_DECLS
     {                                                  \
         init(ctx, A_PID_POS, kpid, omin, omax, omaxi); \
     }
-__A_PID_POS(a_pid, double, a_pid_init, a_pid_pos)
-__A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
-#undef __A_PID_POS
+A_PID_POS(a_pid, double, a_pid_init, a_pid_pos)
+A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
+#undef A_PID_POS
 
-#undef __A_PID_INC
-#define __A_PID_INC(def, type, init, func)         \
+#undef A_PID_INC
+#define A_PID_INC(def, type, init, func)           \
     __STATIC_INLINE                                \
     __NONNULL((1, 2))                              \
     void func(def##_s *ctx,                        \
@@ -148,12 +148,12 @@ __A_PID_POS(a_pidf, float, a_pidf_init, a_pidf_pos)
     {                                              \
         init(ctx, A_PID_INC, kpid, omin, omax, 0); \
     }
-__A_PID_INC(a_pid, double, a_pid_init, a_pid_inc)
-__A_PID_INC(a_pidf, float, a_pidf_init, a_pidf_inc)
-#undef __A_PID_INC
+A_PID_INC(a_pid, double, a_pid_init, a_pid_inc)
+A_PID_INC(a_pidf, float, a_pidf_init, a_pidf_inc)
+#undef A_PID_INC
 
-#undef __A_PID_RESET
-#define __A_PID_RESET(def, func)            \
+#undef A_PID_RESET
+#define A_PID_RESET(def, func)              \
     __NONNULL_ALL                           \
     __STATIC_INLINE                         \
     void func(def##_s *ctx)                 \
@@ -161,9 +161,9 @@ __A_PID_INC(a_pidf, float, a_pidf_init, a_pidf_inc)
         AASSERT(ctx);                       \
         ctx->x[0] = ctx->x[1] = ctx->y = 0; \
     }
-__A_PID_RESET(a_pid, a_pid_reset)
-__A_PID_RESET(a_pidf, a_pidf_reset)
-#undef __A_PID_RESET
+A_PID_RESET(a_pid, a_pid_reset)
+A_PID_RESET(a_pidf, a_pidf_reset)
+#undef A_PID_RESET
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 /*!

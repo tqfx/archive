@@ -7,8 +7,8 @@
 #include "a_poly.h"
 
 #undef a_horner
-#undef __A_HORNER
-#define __A_HORNER(func, type)                   \
+#undef A_HORNER
+#define A_HORNER(func, type)                     \
     type func(const type *a, size_t n, type x)   \
     {                                            \
         AASSERT(!n || a);                        \
@@ -22,13 +22,13 @@
                                                  \
         return y;                                \
     }
-__A_HORNER(a_horner, double)
-__A_HORNER(a_hornerf, float)
-#undef __A_HORNER
+A_HORNER(a_horner, double)
+A_HORNER(a_hornerf, float)
+#undef A_HORNER
 
 #undef a_hornerr
-#undef __A_HORNERR
-#define __A_HORNERR(func, type)                    \
+#undef A_HORNERR
+#define A_HORNERR(func, type)                      \
     type func(const type *a, size_t n, type x)     \
     {                                              \
         AASSERT(!n || a);                          \
@@ -42,6 +42,6 @@ __A_HORNER(a_hornerf, float)
                                                    \
         return y;                                  \
     }
-__A_HORNERR(a_hornerr, double)
-__A_HORNERR(a_hornerrf, float)
-#undef __A_HORNERR
+A_HORNERR(a_hornerr, double)
+A_HORNERR(a_hornerrf, float)
+#undef A_HORNERR

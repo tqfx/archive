@@ -202,6 +202,6 @@ void a_whirlpool_init(a_whirlpool_s *ctx)
     memset(ctx, 0, sizeof(*ctx));
 }
 
-__A_HASH_PROCESS(a_whirlpool_s, a_whirlpool_process, a_whirlpool_compress)
+A_HASH_PROCESS(a_whirlpool_s, a_whirlpool_process, a_whirlpool_compress)
 
-__A_HASH_DONE(a_whirlpool_s, a_whirlpool_done, a_whirlpool_compress, STORE64H, STORE64H, 0x80, 0x20, 0x38)
+A_HASH_DONE(a_whirlpool_s, a_whirlpool_done, a_whirlpool_compress, STORE64H, STORE64H, 0x80, 0x20, 0x38)

@@ -13,8 +13,8 @@
 /* function for cubic polynomial trajectory */
 
 #undef a_polytrack3_init
-#undef __A_POLYTRACK3_INIT
-#define __A_POLYTRACK3_INIT(def, type, func)                            \
+#undef A_POLYTRACK3_INIT
+#define A_POLYTRACK3_INIT(def, type, func)                              \
     void func(def##_s *ctx, const type source[3], const type target[3]) \
     {                                                                   \
         AASSERT(ctx);                                                   \
@@ -41,64 +41,64 @@
         ctx->k[3] = inv_t2 * (ctx->v[0] + ctx->v[1]) -                  \
                     inv_t3 * q * 2;                                     \
     }
-__A_POLYTRACK3_INIT(a_polytrack3, double, a_polytrack3_init)
-__A_POLYTRACK3_INIT(a_polytrack3f, float, a_polytrack3f_init)
-#undef __A_POLYTRACK3_INIT
+A_POLYTRACK3_INIT(a_polytrack3, double, a_polytrack3_init)
+A_POLYTRACK3_INIT(a_polytrack3f, float, a_polytrack3f_init)
+#undef A_POLYTRACK3_INIT
 
 #undef a_polytrack3_pos
-#undef __A_POLYTRACK3_POS
-#define __A_POLYTRACK3_POS(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[4] = {                             \
-            ctx->k[3],                            \
-            ctx->k[2],                            \
-            ctx->k[1],                            \
-            ctx->k[0],                            \
-        };                                        \
-        return poly(a, 4, t - ctx->t[0]);         \
+#undef A_POLYTRACK3_POS
+#define A_POLYTRACK3_POS(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[4] = {                           \
+            ctx->k[3],                          \
+            ctx->k[2],                          \
+            ctx->k[1],                          \
+            ctx->k[0],                          \
+        };                                      \
+        return poly(a, 4, t - ctx->t[0]);       \
     }
-__A_POLYTRACK3_POS(a_polytrack3, double, a_polytrack3_pos, a_horner)
-__A_POLYTRACK3_POS(a_polytrack3f, float, a_polytrack3f_pos, a_hornerf)
-#undef __A_POLYTRACK3_POS
+A_POLYTRACK3_POS(a_polytrack3, double, a_polytrack3_pos, a_horner)
+A_POLYTRACK3_POS(a_polytrack3f, float, a_polytrack3f_pos, a_hornerf)
+#undef A_POLYTRACK3_POS
 
 #undef a_polytrack3_vec
-#undef __A_POLYTRACK3_VEC
-#define __A_POLYTRACK3_VEC(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[3] = {                             \
-            ctx->k[3] * 3,                        \
-            ctx->k[2] * 2,                        \
-            ctx->k[1],                            \
-        };                                        \
-        return poly(a, 3, t - ctx->t[0]);         \
+#undef A_POLYTRACK3_VEC
+#define A_POLYTRACK3_VEC(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[3] = {                           \
+            ctx->k[3] * 3,                      \
+            ctx->k[2] * 2,                      \
+            ctx->k[1],                          \
+        };                                      \
+        return poly(a, 3, t - ctx->t[0]);       \
     }
-__A_POLYTRACK3_VEC(a_polytrack3, double, a_polytrack3_vec, a_horner)
-__A_POLYTRACK3_VEC(a_polytrack3f, float, a_polytrack3f_vec, a_hornerf)
-#undef __A_POLYTRACK3_VEC
+A_POLYTRACK3_VEC(a_polytrack3, double, a_polytrack3_vec, a_horner)
+A_POLYTRACK3_VEC(a_polytrack3f, float, a_polytrack3f_vec, a_hornerf)
+#undef A_POLYTRACK3_VEC
 
 #undef a_polytrack3_acc
-#undef __A_POLYTRACK3_ACC
-#define __A_POLYTRACK3_ACC(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[2] = {                             \
-            ctx->k[3] * 3 * 2,                    \
-            ctx->k[2] * 2,                        \
-        };                                        \
-        return poly(a, 2, t - ctx->t[0]);         \
+#undef A_POLYTRACK3_ACC
+#define A_POLYTRACK3_ACC(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[2] = {                           \
+            ctx->k[3] * 3 * 2,                  \
+            ctx->k[2] * 2,                      \
+        };                                      \
+        return poly(a, 2, t - ctx->t[0]);       \
     }
-__A_POLYTRACK3_ACC(a_polytrack3, double, a_polytrack3_acc, a_horner)
-__A_POLYTRACK3_ACC(a_polytrack3f, float, a_polytrack3f_acc, a_hornerf)
-#undef __A_POLYTRACK3_ACC
+A_POLYTRACK3_ACC(a_polytrack3, double, a_polytrack3_acc, a_horner)
+A_POLYTRACK3_ACC(a_polytrack3f, float, a_polytrack3f_acc, a_hornerf)
+#undef A_POLYTRACK3_ACC
 
 #undef a_polytrack3_all
-#undef __A_POLYTRACK3_ALL
-#define __A_POLYTRACK3_ALL(def, type, func, poly)      \
+#undef A_POLYTRACK3_ALL
+#define A_POLYTRACK3_ALL(def, type, func, poly)        \
     void func(const def##_s *ctx, type t, type out[3]) \
     {                                                  \
         AASSERT(out);                                  \
@@ -117,15 +117,15 @@ __A_POLYTRACK3_ACC(a_polytrack3f, float, a_polytrack3f_acc, a_hornerf)
         a[0] *= 2;                                     \
         out[2] = poly(a, 2, t);                        \
     }
-__A_POLYTRACK3_ALL(a_polytrack3, double, a_polytrack3_all, a_horner)
-__A_POLYTRACK3_ALL(a_polytrack3f, float, a_polytrack3f_all, a_hornerf)
-#undef __A_POLYTRACK3_ALL
+A_POLYTRACK3_ALL(a_polytrack3, double, a_polytrack3_all, a_horner)
+A_POLYTRACK3_ALL(a_polytrack3f, float, a_polytrack3f_all, a_hornerf)
+#undef A_POLYTRACK3_ALL
 
 /* function for quintic polynomial trajectory */
 
 #undef a_polytrack5_init
-#undef __A_POLYTRACK5_INIT
-#define __A_POLYTRACK5_INIT(def, type, func)                            \
+#undef A_POLYTRACK5_INIT
+#define A_POLYTRACK5_INIT(def, type, func)                              \
     void func(def##_s *ctx, const type source[4], const type target[4]) \
     {                                                                   \
         AASSERT(ctx);                                                   \
@@ -165,70 +165,70 @@ __A_POLYTRACK3_ALL(a_polytrack3f, float, a_polytrack3f_all, a_hornerf)
                      inv_t5 * q * 12) *                                 \
                     (type)(1 / 2.0);                                    \
     }
-__A_POLYTRACK5_INIT(a_polytrack5, double, a_polytrack5_init)
-__A_POLYTRACK5_INIT(a_polytrack5f, float, a_polytrack5f_init)
-#undef __A_POLYTRACK5_INIT
+A_POLYTRACK5_INIT(a_polytrack5, double, a_polytrack5_init)
+A_POLYTRACK5_INIT(a_polytrack5f, float, a_polytrack5f_init)
+#undef A_POLYTRACK5_INIT
 
 #undef a_polytrack5_pos
-#undef __A_POLYTRACK5_POS
-#define __A_POLYTRACK5_POS(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[6] = {                             \
-            ctx->k[5],                            \
-            ctx->k[4],                            \
-            ctx->k[3],                            \
-            ctx->k[2],                            \
-            ctx->k[1],                            \
-            ctx->k[0],                            \
-        };                                        \
-        return poly(a, 6, t - ctx->t[0]);         \
+#undef A_POLYTRACK5_POS
+#define A_POLYTRACK5_POS(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[6] = {                           \
+            ctx->k[5],                          \
+            ctx->k[4],                          \
+            ctx->k[3],                          \
+            ctx->k[2],                          \
+            ctx->k[1],                          \
+            ctx->k[0],                          \
+        };                                      \
+        return poly(a, 6, t - ctx->t[0]);       \
     }
-__A_POLYTRACK5_POS(a_polytrack5, double, a_polytrack5_pos, a_horner)
-__A_POLYTRACK5_POS(a_polytrack5f, float, a_polytrack5f_pos, a_hornerf)
-#undef __A_POLYTRACK5_POS
+A_POLYTRACK5_POS(a_polytrack5, double, a_polytrack5_pos, a_horner)
+A_POLYTRACK5_POS(a_polytrack5f, float, a_polytrack5f_pos, a_hornerf)
+#undef A_POLYTRACK5_POS
 
 #undef a_polytrack5_vec
-#undef __A_POLYTRACK5_VEC
-#define __A_POLYTRACK5_VEC(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[5] = {                             \
-            ctx->k[5] * 5,                        \
-            ctx->k[4] * 4,                        \
-            ctx->k[3] * 3,                        \
-            ctx->k[2] * 2,                        \
-            ctx->k[1],                            \
-        };                                        \
-        return poly(a, 5, t - ctx->t[0]);         \
+#undef A_POLYTRACK5_VEC
+#define A_POLYTRACK5_VEC(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[5] = {                           \
+            ctx->k[5] * 5,                      \
+            ctx->k[4] * 4,                      \
+            ctx->k[3] * 3,                      \
+            ctx->k[2] * 2,                      \
+            ctx->k[1],                          \
+        };                                      \
+        return poly(a, 5, t - ctx->t[0]);       \
     }
-__A_POLYTRACK5_VEC(a_polytrack5, double, a_polytrack5_vec, a_horner)
-__A_POLYTRACK5_VEC(a_polytrack5f, float, a_polytrack5f_vec, a_hornerf)
-#undef __A_POLYTRACK5_VEC
+A_POLYTRACK5_VEC(a_polytrack5, double, a_polytrack5_vec, a_horner)
+A_POLYTRACK5_VEC(a_polytrack5f, float, a_polytrack5f_vec, a_hornerf)
+#undef A_POLYTRACK5_VEC
 
 #undef a_polytrack5_acc
-#undef __A_POLYTRACK5_ACC
-#define __A_POLYTRACK5_ACC(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[4] = {                             \
-            ctx->k[5] * 5 * 4,                    \
-            ctx->k[4] * 4 * 3,                    \
-            ctx->k[3] * 3 * 2,                    \
-            ctx->k[2] * 2,                        \
-        };                                        \
-        return poly(a, 4, t - ctx->t[0]);         \
+#undef A_POLYTRACK5_ACC
+#define A_POLYTRACK5_ACC(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[4] = {                           \
+            ctx->k[5] * 5 * 4,                  \
+            ctx->k[4] * 4 * 3,                  \
+            ctx->k[3] * 3 * 2,                  \
+            ctx->k[2] * 2,                      \
+        };                                      \
+        return poly(a, 4, t - ctx->t[0]);       \
     }
-__A_POLYTRACK5_ACC(a_polytrack5, double, a_polytrack5_acc, a_horner)
-__A_POLYTRACK5_ACC(a_polytrack5f, float, a_polytrack5f_acc, a_hornerf)
-#undef __A_POLYTRACK5_ACC
+A_POLYTRACK5_ACC(a_polytrack5, double, a_polytrack5_acc, a_horner)
+A_POLYTRACK5_ACC(a_polytrack5f, float, a_polytrack5f_acc, a_hornerf)
+#undef A_POLYTRACK5_ACC
 
 #undef a_polytrack5_all
-#undef __A_POLYTRACK5_ALL
-#define __A_POLYTRACK5_ALL(def, type, func, poly)      \
+#undef A_POLYTRACK5_ALL
+#define A_POLYTRACK5_ALL(def, type, func, poly)        \
     void func(const def##_s *ctx, type t, type out[3]) \
     {                                                  \
         AASSERT(out);                                  \
@@ -253,15 +253,15 @@ __A_POLYTRACK5_ACC(a_polytrack5f, float, a_polytrack5f_acc, a_hornerf)
         a[2] *= 2;                                     \
         out[2] = poly(a, 4, t);                        \
     }
-__A_POLYTRACK5_ALL(a_polytrack5, double, a_polytrack5_all, a_horner)
-__A_POLYTRACK5_ALL(a_polytrack5f, float, a_polytrack5f_all, a_hornerf)
-#undef __A_POLYTRACK5_ALL
+A_POLYTRACK5_ALL(a_polytrack5, double, a_polytrack5_all, a_horner)
+A_POLYTRACK5_ALL(a_polytrack5f, float, a_polytrack5f_all, a_hornerf)
+#undef A_POLYTRACK5_ALL
 
 /* function for hepta polynomial trajectory */
 
 #undef a_polytrack7_init
-#undef __A_POLYTRACK7_INIT
-#define __A_POLYTRACK7_INIT(def, type, func)                            \
+#undef A_POLYTRACK7_INIT
+#define A_POLYTRACK7_INIT(def, type, func)                              \
     void func(def##_s *ctx, const type source[5], const type target[5]) \
     {                                                                   \
         AASSERT(ctx);                                                   \
@@ -314,95 +314,95 @@ __A_POLYTRACK5_ALL(a_polytrack5f, float, a_polytrack5f_all, a_hornerf)
                      inv_t7 * q * 120) *                                \
                     (type)(1 / 6.0);                                    \
     }
-__A_POLYTRACK7_INIT(a_polytrack7, double, a_polytrack7_init)
-__A_POLYTRACK7_INIT(a_polytrack7f, float, a_polytrack7f_init)
-#undef __A_POLYTRACK7_INIT
+A_POLYTRACK7_INIT(a_polytrack7, double, a_polytrack7_init)
+A_POLYTRACK7_INIT(a_polytrack7f, float, a_polytrack7f_init)
+#undef A_POLYTRACK7_INIT
 
 #undef a_polytrack7_pos
-#undef __A_POLYTRACK7_POS
-#define __A_POLYTRACK7_POS(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[8] = {                             \
-            ctx->k[7],                            \
-            ctx->k[6],                            \
-            ctx->k[5],                            \
-            ctx->k[4],                            \
-            ctx->k[3],                            \
-            ctx->k[2],                            \
-            ctx->k[1],                            \
-            ctx->k[0],                            \
-        };                                        \
-        return poly(a, 8, t - ctx->t[0]);         \
+#undef A_POLYTRACK7_POS
+#define A_POLYTRACK7_POS(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[8] = {                           \
+            ctx->k[7],                          \
+            ctx->k[6],                          \
+            ctx->k[5],                          \
+            ctx->k[4],                          \
+            ctx->k[3],                          \
+            ctx->k[2],                          \
+            ctx->k[1],                          \
+            ctx->k[0],                          \
+        };                                      \
+        return poly(a, 8, t - ctx->t[0]);       \
     }
-__A_POLYTRACK7_POS(a_polytrack7, double, a_polytrack7_pos, a_horner)
-__A_POLYTRACK7_POS(a_polytrack7f, float, a_polytrack7f_pos, a_hornerf)
-#undef __A_POLYTRACK7_POS
+A_POLYTRACK7_POS(a_polytrack7, double, a_polytrack7_pos, a_horner)
+A_POLYTRACK7_POS(a_polytrack7f, float, a_polytrack7f_pos, a_hornerf)
+#undef A_POLYTRACK7_POS
 
 #undef a_polytrack7_vec
-#undef __A_POLYTRACK7_VEC
-#define __A_POLYTRACK7_VEC(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[7] = {                             \
-            ctx->k[7] * 7,                        \
-            ctx->k[6] * 6,                        \
-            ctx->k[5] * 5,                        \
-            ctx->k[4] * 4,                        \
-            ctx->k[3] * 3,                        \
-            ctx->k[2] * 2,                        \
-            ctx->k[1],                            \
-        };                                        \
-        return poly(a, 7, t - ctx->t[0]);         \
+#undef A_POLYTRACK7_VEC
+#define A_POLYTRACK7_VEC(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[7] = {                           \
+            ctx->k[7] * 7,                      \
+            ctx->k[6] * 6,                      \
+            ctx->k[5] * 5,                      \
+            ctx->k[4] * 4,                      \
+            ctx->k[3] * 3,                      \
+            ctx->k[2] * 2,                      \
+            ctx->k[1],                          \
+        };                                      \
+        return poly(a, 7, t - ctx->t[0]);       \
     }
-__A_POLYTRACK7_VEC(a_polytrack7, double, a_polytrack7_vec, a_horner)
-__A_POLYTRACK7_VEC(a_polytrack7f, float, a_polytrack7f_vec, a_hornerf)
-#undef __A_POLYTRACK7_VEC
+A_POLYTRACK7_VEC(a_polytrack7, double, a_polytrack7_vec, a_horner)
+A_POLYTRACK7_VEC(a_polytrack7f, float, a_polytrack7f_vec, a_hornerf)
+#undef A_POLYTRACK7_VEC
 
 #undef a_polytrack7_acc
-#undef __A_POLYTRACK7_ACC
-#define __A_POLYTRACK7_ACC(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[6] = {                             \
-            ctx->k[7] * 7 * 6,                    \
-            ctx->k[6] * 6 * 5,                    \
-            ctx->k[5] * 5 * 4,                    \
-            ctx->k[4] * 4 * 3,                    \
-            ctx->k[3] * 3 * 2,                    \
-            ctx->k[2] * 2,                        \
-        };                                        \
-        return poly(a, 6, t - ctx->t[0]);         \
+#undef A_POLYTRACK7_ACC
+#define A_POLYTRACK7_ACC(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[6] = {                           \
+            ctx->k[7] * 7 * 6,                  \
+            ctx->k[6] * 6 * 5,                  \
+            ctx->k[5] * 5 * 4,                  \
+            ctx->k[4] * 4 * 3,                  \
+            ctx->k[3] * 3 * 2,                  \
+            ctx->k[2] * 2,                      \
+        };                                      \
+        return poly(a, 6, t - ctx->t[0]);       \
     }
-__A_POLYTRACK7_ACC(a_polytrack7, double, a_polytrack7_acc, a_horner)
-__A_POLYTRACK7_ACC(a_polytrack7f, float, a_polytrack7f_acc, a_hornerf)
-#undef __A_POLYTRACK7_ACC
+A_POLYTRACK7_ACC(a_polytrack7, double, a_polytrack7_acc, a_horner)
+A_POLYTRACK7_ACC(a_polytrack7f, float, a_polytrack7f_acc, a_hornerf)
+#undef A_POLYTRACK7_ACC
 
 #undef a_polytrack7_jer
-#undef __A_POLYTRACK7_JER
-#define __A_POLYTRACK7_JER(def, type, func, poly) \
-    type func(const def##_s *ctx, type t)         \
-    {                                             \
-        AASSERT(ctx);                             \
-        type a[5] = {                             \
-            ctx->k[7] * 7 * 6 * 5,                \
-            ctx->k[6] * 6 * 5 * 4,                \
-            ctx->k[5] * 5 * 4 * 3,                \
-            ctx->k[4] * 4 * 3 * 2,                \
-            ctx->k[3] * 3 * 2,                    \
-        };                                        \
-        return poly(a, 5, t - ctx->t[0]);         \
+#undef A_POLYTRACK7_JER
+#define A_POLYTRACK7_JER(def, type, func, poly) \
+    type func(const def##_s *ctx, type t)       \
+    {                                           \
+        AASSERT(ctx);                           \
+        type a[5] = {                           \
+            ctx->k[7] * 7 * 6 * 5,              \
+            ctx->k[6] * 6 * 5 * 4,              \
+            ctx->k[5] * 5 * 4 * 3,              \
+            ctx->k[4] * 4 * 3 * 2,              \
+            ctx->k[3] * 3 * 2,                  \
+        };                                      \
+        return poly(a, 5, t - ctx->t[0]);       \
     }
-__A_POLYTRACK7_JER(a_polytrack7, double, a_polytrack7_jer, a_horner)
-__A_POLYTRACK7_JER(a_polytrack7f, float, a_polytrack7f_jer, a_hornerf)
-#undef __A_POLYTRACK7_JER
+A_POLYTRACK7_JER(a_polytrack7, double, a_polytrack7_jer, a_horner)
+A_POLYTRACK7_JER(a_polytrack7f, float, a_polytrack7f_jer, a_hornerf)
+#undef A_POLYTRACK7_JER
 
 #undef a_polytrack7_all
-#undef __A_POLYTRACK7_ALL
-#define __A_POLYTRACK7_ALL(def, type, func, poly)      \
+#undef A_POLYTRACK7_ALL
+#define A_POLYTRACK7_ALL(def, type, func, poly)        \
     void func(const def##_s *ctx, type t, type out[4]) \
     {                                                  \
         AASSERT(out);                                  \
@@ -438,6 +438,6 @@ __A_POLYTRACK7_JER(a_polytrack7f, float, a_polytrack7f_jer, a_hornerf)
         a[3] *= 2;                                     \
         out[3] = poly(a, 5, t);                        \
     }
-__A_POLYTRACK7_ALL(a_polytrack7, double, a_polytrack7_all, a_horner)
-__A_POLYTRACK7_ALL(a_polytrack7f, float, a_polytrack7f_all, a_hornerf)
-#undef __A_POLYTRACK7_ALL
+A_POLYTRACK7_ALL(a_polytrack7, double, a_polytrack7_all, a_horner)
+A_POLYTRACK7_ALL(a_polytrack7f, float, a_polytrack7f_all, a_hornerf)
+#undef A_POLYTRACK7_ALL

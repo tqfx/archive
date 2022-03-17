@@ -33,8 +33,8 @@ float a_inv_sqrt(float x)
     return u->x;
 }
 
-#undef __A_SQRT_UINT
-#define __A_SQRT_UINT(bit, func, type, mask)       \
+#undef A_SQRT_UINT
+#define A_SQRT_UINT(bit, func, type, mask)         \
     type func(type x)                              \
     {                                              \
         type y = 0;                                \
@@ -53,9 +53,9 @@ float a_inv_sqrt(float x)
         }                                          \
         return y;                                  \
     }
-__A_SQRT_UINT(32, a_sqrtul, unsigned long, 0x40000000UL)
-__A_SQRT_UINT(64, a_sqrtull, unsigned long long, 0x4000000000000000ULL)
-#undef __A_SQRT_UINT
+A_SQRT_UINT(32, a_sqrtul, unsigned long, 0x40000000UL)
+A_SQRT_UINT(64, a_sqrtull, unsigned long long, 0x4000000000000000ULL)
+#undef A_SQRT_UINT
 
 void a_normalizef(float *dat, size_t num)
 {
@@ -101,8 +101,8 @@ void a_normalizevf(unsigned int num, ...)
     va_end(ap);
 }
 
-#undef __A_RESTRICT_LOOP
-#define __A_RESTRICT_LOOP(func, type)     \
+#undef A_RESTRICT_LOOP
+#define A_RESTRICT_LOOP(func, type)       \
     type func(type x, type min, type max) \
     {                                     \
         type siz = max - min;             \
@@ -122,6 +122,6 @@ void a_normalizevf(unsigned int num, ...)
         }                                 \
         return x;                         \
     }
-__A_RESTRICT_LOOP(a_restrict_loop, double)
-__A_RESTRICT_LOOP(a_restrict_loopf, float)
-#undef __A_RESTRICT_LOOP
+A_RESTRICT_LOOP(a_restrict_loop, double)
+A_RESTRICT_LOOP(a_restrict_loopf, float)
+#undef A_RESTRICT_LOOP

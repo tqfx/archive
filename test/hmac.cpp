@@ -26,7 +26,7 @@ static void test_hmac_md5(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_md5");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_md5");
 }
 
 static void test_hmac_sha1(void)
@@ -46,7 +46,7 @@ static void test_hmac_sha1(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha1");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha1");
 }
 
 static void test_hmac_sha224(void)
@@ -66,7 +66,7 @@ static void test_hmac_sha224(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha224");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha224");
 }
 
 static void test_hmac_sha256(void)
@@ -86,7 +86,7 @@ static void test_hmac_sha256(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha256");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha256");
 }
 
 static void test_hmac_sha384(void)
@@ -108,7 +108,7 @@ static void test_hmac_sha384(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha384");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha384");
 }
 
 static void test_hmac_sha512(void)
@@ -132,7 +132,7 @@ static void test_hmac_sha512(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha512");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha512");
 }
 
 static void test_hmac_sha3_224(void)
@@ -152,7 +152,7 @@ static void test_hmac_sha3_224(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_224");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_224");
 }
 
 static void test_hmac_sha3_256(void)
@@ -172,7 +172,7 @@ static void test_hmac_sha3_256(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_256");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_256");
 }
 
 static void test_hmac_sha3_384(void)
@@ -194,7 +194,7 @@ static void test_hmac_sha3_384(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_384");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_384");
 }
 
 static void test_hmac_sha3_512(void)
@@ -218,7 +218,7 @@ static void test_hmac_sha3_512(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_512");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_sha3_512");
 }
 
 static void test_hmac_blake2s(void)
@@ -238,7 +238,7 @@ static void test_hmac_blake2s(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_blake2s_256");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_blake2s_256");
 }
 
 static void test_hmac_blake2b(void)
@@ -262,7 +262,7 @@ static void test_hmac_blake2b(void)
     a_hmac_process(ctx, msg, strlen(msg));
     a_hmac_done(ctx, ctx->buf);
 
-    __HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_blake2b_512");
+    HASH_DIFF(ctx->buf, hash, sizeof(hash), "hmac_blake2b_512");
 }
 
 int main(void)

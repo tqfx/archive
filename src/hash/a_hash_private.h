@@ -211,8 +211,8 @@
 #define ROL64c(x, n) ROL64(x, n)
 #define ROR64c(x, n) ROR64(x, n)
 
-#undef __A_HASH_PROCESS
-#define __A_HASH_PROCESS(hash, func, compress)                         \
+#undef A_HASH_PROCESS
+#define A_HASH_PROCESS(hash, func, compress)                           \
     int func(hash *ctx, const void *pdata, size_t nbyte)               \
     {                                                                  \
         AASSERT(ctx);                                                  \
@@ -254,8 +254,8 @@
         return A_HASH_SUCCESS;                                         \
     }
 
-#undef __A_HASH_DONE
-#define __A_HASH_DONE(hash, func, compress, storelen, storeout, append, above, zero) \
+#undef A_HASH_DONE
+#define A_HASH_DONE(hash, func, compress, storelen, storeout, append, above, zero)   \
     unsigned char *func(hash *ctx, void *out)                                        \
     {                                                                                \
         AASSERT(ctx);                                                                \

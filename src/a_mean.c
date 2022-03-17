@@ -12,8 +12,8 @@
 #define A_SQ(x) ((x) * (x))
 
 #undef a_mean_init
-#undef __A_MEAN_INIT
-#define __A_MEAN_INIT(def, func)           \
+#undef A_MEAN_INIT
+#define A_MEAN_INIT(def, func)             \
     void func(def##_s *ctx, a_mean_e mode) \
     {                                      \
         AASSERT(ctx);                      \
@@ -41,13 +41,13 @@
         break;                             \
         }                                  \
     }
-__A_MEAN_INIT(a_mean, a_mean_init)
-__A_MEAN_INIT(a_meanf, a_meanf_init)
-#undef __A_MEAN_INIT
+A_MEAN_INIT(a_mean, a_mean_init)
+A_MEAN_INIT(a_meanf, a_meanf_init)
+#undef A_MEAN_INIT
 
 #undef a_mean_process
-#undef __A_MEAN_PROCESS
-#define __A_MEAN_PROCESS(def, type, func)                \
+#undef A_MEAN_PROCESS
+#define A_MEAN_PROCESS(def, type, func)                  \
     void func(def##_s *ctx, const type *dat, size_t num) \
     {                                                    \
         AASSERT(ctx);                                    \
@@ -100,13 +100,13 @@ __A_MEAN_INIT(a_meanf, a_meanf_init)
                                                          \
         ctx->num += num;                                 \
     }
-__A_MEAN_PROCESS(a_mean, double, a_mean_process)
-__A_MEAN_PROCESS(a_meanf, float, a_meanf_process)
-#undef __A_MEAN_PROCESS
+A_MEAN_PROCESS(a_mean, double, a_mean_process)
+A_MEAN_PROCESS(a_meanf, float, a_meanf_process)
+#undef A_MEAN_PROCESS
 
 #undef a_mean_done
-#undef __A_MEAN_DONE
-#define __A_MEAN_DONE(def, type, func, sqrt, pow)         \
+#undef A_MEAN_DONE
+#define A_MEAN_DONE(def, type, func, sqrt, pow)           \
     type func(def##_s *ctx)                               \
     {                                                     \
         AASSERT(ctx);                                     \
@@ -145,6 +145,6 @@ __A_MEAN_PROCESS(a_meanf, float, a_meanf_process)
                                                           \
         return ctx->out;                                  \
     }
-__A_MEAN_DONE(a_mean, double, a_mean_done, sqrt, pow)
-__A_MEAN_DONE(a_meanf, float, a_meanf_done, sqrtf, powf)
-#undef __A_MEAN_DONE
+A_MEAN_DONE(a_mean, double, a_mean_done, sqrt, pow)
+A_MEAN_DONE(a_meanf, float, a_meanf_done, sqrtf, powf)
+#undef A_MEAN_DONE

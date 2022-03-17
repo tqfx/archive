@@ -12,8 +12,8 @@
 #pragma GCC diagnostic ignored "-Wconversion"
 #endif /* _MSC_VER */
 
-#undef __A_CRC_LSB
-#define __A_CRC_LSB(bit)                            \
+#undef A_CRC_LSB
+#define A_CRC_LSB(bit)                              \
     void a_crc##bit##_lsb(uint##bit##_t tab[0x100], \
                           uint##bit##_t poly)       \
     {                                               \
@@ -35,14 +35,14 @@
             tab[i] = crc;                           \
         }                                           \
     }
-__A_CRC_LSB(8)
-__A_CRC_LSB(16)
-__A_CRC_LSB(32)
-__A_CRC_LSB(64)
-#undef __A_CRC_LSB
+A_CRC_LSB(8)
+A_CRC_LSB(16)
+A_CRC_LSB(32)
+A_CRC_LSB(64)
+#undef A_CRC_LSB
 
-#undef __A_CRC_MSB
-#define __A_CRC_MSB(bit, _msk)                                 \
+#undef A_CRC_MSB
+#define A_CRC_MSB(bit, _msk)                                   \
     void a_crc##bit##_msb(uint##bit##_t tab[0x100],            \
                           uint##bit##_t poly)                  \
     {                                                          \
@@ -64,11 +64,11 @@ __A_CRC_LSB(64)
             tab[i] = crc;                                      \
         }                                                      \
     }
-__A_CRC_MSB(8, 0x80)
-__A_CRC_MSB(16, 0x8000)
-__A_CRC_MSB(32, 0x80000000)
-__A_CRC_MSB(64, 0x8000000000000000)
-#undef __A_CRC_MSB
+A_CRC_MSB(8, 0x80)
+A_CRC_MSB(16, 0x8000)
+A_CRC_MSB(32, 0x80000000)
+A_CRC_MSB(64, 0x8000000000000000)
+#undef A_CRC_MSB
 
 uint8_t a_crc8(const uint8_t tab[0x100],
                const void *pdata, size_t nbyte,
@@ -83,8 +83,8 @@ uint8_t a_crc8(const uint8_t tab[0x100],
     return crc;
 }
 
-#undef __A_CRCL
-#define __A_CRCL(bit)                                            \
+#undef A_CRCL
+#define A_CRCL(bit)                                              \
     uint##bit##_t a_crc##bit##l(const uint##bit##_t tab[0x100],  \
                                 const void *pdata, size_t nbyte, \
                                 uint##bit##_t crc)               \
@@ -97,13 +97,13 @@ uint8_t a_crc8(const uint8_t tab[0x100],
         }                                                        \
         return crc;                                              \
     }
-__A_CRCL(16)
-__A_CRCL(32)
-__A_CRCL(64)
-#undef __A_CRCL
+A_CRCL(16)
+A_CRCL(32)
+A_CRCL(64)
+#undef A_CRCL
 
-#undef __A_CRCH
-#define __A_CRCH(bit)                                                   \
+#undef A_CRCH
+#define A_CRCH(bit)                                                     \
     uint##bit##_t a_crc##bit##h(const uint##bit##_t tab[0x100],         \
                                 const void *pdata, size_t nbyte,        \
                                 uint##bit##_t crc)                      \
@@ -116,10 +116,10 @@ __A_CRCL(64)
         }                                                               \
         return crc;                                                     \
     }
-__A_CRCH(16)
-__A_CRCH(32)
-__A_CRCH(64)
-#undef __A_CRCH
+A_CRCH(16)
+A_CRCH(32)
+A_CRCH(64)
+#undef A_CRCH
 
 #ifndef _MSC_VER
 #pragma GCC diagnostic pop

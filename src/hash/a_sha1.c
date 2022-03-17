@@ -134,6 +134,6 @@ void a_sha1_init(a_sha1_s *ctx)
     ctx->state[4] = 0xC3D2E1F0;
 }
 
-__A_HASH_PROCESS(a_sha1_s, a_sha1_process, a_sha1_compress)
+A_HASH_PROCESS(a_sha1_s, a_sha1_process, a_sha1_compress)
 
-__A_HASH_DONE(a_sha1_s, a_sha1_done, a_sha1_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)
+A_HASH_DONE(a_sha1_s, a_sha1_done, a_sha1_compress, STORE64H, STORE32H, 0x80, 0x38, 0x38)

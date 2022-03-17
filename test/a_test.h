@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define __HASH_DIFF(src, dst, size, info)             \
+#define HASH_DIFF(src, dst, size, info)               \
     do                                                \
     {                                                 \
         if (memcmp(src, dst, size))                   \

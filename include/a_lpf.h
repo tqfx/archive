@@ -19,23 +19,23 @@
 
 #include "liba.h"
 
-#undef __A_LPF_T
+#undef A_LPF_T
 /*!
  @brief Instance structure for Low Pass Filter
 */
-#define __A_LPF_T(def, type)                              \
+#define A_LPF_T(def, type)                                \
     typedef struct def##_s                                \
     {                                                     \
         type o; /* Output */                              \
         type k; /* Parameter of filtering              */ \
         type t; /* Time interval of filtering, unit /s */ \
     } def##_s
-__A_LPF_T(a_lpf, double);
-__A_LPF_T(a_lpff, float);
-#undef __A_LPF_T
+A_LPF_T(a_lpf, double);
+A_LPF_T(a_lpff, float);
+#undef A_LPF_T
 
-#undef __A_LPF_INIT
-#define __A_LPF_INIT(def, type, func)       \
+#undef A_LPF_INIT
+#define A_LPF_INIT(def, type, func)         \
     __NONNULL((1))                          \
     __STATIC_INLINE                         \
     void func(def##_s *ctx, type k, type t) \
@@ -44,12 +44,12 @@ __A_LPF_T(a_lpff, float);
         ctx->t = t;                         \
         ctx->k = k;                         \
     }
-__A_LPF_INIT(a_lpf, double, a_lpf_init)
-__A_LPF_INIT(a_lpff, float, a_lpff_init)
-#undef __A_LPF_INIT
+A_LPF_INIT(a_lpf, double, a_lpf_init)
+A_LPF_INIT(a_lpff, float, a_lpff_init)
+#undef A_LPF_INIT
 
-#undef __A_LPF_PROCESS
-#define __A_LPF_PROCESS(def, type, func)                    \
+#undef A_LPF_PROCESS
+#define A_LPF_PROCESS(def, type, func)                      \
     __NONNULL((1))                                          \
     __STATIC_INLINE                                         \
     type func(def##_s *ctx, type x)                         \
@@ -61,22 +61,22 @@ __A_LPF_INIT(a_lpff, float, a_lpff_init)
         ctx->o += x * inv_kt;                               \
         return ctx->o;                                      \
     }
-__A_LPF_PROCESS(a_lpf, double, a_lpf_process)
-__A_LPF_PROCESS(a_lpff, float, a_lpff_process)
-#undef __A_LPF_PROCESS
+A_LPF_PROCESS(a_lpf, double, a_lpf_process)
+A_LPF_PROCESS(a_lpff, float, a_lpff_process)
+#undef A_LPF_PROCESS
 
-#undef __A_LPF_RESET
-#define __A_LPF_RESET(def, func) \
-    __NONNULL_ALL                \
-    __STATIC_INLINE              \
-    void func(def##_s *ctx)      \
-    {                            \
-        AASSERT(ctx);            \
-        ctx->o = 0;              \
+#undef A_LPF_RESET
+#define A_LPF_RESET(def, func) \
+    __NONNULL_ALL              \
+    __STATIC_INLINE            \
+    void func(def##_s *ctx)    \
+    {                          \
+        AASSERT(ctx);          \
+        ctx->o = 0;            \
     }
-__A_LPF_RESET(a_lpf, a_lpf_reset)
-__A_LPF_RESET(a_lpff, a_lpff_reset)
-#undef __A_LPF_RESET
+A_LPF_RESET(a_lpf, a_lpf_reset)
+A_LPF_RESET(a_lpff, a_lpff_reset)
+#undef A_LPF_RESET
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 /*!

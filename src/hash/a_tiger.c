@@ -409,6 +409,6 @@ void a_tiger_init(a_tiger_s *ctx)
     ctx->state[2] = 0xF096A5B4C3B2E187;
 }
 
-__A_HASH_PROCESS(a_tiger_s, a_tiger_process, a_tiger_compress)
+A_HASH_PROCESS(a_tiger_s, a_tiger_process, a_tiger_compress)
 
-__A_HASH_DONE(a_tiger_s, a_tiger_done, a_tiger_compress, STORE64L, STORE64L, 0x01, 0x38, 0x38)
+A_HASH_DONE(a_tiger_s, a_tiger_done, a_tiger_compress, STORE64L, STORE64L, 0x01, 0x38, 0x38)

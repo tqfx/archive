@@ -973,12 +973,12 @@ void a_rmd320_init(a_rmd320_s *ctx)
     ctx->state[9] = 0x3C2D1E0F; // 0xC3D2E1F0 ^ 0xFFFFFFFF
 }
 
-__A_HASH_PROCESS(a_rmd128_s, a_rmd128_process, a_rmd128_compress)
-__A_HASH_PROCESS(a_rmd160_s, a_rmd160_process, a_rmd160_compress)
-__A_HASH_PROCESS(a_rmd256_s, a_rmd256_process, a_rmd256_compress)
-__A_HASH_PROCESS(a_rmd320_s, a_rmd320_process, a_rmd320_compress)
+A_HASH_PROCESS(a_rmd128_s, a_rmd128_process, a_rmd128_compress)
+A_HASH_PROCESS(a_rmd160_s, a_rmd160_process, a_rmd160_compress)
+A_HASH_PROCESS(a_rmd256_s, a_rmd256_process, a_rmd256_compress)
+A_HASH_PROCESS(a_rmd320_s, a_rmd320_process, a_rmd320_compress)
 
-__A_HASH_DONE(a_rmd128_s, a_rmd128_done, a_rmd128_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-__A_HASH_DONE(a_rmd160_s, a_rmd160_done, a_rmd160_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-__A_HASH_DONE(a_rmd256_s, a_rmd256_done, a_rmd256_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
-__A_HASH_DONE(a_rmd320_s, a_rmd320_done, a_rmd320_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+A_HASH_DONE(a_rmd128_s, a_rmd128_done, a_rmd128_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+A_HASH_DONE(a_rmd160_s, a_rmd160_done, a_rmd160_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+A_HASH_DONE(a_rmd256_s, a_rmd256_done, a_rmd256_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)
+A_HASH_DONE(a_rmd320_s, a_rmd320_done, a_rmd320_compress, STORE64L, STORE32L, 0x80, 0x38, 0x38)

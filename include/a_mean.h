@@ -22,41 +22,41 @@ typedef enum a_mean_e
     A_MEAN_ALL,        //!< all mean
 } a_mean_e;
 
-#undef __A_MEAN_T
+#undef A_MEAN_T
 /*!
  @brief Instance structure for the mean calculation
 */
-#define __A_MEAN_T(def, type) \
-    typedef struct def##_s    \
-    {                         \
-        type out;             \
-        size_t num;           \
-        a_mean_e mode;        \
+#define A_MEAN_T(def, type) \
+    typedef struct def##_s  \
+    {                       \
+        type out;           \
+        size_t num;         \
+        a_mean_e mode;      \
     } def##_s
 #ifndef _MSC_VER
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* _MSC_VER */
-__A_MEAN_T(a_mean, double);
-__A_MEAN_T(a_meanf, float);
+A_MEAN_T(a_mean, double);
+A_MEAN_T(a_meanf, float);
 #ifndef _MSC_VER
 #pragma GCC diagnostic pop
 #endif /* _MSC_VER */
-#undef __A_MEAN_T
+#undef A_MEAN_T
 
 __BEGIN_DECLS
 
-#undef __A_MEAN
+#undef A_MEAN
 /*!
  @brief function for the mean calculation
 */
-#define __A_MEAN(def, type)                                                       \
+#define A_MEAN(def, type)                                                         \
     void def##_init(def##_s *ctx, a_mean_e mode) __NONNULL((1));                  \
     void def##_process(def##_s *ctx, const type *dat, size_t num) __NONNULL((1)); \
     type def##_done(def##_s *ctx) __NONNULL_ALL;
-__A_MEAN(a_mean, double)
-__A_MEAN(a_meanf, float)
-#undef __A_MEAN
+A_MEAN(a_mean, double)
+A_MEAN(a_meanf, float)
+#undef A_MEAN
 
 __END_DECLS
 

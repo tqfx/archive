@@ -77,8 +77,8 @@ int a_xdigit(int x)
     return ret;
 }
 
-#undef __A_TO
-#define __A_TO(func, tofunc)                               \
+#undef A_TO
+#define A_TO(func, tofunc)                                 \
     void *func(const void *pdata, size_t nbyte, void *out) \
     {                                                      \
         AASSERT(!nbyte || pdata);                          \
@@ -95,9 +95,9 @@ int a_xdigit(int x)
         }                                                  \
         return out;                                        \
     }
-__A_TO(a_lower, tolower)
-__A_TO(a_upper, toupper)
-#undef __A_TO
+A_TO(a_lower, tolower)
+A_TO(a_upper, toupper)
+#undef A_TO
 
 void *a_digest(const void *pdata, size_t nbyte, unsigned int cases, void *out)
 {

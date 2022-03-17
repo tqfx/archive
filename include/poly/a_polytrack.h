@@ -11,27 +11,27 @@
 
 #include "liba.h"
 
-#undef __A_POLYTRACK3_T
+#undef A_POLYTRACK3_T
 /*!
  @brief Instance structure for cubic polynomial trajectory
 */
-#define __A_POLYTRACK3_T(def, type) \
-    typedef struct def##_s          \
-    {                               \
-        type t[2]; /* time     */   \
-        type q[2]; /* position */   \
-        type v[2]; /* velocity */   \
-        type k[4]; /* quantity */   \
+#define A_POLYTRACK3_T(def, type) \
+    typedef struct def##_s        \
+    {                             \
+        type t[2]; /* time     */ \
+        type q[2]; /* position */ \
+        type v[2]; /* velocity */ \
+        type k[4]; /* quantity */ \
     } def##_s
-__A_POLYTRACK3_T(a_polytrack3, double);
-__A_POLYTRACK3_T(a_polytrack3f, float);
-#undef __A_POLYTRACK3_T
+A_POLYTRACK3_T(a_polytrack3, double);
+A_POLYTRACK3_T(a_polytrack3f, float);
+#undef A_POLYTRACK3_T
 
-#undef __A_POLYTRACK5_T
+#undef A_POLYTRACK5_T
 /*!
  @brief Instance structure for quintic polynomial trajectory
 */
-#define __A_POLYTRACK5_T(def, type)   \
+#define A_POLYTRACK5_T(def, type)     \
     typedef struct def##_s            \
     {                                 \
         type t[2]; /* time         */ \
@@ -40,15 +40,15 @@ __A_POLYTRACK3_T(a_polytrack3f, float);
         type a[2]; /* acceleration */ \
         type k[6]; /* quantity     */ \
     } def##_s
-__A_POLYTRACK5_T(a_polytrack5, double);
-__A_POLYTRACK5_T(a_polytrack5f, float);
-#undef __A_POLYTRACK5_T
+A_POLYTRACK5_T(a_polytrack5, double);
+A_POLYTRACK5_T(a_polytrack5f, float);
+#undef A_POLYTRACK5_T
 
-#undef __A_POLYTRACK7_T
+#undef A_POLYTRACK7_T
 /*!
  @brief Instance structure for hepta polynomial trajectory
 */
-#define __A_POLYTRACK7_T(def, type)   \
+#define A_POLYTRACK7_T(def, type)     \
     typedef struct def##_s            \
     {                                 \
         type t[2]; /* time         */ \
@@ -58,9 +58,9 @@ __A_POLYTRACK5_T(a_polytrack5f, float);
         type j[2]; /* jerk         */ \
         type k[8]; /* quantity     */ \
     } def##_s
-__A_POLYTRACK7_T(a_polytrack7, double);
-__A_POLYTRACK7_T(a_polytrack7f, float);
-#undef __A_POLYTRACK7_T
+A_POLYTRACK7_T(a_polytrack7, double);
+A_POLYTRACK7_T(a_polytrack7f, float);
+#undef A_POLYTRACK7_T
 
 __BEGIN_DECLS
 
