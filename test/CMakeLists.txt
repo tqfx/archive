@@ -42,3 +42,7 @@ add_test(NAME vec COMMAND vec)
 add_executable(list list.cpp)
 target_link_libraries(list ${PROJECT_NAME})
 add_test(NAME list COMMAND list)
+
+add_executable(mempool mempool.cpp)
+target_link_libraries(mempool ${PROJECT_NAME})
+add_test(NAME mempool COMMAND mempool)
