@@ -6,26 +6,10 @@
 
 #include "a_vec.h"
 
-#include <stdlib.h>
+#include "a_object.h"
 
-a_vec_s *a_vec_new(void)
-{
-    a_vec_s *ctx = (a_vec_s *)malloc(sizeof(a_vec_s));
-    if (ctx)
-    {
-        a_vec_ctor(ctx);
-    }
-    return ctx;
-}
-
-void a_vec_delete(a_vec_s *ctx)
-{
-    if (ctx)
-    {
-        a_vec_dtor(ctx);
-        free(ctx);
-    }
-}
+A_OBJECT_NEW(a_vec_s, a_vec_new, a_vec_ctor)
+A_OBJECT_DELETE(a_vec_s, a_vec_delete, a_vec_dtor)
 
 __STATIC_INLINE
 void *virtual_address(void *obj, size_t index)

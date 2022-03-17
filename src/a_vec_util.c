@@ -6,15 +6,10 @@
 
 #include "a_vec_util.h"
 
-#include <stdlib.h>
+#include "a_object.h"
 
 #undef __A_VEC_NEW
-#define __A_VEC_NEW(name)                                                             \
-    a_vec_##name##_s *a_vec_##name##_new(void)                                        \
-    {                                                                                 \
-        a_vec_##name##_s *ctx = (a_vec_##name##_s *)malloc(sizeof(a_vec_##name##_s)); \
-        return ctx ? (a_vec_##name##_ctor(ctx), ctx) : ctx;                           \
-    }
+#define __A_VEC_NEW(name) A_OBJECT_NEW(a_vec_##name##_s, a_vec_##name##_new, a_vec_##name##_ctor)
 __A_VEC_NEW(i8)
 __A_VEC_NEW(u8)
 __A_VEC_NEW(i16)
@@ -29,11 +24,7 @@ __A_VEC_NEW(str)
 #undef __A_VEC_NEW
 
 #undef __A_VEC_DELETE
-#define __A_VEC_DELETE(name)                                   \
-    void a_vec_##name##_delete(a_vec_##name##_s *ctx)          \
-    {                                                          \
-        ctx ? (a_vec_##name##_dtor(ctx), free(ctx)) : (void)0; \
-    }
+#define __A_VEC_DELETE(name) A_OBJECT_DELETE(a_vec_##name##_s, a_vec_##name##_delete, a_vec_##name##_dtor)
 __A_VEC_DELETE(i8)
 __A_VEC_DELETE(u8)
 __A_VEC_DELETE(i16)

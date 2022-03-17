@@ -6,26 +6,15 @@
 
 #include "a_str.h"
 
+#include "a_object.h"
+
 #include <stdio.h> /* vsnprintf */
 
-a_str_s *a_str_init(const void *pdata, size_t nbyte)
-{
-    a_str_s *ctx = (a_str_s *)malloc(sizeof(a_str_s));
-    if (ctx)
-    {
-        a_str_ctor(ctx, pdata, nbyte);
-    }
-    return ctx;
-}
-
-void a_str_free(a_str_s *ctx)
-{
-    if (ctx)
-    {
-        a_str_dtor(ctx);
-        free(ctx);
-    }
-}
+#undef ARGS
+#define ARGS const void *pdata, size_t nbyte
+A_OBJECT_NEW_VA(a_str_s, a_str_init, a_str_ctor, ARGS, pdata, nbyte)
+#undef ARGS
+A_OBJECT_DELETE(a_str_s, a_str_free, a_str_dtor)
 
 void a_str_ctor(a_str_s *ctx, const void *pdata, size_t nbyte)
 {

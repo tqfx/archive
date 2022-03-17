@@ -6,26 +6,15 @@
 
 #include "a_mempool.h"
 
-#include <stdlib.h>
+#include "a_object.h"
 
-a_mempool_s *a_mempool_new(size_t size)
-{
-    a_mempool_s *ctx = (a_mempool_s *)malloc(sizeof(a_mempool_s));
-    if (ctx)
-    {
-        a_mempool_ctor(ctx, size);
-    }
-    return ctx;
-}
-
-void a_mempool_delete(a_mempool_s *ctx, void (*func)(void *))
-{
-    if (ctx)
-    {
-        a_mempool_dtor(ctx, func);
-        free(ctx);
-    }
-}
+#undef ARGS
+#define ARGS size_t size
+A_OBJECT_NEW_VA(a_mempool_s, a_mempool_new, a_mempool_ctor, ARGS, size)
+#undef ARGS
+#define ARGS void (*func)(void *)
+A_OBJECT_DELETE_VA(a_mempool_s, a_mempool_delete, a_mempool_dtor, ARGS, func)
+#undef ARGS
 
 void a_mempool_ctor(a_mempool_s *ctx, size_t size)
 {
