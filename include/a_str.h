@@ -155,9 +155,9 @@ int a_str_putn_(a_str_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
 */
 int a_str_puts(a_str_s *ctx, const void *str) __NONNULL_ALL;
 
-#if !defined(__ATTR_PRINTF) && __has_attribute(__format__)
+#if !defined(__ATTR_PRINTF) && !defined(__MINGW32__) && __has_attribute(__format__)
 #define __ATTR_PRINTF(fmt, arg) __attribute__((__format__(__printf__, fmt, arg)))
-#else
+#elif !defined(__ATTR_PRINTF)
 #define __ATTR_PRINTF(fmt, arg)
 #endif /* __ATTR_PRINTF */
 
