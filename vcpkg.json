@@ -1,0 +1,9 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "liba",
+    "license": "MIT",
+    "version": "0.1.0",
+    "homepage": "https://github.com/tqfx/liba.git",
+    "description": "Algorithm library based on C language.",
+    "port-version": 2
+}
