@@ -42,7 +42,7 @@ A_CRC_LSB(64)
 #undef A_CRC_LSB
 
 #undef A_CRC_MSB
-#define A_CRC_MSB(bit, _msk)                                   \
+#define A_CRC_MSB(bit, msk)                                    \
     void a_crc##bit##_msb(uint##bit##_t tab[0x100],            \
                           uint##bit##_t poly)                  \
     {                                                          \
@@ -51,7 +51,7 @@ A_CRC_LSB(64)
             uint##bit##_t crc = (uint##bit##_t)i << (bit - 8); \
             for (unsigned int j = 8; j; --j)                   \
             {                                                  \
-                if (crc & _msk)                                \
+                if (UINT##bit##_C(msk) & crc)                  \
                 {                                              \
                     crc <<= 1;                                 \
                     crc ^= poly;                               \
