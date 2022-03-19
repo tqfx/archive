@@ -58,6 +58,7 @@ if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_C_COMPILER_ID} MATCHES "(Appl
   target_link_libraries(${PROJECT_NAME} m)
 endif()
 
+cmake_policy(SET CMP0077 NEW)
 option(BUILD_TESTING "Enable building tests" OFF)
 if(BUILD_TESTING)
   enable_testing()
