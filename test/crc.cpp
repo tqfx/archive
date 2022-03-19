@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
-#undef __WRITE_TAB
-#define __WRITE_TAB(bit, row, fmt)                                                            \
+#undef WRITE_TAB
+#define WRITE_TAB(bit, row, fmt)                                                              \
     static void write_tab##bit(FILE *out, uint##bit##_t tab[A_CRC_TABSIZ], const char *label) \
     {                                                                                         \
         fprintf(out, "const uint%u_t %s[0x%X] = {\n", bit, label, A_CRC_TABSIZ);              \
@@ -32,11 +32,11 @@
         fprintf(out, "    /* clang-format on */\n");                                          \
         fprintf(out, "};\n");                                                                 \
     }
-__WRITE_TAB(8, 8, "2")
-__WRITE_TAB(16, 8, "4")
-__WRITE_TAB(32, 8, "8")
-__WRITE_TAB(64, 4, "16")
-#undef __WRITE_TAB
+WRITE_TAB(8, 8, "2")
+WRITE_TAB(16, 8, "4")
+WRITE_TAB(32, 8, "8")
+WRITE_TAB(64, 4, "16")
+#undef WRITE_TAB
 
 static void create_table(const char *fname)
 {
@@ -97,16 +97,16 @@ static void test(void)
     unsigned int size = sizeof("123456789") - 1;
 
     uint8_t tab8[A_CRC_TABSIZ];
-    printf("POLY: 0x%02" PRIX8 "\n", A_CRC8_POLY);
-    printf("INIT: 0x%02" PRIX8 "\n", A_CRC8_INIT);
+    printf("POLY: 0x%02u\n", A_CRC8_POLY);
+    printf("INIT: 0x%02u\n", A_CRC8_INIT);
     a_crc8_lsb(tab8, A_CRC8_POLY);
     printf("LSB: 0x%02" PRIX8 "\n", a_crc8(tab8, text, size, A_CRC8_INIT));
     a_crc8_msb(tab8, A_CRC8_POLY);
     printf("MSB: 0x%02" PRIX8 "\n", a_crc8(tab8, text, size, A_CRC8_INIT));
 
     uint16_t tab16[A_CRC_TABSIZ];
-    printf("POLY: 0x%04" PRIX16 "\n", A_CRC16_POLY);
-    printf("INIT: 0x%04" PRIX16 "\n", A_CRC16_INIT);
+    printf("POLY: 0x%04u\n", A_CRC16_POLY);
+    printf("INIT: 0x%04u\n", A_CRC16_INIT);
     a_crc16_lsb(tab16, A_CRC16_POLY);
     printf("LSB: 0x%04" PRIX16 "(L) 0x%04" PRIX16 "(H)\n",
            a_crc16l(tab16, text, size, A_CRC16_INIT),

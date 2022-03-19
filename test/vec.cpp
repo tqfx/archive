@@ -33,8 +33,8 @@ static void test(void)
     a_vec_delete(ctx);
 }
 
-#undef __TEST
-#define __TEST(name, type)                            \
+#undef TEST
+#define TEST(name, type)                              \
     static void test_##name(size_t n)                 \
     {                                                 \
         a_vec_##name##_s *ctx = a_vec_##name##_new(); \
@@ -60,17 +60,17 @@ static void test(void)
         }                                             \
         a_vec_##name##_delete(ctx);                   \
     }
-__TEST(i8, int8_t)
-__TEST(u8, uint8_t)
-__TEST(i16, int16_t)
-__TEST(u16, uint16_t)
-__TEST(i32, int32_t)
-__TEST(u32, uint32_t)
-__TEST(i64, int64_t)
-__TEST(u64, uint64_t)
-__TEST(f32, float)
-__TEST(f64, double)
-#undef __TEST
+TEST(i8, int8_t)
+TEST(u8, uint8_t)
+TEST(i16, int16_t)
+TEST(u16, uint16_t)
+TEST(i32, int32_t)
+TEST(u32, uint32_t)
+TEST(i64, int64_t)
+TEST(u64, uint64_t)
+TEST(f32, float)
+TEST(f64, double)
+#undef TEST
 
 static void test_str(size_t n)
 {
