@@ -2,7 +2,7 @@ name: windows
 on:
   workflow_dispatch:
 jobs:
-  VisualStudio:
+  MSVC:
     continue-on-error: true
     runs-on: windows-latest
     strategy:
@@ -34,14 +34,14 @@ jobs:
         with:
           update: true
           location: D:\
-          msystem: ${{matrix.sys}}
+          msystem: ${{ matrix.sys }}
           pacboy: >-
             make:p
             cmake:p
             toolchain:p
       - shell: msys2 {0}
         env:
-          MSYSTEM: ${{matrix.sys}}
+          MSYSTEM: ${{ matrix.sys }}
         run: |
           cmake --preset=debug -G "MinGW Makefiles"
           cmake --build --preset=debug --parallel

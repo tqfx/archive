@@ -12,6 +12,16 @@ jobs:
           cmake --build --preset=debug --parallel
           ctest --preset=debug
           rm -rf build
+  Apple:
+    continue-on-error: true
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          cmake --preset=debug
+          cmake --build --preset=debug --parallel
+          ctest --preset=debug
+          rm -rf build
   MinGW:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -25,16 +35,6 @@ jobs:
       - run: |
           cmake --preset=mingw32 -DBUILD_TESTING=ON
           cmake --build --preset=mingw32 --parallel
-          rm -rf build
-  AppleClang:
-    continue-on-error: true
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: |
-          cmake --preset=debug
-          cmake --build --preset=debug --parallel
-          ctest --preset=debug
           rm -rf build
   FreeBSD:
     continue-on-error: true
