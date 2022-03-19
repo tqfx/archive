@@ -10,47 +10,29 @@
 
 #include "a_vec.h"
 
-#undef A_VEC_T
-#define A_VEC_T(name, type)         \
-    typedef struct a_vec_##name##_s \
-    {                               \
-        a_vec_s vec[1];             \
-        type *ptr;                  \
-    } a_vec_##name##_s
-A_VEC_T(i8, int8_t);
-A_VEC_T(u8, uint8_t);
-A_VEC_T(i16, int16_t);
-A_VEC_T(u16, uint16_t);
-A_VEC_T(i32, int32_t);
-A_VEC_T(u32, uint32_t);
-A_VEC_T(i64, int64_t);
-A_VEC_T(u64, uint64_t);
-A_VEC_T(f32, float);
-A_VEC_T(f64, double);
-A_VEC_T(str, char *);
-#undef A_VEC_T
+A_VEC_S(a_vec_i8_s, int8_t);
+A_VEC_S(a_vec_u8_s, uint8_t);
+A_VEC_S(a_vec_i16_s, int16_t);
+A_VEC_S(a_vec_u16_s, uint16_t);
+A_VEC_S(a_vec_i32_s, int32_t);
+A_VEC_S(a_vec_u32_s, uint32_t);
+A_VEC_S(a_vec_i64_s, int64_t);
+A_VEC_S(a_vec_u64_s, uint64_t);
+A_VEC_S(a_vec_f32_s, float);
+A_VEC_S(a_vec_f64_s, double);
+A_VEC_S(a_vec_str_s, char *);
 
-#undef A_VEC_AT
-#define A_VEC_AT(name, type)                                    \
-    __NONNULL((1))                                              \
-    __STATIC_INLINE                                             \
-    type a_vec_##name##_at(a_vec_##name##_s *ctx, size_t index) \
-    {                                                           \
-        AASSERT(ctx);                                           \
-        return ctx->ptr[index];                                 \
-    }
-A_VEC_AT(i8, int8_t)
-A_VEC_AT(u8, uint8_t)
-A_VEC_AT(i16, int16_t)
-A_VEC_AT(u16, uint16_t)
-A_VEC_AT(i32, int32_t)
-A_VEC_AT(u32, uint32_t)
-A_VEC_AT(i64, int64_t)
-A_VEC_AT(u64, uint64_t)
-A_VEC_AT(f32, float)
-A_VEC_AT(f64, double)
-A_VEC_AT(str, char *)
-#undef A_VEC_AT
+A_VEC_AT(a_vec_i8_s, a_vec_i8_at, int8_t)
+A_VEC_AT(a_vec_u8_s, a_vec_u8_at, uint8_t)
+A_VEC_AT(a_vec_i16_s, a_vec_i16_at, int16_t)
+A_VEC_AT(a_vec_u16_s, a_vec_u16_at, uint16_t)
+A_VEC_AT(a_vec_i32_s, a_vec_i32_at, int32_t)
+A_VEC_AT(a_vec_u32_s, a_vec_u32_at, uint32_t)
+A_VEC_AT(a_vec_i64_s, a_vec_i64_at, int64_t)
+A_VEC_AT(a_vec_u64_s, a_vec_u64_at, uint64_t)
+A_VEC_AT(a_vec_f32_s, a_vec_f32_at, float)
+A_VEC_AT(a_vec_f64_s, a_vec_f64_at, double)
+A_VEC_AT(a_vec_str_s, a_vec_str_at, char *)
 
 __BEGIN_DECLS
 

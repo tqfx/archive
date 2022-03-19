@@ -130,10 +130,9 @@ A_VEC_DTOR(f64)
 
 void a_vec_str_dtor(a_vec_str_s *ctx)
 {
-    char **str = 0;
-    while ((str = (char **)a_vec_pop(ctx), str))
+    while (a_vec_len(ctx->vec))
     {
-        free(*str);
+        free(a_vec_str_at(ctx, a_vec_dec(ctx->vec)));
     }
     a_vec_dtor(ctx->vec);
     free(ctx->ptr);
