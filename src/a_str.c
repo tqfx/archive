@@ -33,18 +33,38 @@ void a_str_dtor(a_str_s *ctx)
     }
 }
 
-void a_str_init(a_str_s *ctx, const void *pdata, size_t nbyte)
+int a_str_init(a_str_s *ctx, const void *pdata, size_t nbyte)
 {
     AASSERT(ctx);
     ctx->n = nbyte;
     ctx->m = nbyte + 1;
     AROUNDUP32(ctx->m);
     ctx->s = (char *)malloc(ctx->m);
+    if (ctx->s == 0)
+    {
+        return ~0;
+    }
     if (pdata && nbyte)
     {
         memcpy(ctx->s, pdata, nbyte);
     }
     ctx->s[ctx->n] = 0;
+    return 0;
+}
+
+int a_str_copy(a_str_s *ctx, const a_str_s *in)
+{
+    AASSERT(in);
+    AASSERT(ctx);
+    return a_str_init(ctx, in->s, in->n);
+}
+
+void a_str_move(a_str_s *ctx, a_str_s *in)
+{
+    AASSERT(in);
+    AASSERT(ctx);
+    memcpy(ctx, in, sizeof(a_str_s));
+    memset(in, 0, sizeof(a_str_s));
 }
 
 char *a_str_done(a_str_s *ctx)

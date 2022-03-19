@@ -101,10 +101,31 @@ void a_str_dtor(a_str_s *ctx) __NONNULL_ALL;
 
 /*!
  @brief Initialize a pointer to string structure
+ @param[in] ctx: points to an instance of string structure
  @param[in] pdata: points to data to initialize
  @param[in] nbyte: length of data to initialize
+ @return the execution state of the function
+  @retval -1 failure
+  @retval 0 success
 */
-void a_str_init(a_str_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
+int a_str_init(a_str_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
+
+/*!
+ @brief Initialize a pointer to string structure by copying
+ @param[in] ctx: points to an instance of string structure
+ @param[in] in: input source pointing to an instance
+ @return the execution state of the function
+  @retval -1 failure
+  @retval 0 success
+*/
+int a_str_copy(a_str_s *ctx, const a_str_s *in) __NONNULL_ALL;
+
+/*!
+ @brief Initialize a pointer to string structure by moving
+ @param[in] ctx: points to an instance of string structure
+ @param[in] in: input source pointing to an instance
+*/
+void a_str_move(a_str_s *ctx, a_str_s *in) __NONNULL_ALL;
 
 /*!
  @brief Terminate a pointer to string structure
