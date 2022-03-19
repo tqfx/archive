@@ -11,11 +11,11 @@
 
 #include "liba.h"
 
-#undef A_POLYTRACK3_T
+#undef A_POLYTRACK3_S
 /*!
  @brief Instance structure for cubic polynomial trajectory
 */
-#define A_POLYTRACK3_T(def, type) \
+#define A_POLYTRACK3_S(def, type) \
     typedef struct def##_s        \
     {                             \
         type t[2]; /* time     */ \
@@ -23,15 +23,15 @@
         type v[2]; /* velocity */ \
         type k[4]; /* quantity */ \
     } def##_s
-A_POLYTRACK3_T(a_polytrack3, double);
-A_POLYTRACK3_T(a_polytrack3f, float);
-#undef A_POLYTRACK3_T
+A_POLYTRACK3_S(a_polytrack3, double);
+A_POLYTRACK3_S(a_polytrack3f, float);
+#undef A_POLYTRACK3_S
 
-#undef A_POLYTRACK5_T
+#undef A_POLYTRACK5_S
 /*!
  @brief Instance structure for quintic polynomial trajectory
 */
-#define A_POLYTRACK5_T(def, type)     \
+#define A_POLYTRACK5_S(def, type)     \
     typedef struct def##_s            \
     {                                 \
         type t[2]; /* time         */ \
@@ -40,15 +40,15 @@ A_POLYTRACK3_T(a_polytrack3f, float);
         type a[2]; /* acceleration */ \
         type k[6]; /* quantity     */ \
     } def##_s
-A_POLYTRACK5_T(a_polytrack5, double);
-A_POLYTRACK5_T(a_polytrack5f, float);
-#undef A_POLYTRACK5_T
+A_POLYTRACK5_S(a_polytrack5, double);
+A_POLYTRACK5_S(a_polytrack5f, float);
+#undef A_POLYTRACK5_S
 
-#undef A_POLYTRACK7_T
+#undef A_POLYTRACK7_S
 /*!
  @brief Instance structure for hepta polynomial trajectory
 */
-#define A_POLYTRACK7_T(def, type)     \
+#define A_POLYTRACK7_S(def, type)     \
     typedef struct def##_s            \
     {                                 \
         type t[2]; /* time         */ \
@@ -58,9 +58,9 @@ A_POLYTRACK5_T(a_polytrack5f, float);
         type j[2]; /* jerk         */ \
         type k[8]; /* quantity     */ \
     } def##_s
-A_POLYTRACK7_T(a_polytrack7, double);
-A_POLYTRACK7_T(a_polytrack7f, float);
-#undef A_POLYTRACK7_T
+A_POLYTRACK7_S(a_polytrack7, double);
+A_POLYTRACK7_S(a_polytrack7f, float);
+#undef A_POLYTRACK7_S
 
 __BEGIN_DECLS
 

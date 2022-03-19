@@ -22,11 +22,11 @@ typedef enum a_mean_e
     A_MEAN_ALL,        //!< all mean
 } a_mean_e;
 
-#undef A_MEAN_T
+#undef A_MEAN_S
 /*!
  @brief Instance structure for the mean calculation
 */
-#define A_MEAN_T(def, type) \
+#define A_MEAN_S(def, type) \
     typedef struct def##_s  \
     {                       \
         type out;           \
@@ -37,12 +37,12 @@ typedef enum a_mean_e
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* _MSC_VER */
-A_MEAN_T(a_mean, double);
-A_MEAN_T(a_meanf, float);
+A_MEAN_S(a_mean, double);
+A_MEAN_S(a_meanf, float);
 #ifndef _MSC_VER
 #pragma GCC diagnostic pop
 #endif /* _MSC_VER */
-#undef A_MEAN_T
+#undef A_MEAN_S
 
 __BEGIN_DECLS
 

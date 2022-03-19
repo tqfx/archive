@@ -40,11 +40,11 @@ typedef enum a_pid_e
     A_PID_INC, //!< Incremental pid control
 } a_pid_e;
 
-#undef A_PID_T
+#undef A_PID_S
 /*!
  @brief Instance structure for the floating-point PID Control
 */
-#define A_PID_T(def, type)                            \
+#define A_PID_S(def, type)                            \
     typedef struct def##_s                            \
     {                                                 \
         a_pid_e mode; /* Mode for PID Control */      \
@@ -79,12 +79,12 @@ typedef enum a_pid_e
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* _MSC_VER */
-A_PID_T(a_pid, double);
-A_PID_T(a_pidf, float);
+A_PID_S(a_pid, double);
+A_PID_S(a_pidf, float);
 #ifndef _MSC_VER
 #pragma GCC diagnostic pop
 #endif /* _MSC_VER */
-#undef A_PID_T
+#undef A_PID_S
 
 __BEGIN_DECLS
 

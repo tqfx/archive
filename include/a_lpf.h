@@ -19,20 +19,20 @@
 
 #include "liba.h"
 
-#undef A_LPF_T
+#undef A_LPF_S
 /*!
  @brief Instance structure for Low Pass Filter
 */
-#define A_LPF_T(def, type)                                \
+#define A_LPF_S(def, type)                                \
     typedef struct def##_s                                \
     {                                                     \
         type o; /* Output */                              \
         type k; /* Parameter of filtering              */ \
         type t; /* Time interval of filtering, unit /s */ \
     } def##_s
-A_LPF_T(a_lpf, double);
-A_LPF_T(a_lpff, float);
-#undef A_LPF_T
+A_LPF_S(a_lpf, double);
+A_LPF_S(a_lpff, float);
+#undef A_LPF_S
 
 #undef A_LPF_INIT
 #define A_LPF_INIT(def, type, func)         \

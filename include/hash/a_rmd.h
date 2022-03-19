@@ -17,8 +17,8 @@
 #define A_RIPEMD256_OUTSIZ (256 >> 3)
 #define A_RIPEMD320_OUTSIZ (320 >> 3)
 
-#undef A_RMD_T
-#define A_RMD_T(bit)                        \
+#undef A_RMD_S
+#define A_RMD_S(bit)                        \
     typedef struct a_rmd##bit##_s           \
     {                                       \
         uint64_t length;                    \
@@ -31,14 +31,14 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* _MSC_VER */
-A_RMD_T(128);
-A_RMD_T(160);
-A_RMD_T(256);
-A_RMD_T(320);
+A_RMD_S(128);
+A_RMD_S(160);
+A_RMD_S(256);
+A_RMD_S(320);
 #ifndef _MSC_VER
 #pragma GCC diagnostic pop
 #endif /* _MSC_VER */
-#undef A_RMD_T
+#undef A_RMD_S
 
 __BEGIN_DECLS
 
