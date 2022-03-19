@@ -78,31 +78,33 @@ __BEGIN_DECLS
 
 /*!
  @brief Allocate a pointer to string structure from memory
- @param[in] pdata: points to data to initialize
- @param[in] nbyte: length of data to initialize
- @return a_str_s *
 */
-a_str_s *a_str_init(const void *pdata, size_t nbyte) __RESULT_USE_CHECK;
+a_str_s *a_str_new(void) __RESULT_USE_CHECK;
 
 /*!
- @brief Free a pointer to string structure
+ @brief Deallocate a pointer to string structure
  @param[in] ctx: points to an instance of string structure
 */
-void a_str_free(a_str_s *ctx);
+void a_str_delete(a_str_s *ctx);
 
 /*!
  @brief Constructor for string structure
  @param[in] ctx: points to an instance of string structure
- @param[in] pdata: points to data to initialize
- @param[in] nbyte: length of data to initialize
 */
-void a_str_ctor(a_str_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
+void a_str_ctor(a_str_s *ctx) __NONNULL((1));
 
 /*!
  @brief Destructor for string structure
  @param[in] ctx: points to an instance of string structure
 */
 void a_str_dtor(a_str_s *ctx) __NONNULL_ALL;
+
+/*!
+ @brief Initialize a pointer to string structure
+ @param[in] pdata: points to data to initialize
+ @param[in] nbyte: length of data to initialize
+*/
+void a_str_init(a_str_s *ctx, const void *pdata, size_t nbyte) __NONNULL((1));
 
 /*!
  @brief Terminate a pointer to string structure

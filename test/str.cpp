@@ -26,9 +26,8 @@ static void tests(void)
 static void testt(void)
 {
     char *s = 0;
-    a_str_s *ctx = a_str_init(0, 0);
-    a_str_free(ctx);
-    ctx = a_str_init("4321+-/\\", 8);
+    a_str_s *ctx = a_str_new();
+    a_str_init(ctx, "4321+-/\\", 0);
     a_str_putc(ctx, '-');
     a_str_putc_(ctx, '+');
     a_str_putn(ctx, "12", 1);
@@ -38,7 +37,7 @@ static void testt(void)
     s = a_str_done(ctx);
     printf("%s\n", s);
     free(s);
-    a_str_free(ctx);
+    a_str_delete(ctx);
 }
 
 int main(int argc, char *argv[])

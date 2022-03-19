@@ -10,24 +10,15 @@
 
 #include <stdio.h> /* vsnprintf */
 
-#undef ARGS
-#define ARGS const void *pdata, size_t nbyte
-A_OBJECT_CREATE_VA(a_str_s, a_str_init, a_str_ctor, ARGS, pdata, nbyte)
-#undef ARGS
-A_OBJECT_DELETE(a_str_s, a_str_free, a_str_dtor)
+A_OBJECT_CREATE(a_str_s, a_str_new, a_str_ctor)
+A_OBJECT_DELETE(a_str_s, a_str_delete, a_str_dtor)
 
-void a_str_ctor(a_str_s *ctx, const void *pdata, size_t nbyte)
+void a_str_ctor(a_str_s *ctx)
 {
     AASSERT(ctx);
-    ctx->n = nbyte;
-    ctx->m = nbyte + 1;
-    AROUNDUP32(ctx->m);
-    ctx->s = (char *)malloc(ctx->m);
-    if (pdata && nbyte)
-    {
-        memcpy(ctx->s, pdata, nbyte);
-    }
-    ctx->s[ctx->n] = 0;
+    ctx->m = 0;
+    ctx->n = 0;
+    ctx->s = 0;
 }
 
 void a_str_dtor(a_str_s *ctx)
@@ -40,6 +31,20 @@ void a_str_dtor(a_str_s *ctx)
         free(ctx->s);
         ctx->s = 0;
     }
+}
+
+void a_str_init(a_str_s *ctx, const void *pdata, size_t nbyte)
+{
+    AASSERT(ctx);
+    ctx->n = nbyte;
+    ctx->m = nbyte + 1;
+    AROUNDUP32(ctx->m);
+    ctx->s = (char *)malloc(ctx->m);
+    if (pdata && nbyte)
+    {
+        memcpy(ctx->s, pdata, nbyte);
+    }
+    ctx->s[ctx->n] = 0;
 }
 
 char *a_str_done(a_str_s *ctx)

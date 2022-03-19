@@ -41,7 +41,7 @@ static void test_str(size_t n)
     for (size_t i = 0; i != n; ++i)
     {
         vec[i] = (a_str_s *)a_mempool_alloc(ctx);
-        a_str_ctor(vec[i], 0, 0);
+        a_str_ctor(vec[i]);
         a_str_printf(vec[i], "%zu", i);
     }
     test_show(ctx);
@@ -51,7 +51,7 @@ static void test_str(size_t n)
     }
     test_show(ctx);
 
-    a_mempool_delete(ctx, (void (*)(void *))a_str_free);
+    a_mempool_delete(ctx, (void (*)(void *))a_str_delete);
     free(vec);
 }
 
