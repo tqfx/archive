@@ -10,7 +10,7 @@
 
 #undef ARGS
 #define ARGS size_t size
-A_OBJECT_NEW_VA(a_mempool_s, a_mempool_new, a_mempool_ctor, ARGS, size)
+A_OBJECT_CREATE_VA(a_mempool_s, a_mempool_new, a_mempool_ctor, ARGS, size)
 #undef ARGS
 #define ARGS void (*func)(void *)
 A_OBJECT_DELETE_VA(a_mempool_s, a_mempool_delete, a_mempool_dtor, ARGS, func)

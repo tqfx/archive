@@ -12,7 +12,7 @@
 
 #undef ARGS
 #define ARGS const void *pdata, size_t nbyte
-A_OBJECT_NEW_VA(a_str_s, a_str_init, a_str_ctor, ARGS, pdata, nbyte)
+A_OBJECT_CREATE_VA(a_str_s, a_str_init, a_str_ctor, ARGS, pdata, nbyte)
 #undef ARGS
 A_OBJECT_DELETE(a_str_s, a_str_free, a_str_dtor)
 

@@ -10,8 +10,8 @@
 
 #include <stdlib.h>
 
-#ifndef A_OBJECT_NEW
-#define A_OBJECT_NEW(type, func, ctor)            \
+#ifndef A_OBJECT_CREATE
+#define A_OBJECT_CREATE(type, func, ctor)         \
     type *func(void)                              \
     {                                             \
         type *ctx = (type *)malloc(sizeof(type)); \
@@ -21,20 +21,20 @@
         }                                         \
         return ctx;                               \
     }
-#endif /* A_OBJECT_NEW */
+#endif /* A_OBJECT_CREATE */
 
-#ifndef A_OBJECT_NEW_VA
-#define A_OBJECT_NEW_VA(type, func, ctor, args, ...) \
-    type *func(args)                                 \
-    {                                                \
-        type *ctx = (type *)malloc(sizeof(type));    \
-        if (ctx)                                     \
-        {                                            \
-            ctor(ctx, __VA_ARGS__);                  \
-        }                                            \
-        return ctx;                                  \
+#ifndef A_OBJECT_CREATE_VA
+#define A_OBJECT_CREATE_VA(type, func, ctor, args, ...) \
+    type *func(args)                                    \
+    {                                                   \
+        type *ctx = (type *)malloc(sizeof(type));       \
+        if (ctx)                                        \
+        {                                               \
+            ctor(ctx, __VA_ARGS__);                     \
+        }                                               \
+        return ctx;                                     \
     }
-#endif /* A_OBJECT_NEW_VA */
+#endif /* A_OBJECT_CREATE_VA */
 
 #ifndef A_OBJECT_DELETE
 #define A_OBJECT_DELETE(type, func, dtor) \

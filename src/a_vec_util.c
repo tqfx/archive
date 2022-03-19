@@ -8,20 +8,20 @@
 
 #include "a_object.h"
 
-#undef A_VEC_NEW
-#define A_VEC_NEW(name) A_OBJECT_NEW(a_vec_##name##_s, a_vec_##name##_new, a_vec_##name##_ctor)
-A_VEC_NEW(i8)
-A_VEC_NEW(u8)
-A_VEC_NEW(i16)
-A_VEC_NEW(u16)
-A_VEC_NEW(i32)
-A_VEC_NEW(u32)
-A_VEC_NEW(i64)
-A_VEC_NEW(u64)
-A_VEC_NEW(f32)
-A_VEC_NEW(f64)
-A_VEC_NEW(str)
-#undef A_VEC_NEW
+#undef A_VEC_CREATE
+#define A_VEC_CREATE(name) A_OBJECT_CREATE(a_vec_##name##_s, a_vec_##name##_new, a_vec_##name##_ctor)
+A_VEC_CREATE(i8)
+A_VEC_CREATE(u8)
+A_VEC_CREATE(i16)
+A_VEC_CREATE(u16)
+A_VEC_CREATE(i32)
+A_VEC_CREATE(u32)
+A_VEC_CREATE(i64)
+A_VEC_CREATE(u64)
+A_VEC_CREATE(f32)
+A_VEC_CREATE(f64)
+A_VEC_CREATE(str)
+#undef A_VEC_CREATE
 
 #undef A_VEC_DELETE
 #define A_VEC_DELETE(name) A_OBJECT_DELETE(a_vec_##name##_s, a_vec_##name##_delete, a_vec_##name##_dtor)

@@ -8,7 +8,7 @@
 
 #include "a_object.h"
 
-A_OBJECT_NEW(a_vec_s, a_vec_new, a_vec_ctor)
+A_OBJECT_CREATE(a_vec_s, a_vec_new, a_vec_ctor)
 A_OBJECT_DELETE(a_vec_s, a_vec_delete, a_vec_dtor)
 
 __STATIC_INLINE
