@@ -23,19 +23,19 @@ configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/src/liba_private.h
   )
 
-unset(SOURCES CACHE)
-aux_source_directory(src SOURCES)
+unset(SOURCE)
+aux_source_directory(src SOURCE)
 
 # crc
-aux_source_directory(src/crc SOURCES)
+aux_source_directory(src/crc SOURCE)
 
 # poly
-aux_source_directory(src/poly SOURCES)
+aux_source_directory(src/poly SOURCE)
 
 # hash
-aux_source_directory(src/hash SOURCES)
+aux_source_directory(src/hash SOURCE)
 
-add_library(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} ${SOURCE})
 target_include_directories(${PROJECT_NAME} PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/src
   ${CMAKE_CURRENT_LIST_DIR}/src/crc
