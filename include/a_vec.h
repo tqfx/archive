@@ -33,14 +33,6 @@ struct a_vec_s
     size_t length;
 };
 
-#undef A_VEC_S
-#define A_VEC_S(def, type) \
-    typedef struct def     \
-    {                      \
-        a_vec_s vec[1];    \
-        type *ptr;         \
-    } def
-
 __NONNULL_ALL
 __STATIC_INLINE
 size_t a_vec_mem(const void *obj)
@@ -86,6 +78,14 @@ void *a_vec_ptr(void *obj, size_t index)
     return ctx->vptr->address(ctx, index);
 }
 
+#undef A_VEC_S
+#define A_VEC_S(def, type) \
+    typedef struct def     \
+    {                      \
+        a_vec_s vec[1];    \
+        type *ptr;         \
+    } def
+
 #undef A_VEC_AT
 #define A_VEC_AT(def, func, type)     \
     __NONNULL((1))                    \
@@ -95,6 +95,9 @@ void *a_vec_ptr(void *obj, size_t index)
         AASSERT(ctx);                 \
         return ctx->ptr[index];       \
     }
+
+#undef A_VEC_PTR
+#define A_VEC_PTR(ctx, index) ((ctx)->ptr + (index))
 
 __BEGIN_DECLS
 
