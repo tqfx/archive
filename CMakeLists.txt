@@ -1,6 +1,11 @@
 if(${CMAKE_TOOLCHAIN_FILE})
   include(${CMAKE_TOOLCHAIN_FILE})
 endif()
+if("${VCPKG_TARGET_TRIPLET}" MATCHES "x86-mingw(.*)")
+  include(cmake/mingw32.cmake)
+elseif("${VCPKG_TARGET_TRIPLET}" MATCHES "x64-mingw(.*)")
+  include(cmake/mingw64.cmake)
+endif()
 
 cmake_minimum_required(VERSION 3.10)
 

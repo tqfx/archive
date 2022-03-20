@@ -18,7 +18,8 @@
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
             },
             "warnings": {
-                "deprecated": true
+                "deprecated": true,
+                "dev": false
             }
         },
         {
@@ -29,6 +30,10 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            },
+            "warnings": {
+                "deprecated": true,
+                "dev": false
             }
         },
         {
@@ -37,8 +42,11 @@
             "toolchainFile": "cmake/mingw32.cmake",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "cmake/mingw32.cmake",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            },
+            "warnings": {
+                "deprecated": true,
+                "dev": false
             }
         },
         {
@@ -47,8 +55,11 @@
             "toolchainFile": "cmake/mingw64.cmake",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "cmake/mingw64.cmake",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            },
+            "warnings": {
+                "deprecated": true,
+                "dev": false
             }
         },
         {
@@ -57,8 +68,11 @@
             "toolchainFile": "cmake/arm-none-eabi.cmake",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "cmake/arm-none-eabi.cmake",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            },
+            "warnings": {
+                "deprecated": true,
+                "dev": false
             }
         }
     ],
