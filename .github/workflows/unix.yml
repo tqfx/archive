@@ -41,8 +41,9 @@ jobs:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
-      - uses: vmactions/freebsd-vm@v0.1.5
+      - uses: vmactions/freebsd-vm@v0.1.6
         with:
+          copyback: true
           prepare: |
             pkg install -y cmake
           run: |
