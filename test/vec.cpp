@@ -91,7 +91,12 @@ static void test_str(size_t n)
     }
     for (size_t i = 0; i != (n >> 1); ++i)
     {
-        free(*(char **)a_vec_pop(ctx));
+        char **str = (char **)a_vec_pop(ctx);
+        if (str == 0)
+        {
+            continue;
+        }
+        free(*str);
     }
     a_vec_str_delete(ctx);
 }
