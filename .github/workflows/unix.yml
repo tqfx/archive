@@ -10,7 +10,7 @@ jobs:
       - run: |
           cmake --preset=debug
           cmake --build --preset=debug --parallel
-          ctest --preset=debug
+          ctest --preset=debug --parallel
           rm -rf build
   Apple:
     continue-on-error: true
@@ -20,7 +20,7 @@ jobs:
       - run: |
           cmake --preset=debug
           cmake --build --preset=debug --parallel
-          ctest --preset=debug
+          ctest --preset=debug --parallel
           rm -rf build
   MinGW:
     continue-on-error: true

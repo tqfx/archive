@@ -19,7 +19,7 @@ jobs:
       - run: |
           cmake --preset=debug -T host=${{ matrix.host }} -A ${{ matrix.arch }}
           cmake --build --preset=debug --parallel
-          ctest --preset=debug
+          ctest --preset=debug --parallel
           rm -r build
   MSYS2:
     continue-on-error: true
@@ -45,5 +45,5 @@ jobs:
         run: |
           cmake --preset=debug -G "MinGW Makefiles"
           cmake --build --preset=debug --parallel
-          ctest --preset=debug
+          ctest --preset=debug --parallel
           rm -r build
