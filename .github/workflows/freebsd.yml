@@ -1,0 +1,26 @@
+name: freebsd
+on:
+  workflow_dispatch:
+jobs:
+  FreeBSD:
+    runs-on: macos-10.15
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { preset: debug },
+          { preset: release },
+        ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - uses: vmactions/freebsd-vm@v0.1.6
+        with:
+          prepare: |
+            pkg install -y gmake cmake
+          run: |
+            cmake --preset=${{ matrix.preset }} -DBUILD_TESTING=ON
+            cmake --build --preset=${{ matrix.preset }} --parallel
+            ctest --preset=${{ matrix.preset }} --parallel

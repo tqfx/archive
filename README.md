@@ -1,8 +1,12 @@
 # algorithm {#mainpage}
 
-[![unix](https://github.com/tqfx/liba/actions/workflows/unix.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/unix.yml)
-[![windows](https://github.com/tqfx/liba/actions/workflows/windows.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/windows.yml)
 [![deploy](https://github.com/tqfx/liba/actions/workflows/deploy.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/deploy.yml)
+[![msvc](https://github.com/tqfx/liba/actions/workflows/msvc.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msvc.yml)
+[![linux](https://github.com/tqfx/liba/actions/workflows/linux.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/linux.yml)
+[![macos](https://github.com/tqfx/liba/actions/workflows/macos.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/macos.yml)
+[![mingw](https://github.com/tqfx/liba/actions/workflows/mingw.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/mingw.yml)
+[![msys2](https://github.com/tqfx/liba/actions/workflows/msys2.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msys2.yml)
+[![freebsd](https://github.com/tqfx/liba/actions/workflows/freebsd.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/freebsd.yml)
 
 ## required tools
 

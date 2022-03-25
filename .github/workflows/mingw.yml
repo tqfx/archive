@@ -1,0 +1,25 @@
+name: mingw
+on:
+  workflow_dispatch:
+jobs:
+  MinGW:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { preset: mingw64 },
+          { preset: mingw32 },
+        ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - name: Run apt-get
+        run: |
+          sudo apt-get install -y mingw-w64
+      - name: Run cmake
+        run: |
+          cmake --preset=${{ matrix.preset }} -DBUILD_TESTING=ON
+          cmake --build --preset=${{ matrix.preset }} --parallel

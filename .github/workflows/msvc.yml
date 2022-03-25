@@ -1,0 +1,25 @@
+name: msvc
+on:
+  workflow_dispatch:
+jobs:
+  MSVC:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { arch: x64 },
+          { arch: win32 },
+        ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - name: Run cmake
+        run: |
+          cmake --preset=debug -A ${{ matrix.arch }}
+          cmake --build --preset=debug --parallel
+      - name: Run ctest
+        run: |
+          ctest --preset=debug --parallel
