@@ -1,5 +1,5 @@
 /*!
- @file hash.cpp
+ @file hash.c
  @brief test hash library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

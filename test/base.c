@@ -1,5 +1,5 @@
 /*!
- @file base.cpp
+ @file base.c
  @brief test base library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

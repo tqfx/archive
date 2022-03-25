@@ -1,5 +1,5 @@
 /*!
- @file vec.cpp
+ @file vec.c
  @brief test vector library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
@@ -43,7 +43,7 @@ static void test(void)
             type *p = (type *)a_vec_push(ctx);        \
             if (p == 0)                               \
             {                                         \
-                printf("%s ", __FUNCTION__);          \
+                printf("%s ", __func__);              \
                 perror("allocation failure!\n");      \
                 exit(EXIT_FAILURE);                   \
             }                                         \
@@ -80,7 +80,7 @@ static void test_str(size_t n)
         char **str = (char **)a_vec_push(ctx);
         if (str == 0)
         {
-            printf("%s ", __FUNCTION__);
+            printf("%s ", __func__);
             perror("allocation failure!\n");
             exit(EXIT_FAILURE);
         }

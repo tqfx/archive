@@ -1,5 +1,5 @@
 /*!
- @file str.cpp
+ @file str.c
  @brief test string library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

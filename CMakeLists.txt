@@ -9,7 +9,7 @@ endif()
 
 cmake_minimum_required(VERSION 3.10)
 
-project(a VERSION 0.1.0 LANGUAGES C CXX)
+project(a VERSION 0.1.0 LANGUAGES C)
 
 include(cmake/check.cmake OPTIONAL)
 include(cmake/output.cmake OPTIONAL)
@@ -58,8 +58,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   $<INSTALL_INTERFACE:include/hash>
   )
 
-if(${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_C_COMPILER_ID} MATCHES "(Apple)?[Cc]lang" OR
-  ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "(Apple)?[Cc]lang")
+if("${CMAKE_C_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_C_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang")
   target_link_libraries(${PROJECT_NAME} m)
 endif()
 

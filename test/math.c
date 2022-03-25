@@ -1,5 +1,5 @@
 /*!
- @file math.cpp
+ @file math.c
  @brief test math
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
@@ -61,13 +61,17 @@ int main(void)
     {
         b32->f32 = (float)datat[i];
         printf("0x%" PRIX32 "    %" PRIu32 ",0x%02" PRIX32 ",0x%06" PRIX32 "    %+f\n",
-               b32->u32, b32->s32->s, b32->s32->e, b32->s32->f, (double)b32->f32);
+               b32->u32,
+               b32->s32->s, b32->s32->e, b32->s32->f,
+               (double)b32->f32);
     }
     for (unsigned int i = 0; i != sizeof(datat) / sizeof(double); ++i)
     {
         b64->f64 = datat[i];
         printf("0x%" PRIX64 "    %" PRIu64 ",0x%03" PRIX64 ",0x%014" PRIX64 "    %+f\n",
-               b64->u64, (uint64_t)b64->s64->s, (uint64_t)b64->s64->e, b64->s64->f, b64->f64);
+               b64->u64,
+               (uint64_t)b64->s64->s, (uint64_t)b64->s64->e, (uint64_t)b64->s64->f,
+               b64->f64);
     }
 
     static float datasqrt[] = {

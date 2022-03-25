@@ -1,5 +1,5 @@
 /*!
- @file notefreqs.cpp
+ @file notefreqs.c
  @brief test note frequency
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

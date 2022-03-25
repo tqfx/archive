@@ -1,5 +1,5 @@
 /*!
- @file hmac.cpp
+ @file hmac.c
  @brief test hmac library
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */

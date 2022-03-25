@@ -1,5 +1,5 @@
 /*!
- @file mempool.cpp
+ @file mempool.c
  @brief test memory pool
  @copyright Copyright (C) 2020 tqfx. All rights reserved.
 */
