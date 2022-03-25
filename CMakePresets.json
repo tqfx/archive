@@ -14,7 +14,7 @@
             "description": "Default build using default generator for debug",
             "cacheVariables": {
                 "BUILD_TESTING": true,
-                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_BUILD_TYPE": "debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
             },
             "warnings": {
@@ -29,7 +29,7 @@
             "displayName": "Default configuration for release",
             "description": "Default build using default generator for release",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "release",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
             },
             "warnings": {
@@ -43,7 +43,7 @@
             "installDir": "install",
             "toolchainFile": "cmake/mingw32.cmake",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "release",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
             },
             "warnings": {
@@ -57,7 +57,7 @@
             "installDir": "install",
             "toolchainFile": "cmake/mingw64.cmake",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "release",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
             },
             "warnings": {
@@ -71,7 +71,7 @@
             "installDir": "install",
             "toolchainFile": "cmake/arm-none-eabi.cmake",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "release",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true
             },
             "warnings": {
@@ -114,6 +114,11 @@
             "name": "debug",
             "configuration": "debug",
             "configurePreset": "debug"
+        },
+        {
+            "name": "release",
+            "configuration": "release",
+            "configurePreset": "release"
         }
     ]
 }
