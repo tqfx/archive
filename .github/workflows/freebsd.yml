@@ -19,7 +19,7 @@ jobs:
       - uses: vmactions/freebsd-vm@v0.1.6
         with:
           prepare: |
-            pkg install -y gmake cmake
+            pkg install -y binutils cmake gmake gcc
           run: |
             cmake --preset=${{ matrix.preset }} -DBUILD_TESTING=ON
             cmake --build --preset=${{ matrix.preset }} --parallel
