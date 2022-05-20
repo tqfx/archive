@@ -14,7 +14,7 @@ description = "An algorithm library based on C language."
 author = "tqfx"
 author_email = "tqfx@foxmail.com"
 url = "https://github.com/tqfx/a.git"
-license = "MPL"
+license = "MPL-2.0"
 
 script = os.path.abspath(argv[0])
 os.chdir(os.path.dirname(script))
