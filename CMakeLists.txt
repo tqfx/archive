@@ -46,14 +46,10 @@ if(ENABLE_IPO)
 endif()
 
 find_library(MATH_LIBRARIES NAMES m)
-if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/config.h.cmake)
-  set(${PROJECT_NAME}_VERSION "${PROJECT_VERSION}")
-  configure_file(
-    ${CMAKE_CURRENT_LIST_DIR}/src/config.h.cmake
-    ${CMAKE_CURRENT_LIST_DIR}/src/config.h
-    )
-endif()
-
+configure_file(
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h.in
+  ${CMAKE_CURRENT_LIST_DIR}/src/config.h
+  )
 file(GLOB_RECURSE SOURCE include/*.h src/*.h src/*.c)
 
 add_library(${PROJECT_NAME} ${SOURCE})
@@ -122,6 +118,7 @@ install(EXPORT ${PROJECT_NAME}-targets
   DESTINATION share/${PROJECT_NAME}
   )
 install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
   DESTINATION share/${PROJECT_NAME}
@@ -135,6 +132,11 @@ configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
   INSTALL_DESTINATION share/${PROJECT_NAME}
+  )
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  @ONLY
   )
 
 # https://www.doxygen.nl/manual/config.html
