@@ -1,5 +1,4 @@
-from conan import ConanFile
-from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
+from conans import ConanFile, CMake, tools
 
 
 class aConan(ConanFile):
@@ -7,33 +6,45 @@ class aConan(ConanFile):
     version = "0.1.0"
     license = "MPL-2.0"
     author = "tqfx tqfx@foxmail.com"
-    url = "https://github.com/tqfx/a.git"
+    homepage = url = "https://github.com/tqfx/a.git"
     description = "An algorithm library based on C language."
-    topics = "0.1.0"
+    topics = ("algorithm",)
+    generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": False, "fPIC": True}
-    exports_sources = "*"
+    options = {"shared": [True, False], "fPIC": [True, False], "ipo": [True, False]}
+    default_options = {"shared": False, "fPIC": True, "ipo": False}
+    exports_sources = (
+        "CMakeLists.txt",
+        "LICENSE.txt",
+        "README.md",
+        "include/*",
+        "cmake/*",
+        "src/*",
+    )
 
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
 
-    def layout(self):
-        cmake_layout(self)
-
-    def generate(self):
-        tc = CMakeToolchain(self)
-        tc.generate()
+    def source(self):
+        tools.replace_in_file(
+            "CMakeLists.txt",
+            "include(cmake/standard.cmake)",
+            "include(cmake/standard.cmake)\n\n"
+            "include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)\n"
+            "conan_basic_setup()",
+        )
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure({"BUILD_TESTING": "OFF"})
+        cmake.definitions["BUILD_TESTING"] = False
+        if self.settings.build_type == "Debug":
+            cmake.definitions["ENABLE_IPO"] = False
+        else:
+            cmake.definitions["ENABLE_IPO"] = self.options.ipo
+        cmake.configure()
         cmake.build()
 
     def package(self):
         cmake = CMake(self)
         cmake.install()
-
-    def package_info(self):
-        self.cpp_info.libs = ["a"]
