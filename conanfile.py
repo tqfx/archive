@@ -23,8 +23,8 @@ class aConan(ConanFile):
     )
 
     def config_options(self):
-        if self.settings.os == "Windows":
-            del self.options.fPIC
+        if self.settings.os == "Windows":  # type: ignore
+            del self.options.fPIC  # type: ignore
 
     def source(self):
         tools.replace_in_file(
@@ -38,10 +38,10 @@ class aConan(ConanFile):
     def build(self):
         cmake = CMake(self)
         cmake.definitions["BUILD_TESTING"] = False
-        if self.settings.build_type == "Debug":
-            cmake.definitions["ENABLE_IPO"] = False
+        if self.settings.build_type != "Debug":  # type: ignore
+            cmake.definitions["ENABLE_IPO"] = self.options.ipo  # type: ignore
         else:
-            cmake.definitions["ENABLE_IPO"] = self.options.ipo
+            cmake.definitions["ENABLE_IPO"] = False
         cmake.configure()
         cmake.build()
 
