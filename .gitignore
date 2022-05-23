@@ -47,6 +47,8 @@ __pycache__/
 
 # Distribution / packaging
 *.egg-info/
+install/
+target/
 build/
 dist/
 
@@ -66,8 +68,11 @@ src/cython/*
 
 # CMake
 src/config.h
-install*
-build*
+install[_-]*
+build[_-]*
+
+# Rust
+Cargo.lock
 
 # Doxygen
 latex
