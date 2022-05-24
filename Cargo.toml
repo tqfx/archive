@@ -6,9 +6,9 @@ edition = "2021"
 description = """
 An algorithm library based on C language.
 """
-documentation = "https://tqfx.org/a/"
-repository = "https://github.com/tqfx/a.git"
-homepage = "https://github.com/tqfx/a.git"
+documentation = "https://tqfx.org/liba/"
+repository = "https://github.com/tqfx/liba.git"
+homepage = "https://github.com/tqfx/liba.git"
 license = "MPL-2.0"
 keywords = ["algorithm"]
 categories = ["algorithms"]

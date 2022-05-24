@@ -1,11 +1,11 @@
 add_executable(test-polytrack polytrack.c)
 set_target_properties(test-polytrack PROPERTIES OUTPUT_NAME polytrack)
-target_link_libraries(test-polytrack ${PROJECT_NAME})
+target_link_libraries(test-polytrack ${DEFAULT_NAME})
 add_test(NAME test-polytrack COMMAND polytrack)
 
 if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)
   add_executable(test-polytrack+ polytrack.cpp)
   set_target_properties(test-polytrack+ PROPERTIES OUTPUT_NAME polytrack+)
-  target_link_libraries(test-polytrack+ ${PROJECT_NAME})
+  target_link_libraries(test-polytrack+ ${DEFAULT_NAME})
   add_test(NAME test-polytrack+ COMMAND polytrack+)
 endif()

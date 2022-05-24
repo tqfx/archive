@@ -1,11 +1,11 @@
 add_executable(test-lpf lpf.c)
 set_target_properties(test-lpf PROPERTIES OUTPUT_NAME lpf)
-target_link_libraries(test-lpf ${PROJECT_NAME})
+target_link_libraries(test-lpf ${DEFAULT_NAME})
 add_test(NAME test-lpf COMMAND lpf)
 
 if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)
   add_executable(test-lpf+ lpf.cpp)
   set_target_properties(test-lpf+ PROPERTIES OUTPUT_NAME lpf+)
-  target_link_libraries(test-lpf+ ${PROJECT_NAME})
+  target_link_libraries(test-lpf+ ${DEFAULT_NAME})
   add_test(NAME test-lpf+ COMMAND lpf+)
 endif()

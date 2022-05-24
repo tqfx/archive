@@ -1,12 +1,12 @@
 # An algorithm library {#mainpage}
 
-[![msvc](https://github.com/tqfx/a/actions/workflows/msvc.yml/badge.svg)](https://github.com/tqfx/a/actions/workflows/msvc.yml)
-[![linux](https://github.com/tqfx/a/actions/workflows/linux.yml/badge.svg)](https://github.com/tqfx/a/actions/workflows/linux.yml)
-[![macos](https://github.com/tqfx/a/actions/workflows/macos.yml/badge.svg)](https://github.com/tqfx/a/actions/workflows/macos.yml)
-[![mingw](https://github.com/tqfx/a/actions/workflows/mingw.yml/badge.svg)](https://github.com/tqfx/a/actions/workflows/mingw.yml)
-[![msys2](https://github.com/tqfx/a/actions/workflows/msys2.yml/badge.svg)](https://github.com/tqfx/a/actions/workflows/msys2.yml)
-[![freebsd](https://github.com/tqfx/a/actions/workflows/freebsd.yml/badge.svg)](https://github.com/tqfx/a/actions/workflows/freebsd.yml)
-[![doxygen](https://github.com/tqfx/a/actions/workflows/doxygen.yml/badge.svg)](https://github.com/tqfx/a/actions/workflows/doxygen.yml)
+[![msvc](https://github.com/tqfx/liba/actions/workflows/msvc.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msvc.yml)
+[![linux](https://github.com/tqfx/liba/actions/workflows/linux.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/linux.yml)
+[![macos](https://github.com/tqfx/liba/actions/workflows/macos.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/macos.yml)
+[![mingw](https://github.com/tqfx/liba/actions/workflows/mingw.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/mingw.yml)
+[![msys2](https://github.com/tqfx/liba/actions/workflows/msys2.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msys2.yml)
+[![freebsd](https://github.com/tqfx/liba/actions/workflows/freebsd.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/freebsd.yml)
+[![doxygen](https://github.com/tqfx/liba/actions/workflows/doxygen.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/doxygen.yml)
 
 ## required tools
 
@@ -27,12 +27,32 @@ python -m pip install -r requirements.txt
 
 ## build
 
-### release
+### cmake
 
 ```bash
 cmake -S . -B build
 cmake --build build
 cmake --install build
+```
+
+### vcpkg
+
+```bash
+mkdir -p $VCPKG_INSTALLATION_ROOT/ports/liba
+cp vcpkg/* $VCPKG_INSTALLATION_ROOT/ports/liba
+vcpkg install liba
+```
+
+### conan
+
+```bash
+conan create . -s build_type=RelWithDebInfo
+```
+
+### cargo
+
+```bash
+cargo build --release
 ```
 
 ### cython
@@ -49,11 +69,43 @@ python setup.py bdist_wheel
 
 ## using
 
-### cmake
+### CMakeLists.txt
 
 ```cmake
-find_package(a CONFIG REQUIRED)
-target_link_libraries(<TARGET> PRIVATE a::a)
+find_package(liba CONFIG REQUIRED)
+target_link_libraries(<TARGET> PRIVATE liba::a)
+```
+
+#### conanfile.txt
+
+```txt
+[requires]
+liba/0.1
+```
+
+### Rust
+
+#### Cargo.toml
+
+```toml
+[build-dependencies]
+liba = "0.1"
+```
+
+#### main.rs
+
+```rs
+use a;
+fn main() {
+    println!("version {}", a::version());
+}
+```
+
+### python
+
+```py
+import a
+print("version", a.version())
 ```
 
 ## Copyright {#copyright}

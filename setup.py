@@ -13,7 +13,7 @@ version = "0.1.0"
 description = "An algorithm library based on C language."
 author = "tqfx"
 author_email = "tqfx@foxmail.com"
-url = "https://github.com/tqfx/a.git"
+url = "https://github.com/tqfx/liba.git"
 license = "MPL-2.0"
 
 script = os.path.abspath(argv[0])

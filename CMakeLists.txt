@@ -12,8 +12,12 @@ find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
 find_program(BLACK black)
 include(cmake/core.cmake)
+set(DEFAULT_NAME a)
 
-project(a VERSION 0.1.0 LANGUAGES C DESCRIPTION "An algorithm library based on C language." HOMEPAGE_URL "https://github.com/tqfx/a.git")
+project(lib${DEFAULT_NAME} VERSION 0.1.0 LANGUAGES C
+  DESCRIPTION "An algorithm library based on C language."
+  HOMEPAGE_URL "https://github.com/tqfx/lib${DEFAULT_NAME}.git"
+  )
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Specifies the build type on single-configuration generators." FORCE)
@@ -45,43 +49,44 @@ if(ENABLE_IPO)
   check_ipo_supported(RESULT ENABLE_IPO)
 endif()
 
+set(${DEFAULT_NAME}_VERSION ${PROJECT_VERSION})
 find_library(MATH_LIBRARIES NAMES m)
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h.in
   ${CMAKE_CURRENT_LIST_DIR}/src/config.h
   )
-file(GLOB_RECURSE SOURCE include/*.h src/*.h src/*.c)
+file(GLOB_RECURSE SOURCES include/*.h src/*.h src/*.c)
 
-add_library(${PROJECT_NAME} ${SOURCE})
-add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(${PROJECT_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
+add_library(${DEFAULT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME}::${DEFAULT_NAME} ALIAS ${DEFAULT_NAME})
+set_target_properties(${DEFAULT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(${DEFAULT_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
 if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
-  set_target_properties(${PROJECT_NAME} PROPERTIES C_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
+  set_target_properties(${DEFAULT_NAME} PROPERTIES C_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
 endif()
 if(ENABLE_CLANG_TIDY AND CLANG_TIDY)
-  set_target_properties(${PROJECT_NAME} PROPERTIES C_CLANG_TIDY "${CLANG_TIDY};--fix")
+  set_target_properties(${DEFAULT_NAME} PROPERTIES C_CLANG_TIDY "${CLANG_TIDY};--fix")
 endif()
 if(ENABLE_CPPCHECK AND CPPCHECK)
-  set_target_properties(${PROJECT_NAME} PROPERTIES C_CPPCHECK "${CPPCHECK};--enable=warning,performance")
+  set_target_properties(${DEFAULT_NAME} PROPERTIES C_CPPCHECK "${CPPCHECK};--enable=warning,performance")
 endif()
 if(ENABLE_IPO)
-  set_target_properties(${PROJECT_NAME} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
+  set_target_properties(${DEFAULT_NAME} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
-target_compile_options(${PROJECT_NAME} PRIVATE
+target_compile_options(${DEFAULT_NAME} PRIVATE
   $<$<C_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
   $<$<C_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:C>:${C_FLAGS}>
   )
-target_compile_definitions(${PROJECT_NAME}
-  PRIVATE $<$<BOOL:${${PROJECT_NAME}_VERSION}>:${PROJECT_NAME}_CONFIGS>
-  PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:${PROJECT_NAME}_SHARED>
+target_compile_definitions(${DEFAULT_NAME}
+  PRIVATE $<$<BOOL:${${DEFAULT_NAME}_VERSION}>:${DEFAULT_NAME}_CONFIGS>
+  PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:${DEFAULT_NAME}_SHARED>
   )
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${DEFAULT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
   $<INSTALL_INTERFACE:include>
   )
 if(MATH_LIBRARIES OR ANDROID)
-  target_link_libraries(${PROJECT_NAME} PUBLIC m)
+  target_link_libraries(${DEFAULT_NAME} PUBLIC m)
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
@@ -91,13 +96,13 @@ endif()
 if(CLANG_FORMAT)
   file(GLOB_RECURSE SOURCE include/*.h src/*.[ch] tests/*.[ch]*)
   # https://clang.llvm.org/docs/ClangFormat.html
-  add_custom_target(${PROJECT_NAME}-format
+  add_custom_target(${DEFAULT_NAME}-format
     COMMAND ${CLANG_FORMAT} -style=file -i ${SOURCE} --verbose
     )
 endif()
 if(BLACK)
   # https://black.readthedocs.io/en/stable
-  add_custom_target(${PROJECT_NAME}-black
+  add_custom_target(${DEFAULT_NAME}-black
     COMMAND ${BLACK} -S ${CMAKE_CURRENT_LIST_DIR}
     )
 endif()
@@ -106,7 +111,7 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
   )
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${DEFAULT_NAME}
   EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
@@ -181,7 +186,7 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_INTERACTIVE_SVG YES)
     set(DOXYGEN_DOT_IMAGE_FORMAT svg)
   endif()
-  doxygen_add_docs(${PROJECT_NAME}-doc
+  doxygen_add_docs(${DEFAULT_NAME}-doc
     ${CMAKE_CURRENT_LIST_DIR}/README.md
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${CMAKE_CURRENT_LIST_DIR}/src
