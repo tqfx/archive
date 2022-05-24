@@ -11,6 +11,8 @@ from libc.stdio cimport *
 cimport cython
 import typing
 
+include "config.pxi"
+
 include "mf.pxi"
 
 include "lpf.pxi"

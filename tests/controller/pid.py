@@ -12,7 +12,7 @@ prefix = os.path.join(sys.path[0], "build")
 if not os.path.exists(prefix):
     os.mkdir(prefix)
 try:
-    from a import *
+    import a
     import numpy as np
     import matplotlib.pyplot as plt
 except Exception as e:
@@ -61,7 +61,7 @@ kp = 10.0
 ki = 0.01
 kd = 0.24
 
-pid = a_pid(Ts, MIN, MAX).kpid(kp, ki, kd)
+pid = a.pid(Ts, MIN, MAX).kpid(kp, ki, kd)
 
 r = 1.0
 setpoint = [r] * len(data)

@@ -7,8 +7,8 @@ from fpid cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_fpid:
-    cdef c_fpid_s ctx[1]
+cdef class fpid:
+    cdef a_fpid_s ctx[1]
     cdef array.array tmf
     cdef array.array tkp
     cdef array.array tki
@@ -30,8 +30,8 @@ cdef class a_fpid:
         cdef double *kp = self.tkp.data.as_doubles
         cdef double *ki = self.tki.data.as_doubles
         cdef double *kd = self.tkd.data.as_doubles
-        c_fpid_init(self.ctx, ts, num, mf, kp, ki, kd, vmin, vmax, umin, umax)
-        c_fpid_buff(self.ctx, self.ms, self.idx, self.mat)
+        a_fpid_init(self.ctx, ts, num, mf, kp, ki, kd, vmin, vmax, umin, umax)
+        a_fpid_buff(self.ctx, self.ms, self.idx, self.mat)
     def __dealloc__(self):
         free(self.ms)
         free(self.mat)
@@ -40,22 +40,22 @@ cdef class a_fpid:
         self.mat = NULL
         self.idx = NULL
     def __call__(self, set: float, ref: float):
-        return c_fpid_proc(self.ctx, set, ref)
+        return a_fpid_proc(self.ctx, set, ref)
     def kpid(self, kp: float, ki: float, kd: float):
-        c_fpid_kpid(self.ctx, kp, ki, kd)
+        a_fpid_kpid(self.ctx, kp, ki, kd)
         return self
     def time(self, ts: float):
-        c_fpid_time(self.ctx, ts)
+        a_fpid_time(self.ctx, ts)
         return self
     def done(self):
-        c_fpid_done(self.ctx)
+        a_fpid_done(self.ctx)
         return self
     def pos(self, imx: float):
-        c_pid_pos(self.ctx[0].pid, imx)
+        a_pid_pos(self.ctx[0].pid, imx)
         return self
     def inc(self):
-        c_pid_inc(self.ctx[0].pid)
+        a_pid_inc(self.ctx[0].pid)
         return self
     def off(self):
-        c_pid_off(self.ctx[0].pid)
+        a_pid_off(self.ctx[0].pid)
         return self

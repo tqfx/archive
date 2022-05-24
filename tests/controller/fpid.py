@@ -12,7 +12,7 @@ prefix = os.path.join(sys.path[0], "build")
 if not os.path.exists(prefix):
     os.mkdir(prefix)
 try:
-    from a import *
+    import a
     import numpy as np
     import matplotlib.pyplot as plt
 except Exception as e:
@@ -72,14 +72,14 @@ rkd = [
     [NB, NM, NM, NM, NS, NS, NB],
 ]
 params = [
-    [A_MF_TRI, -3, -3, -2],  # NB
-    [A_MF_TRI, -3, -2, -1],  # NM
-    [A_MF_TRI, -2, -1, +0],  # NS
-    [A_MF_TRI, -1, +0, +1],  # ZO
-    [A_MF_TRI, +0, +1, +2],  # PS
-    [A_MF_TRI, +1, +2, +3],  # PM
-    [A_MF_TRI, +2, +3, +3],  # PB
-    [A_MF_NONE, 0, 0, 0],
+    [a.mf.TRI, -3, -3, -2],  # NB
+    [a.mf.TRI, -3, -2, -1],  # NM
+    [a.mf.TRI, -2, -1, +0],  # NS
+    [a.mf.TRI, -1, +0, +1],  # ZO
+    [a.mf.TRI, +0, +1, +2],  # PS
+    [a.mf.TRI, +1, +2, +3],  # PM
+    [a.mf.TRI, +2, +3, +3],  # PB
+    [a.mf.NONE, 0, 0, 0],
 ]
 
 
@@ -95,15 +95,16 @@ def fuzzy(e: float, c: float):
 
     mse = []
     idxe = []
+    mf = a.mf()
     for idx, param in enumerate(params[:-1]):
-        ms = a_mf(param[0], e, param[1:])
+        ms = mf(param[0], e, param[1:])
         if ms > 0:
             idxe.append(idx)
             mse.append(ms)
     msc = []
     idxc = []
     for idx, param in enumerate(params[:-1]):
-        ms = a_mf(param[0], c, param[1:])
+        ms = mf(param[0], c, param[1:])
         if ms > 0:
             idxc.append(idx)
             msc.append(ms)
@@ -162,7 +163,7 @@ except Exception as e:
     print(e)
     exit()
 
-fpid = a_fpid(Ts, params, rkp, rki, rkd, IMIN, IMAX, OMIN, OMAX)
+fpid = a.fpid(Ts, params, rkp, rki, rkd, IMIN, IMAX, OMIN, OMAX)
 
 r = 1.0
 setpoint = [r] * len(data)

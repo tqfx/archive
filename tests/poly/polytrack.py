@@ -12,7 +12,7 @@ prefix = os.path.join(sys.path[0], "build")
 if not os.path.exists(prefix):
     os.mkdir(prefix)
 try:
-    from a import *
+    import a
     import numpy as np
     import matplotlib.pyplot as plt
 except Exception as e:
@@ -25,30 +25,30 @@ data = np.arange(t[0], t[1], 0.01)
 source = (t[0], q[0], 0, 0, 0)
 target = (t[1], q[1], 1, 1, 1)
 
-a = a_polytrack3(source, target)
-label = a.label()
+track = a.polytrack3(source, target)
+label = track.label()
 plt.figure("3 polynomial trajectory")
 
 plt.subplot(311)
 plt.title("cubic polynomial trajectory")
 plt.ylabel("Position")
-plt.plot(data, a.pos(data), "r-", label=label[0])
+plt.plot(data, track.pos(data), "r-", label=label[0])
 plt.legend()
 
 plt.subplot(312)
 plt.ylabel("Velocity")
-plt.plot(data, a.vec(data), "b-", label=label[1])
+plt.plot(data, track.vec(data), "b-", label=label[1])
 plt.legend()
 
 plt.subplot(313)
 plt.ylabel("Acceleration")
-plt.plot(data, a.acc(data), "g-", label=label[2])
+plt.plot(data, track.acc(data), "g-", label=label[2])
 plt.legend()
 
 plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_3.png"))
 
-(pos, vec, acc) = a(data)
+(pos, vec, acc) = track(data)
 plt.figure("all 3 polynomial trajectory")
 
 plt.subplot(311)
@@ -70,30 +70,30 @@ plt.legend()
 plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_3a.png"))
 
-a = a_polytrack5(source, target)
-label = a.label()
+track = a.polytrack5(source, target)
+label = track.label()
 plt.figure("5 polynomial trajectory")
 
 plt.subplot(311)
 plt.title("quintic polynomial trajectory")
 plt.ylabel("Position")
-plt.plot(data, a.pos(data), "r-", label=label[0])
+plt.plot(data, track.pos(data), "r-", label=label[0])
 plt.legend()
 
 plt.subplot(312)
 plt.ylabel("Velocity")
-plt.plot(data, a.vec(data), "b-", label=label[1])
+plt.plot(data, track.vec(data), "b-", label=label[1])
 plt.legend()
 
 plt.subplot(313)
 plt.ylabel("Acceleration")
-plt.plot(data, a.acc(data), "g-", label=label[2])
+plt.plot(data, track.acc(data), "g-", label=label[2])
 plt.legend()
 
 plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_5.png"))
 
-(pos, vec, acc) = a(data)
+(pos, vec, acc) = track(data)
 plt.figure("all 5 polynomial trajectory")
 
 plt.subplot(311)
@@ -115,35 +115,35 @@ plt.legend()
 plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_5a.png"))
 
-a = a_polytrack7(source, target)
-label = a.label()
+track = a.polytrack7(source, target)
+label = track.label()
 plt.figure("7 polynomial trajectory")
 
 plt.subplot(411)
 plt.title("hepta polynomial trajectory")
 plt.ylabel("Position")
-plt.plot(data, a.pos(data), "r-", label=label[0])
+plt.plot(data, track.pos(data), "r-", label=label[0])
 plt.legend()
 
 plt.subplot(412)
 plt.ylabel("Velocity")
-plt.plot(data, a.vec(data), "b-", label=label[1])
+plt.plot(data, track.vec(data), "b-", label=label[1])
 plt.legend()
 
 plt.subplot(413)
 plt.ylabel("Acceleration")
-plt.plot(data, a.acc(data), "g-", label=label[2])
+plt.plot(data, track.acc(data), "g-", label=label[2])
 plt.legend()
 
 plt.subplot(414)
 plt.ylabel("Jerk")
-plt.plot(data, a.jer(data), "k-", label=label[3])
+plt.plot(data, track.jer(data), "k-", label=label[3])
 plt.legend()
 
 plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_7.png"))
 
-(pos, vec, acc, jer) = a(data)
+(pos, vec, acc, jer) = track(data)
 plt.figure("all 7 polynomial trajectory")
 
 plt.subplot(411)

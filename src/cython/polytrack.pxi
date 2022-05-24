@@ -7,8 +7,8 @@ from polytrack cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polytrack3:
-    cdef c_polytrack3_s ctx[1]
+cdef class polytrack3:
+    cdef a_polytrack3_s ctx[1]
     cdef double source[3]
     cdef double target[3]
     cdef double out[3]
@@ -19,38 +19,38 @@ cdef class a_polytrack3:
         self.target[0] = target[0]
         self.target[1] = target[1]
         self.target[2] = target[2]
-        c_polytrack3_init(self.ctx, self.source, self.target)
+        a_polytrack3_init(self.ctx, self.source, self.target)
     def __call__(self, t):
         if not isinstance(t, typing.Iterable):
-            c_polytrack3_all(self.ctx, t, self.out)
+            a_polytrack3_all(self.ctx, t, self.out)
             return self.out[0], self.out[1], self.out[2]
         p, v, a = [], [], []
         for i in t:
-            c_polytrack3_all(self.ctx, i, self.out)
+            a_polytrack3_all(self.ctx, i, self.out)
             p.append(self.out[0])
             v.append(self.out[1])
             a.append(self.out[2])
         return p, v, a
     def pos(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack3_pos(self.ctx, t)
+            return a_polytrack3_pos(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack3_pos(self.ctx, i))
+            y.append(a_polytrack3_pos(self.ctx, i))
         return y
     def vec(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack3_vec(self.ctx, t)
+            return a_polytrack3_vec(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack3_vec(self.ctx, i))
+            y.append(a_polytrack3_vec(self.ctx, i))
         return y
     def acc(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack3_acc(self.ctx, t)
+            return a_polytrack3_acc(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack3_acc(self.ctx, i))
+            y.append(a_polytrack3_acc(self.ctx, i))
         return y
     def label(self):
         p_label = 'p='
@@ -82,8 +82,8 @@ cdef class a_polytrack3:
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polytrack5:
-    cdef c_polytrack5_s ctx[1]
+cdef class polytrack5:
+    cdef a_polytrack5_s ctx[1]
     cdef double source[4]
     cdef double target[4]
     cdef double out[3]
@@ -96,38 +96,38 @@ cdef class a_polytrack5:
         self.target[1] = target[1]
         self.target[2] = target[2]
         self.target[3] = target[3]
-        c_polytrack5_init(self.ctx, self.source, self.target)
+        a_polytrack5_init(self.ctx, self.source, self.target)
     def __call__(self, t):
         if not isinstance(t, typing.Iterable):
-            c_polytrack5_all(self.ctx, t, self.out)
+            a_polytrack5_all(self.ctx, t, self.out)
             return self.out[0], self.out[1], self.out[2]
         p, v, a = [], [], []
         for i in t:
-            c_polytrack5_all(self.ctx, i, self.out)
+            a_polytrack5_all(self.ctx, i, self.out)
             p.append(self.out[0])
             v.append(self.out[1])
             a.append(self.out[2])
         return p, v, a
     def pos(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack5_pos(self.ctx, t)
+            return a_polytrack5_pos(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack5_pos(self.ctx, i))
+            y.append(a_polytrack5_pos(self.ctx, i))
         return y
     def vec(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack5_vec(self.ctx, t)
+            return a_polytrack5_vec(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack5_vec(self.ctx, i))
+            y.append(a_polytrack5_vec(self.ctx, i))
         return y
     def acc(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack5_acc(self.ctx, t)
+            return a_polytrack5_acc(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack5_acc(self.ctx, i))
+            y.append(a_polytrack5_acc(self.ctx, i))
         return y
     def label(self):
         p_label = 'p='
@@ -171,8 +171,8 @@ cdef class a_polytrack5:
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-cdef class a_polytrack7:
-    cdef c_polytrack7_s ctx[1]
+cdef class polytrack7:
+    cdef a_polytrack7_s ctx[1]
     cdef double source[5]
     cdef double target[5]
     cdef double out[4]
@@ -187,14 +187,14 @@ cdef class a_polytrack7:
         self.target[2] = target[2]
         self.target[3] = target[3]
         self.target[4] = target[4]
-        c_polytrack7_init(self.ctx, self.source, self.target)
+        a_polytrack7_init(self.ctx, self.source, self.target)
     def __call__(self, t):
         if not isinstance(t, typing.Iterable):
-            c_polytrack7_all(self.ctx, t, self.out)
+            a_polytrack7_all(self.ctx, t, self.out)
             return self.out[0], self.out[1], self.out[2], self.out[3]
         p, v, a, j = [], [], [], []
         for i in t:
-            c_polytrack7_all(self.ctx, i, self.out)
+            a_polytrack7_all(self.ctx, i, self.out)
             p.append(self.out[0])
             v.append(self.out[1])
             a.append(self.out[2])
@@ -202,31 +202,31 @@ cdef class a_polytrack7:
         return p, v, a, j
     def pos(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack7_pos(self.ctx, t)
+            return a_polytrack7_pos(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack7_pos(self.ctx, i))
+            y.append(a_polytrack7_pos(self.ctx, i))
         return y
     def vec(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack7_vec(self.ctx, t)
+            return a_polytrack7_vec(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack7_vec(self.ctx, i))
+            y.append(a_polytrack7_vec(self.ctx, i))
         return y
     def acc(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack7_acc(self.ctx, t)
+            return a_polytrack7_acc(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack7_acc(self.ctx, i))
+            y.append(a_polytrack7_acc(self.ctx, i))
         return y
     def jer(self, t):
         if not isinstance(t, typing.Iterable):
-            return c_polytrack7_jer(self.ctx, t)
+            return a_polytrack7_jer(self.ctx, t)
         y = []
         for i in t:
-            y.append(c_polytrack7_jer(self.ctx, i))
+            y.append(a_polytrack7_jer(self.ctx, i))
         return y
     def label(self):
         p_label = 'p='
