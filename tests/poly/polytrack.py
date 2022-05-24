@@ -26,7 +26,7 @@ source = (t[0], q[0], 0, 0, 0)
 target = (t[1], q[1], 1, 1, 1)
 
 track = a.polytrack3(source, target)
-label = track.label()
+label = track.text()
 plt.figure("3 polynomial trajectory")
 
 plt.subplot(311)
@@ -71,7 +71,7 @@ plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_3a.png"))
 
 track = a.polytrack5(source, target)
-label = track.label()
+label = track.text()
 plt.figure("5 polynomial trajectory")
 
 plt.subplot(311)
@@ -116,7 +116,7 @@ plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_5a.png"))
 
 track = a.polytrack7(source, target)
-label = track.label()
+label = track.text()
 plt.figure("7 polynomial trajectory")
 
 plt.subplot(411)
