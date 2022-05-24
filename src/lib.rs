@@ -20,7 +20,7 @@ extern "C" {
     fn a_version() -> *const cty::c_char;
 }
 
-/// library version
+/// algorithm library version
 ///
 /// ## Examples
 ///

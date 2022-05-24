@@ -155,6 +155,9 @@ typedef long double a_real_t;
 extern "C" {
 #endif /* __cplusplus */
 
+/*!
+ @brief algorithm library version
+*/
 A_PUBLIC const char *a_version(void);
 
 #if defined(__cplusplus)
