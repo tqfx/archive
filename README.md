@@ -80,7 +80,7 @@ target_link_libraries(<TARGET> PRIVATE liba::a)
 
 ```txt
 [requires]
-liba/0.1
+liba/[~0.1]
 ```
 
 ### Rust
