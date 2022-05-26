@@ -120,13 +120,16 @@ install(TARGETS ${DEFAULT_NAME}
 install(EXPORT ${PROJECT_NAME}-targets
   FILE ${PROJECT_NAME}-targets.cmake
   NAMESPACE ${PROJECT_NAME}::
-  DESTINATION share/${PROJECT_NAME}
+  DESTINATION lib/cmake/${PROJECT_NAME}
+  )
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+  DESTINATION lib/cmake/${PROJECT_NAME}
   )
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
-  DESTINATION share/${PROJECT_NAME}
+  DESTINATION lib/pkgconfig
   )
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
@@ -136,7 +139,7 @@ write_basic_package_version_file(
 configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-  INSTALL_DESTINATION share/${PROJECT_NAME}
+  INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}
   )
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc.in
