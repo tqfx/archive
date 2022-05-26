@@ -40,7 +40,7 @@ cmake --install build
 ```bash
 mkdir -p $VCPKG_INSTALLATION_ROOT/ports/liba
 cp vcpkg/* $VCPKG_INSTALLATION_ROOT/ports/liba
-vcpkg install liba
+$VCPKG_INSTALLATION_ROOT/vcpkg install liba
 ```
 
 ### conan
