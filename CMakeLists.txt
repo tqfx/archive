@@ -10,7 +10,6 @@ find_program(CLANG_FORMAT clang-format)
 find_program(CLANG_TIDY clang-tidy)
 find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
-find_program(BLACK black)
 include(cmake/core.cmake)
 set(DEFAULT_NAME a)
 
@@ -31,6 +30,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
 endif()
 include(cmake/standard.cmake)
 
+option(ENABLE_PYTHON "Enable python" ON)
+option(ENABLE_DOXYGEN "Enable doxygen" ON)
 option(ENABLE_WARNINGS "Enable warnings" OFF)
 option(ENABLE_SANITIZE "Enable sanitize" OFF)
 option(ENABLE_CPPCHECK "Enable cppcheck" OFF)
@@ -38,6 +39,12 @@ option(ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
 option(ENABLE_IYWU "Enable include-what-you-use" OFF)
 option(ENABLE_IPO "Enable interprocedural optimization" OFF)
 
+if(ENABLE_PYTHON)
+  find_package(Python)
+endif()
+if(ENABLE_DOXYGEN)
+  find_package(Doxygen OPTIONAL_COMPONENTS dot mscgen dia)
+endif()
 if(ENABLE_WARNINGS)
   include(cmake/warnings.cmake)
 endif()
@@ -93,20 +100,6 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-if(CLANG_FORMAT)
-  file(GLOB_RECURSE SOURCE include/*.h src/*.[ch] tests/*.[ch]*)
-  # https://clang.llvm.org/docs/ClangFormat.html
-  add_custom_target(${DEFAULT_NAME}-format
-    COMMAND ${CLANG_FORMAT} -style=file -i ${SOURCE} --verbose
-    )
-endif()
-if(BLACK)
-  # https://black.readthedocs.io/en/stable
-  add_custom_target(${DEFAULT_NAME}-black
-    COMMAND ${BLACK} -S ${CMAKE_CURRENT_LIST_DIR}
-    )
-endif()
-
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
@@ -147,8 +140,42 @@ configure_file(
   @ONLY
   )
 
-# https://www.doxygen.nl/manual/config.html
-find_package(Doxygen OPTIONAL_COMPONENTS dot mscgen dia)
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_LIST_DIR}/LICENSE.txt)
+set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/README.md)
+set(CPACK_SOURCE_IGNORE_FILES
+  ${CMAKE_CURRENT_LIST_DIR}/.git
+  ${CMAKE_CURRENT_LIST_DIR}/.vscode
+  ${CMAKE_CURRENT_LIST_DIR}/.github
+  ${CMAKE_CURRENT_LIST_DIR}/.gitignore
+  ${CMAKE_CURRENT_LIST_DIR}/.gitmodules
+  ${CMAKE_CURRENT_LIST_DIR}/.gitattributes
+  ${CMAKE_CURRENT_LIST_DIR}/build
+  ${CMAKE_CURRENT_LIST_DIR}/html
+  )
+include(CPack)
+
+if(CLANG_FORMAT)
+  file(GLOB_RECURSE SOURCE include/*.h src/*.[ch] tests/*.[ch]*)
+  # https://clang.llvm.org/docs/ClangFormat.html
+  add_custom_target(${DEFAULT_NAME}-format
+    COMMAND ${CLANG_FORMAT} -style=file -i ${SOURCE} --verbose
+    )
+endif()
+if(Python_Interpreter_FOUND)
+  # https://black.readthedocs.io/en/stable
+  add_custom_target(${DEFAULT_NAME}-black
+    COMMAND ${Python_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
+    )
+  # https://setuptools.readthedocs.io/en/stable
+  add_custom_target(${DEFAULT_NAME}-wheel
+    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py bdist_wheel
+    )
+  # https://cython.readthedocs.io/en/stable
+  add_custom_target(${DEFAULT_NAME}-cython
+    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
+    )
+endif()
 if(DOXYGEN_FOUND)
   # Project related configuration options
   set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
@@ -189,24 +216,10 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_INTERACTIVE_SVG YES)
     set(DOXYGEN_DOT_IMAGE_FORMAT svg)
   endif()
+  # https://www.doxygen.nl/manual/config.html
   doxygen_add_docs(${DEFAULT_NAME}-doc
     ${CMAKE_CURRENT_LIST_DIR}/README.md
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${CMAKE_CURRENT_LIST_DIR}/src
     )
 endif()
-
-include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_LIST_DIR}/LICENSE.txt)
-set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/README.md)
-set(CPACK_SOURCE_IGNORE_FILES
-  ${CMAKE_CURRENT_LIST_DIR}/.git
-  ${CMAKE_CURRENT_LIST_DIR}/.vscode
-  ${CMAKE_CURRENT_LIST_DIR}/.github
-  ${CMAKE_CURRENT_LIST_DIR}/.gitignore
-  ${CMAKE_CURRENT_LIST_DIR}/.gitmodules
-  ${CMAKE_CURRENT_LIST_DIR}/.gitattributes
-  ${CMAKE_CURRENT_LIST_DIR}/build
-  ${CMAKE_CURRENT_LIST_DIR}/html
-  )
-include(CPack)
