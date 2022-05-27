@@ -8,14 +8,6 @@ from sys import argv, executable
 from subprocess import Popen
 import os
 
-name = "a"
-version = "0.1.0"
-description = "An algorithm library based on C language."
-author = "tqfx"
-author_email = "tqfx@foxmail.com"
-url = "https://github.com/tqfx/liba.git"
-license = "MPL-2.0"
-
 script = os.path.abspath(argv[0])
 os.chdir(os.path.dirname(script))
 if len(argv) < 2:
@@ -24,12 +16,16 @@ from setuptools.command.build_ext import build_ext
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 from glob import glob
+from re import findall
 
 suffix_cc = (".c", ".cc", ".cpp", ".cxx", ".c++", ".m", ".mm")
 suffix_cy = (".pyx", ".py")
 
 sources = []
 sources_cy = []
+define_macros = []
+with open("setup.cfg", "r", encoding="UTF-8") as f:
+    version = findall(r"version = (.*)", f.read())
 for source in glob("src/**", recursive=True):
     if not os.path.isfile(source):
         continue
@@ -48,11 +44,13 @@ for source in glob("src/**", recursive=True):
     if suffix not in suffix_cc:
         continue
     sources.append(source)
+if version:
+    define_macros.append(("a_VERSION", "\"%s\"" % version[0]))
 ext_modules = Extension(
-    name=name,
+    name="a",
     sources=sources,
     include_dirs=["include"],
-    define_macros=[("a_VERSION", '"%s"' % (version))],
+    define_macros=define_macros,
 )
 
 
@@ -72,13 +70,6 @@ class Build(build_ext):
 
 try:
     setup(
-        name=name,
-        version=version,
-        description=description,
-        author=author,
-        author_email=author_email,
-        url=url,
-        license=license,
         cmdclass={"build_ext": Build},
         ext_modules=cythonize(
             ext_modules,
