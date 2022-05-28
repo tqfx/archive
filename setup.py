@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
  @file setup.py
- @brief python setup.py build_ext --inplace
+ @brief Setup this algorithm library using Cython.
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 '''
 from sys import argv, executable
@@ -15,43 +15,8 @@ if len(argv) < 2:
 from setuptools.command.build_ext import build_ext
 from setuptools import setup, Extension
 from Cython.Build import cythonize
-from glob import glob
 from re import findall
-
-suffix_cc = (".c", ".cc", ".cpp", ".cxx", ".c++", ".m", ".mm")
-suffix_cy = (".pyx", ".py")
-
-sources = []
-sources_cy = []
-define_macros = []
-with open("setup.cfg", "r", encoding="UTF-8") as f:
-    version = findall(r"version = (.*)", f.read())
-for source in glob("src/**", recursive=True):
-    if not os.path.isfile(source):
-        continue
-    prefix, suffix = os.path.splitext(source)
-    if suffix not in suffix_cy:
-        continue
-    sources.append(source)
-    sources_cy.append(source)
-    for suffix in suffix_cc:
-        if os.path.exists(prefix + suffix):
-            os.remove(prefix + suffix)
-for source in glob("src/**", recursive=True):
-    if not os.path.isfile(source):
-        continue
-    prefix, suffix = os.path.splitext(source)
-    if suffix not in suffix_cc:
-        continue
-    sources.append(source)
-if version:
-    define_macros.append(("a_VERSION", "\"%s\"" % version[0]))
-ext_modules = Extension(
-    name="a",
-    sources=sources,
-    include_dirs=["include"],
-    define_macros=define_macros,
-)
+from glob import glob
 
 
 class Build(build_ext):
@@ -67,6 +32,47 @@ class Build(build_ext):
                 ]
         super(Build, self).build_extensions()
 
+
+headers = []
+sources = []
+sources_cy = []
+define_macros = []
+suffix_cy = (".py", ".pyx")
+suffix_cc = (".c", ".cc", ".cpp", ".cxx")
+suffix_hh = (".h", ".hh", ".hpp", ".hxx")
+with open("setup.cfg", "r", encoding="UTF-8") as f:
+    version = findall(r"version = (.*)", f.read())
+if version:
+    define_macros.append(("a_VERSION", '"' + version[0] + '"'))
+for source in glob("src/**", recursive=True):
+    if not os.path.isfile(source):
+        continue
+    prefix, suffix = os.path.splitext(source)
+    if suffix not in suffix_cy:
+        continue
+    sources.append(source)
+    sources_cy.append(source)
+    for suffix in suffix_cc:
+        if os.path.exists(prefix + suffix):
+            os.remove(prefix + suffix)
+for source in glob("src/**", recursive=True):
+    if not os.path.isfile(source):
+        continue
+    prefix, suffix = os.path.splitext(source)
+    if suffix in suffix_cc:
+        sources.append(source)
+for header in glob("include/**", recursive=True):
+    if not os.path.isfile(header):
+        continue
+    prefix, suffix = os.path.splitext(header)
+    if suffix in suffix_hh:
+        headers.append(header)
+ext_modules = Extension(
+    name="a",
+    sources=sources,
+    include_dirs=["include"],
+    define_macros=define_macros,
+)
 
 try:
     setup(
