@@ -38,7 +38,7 @@ endforeach()
 add_executable(test-${DEFAULT_NAME} test.c)
 set_target_properties(test-${DEFAULT_NAME} PROPERTIES OUTPUT_NAME ${DEFAULT_NAME})
 target_link_libraries(test-${DEFAULT_NAME} ${PROJECT_NAME}::${DEFAULT_NAME})
-add_test(NAME test-${DEFAULT_NAME} COMMAND ${DEFAULT_NAME})
+add_test(NAME test-${DEFAULT_NAME} COMMAND $<TARGET_FILE:test-${DEFAULT_NAME}>)
 
 add_subdirectory(misc)
 add_subdirectory(poly)
