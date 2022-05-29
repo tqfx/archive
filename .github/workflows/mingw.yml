@@ -19,8 +19,10 @@ jobs:
       - name: Run apt-get
         run: |
           set -x
+          sudo dpkg --add-architecture i386
           sudo apt-get -y update
           sudo apt-get -y install mingw-w64
+          sudo apt-get -y install wine wine64
       - name: Run cmake
         run: |
           set -x
@@ -30,3 +32,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             --toolchain cmake/${{matrix.mingw}}.cmake
           cmake --build build
+      - name: Run ctest
+        run: |
+          set -x
+          cmake --build build -t test
