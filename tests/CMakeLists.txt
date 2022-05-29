@@ -1,3 +1,10 @@
+function(unit_test source target)
+  add_executable(test-${target} ${source})
+  set_target_properties(test-${target} PROPERTIES OUTPUT_NAME ${target})
+  target_link_libraries(test-${target} ${PROJECT_NAME}::${LIBRARY_NAME})
+  add_test(NAME test-${target} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:test-${target}> ${ARGN})
+endfunction()
+
 get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
 if("${CMAKE_C_COMPILER_ID}" MATCHES "MSVC")
@@ -35,10 +42,7 @@ foreach(lang ${enabled_languages})
   endif()
 endforeach()
 
-add_executable(test-${DEFAULT_NAME} test.c)
-set_target_properties(test-${DEFAULT_NAME} PROPERTIES OUTPUT_NAME ${DEFAULT_NAME})
-target_link_libraries(test-${DEFAULT_NAME} ${PROJECT_NAME}::${DEFAULT_NAME})
-add_test(NAME test-${DEFAULT_NAME} COMMAND $<TARGET_FILE:test-${DEFAULT_NAME}>)
+unit_test(test.c ${LIBRARY_NAME})
 
 add_subdirectory(misc)
 add_subdirectory(poly)
