@@ -21,8 +21,7 @@ jobs:
           set -x
           sudo dpkg --add-architecture i386
           sudo apt-get -y update
-          sudo apt-get -y install mingw-w64
-          sudo apt-get -y install wine wine64
+          sudo apt-get -y install mingw-w64 wine wine64
       - name: Run cmake
         run: |
           set -x
@@ -35,4 +34,4 @@ jobs:
       - name: Run ctest
         run: |
           set -x
-          cmake --build build -t test
+          cmake --build build --target test

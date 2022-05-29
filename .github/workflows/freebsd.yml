@@ -31,4 +31,4 @@ jobs:
               -DENABLE_SANITIZE=${{matrix.sanitizer}} \
               -DCMAKE_BUILD_TYPE=${{matrix.buildtype}}
             cmake --build build
-            cmake --build build -t test
+            cmake --build build --target test
