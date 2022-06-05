@@ -156,10 +156,10 @@ set(CPACK_SOURCE_IGNORE_FILES
 include(CPack)
 
 if(CLANG_FORMAT)
-  file(GLOB_RECURSE SOURCE include/*.h src/*.[ch] tests/*.[ch]*)
+  file(GLOB_RECURSE SOURCES include/*.h src/*.[ch] tests/*.[ch]*)
   # https://clang.llvm.org/docs/ClangFormat.html
   add_custom_target(${LIBRARY_NAME}-format
-    COMMAND ${CLANG_FORMAT} -style=file -i ${SOURCE} --verbose
+    COMMAND ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
     )
 endif()
 if(Python_Interpreter_FOUND)

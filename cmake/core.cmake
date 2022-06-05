@@ -1,4 +1,3 @@
-# core
 function(string_prefix variable)
   foreach(v ${ARGN})
     if(NOT ${variable})
