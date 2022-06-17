@@ -50,6 +50,7 @@ foreach(lang ${enabled_languages})
 endforeach()
 
 unit_test(test.c ${LIBRARY_NAME})
+unit_test(real.c real)
 
 add_subdirectory(misc)
 add_subdirectory(poly)
