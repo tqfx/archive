@@ -4,11 +4,13 @@ function(string_prefix variable)
       set(${variable} "${v}")
     else()
       string(FIND "${${variable}}" "${v}" r)
+
       if(${r} EQUAL -1)
         set(${variable} "${v} ${${variable}}")
       endif()
     endif()
   endforeach()
+
   set(${variable} "${${variable}}" PARENT_SCOPE)
 endfunction()
 
@@ -18,11 +20,13 @@ function(string_append variable)
       set(${variable} "${v}")
     else()
       string(FIND "${${variable}}" "${v}" r)
+
       if(${r} EQUAL -1)
         set(${variable} "${${variable}} ${v}")
       endif()
     endif()
   endforeach()
+
   set(${variable} "${${variable}}" PARENT_SCOPE)
 endfunction()
 
@@ -31,6 +35,7 @@ function(string_remove variable)
     string(REPLACE "${v} " "" ${variable} "${${variable}}")
     string(REPLACE "${v}" "" ${variable} "${${variable}}")
   endforeach()
+
   set(${variable} "${${variable}}" PARENT_SCOPE)
 endfunction()
 
@@ -40,6 +45,7 @@ function(list_append variable)
       list(APPEND ${variable} ${v})
     endif()
   endforeach()
+
   set(${variable} ${${variable}} PARENT_SCOPE)
 endfunction()
 
@@ -49,5 +55,6 @@ function(list_remove variable)
       list(REMOVE_ITEM ${variable} ${v})
     endif()
   endforeach()
+
   set(${variable} ${${variable}} PARENT_SCOPE)
 endfunction()
