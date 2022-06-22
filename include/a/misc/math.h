@@ -45,10 +45,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 /*!
- @brief fast inverse square-root, to calculate 1 / sqrtf(x)
+ @brief fast inverse square-root, to calculate @f$ \frac{1}{\sqrt{x}} @f$
  @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
 */
-A_PUBLIC float a_inv_sqrt(float x);
+A_PUBLIC float a_sqrt_inv(float x);
 
 /*!
  @brief fast sqrt for unsigned integer

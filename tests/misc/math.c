@@ -87,7 +87,7 @@ int main(void)
     {
         printf("1/sqrt(%g):\t%-10g%-10g\n", (double)datasqrt[i],
                1 / (double)sqrtf(datasqrt[i]),
-               (double)a_inv_sqrt(datasqrt[i]));
+               (double)a_sqrt_inv(datasqrt[i]));
     }
 
     printf("a_sqrt(4):\t%-10" PRIu32 "%-10" PRIu64 "\n", a_sqrt_u32(4), a_sqrt_u64(4));

@@ -41,7 +41,7 @@
 #define NORM3(x, y, z)                                  \
     do                                                  \
     {                                                   \
-        float norm = a_inv_sqrt(x * x + y * y + z * z); \
+        float norm = a_sqrt_inv(x * x + y * y + z * z); \
         x *= norm;                                      \
         y *= norm;                                      \
         z *= norm;                                      \
@@ -52,7 +52,7 @@
 #define NORM4(w, x, y, z)                       \
     do                                          \
     {                                           \
-        float norm = a_inv_sqrt(w * w + x * x + \
+        float norm = a_sqrt_inv(w * w + x * x + \
                                 y * y + z * z); \
         w *= norm;                              \
         x *= norm;                              \

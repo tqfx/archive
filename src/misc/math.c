@@ -9,27 +9,27 @@
 #include <assert.h>
 #include <stdarg.h>
 
-float a_inv_sqrt(float x)
+float a_sqrt_inv(float x)
 {
     union
     {
         float x;
-        uint32_t l;
+        uint32_t u;
     } u[1] = {{x}};
     if (x > 0)
     {
         float xh = 0.5F * x;
-        u->l = 0x5F3759DF - (u->l >> 1);
-        u->x = u->x * (1.5F - (xh * u->x * u->x));
-        u->x = u->x * (1.5F - (xh * u->x * u->x));
+        u->u = 0x5F3759DF - (u->u >> 1);
+        u->x *= (1.5F - (xh * u->x * u->x));
+        u->x *= (1.5F - (xh * u->x * u->x));
     }
     else if (x < 0)
     {
-        u->l = 0xFFC00000;
+        u->u = 0xFFC00000;
     }
     else
     {
-        u->l = 0x7F800000;
+        u->u = 0x7F800000;
     }
     return u->x;
 }
@@ -70,7 +70,7 @@ void a_normalizef(float *dat, size_t num)
         norm += A_SQ(*p);
     }
 
-    norm = a_inv_sqrt(norm);
+    norm = a_sqrt_inv(norm);
 
     for (float *p = dat; p != q; ++p)
     {
@@ -91,7 +91,7 @@ void a_normalizevf(unsigned int num, ...)
     }
     va_end(ap);
 
-    norm = a_inv_sqrt(norm);
+    norm = a_sqrt_inv(norm);
 
     va_start(ap, num);
     for (unsigned int n = num; n; --n)
