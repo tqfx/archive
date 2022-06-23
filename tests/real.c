@@ -252,7 +252,7 @@ static void test_diff(size_t n)
 
     free(p);
 
-    printf("algorithm(1) %zu\nalgorithm(2) %zu\nalgorithm(3) %zu\n", t1, t2, t3);
+    printf("algorithm(1) %ld\nalgorithm(2) %ld\nalgorithm(3) %ld\n", t1, t2, t3);
 }
 
 int main(int argc, char *argv[])
