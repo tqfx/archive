@@ -197,8 +197,11 @@ if(DOXYGEN_FOUND)
 
   # Build related configuration options
   # Configuration options related to warning and progress messages
+  set(DOXYGEN_WARN_LOGFILE doxygen.log)
+
   # Configuration options related to the input files
   set(DOXYGEN_RECURSIVE YES)
+  set(DOXYGEN_EXCLUDE_SYMBOLS "__*")
 
   # Configuration options related to source browsing
   # Configuration options related to the alphabetical class index
