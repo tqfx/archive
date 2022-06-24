@@ -9,28 +9,13 @@
 #define __A_GMATH_H__
 
 #include "../def.h"
+#include "../complex.h"
 
 #if defined(_MSC_VER)
 #include <math.h>
-#include <complex.h>
-typedef _Fcomplex a_complex_f;
-typedef _Dcomplex a_complex_d;
-typedef _Lcomplex a_complex_l;
-#else
+#else /* !_MSC_VER */
 #include <tgmath.h>
-typedef float _Complex a_complex_f;
-typedef double _Complex a_complex_d;
-typedef long double _Complex a_complex_l;
 #endif /* _MSC_VER */
-
-#if A_DEFAULT_FLOAT == 0
-typedef a_complex_f a_complex_t;
-#elif A_DEFAULT_FLOAT == 1
-typedef a_complex_d a_complex_t;
-#elif A_DEFAULT_FLOAT == 2
-typedef a_complex_l a_complex_t;
-#endif /* A_DEFAULT_FLOAT */
-typedef a_complex_t a_imag_t;
 
 #if defined(_MSC_VER) && defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 /* clang-format off */

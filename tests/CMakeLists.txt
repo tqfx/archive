@@ -51,6 +51,7 @@ endforeach()
 
 unit_test(test.c ${LIBRARY_NAME})
 unit_test(real.c real)
+unit_test(imag.c imag)
 
 add_subdirectory(misc)
 add_subdirectory(poly)
