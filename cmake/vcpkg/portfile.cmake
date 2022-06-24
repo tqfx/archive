@@ -1,5 +1,5 @@
 vcpkg_from_git(OUT_SOURCE_PATH SOURCE_PATH
-  REF 1bbc8c085e5d2e3ac4b5ff92aeef30595f3341d7
+  REF @GIT_REF@
   URL https://github.com/tqfx/${PORT}.git
   HEAD_REF master
 )

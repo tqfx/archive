@@ -1,0 +1,12 @@
+{
+  "name": "@PROJECT_NAME@",
+  "version": "@PROJECT_VERSION@",
+  "license": "@PROJECT_LICENSE@",
+  "homepage": "@PROJECT_HOMEPAGE_URL@",
+  "description": "@PROJECT_DESCRIPTION@",
+  "features": {
+    "ipo": {
+      "description": "Enable interprocedural optimization"
+    }
+  }
+}

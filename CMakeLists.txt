@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 
 if("${VCPKG_TARGET_TRIPLET}" MATCHES "x86-mingw(.*)")
   include(cmake/mingw32.cmake)
@@ -12,8 +12,9 @@ find_program(CLANG_TIDY clang-tidy)
 find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
 include(cmake/core.cmake)
-set(LIBRARY_NAME a)
 
+set(LIBRARY_NAME a)
+set(PROJECT_LICENSE "MPL-2.0")
 project(lib${LIBRARY_NAME} VERSION 0.1.0 LANGUAGES C
   DESCRIPTION "An algorithm library based on C language."
   HOMEPAGE_URL "https://github.com/tqfx/lib${LIBRARY_NAME}.git"
@@ -34,6 +35,7 @@ endif()
 
 include(cmake/standard.cmake)
 
+option(ENABLE_VCPKG "Enable vcpkg" OFF)
 option(ENABLE_PYTHON "Enable python" ON)
 option(ENABLE_DOXYGEN "Enable doxygen" ON)
 option(ENABLE_WARNINGS "Enable warnings" OFF)
@@ -42,6 +44,8 @@ option(ENABLE_CPPCHECK "Enable cppcheck" OFF)
 option(ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
 option(ENABLE_IYWU "Enable include-what-you-use" OFF)
 option(ENABLE_IPO "Enable interprocedural optimization" OFF)
+
+find_package(Git)
 
 if(ENABLE_PYTHON)
   find_package(Python)
@@ -64,10 +68,20 @@ if(ENABLE_IPO)
   check_ipo_supported(RESULT ENABLE_IPO)
 endif()
 
+if(GIT_FOUND)
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} log -1 --pretty=format:%H
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE GIT_REF
+    ERROR_QUIET
+  )
+endif()
+
 set(${LIBRARY_NAME}_VERSION ${PROJECT_VERSION})
 find_library(MATH_LIBRARIES NAMES m)
 configure_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h.in
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
   ${CMAKE_CURRENT_LIST_DIR}/src/config.h
 )
 file(GLOB_RECURSE SOURCES include/*.h src/*.h src/*.c)
@@ -133,25 +147,47 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
   DESTINATION lib/cmake/${PROJECT_NAME}
 )
-install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  DESTINATION lib/pkgconfig
-)
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
   COMPATIBILITY AnyNewerVersion
 )
 configure_package_config_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
   INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}
 )
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  DESTINATION lib/pkgconfig
+)
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc.in
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
   @ONLY
 )
+
+if(ENABLE_VCPKG)
+  if(DEFINED ENV{VCPKG_INSTALLATION_ROOT})
+    install(
+      DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg/
+      DESTINATION $ENV{VCPKG_INSTALLATION_ROOT}
+    )
+  else()
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg DESTINATION share)
+  endif()
+
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/vcpkg/portfile.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/vcpkg/ports/${PROJECT_NAME}/portfile.cmake
+    @ONLY
+  )
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/vcpkg/vcpkg.json
+    ${CMAKE_CURRENT_BINARY_DIR}/vcpkg/ports/${PROJECT_NAME}/vcpkg.json
+    @ONLY
+  )
+endif()
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_LIST_DIR}/LICENSE.txt)
