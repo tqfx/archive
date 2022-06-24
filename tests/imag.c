@@ -14,38 +14,38 @@
 static void test(void)
 {
     {
-        a_imag_t a = A_IMAG_C(1, 1);
-        a_imag_t b = A_IMAG_C(1, 1);
+        a_imag_t a = A_IMAG_C(1.0, 1.0);
+        a_imag_t b = A_IMAG_C(1.0, 1.0);
         a_imag_t c;
 
         a_imag_add(1, &c, &a, &b);
-        printf("+:" A_IMAG_P(g) "+" A_IMAG_P(g) "i\n", a_imag_real(c), a_imag_imag(c));
+        printf("+:%" A_IMAG_P "g+%" A_IMAG_P "gi\n", a_imag_real(c), a_imag_imag(c));
 
         a_imag_sub(1, &c, &a, &b);
-        printf("-:" A_IMAG_P(g) "+" A_IMAG_P(g) "i\n", a_imag_real(c), a_imag_imag(c));
+        printf("-:%" A_IMAG_P "g+%" A_IMAG_P "gi\n", a_imag_real(c), a_imag_imag(c));
 
         a_imag_mul(1, &c, &a, &b);
-        printf("*:" A_IMAG_P(g) "+" A_IMAG_P(g) "i\n", a_imag_real(c), a_imag_imag(c));
+        printf("*:%" A_IMAG_P "g+%" A_IMAG_P "gi\n", a_imag_real(c), a_imag_imag(c));
 
         a_imag_div(1, &c, &a, &b);
-        printf("/:" A_IMAG_P(g) "+" A_IMAG_P(g) "i\n", a_imag_real(c), a_imag_imag(c));
+        printf("/:%" A_IMAG_P "g+%" A_IMAG_P "gi\n", a_imag_real(c), a_imag_imag(c));
     }
     {
-        a_complex_t a = A_COMPLEX_C(1, 1);
-        a_complex_t b = A_COMPLEX_C(1, 1);
+        a_complex_t a = A_COMPLEX_C(1.0, 1.0);
+        a_complex_t b = A_COMPLEX_C(1.0, 1.0);
         a_complex_t c;
 
         a_complex_add(1, &c, &a, &b);
-        printf("+:" A_REAL_P(g) "+" A_REAL_P(g) "i\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
+        printf("+:%" A_REAL_P "g+%" A_REAL_P "gi\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
 
         a_complex_sub(1, &c, &a, &b);
-        printf("-:" A_REAL_P(g) "+" A_REAL_P(g) "i\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
+        printf("-:%" A_REAL_P "g+%" A_REAL_P "gi\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
 
         a_complex_mul(1, &c, &a, &b);
-        printf("*:" A_REAL_P(g) "+" A_REAL_P(g) "i\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
+        printf("*:%" A_REAL_P "g+%" A_REAL_P "gi\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
 
         a_complex_div(1, &c, &a, &b);
-        printf("/:" A_REAL_P(g) "+" A_REAL_P(g) "i\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
+        printf("/:%" A_REAL_P "g+%" A_REAL_P "gi\n", A_REAL_F(creal, c), A_REAL_F(cimag, c));
     }
 }
 

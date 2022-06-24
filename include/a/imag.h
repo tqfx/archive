@@ -22,20 +22,20 @@ typedef a_imag_s a_imag_t;
 #define a_imag_imag(ctx) (ctx).i
 
 #if A_DEF_FLOAT == 0
-#define A_IMAG_P(X) "%" #X
+#define A_IMAG_P
 #define A_IMAG_C(R, I) \
     {                  \
         R##F, I##F     \
     }
 #elif A_DEF_FLOAT == 1
 typedef double a_real_t;
-#define A_IMAG_P(X) "%" #X
+#define A_IMAG_P
 #define A_IMAG_C(R, I) \
     {                  \
         R, I           \
     }
 #elif A_DEF_FLOAT == 2
-#define A_IMAG_P(X) "%L" #X
+#define A_IMAG_P "L"
 #define A_IMAG_C(R, I) \
     {                  \
         R##L, I##L     \

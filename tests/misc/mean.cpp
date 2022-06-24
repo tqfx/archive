@@ -26,25 +26,25 @@ static void test(int argc, char *argv[])
     for (int i = 1; i != argc; ++i, ++p)
     {
         *p = static_cast<a_real_t>(atof(argv[i]));
-        printf(A_REAL_P(g) " ", *p);
+        printf("%" A_REAL_P "g ", *p);
     }
     printf("\n");
 
     a_mean_init(ctx, A_MEAN_ARITHMETIC);
     a_mean_proc(ctx, a, n);
-    printf("arithmetic: " A_REAL_P(g) "\n", a_mean_done(ctx));
+    printf("arithmetic: %" A_REAL_P "g\n", a_mean_done(ctx));
 
     a_mean_init(ctx, A_MEAN_GEOMETRIC);
     a_mean_proc(ctx, a, n);
-    printf("geometric: " A_REAL_P(g) "\n", a_mean_done(ctx));
+    printf("geometric: %" A_REAL_P "g\n", a_mean_done(ctx));
 
     a_mean_init(ctx, A_MEAN_HARMONIC);
     a_mean_proc(ctx, a, n);
-    printf("harmonic: " A_REAL_P(g) "\n", a_mean_done(ctx));
+    printf("harmonic: %" A_REAL_P "g\n", a_mean_done(ctx));
 
     a_mean_init(ctx, A_MEAN_SQUARE);
     a_mean_proc(ctx, a, n);
-    printf("square: " A_REAL_P(g) "\n", a_mean_done(ctx));
+    printf("square: %" A_REAL_P "g\n", a_mean_done(ctx));
 
     free(a);
 }

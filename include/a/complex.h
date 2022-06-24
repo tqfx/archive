@@ -30,7 +30,7 @@ typedef long double _Complex a_complex_l;
 #if A_DEF_FLOAT == 0
 
 typedef a_complex_f a_complex_t;
-#define A_COMPLEX_P(X) "%" #X
+#define A_COMPLEX_P
 #if defined(_MSC_VER)
 #define A_COMPLEX_C(R, I) _FCbuild(R, I)
 #else /* !_MSC_VER */
@@ -41,7 +41,7 @@ typedef a_complex_f a_complex_t;
 #elif A_DEF_FLOAT == 1
 
 typedef a_complex_d a_complex_t;
-#define A_COMPLEX_P(X) "%" #X
+#define A_COMPLEX_P
 #if defined(_MSC_VER)
 #define A_COMPLEX_C(R, I) _Cbuild(R, I)
 #else /* !_MSC_VER */
@@ -52,7 +52,7 @@ typedef a_complex_d a_complex_t;
 #elif A_DEF_FLOAT == 2
 
 typedef a_complex_l a_complex_t;
-#define A_COMPLEX_P(X) "%L" #X
+#define A_COMPLEX_P "L"
 #if defined(_MSC_VER)
 #define A_COMPLEX_C(R, I) _LCbuild(R, I)
 #else /* !_MSC_VER */

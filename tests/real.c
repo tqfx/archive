@@ -16,7 +16,7 @@ static void format(a_real_t *p, size_t n)
     putchar('{');
     for (a_real_t *q = p + n; p != q; ++p)
     {
-        printf("%+g,", *p);
+        printf("%+" A_REAL_P "g,", *p);
     }
     putchar('}');
 }
