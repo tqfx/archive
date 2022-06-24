@@ -1,6 +1,6 @@
 /*!
  @file real.c
- @brief real number operation
+ @brief real number
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

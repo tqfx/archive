@@ -60,16 +60,16 @@
 #define A_EXPORT __attribute__((__visibility__("default")))
 #define A_IMPORT __attribute__((__visibility__("default")))
 #define A_HIDDEN __attribute__((__visibility__("hidden")))
-#else
+#else /* !__has_attribute(visibility) */
 #define A_EXPORT
 #define A_IMPORT
 #define A_HIDDEN
-#endif /* visibility */
+#endif /* __has_attribute(visibility) */
 #if defined(a_EXPORTS)
 #define A_PUBLIC A_EXPORT
 #elif defined(a_SHARED)
 #define A_PUBLIC A_IMPORT
-#else
+#else /* !A_PUBLIC */
 #define A_PUBLIC
 #endif /* A_PUBLIC */
 
@@ -96,6 +96,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifndef A_DEF_FLOAT
+#define A_DEF_FLOAT 1
+#endif /* A_DEF_FLOAT */
+
 /*!
  @defgroup LIBA Algorithm library
 */
@@ -109,28 +113,6 @@ enum
     A_OVERFLOW = -4,
     A_NOTFOUND = -5,
 };
-
-#ifndef A_DEFAULT_FLOAT
-#define A_DEFAULT_FLOAT 1
-#endif /* A_DEFAULT_FLOAT */
-#if A_DEFAULT_FLOAT == 0
-typedef float a_real_t;
-#define A_REAL_C(X)      X##F
-#define A_REAL_P(X)      "%" #X
-#define A_REAL_F(F, ...) F##f(__VA_ARGS__)
-#elif A_DEFAULT_FLOAT == 1
-typedef double a_real_t;
-#define A_REAL_C(X)      X
-#define A_REAL_P(X)      "%" #X
-#define A_REAL_F(F, ...) F(__VA_ARGS__)
-#elif A_DEFAULT_FLOAT == 2
-typedef long double a_real_t;
-#define A_REAL_C(X)      X##L
-#define A_REAL_P(X)      "%L" #X
-#define A_REAL_F(F, ...) F##l(__VA_ARGS__)
-#else /* !A_DEFAULT_FLOAT */
-#error unknown default float
-#endif /* A_DEFAULT_FLOAT */
 
 #ifndef offsetof
 #define offsetof(type, member) (size_t)(&(((type *)0)->member))

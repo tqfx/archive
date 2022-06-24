@@ -1294,7 +1294,7 @@
 #define NOTEFREQS_FREQ_Bb8 7560.33 /*!< Bb8 7560.33    4.56 */
 #define NOTEFREQS_FREQ_B8  8009.89 /*!< B8  8009.89    4.31 */
 
-#else
+#else /* !NOTEFREQS_MIDDLE_A4 */
 
 #error NOTEFREQS_MIDDLE_A4 must be one of 432,434,436,438,440,442,444,446
 

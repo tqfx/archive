@@ -18,6 +18,7 @@
 #define __A_LPF_H__
 
 #include "../def.h"
+#include "../real.h"
 
 /*!
  @brief Instance structure for Low Pass Filter

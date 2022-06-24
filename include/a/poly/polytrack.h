@@ -10,6 +10,7 @@
 #define __A_POLYTRACK_H__
 
 #include "../def.h"
+#include "../real.h"
 
 /*!
  @brief Instance structure for cubic polynomial trajectory

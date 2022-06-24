@@ -12,8 +12,12 @@
 const char *a_version(void)
 {
 #if defined(a_VERSION)
+
     return a_VERSION;
-#else
+
+#else /* !a_VERSION */
+
     return "";
+
 #endif /* a_VERSION */
 }

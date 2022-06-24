@@ -52,7 +52,7 @@
         uint64_t v__ = x;   \
         memcpy(y, &v__, 8); \
     } while (0)
-#else
+#else /* !ENDIAN_NEUTRAL */
 #define LOAD32L(x, y)                               \
     do                                              \
     {                                               \
@@ -110,7 +110,7 @@
         uint32_t v__ = __builtin_bswap32(x); \
         memcpy(y, &v__, 4);                  \
     } while (0)
-#else
+#else /* !__has_builtin(__builtin_bswap32) */
 #define LOAD32H(x, y)                               \
     do                                              \
     {                                               \
@@ -144,7 +144,7 @@
         uint64_t v__ = __builtin_bswap64(x); \
         memcpy(y, &v__, 8);                  \
     } while (0)
-#else
+#else /* !__has_builtin(__builtin_bswap64) */
 #define LOAD64H(x, y)                                 \
     do                                                \
     {                                                 \

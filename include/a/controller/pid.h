@@ -36,6 +36,7 @@
 #define __A_PID_H__
 
 #include "../def.h"
+#include "../real.h"
 
 /*!
  @brief Instance enumeration for PID control mode

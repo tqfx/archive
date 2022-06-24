@@ -9,6 +9,7 @@
 #define __A_FUZZY_H__
 
 #include "../def.h"
+#include "../real.h"
 
 #include <math.h>
 
