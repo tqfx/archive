@@ -122,17 +122,6 @@ enum
 #define containerof(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
 #endif /* containerof */
 
-#ifndef roundup32
-#define roundup32(x)     \
-    (--(x),              \
-     (x) |= (x) >> 0x01, \
-     (x) |= (x) >> 0x02, \
-     (x) |= (x) >> 0x04, \
-     (x) |= (x) >> 0x08, \
-     (x) |= (x) >> 0x10, \
-     ++(x))
-#endif /* roundup32 */
-
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */

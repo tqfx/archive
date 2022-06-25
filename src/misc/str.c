@@ -10,6 +10,17 @@
 #include <assert.h>
 #include <stdio.h>
 
+#ifndef roundup32
+#define roundup32(x)     \
+    (--(x),              \
+     (x) |= (x) >> 0x01, \
+     (x) |= (x) >> 0x02, \
+     (x) |= (x) >> 0x04, \
+     (x) |= (x) >> 0x08, \
+     (x) |= (x) >> 0x10, \
+     ++(x))
+#endif /* roundup32 */
+
 A_OOP_NEW(a_str_s, a_str_new, a_str_ctor)
 A_OOP_DIE(a_str_s, a_str_die, a_str_dtor)
 
