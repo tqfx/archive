@@ -12,13 +12,13 @@
 
 #include <float.h>
 
-#define A_DBL_C(x)  (x)
-#define A_FLT_C(x)  (x##F)
-#define A_LDBL_C(x) (x##L)
+#define A_DBL_C(X)  (X)
+#define A_FLT_C(X)  (X##F)
+#define A_LDBL_C(X) (X##L)
 
-#define A_DBL_F(func, ...)  func(__VA_ARGS__)
-#define A_FLT_F(func, ...)  func##f(__VA_ARGS__)
-#define A_LDBL_F(func, ...) func##l(__VA_ARGS__)
+#define A_DBL_F(F, ...)  F(__VA_ARGS__)
+#define A_FLT_F(F, ...)  F##f(__VA_ARGS__)
+#define A_LDBL_F(F, ...) F##l(__VA_ARGS__)
 
 #define A_E        2.71828182845904523536  //!< e
 #define A_LOG2E    1.44269504088896340736  //!< log2(e)
@@ -37,6 +37,8 @@
 #define A_SQ(x) ((x) * (x))
 
 #define A_ABS(x) ((x) < 0 ? -(x) : (x))
+
+#define A_SIGN(x) ((0 < (x)) - ((x) < 0))
 
 #define A_LIMIT(x, min, max) ((min) < (x) ? ((x) < (max) ? (x) : (max)) : (min))
 
