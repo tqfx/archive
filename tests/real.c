@@ -11,6 +11,11 @@
 #include <stdio.h>
 #include <time.h>
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* __GNUC__ || __clang__ */
+
 static void format(a_real_t *p, size_t n)
 {
     putchar('{');
@@ -21,6 +26,10 @@ static void format(a_real_t *p, size_t n)
     putchar('}');
 }
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* __GNUC__ || __clang__ */
+
 static void test_add(void)
 {
 #define N 10
@@ -29,12 +38,12 @@ static void test_add(void)
     a_real_t r[N] = {-1, -2, -3, -4, -5, -6, -7, -8, -9, -0};
     a_real_t p[N];
 
-    a_real_add(N, p, l, r);
+    a_real_nadd(N, p, l, r);
     printf("a + b = ");
     format(p, N);
     putchar('\n');
 
-    a_real_add1(N, p, r, 5);
+    a_real_nadd1(N, p, r, 5);
     printf("5 + b = ");
     format(p, N);
     putchar('\n');
@@ -50,17 +59,17 @@ static void test_sub(void)
     a_real_t r[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +0};
     a_real_t p[N];
 
-    a_real_sub(N, p, l, r);
+    a_real_nsub(N, p, l, r);
     printf("a - b = ");
     format(p, N);
     putchar('\n');
 
-    a_real_subl(N, p, 5, r);
+    a_real_nsubl(N, p, 5, r);
     printf("5 - b = ");
     format(p, N);
     putchar('\n');
 
-    a_real_subr(N, p, l, 5);
+    a_real_nsubr(N, p, l, 5);
     printf("a - 5 = ");
     format(p, N);
     putchar('\n');
@@ -76,12 +85,12 @@ static void test_mul(void)
     a_real_t r[N] = {+1, +1, +1, +1, +1, +1, +1, +1, +1, +00};
     a_real_t p[N];
 
-    a_real_mul(N, p, l, r);
+    a_real_nmul(N, p, l, r);
     printf("a * b = ");
     format(p, N);
     putchar('\n');
 
-    a_real_mul1(N, p, l, 0);
+    a_real_nmul1(N, p, l, 0);
     printf("a * 0 = ");
     format(p, N);
     putchar('\n');
@@ -97,17 +106,17 @@ static void test_div(void)
     a_real_t r[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +10};
     a_real_t p[N];
 
-    a_real_div(N, p, l, r);
+    a_real_ndiv(N, p, l, r);
     printf("a / b = ");
     format(p, N);
     putchar('\n');
 
-    a_real_divl(N, p, 0, r);
+    a_real_ndivl(N, p, 0, r);
     printf("0 / b = ");
     format(p, N);
     putchar('\n');
 
-    a_real_divr(N, p, l, 1);
+    a_real_ndivr(N, p, l, 1);
     printf("a / 1 = ");
     format(p, N);
     putchar('\n');
