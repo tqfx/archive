@@ -16,113 +16,19 @@
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif /* __GNUC__ || __clang__ */
 
-static void format(a_real_t *p, size_t n)
+static void test(void)
 {
-    putchar('{');
-    for (a_real_t *q = p + n; p != q; ++p)
-    {
-        printf("%+" A_REAL_P "g,", *p);
-    }
-    putchar('}');
+    a_real_t l = 1;
+    a_real_t r = 2;
+    printf("%" A_REAL_P "g+%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_add(l, r));
+    printf("%" A_REAL_P "g-%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_sub(l, r));
+    printf("%" A_REAL_P "g*%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_mul(l, r));
+    printf("%" A_REAL_P "g/%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_div(l, r));
 }
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
-
-static void test_add(void)
-{
-#define N 10
-
-    a_real_t l[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +0};
-    a_real_t r[N] = {-1, -2, -3, -4, -5, -6, -7, -8, -9, -0};
-    a_real_t p[N];
-
-    a_real_nadd(N, p, l, r);
-    printf("a + b = ");
-    format(p, N);
-    putchar('\n');
-
-    a_real_nadd1(N, p, r, 5);
-    printf("5 + b = ");
-    format(p, N);
-    putchar('\n');
-
-#undef N
-}
-
-static void test_sub(void)
-{
-#define N 10
-
-    a_real_t l[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +0};
-    a_real_t r[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +0};
-    a_real_t p[N];
-
-    a_real_nsub(N, p, l, r);
-    printf("a - b = ");
-    format(p, N);
-    putchar('\n');
-
-    a_real_nsubl(N, p, 5, r);
-    printf("5 - b = ");
-    format(p, N);
-    putchar('\n');
-
-    a_real_nsubr(N, p, l, 5);
-    printf("a - 5 = ");
-    format(p, N);
-    putchar('\n');
-
-#undef N
-}
-
-static void test_mul(void)
-{
-#define N 10
-
-    a_real_t l[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +10};
-    a_real_t r[N] = {+1, +1, +1, +1, +1, +1, +1, +1, +1, +00};
-    a_real_t p[N];
-
-    a_real_nmul(N, p, l, r);
-    printf("a * b = ");
-    format(p, N);
-    putchar('\n');
-
-    a_real_nmul1(N, p, l, 0);
-    printf("a * 0 = ");
-    format(p, N);
-    putchar('\n');
-
-#undef N
-}
-
-static void test_div(void)
-{
-#define N 10
-
-    a_real_t l[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +10};
-    a_real_t r[N] = {+1, +2, +3, +4, +5, +6, +7, +8, +9, +10};
-    a_real_t p[N];
-
-    a_real_ndiv(N, p, l, r);
-    printf("a / b = ");
-    format(p, N);
-    putchar('\n');
-
-    a_real_ndivl(N, p, 0, r);
-    printf("0 / b = ");
-    format(p, N);
-    putchar('\n');
-
-    a_real_ndivr(N, p, l, 1);
-    printf("a / 1 = ");
-    format(p, N);
-    putchar('\n');
-
-#undef N
-}
 
 static void real_add1(size_t n, a_real_t *p, a_real_t *l, a_real_t *r)
 {
@@ -212,6 +118,11 @@ static void real_add3(size_t n, a_real_t *p, a_real_t *l, a_real_t *r)
 
 static void test_diff(size_t n)
 {
+    if (n == 0)
+    {
+        return;
+    }
+
     a_real_t *p = (a_real_t *)malloc(sizeof(a_real_t) * n);
 
     clock_t t1;
@@ -266,10 +177,7 @@ static void test_diff(size_t n)
 
 int main(int argc, char *argv[])
 {
-    test_add();
-    test_sub();
-    test_mul();
-    test_div();
+    test();
 
     if (argc > 1)
     {

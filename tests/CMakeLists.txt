@@ -53,6 +53,10 @@ unit_test(test.c ${LIBRARY_NAME})
 unit_test(real.c real)
 unit_test(imag.c imag)
 
+if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)
+  unit_test(imag.cpp imag+)
+endif()
+
 add_subdirectory(misc)
 add_subdirectory(poly)
 add_subdirectory(cksum)
