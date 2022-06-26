@@ -49,7 +49,10 @@ macro(check_flag_xx)
 endmacro()
 
 # GNU
-if("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
+if(
+  "${CMAKE_C_COMPILER_ID}" MATCHES "GNU" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU"
+)
   check_flag_cc(-Winit-self)
   check_flag_cc(-Wc++-compat)
   check_flag_cc(-Wbad-function-cast)
@@ -95,8 +98,12 @@ if("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
 endif()
 
 # Clang
-if("${CMAKE_C_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
-  "${CMAKE_C_COMPILER_ID}" MATCHES "IntelLLVM")
+if(
+  "${CMAKE_C_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
+  "${CMAKE_C_COMPILER_ID}" MATCHES "IntelLLVM" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
+)
   check_flag(-Weverything)
   check_flag(-Wno-reserved-id-macro)
   check_flag(-Wno-reserved-identifier)

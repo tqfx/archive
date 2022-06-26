@@ -1,13 +1,9 @@
-function(unit_test source target)
-  add_executable(test-${target} ${source})
-  set_target_properties(test-${target} PROPERTIES OUTPUT_NAME ${target})
-  target_link_libraries(test-${target} ${PROJECT_NAME}::${LIBRARY_NAME})
-  add_test(NAME test-${target} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:test-${target}> ${ARGN})
-endfunction()
-
 get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
-if("${CMAKE_C_COMPILER_ID}" MATCHES "MSVC")
+if(
+  "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
+)
   foreach(v /W4 /sdl)
     string_append(CMAKE_C_FLAGS ${v})
     string_append(CMAKE_CXX_FLAGS ${v})
@@ -49,12 +45,20 @@ foreach(lang ${enabled_languages})
   endif()
 endforeach()
 
+function(unit_test source target)
+  set(TARGET ${LIBRARY_NAME}-test-${target})
+  add_executable(${TARGET} ${source})
+  set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
+  target_link_libraries(${TARGET} ${PROJECT_NAME}::${LIBRARY_NAME})
+  add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${ARGN})
+endfunction()
+
 unit_test(test.c ${LIBRARY_NAME})
 unit_test(real.c real)
 unit_test(imag.c imag)
 
 if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)
-  unit_test(imag.cpp imag+)
+  unit_test(imag.cpp imag++)
 endif()
 
 add_subdirectory(misc)
