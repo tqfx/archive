@@ -38,15 +38,14 @@ cmake --install build
 ### vcpkg
 
 ```bash
-mkdir -p $VCPKG_INSTALLATION_ROOT/ports/liba
-cp vcpkg/* $VCPKG_INSTALLATION_ROOT/ports/liba
-$VCPKG_INSTALLATION_ROOT/vcpkg install liba
+cmake -S . -B build -DENABLE_VCPKG=ON
+cp -r build/vcpkg/* $VCPKG_INSTALLATION_ROOT
 ```
 
 ### conan
 
 ```bash
-conan create . -s build_type=RelWithDebInfo
+conan create .
 ```
 
 ### cargo
