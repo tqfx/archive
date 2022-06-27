@@ -1,9 +1,3 @@
-'''
- @file mf.pxd
- @brief cython for membership function
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 cdef extern from "a/controller/mf.h":
     ctypedef enum a_mf_e "a_mf_e":
         A_MF_NONE  "A_MF_NONE"

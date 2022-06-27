@@ -1,9 +1,3 @@
-'''
- @file pid.pxd
- @brief cython for Proportional Integral Derivative Algorithm
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 from libc.stdint cimport *
 
 cdef extern from "a/controller/pid.h":

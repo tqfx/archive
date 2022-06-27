@@ -1,9 +1,3 @@
-'''
- @file fpid.pxd
- @brief cython for Fuzzy Proportional Integral Derivative Algorithm
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 from pid cimport *
 
 cdef extern from "a/controller/fpid.h":

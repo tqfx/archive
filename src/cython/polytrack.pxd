@@ -1,9 +1,3 @@
-'''
- @file polytrack.pxd
- @brief cython for polynomial trajectory
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 cdef extern from "a/poly/polytrack.h":
 
     ctypedef struct a_polytrack3_s "a_polytrack3_s":

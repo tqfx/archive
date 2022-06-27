@@ -1,9 +1,3 @@
-'''
- @file polytrack.pxi
- @brief cython for polynomial trajectory
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 from polytrack cimport *
 
 @cython.wraparound(False)

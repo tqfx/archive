@@ -1,9 +1,3 @@
-'''
- @file lpf.pxi
- @brief cython for Low Pass Filter
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 from lpf cimport *
 
 @cython.wraparound(False)

@@ -1,9 +1,3 @@
-'''
- @file mf.pxi
- @brief cython for membership function
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 from mf cimport *
 
 @cython.wraparound(False)

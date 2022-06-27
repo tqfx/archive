@@ -1,9 +1,3 @@
-'''
- @file pid.pxi
- @brief cython for Proportional Integral Derivative Algorithm
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 from pid cimport *
 
 @cython.wraparound(False)

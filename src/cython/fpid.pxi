@@ -1,9 +1,3 @@
-'''
- @file fpid.pxi
- @brief cython for Fuzzy Proportional Integral Derivative Algorithm
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
-'''
-
 from fpid cimport *
 
 @cython.wraparound(False)
