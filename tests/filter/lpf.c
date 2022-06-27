@@ -21,7 +21,7 @@ static void test(size_t n)
     a_lpf_init(ctx, A_REAL_C(0.5), A_REAL_C(0.5));
     for (size_t i = 0; i != n; ++i)
     {
-        printf("%" A_REAL_P "g ", a_lpf_proc(ctx, A_REAL_F(cos, ctx->o)));
+        printf(A_REAL_PRI(, "g "), a_lpf_proc(ctx, A_REAL_F(cos, ctx->o)));
     }
     putchar('\n');
 }

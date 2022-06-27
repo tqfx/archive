@@ -19,7 +19,7 @@ static void test(void)
     static a_real_t e[3] = {1, 0, 0};
     a_zyx_quat2euler(q, e);
     a_zyx_euler2quat(e, q);
-    printf("%" A_REAL_P "g %" A_REAL_P "g %" A_REAL_P "g\n", e[0], e[1], e[2]);
+    printf(A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"), e[0], e[1], e[2]);
 }
 
 #if defined(__GNUC__) || defined(__clang__)

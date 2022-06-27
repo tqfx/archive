@@ -22,39 +22,48 @@ typedef a_imag_s a_imag_t;
 
 #if A_DEF_FLOAT == 0
 
-#define A_IMAG_P
 #define A_IMAG_C(R, I) \
     {                  \
         R##F, I##F     \
     }
 #define A_IMAG_F(F, ...) c##F##f(__VA_ARGS__)
 
+#define A_IMAG_PRI(RF, RC, IF, IC) "(%" RF RC ",%" IF IC ")"
+
 #elif A_DEF_FLOAT == 1
 
-#define A_IMAG_P
 #define A_IMAG_C(R, I) \
     {                  \
         R, I           \
     }
 #define A_IMAG_F(F, ...) c##F(__VA_ARGS__)
 
+#define A_IMAG_PRI(RF, RC, IF, IC) "(%" RF RC ",%" IF IC ")"
+
 #elif A_DEF_FLOAT == 2
 
-#define A_IMAG_P "L"
 #define A_IMAG_C(R, I) \
     {                  \
         R##L, I##L     \
     }
 #define A_IMAG_F(F, ...) c##F##l(__VA_ARGS__)
 
+#define A_IMAG_PRI(RF, RC, IF, IC) "(%" RF "L" RC ",%" IF "L" IC ")"
+
 #endif /* A_DEF_FLOAT */
 
 #define a_imag_real(z) (z).re
 #define a_imag_imag(z) (z).im
+
+#if defined(__STDC_VERSION__)
+#define a_imag_c(r, i) \
+    (a_imag_t) { r, i, }
+#else /* !__STDC_VERSION__ */
 #define a_imag_c(r, i) \
     {                  \
         r, i           \
     }
+#endif /* __STDC_VERSION__ */
 
 /*!
  @brief = @f[ \sqrt{a^2+b^2} @f]

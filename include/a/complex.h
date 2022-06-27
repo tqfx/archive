@@ -32,7 +32,7 @@ typedef long double _Complex a_complex_l;
 #if A_DEF_FLOAT == 0
 
 typedef a_complex_f a_complex_t;
-#define A_COMPLEX_P
+
 #if defined(_MSC_VER)
 #define A_COMPLEX_C(R, I) _FCbuild(R, I)
 #else /* !_MSC_VER */
@@ -40,10 +40,12 @@ typedef a_complex_f a_complex_t;
 #endif /* _MSC_VER */
 #define A_COMPLEX_F(F, ...) c##F##f(__VA_ARGS__)
 
+#define A_COMPLEX_PRI(RF, RC, IF, IC) "(%" RF RC ",%" IF IC ")"
+
 #elif A_DEF_FLOAT == 1
 
 typedef a_complex_d a_complex_t;
-#define A_COMPLEX_P
+
 #if defined(_MSC_VER)
 #define A_COMPLEX_C(R, I) _Cbuild(R, I)
 #else /* !_MSC_VER */
@@ -51,16 +53,20 @@ typedef a_complex_d a_complex_t;
 #endif /* _MSC_VER */
 #define A_COMPLEX_F(F, ...) c##F(__VA_ARGS__)
 
+#define A_COMPLEX_PRI(RF, RC, IF, IC) "(%" RF RC ",%" IF IC ")"
+
 #elif A_DEF_FLOAT == 2
 
 typedef a_complex_l a_complex_t;
-#define A_COMPLEX_P "L"
+
 #if defined(_MSC_VER)
 #define A_COMPLEX_C(R, I) _LCbuild(R, I)
 #else /* !_MSC_VER */
 #define A_COMPLEX_C(R, I) (R##L + (__extension__ 1.0IL) * I##L)
 #endif /* _MSC_VER */
 #define A_COMPLEX_F(F, ...) c##F##l(__VA_ARGS__)
+
+#define A_COMPLEX_PRI(RF, RC, IF, IC) "(%" RF "L" RC ",%" IF "L" IC ")"
 
 #endif /* A_DEF_FLOAT */
 

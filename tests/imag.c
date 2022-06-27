@@ -22,32 +22,34 @@ static void test(void)
     {
         a_imag_t a = A_IMAG_C(1.0, 1.0);
         a_imag_t b = A_IMAG_C(1.0, 1.0);
-        a_imag_t c = a_imag_c(0, 1);
+        a_imag_t c = a_imag_c(0, -1);
 
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)=%" A_IMAG_P "ge^%" A_IMAG_P "gi\n",
+        c = a_imag_conj(a_imag_c(0, -1));
+
+        printf(A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
                a_imag_real(c), a_imag_imag(c),
                a_imag_abs(c), a_imag_arg(c));
 
         c = a_imag_add(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)+(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
+        printf(A_IMAG_PRI(, "g", , "g") "+" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
                a_imag_real(a), a_imag_imag(a),
                a_imag_real(b), a_imag_imag(b),
                a_imag_real(c), a_imag_imag(c));
 
         c = a_imag_sub(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)-(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
+        printf(A_IMAG_PRI(, "g", , "g") "-" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
                a_imag_real(a), a_imag_imag(a),
                a_imag_real(b), a_imag_imag(b),
                a_imag_real(c), a_imag_imag(c));
 
         c = a_imag_mul(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)*(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
+        printf(A_IMAG_PRI(, "g", , "g") "*" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
                a_imag_real(a), a_imag_imag(a),
                a_imag_real(b), a_imag_imag(b),
                a_imag_real(c), a_imag_imag(c));
 
         c = a_imag_div(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)/(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
+        printf(A_IMAG_PRI(, "g", , "g") "/" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
                a_imag_real(a), a_imag_imag(a),
                a_imag_real(b), a_imag_imag(b),
                a_imag_real(c), a_imag_imag(c));
@@ -57,30 +59,30 @@ static void test(void)
         a_complex_t b = A_COMPLEX_C(1.0, 1.0);
         a_complex_t c = A_COMPLEX_C(0.0, 1.0);
 
-        printf("(%" A_REAL_P "g,%" A_REAL_P "g)=%" A_REAL_P "ge^%" A_REAL_P "gi\n",
+        printf(A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
                a_complex_real(c), a_complex_imag(c),
                a_complex_abs(c), a_complex_arg(c));
 
         c = a_complex_add(a, b);
-        printf("(%" A_REAL_P "g,%" A_REAL_P "g)+(%" A_REAL_P "g,%" A_REAL_P "g)=(%" A_REAL_P "g,%" A_REAL_P "g)\n",
+        printf(A_COMPLEX_PRI(, "g", , "g") "*" A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
                a_complex_real(a), a_complex_imag(a),
                a_complex_real(b), a_complex_imag(b),
                a_complex_real(c), a_complex_imag(c));
 
         c = a_complex_sub(a, b);
-        printf("(%" A_REAL_P "g,%" A_REAL_P "g)-(%" A_REAL_P "g,%" A_REAL_P "g)=(%" A_REAL_P "g,%" A_REAL_P "g)\n",
+        printf(A_COMPLEX_PRI(, "g", , "g") "-" A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
                a_complex_real(a), a_complex_imag(a),
                a_complex_real(b), a_complex_imag(b),
                a_complex_real(c), a_complex_imag(c));
 
         c = a_complex_mul(a, b);
-        printf("(%" A_REAL_P "g,%" A_REAL_P "g)*(%" A_REAL_P "g,%" A_REAL_P "g)=(%" A_REAL_P "g,%" A_REAL_P "g)\n",
+        printf(A_COMPLEX_PRI(, "g", , "g") "*" A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
                a_complex_real(a), a_complex_imag(a),
                a_complex_real(b), a_complex_imag(b),
                a_complex_real(c), a_complex_imag(c));
 
         c = a_complex_div(a, b);
-        printf("(%" A_REAL_P "g,%" A_REAL_P "g)/(%" A_REAL_P "g,%" A_REAL_P "g)=(%" A_REAL_P "g,%" A_REAL_P "g)\n",
+        printf(A_COMPLEX_PRI(, "g", , "g") "/" A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
                a_complex_real(a), a_complex_imag(a),
                a_complex_real(b), a_complex_imag(b),
                a_complex_real(c), a_complex_imag(c));

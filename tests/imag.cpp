@@ -19,41 +19,39 @@
 
 static void test(void)
 {
-    {
-        a_imag_t a = A_IMAG_C(1.0, 1.0);
-        a_imag_t b = A_IMAG_C(1.0, 1.0);
-        a_imag_t c = a_imag_c(0, -1);
+    a_imag_t a = A_IMAG_C(1.0, 1.0);
+    a_imag_t b = A_IMAG_C(1.0, 1.0);
+    a_imag_t c = a_imag_c(0, -1);
 
-        c = a_imag_conj(a_imag_c(0, -1));
+    c = a_imag_conj(a_imag_c(0, -1));
 
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)=%" A_IMAG_P "ge^%" A_IMAG_P "gi\n",
-               a_imag_real(c), a_imag_imag(c),
-               a_imag_abs(c), a_imag_arg(c));
+    printf(A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
+           a_imag_real(c), a_imag_imag(c),
+           a_imag_abs(c), a_imag_arg(c));
 
-        c = a_imag_add(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)+(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
-               a_imag_real(a), a_imag_imag(a),
-               a_imag_real(b), a_imag_imag(b),
-               a_imag_real(c), a_imag_imag(c));
+    c = a_imag_add(a, b);
+    printf(A_IMAG_PRI(, "g", , "g") "+" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
+           a_imag_real(a), a_imag_imag(a),
+           a_imag_real(b), a_imag_imag(b),
+           a_imag_real(c), a_imag_imag(c));
 
-        c = a_imag_sub(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)-(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
-               a_imag_real(a), a_imag_imag(a),
-               a_imag_real(b), a_imag_imag(b),
-               a_imag_real(c), a_imag_imag(c));
+    c = a_imag_sub(a, b);
+    printf(A_IMAG_PRI(, "g", , "g") "-" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
+           a_imag_real(a), a_imag_imag(a),
+           a_imag_real(b), a_imag_imag(b),
+           a_imag_real(c), a_imag_imag(c));
 
-        c = a_imag_mul(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)*(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
-               a_imag_real(a), a_imag_imag(a),
-               a_imag_real(b), a_imag_imag(b),
-               a_imag_real(c), a_imag_imag(c));
+    c = a_imag_mul(a, b);
+    printf(A_IMAG_PRI(, "g", , "g") "*" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
+           a_imag_real(a), a_imag_imag(a),
+           a_imag_real(b), a_imag_imag(b),
+           a_imag_real(c), a_imag_imag(c));
 
-        c = a_imag_div(a, b);
-        printf("(%" A_IMAG_P "g,%" A_IMAG_P "g)/(%" A_IMAG_P "g,%" A_IMAG_P "g)=(%" A_IMAG_P "g,%" A_IMAG_P "g)\n",
-               a_imag_real(a), a_imag_imag(a),
-               a_imag_real(b), a_imag_imag(b),
-               a_imag_real(c), a_imag_imag(c));
-    }
+    c = a_imag_div(a, b);
+    printf(A_IMAG_PRI(, "g", , "g") "/" A_IMAG_PRI(, "g", , "g") "=" A_IMAG_PRI(, "g", , "g") "\n",
+           a_imag_real(a), a_imag_imag(a),
+           a_imag_real(b), a_imag_imag(b),
+           a_imag_real(c), a_imag_imag(c));
 }
 
 #if defined(__GNUC__) || defined(__clang__)

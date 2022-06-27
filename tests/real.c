@@ -20,10 +20,11 @@ static void test(void)
 {
     a_real_t l = 1;
     a_real_t r = 2;
-    printf("%" A_REAL_P "g+%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_add(l, r));
-    printf("%" A_REAL_P "g-%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_sub(l, r));
-    printf("%" A_REAL_P "g*%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_mul(l, r));
-    printf("%" A_REAL_P "g/%" A_REAL_P "g=%" A_REAL_P "g\n", l, r, a_real_div(l, r));
+
+    printf(A_REAL_PRI(, "g+") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), l, r, a_real_add(l, r));
+    printf(A_REAL_PRI(, "g-") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), l, r, a_real_add(l, r));
+    printf(A_REAL_PRI(, "g*") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), l, r, a_real_add(l, r));
+    printf(A_REAL_PRI(, "g/") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), l, r, a_real_add(l, r));
 }
 
 #if defined(__GNUC__) || defined(__clang__)
