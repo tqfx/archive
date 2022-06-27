@@ -67,7 +67,7 @@ src/cython/*
 !src/cython/*.py
 
 # CMake
-src/config.h
+src/config.h*
 install[_-]*
 build[_-]*
 
