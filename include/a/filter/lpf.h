@@ -17,7 +17,6 @@
 #ifndef __A_LPF_H__
 #define __A_LPF_H__
 
-#include "../def.h"
 #include "../real.h"
 
 /*!

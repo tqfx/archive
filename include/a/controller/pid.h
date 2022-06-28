@@ -35,7 +35,6 @@
 #ifndef __A_PID_H__
 #define __A_PID_H__
 
-#include "../def.h"
 #include "../real.h"
 
 /*!

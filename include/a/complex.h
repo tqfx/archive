@@ -8,7 +8,6 @@
 #ifndef __A_COMPLEX_H__
 #define __A_COMPLEX_H__
 
-#include "def.h"
 #include "real.h"
 
 #if defined(__STDC_VERSION__)

@@ -9,7 +9,6 @@
 #ifndef __A_ZYX_H__
 #define __A_ZYX_H__
 
-#include "../def.h"
 #include "../real.h"
 
 #define A_ZYX_YAW   0 //!< Z (yaw)

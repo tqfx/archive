@@ -8,7 +8,6 @@
 #ifndef __A_GMATH_H__
 #define __A_GMATH_H__
 
-#include "../def.h"
 #include "../complex.h"
 
 #if defined(_MSC_VER)

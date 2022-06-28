@@ -8,7 +8,6 @@
 #ifndef __A_POLY_H__
 #define __A_POLY_H__
 
-#include "../def.h"
 #include "../real.h"
 
 #if defined(__cplusplus)

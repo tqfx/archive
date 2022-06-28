@@ -9,7 +9,6 @@
 #ifndef __A_POLYTRACK_H__
 #define __A_POLYTRACK_H__
 
-#include "../def.h"
 #include "../real.h"
 
 /*!

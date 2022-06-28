@@ -8,7 +8,6 @@
 #ifndef __A_IMAG_H__
 #define __A_IMAG_H__
 
-#include "def.h"
 #include "real.h"
 #include <math.h>
 

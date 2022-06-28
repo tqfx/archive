@@ -8,7 +8,6 @@
 #ifndef __A_MEAN_H__
 #define __A_MEAN_H__
 
-#include "../def.h"
 #include "../real.h"
 
 typedef enum a_mean_e
