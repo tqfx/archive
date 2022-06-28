@@ -1,7 +1,7 @@
 # Project related configuration options
 PROJECT_NAME           = a
 PROJECT_NUMBER         = 0.1.0
-PROJECT_BRIEF          = An algorithm library based on C language.
+PROJECT_BRIEF          = An algorithm library based on C language
 OPTIMIZE_OUTPUT_FOR_C  = YES
 # Build related configuration options
 # Configuration options related to warning and progress messages

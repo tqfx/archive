@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["tqfx <tqfx@foxmail.com>"]
 edition = "2018"
 description = """
-An algorithm library based on C language.
+An algorithm library based on C language
 """
 documentation = "https://tqfx.org/liba/"
 repository = "https://github.com/tqfx/liba.git"

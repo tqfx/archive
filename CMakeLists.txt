@@ -16,7 +16,7 @@ include(cmake/core.cmake)
 set(LIBRARY_NAME a)
 set(PROJECT_LICENSE "MPL-2.0")
 project(lib${LIBRARY_NAME} VERSION 0.1.0 LANGUAGES C
-  DESCRIPTION "An algorithm library based on C language."
+  DESCRIPTION "An algorithm library based on C language"
   HOMEPAGE_URL "https://github.com/tqfx/lib${LIBRARY_NAME}.git"
 )
 
