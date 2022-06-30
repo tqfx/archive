@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
  @file polytrack.py
- @brief test polynomial trajectory
+ @brief Testing polynomial trajectory
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 '''
 import os

@@ -1,6 +1,6 @@
 /*!
  @file pid.c
- @brief test Proportional Integral Derivative Algorithm
+ @brief Testing Proportional Integral Derivative Algorithm
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

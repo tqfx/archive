@@ -1,6 +1,6 @@
 /*!
  @file mempool.c
- @brief test memory pool
+ @brief Testing memory pool
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

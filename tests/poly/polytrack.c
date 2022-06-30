@@ -1,6 +1,6 @@
 /*!
  @file polytrack.c
- @brief test polynomial trajectory
+ @brief Testing polynomial trajectory
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

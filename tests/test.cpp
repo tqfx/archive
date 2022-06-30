@@ -1,16 +1,16 @@
 /*!
- @file test.c
+ @file test.cpp
  @brief Testing algorithm library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
 #include "a/def.h"
 
-#include <stdio.h>
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
     (void)argc, (void)argv;
-    printf("version %s\n", a_version());
+    std::cout << "version " << a_version() << std::endl;
     return 0;
 }

@@ -1,6 +1,6 @@
 /*!
  @file list.c
- @brief test circular doubly linked list.
+ @brief Testing circular doubly linked list.
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

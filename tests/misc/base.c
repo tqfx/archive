@@ -1,6 +1,6 @@
 /*!
  @file base.c
- @brief test base library
+ @brief Testing base library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

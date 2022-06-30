@@ -1,6 +1,6 @@
 /*!
  @file mean.cpp
- @brief test mean calculation
+ @brief Testing mean calculation
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

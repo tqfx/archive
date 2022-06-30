@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
  @file mf.py
- @brief test membership function
+ @brief Testing membership function
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 '''
 import os

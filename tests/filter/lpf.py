@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
  @file lpf.py
- @brief test Low Pass Filter
+ @brief Testing Low Pass Filter
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 '''
 import os

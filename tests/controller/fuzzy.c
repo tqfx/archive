@@ -1,6 +1,6 @@
 /*!
  @file fuzzy.c
- @brief test fuzzy operator
+ @brief Testing fuzzy operator
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

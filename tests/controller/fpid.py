@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
  @file fpid.py
- @brief test Fuzzy Proportional Integral Derivative Algorithm
+ @brief Testing Fuzzy Proportional Integral Derivative Algorithm
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 '''
 import os

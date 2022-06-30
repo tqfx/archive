@@ -1,6 +1,6 @@
 /*!
  @file slist.c
- @brief test circular singly linked list.
+ @brief Testing circular singly linked list.
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

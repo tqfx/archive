@@ -54,7 +54,13 @@ function(unit_test source target)
 endfunction()
 
 unit_test(test.c ${LIBRARY_NAME})
+
+if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)
+  unit_test(test.cpp ${LIBRARY_NAME}++)
+endif()
+
 unit_test(real.c real)
+
 unit_test(imag.c imag)
 
 if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)

@@ -1,6 +1,6 @@
 /*!
  @file zyx.cpp
- @brief test convert between quat and euler by ZYX.
+ @brief Testing convert between quat and euler by ZYX.
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

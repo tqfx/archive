@@ -1,6 +1,6 @@
 /*!
  @file hmac.c
- @brief test hmac library
+ @brief Testing hmac library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

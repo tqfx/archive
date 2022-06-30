@@ -1,6 +1,6 @@
 /*!
  @file mf.cpp
- @brief test membership function
+ @brief Testing membership function
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

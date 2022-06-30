@@ -1,6 +1,6 @@
 /*!
  @file lpf.c
- @brief test Low Pass Filter
+ @brief Testing Low Pass Filter
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

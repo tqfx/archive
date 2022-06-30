@@ -1,6 +1,6 @@
 /*!
  @file math.c
- @brief test math
+ @brief Testing math
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

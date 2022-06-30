@@ -1,6 +1,6 @@
 /*!
  @file hash.c
- @brief test hash library
+ @brief Testing hash library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

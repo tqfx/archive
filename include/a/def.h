@@ -1,6 +1,6 @@
 /*!
  @file def.h
- @brief algorithm library
+ @brief algorithm library definition
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
@@ -91,18 +91,31 @@
 #endif /* __ASM */
 #define A_ASM __asm
 
+/* reset some warnings */
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* __GNUC__ || __clang__ */
+
 /*! @endcond */
 
 #include <stddef.h>
 #include <stdint.h>
 
+/*!
+ @defgroup LIBA algorithm library
+*/
+
 #ifndef A_DEF_FLOAT
 #define A_DEF_FLOAT 1
 #endif /* A_DEF_FLOAT */
 
-/*!
- @defgroup LIBA Algorithm library
-*/
+#ifndef offsetof
+#define offsetof(type, member) (size_t)(&(((type *)0)->member))
+#endif /* offsetof */
+
+#ifndef containerof
+#define containerof(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
+#endif /* containerof */
 
 enum
 {
@@ -113,14 +126,6 @@ enum
     A_OVERFLOW = -4,
     A_NOTFOUND = -5,
 };
-
-#ifndef offsetof
-#define offsetof(type, member) (size_t)(&(((type *)0)->member))
-#endif /* offsetof */
-
-#ifndef containerof
-#define containerof(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
-#endif /* containerof */
 
 #if defined(__cplusplus)
 extern "C" {
@@ -134,10 +139,5 @@ A_PUBLIC const char *a_version(void);
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
-
-/* reset some warnings */
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
 
 #endif /* __A_DEF_H__ */
