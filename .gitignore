@@ -59,13 +59,6 @@ Pipfile.lock
 .vscode
 .cache
 
-# Cython
-src/cython/*
-!src/cython/*.pxd
-!src/cython/*.pxi
-!src/cython/*.pyx
-!src/cython/*.py
-
 # CMake
 src/config.h*
 install[_-]*

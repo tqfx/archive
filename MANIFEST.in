@@ -1,2 +1,2 @@
 recursive-include include *
-recursive-include src *.h
+recursive-include src *

@@ -1,15 +1,18 @@
 /*!
- @file config.c
+ @file config.cpp
  @brief algorithm library configuration
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
 #if defined(A_CONFIG)
-#include "config.h"
+#include "config.hpp"
 #endif /* A_CONFIG */
-#include "a/def.h"
+#include "a/def.hpp"
 
-const char *a_version(void)
+namespace a
+{
+
+const char *version(void)
 {
 #if defined(A_VERSION)
 
@@ -21,3 +24,5 @@ const char *a_version(void)
 
 #endif /* A_VERSION */
 }
+
+} // namespace a

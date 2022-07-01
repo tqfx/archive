@@ -1,5 +1,5 @@
 /*!
- @file mf.cpp
+ @file mf.cc
  @brief Testing membership function
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */

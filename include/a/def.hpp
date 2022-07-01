@@ -1,12 +1,12 @@
 /*!
- @file def.h
+ @file def.hpp
  @brief algorithm library definition
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
 #pragma once
-#ifndef __A_DEF_H__
-#define __A_DEF_H__
+#ifndef __A_DEF_HPP__
+#define __A_DEF_HPP__
 
 /*! @cond */
 
@@ -98,24 +98,15 @@
 
 /*! @endcond */
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 
 /*!
  @defgroup LIBA algorithm library
 */
 
-#ifndef A_DEF_FLOAT
-#define A_DEF_FLOAT 1
-#endif /* A_DEF_FLOAT */
-
-#ifndef offsetof
-#define offsetof(type, member) (size_t)(&(((type *)0)->member))
-#endif /* offsetof */
-
-#ifndef containerof
-#define containerof(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
-#endif /* containerof */
+namespace a
+{
 
 enum
 {
@@ -127,17 +118,11 @@ enum
     A_NOTFOUND = -5,
 };
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-
 /*!
  @brief algorithm library version
 */
-A_PUBLIC const char *a_version(void);
+A_PUBLIC const char *version(void);
 
-#if defined(__cplusplus)
-}
-#endif /* __cplusplus */
+} // namespace a
 
-#endif /* __A_DEF_H__ */
+#endif /* __A_DEF_HPP__ */

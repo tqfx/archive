@@ -1,5 +1,5 @@
 /*!
- @file fuzzy.cpp
+ @file fuzzy.cc
  @brief Testing fuzzy operator
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */

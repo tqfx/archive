@@ -14,9 +14,8 @@ if len(argv) < 2:
     exit(Popen([executable, script, "build_ext", "--inplace"]).wait())
 from setuptools.command.build_ext import build_ext
 from setuptools import setup, Extension
-from Cython.Build import cythonize
-from re import findall
 from glob import glob
+import re
 
 
 class Build(build_ext):
@@ -33,62 +32,83 @@ class Build(build_ext):
         super(Build, self).build_extensions()
 
 
-headers = []
-sources = []
-sources_cy = []
+try:
+    from Cython.Build import cythonize
+
+    USE_CYTHON = True
+except:
+    USE_CYTHON = False
+
+if USE_CYTHON and os.path.exists("cython/a/a.pyx"):
+    source_c = ["cython/a/a.pyx"]
+else:
+    source_c = ["cython/a/a.c"]
+if USE_CYTHON and os.path.exists("cython/aa/aa.pyx"):
+    source_cc = ["cython/aa/aa.pyx"]
+else:
+    source_cc = ["cython/aa/aa.cpp"]
+
 define_macros = []
-suffix_cy = (".py", ".pyx")
-suffix_cc = (".c", ".cc", ".cpp", ".cxx")
-suffix_hh = (".h", ".hh", ".hpp", ".hxx")
 with open("setup.cfg", "r", encoding="UTF-8") as f:
-    version = findall(r"version = (.*)", f.read())
+    version = re.findall(r"version = (.*)", f.read())
 if version:
-    define_macros.append(("a_VERSION", '"' + version[0] + '"'))
-for source in glob("src/**", recursive=True):
-    if not os.path.isfile(source):
-        continue
-    prefix, suffix = os.path.splitext(source)
-    if suffix not in suffix_cy:
-        continue
-    sources.append(source)
-    sources_cy.append(source)
-    for suffix in suffix_cc:
-        if os.path.exists(prefix + suffix):
-            os.remove(prefix + suffix)
+    define_macros.append(("A_VERSION", '"' + version[0] + '"'))
+
+header_h = []
+header_hh = []
+suffix_c = (".c",)
+suffix_h = (".h",)
+suffix_cc = (".cc", ".cpp", ".cxx")
+suffix_hh = (".hh", ".hpp", ".hxx")
+
 for source in glob("src/**", recursive=True):
     if not os.path.isfile(source):
         continue
     prefix, suffix = os.path.splitext(source)
     if suffix in suffix_cc:
-        sources.append(source)
+        source_cc.append(source)
+    if suffix in suffix_c:
+        source_c.append(source)
 for header in glob("include/**", recursive=True):
     if not os.path.isfile(header):
         continue
     prefix, suffix = os.path.splitext(header)
     if suffix in suffix_hh:
-        headers.append(header)
-ext_modules = Extension(
-    name="a",
-    sources=sources,
-    include_dirs=["include"],
-    define_macros=define_macros,
-)
+        header_hh.append(header)
+    if suffix in suffix_h:
+        header_h.append(header)
+
+ext_modules = [
+    Extension(
+        name="a",
+        language="c",
+        sources=source_c,
+        include_dirs=["include"],
+        define_macros=define_macros,
+    ),
+    Extension(
+        name="aa",
+        language="c++",
+        sources=source_cc,
+        include_dirs=["include"],
+        define_macros=define_macros,
+    ),
+]
+
+if USE_CYTHON:
+    from Cython.Build import cythonize
+
+    ext_modules = cythonize(
+        ext_modules,
+        language_level=3,
+        annotate=True,
+        quiet=True,
+    )
 
 try:
     setup(
+        ext_modules=ext_modules,
         cmdclass={"build_ext": Build},
-        ext_modules=cythonize(
-            ext_modules,
-            language_level=3,
-            annotate=True,
-            quiet=True,
-        ),
     )
 except Exception as e:
     print(e)
-
-for source in sources_cy:
-    prefix, suffix = os.path.splitext(source)
-    for suffix in suffix_cc:
-        if os.path.exists(prefix + suffix):
-            os.remove(prefix + suffix)

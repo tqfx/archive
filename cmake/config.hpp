@@ -1,15 +1,15 @@
 /*!
- @file config.h
+ @file config.hpp
  @brief algorithm library configuration
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
 #pragma once
-#ifndef __A_CONFIG_H__
-#define __A_CONFIG_H__
+#ifndef __A_CONFIG_HPP__
+#define __A_CONFIG_HPP__
 
-#include "a/def.h"
+#include "a/def.hpp"
 
 #cmakedefine A_VERSION "@A_VERSION@"
 
-#endif /* __A_CONFIG_H__ */
+#endif /* __A_CONFIG_HPP__ */

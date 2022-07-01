@@ -1,5 +1,5 @@
 /*!
- @file fpid.cpp
+ @file fpid.cc
  @brief Testing Fuzzy Proportional Integral Derivative Algorithm
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */

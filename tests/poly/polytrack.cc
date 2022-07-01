@@ -1,5 +1,5 @@
 /*!
- @file polytrack.cpp
+ @file polytrack.cc
  @brief Testing polynomial trajectory
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */

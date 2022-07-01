@@ -1,5 +1,5 @@
 /*!
- @file imag.cpp
+ @file imag.cc
  @brief Testing imaginary number
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */

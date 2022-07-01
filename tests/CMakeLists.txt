@@ -46,26 +46,21 @@ foreach(lang ${enabled_languages})
 endforeach()
 
 function(unit_test source target)
-  set(TARGET ${LIBRARY_NAME}-test-${target})
+  set(TARGET test-${target})
   add_executable(${TARGET} ${source})
   set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
-  target_link_libraries(${TARGET} ${PROJECT_NAME}::${LIBRARY_NAME})
+  target_link_libraries(${TARGET} ${PROJECT_NAME}::a ${PROJECT_NAME}::aa)
   add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${ARGN})
 endfunction()
 
-unit_test(test.c ${LIBRARY_NAME})
-
-if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)
-  unit_test(test.cpp ${LIBRARY_NAME}++)
-endif()
+unit_test(test.c a)
+unit_test(test.cc a+)
+unit_test(test.cpp a++)
 
 unit_test(real.c real)
 
 unit_test(imag.c imag)
-
-if(CMAKE_CXX_COMPILER AND CXX IN_LIST enabled_languages)
-  unit_test(imag.cpp imag++)
-endif()
+unit_test(imag.cc imag+)
 
 add_subdirectory(misc)
 add_subdirectory(poly)

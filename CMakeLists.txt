@@ -13,11 +13,10 @@ find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
 include(cmake/core.cmake)
 
-set(LIBRARY_NAME a)
 set(PROJECT_LICENSE "MPL-2.0")
-project(lib${LIBRARY_NAME} VERSION 0.1.0 LANGUAGES C
-  DESCRIPTION "An algorithm library based on C language"
-  HOMEPAGE_URL "https://github.com/tqfx/lib${LIBRARY_NAME}.git"
+project(liba VERSION 0.1.0 LANGUAGES C CXX
+  DESCRIPTION "An algorithm library based on C/C++ language"
+  HOMEPAGE_URL "https://github.com/tqfx/liba.git"
 )
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -27,10 +26,6 @@ endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Generic")
   include(CTest)
-endif()
-
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-  enable_language(CXX OPTIONAL)
 endif()
 
 include(cmake/standard.cmake)
@@ -46,6 +41,16 @@ option(ENABLE_IYWU "Enable include-what-you-use" OFF)
 option(ENABLE_IPO "Enable interprocedural optimization" OFF)
 
 find_package(Git)
+
+if(GIT_FOUND)
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} log -1 --pretty=format:%H
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE GIT_REF
+    ERROR_QUIET
+  )
+endif()
 
 if(ENABLE_PYTHON)
   find_package(Python)
@@ -68,59 +73,95 @@ if(ENABLE_IPO)
   check_ipo_supported(RESULT ENABLE_IPO)
 endif()
 
-if(GIT_FOUND)
-  execute_process(
-    COMMAND ${GIT_EXECUTABLE} log -1 --pretty=format:%H
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE GIT_REF
-    ERROR_QUIET
-  )
-endif()
-
-set(${LIBRARY_NAME}_VERSION ${PROJECT_VERSION})
+set(A_VERSION ${PROJECT_VERSION})
 find_library(MATH_LIBRARIES NAMES m)
+
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
   ${CMAKE_CURRENT_LIST_DIR}/src/config.h
 )
 file(GLOB_RECURSE SOURCES include/*.h src/*.h src/*.c)
 
-add_library(${LIBRARY_NAME} ${SOURCES})
-add_library(${PROJECT_NAME}::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
-set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(${LIBRARY_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
-target_compile_options(${LIBRARY_NAME} PRIVATE
+add_library(a ${SOURCES})
+add_library(${PROJECT_NAME}::a ALIAS a)
+set_target_properties(a PROPERTIES DEFINE_SYMBOL "A_EXPORTS")
+set_target_properties(a PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(a PROPERTIES C_VISIBILITY_PRESET hidden)
+target_compile_options(a PRIVATE
   $<$<C_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
   $<$<C_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:C>:${C_FLAGS}>
 )
-target_compile_definitions(${LIBRARY_NAME}
-  PRIVATE $<$<BOOL:${${LIBRARY_NAME}_VERSION}>:${LIBRARY_NAME}_CONFIGS>
-  PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:${LIBRARY_NAME}_SHARED>
+target_compile_definitions(a
+  PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
+  PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:A_SHARED>
 )
-target_include_directories(${LIBRARY_NAME} PUBLIC
+target_include_directories(a PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
 
 if(MATH_LIBRARIES OR ANDROID)
-  target_link_libraries(${LIBRARY_NAME} PUBLIC m)
+  target_link_libraries(a PUBLIC m)
 endif()
 
 if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
-  set_target_properties(${LIBRARY_NAME} PROPERTIES C_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
+  set_target_properties(a PROPERTIES C_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
 endif()
 
 if(ENABLE_CLANG_TIDY AND CLANG_TIDY)
-  set_target_properties(${LIBRARY_NAME} PROPERTIES C_CLANG_TIDY "${CLANG_TIDY};--fix")
+  set_target_properties(a PROPERTIES C_CLANG_TIDY "${CLANG_TIDY};--fix")
 endif()
 
 if(ENABLE_CPPCHECK AND CPPCHECK)
-  set_target_properties(${LIBRARY_NAME} PROPERTIES C_CPPCHECK "${CPPCHECK};--enable=warning,performance")
+  set_target_properties(a PROPERTIES C_CPPCHECK "${CPPCHECK};--enable=warning,performance")
 endif()
 
 if(ENABLE_IPO)
-  set_target_properties(${LIBRARY_NAME} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
+  set_target_properties(a PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
+endif()
+
+configure_file(
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
+  ${CMAKE_CURRENT_LIST_DIR}/src/config.hpp
+)
+file(GLOB_RECURSE SOURCES include/*.hpp src/*.hpp src/*.cpp)
+
+add_library(aa ${SOURCES})
+add_library(${PROJECT_NAME}::aa ALIAS aa)
+set_target_properties(aa PROPERTIES DEFINE_SYMBOL "A_EXPORTS")
+set_target_properties(aa PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(aa PROPERTIES CXX_VISIBILITY_PRESET hidden)
+target_compile_options(aa PRIVATE
+  $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:CXX>:${CXX_FLAGS}>
+)
+target_compile_definitions(aa
+  PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
+  PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:A_SHARED>
+)
+target_include_directories(aa PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+if(MATH_LIBRARIES OR ANDROID)
+  target_link_libraries(aa PUBLIC m)
+endif()
+
+if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
+  set_target_properties(aa PROPERTIES CXX_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
+endif()
+
+if(ENABLE_CLANG_TIDY AND CLANG_TIDY)
+  set_target_properties(aa PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY};--fix")
+endif()
+
+if(ENABLE_CPPCHECK AND CPPCHECK)
+  set_target_properties(aa PROPERTIES CXX_CPPCHECK "${CPPCHECK};--enable=warning,performance")
+endif()
+
+if(ENABLE_IPO)
+  set_target_properties(aa PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
@@ -131,7 +172,7 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
 )
-install(TARGETS ${LIBRARY_NAME}
+install(TARGETS a aa
   EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
@@ -206,22 +247,22 @@ include(CPack)
 
 if(CLANG_FORMAT)
   file(GLOB_RECURSE SOURCES include/*.h src/*.[ch] tests/*.[ch]*)
-  add_custom_target(${LIBRARY_NAME}-format # https://clang.llvm.org/docs/ClangFormat.html
+  add_custom_target(a-format # https://clang.llvm.org/docs/ClangFormat.html
     COMMAND ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
     COMMENT "Formatting code using ClangFormat"
   )
 endif()
 
 if(Python_Interpreter_FOUND)
-  add_custom_target(${LIBRARY_NAME}-black # https://black.readthedocs.io/en/stable
+  add_custom_target(a-black # https://black.readthedocs.io/en/stable
     COMMAND ${Python_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
     COMMENT "Formatting code using black"
   )
-  add_custom_target(${LIBRARY_NAME}-wheel # https://setuptools.readthedocs.io/en/stable
+  add_custom_target(a-wheel # https://setuptools.readthedocs.io/en/stable
     COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py bdist_wheel --universal
     COMMENT "setup.py bdist_wheel --universal"
   )
-  add_custom_target(${LIBRARY_NAME}-cython # https://cython.readthedocs.io/en/stable
+  add_custom_target(a-cython # https://cython.readthedocs.io/en/stable
     COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
     COMMENT "setup.py build_ext --inplace"
   )
@@ -276,7 +317,7 @@ if(DOXYGEN_FOUND)
   endif()
 
   # https://www.doxygen.nl/manual/config.html
-  doxygen_add_docs(${LIBRARY_NAME}-doc
+  doxygen_add_docs(a-doc
     ${CMAKE_CURRENT_LIST_DIR}/README.md
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${CMAKE_CURRENT_LIST_DIR}/src

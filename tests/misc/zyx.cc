@@ -1,29 +1,25 @@
 /*!
- @file lpf.cpp
- @brief Testing Low Pass Filter
+ @file zyx.cc
+ @brief Testing convert between quat and euler by ZYX.
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
-#include "a/filter/lpf.h"
+#include "a/misc/zyx.h"
 
-#include <cinttypes>
 #include <cstdio>
-#include <cmath>
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif /* __GNUC__ || __clang__ */
 
-static void test(size_t n)
+static void test(void)
 {
-    a_lpf_s ctx[1];
-    a_lpf_init(ctx, A_REAL_C(0.5), A_REAL_C(0.5));
-    for (size_t i = 0; i != n; ++i)
-    {
-        printf(A_REAL_PRI(, "g "), a_lpf_proc(ctx, A_REAL_F(cos, ctx->o)));
-    }
-    putchar('\n');
+    static a_real_t q[4] = {0, 0, 0, 1};
+    static a_real_t e[3] = {1, 0, 0};
+    a_zyx_quat2euler(q, e);
+    a_zyx_euler2quat(e, q);
+    printf(A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"), e[0], e[1], e[2]);
 }
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -32,6 +28,6 @@ static void test(size_t n)
 
 int main(void)
 {
-    test(10);
+    test();
     return 0;
 }

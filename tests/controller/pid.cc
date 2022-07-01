@@ -1,5 +1,5 @@
 /*!
- @file pid.cpp
+ @file pid.cc
  @brief Testing Proportional Integral Derivative Algorithm
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
