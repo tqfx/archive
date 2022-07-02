@@ -10,6 +10,11 @@
 
 #include "def.h"
 
+/*!
+ @addtogroup A
+ @{
+*/
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
@@ -17,5 +22,7 @@ extern "C" {
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
+
+/*! @} A */
 
 #endif /* __A_DEV_H__ */

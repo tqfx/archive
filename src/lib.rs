@@ -5,7 +5,7 @@
 //! Add this to your `Cargo.toml`:
 //!
 //! ```toml
-//! [build-dependencies]
+//! [dependencies]
 //! liba = "0.1"
 //! ```
 

@@ -12,7 +12,12 @@
 
 namespace a
 {
+/*!
+ @addtogroup AA
+ @{
+*/
 
+/*! @} AA */
 } // namespace a
 
 #endif /* __A_DEV_HPP__ */

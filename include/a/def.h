@@ -102,21 +102,42 @@
 #include <stdint.h>
 
 /*!
- @defgroup LIBA algorithm library
+ @addtogroup A algorithm library based on C
+ @{
 */
 
-#ifndef A_DEF_FLOAT
-#define A_DEF_FLOAT 1
-#endif /* A_DEF_FLOAT */
+/*!
+ @brief define the floating-point type
+ @arg 0 float
+ @arg 1 double (default)
+ @arg 2 long double
+*/
+#ifndef A_DEF_FLT
+#define A_DEF_FLT 1
+#endif /* A_DEF_FLT */
 
+/*!
+ @brief the offset of a structure member
+ @param type structure type
+ @param member member variable
+*/
 #ifndef offsetof
 #define offsetof(type, member) (size_t)(&(((type *)0)->member))
 #endif /* offsetof */
 
+/*!
+ @brief the container of a structure member
+ @param ptr pointer to a member variable
+ @param type structure type
+ @param member member variable
+*/
 #ifndef containerof
 #define containerof(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
 #endif /* containerof */
 
+/*!
+ @brief enumeration of return values
+*/
 enum
 {
     A_SUCCESS = 0,
@@ -137,7 +158,9 @@ extern "C" {
 A_PUBLIC const char *a_version(void);
 
 #if defined(__cplusplus)
-}
+} /* extern "C" */
 #endif /* __cplusplus */
+
+/*! @} A */
 
 #endif /* __A_DEF_H__ */

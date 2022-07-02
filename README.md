@@ -72,7 +72,7 @@ python setup.py bdist_wheel
 
 ```cmake
 find_package(liba CONFIG REQUIRED)
-target_link_libraries(<TARGET> PRIVATE liba::a)
+target_link_libraries(<TARGET> PRIVATE liba::a liba::aa)
 ```
 
 #### conanfile.txt

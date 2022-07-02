@@ -1,17 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
-if("${VCPKG_TARGET_TRIPLET}" MATCHES "x86-mingw(.*)")
-  include(cmake/mingw32.cmake)
-elseif("${VCPKG_TARGET_TRIPLET}" MATCHES "x64-mingw(.*)")
-  include(cmake/mingw64.cmake)
-endif()
-
 find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
 find_program(CLANG_FORMAT clang-format)
 find_program(CLANG_TIDY clang-tidy)
 find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
-include(cmake/core.cmake)
 
 set(PROJECT_LICENSE "MPL-2.0")
 project(liba VERSION 0.1.0 LANGUAGES C CXX
@@ -28,6 +21,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT "${CMAKE_SYSTEM_NAME}" MATCH
   include(CTest)
 endif()
 
+include(cmake/core.cmake)
 include(cmake/standard.cmake)
 
 option(ENABLE_VCPKG "Enable vcpkg" OFF)

@@ -56,14 +56,3 @@ endfunction()
 unit_test(test.c a)
 unit_test(test.cc a+)
 unit_test(test.cpp a++)
-
-unit_test(real.c real)
-
-unit_test(imag.c imag)
-unit_test(imag.cc imag+)
-
-add_subdirectory(misc)
-add_subdirectory(poly)
-add_subdirectory(cksum)
-add_subdirectory(filter)
-add_subdirectory(controller)

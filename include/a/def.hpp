@@ -101,13 +101,16 @@
 #include <cstddef>
 #include <cstdint>
 
-/*!
- @defgroup LIBA algorithm library
-*/
-
 namespace a
 {
+/*!
+ @addtogroup AA algorithm library based on C++
+ @{
+*/
 
+/*!
+ @brief enumeration of return values
+*/
 enum
 {
     A_SUCCESS = 0,
@@ -123,6 +126,7 @@ enum
 */
 A_PUBLIC const char *version(void);
 
+/*! @} AA */
 } // namespace a
 
 #endif /* __A_DEF_HPP__ */
