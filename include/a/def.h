@@ -160,6 +160,8 @@ A_PUBLIC const char *a_version(void);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-/*! @} A */
+/*!
+ @} A
+*/
 
 #endif /* __A_DEF_H__ */

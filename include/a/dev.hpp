@@ -12,11 +12,14 @@
 namespace a
 {
 /*!
- @addtogroup AA
+ @ingroup AA
+ @addtogroup AA_DEV algorithm library development based on C++
  @{
 */
 
-/*! @} AA */
+/*!
+ @} AA_DEV
+*/
 } // namespace a
 
 #endif /* __A_DEV_HPP__ */

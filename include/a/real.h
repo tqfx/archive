@@ -10,7 +10,8 @@
 #include "def.h"
 
 /*!
- @addtogroup A
+ @ingroup A
+ @addtogroup A_REAL real number
  @{
 */
 
@@ -84,6 +85,8 @@ typedef long double a_real_t;
 #define a_real_mul(lhs, rhs) ((lhs) * (rhs)) //!< \f$ \texttt{lhs} \times \texttt{rhs} \f$
 #define a_real_div(lhs, rhs) ((lhs) / (rhs)) //!< \f$ \texttt{lhs} \div   \texttt{rhs} \f$
 
-/*! @} A */
+/*!
+ @} A_REAL
+*/
 
 #endif /* __A_REAL_H__ */

@@ -10,7 +10,8 @@
 #include "def.h"
 
 /*!
- @addtogroup A
+ @ingroup A
+ @addtogroup A_DEV algorithm library development based on C
  @{
 */
 
@@ -22,6 +23,8 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-/*! @} A */
+/*!
+ @} A_DEV
+*/
 
 #endif /* __A_DEV_H__ */
