@@ -56,3 +56,5 @@ endfunction()
 unit_test(test.c a)
 unit_test(test.cc a+)
 unit_test(test.cpp a++)
+
+unit_test(real.c real)
