@@ -240,7 +240,7 @@ set(CPACK_SOURCE_IGNORE_FILES
 include(CPack)
 
 if(CLANG_FORMAT)
-  file(GLOB_RECURSE SOURCES include/*.h src/*.[ch] tests/*.[ch]*)
+  file(GLOB_RECURSE SOURCES include/*.h* src/*.[ch]* tests/*.[ch]*)
   add_custom_target(a-format # https://clang.llvm.org/docs/ClangFormat.html
     COMMAND ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
     COMMENT "Formatting code using ClangFormat"
