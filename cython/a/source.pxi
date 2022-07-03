@@ -1,4 +1,6 @@
-from config cimport *
+cimport cython
+
+from source cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
