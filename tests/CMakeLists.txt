@@ -58,3 +58,5 @@ unit_test(test.cc a+)
 unit_test(test.cpp a++)
 
 unit_test(real.c real)
+
+add_subdirectory(misc)
