@@ -116,7 +116,7 @@
 #endif /* A_DEF_FLT */
 
 /*!
- @brief the offset of a structure member
+ @brief offset of a structure member
  @param type structure type
  @param member member variable
 */
@@ -125,7 +125,7 @@
 #endif /* offsetof */
 
 /*!
- @brief the container of a structure member
+ @brief container of a structure member
  @param ptr pointer to a member variable
  @param type structure type
  @param member member variable
