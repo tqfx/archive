@@ -4,7 +4,6 @@
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
-#pragma once
 #ifndef __A_CONFIG_H__
 #define __A_CONFIG_H__
 
