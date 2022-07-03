@@ -268,7 +268,9 @@ if(DOXYGEN_FOUND)
 
   # Build related configuration options
   # Configuration options related to warning and progress messages
-  set(DOXYGEN_WARN_LOGFILE doxygen.log)
+  set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
+  set(DOXYGEN_WARN_NO_PARAMDOC YES)
+  set(DOXYGEN_WARN_LOGFILE doc.log)
 
   # Configuration options related to the input files
   set(DOXYGEN_RECURSIVE YES)
