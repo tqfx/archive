@@ -24,6 +24,7 @@ endif()
 include(cmake/core.cmake)
 include(cmake/standard.cmake)
 
+option(ENABLE_JAVA "Enable java" OFF)
 option(ENABLE_VCPKG "Enable vcpkg" OFF)
 option(ENABLE_PYTHON "Enable python" ON)
 option(ENABLE_DOXYGEN "Enable doxygen" ON)
@@ -44,6 +45,15 @@ if(GIT_FOUND)
     OUTPUT_VARIABLE GIT_REF
     ERROR_QUIET
   )
+endif()
+
+if(ENABLE_JAVA)
+  find_package(Java)
+  find_package(JNI)
+endif()
+
+if(JNI_FOUND)
+  include(UseJava)
 endif()
 
 if(ENABLE_PYTHON)
@@ -115,6 +125,16 @@ if(ENABLE_IPO)
   set_target_properties(a PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
+if(JNI_FOUND)
+  add_jar(a-jar
+    SOURCES ffi/java/a.java
+    ENTRY_POINT a OUTPUT_NAME a
+    GENERATE_NATIVE_HEADERS a-native
+  )
+  add_library(a-jni SHARED ffi/java/a.c)
+  target_link_libraries(a-jni PRIVATE a a-native)
+endif()
+
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
   ${CMAKE_CURRENT_LIST_DIR}/src/config.hpp
@@ -160,6 +180,16 @@ if(ENABLE_IPO)
   set_target_properties(aa PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
+if(JNI_FOUND)
+  add_jar(aa-jar
+    SOURCES ffi/java/aa.java
+    ENTRY_POINT aa OUTPUT_NAME aa
+    GENERATE_NATIVE_HEADERS aa-native
+  )
+  add_library(aa-jni SHARED ffi/java/aa.cpp)
+  target_link_libraries(aa-jni PRIVATE aa aa-native)
+endif()
+
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   add_subdirectory(tests)
 endif()
@@ -175,9 +205,9 @@ install(TARGETS a aa
   ARCHIVE DESTINATION lib
 )
 install(EXPORT ${PROJECT_NAME}-targets
+  DESTINATION lib/cmake/${PROJECT_NAME}
   FILE ${PROJECT_NAME}-targets.cmake
   NAMESPACE ${PROJECT_NAME}::
-  DESTINATION lib/cmake/${PROJECT_NAME}
 )
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
@@ -203,6 +233,22 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
   @ONLY
 )
+
+if(JNI_FOUND)
+  install_jar(a-jar lib)
+  install_jar(aa-jar lib)
+  install(TARGETS a-jni aa-jni
+    EXPORT ${PROJECT_NAME}-targets
+    ARCHIVE DESTINATION lib/jni
+    LIBRARY DESTINATION lib/jni
+    RUNTIME DESTINATION bin
+  )
+  install_jar_exports(TARGETS a-jni aa-jni
+    DESTINATION lib/cmake/${PROJECT_NAME}
+    FILE ${PROJECT_NAME}-targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+  )
+endif()
 
 if(ENABLE_VCPKG)
   if(DEFINED ENV{VCPKG_INSTALLATION_ROOT})
