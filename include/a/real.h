@@ -80,11 +80,6 @@ typedef long double a_real_t;
 
 #endif /* A_DEF_FLT */
 
-#define a_real_add(lhs, rhs) ((lhs) + (rhs)) //!< \f$ \texttt{lhs} + \texttt{rhs} \f$
-#define a_real_sub(lhs, rhs) ((lhs) - (rhs)) //!< \f$ \texttt{lhs} - \texttt{rhs} \f$
-#define a_real_mul(lhs, rhs) ((lhs) * (rhs)) //!< \f$ \texttt{lhs} \times \texttt{rhs} \f$
-#define a_real_div(lhs, rhs) ((lhs) / (rhs)) //!< \f$ \texttt{lhs} \div   \texttt{rhs} \f$
-
 /*!
  @} A_REAL
 */
