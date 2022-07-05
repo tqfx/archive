@@ -39,14 +39,14 @@ try:
 except:
     USE_CYTHON = False
 
-if USE_CYTHON and os.path.exists("cython/a/source.pyx"):
-    source_c = ["cython/a/source.pyx"]
+if USE_CYTHON and os.path.exists("ffi/c/source.pyx"):
+    source_c = ["ffi/c/source.pyx"]
 else:
-    source_c = ["cython/a/source.c"]
-if USE_CYTHON and os.path.exists("cython/aa/source.pyx"):
-    source_cc = ["cython/aa/source.pyx"]
+    source_c = ["ffi/c/source.c"]
+if USE_CYTHON and os.path.exists("ffi/cc/source.pyx"):
+    source_cc = ["ffi/cc/source.pyx"]
 else:
-    source_cc = ["cython/aa/source.cpp"]
+    source_cc = ["ffi/cc/source.cpp"]
 
 define_macros = [("A_EXPORTS", None), ("A_SHARED", None)]
 with open("setup.cfg", "r", encoding="UTF-8") as f:
