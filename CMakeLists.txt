@@ -78,6 +78,7 @@ file(GLOB_RECURSE SOURCES include/*.h src/*.h src/*.c)
 
 add_library(a ${SOURCES})
 add_library(${PROJECT_NAME}::a ALIAS a)
+get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
 set_target_properties(a PROPERTIES DEFINE_SYMBOL "A_EXPORTS")
 set_target_properties(a PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(a PROPERTIES C_VISIBILITY_PRESET hidden)
@@ -87,7 +88,7 @@ target_compile_options(a PRIVATE
 )
 target_compile_definitions(a
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
-  PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:A_SHARED>
+  PUBLIC $<$<BOOL:${A_SHARED}>:A_SHARED>
 )
 target_include_directories(a PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
@@ -122,6 +123,7 @@ file(GLOB_RECURSE SOURCES include/*.hpp src/*.hpp src/*.cpp)
 
 add_library(aa ${SOURCES})
 add_library(${PROJECT_NAME}::aa ALIAS aa)
+get_target_property(A_SHARED aa POSITION_INDEPENDENT_CODE)
 set_target_properties(aa PROPERTIES DEFINE_SYMBOL "A_EXPORTS")
 set_target_properties(aa PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(aa PROPERTIES CXX_VISIBILITY_PRESET hidden)
@@ -131,7 +133,7 @@ target_compile_options(aa PRIVATE
 )
 target_compile_definitions(aa
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
-  PUBLIC $<$<BOOL:${BUILD_SHARED_LIBS}>:A_SHARED>
+  PUBLIC $<$<BOOL:${A_SHARED}>:A_SHARED>
 )
 target_include_directories(aa PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
