@@ -17,9 +17,7 @@ namespace a
  @{
 */
 
-/*!
- @} AA_DEV
-*/
+/*! @} AA_DEV */
 } // namespace a
 
 #endif /* __A_DEV_HPP__ */

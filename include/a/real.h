@@ -80,8 +80,6 @@ typedef long double a_real_t;
 
 #endif /* A_DEF_FLT */
 
-/*!
- @} A_REAL
-*/
+/*! @} A_REAL */
 
 #endif /* __A_REAL_H__ */

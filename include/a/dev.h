@@ -23,8 +23,6 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-/*!
- @} A_DEV
-*/
+/*! @} A_DEV */
 
 #endif /* __A_DEV_H__ */

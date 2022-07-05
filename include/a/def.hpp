@@ -125,9 +125,7 @@ enum
 */
 A_PUBLIC const char *version(void);
 
-/*!
- @} AA
-*/
+/*! @} AA */
 } // namespace a
 
 #endif /* __A_DEF_HPP__ */

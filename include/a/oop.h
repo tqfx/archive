@@ -102,9 +102,7 @@
 #define A_OOP_CREATE_VA A_OOP_NEW_VA
 #define A_OOP_DELETE_VA A_OOP_DIE_VA
 
-/*!
- @} A_OOP
-*/
+/*! @} A_OOP */
 
 #endif /* __STDC_VERSION__ */
 
