@@ -38,15 +38,14 @@ try:
     USE_CYTHON = True
 except:
     USE_CYTHON = False
-
-if USE_CYTHON and os.path.exists("ffi/c/source.pyx"):
-    source_c = ["ffi/c/source.pyx"]
+if USE_CYTHON and os.path.exists("ffi/python/a.pyx"):
+    source_c = ["ffi/python/a.pyx"]
 else:
-    source_c = ["ffi/c/source.c"]
-if USE_CYTHON and os.path.exists("ffi/cc/source.pyx"):
-    source_cc = ["ffi/cc/source.pyx"]
+    source_c = ["ffi/python/a.c"]
+if USE_CYTHON and os.path.exists("ffi/python/aa.pyx"):
+    source_cc = ["ffi/python/aa.pyx"]
 else:
-    source_cc = ["ffi/cc/source.cpp"]
+    source_cc = ["ffi/python/aa.cpp"]
 
 define_macros = [("A_EXPORTS", None), ("A_SHARED", None)]
 with open("setup.cfg", "r", encoding="UTF-8") as f:
