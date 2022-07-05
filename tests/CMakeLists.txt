@@ -45,20 +45,20 @@ foreach(lang ${enabled_languages})
   endif()
 endforeach()
 
-function(unit_test source target)
+function(unit_test name source target)
   set(TARGET test-${target})
   add_executable(${TARGET} ${source})
   set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
-  target_link_libraries(${TARGET} ${PROJECT_NAME}::a ${PROJECT_NAME}::aa)
+  target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::${name})
   add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${ARGN})
 endfunction()
 
-unit_test(test.c a)
-unit_test(test.cc a+)
-unit_test(test.cpp a++)
+unit_test(a test.c a)
+unit_test(a test.cc a+)
+unit_test(aa test.cpp a++)
 
-unit_test(real.c real)
+unit_test(a real.c real)
 
-unit_test(operator.c operator)
+unit_test(a operator.c operator)
 
 add_subdirectory(misc)
