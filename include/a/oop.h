@@ -8,8 +8,10 @@
 #define __A_OOP_H__
 
 #if defined(__STDC_VERSION__)
-
 #include <stdlib.h>
+#else /* !__STDC_VERSION__ */
+#include <cstdlib>
+#endif /* __STDC_VERSION__ */
 
 /*!
  @ingroup A
@@ -103,7 +105,5 @@
 #define A_OOP_DELETE_VA A_OOP_DIE_VA
 
 /*! @} A_OOP */
-
-#endif /* __STDC_VERSION__ */
 
 #endif /* __A_OOP_H__ */
