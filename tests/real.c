@@ -21,10 +21,10 @@ static void test(void)
     a_real_t lhs = 1;
     a_real_t rhs = 2;
 
-    printf(A_REAL_PRI(, "g+") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, a_real_add(lhs, rhs));
-    printf(A_REAL_PRI(, "g-") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, a_real_add(lhs, rhs));
-    printf(A_REAL_PRI(, "g*") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, a_real_add(lhs, rhs));
-    printf(A_REAL_PRI(, "g/") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, a_real_add(lhs, rhs));
+    printf(A_REAL_PRI(, "g+") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, lhs + rhs);
+    printf(A_REAL_PRI(, "g-") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, lhs - rhs);
+    printf(A_REAL_PRI(, "g*") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, lhs * rhs);
+    printf(A_REAL_PRI(, "g/") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, lhs / rhs);
 }
 
 #if defined(__GNUC__) || defined(__clang__)
