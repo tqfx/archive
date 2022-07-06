@@ -1,7 +1,2 @@
-black
-wheel
 cython
-matplotlib
-control
-numpy
-scipy
+wheel

@@ -15,8 +15,12 @@
 #define pos + //!< positive
 #define neg - //!< negative
 
+#ifndef __cplusplus
+
 #define not   ! //!< logical NOT
 #define compl ~ //!< bitwise NOT
+
+#endif /* __cplusplus */
 
 #define mul * //!< multiplication
 #define div / //!< division
@@ -35,12 +39,16 @@
 #define eq == //!< equal
 #define ne != //!< not equal
 
+#ifndef __cplusplus
+
 #define bitand & //!< bitwise AND
 #define bitxor ^ //!< bitwise XOR (exclusive or)
 #define bitor  | //!< bitwise OR (inclusive or)
 
 #define and && //!< logical AND
 #define or  || //!< logical OR
+
+#endif /* __cplusplus */
 
 #define add_eq += //!< in-place assignment by sum
 #define sub_eq -= //!< in-place assignment by difference
@@ -51,9 +59,13 @@
 #define shl_eq <<= //!< in-place assignment by bitwise left shift
 #define shr_eq >>= //!< in-place assignment by bitwise right shift
 
+#ifndef __cplusplus
+
 #define and_eq &= //!< in-place assignment by bitwise AND
 #define xor_eq ^= //!< in-place assignment by bitwise XOR (exclusive or)
 #define or_eq  |= //!< in-place assignment by bitwise OR (inclusive or)
+
+#endif /* __cplusplus */
 
 // clang-format on
 

@@ -1,10 +1,6 @@
-public class aa {
-    static {
-        System.loadLibrary("aa-jni");
-    }
+import liba.aa;
 
-    public native String version();
-
+public class aaTest {
     public static void main(String[] args) {
         aa obj = new aa();
         System.out.println("version " + obj.version());

@@ -1,1 +1,1 @@
-include "a/source.pxi"
+include "a/a.pxi"

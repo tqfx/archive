@@ -39,4 +39,4 @@ class format:
 
 
 if __name__ == "__main__":
-    format(["include", "src", "tests"] + argv[1:])()
+    format(["include", "src", "test"] + argv[1:])()

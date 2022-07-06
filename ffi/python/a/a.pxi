@@ -1,6 +1,6 @@
 cimport cython
 
-from source cimport *
+from a cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
