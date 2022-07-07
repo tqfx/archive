@@ -1,4 +1,4 @@
-//! An algorithm library based on C language
+//! An algorithm library based on C/C++ language
 //!
 //! ## Installation
 //!
