@@ -57,6 +57,7 @@ unit_test(a test.c a)
 unit_test(a test.cc a+)
 unit_test(aa test.cpp a++)
 
+unit_test(a math.c math)
 unit_test(a real.c real)
 
 unit_test(a operator.c operator)
