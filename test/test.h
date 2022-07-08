@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
-#ifndef __A_TEST_H__
-#define __A_TEST_H__
+#ifndef __TEST_H__
+#define __TEST_H__
 
 #include <stdio.h>
 
@@ -31,4 +31,4 @@
 
 #define TEST_BUG(expression) TEST_IS_TRUE(expression, "bug")
 
-#endif /* __A_TEST_H__ */
+#endif /* __TEST_H__ */

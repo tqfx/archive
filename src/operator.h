@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
-#ifndef __A_SRC_OPERATOR_H__
-#define __A_SRC_OPERATOR_H__
+#ifndef __OPERATOR_H__
+#define __OPERATOR_H__
 
 // clang-format off
 
@@ -69,4 +69,4 @@
 
 // clang-format on
 
-#endif /* __A_SRC_OPERATOR_H__ */
+#endif /* __OPERATOR_H__ */

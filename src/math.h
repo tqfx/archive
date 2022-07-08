@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
-#ifndef __A_SRC_MATH_H__
-#define __A_SRC_MATH_H__
+#ifndef __MATH_H__
+#define __MATH_H__
 
 #include "a/math.h"
 
@@ -57,4 +57,4 @@
 #define ABS(x) A_ABS(x)
 #define SGN(x) A_SGN(x)
 
-#endif /* __A_SRC_MATH_H__ */
+#endif /* __MATH_H__ */
