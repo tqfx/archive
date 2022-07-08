@@ -223,7 +223,9 @@ if(ENABLE_VCPKG)
   )
 endif()
 
-add_subdirectory(ffi)
+if(EXISTS ffi)
+  add_subdirectory(ffi)
+endif()
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   add_subdirectory(test)
