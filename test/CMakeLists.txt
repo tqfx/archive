@@ -60,6 +60,10 @@ unit_test(aa test.cpp a++)
 unit_test(a math.c math)
 unit_test(a real.c real)
 
+unit_test(a list.c list)
+unit_test(a slist.c slist)
+
 unit_test(a operator.c operator)
 
 add_subdirectory(misc)
+add_subdirectory(host)
