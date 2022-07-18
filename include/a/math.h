@@ -76,7 +76,6 @@
 
 /*!
  @brief square of x, \f$ x^2 \f$
- @param x independent variable
 */
 #define A_SQ(x) ((x) * (x))
 
@@ -97,6 +96,7 @@ extern "C" {
 /*!
  @brief fast inverse square-root, \f$ \frac{1}{\sqrt{x}} \f$
  @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
+ @param[in] x independent variable
 */
 A_PUBLIC float a_inv_sqrt(float x);
 
