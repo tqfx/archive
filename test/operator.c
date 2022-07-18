@@ -10,6 +10,11 @@
 
 #include <stdio.h>
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++-compat"
+#endif /* __GNUC__ || __clang__ */
+
 static void test_intern(void)
 {
     {
@@ -199,6 +204,10 @@ static void test_intern(void)
         printf("%i or_eq %i = %i\n", a, b, c);
     }
 }
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* __GNUC__ || __clang__ */
 
 static void test_extern(void)
 {

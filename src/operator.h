@@ -7,6 +7,11 @@
 #ifndef __OPERATOR_H__
 #define __OPERATOR_H__
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++-compat"
+#endif /* __GNUC__ || __clang__ */
+
 // clang-format off
 
 #define inc ++ //!< increment
@@ -68,5 +73,9 @@
 #endif /* __cplusplus */
 
 // clang-format on
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* __GNUC__ || __clang__ */
 
 #endif /* __OPERATOR_H__ */
