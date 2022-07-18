@@ -21,7 +21,7 @@
 
 /*!
  @brief Generates a parameterless function that creates an object
- @param type object type
+ @param type object definition
  @param func function symbol
  @param ctor constructor
 */
@@ -43,7 +43,7 @@
  #define ARGS double x, double y
  A_OOP_NEW_VA(a_rect_s, a_rect_new, a_rect_ctor, ARGS, x, y)
  @endcode
- @param type object type
+ @param type object definition
  @param func function symbol
  @param ctor constructor
  @param args macro for declaring parameters
@@ -62,7 +62,7 @@
 
 /*!
  @brief Generates a parameterless function that destroys an object
- @param type object type
+ @param type object definition
  @param func function symbol
  @param dtor destructor
 */
@@ -83,7 +83,7 @@
  #define ARGS void (*func)(void *)
  A_OOP_DIE_VA(a_vec_s, a_vec_die, a_vec_dtor, ARGS, func)
  @endcode
- @param type object type
+ @param type object definition
  @param func function symbol
  @param dtor destructor
  @param args macro for declaring parameters
