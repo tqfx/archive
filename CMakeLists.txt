@@ -77,7 +77,7 @@ configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
   ${CMAKE_CURRENT_LIST_DIR}/src/config.h
 )
-file(GLOB_RECURSE SOURCES include/*.h src/*.h src/*.c)
+file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 
 add_library(a ${SOURCES})
 add_library(${PROJECT_NAME}::a ALIAS a)
@@ -122,7 +122,7 @@ configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
   ${CMAKE_CURRENT_LIST_DIR}/src/config.hpp
 )
-file(GLOB_RECURSE SOURCES include/*.hpp src/*.hpp src/*.cpp)
+file(GLOB_RECURSE SOURCES include/*.hpp src/*.[ch]pp)
 
 add_library(aa ${SOURCES})
 add_library(${PROJECT_NAME}::aa ALIAS aa)
