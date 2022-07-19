@@ -29,11 +29,11 @@ typedef struct a_str_s
     char *__str;  /*!< string */
 } a_str_s;
 
-#ifndef A_STR_NUL
+#ifndef A_STR_NIL
 // clang-format off
 #define A_STR_NIL {0, 0, 0}
 // clang-format on
-#endif /* A_STR_NUL */
+#endif /* A_STR_NIL */
 
 /*!
  @brief memory for a pointer to string structure
@@ -163,7 +163,7 @@ A_HIDDEN int a_str_putn_(a_str_s *ctx, const void *pdata, size_t nbyte);
 A_PUBLIC int a_str_puts(a_str_s *ctx, const void *str);
 
 /*!
- @brief Print string to a pointer to string structure
+ @brief print string to a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] fmt format of string to be printed
  @param[in] va instance of variable argument
@@ -173,7 +173,7 @@ A_PUBLIC int a_str_puts(a_str_s *ctx, const void *str);
 A_PUBLIC int a_str_vprintf(a_str_s *ctx, const char *fmt, va_list va) __attribute__((__format__(__printf__, 2, 0)));
 
 /*!
- @brief Print string to a pointer to string structure
+ @brief print string to a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] fmt format of string to be printed
  @return number of printed characters
