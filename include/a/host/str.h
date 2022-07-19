@@ -109,7 +109,7 @@ A_PUBLIC int a_str_copy(a_str_s *ctx, const a_str_s *str);
  @param[in] ctx points to an instance of string structure
  @param[in] str input source pointing to an instance
 */
-A_PUBLIC void a_str_move(a_str_s *ctx, a_str_s *str);
+A_PUBLIC a_str_s *a_str_move(a_str_s *ctx, a_str_s *str);
 
 /*!
  @brief terminate a pointer to string structure

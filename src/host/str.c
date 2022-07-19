@@ -70,12 +70,13 @@ int a_str_copy(a_str_s *ctx, const a_str_s *str)
     return a_str_init(ctx, str->__str, str->__num);
 }
 
-void a_str_move(a_str_s *ctx, a_str_s *str)
+a_str_s *a_str_move(a_str_s *ctx, a_str_s *str)
 {
     assert(ctx);
     assert(str);
     memcpy(ctx, str, sizeof(a_str_s));
     memset(str, 0, sizeof(a_str_s));
+    return ctx;
 }
 
 char *a_str_exit(a_str_s *ctx)
