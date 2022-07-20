@@ -20,7 +20,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #if defined(__cplusplus)
-}
+} /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A_DEV */

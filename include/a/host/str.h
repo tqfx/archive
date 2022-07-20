@@ -9,6 +9,8 @@
 
 #include "../def.h"
 
+#if __STDC_HOSTED__
+
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -128,7 +130,7 @@ A_PUBLIC char *a_str_exit(a_str_s *ctx);
   @retval 0 success
 */
 A_PUBLIC int a_str_resize(a_str_s *ctx, size_t mem);
-A_HIDDEN int a_str_resize_(a_str_s *ctx, size_t mem);
+A_PUBLIC int a_str_resize_(a_str_s *ctx, size_t mem);
 
 /*!
  @brief put character to an instance of string structure
@@ -138,7 +140,7 @@ A_HIDDEN int a_str_resize_(a_str_s *ctx, size_t mem);
   @retval -1 failure
 */
 A_PUBLIC int a_str_putc(a_str_s *ctx, int c);
-A_HIDDEN int a_str_putc_(a_str_s *ctx, int c);
+A_PUBLIC int a_str_putc_(a_str_s *ctx, int c);
 
 /*!
  @brief put data to an instance of string structure
@@ -150,7 +152,7 @@ A_HIDDEN int a_str_putc_(a_str_s *ctx, int c);
   @retval 0 success
 */
 A_PUBLIC int a_str_putn(a_str_s *ctx, const void *pdata, size_t nbyte);
-A_HIDDEN int a_str_putn_(a_str_s *ctx, const void *pdata, size_t nbyte);
+A_PUBLIC int a_str_putn_(a_str_s *ctx, const void *pdata, size_t nbyte);
 
 /*!
  @brief put string to an instance of string structure
@@ -182,9 +184,11 @@ A_PUBLIC int a_str_vprintf(a_str_s *ctx, const char *fmt, va_list va) __attribut
 A_PUBLIC int a_str_printf(a_str_s *ctx, const char *fmt, ...) __attribute__((__format__(__printf__, 2, 3)));
 
 #if defined(__cplusplus)
-}
+} /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A_STR */
+
+#endif /* __STDC_HOSTED__ */
 
 #endif /* __A_STR_H__ */

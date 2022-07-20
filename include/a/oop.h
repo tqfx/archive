@@ -7,11 +7,7 @@
 #ifndef __A_OOP_H__
 #define __A_OOP_H__
 
-#if defined(__STDC_VERSION__)
 #include <stdlib.h>
-#else /* !__STDC_VERSION__ */
-#include <cstdlib>
-#endif /* __STDC_VERSION__ */
 
 /*!
  @ingroup A

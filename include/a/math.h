@@ -101,7 +101,7 @@ extern "C" {
 A_PUBLIC float a_inv_sqrt(float x);
 
 #if defined(__cplusplus)
-}
+} /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A_MATH */

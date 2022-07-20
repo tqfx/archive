@@ -9,6 +9,8 @@
 
 #include "../def.h"
 
+#if __STDC_HOSTED__
+
 #include <stdlib.h>
 
 /*!
@@ -145,9 +147,11 @@ A_PUBLIC void *a_vec_push(a_vec_s *ctx);
 A_PUBLIC void *a_vec_pop(a_vec_s *ctx);
 
 #if defined(__cplusplus)
-}
+} /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A_VEC */
+
+#endif /* __STDC_HOSTED__ */
 
 #endif /* __A_VEC_H__ */

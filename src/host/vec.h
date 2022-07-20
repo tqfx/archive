@@ -7,6 +7,8 @@
 #ifndef __VEC_H__
 #define __VEC_H__
 
+#if __STDC_HOSTED__
+
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -108,5 +110,7 @@
     {                                                \
         return ctx->num ? ctx->vec + --ctx->num : 0; \
     }
+
+#endif /* __STDC_HOSTED__ */
 
 #endif /* __VEC_H__ */

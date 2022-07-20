@@ -4,6 +4,8 @@
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
+#if __STDC_HOSTED__
+
 #include "a/host/vec.h"
 #include "a/oop.h"
 
@@ -107,3 +109,5 @@ void *a_vec_pop(a_vec_s *ctx)
     assert(ctx);
     return ctx->__number ? a_vec_at(ctx, --ctx->__number) : 0;
 }
+
+#endif /* __STDC_HOSTED__ */

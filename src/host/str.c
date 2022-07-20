@@ -4,6 +4,8 @@
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
+#if __STDC_HOSTED__
+
 #include "a/host/str.h"
 #include "a/oop.h"
 
@@ -220,3 +222,5 @@ int a_str_printf(a_str_s *ctx, const char *fmt, ...)
     va_end(ap);
     return ret;
 }
+
+#endif /* __STDC_HOSTED__ */
