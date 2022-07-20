@@ -6,8 +6,15 @@ find_program(CPPLINT cpplint)
 
 function(target_library_options target)
   get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+  unset(languages)
 
-  foreach(lang ${enabled_languages})
+  foreach(lang C CXX)
+    if(${lang} IN_LIST enabled_languages)
+      list(APPEND languages ${lang})
+    endif()
+  endforeach()
+
+  foreach(lang ${languages})
     set_target_properties(${target} PROPERTIES ${lang}_VISIBILITY_PRESET hidden)
 
     if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
@@ -35,8 +42,15 @@ endfunction()
 
 function(target_executable_options target)
   get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+  unset(languages)
 
-  foreach(lang ${enabled_languages})
+  foreach(lang C CXX)
+    if(${lang} IN_LIST enabled_languages)
+      list(APPEND languages ${lang})
+    endif()
+  endforeach()
+
+  foreach(lang ${languages})
     if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
       set_target_properties(${target} PROPERTIES ${lang}_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
     endif()
