@@ -14,7 +14,7 @@
     {                                                 \
         if (!(expression))                            \
         {                                             \
-            fprintf(stderr, "%s: file %s, line %u\n", \
+            fprintf(stderr, "%s: file %s, line %i\n", \
                     message, __FILE__, __LINE__);     \
         }                                             \
     } while (0)
@@ -24,7 +24,7 @@
     {                                                 \
         if (expression)                               \
         {                                             \
-            fprintf(stderr, "%s: file %s, line %u\n", \
+            fprintf(stderr, "%s: file %s, line %i\n", \
                     message, __FILE__, __LINE__);     \
         }                                             \
     } while (0)
