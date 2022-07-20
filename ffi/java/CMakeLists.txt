@@ -13,15 +13,11 @@ install_jar(jar-a share/java)
 
 add_library(jni-a SHARED src/a.c)
 set_target_properties(jni-a PROPERTIES
-  DEFINE_SYMBOL A_EXPORTS
-  OUTPUT_NAME a
+  DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a
 )
 target_link_libraries(jni-a PRIVATE jar-native-a a)
-target_compile_options(jni-a PRIVATE
-  $<$<C_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-  $<$<C_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:C>:${C_FLAGS}>
-)
 target_compile_definitions(jni-a PUBLIC A_SHARED)
+target_library_options(jni-a)
 
 add_jar(jar-aa
   SOURCES liba/aa.java
@@ -32,15 +28,11 @@ install_jar(jar-aa share/java)
 
 add_library(jni-aa SHARED src/aa.cpp)
 set_target_properties(jni-aa PROPERTIES
-  DEFINE_SYMBOL A_EXPORTS
-  OUTPUT_NAME aa
+  DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME aa
 )
 target_link_libraries(jni-aa PRIVATE jar-native-aa aa)
-target_compile_options(jni-aa PRIVATE
-  $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:CXX>:${CXX_FLAGS}>
-)
 target_compile_definitions(jni-aa PUBLIC A_SHARED)
+target_library_options(jni-aa)
 
 install(TARGETS jni-a jni-aa
   EXPORT ${PROJECT_NAME}-targets

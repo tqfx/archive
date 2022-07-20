@@ -3,11 +3,8 @@ file(GLOB_RECURSE SOURCES src/*.c)
 add_library(lua-a SHARED ${SOURCES})
 set_target_properties(lua-a PROPERTIES OUTPUT_NAME a)
 target_link_libraries(lua-a PRIVATE ${LUA_LIBRARIES} a)
-target_compile_options(lua-a PRIVATE
-  $<$<C_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-  $<$<C_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:C>:${C_FLAGS}>
-)
 target_include_directories(lua-a PRIVATE ${LUA_INCLUDE_DIR})
+target_library_options(lua-a)
 
 if(LUA_VERSION_MAJOR AND LUA_VERSION_MINOR)
   set(LUA_VERSION ${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR})

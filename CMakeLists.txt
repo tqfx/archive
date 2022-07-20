@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
 
-find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
-find_program(CLANG_FORMAT clang-format)
-find_program(CLANG_TIDY clang-tidy)
-find_program(CPPCHECK cppcheck)
-find_program(CPPLINT cpplint)
-
 set(PROJECT_LICENSE "MPL-2.0")
 project(liba VERSION 0.1.0 LANGUAGES C CXX
   DESCRIPTION "An algorithm library based on C/C++ language"
@@ -22,6 +16,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT "${CMAKE_SYSTEM_NAME}" MATCH
 endif()
 
 include(cmake/core.cmake)
+include(cmake/target.cmake)
 include(cmake/standard.cmake)
 
 option(ENABLE_VCPKG "Enable vcpkg" OFF)
@@ -84,11 +79,6 @@ add_library(${PROJECT_NAME}::a ALIAS a)
 get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
 set_target_properties(a PROPERTIES DEFINE_SYMBOL A_EXPORTS)
 set_target_properties(a PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(a PROPERTIES C_VISIBILITY_PRESET hidden)
-target_compile_options(a PRIVATE
-  $<$<C_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-  $<$<C_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:C>:${C_FLAGS}>
-)
 target_compile_definitions(a
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
   PUBLIC $<$<BOOL:${A_SHARED}>:A_SHARED>
@@ -97,25 +87,10 @@ target_include_directories(a PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+target_library_options(a)
 
 if(MATH_LIBRARY OR ANDROID)
   target_link_libraries(a PUBLIC m)
-endif()
-
-if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
-  set_target_properties(a PROPERTIES C_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
-endif()
-
-if(ENABLE_CLANG_TIDY AND CLANG_TIDY)
-  set_target_properties(a PROPERTIES C_CLANG_TIDY "${CLANG_TIDY};--fix")
-endif()
-
-if(ENABLE_CPPCHECK AND CPPCHECK)
-  set_target_properties(a PROPERTIES C_CPPCHECK "${CPPCHECK};--enable=warning,performance")
-endif()
-
-if(ENABLE_IPO)
-  set_target_properties(a PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
 configure_file(
@@ -129,11 +104,6 @@ add_library(${PROJECT_NAME}::aa ALIAS aa)
 get_target_property(A_SHARED aa POSITION_INDEPENDENT_CODE)
 set_target_properties(aa PROPERTIES DEFINE_SYMBOL A_EXPORTS)
 set_target_properties(aa PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(aa PROPERTIES CXX_VISIBILITY_PRESET hidden)
-target_compile_options(aa PRIVATE
-  $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:CXX>:${CXX_FLAGS}>
-)
 target_compile_definitions(aa
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
   PUBLIC $<$<BOOL:${A_SHARED}>:A_SHARED>
@@ -142,25 +112,10 @@ target_include_directories(aa PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+target_library_options(aa)
 
 if(MATH_LIBRARY OR ANDROID)
   target_link_libraries(aa PUBLIC m)
-endif()
-
-if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
-  set_target_properties(aa PROPERTIES CXX_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
-endif()
-
-if(ENABLE_CLANG_TIDY AND CLANG_TIDY)
-  set_target_properties(aa PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY};--fix")
-endif()
-
-if(ENABLE_CPPCHECK AND CPPCHECK)
-  set_target_properties(aa PROPERTIES CXX_CPPCHECK "${CPPCHECK};--enable=warning,performance")
-endif()
-
-if(ENABLE_IPO)
-  set_target_properties(aa PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
