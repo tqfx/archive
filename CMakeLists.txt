@@ -81,7 +81,7 @@ set_target_properties(a PROPERTIES DEFINE_SYMBOL A_EXPORTS)
 set_target_properties(a PROPERTIES VERSION ${PROJECT_VERSION})
 target_compile_definitions(a
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
-  PUBLIC $<$<BOOL:${A_SHARED}>:A_SHARED>
+  INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
 )
 target_include_directories(a PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
@@ -106,7 +106,7 @@ set_target_properties(aa PROPERTIES DEFINE_SYMBOL A_EXPORTS)
 set_target_properties(aa PROPERTIES VERSION ${PROJECT_VERSION})
 target_compile_definitions(aa
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
-  PUBLIC $<$<BOOL:${A_SHARED}>:A_SHARED>
+  INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
 )
 target_include_directories(aa PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>

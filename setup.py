@@ -46,12 +46,11 @@ if USE_CYTHON and os.path.exists("ffi/python/aa.pyx"):
     source_cc = ["ffi/python/aa.pyx"]
 else:
     source_cc = ["ffi/python/aa.cpp"]
-
-define_macros = [("A_EXPORTS", None), ("A_SHARED", None)]
+define_macros = [("A_EXPORTS", None)]
 with open("setup.cfg", "r", encoding="UTF-8") as f:
     version = re.findall(r"version = (.*)", f.read())
 if version:
-    define_macros.append(("A_VERSION", '"' + version[0] + '"'))
+    define_macros.append(("A_VERSION", '"' + version[0] + '"'))  # type: ignore
 
 header_h = []
 header_hh = []
