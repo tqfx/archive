@@ -15,13 +15,9 @@ namespace a
 const char *version(void)
 {
 #if defined(A_VERSION)
-
     return A_VERSION;
-
 #else /* !A_VERSION */
-
     return "";
-
 #endif /* A_VERSION */
 }
 

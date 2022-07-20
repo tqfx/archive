@@ -22,9 +22,9 @@
 */
 typedef struct a_vec_s
 {
-    void *__ptr;       /*! vector pointer */
-    size_t __size;     /*! size of element */
-    size_t __number;   /*! number of element */
+    void *__ptr; /*! vector pointer */
+    size_t __size; /*! size of element */
+    size_t __number; /*! number of element */
     size_t __capacity; /*! capacity of element */
 } a_vec_s;
 

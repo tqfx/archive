@@ -26,7 +26,7 @@ typedef struct a_str_s
 {
     size_t __mem; /*!< memory */
     size_t __num; /*!< length */
-    char *__str;  /*!< string */
+    char *__str; /*!< string */
 } a_str_s;
 
 #ifndef A_STR_NIL
