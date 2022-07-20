@@ -49,6 +49,7 @@ static void test(void)
     {
         printf("%" PRIu32 " ", p[i]);
     }
+    a_vec_top(ctx);
     putchar('\n');
     a_vec_die(ctx, dtor);
     putchar('\n');
@@ -57,7 +58,9 @@ static void test(void)
 VEC_S(int_s, int);
 VEC_MEM(int_s, int_mem)
 VEC_NUM(int_s, int_num)
+VEC_PTR(int_s, int_ptr, int)
 VEC_AT(int_s, int_at, int)
+VEC_TOP(int_s, int_top, int)
 VEC_F(static, int, int_s, int)
 VEC_CTOR(int_s, int_ctor)
 VEC_DTOR(int_s, int_dtor, VEC_DTOR_NO)
@@ -81,6 +84,8 @@ static void test_intern(void)
     {
         *int_at(ctx, i) = 0;
     }
+    *int_ptr(ctx) = 0;
+    *int_top(ctx) = 0;
     for (size_t i = int_num(ctx); i != int_mem(ctx); ++i)
     {
         *int_at(ctx, i) = 0;

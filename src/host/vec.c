@@ -8,6 +8,7 @@
 #include "a/oop.h"
 
 #include <assert.h>
+#include <string.h>
 
 #undef ARGS
 #define ARGS size_t size
@@ -44,6 +45,31 @@ void a_vec_dtor(a_vec_s *ctx, void (*dtor)(void *))
     ctx->__capacity = 0;
     ctx->__number = 0;
     ctx->__size = 0;
+}
+
+int a_vec_copy(a_vec_s *ctx, const a_vec_s *vec)
+{
+    assert(ctx);
+    assert(vec);
+    ctx->__ptr = malloc(vec->__capacity * vec->__size);
+    if (ctx->__ptr == 0)
+    {
+        return ~0;
+    }
+    memcpy(ctx->__ptr, vec->__ptr, vec->__number * vec->__size);
+    ctx->__capacity = vec->__capacity;
+    ctx->__number = vec->__number;
+    ctx->__size = vec->__size;
+    return 0;
+}
+
+a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *vec)
+{
+    assert(ctx);
+    assert(vec);
+    memcpy(ctx, vec, sizeof(a_vec_s));
+    memset(vec, 0, sizeof(a_vec_s));
+    return ctx;
 }
 
 int a_vec_resize(a_vec_s *ctx, size_t size)

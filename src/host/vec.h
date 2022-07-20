@@ -30,8 +30,12 @@
     static inline size_t func(type *ctx) { return ctx->mem; }
 #define VEC_NUM(type, func) \
     static inline size_t func(type *ctx) { return ctx->num; }
+#define VEC_PTR(type, func, type_) \
+    static inline type_ *func(type *ctx) { return ctx->vec; }
 #define VEC_AT(type, func, type_) \
     static inline type_ *func(type *ctx, size_t index) { return ctx->vec + index; }
+#define VEC_TOP(type, func, type_) \
+    static inline type_ *func(type *ctx) { return ctx->num ? ctx->vec + ctx->num - 1 : 0; }
 
 #define VEC_NEW(type, func, ctor)                 \
     type *func(void)                              \
