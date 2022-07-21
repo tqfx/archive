@@ -12,6 +12,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#undef VEC_S
 #define VEC_S(type, type_) \
     typedef struct type    \
     {                      \
@@ -20,6 +21,7 @@
         type_ *vec;        \
     } type
 
+#undef VEC_F
 #define VEC_F(scope, name, type, type_) \
     scope type *name##_new(void);       \
     scope void name##_die(type *ctx);   \
@@ -28,17 +30,23 @@
     scope type_ *name##_pop(type *ctx); \
     scope type_ *name##_push(type *ctx);
 
+#undef VEC_MEM
 #define VEC_MEM(type, func) \
     static inline size_t func(type *ctx) { return ctx->mem; }
+#undef VEC_NUM
 #define VEC_NUM(type, func) \
     static inline size_t func(type *ctx) { return ctx->num; }
+#undef VEC_PTR
 #define VEC_PTR(type, func, type_) \
     static inline type_ *func(type *ctx) { return ctx->vec; }
+#undef VEC_AT
 #define VEC_AT(type, func, type_) \
     static inline type_ *func(type *ctx, size_t index) { return ctx->vec + index; }
+#undef VEC_TOP
 #define VEC_TOP(type, func, type_) \
     static inline type_ *func(type *ctx) { return ctx->num ? ctx->vec + ctx->num - 1 : 0; }
 
+#undef VEC_NEW
 #define VEC_NEW(type, func, ctor)                 \
     type *func(void)                              \
     {                                             \
@@ -50,6 +58,7 @@
         return ctx;                               \
     }
 
+#undef VEC_DIE
 #define VEC_DIE(type, func, dtor) \
     void func(type *ctx)          \
     {                             \
@@ -60,6 +69,7 @@
         }                         \
     }
 
+#undef VEC_CTOR
 #define VEC_CTOR(type, func) \
     void func(type *ctx)     \
     {                        \
@@ -68,8 +78,10 @@
         ctx->vec = 0;        \
     }
 
+#undef VEC_DTOR_NO
 #define VEC_DTOR_NO(...)
 
+#undef VEC_DTOR
 #define VEC_DTOR(type, func, dtor)         \
     void func(type *ctx)                   \
     {                                      \
@@ -87,6 +99,7 @@
         ctx->mem = 0;                      \
     }
 
+#undef VEC_PUSH
 #define VEC_PUSH(type, func, type_)                      \
     type_ *func(type *ctx)                               \
     {                                                    \
@@ -105,6 +118,7 @@
         return ctx->vec + ctx->num++;                    \
     }
 
+#undef VEC_POP
 #define VEC_POP(type, func, type_)                   \
     type_ *func(type *ctx)                           \
     {                                                \

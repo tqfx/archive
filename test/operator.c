@@ -79,6 +79,16 @@ static void test_intern(void)
         printf("%i rshift %i = %i\n", a, b, a rshift b);
     }
     {
+        int a = 2;
+        int b = 2;
+        printf("%i eq %i = %i\n", a, b, a eq b);
+    }
+    {
+        int a = 2;
+        int b = 2;
+        printf("%i ne %i = %i\n", a, b, a ne b);
+    }
+    {
         int a = 1;
         int b = 2;
         printf("%i lt %i = %i\n", a, b, a lt b);
@@ -97,16 +107,6 @@ static void test_intern(void)
         int a = 2;
         int b = 1;
         printf("%i ge %i = %i\n", a, b, a ge b);
-    }
-    {
-        int a = 2;
-        int b = 2;
-        printf("%i eq %i = %i\n", a, b, a eq b);
-    }
-    {
-        int a = 2;
-        int b = 2;
-        printf("%i ne %i = %i\n", a, b, a ne b);
     }
     {
         int a = 2;
@@ -273,6 +273,16 @@ static void test_extern(void)
         printf("rshift(%i, %i) = %i\n", a, b, a_rshift(a, b));
     }
     {
+        int a = 2;
+        int b = 2;
+        printf("eq(%i, %i) = %i\n", a, b, a_eq(a, b));
+    }
+    {
+        int a = 2;
+        int b = 2;
+        printf("ne(%i, %i) = %i\n", a, b, a_ne(a, b));
+    }
+    {
         int a = 1;
         int b = 2;
         printf("lt(%i, %i) = %i\n", a, b, a_lt(a, b));
@@ -291,16 +301,6 @@ static void test_extern(void)
         int a = 2;
         int b = 1;
         printf("ge(%i, %i) = %i\n", a, b, a_ge(a, b));
-    }
-    {
-        int a = 2;
-        int b = 2;
-        printf("eq(%i, %i) = %i\n", a, b, a_eq(a, b));
-    }
-    {
-        int a = 2;
-        int b = 2;
-        printf("ne(%i, %i) = %i\n", a, b, a_ne(a, b));
     }
     {
         int a = 2;
