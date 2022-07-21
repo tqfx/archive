@@ -77,8 +77,6 @@ file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 add_library(a ${SOURCES})
 add_library(${PROJECT_NAME}::a ALIAS a)
 get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
-set_target_properties(a PROPERTIES DEFINE_SYMBOL A_EXPORTS)
-set_target_properties(a PROPERTIES VERSION ${PROJECT_VERSION})
 target_compile_definitions(a
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
   INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
@@ -102,8 +100,6 @@ file(GLOB_RECURSE SOURCES include/*.hpp src/*.[ch]pp)
 add_library(aa ${SOURCES})
 add_library(${PROJECT_NAME}::aa ALIAS aa)
 get_target_property(A_SHARED aa POSITION_INDEPENDENT_CODE)
-set_target_properties(aa PROPERTIES DEFINE_SYMBOL A_EXPORTS)
-set_target_properties(aa PROPERTIES VERSION ${PROJECT_VERSION})
 target_compile_definitions(aa
   PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
   INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
@@ -118,12 +114,15 @@ if(MATH_LIBRARY OR ANDROID)
   target_link_libraries(aa PUBLIC m)
 endif()
 
+set_target_properties(a aa PROPERTIES DEFINE_SYMBOL A_EXPORTS
+  VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION__MINOR}
+)
+
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
 )
-install(TARGETS a aa
-  EXPORT ${PROJECT_NAME}-targets
+install(TARGETS a aa EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
