@@ -17,6 +17,7 @@ endif()
 
 include(cmake/core.cmake)
 include(cmake/target.cmake)
+include(cmake/package.cmake)
 include(cmake/standard.cmake)
 
 option(ENABLE_VCPKG "Enable vcpkg" OFF)
@@ -62,12 +63,14 @@ if(ENABLE_IPO)
   check_ipo_supported(RESULT ENABLE_IPO)
 endif()
 
+find_library(MATH_LIBRARY NAMES m)
+
 set(A_VERSION ${PROJECT_VERSION})
 set(A_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
-find_library(MATH_LIBRARY NAMES m)
+
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
   ${CMAKE_CURRENT_LIST_DIR}/src/config.h
@@ -86,10 +89,6 @@ target_include_directories(a PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 target_library_options(a)
-
-if(MATH_LIBRARY OR ANDROID)
-  target_link_libraries(a PUBLIC m)
-endif()
 
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
@@ -111,6 +110,7 @@ target_include_directories(aa PUBLIC
 target_library_options(aa)
 
 if(MATH_LIBRARY OR ANDROID)
+  target_link_libraries(a PUBLIC m)
   target_link_libraries(aa PUBLIC m)
 endif()
 
@@ -160,10 +160,7 @@ configure_file(
 if(ENABLE_VCPKG AND GIT_REF)
   if(DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     get_filename_component(VCPKG_INSTALLATION_ROOT "$ENV{VCPKG_INSTALLATION_ROOT}/." DIRECTORY)
-    install(
-      DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg/
-      DESTINATION ${VCPKG_INSTALLATION_ROOT}
-    )
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg/ DESTINATION ${VCPKG_INSTALLATION_ROOT})
   else()
     install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg DESTINATION share)
   endif()
@@ -188,20 +185,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   add_subdirectory(test)
 endif()
 
-include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_LIST_DIR}/LICENSE.txt)
-set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/README.md)
-set(CPACK_SOURCE_IGNORE_FILES
-  ${CMAKE_CURRENT_LIST_DIR}/.git
-  ${CMAKE_CURRENT_LIST_DIR}/.vscode
-  ${CMAKE_CURRENT_LIST_DIR}/.github
-  ${CMAKE_CURRENT_LIST_DIR}/.gitignore
-  ${CMAKE_CURRENT_LIST_DIR}/.gitmodules
-  ${CMAKE_CURRENT_LIST_DIR}/.gitattributes
-  ${CMAKE_CURRENT_LIST_DIR}/build
-  ${CMAKE_CURRENT_LIST_DIR}/html
-)
-include(CPack)
+package_cpack(${CMAKE_CURRENT_LIST_DIR})
 
 if(CLANG_FORMAT)
   file(GLOB_RECURSE SOURCES include/*.h* src/*.[ch]* test/*.[ch]*)
