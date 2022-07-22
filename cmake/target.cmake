@@ -35,6 +35,12 @@ function(target_library_options target)
     )
   endforeach()
 
+  if(CXX IN_LIST enabled_languages)
+    target_compile_options(${target} PRIVATE
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Weffc++>
+    )
+  endif()
+
   if(ENABLE_IPO)
     set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
   endif()
@@ -70,6 +76,12 @@ function(target_executable_options target)
 
     target_link_options(${target} PRIVATE $<$<COMPILE_LANGUAGE:${lang}>:${${lang}_FLAGS}>)
   endforeach()
+
+  if(CXX IN_LIST enabled_languages)
+    target_compile_options(${target} PRIVATE
+      $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Weffc++>
+    )
+  endif()
 
   if(ENABLE_IPO)
     set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
