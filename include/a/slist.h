@@ -43,21 +43,21 @@ typedef struct a_slist_s
 
 /*!
  @brief iterate over a list
- @param ptr the &a_slist_u to use as a loop counter
+ @param it the &a_slist_u to use as a loop counter
  @param ctx points to circular singly linked list head
 */
-#define a_slist_foreach(ptr, ctx) \
-    for ((ptr) = (ctx)->head->next; (ptr) != (ctx)->head; (ptr) = (ptr)->next)
+#define a_slist_foreach(it, ctx) \
+    for (a_slist_u *it = (ctx)->head->next; it != (ctx)->head; it = it->next)
 
 /*!
  @brief iterate over a list safe against removal of list entry
- @param ptr the &a_slist_u to use as a loop counter
- @param pre another &a_slist_u to use as temporary storage
+ @param it the &a_slist_u to use as a loop counter
+ @param at another &a_slist_u to use as temporary storage
  @param ctx points to circular singly linked list head
 */
-#define a_slist_forsafe(ptr, pre, ctx)                                   \
-    for ((pre) = (ctx)->head, (ptr) = (pre)->next; (ptr) != (ctx)->head; \
-         (pre) = ((pre)->next == (ptr) ? (ptr) : (pre)), (ptr) = (pre)->next)
+#define a_slist_forsafe(it, at, ctx)                                     \
+    for (a_slist_u *at = (ctx)->head, *it = at->next; it != (ctx)->head; \
+         at = (at->next == it ? it : at), it = at->next)
 
 /*!
  @brief constructor for circular singly linked list head

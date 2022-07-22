@@ -35,30 +35,30 @@ typedef struct a_list_s
 
 /*!
  @brief iterate over a list
- @param ptr the &a_list_s to use as a loop counter
+ @param it the &a_list_s to use as a loop counter
  @param ctx points to circular doubly linked list
  @param next the direction of loop iteration
   @arg prev the backward iteration
   @arg next the forward iteration
 */
-#define a_list_foreach_(ptr, ctx, next) \
-    for ((ptr) = (ctx)->next; (ptr) != (ctx); (ptr) = (ptr)->next)
-#define a_list_foreach_next(ptr, ctx) a_list_foreach_(ptr, ctx, next)
-#define a_list_foreach_prev(ptr, ctx) a_list_foreach_(ptr, ctx, prev)
+#define a_list_foreach_(it, ctx, next) \
+    for (a_list_s *it = (ctx)->next; it != (ctx); it = it->next)
+#define a_list_foreach_next(it, ctx) a_list_foreach_(it, ctx, next)
+#define a_list_foreach_prev(it, ctx) a_list_foreach_(it, ctx, prev)
 
 /*!
  @brief iterate over a list safe against removal of list entry
- @param ptr the &a_list_s to use as a loop counter
- @param pre another &a_list_s to use as temporary storage
+ @param it the &a_list_s to use as a loop counter
+ @param at another &a_list_s to use as temporary storage
  @param ctx points to circular doubly linked list
  @param next the direction of loop iteration
   @arg prev the backward iteration
   @arg next the forward iteration
 */
-#define a_list_forsafe_(ptr, pre, ctx, next) \
-    for ((ptr) = (ctx)->next, (pre) = (ptr)->next; (ptr) != (ctx); (ptr) = (pre), (pre) = (ptr)->next)
-#define a_list_forsafe_next(ptr, pre, ctx) a_list_forsafe_(ptr, pre, ctx, next)
-#define a_list_forsafe_prev(ptr, pre, ctx) a_list_forsafe_(ptr, pre, ctx, prev)
+#define a_list_forsafe_(it, at, ctx, next) \
+    for (a_list_s *it = (ctx)->next, *at = it->next; it != (ctx); it = at, at = it->next)
+#define a_list_forsafe_next(it, at, ctx) a_list_forsafe_(it, at, ctx, next)
+#define a_list_forsafe_prev(it, at, ctx) a_list_forsafe_(it, at, ctx, prev)
 
 /*!
  @brief constructor for circular doubly linked list

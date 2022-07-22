@@ -13,11 +13,11 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* __GNUC__ || __clang__ */
-typedef struct list_int_s
+typedef struct int_s
 {
     a_slist_u list[1];
     int data;
-} list_int_s;
+} int_s;
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
@@ -29,12 +29,11 @@ static size_t a_slist_len(const a_slist_s *ctx)
     {
         goto done;
     }
-    const a_slist_u *ptr;
-    if (ctx->head->next != ctx->head)
+    if (a_slist_used(ctx->head))
     {
-        a_slist_foreach(ptr, ctx)
+        a_slist_foreach(it, ctx)
         {
-            if (a_slist_null(ptr))
+            if (a_slist_null(it))
             {
                 printf("\nwarning endless loop!\n");
                 break;
@@ -52,7 +51,7 @@ static void test(void)
     a_slist_ctor(list1);
     for (int i = 0; i != 10; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_slist_add_tail(list1, node->list);
     }
@@ -60,7 +59,7 @@ static void test(void)
     a_slist_ctor(list2);
     for (int i = 14; i != 9; --i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_slist_add_head(list2, node->list);
     }
@@ -68,7 +67,7 @@ static void test(void)
     a_slist_ctor(list3);
     for (int i = 15; i != 20; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_slist_add(list3, list3->tail, node->list);
     }
@@ -77,24 +76,22 @@ static void test(void)
     a_slist_dtor(list2);
     a_slist_mov(list1, list1->tail, list3);
     a_slist_dtor(list3);
-    a_slist_u *ptr;
-    a_slist_foreach(ptr, list1)
+    a_slist_foreach(it, list1)
     {
-        list_int_s *node = a_slist_entry(ptr, list_int_s, list);
+        int_s *node = a_slist_entry(it, int_s, list);
         printf("%i ", node->data);
     }
     printf("%zu", a_slist_len(list1));
     for (int i = 0; i != 10; ++i)
     {
-        list_int_s *node = a_slist_entry_next(list1->head, list_int_s, list);
+        int_s *node = a_slist_entry_next(list1->head, int_s, list);
         a_slist_del_head(list1);
         free(node);
     }
-    a_slist_u *pre;
-    a_slist_forsafe(ptr, pre, list1)
+    a_slist_forsafe(it, at, list1)
     {
-        list_int_s *node = a_slist_entry(ptr, list_int_s, list);
-        a_slist_del(list1, pre);
+        int_s *node = a_slist_entry(it, int_s, list);
+        a_slist_del(list1, at);
         free(node);
     }
     if (a_slist_none(list1) && a_slist_none(list2) && a_slist_none(list3))

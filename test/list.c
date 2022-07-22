@@ -30,11 +30,11 @@ A_INLINE void a_list_swap_node(a_list_s *node1, a_list_s *node2) { a_list_swap_(
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* __GNUC__ || __clang__ */
-typedef struct list_int_s
+typedef struct int_s
 {
     a_list_s list[1];
     int data;
-} list_int_s;
+} int_s;
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
@@ -46,12 +46,11 @@ static size_t a_list_len(const a_list_s *ctx)
     {
         goto done;
     }
-    const a_list_s *ptr;
     if (ctx != ctx->next)
     {
-        a_list_foreach_next(ptr, ctx)
+        a_list_foreach_next(it, ctx)
         {
-            if (ptr == ptr->next)
+            if (it == it->next)
             {
                 printf("\nwarning endless loop!\n");
                 break;
@@ -61,9 +60,9 @@ static size_t a_list_len(const a_list_s *ctx)
     }
     else if (ctx != ctx->prev)
     {
-        a_list_foreach_prev(ptr, ctx)
+        a_list_foreach_prev(it, ctx)
         {
-            if (ptr == ptr->prev)
+            if (it == it->prev)
             {
                 printf("\nwarning endless loop!\n");
                 break;
@@ -81,7 +80,7 @@ static void test_next(void)
     a_list_ctor(list1);
     for (int i = 0; i != 10; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list1, node->list);
     }
@@ -90,28 +89,26 @@ static void test_next(void)
     a_list_ctor(list2);
     for (int i = 10; i != 21; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list2, node->list);
     }
     {
-        list_int_s *node = a_list_entry_prev(list2, list_int_s, list);
+        int_s *node = a_list_entry_prev(list2, int_s, list);
         a_list_del_prev(list2);
         free(node);
     }
     a_list_mov_prev(list1, list2);
     a_list_init(list2);
-    a_list_s *ptr;
-    a_list_foreach_next(ptr, list1)
+    a_list_foreach_next(it, list1)
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        int_s *node = a_list_entry(it, int_s, list);
         printf("%i ", node->data);
     }
     printf("%zu", a_list_len(list1));
-    a_list_s *pre;
-    a_list_forsafe_next(ptr, pre, list1)
+    a_list_forsafe_next(it, pre, list1)
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        int_s *node = a_list_entry(it, int_s, list);
         a_list_del_node(node->list);
         free(node);
     }
@@ -130,7 +127,7 @@ static void test_prev(void)
     a_list_ctor(list1);
     for (int i = 0; i != 10; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_next(list1, node->list);
     }
@@ -139,28 +136,26 @@ static void test_prev(void)
     a_list_ctor(list2);
     for (int i = 10; i != 21; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_next(list2, node->list);
     }
     {
-        list_int_s *node = a_list_entry_next(list2, list_int_s, list);
+        int_s *node = a_list_entry_next(list2, int_s, list);
         a_list_del_next(list2);
         free(node);
     }
     a_list_mov_next(list1, list2);
     a_list_init(list2);
-    a_list_s *ptr;
-    a_list_foreach_prev(ptr, list1)
+    a_list_foreach_prev(it, list1)
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        int_s *node = a_list_entry(it, int_s, list);
         printf("%i ", node->data);
     }
     printf("%zu", a_list_len(list1));
-    a_list_s *pre;
-    a_list_forsafe_prev(ptr, pre, list1)
+    a_list_forsafe_prev(it, pre, list1)
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        int_s *node = a_list_entry(it, int_s, list);
         a_list_del_node(node->list);
         free(node);
     }
@@ -179,7 +174,7 @@ static void test_func(void)
     a_list_ctor(list1);
     for (int i = 0; i != 10; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list1, node->list);
     }
@@ -187,37 +182,38 @@ static void test_func(void)
     a_list_ctor(list2);
     for (int i = 10; i != 20; ++i)
     {
-        list_int_s *node = (list_int_s *)malloc(sizeof(list_int_s));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list2, node->list);
     }
-    list_int_s *tmp = (list_int_s *)malloc(sizeof(list_int_s));
-    tmp->data = -1;
-    a_list_s *ptr = list2->prev;
-    a_list_replace_node(list2->prev, tmp->list);
-    tmp = a_list_entry(ptr, list_int_s, list);
-    a_list_swap_node(list2->prev, list2->next);
-    a_list_foreach_next(ptr, list1)
+    int_s *ctx = (int_s *)malloc(sizeof(int_s));
+    ctx->data = -1;
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        a_list_s *ptr = list2->prev;
+        a_list_replace_node(list2->prev, ctx->list);
+        ctx = a_list_entry(ptr, int_s, list);
+    }
+    a_list_swap_node(list2->prev, list2->next);
+    a_list_foreach_next(it, list1)
+    {
+        int_s *node = a_list_entry(it, int_s, list);
         printf("%i ", node->data);
     }
-    a_list_foreach_next(ptr, list2)
+    a_list_foreach_next(it, list2)
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        int_s *node = a_list_entry(it, int_s, list);
         printf("%i ", node->data);
     }
     printf("%zu", a_list_len(list1) + a_list_len(list2));
-    a_list_s *pre;
-    a_list_forsafe_next(ptr, pre, list1)
+    a_list_forsafe_next(it, at, list1)
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        int_s *node = a_list_entry(it, int_s, list);
         a_list_del_node(node->list);
         free(node);
     }
-    a_list_forsafe_next(ptr, pre, list2)
+    a_list_forsafe_next(it, at, list2)
     {
-        list_int_s *node = a_list_entry(ptr, list_int_s, list);
+        int_s *node = a_list_entry(it, int_s, list);
         a_list_del_node(node->list);
         free(node);
     }
@@ -228,7 +224,7 @@ static void test_func(void)
     putchar('\n');
     free(list1);
     free(list2);
-    free(tmp);
+    free(ctx);
 }
 
 static void test_null(void)
