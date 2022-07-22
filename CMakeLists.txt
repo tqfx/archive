@@ -260,6 +260,7 @@ if(DOXYGEN_FOUND)
   set(DOXYGEN_PREDEFINED
     "__STDC_VERSION__=201112L"
     "__cplusplus=201703L"
+    "__STDC_HOSTED__=1"
     "A_RESTRICT:="
     "A_INLINE:="
     "A_PUBLIC:="

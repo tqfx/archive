@@ -111,6 +111,7 @@ A_PUBLIC void a_vec_die(a_vec_s *ctx, void (*dtor)(void *));
 /*!
  @brief constructor for vector structure
  @param[in] ctx points to an instance of vector structure
+ @param[in] size size of element
 */
 A_PUBLIC void a_vec_ctor(a_vec_s *ctx, size_t size);
 
