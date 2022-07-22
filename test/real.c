@@ -1,6 +1,6 @@
 /*!
  @file real.c
- @brief Testing real number
+ @brief Test real number
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

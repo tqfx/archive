@@ -1,6 +1,6 @@
 /*!
  @file test.c
- @brief Testing algorithm library
+ @brief Test algorithm library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

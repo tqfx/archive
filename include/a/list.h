@@ -77,7 +77,7 @@ A_INLINE void a_list_init(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
 A_INLINE void a_list_dtor(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
 
 /*!
- @brief testing whether a list is null
+ @brief test whether a list is null
  @param[in] ctx points to circular doubly linked list
  @return int bool
   @retval 0 non-null
@@ -85,7 +85,7 @@ A_INLINE void a_list_dtor(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
 */
 A_INLINE int a_list_null(const a_list_s *ctx) { return ctx->next == ctx; }
 /*!
- @brief testing whether a list is used
+ @brief test whether a list is used
  @param[in] ctx points to circular doubly linked list
  @return int bool
   @retval 0 unused

@@ -1,6 +1,6 @@
 /*!
  @file operator.c
- @brief Testing algorithm library operator
+ @brief Test algorithm library operator
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

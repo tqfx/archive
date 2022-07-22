@@ -81,7 +81,7 @@ A_INLINE void a_slist_dtor(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->
 A_INLINE void a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
 
 /*!
- @brief testing whether a list node is null
+ @brief test whether a list node is null
  @param[in] ctx points to circular singly linked list node
  @return int bool
   @retval 0 non-null
@@ -89,7 +89,7 @@ A_INLINE void a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
 */
 A_INLINE int a_slist_null(const a_slist_u *ctx) { return ctx->next == ctx; }
 /*!
- @brief testing whether a list node is used
+ @brief test whether a list node is used
  @param[in] ctx points to circular singly linked list node
  @return int bool
   @retval 0 unused
@@ -97,7 +97,7 @@ A_INLINE int a_slist_null(const a_slist_u *ctx) { return ctx->next == ctx; }
 */
 A_INLINE int a_slist_used(const a_slist_u *ctx) { return ctx->next != ctx; }
 /*!
- @brief testing whether a list head is none
+ @brief test whether a list head is none
  @param[in] ctx points to circular singly linked list head
  @return int bool
   @retval 0 exist
@@ -105,7 +105,7 @@ A_INLINE int a_slist_used(const a_slist_u *ctx) { return ctx->next != ctx; }
 */
 A_INLINE int a_slist_none(const a_slist_s *ctx) { return ctx->head == ctx->head->next; }
 /*!
- @brief testing whether a list node is a tail node
+ @brief test whether a list node is a tail node
  @param[in] ctx points to circular singly linked list head
  @param[in] node a list node
  @return int bool

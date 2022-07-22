@@ -1,6 +1,6 @@
 /*!
  @file math.c
- @brief Testing mathematical algorithm library
+ @brief Test mathematical algorithm library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

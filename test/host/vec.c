@@ -1,6 +1,6 @@
 /*!
  @file vec.c
- @brief Testing basic vector library
+ @brief Test basic vector library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

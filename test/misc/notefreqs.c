@@ -1,6 +1,6 @@
 /*!
  @file notefreqs.c
- @brief Testing note frequency
+ @brief Test note frequency
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 

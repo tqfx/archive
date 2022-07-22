@@ -1,6 +1,6 @@
 /*!
  @file str.c
- @brief Testing basic string library
+ @brief Test basic string library
  @copyright Copyright (C) 2020 tqfx, All rights reserved.
 */
 
