@@ -52,6 +52,24 @@ A_INLINE size_t a_vec_num(const a_vec_s *ctx) { return ctx->__number; }
 A_INLINE size_t a_vec_mem(const a_vec_s *ctx) { return ctx->__capacity; }
 
 /*!
+ @brief iterate over a vector
+ @param T type of elements in the vector
+ @param it the &a_vec_s to use as a loop counter
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_foreach(T, it, ctx) \
+    for (T *it = (T *)a_vec_ptr(ctx), *it##_ = it + a_vec_num(ctx); it != it##_; ++it)
+
+/*!
+ @brief iterate over a vector in reverse
+ @param T type of elements in the vector
+ @param it the &a_vec_s to use as a loop counter
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_foreach_reverse(T, it, ctx) \
+    for (T *it##_ = (T *)a_vec_ptr(ctx) - 1, *it = it##_ + a_vec_num(ctx); it != it##_; --it)
+
+/*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] index index of element

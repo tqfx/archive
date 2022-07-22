@@ -44,12 +44,16 @@ static void test(void)
     {
         a_vec_pop(ctx);
     }
-    uint32_t *p = (uint32_t *)a_vec_ptr(ctx);
-    for (uint32_t i = 0; i != 10; ++i)
-    {
-        printf("%" PRIu32 " ", p[i]);
-    }
     a_vec_top(ctx);
+    a_vec_foreach(uint32_t, it, ctx)
+    {
+        printf("%" PRIu32 " ", *it);
+    }
+    putchar('\n');
+    a_vec_foreach_reverse(uint32_t, it, ctx)
+    {
+        printf("%" PRIu32 " ", *it);
+    }
     putchar('\n');
     a_vec_die(ctx, dtor);
     putchar('\n');
