@@ -135,6 +135,63 @@
 #endif /* container_of */
 
 /*!
+ @brief iterate from 0 to n and not include n
+ @param I index type of the iteration
+ @param i index variable of the iteration
+ @param n final value of the iteration
+*/
+#define a_forenum(I, i, n) for (I i = 0; i != (n); ++i)
+/*!
+ @brief iterate from n to 0 and not include n
+ @param I index type of the iteration
+ @param i index variable of the iteration
+ @param n final value of the iteration
+*/
+#define a_forenum_reverse(I, i, n) for (I i = (n); i--;)
+
+/*!
+ @brief iterate over an array
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_foreach(T, it, ptr, num) \
+    for (T *it = (T *)(ptr), *it##_ = it + (num); it != it##_; ++it)
+/*!
+ @brief iterate over an array in reverse
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_foreach_reverse(T, it, ptr, num) \
+    for (T *it##_ = (T *)(ptr)-1, *it = it##_ + (num); it != it##_; --it)
+
+/*!
+ @brief iterate over an array
+ @param I index type of this array
+ @param i index variable of this array
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_forboth(I, i, T, it, ptr, num) \
+    for (I i = 0; (it) = (T *)(ptr) + i, i != (num); ++i)
+/*!
+ @brief iterate over an array in reverse
+ @param I index type of this array
+ @param i index variable of this array
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_forboth_reverse(I, i, T, it, ptr, num) \
+    for (I i = (num); i ? ((it) = (T *)(ptr) + --i) : 0;)
+
+/*!
  @brief enumeration of return values
 */
 enum

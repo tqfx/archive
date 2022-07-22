@@ -125,6 +125,19 @@
         return ctx->num ? ctx->vec + --ctx->num : 0; \
     }
 
+#define vec_forenum(i, ctx) for (size_t i = 0; i != (ctx)->num; ++i)
+#define vec_forenum_reverse(i, ctx) for (size_t i = (ctx)->num; i--;)
+
+#define vec_foreach(T, it, ctx) \
+    for (T *it = (ctx)->vec, *it##_ = it + (ctx)->num; it != it##_; ++it)
+#define vec_foreach_reverse(T, it, ctx) \
+    for (T *it##_ = (ctx)->vec - 1, *it = it##_ + (ctx)->num; it != it##_; --it)
+
+#define vec_forboth(i, it, ctx) \
+    for (size_t i = 0; (it) = (ctx)->vec + i, i != (ctx)->num; ++i)
+#define vec_forboth_reverse(i, it, ctx) \
+    for (size_t i = (ctx)->num; i ? ((it) = (ctx)->vec + --i) : 0;)
+
 #endif /* __STDC_HOSTED__ */
 
 #endif /* __VEC_H__ */

@@ -52,24 +52,6 @@ A_INLINE size_t a_vec_num(const a_vec_s *ctx) { return ctx->__number; }
 A_INLINE size_t a_vec_mem(const a_vec_s *ctx) { return ctx->__capacity; }
 
 /*!
- @brief iterate over a vector
- @param T type of elements in the vector
- @param it the &a_vec_s to use as a loop counter
- @param ctx points to an instance of vector structure
-*/
-#define a_vec_foreach(T, it, ctx) \
-    for (T *it = (T *)a_vec_ptr(ctx), *it##_ = it + a_vec_num(ctx); it != it##_; ++it)
-
-/*!
- @brief iterate over a vector in reverse
- @param T type of elements in the vector
- @param it the &a_vec_s to use as a loop counter
- @param ctx points to an instance of vector structure
-*/
-#define a_vec_foreach_reverse(T, it, ctx) \
-    for (T *it##_ = (T *)a_vec_ptr(ctx) - 1, *it = it##_ + a_vec_num(ctx); it != it##_; --it)
-
-/*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] index index of element
@@ -168,6 +150,98 @@ A_PUBLIC void *a_vec_pop(a_vec_s *ctx);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
+
+/*!
+ @brief iterate over a vector
+ @code{.c}
+ a_vec_forenum(i, ctx)
+ {
+     T *it = (T *)a_vec_at(ctx, i);
+     assert(a_vec_size(ctx) == sizeof(*it));
+ }
+ @endcode
+ @param i index of elements in the vector
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_forenum(i, ctx) a_forenum(size_t, i, (ctx)->__number)
+
+/*!
+ @brief iterate over a vector in reverse
+ @code{.c}
+ a_vec_forenum_reverse(i, ctx)
+ {
+     T *it = (T *)a_vec_at(ctx, i);
+     assert(a_vec_size(ctx) == sizeof(*it));
+ }
+ @endcode
+ @param i index of elements in the vector
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_forenum_reverse(i, ctx) a_forenum_reverse(size_t, i, (ctx)->__number)
+
+/*!
+ @brief iterate over a vector
+ @code{.c}
+ a_vec_foreach(T, it, ctx)
+ {
+     assert(a_vec_size(ctx) == sizeof(*it));
+ }
+ @endcode
+ @param T type of elements in the vector
+ @param it the &a_vec_s to use as a loop counter
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_foreach(T, it, ctx) a_foreach(T, it, (ctx)->__ptr, (ctx)->__number)
+
+/*!
+ @brief iterate over a vector in reverse
+ @code{.c}
+ a_vec_foreach_reverse(T, it, ctx)
+ {
+     assert(a_vec_size(ctx) == sizeof(*it));
+ }
+ @endcode
+ @param T type of elements in the vector
+ @param it the &a_vec_s to use as a loop counter
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->__ptr, (ctx)->__number)
+
+/*!
+ @brief iterate over a vector
+ @code{.c}
+ {
+     T *it;
+     a_vec_forboth(T, i, it, ctx)
+     {
+         assert(a_vec_at(ctx, i) == it);
+     }
+ }
+ @endcode
+ @param T type of elements in the vector
+ @param i index of elements in the vector
+ @param it the &a_vec_s to use as a loop counter
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_forboth(T, i, it, ctx) a_forboth(size_t, i, T, it, (ctx)->__ptr, (ctx)->__number)
+
+/*!
+ @brief iterate over a vector in reverse
+ @code{.c}
+ {
+     T *it;
+     a_vec_forboth_reverse(T, i, it, ctx)
+     {
+         assert(a_vec_at(ctx, i) == it);
+     }
+ }
+ @endcode
+ @param T type of elements in the vector
+ @param i index of elements in the vector
+ @param it the &a_vec_s to use as a loop counter
+ @param ctx points to an instance of vector structure
+*/
+#define a_vec_forboth_reverse(T, i, it, ctx) a_forboth_reverse(size_t, i, T, it, (ctx)->__ptr, (ctx)->__number)
 
 /*! @} A_VEC */
 
