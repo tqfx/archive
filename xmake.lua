@@ -6,7 +6,6 @@ set_version("0.1.0", {build = "%Y%m%d%H%M"})
 set_description("An algorithm library based on C/C++ language")
 
 target()
-    set_group("liba")
     set_languages("c11", "c++17")
     set_warnings("everything")
     on_load(function (target)
@@ -73,3 +72,5 @@ if has_config("with-rust") then
         add_deps("a")
     target_end()
 end
+
+includes("test")

@@ -134,6 +134,14 @@
 #define container_of(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
 #endif /* container_of */
 
+#if defined(__STDC_VERSION__)
+#define a_null NULL //!< null pointer
+#define a_cast(T, ...) (T)(__VA_ARGS__) //!< static cast
+#else /* !__STDC_VERSION__ */
+#define a_null nullptr //!< null pointer
+#define a_cast(T, ...) static_cast<T>(__VA_ARGS__) //!< static cast
+#endif /* __STDC_VERSION__ */
+
 /*!
  @brief iterate from 0 to n and not include n
  @param I index type of the iteration
@@ -157,7 +165,7 @@
  @param num number of elements in this array
 */
 #define a_foreach(T, it, ptr, num) \
-    for (T *it = (T *)(ptr), *it##_ = it + (num); it != it##_; ++it)
+    for (T *it = a_cast(T *, ptr), *it##_ = it + (num); it != it##_; ++it)
 /*!
  @brief iterate over an array in reverse
  @param T the element type in this array
@@ -166,7 +174,7 @@
  @param num number of elements in this array
 */
 #define a_foreach_reverse(T, it, ptr, num) \
-    for (T *it##_ = (T *)(ptr)-1, *it = it##_ + (num); it != it##_; --it)
+    for (T *it##_ = a_cast(T *, ptr) - 1, *it = it##_ + (num); it != it##_; --it)
 
 /*!
  @brief iterate over an array
@@ -178,7 +186,7 @@
  @param num number of elements in this array
 */
 #define a_forboth(I, i, T, it, ptr, num) \
-    for (I i = 0; (it) = (T *)(ptr) + i, i != (num); ++i)
+    for (I i = 0; (void)((it) = a_cast(T *, ptr) + i), i != (num); ++i)
 /*!
  @brief iterate over an array in reverse
  @param I index type of this array
@@ -189,7 +197,7 @@
  @param num number of elements in this array
 */
 #define a_forboth_reverse(I, i, T, it, ptr, num) \
-    for (I i = (num); i ? ((it) = (T *)(ptr) + --i) : 0;)
+    for (I i = (num); i ? ((void)((it) = a_cast(T *, ptr) + --i), 1) : 0;)
 
 /*!
  @brief enumeration of return values

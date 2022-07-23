@@ -12,6 +12,20 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#undef cast
+#if defined(__STDC_VERSION__)
+
+#undef nullptr
+#define nullptr NULL
+
+#define cast(T, ...) (T)(__VA_ARGS__)
+
+#else /* !__STDC_VERSION__ */
+
+#define cast(T, ...) static_cast<T>(__VA_ARGS__)
+
+#endif /* __STDC_VERSION__ */
+
 #undef VEC_S
 #define VEC_S(type, type_) \
     typedef struct type    \
@@ -44,18 +58,18 @@
     static inline type_ *func(type *ctx, size_t index) { return ctx->vec + index; }
 #undef VEC_TOP
 #define VEC_TOP(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->num ? ctx->vec + ctx->num - 1 : 0; }
+    static inline type_ *func(type *ctx) { return ctx->num ? ctx->vec + ctx->num - 1 : nullptr; }
 
 #undef VEC_NEW
-#define VEC_NEW(type, func, ctor)                 \
-    type *func(void)                              \
-    {                                             \
-        type *ctx = (type *)malloc(sizeof(type)); \
-        if (ctx)                                  \
-        {                                         \
-            ctor(ctx);                            \
-        }                                         \
-        return ctx;                               \
+#define VEC_NEW(type, func, ctor)                       \
+    type *func(void)                                    \
+    {                                                   \
+        type *ctx = cast(type *, malloc(sizeof(type))); \
+        if (ctx)                                        \
+        {                                               \
+            ctor(ctx);                                  \
+        }                                               \
+        return ctx;                                     \
     }
 
 #undef VEC_DIE
@@ -75,11 +89,11 @@
     {                        \
         ctx->mem = 0;        \
         ctx->num = 0;        \
-        ctx->vec = 0;        \
+        ctx->vec = nullptr;  \
     }
 
 #undef VEC_DTOR_NO
-#define VEC_DTOR_NO(...)
+#define VEC_DTOR_NO(...) (void)(0)
 
 #undef VEC_DTOR
 #define VEC_DTOR(type, func, dtor)         \
@@ -93,36 +107,35 @@
                 dtor(ctx->vec + ctx->num); \
             }                              \
             free(ctx->vec);                \
-            ctx->vec = 0;                  \
+            ctx->vec = nullptr;            \
         }                                  \
         ctx->num = 0;                      \
         ctx->mem = 0;                      \
     }
 
 #undef VEC_PUSH
-#define VEC_PUSH(type, func, type_)                      \
-    type_ *func(type *ctx)                               \
-    {                                                    \
-        if (ctx->mem <= ctx->num)                        \
-        {                                                \
-            size_t mem = ctx->mem + (ctx->mem >> 1) + 1; \
-            type_ *vec = (type_ *)                       \
-                realloc(ctx->vec, sizeof(type_) * mem);  \
-            if (vec == 0)                                \
-            {                                            \
-                return 0;                                \
-            }                                            \
-            ctx->mem = mem;                              \
-            ctx->vec = vec;                              \
-        }                                                \
-        return ctx->vec + ctx->num++;                    \
+#define VEC_PUSH(type, func, type_)                                             \
+    type_ *func(type *ctx)                                                      \
+    {                                                                           \
+        if (ctx->mem <= ctx->num)                                               \
+        {                                                                       \
+            size_t mem = ctx->mem + (ctx->mem >> 1) + 1;                        \
+            type_ *vec = cast(type_ *, realloc(ctx->vec, sizeof(type_) * mem)); \
+            if (vec == nullptr)                                                 \
+            {                                                                   \
+                return nullptr;                                                 \
+            }                                                                   \
+            ctx->mem = mem;                                                     \
+            ctx->vec = vec;                                                     \
+        }                                                                       \
+        return ctx->vec + ctx->num++;                                           \
     }
 
 #undef VEC_POP
-#define VEC_POP(type, func, type_)                   \
-    type_ *func(type *ctx)                           \
-    {                                                \
-        return ctx->num ? ctx->vec + --ctx->num : 0; \
+#define VEC_POP(type, func, type_)                         \
+    type_ *func(type *ctx)                                 \
+    {                                                      \
+        return ctx->num ? ctx->vec + --ctx->num : nullptr; \
     }
 
 #define vec_forenum(i, ctx) for (size_t i = 0; i != (ctx)->num; ++i)
@@ -134,9 +147,9 @@
     for (T *it##_ = (ctx)->vec - 1, *it = it##_ + (ctx)->num; it != it##_; --it)
 
 #define vec_forboth(i, it, ctx) \
-    for (size_t i = 0; (it) = (ctx)->vec + i, i != (ctx)->num; ++i)
+    for (size_t i = 0; (void)((it) = (ctx)->vec + i), i != (ctx)->num; ++i)
 #define vec_forboth_reverse(i, it, ctx) \
-    for (size_t i = (ctx)->num; i ? ((it) = (ctx)->vec + --i) : 0;)
+    for (size_t i = (ctx)->num; i ? ((void)((it) = (ctx)->vec + --i), 1) : 0;)
 
 #endif /* __STDC_HOSTED__ */
 

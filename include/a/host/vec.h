@@ -57,21 +57,21 @@ A_INLINE size_t a_vec_mem(const a_vec_s *ctx) { return ctx->__capacity; }
  @param[in] index index of element
  @return element pointer
 */
-A_INLINE void *a_vec_at(const a_vec_s *ctx, size_t index) { return (char *)ctx->__ptr + index * ctx->__size; }
+A_INLINE void *a_vec_at(const a_vec_s *ctx, size_t index) { return a_cast(char *, ctx->__ptr) + index * ctx->__size; }
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @note need to check if vector is empty
  @return element pointer
 */
-A_INLINE void *a_vec_top_(const a_vec_s *ctx) { return (char *)ctx->__ptr + (ctx->__number - 1) * ctx->__size; }
+A_INLINE void *a_vec_top_(const a_vec_s *ctx) { return a_cast(char *, ctx->__ptr) + (ctx->__number - 1) * ctx->__size; }
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @return element pointer
   @retval 0 empty vector
 */
-A_INLINE void *a_vec_top(const a_vec_s *ctx) { return ctx->__number ? a_vec_top_(ctx) : 0; }
+A_INLINE void *a_vec_top(const a_vec_s *ctx) { return ctx->__number ? a_vec_top_(ctx) : a_null; }
 
 #if defined(__cplusplus)
 extern "C" {

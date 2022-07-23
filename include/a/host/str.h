@@ -33,7 +33,7 @@ typedef struct a_str_s
 
 #ifndef A_STR_NIL
 // clang-format off
-#define A_STR_NIL {0, 0, 0}
+#define A_STR_NIL {0, 0, a_null}
 // clang-format on
 #endif /* A_STR_NIL */
 
