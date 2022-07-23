@@ -94,7 +94,7 @@ configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
   ${CMAKE_CURRENT_LIST_DIR}/src/config.hpp
 )
-file(GLOB_RECURSE SOURCES include/*.hpp src/*.[ch]pp)
+file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
 
 add_library(aa ${SOURCES})
 add_library(${PROJECT_NAME}::aa ALIAS aa)
@@ -188,7 +188,7 @@ endif()
 package_cpack(${CMAKE_CURRENT_LIST_DIR})
 
 if(CLANG_FORMAT)
-  file(GLOB_RECURSE SOURCES include/*.h* src/*.[ch]* test/*.[ch]*)
+  file(GLOB_RECURSE SOURCES include/*.h* src/*.[chm]* test/*.[chm]*)
   add_custom_target(a-format # https://clang.llvm.org/docs/ClangFormat.html
     COMMAND ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
     COMMENT "Formatting code using ClangFormat"
