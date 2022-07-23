@@ -1,2 +1,7 @@
-find_program(CMAKE_C_COMPILER clang)
-find_program(CMAKE_CXX_COMPILER clang++)
+find_program(CMAKE_C_COMPILER clang REQUIRED)
+find_program(CMAKE_CXX_COMPILER clang++ REQUIRED)
+
+set(CMAKE_C_COMPILER_TARGET "" CACHE STRING "C comipler target")
+set(CMAKE_CXX_COMPILER_TARGET "" CACHE STRING "C++ comipler target")
+
+mark_as_advanced(CMAKE_C_COMPILER_TARGET CMAKE_CXX_COMPILER_TARGET)
