@@ -10,22 +10,28 @@
 
 ## required tools
 
-- C/C++ compiler: [gcc](https://gcc.gnu.org) or [llvm](https://llvm.org) or [msvc](https://visualstudio.microsoft.com/visual-cpp-build-tools) etc
-- [cmake](https://cmake.org/download)
+- C/C++ compiler: [gnu](https://gcc.gnu.org) or [llvm](https://clang.llvm.org) or [msvc](https://visualstudio.microsoft.com/visual-cpp-build-tools) etc
 
 ## optional tools
 
-- [python](https://www.python.org/downloads)
-
-## setup
-
-### python packages
-
-```bash
-python -m pip install -r requirements.txt
-```
+- [lua](https://www.lua.org)
+- [java](https://www.oracle.com/java)
+- [rust](https://www.rust-lang.org)
+- [xmake](https://xmake.io)
+- [cmake](https://cmake.org)
+- [conan](https://conan.io)
+- [vcpkg](https://vcpkg.io)
+- [python](https://www.python.org)
 
 ## build
+
+### xmake
+
+```bash
+xmake f -m release
+xmake --build --all
+xmake install --all
+```
 
 ### cmake
 
@@ -66,7 +72,15 @@ python setup.py build_ext --inplace
 python setup.py bdist_wheel
 ```
 
-## using
+## usage
+
+### C/C++
+
+#### xmake.lua
+
+```lua
+add_requires("a")
+```
 
 ### CMakeLists.txt
 
@@ -82,29 +96,42 @@ target_link_libraries(<TARGET> PRIVATE liba::a liba::aa)
 liba/[~0.1]
 ```
 
+### Lua
+
+```lua
+local a = require("liba")
+print("version", a.version())
+```
+
+### Java
+
+```java
+import liba;
+```
+
 ### Rust
 
 #### Cargo.toml
 
 ```toml
 [build-dependencies]
-liba = "0.1"
+liba = "*"
 ```
 
 #### main.rs
 
 ```rs
-use a;
+use liba;
 fn main() {
-    println!("version {}", a::version());
+    println!("version {}", liba::version());
 }
 ```
 
-### python
+### Python
 
 ```py
-import a
-print("version", a.version())
+import liba
+print("version", liba.version())
 ```
 
 ## Copyright {#copyright}

@@ -78,14 +78,14 @@ for header in glob("include/**", recursive=True):
 
 ext_modules = [
     Extension(
-        name="a",
+        name="liba",
         language="c",
         sources=source_c,
         include_dirs=["include"],
         define_macros=define_macros,
     ),
     Extension(
-        name="aa",
+        name="libaa",
         language="c++",
         sources=source_cc,
         include_dirs=["include"],

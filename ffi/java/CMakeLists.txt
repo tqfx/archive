@@ -48,5 +48,5 @@ install_jar_exports(TARGETS jni-a jni-aa
 )
 
 if(NOT ENABLE_SANITIZE)
-  include(testing.cmake)
+  include(test.cmake)
 endif()
