@@ -22,6 +22,10 @@ static const struct luaL_Reg funcs[] = {
 
 A_PUBLIC LUA_API int luaopen_liba(lua_State *L);
 
+#if defined(__clang__)
+#pragma GCC diagnostic ignored "-Wcomma"
+#endif /* __clang__ */
+
 int luaopen_liba(lua_State *L)
 {
     luaL_newlib(L, funcs);

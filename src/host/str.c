@@ -35,6 +35,10 @@ void a_str_dtor(a_str_s *ctx)
     }
 }
 
+#if defined(__clang__)
+#pragma GCC diagnostic ignored "-Wcomma"
+#endif /* __clang__ */
+
 #ifndef roundup32
 #define roundup32(x)     \
     (--(x),              \

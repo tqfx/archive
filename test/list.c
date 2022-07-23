@@ -6,6 +6,10 @@
 
 #include "a/list.h"
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Winline"
+#endif /* __GNUC__ || __clang__ */
+
 A_INLINE void a_list_replace_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
 {
     a_list_add_(tail1->next, head1->prev, head2, tail2);

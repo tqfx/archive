@@ -25,21 +25,19 @@ static void test(void)
     for (uint64_t i = 0; i != 10; ++i)
     {
         uint64_t *p = (uint64_t *)a_vec_push(ctx);
-        if (p == 0)
+        if (p)
         {
-            break;
+            *p = i;
         }
-        *p = i;
     }
     a_vec_resize(ctx, sizeof(uint32_t));
     for (uint32_t i = 0; i != 20; ++i)
     {
         uint32_t *p = (uint32_t *)a_vec_push(ctx);
-        if (p == 0)
+        if (p)
         {
-            break;
+            *p = i;
         }
-        *p = i;
     }
     a_vec_top(ctx);
     for (uint32_t i = 0; i != 10; ++i)
@@ -119,7 +117,11 @@ static void test_intern(void)
     int_s *ctx = int_new();
     for (int i = 0; i != 0x100; ++i)
     {
-        *int_push(ctx) = i;
+        int *p = int_push(ctx);
+        if (p)
+        {
+            *p = i;
+        }
     }
     for (int i = 0; i != 0x10; ++i)
     {
@@ -156,7 +158,11 @@ static void test_intern(void)
         }
     }
     *int_ptr(ctx) = 0;
-    *int_top(ctx) = 0;
+    int *p = int_top(ctx);
+    if (p)
+    {
+        *p = 0;
+    }
     for (size_t i = int_num(ctx); i != int_mem(ctx); ++i)
     {
         *int_at(ctx, i) = 0;
