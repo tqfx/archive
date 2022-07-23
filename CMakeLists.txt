@@ -30,6 +30,14 @@ option(ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
 option(ENABLE_IYWU "Enable include-what-you-use" OFF)
 option(ENABLE_IPO "Enable interprocedural optimization" OFF)
 
+if(ENABLE_WARNINGS)
+  include(cmake/warnings.cmake)
+endif()
+
+if(ENABLE_SANITIZE)
+  include(cmake/sanitize.cmake)
+endif()
+
 find_package(Git)
 
 if(GIT_FOUND)
@@ -48,14 +56,6 @@ endif()
 
 if(ENABLE_DOXYGEN)
   find_package(Doxygen OPTIONAL_COMPONENTS dot mscgen dia)
-endif()
-
-if(ENABLE_WARNINGS)
-  include(cmake/warnings.cmake)
-endif()
-
-if(ENABLE_SANITIZE)
-  include(cmake/sanitize.cmake)
 endif()
 
 if(ENABLE_IPO)
