@@ -48,9 +48,7 @@ endforeach()
 function(unit_test name source target)
   set(TARGET test-${target})
   add_executable(${TARGET} ${source})
-  set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target}
-    VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-  )
+  set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
   target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::${name})
   add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${ARGN})
 endfunction()
