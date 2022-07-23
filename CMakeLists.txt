@@ -262,7 +262,7 @@ if(DOXYGEN_FOUND)
   endif()
 
   # https://www.doxygen.nl/manual/config.html
-  doxygen_add_docs(a-doc
+  doxygen_add_docs(a-doxygen
     ${CMAKE_CURRENT_LIST_DIR}/README.md
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${CMAKE_CURRENT_LIST_DIR}/src
