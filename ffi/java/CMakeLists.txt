@@ -13,7 +13,10 @@ install_jar(jar-a share/java)
 
 add_library(jni-a SHARED src/a.c)
 set_target_properties(jni-a PROPERTIES OUTPUT_NAME a)
-target_link_libraries(jni-a PRIVATE jar-native-a a)
+get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
+target_link_libraries(jni-a PRIVATE jar-native-a
+  $<IF:$<BOOL:${A_SHARED}>,a-static,a>
+)
 target_library_options(jni-a)
 
 add_jar(jar-aa
@@ -25,7 +28,10 @@ install_jar(jar-aa share/java)
 
 add_library(jni-aa SHARED src/aa.cpp)
 set_target_properties(jni-aa PROPERTIES OUTPUT_NAME aa)
-target_link_libraries(jni-aa PRIVATE jar-native-aa aa)
+get_target_property(A_SHARED aa POSITION_INDEPENDENT_CODE)
+target_link_libraries(jni-aa PRIVATE jar-native-aa
+  $<IF:$<BOOL:${A_SHARED}>,aa-static,aa>
+)
 target_library_options(jni-aa)
 
 set_target_properties(jni-a jni-aa PROPERTIES DEFINE_SYMBOL A_EXPORTS)

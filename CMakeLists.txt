@@ -71,6 +71,24 @@ set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 
+function(target_library_setting target)
+  add_library(${PROJECT_NAME}::${target} ALIAS ${target})
+  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL A_EXPORTS)
+  get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
+  target_compile_definitions(${target}
+    PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
+    INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
+  )
+  target_include_directories(${target} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+  )
+  target_link_libraries(${target} PUBLIC
+    $<$<OR:$<BOOL:${MATH_LIBRARY}>,$<BOOL:${ANDROID}>>:m>
+  )
+  target_library_options(${target})
+endfunction()
+
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
   ${CMAKE_CURRENT_LIST_DIR}/src/config.h
@@ -78,17 +96,15 @@ configure_file(
 file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 
 add_library(a ${SOURCES})
-add_library(${PROJECT_NAME}::a ALIAS a)
-get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
-target_compile_definitions(a
-  PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
-  INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
-)
-target_include_directories(a PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-target_library_options(a)
+target_library_setting(a)
+
+add_library(a-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
+target_library_setting(a-static)
+
+add_library(a-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
+target_library_setting(a-shared)
+
+set_target_properties(a-static a-shared PROPERTIES OUTPUT_NAME a)
 
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
@@ -97,24 +113,17 @@ configure_file(
 file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
 
 add_library(aa ${SOURCES})
-add_library(${PROJECT_NAME}::aa ALIAS aa)
-get_target_property(A_SHARED aa POSITION_INDEPENDENT_CODE)
-target_compile_definitions(aa
-  PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
-  INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
-)
-target_include_directories(aa PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-target_library_options(aa)
+target_library_setting(aa)
 
-if(MATH_LIBRARY OR ANDROID)
-  target_link_libraries(a PUBLIC m)
-  target_link_libraries(aa PUBLIC m)
-endif()
+add_library(aa-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
+target_library_setting(aa-static)
 
-set_target_properties(a aa PROPERTIES DEFINE_SYMBOL A_EXPORTS
+add_library(aa-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
+target_library_setting(aa-shared)
+
+set_target_properties(aa-static aa-shared PROPERTIES OUTPUT_NAME aa)
+
+set_target_properties(a aa PROPERTIES
   VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 

@@ -1,9 +1,11 @@
 file(GLOB_RECURSE SOURCES src/*.c)
-
 add_library(lua-a SHARED ${SOURCES})
+get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
 set_target_properties(lua-a PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_include_directories(lua-a PRIVATE ${LUA_INCLUDE_DIR})
-target_link_libraries(lua-a PRIVATE ${LUA_LIBRARIES} a)
+target_link_libraries(lua-a PRIVATE ${LUA_LIBRARIES}
+  $<IF:$<BOOL:${A_SHARED}>,a-static,a>
+)
 target_library_options(lua-a)
 
 if(LUA_VERSION_MAJOR AND LUA_VERSION_MINOR)
