@@ -1,25 +1,53 @@
-add_rules("mode.check", "mode.debug", "mode.release")
+add_rules("mode.debug", "mode.release")
 
 set_project("liba")
 set_version("0.1.0", {build = "%Y%m%d%H%M"})
 set_description("An algorithm library based on C/C++ language")
-set_languages("c11", "c++17")
-set_warnings("everything")
+
+target()
+    set_languages("c11", "c++17")
+    set_warnings("everything")
+    on_load(function (target)
+        local flags = {
+            "-Wno-reserved-id-macro",
+            "-Wno-reserved-identifier",
+            "-Wno-used-but-marked-unused",
+        }
+        target:add("cflags", flags, "-Wno-declaration-after-statement")
+        target:add("cxxflags", flags, "-Wno-c++98-compat-pedantic")
+    end)
+target_end()
 
 target("a")
-    set_kind("static")
+    set_kind("$(kind)")
     add_files("src/**.c")
     add_includedirs("include", {public = true})
     set_configdir("$(curdir)/src")
     add_configfiles("xmake/config.h")
-    add_links("m")
+    add_defines("A_CONFIG")
+    if is_kind("shared") then
+        add_defines("A_EXPORTS")
+        add_defines("A_SHARED", {interface = true})
+    end
+    if not is_plat("windows", "mingw") then
+        add_syslinks("m")
+    end
 target_end()
 
 target("aa")
-    set_kind("static")
+    set_kind("$(kind)")
     add_files("src/**.cpp")
     add_includedirs("include", {public = true})
     set_configdir("$(curdir)/src")
     add_configfiles("xmake/config.hpp")
-    add_links("m")
+    add_defines("A_CONFIG")
+    if is_kind("shared") then
+        add_defines("A_EXPORTS")
+        add_defines("A_SHARED", {interface = true})
+    end
+    if not is_plat("windows", "mingw") then
+        add_syslinks("m")
+    end
 target_end()
+
+includes("ffi/lua")
