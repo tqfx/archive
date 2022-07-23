@@ -1,9 +1,9 @@
-option("with_lua")
+option("with-lua")
     set_showmenu(true)
     set_values(false, true)
 option_end()
 
-if has_config("with_lua") then
+if has_config("with-lua") then
     add_requires("lua")
     target("lua-a")
         set_group("liba")

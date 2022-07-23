@@ -14,6 +14,7 @@ target()
             "-Wno-reserved-id-macro",
             "-Wno-reserved-identifier",
             "-Wno-used-but-marked-unused",
+            "-Wno-reserved-macro-identifier",
         }
         target:add("cflags", flags, "-Wno-declaration-after-statement")
         target:add("cxxflags", flags, "-Wno-c++98-compat-pedantic")
@@ -56,12 +57,12 @@ target_end()
 
 includes("ffi/lua")
 
-option("with_rust")
+option("with-rust")
     set_showmenu(true)
     set_values(false, true)
 option_end()
 
-if has_config("with_rust") then
+if has_config("with-rust") then
     add_requires("cargo::liba", {configs = {cargo_toml = path.join(os.projectdir(), "Cargo.toml")}})
     target("rust-c")
         set_group("liba")
