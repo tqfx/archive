@@ -75,6 +75,7 @@ function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   set_target_properties(${target} PROPERTIES DEFINE_SYMBOL A_EXPORTS)
   get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
+  set(A_SHARED ${A_SHARED} PARENT_SCOPE)
   target_compile_definitions(${target}
     PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
     INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
@@ -98,13 +99,15 @@ file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 add_library(a ${SOURCES})
 target_library_setting(a)
 
-add_library(a-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
-target_library_setting(a-static)
-
-add_library(a-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
-target_library_setting(a-shared)
-
-set_target_properties(a-static a-shared PROPERTIES OUTPUT_NAME a)
+if(A_SHARED)
+  add_library(a-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
+  set_target_properties(a-static PROPERTIES OUTPUT_NAME a)
+  target_library_setting(a-static)
+else()
+  add_library(a-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
+  set_target_properties(a-shared PROPERTIES OUTPUT_NAME a)
+  target_library_setting(a-shared)
+endif()
 
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
@@ -115,13 +118,15 @@ file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
 add_library(aa ${SOURCES})
 target_library_setting(aa)
 
-add_library(aa-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
-target_library_setting(aa-static)
-
-add_library(aa-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
-target_library_setting(aa-shared)
-
-set_target_properties(aa-static aa-shared PROPERTIES OUTPUT_NAME aa)
+if(A_SHARED)
+  add_library(aa-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
+  set_target_properties(aa-static PROPERTIES OUTPUT_NAME aa)
+  target_library_setting(aa-static)
+else()
+  add_library(aa-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
+  set_target_properties(aa-shared PROPERTIES OUTPUT_NAME aa)
+  target_library_setting(aa-shared)
+endif()
 
 set_target_properties(a aa PROPERTIES
   VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
