@@ -11,14 +11,14 @@
 
 #![deny(missing_docs)]
 
-extern crate cty;
+extern crate libc;
+
+extern "C" {
+    fn a_version() -> *const libc::c_char;
+}
 
 use std::ffi::CStr;
 use std::str;
-
-extern "C" {
-    fn a_version() -> *const cty::c_char;
-}
 
 /// algorithm library version
 ///
@@ -26,7 +26,7 @@ extern "C" {
 ///
 /// ```no_run
 /// fn main() {
-///     println!("version {}", a::version());
+///     println!("version {}", liba::version());
 /// }
 /// ```
 pub fn version() -> String {

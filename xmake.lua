@@ -51,3 +51,19 @@ target("aa")
 target_end()
 
 includes("ffi/lua")
+
+option("with_rust")
+    set_showmenu(true)
+    set_values(false, true)
+option_end()
+
+if has_config("with_rust") then
+    add_requires("cargo::liba", {configs = {cargo_toml = path.join(os.projectdir(), "Cargo.toml")}})
+    target("rust-c")
+        set_basename("a")
+        set_kind("$(kind)")
+        add_files("src/**.rs")
+        add_packages("cargo::liba")
+        add_deps("a")
+    target_end()
+end

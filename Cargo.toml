@@ -14,10 +14,7 @@ keywords = ["algorithm"]
 categories = ["algorithms"]
 
 [build-dependencies]
-cmake = "0.1"
+cmake = "*"
 
 [dependencies]
-cty = "0.2"
-
-[lib]
-name = "a"
+libc = "*"
