@@ -1,18 +1,18 @@
 file(GLOB_RECURSE SOURCES src/*.c)
-add_library(lua-a SHARED ${SOURCES})
+add_library(a-lua SHARED ${SOURCES})
 get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
-set_target_properties(lua-a PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
-target_include_directories(lua-a PRIVATE ${LUA_INCLUDE_DIR})
-target_link_libraries(lua-a PRIVATE ${LUA_LIBRARIES}
+set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
+target_include_directories(a-lua PRIVATE ${LUA_INCLUDE_DIR})
+target_link_libraries(a-lua PRIVATE ${LUA_LIBRARIES}
   $<IF:$<BOOL:${A_SHARED}>,a-static,a>
 )
-target_library_options(lua-a)
+target_library_options(a-lua)
 
 if(LUA_VERSION_MAJOR AND LUA_VERSION_MINOR)
   set(LUA_VERSION ${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR})
 endif()
 
-install(TARGETS lua-a
+install(TARGETS a-lua
   EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/lua/${LUA_VERSION}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/lua/${LUA_VERSION}

@@ -3,7 +3,7 @@ set(JAVA_EXECUTABLE ${Java_JAVA_EXECUTABLE} ${JAVA_LIBRARY_PATH})
 
 add_jar(test-jar-a
   SOURCES liba/a.java test/aTest.java
-  INCLUDE_JARS jar-a
+  INCLUDE_JARS a-jar
   OUTPUT_NAME test-a
   ENTRY_POINT aTest
 )
@@ -13,7 +13,7 @@ add_test(NAME test-jar-a
 
 add_jar(test-jar-aa
   SOURCES liba/aa.java test/aaTest.java
-  INCLUDE_JARS jar-aa
+  INCLUDE_JARS aa-jar
   OUTPUT_NAME test-aa
   ENTRY_POINT aaTest
 )
