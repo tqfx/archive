@@ -11,10 +11,11 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Generic")
+if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Generic" AND CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   include(CTest)
 endif()
 
+include(GNUInstallDirs)
 include(cmake/core.cmake)
 include(cmake/target.cmake)
 include(cmake/package.cmake)
@@ -38,17 +39,7 @@ if(ENABLE_SANITIZE)
   include(cmake/sanitize.cmake)
 endif()
 
-find_package(Git)
-
-if(GIT_FOUND)
-  execute_process(
-    COMMAND ${GIT_EXECUTABLE} log -1 --pretty=format:%H
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE GIT_REF
-    ERROR_QUIET
-  )
-endif()
+include(cmake/git.cmake)
 
 if(ENABLE_PYTHON)
   find_package(Python)
@@ -73,8 +64,8 @@ set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
-  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL A_EXPORTS)
   get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
+  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL A_EXPORTS)
   set(A_SHARED ${A_SHARED} PARENT_SCOPE)
   target_compile_definitions(${target}
     PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
@@ -95,7 +86,6 @@ configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/src/config.h
 )
 file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
-
 add_library(a ${SOURCES})
 target_library_setting(a)
 
@@ -114,17 +104,19 @@ configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/src/config.hpp
 )
 file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
-
 add_library(aa ${SOURCES})
+target_link_libraries(aa PUBLIC a)
 target_library_setting(aa)
 
 if(A_SHARED)
   add_library(aa-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
   set_target_properties(aa-static PROPERTIES OUTPUT_NAME aa)
+  target_link_libraries(aa-static PUBLIC a-static)
   target_library_setting(aa-static)
 else()
   add_library(aa-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
   set_target_properties(aa-shared PROPERTIES OUTPUT_NAME aa)
+  target_link_libraries(aa-shared PUBLIC a-shared)
   target_library_setting(aa-shared)
 endif()
 
@@ -137,19 +129,19 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
 )
 install(TARGETS a aa EXPORT ${PROJECT_NAME}-targets
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 install(EXPORT ${PROJECT_NAME}-targets
-  DESTINATION lib/cmake/${PROJECT_NAME}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
   FILE ${PROJECT_NAME}-targets.cmake
   NAMESPACE ${PROJECT_NAME}::
 )
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
-  DESTINATION lib/cmake/${PROJECT_NAME}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
@@ -159,11 +151,11 @@ write_basic_package_version_file(
 configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
-  INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  DESTINATION lib/pkgconfig
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc
@@ -171,12 +163,12 @@ configure_file(
   @ONLY
 )
 
-if(ENABLE_VCPKG AND GIT_REF)
+if(ENABLE_VCPKG AND GIT_COMMIT)
   if(DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     get_filename_component(VCPKG_INSTALLATION_ROOT "$ENV{VCPKG_INSTALLATION_ROOT}/." DIRECTORY)
     install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg/ DESTINATION ${VCPKG_INSTALLATION_ROOT})
   else()
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg DESTINATION share)
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg DESTINATION ${CMAKE_INSTALL_DATADIR})
   endif()
 
   configure_file(
