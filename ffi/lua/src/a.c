@@ -7,7 +7,7 @@
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
 
-#include "a/def.h"
+#include "a/version.h"
 
 static int version(lua_State *L)
 {
@@ -15,8 +15,29 @@ static int version(lua_State *L)
     return 1;
 }
 
+static int version_major(lua_State *L)
+{
+    lua_pushinteger(L, a_version_major());
+    return 1;
+}
+
+static int version_minor(lua_State *L)
+{
+    lua_pushinteger(L, a_version_minor());
+    return 1;
+}
+
+static int version_patch(lua_State *L)
+{
+    lua_pushinteger(L, a_version_patch());
+    return 1;
+}
+
 static const struct luaL_Reg funcs[] = {
     {"version", version},
+    {"version_major", version_major},
+    {"version_minor", version_minor},
+    {"version_patch", version_patch},
     {NULL, NULL},
 };
 

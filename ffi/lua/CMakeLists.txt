@@ -27,6 +27,8 @@ find_program(LUA_EXECUTABLE NAMES lua
   HINTS ENV LUA_DIR
 )
 
-add_test(NAME test-lua-a
+if(NOT ENABLE_SANITIZE)
+  add_test(NAME test-lua-a
   COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/a.lua
 )
+endif()

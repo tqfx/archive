@@ -26,12 +26,9 @@ target("a")
     -- make as a static/shared library
     set_kind("$(kind)")
 
-    -- set the auto-generated config.h
-    set_configdir("$(curdir)/src")
-    add_configfiles("xmake/config.h")
-
-    -- add defines
-    add_defines("A_CONFIG")
+    -- set the auto-generated a.config.h
+    add_configfiles("xmake/config.h", {filename = "a.config.h"})
+    set_configdir("$(curdir)/include")
 
     if is_kind("shared") then
         -- export symbols
@@ -54,6 +51,12 @@ target("a")
         add_syslinks("m")
     end
 
+    -- get xmake version
+    on_load(function (target)
+        import("lib.detect.find_programver")
+        target:set("configvar", "XMAKE_VERSION", find_programver("xmake"))
+    end)
+
 target_end()
 
 target("aa")
@@ -63,13 +66,6 @@ target("aa")
 
     -- make as a static/shared library
     set_kind("$(kind)")
-
-    -- set the auto-generated config.hpp
-    set_configdir("$(curdir)/src")
-    add_configfiles("xmake/config.hpp")
-
-    -- add defines
-    add_defines("A_CONFIG")
 
     if is_kind("shared") then
         -- export symbols

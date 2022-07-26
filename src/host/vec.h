@@ -13,18 +13,13 @@
 #include <stdlib.h>
 
 #undef cast
-#if defined(__STDC_VERSION__)
-
+#if defined(__cplusplus)
+#define cast(T, ...) static_cast<T>(__VA_ARGS__)
+#else /* !__cplusplus */
+#define cast(T, ...) (T)(__VA_ARGS__)
 #undef nullptr
 #define nullptr NULL
-
-#define cast(T, ...) (T)(__VA_ARGS__)
-
-#else /* !__STDC_VERSION__ */
-
-#define cast(T, ...) static_cast<T>(__VA_ARGS__)
-
-#endif /* __STDC_VERSION__ */
+#endif /* __cplusplus */
 
 #undef VEC_S
 #define VEC_S(type, type_) \

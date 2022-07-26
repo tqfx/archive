@@ -9,19 +9,6 @@
 
 #include "def.h"
 
-namespace a
-{
-/*!
- @addtogroup AA algorithm library based on C++
- @{
-*/
-
-/*!
- @brief algorithm library version
-*/
-A_PUBLIC const char *version(void);
-
-/*! @} AA */
-} // namespace a
+#include "version.hpp"
 
 #endif /* __A_DEF_HPP__ */

@@ -134,13 +134,13 @@
 #define container_of(ptr, type, member) ((type *)((size_t)(ptr)-offsetof(type, member)))
 #endif /* container_of */
 
-#if defined(__STDC_VERSION__)
-#define a_null NULL //!< null pointer
-#define a_cast(T, ...) (T)(__VA_ARGS__) //!< static cast
-#else /* !__STDC_VERSION__ */
+#if defined(__cplusplus)
 #define a_null nullptr //!< null pointer
 #define a_cast(T, ...) static_cast<T>(__VA_ARGS__) //!< static cast
-#endif /* __STDC_VERSION__ */
+#else /* !__cplusplus */
+#define a_null NULL //!< null pointer
+#define a_cast(T, ...) (T)(__VA_ARGS__) //!< static cast
+#endif /* __cplusplus */
 
 /*!
  @brief iterate from 0 to n and not include n
@@ -199,31 +199,7 @@
 #define a_forboth_reverse(I, i, T, it, ptr, num) \
     for (I i = (num); i ? ((void)((it) = a_cast(T *, ptr) + --i), 1) : 0;)
 
-/*!
- @brief enumeration of return values
-*/
-enum
-{
-    A_SUCCESS = 0,
-    A_WARNING = -1,
-    A_FAILURE = -2,
-    A_INVALID = -3,
-    A_OVERFLOW = -4,
-    A_NOTFOUND = -5,
-};
-
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-
-/*!
- @brief algorithm library version
-*/
-A_PUBLIC const char *a_version(void);
-
-#if defined(__cplusplus)
-} /* extern "C" */
-#endif /* __cplusplus */
+#include "version.h"
 
 /*! @} A */
 

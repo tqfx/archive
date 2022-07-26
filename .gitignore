@@ -60,7 +60,7 @@ dist/
 .cache
 
 # CMake
-src/config.h*
+include/a.*.h*
 install[_-]*
 build[_-]*
 

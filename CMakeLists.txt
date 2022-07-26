@@ -62,13 +62,16 @@ set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 
+configure_file(
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
+  ${CMAKE_CURRENT_LIST_DIR}/include/a.config.h
+)
+
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
   set_target_properties(${target} PROPERTIES DEFINE_SYMBOL A_EXPORTS)
-  set(A_SHARED ${A_SHARED} PARENT_SCOPE)
   target_compile_definitions(${target}
-    PRIVATE $<$<BOOL:${A_VERSION}>:A_CONFIG>
     INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
   )
   target_include_directories(${target} PUBLIC
@@ -78,46 +81,38 @@ function(target_library_setting target)
   target_link_libraries(${target} PUBLIC
     $<$<OR:$<BOOL:${MATH_LIBRARY}>,$<BOOL:${ANDROID}>>:m>
   )
+  set(A_SHARED ${A_SHARED} PARENT_SCOPE)
   target_library_options(${target})
 endfunction()
 
-configure_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
-  ${CMAKE_CURRENT_LIST_DIR}/src/config.h
-)
 file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
+
 add_library(a ${SOURCES})
 target_library_setting(a)
 
 if(A_SHARED)
   add_library(a-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
-  set_target_properties(a-static PROPERTIES OUTPUT_NAME a)
   target_library_setting(a-static)
-else()
-  add_library(a-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
-  set_target_properties(a-shared PROPERTIES OUTPUT_NAME a)
-  target_library_setting(a-shared)
+
+  if(NOT "${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
+    set_target_properties(a-static PROPERTIES OUTPUT_NAME a)
+  endif()
 endif()
 
-configure_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.hpp
-  ${CMAKE_CURRENT_LIST_DIR}/src/config.hpp
-)
 file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
+
 add_library(aa ${SOURCES})
 target_link_libraries(aa PUBLIC a)
 target_library_setting(aa)
 
 if(A_SHARED)
   add_library(aa-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
-  set_target_properties(aa-static PROPERTIES OUTPUT_NAME aa)
   target_link_libraries(aa-static PUBLIC a-static)
   target_library_setting(aa-static)
-else()
-  add_library(aa-shared SHARED EXCLUDE_FROM_ALL ${SOURCES})
-  set_target_properties(aa-shared PROPERTIES OUTPUT_NAME aa)
-  target_link_libraries(aa-shared PUBLIC a-shared)
-  target_library_setting(aa-shared)
+
+  if(NOT "${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
+    set_target_properties(aa-static PROPERTIES OUTPUT_NAME aa)
+  endif()
 endif()
 
 set_target_properties(a aa PROPERTIES
