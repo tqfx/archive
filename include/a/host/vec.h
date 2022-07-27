@@ -109,8 +109,8 @@ A_PUBLIC a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
  @param[in] ctx points to an instance of vector structure
  @param[in] obj input source pointing to an instance
  @return the execution state of the function
-  @retval -1 failure
   @retval 0 success
+  @retval 1 failure
 */
 A_PUBLIC a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj);
 
@@ -126,8 +126,8 @@ A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
  @param[in] ctx points to an instance of vector structure
  @param[in] size the size of the new element
  @return the execution state of the function
-  @retval -1 failure
   @retval 0 success
+  @retval 1 failure
 */
 A_PUBLIC a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size);
 
