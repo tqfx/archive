@@ -29,9 +29,9 @@
 #define VEC_S(type, type_) \
     typedef struct type    \
     {                      \
-        size_t mem;        \
-        size_t num;        \
         type_ *ptr;        \
+        size_t num;        \
+        size_t mem;        \
     } type
 
 #undef VEC_F
@@ -43,15 +43,15 @@
     scope type_ *name##_pop(type *ctx); \
     scope type_ *name##_push(type *ctx);
 
-#undef VEC_MEM
-#define VEC_MEM(type, func) \
-    static inline size_t func(type *ctx) { return ctx->mem; }
-#undef VEC_NUM
-#define VEC_NUM(type, func) \
-    static inline size_t func(type *ctx) { return ctx->num; }
 #undef VEC_PTR
 #define VEC_PTR(type, func, type_) \
     static inline type_ *func(type *ctx) { return ctx->ptr; }
+#undef VEC_NUM
+#define VEC_NUM(type, func) \
+    static inline size_t func(type *ctx) { return ctx->num; }
+#undef VEC_MEM
+#define VEC_MEM(type, func) \
+    static inline size_t func(type *ctx) { return ctx->mem; }
 #undef VEC_AT
 #define VEC_AT(type, func, type_) \
     static inline type_ *func(type *ctx, size_t index) { return ctx->ptr + index; }
@@ -91,8 +91,8 @@
         ctx->ptr = null;     \
     }
 
-#undef VEC_DTOR_NONE
-#define VEC_DTOR_NONE(...) (void)(0)
+#undef VEC_DTOR_NIL
+#define VEC_DTOR_NIL(...) (void)(0)
 
 #undef VEC_DTOR
 #define VEC_DTOR(type, func, dtor)         \

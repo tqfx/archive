@@ -27,23 +27,23 @@
 */
 typedef struct a_str_s
 {
-    a_size_t __mem; /*!< memory */
-    a_size_t __num; /*!< length */
     a_str_t __str; /*!< string */
+    a_size_t __num; /*!< length */
+    a_size_t __mem; /*!< memory */
 } a_str_s;
 
 #ifndef A_STR_NIL
 // clang-format off
-#define A_STR_NIL {a_zero, a_zero, a_null}
+#define A_STR_NIL {a_null, a_zero, a_zero}
 // clang-format on
 #endif /* A_STR_NIL */
 
 /*!
- @brief memory for a pointer to string structure
+ @brief string for a pointer to string structure
  @param[in] ctx points to an instance of string structure
- @return size of memory
+ @return string
 */
-A_INLINE a_size_t a_str_mem(const a_str_s *ctx) { return ctx->__mem; }
+A_INLINE a_str_t a_str_val(const a_str_s *ctx) { return ctx->__str; }
 
 /*!
  @brief length for a pointer to string structure
@@ -53,11 +53,11 @@ A_INLINE a_size_t a_str_mem(const a_str_s *ctx) { return ctx->__mem; }
 A_INLINE a_size_t a_str_len(const a_str_s *ctx) { return ctx->__num; }
 
 /*!
- @brief string for a pointer to string structure
+ @brief memory for a pointer to string structure
  @param[in] ctx points to an instance of string structure
- @return string
+ @return size of memory
 */
-A_INLINE a_str_t a_str_val(const a_str_s *ctx) { return ctx->__str; }
+A_INLINE a_size_t a_str_mem(const a_str_s *ctx) { return ctx->__mem; }
 
 #if defined(__cplusplus)
 extern "C" {

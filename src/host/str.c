@@ -18,21 +18,21 @@ A_OOP_DIE(a_str_s, a_str_die, a_str_dtor)
 a_noret_t a_str_ctor(a_str_s *ctx)
 {
     assert(ctx);
-    ctx->__mem = a_zero;
-    ctx->__num = a_zero;
     ctx->__str = a_null;
+    ctx->__num = a_zero;
+    ctx->__mem = a_zero;
 }
 
 a_noret_t a_str_dtor(a_str_s *ctx)
 {
     assert(ctx);
-    ctx->__mem = a_zero;
-    ctx->__num = a_zero;
     if (ctx->__str)
     {
         free(ctx->__str);
         ctx->__str = a_null;
     }
+    ctx->__num = a_zero;
+    ctx->__mem = a_zero;
 }
 
 #if defined(__clang__)
