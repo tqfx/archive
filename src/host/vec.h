@@ -153,11 +153,6 @@
            *it = (ctx)->ptr ? it##_ + (ctx)->num : null; \
          it != it##_; --it)
 
-#define vec_forboth(i, it, ctx) \
-    for (size_t i = 0; (void)((it) = (ctx)->ptr + i), i != (ctx)->num; ++i)
-#define vec_forboth_reverse(i, it, ctx) \
-    for (size_t i = (ctx)->num; i ? ((void)((it) = (ctx)->ptr + --i), 1) : 0;)
-
 #endif /* __STDC_HOSTED__ */
 
 #endif /* __VEC_H__ */

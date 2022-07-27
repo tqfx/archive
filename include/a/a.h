@@ -383,29 +383,6 @@ typedef long double a_real_t;
          it != it##_; --it)
 
 /*!
- @brief iterate over an array
- @param I index type of this array
- @param i index variable of this array
- @param T the element type in this array
- @param it pointer to the current element
- @param ptr starting address of this array
- @param num number of elements in this array
-*/
-#define a_forboth(I, i, T, it, ptr, num) \
-    for (I i = 0; (void)((it) = a_cast(T *, ptr) + i), i != (num); ++i)
-/*!
- @brief iterate over an array in reverse
- @param I index type of this array
- @param i index variable of this array
- @param T the element type in this array
- @param it pointer to the current element
- @param ptr starting address of this array
- @param num number of elements in this array
-*/
-#define a_forboth_reverse(I, i, T, it, ptr, num) \
-    for (I i = (num); i ? ((void)((it) = a_cast(T *, ptr) + --i), 1) : 0;)
-
-/*!
  @brief enumeration for return values
 */
 enum

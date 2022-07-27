@@ -4,7 +4,7 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "a/host/str.h"
+#include "str.h"
 
 #include <stdio.h>
 

@@ -4,9 +4,7 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "a/host/vec.h"
-
-#include "../src/host/vec.h"
+#include "vec.h"
 
 #include <inttypes.h>
 #include <assert.h>

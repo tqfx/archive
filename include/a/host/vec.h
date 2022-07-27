@@ -241,44 +241,6 @@ A_PUBLIC a_vptr_t a_vec_pop(a_vec_s *ctx);
 */
 #define a_vec_forsafe_reverse(T, it, ctx) a_forsafe_reverse(T, it, (ctx)->__ptr, (ctx)->__number)
 
-/*!
- @brief iterate over a vector
- @code{.c}
- if(a_vec_num(ctx))
- {
-     T *it;
-     a_vec_forboth(T, i, it, ctx)
-     {
-         assert(a_vec_at(ctx, i) == it);
-     }
- }
- @endcode
- @param T type of elements in the vector
- @param i index of elements in the vector
- @param it the &a_vec_s to use as a loop counter
- @param ctx points to an instance of vector structure
-*/
-#define a_vec_forboth(T, i, it, ctx) a_forboth(size_t, i, T, it, (ctx)->__ptr, (ctx)->__number)
-
-/*!
- @brief iterate over a vector in reverse
- @code{.c}
- if(a_vec_num(ctx))
- {
-     T *it;
-     a_vec_forboth_reverse(T, i, it, ctx)
-     {
-         assert(a_vec_at(ctx, i) == it);
-     }
- }
- @endcode
- @param T type of elements in the vector
- @param i index of elements in the vector
- @param it the &a_vec_s to use as a loop counter
- @param ctx points to an instance of vector structure
-*/
-#define a_vec_forboth_reverse(T, i, it, ctx) a_forboth_reverse(size_t, i, T, it, (ctx)->__ptr, (ctx)->__number)
-
 /*! @} A_VEC */
 
 #endif /* __STDC_HOSTED__ */
