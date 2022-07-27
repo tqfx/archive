@@ -9,14 +9,6 @@
 
 #include "a.config.h"
 
-/*!
- @addtogroup A algorithm library based on C
- @{
-*/
-
-#include <stddef.h>
-#include <stdint.h>
-
 /* extern "C" */
 #if defined(__cplusplus)
 #define A_EXTERN_C extern "C"
@@ -29,6 +21,11 @@
 #endif /* __cplusplus */
 
 /*! @cond */
+
+#if defined(__MINGW32__)
+#undef __USE_MINGW_ANSI_STDIO
+#define __USE_MINGW_ANSI_STDIO
+#endif /* __MINGW32__ */
 
 /* has builtin */
 #if defined(__has_builtin)
@@ -109,13 +106,22 @@
 
 /*! @endcond */
 
-/* register keyword */
+/*!
+ @addtogroup A algorithm library based on C
+ @{
+*/
+
+/* keywords */
 #if defined(__cplusplus)
 #define a_register register
 #else /* !__cplusplus */
 #define a_register
 #endif /* __cplusplus */
 #define a_volatile volatile
+#define a_restrict restrict
+
+#include <stddef.h>
+#include <stdint.h>
 
 typedef int a_bool_t;
 
