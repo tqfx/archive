@@ -145,6 +145,14 @@
 #define vec_foreach_reverse(T, it, ctx) \
     for (T *it##_ = (ctx)->ptr - 1, *it = it##_ + (ctx)->num; it != it##_; --it)
 
+#define vec_forsafe(T, it, ctx)                                    \
+    for (T *it = (ctx)->ptr, *it##_ = it ? it + (ctx)->num : null; \
+         it != it##_; ++it)
+#define vec_forsafe_reverse(T, it, ctx)                  \
+    for (T *it##_ = (ctx)->ptr ? (ctx)->ptr - 1 : null,  \
+           *it = (ctx)->ptr ? it##_ + (ctx)->num : null; \
+         it != it##_; --it)
+
 #define vec_forboth(i, it, ctx) \
     for (size_t i = 0; (void)((it) = (ctx)->ptr + i), i != (ctx)->num; ++i)
 #define vec_forboth_reverse(i, it, ctx) \

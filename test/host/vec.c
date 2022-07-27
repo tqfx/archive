@@ -15,13 +15,15 @@
 
 static a_noret_t dtor(a_vptr_t ptr)
 {
-    a_u32_t *p = a_cast(a_u32_t *,ptr);
+    a_u32_t *p = a_cast(a_u32_t *, ptr);
     printf("%" PRIu32 " ", *p);
 }
 
 static a_noret_t test(a_noarg_t)
 {
     a_vec_s *ctx = a_vec_new(sizeof(a_u64_t));
+    a_vec_forsafe(a_u64_t, it, ctx);
+    a_vec_forsafe_reverse(a_u64_t, it, ctx);
     for (a_u64_t i = 0; i != 10; ++i)
     {
         a_u64_t *p = a_cast(a_u64_t *, a_vec_push(ctx));
@@ -115,6 +117,8 @@ VEC_POP(int_s, int_pop, int)
 static a_noret_t test_intern(a_noarg_t)
 {
     int_s *ctx = int_new();
+    vec_forsafe(int, it, ctx);
+    vec_forsafe_reverse(int, it, ctx);
     for (a_int_t i = 0; i != 0x100; ++i)
     {
         a_int_t *p = int_push(ctx);

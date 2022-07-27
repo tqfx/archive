@@ -57,5 +57,9 @@ a_int_t main(a_noarg_t)
 {
     test(10);
 
+    a_str_t a = a_null;
+    a_forsafe(a_char_t, it, a, 0);
+    a_forsafe_reverse(a_char_t, it, a, 0);
+
     return A_SUCCESS;
 }
