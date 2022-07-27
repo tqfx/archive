@@ -31,7 +31,7 @@
     {                      \
         size_t mem;        \
         size_t num;        \
-        type_ *vec;        \
+        type_ *ptr;        \
     } type
 
 #undef VEC_F
@@ -51,13 +51,13 @@
     static inline size_t func(type *ctx) { return ctx->num; }
 #undef VEC_PTR
 #define VEC_PTR(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->vec; }
+    static inline type_ *func(type *ctx) { return ctx->ptr; }
 #undef VEC_AT
 #define VEC_AT(type, func, type_) \
-    static inline type_ *func(type *ctx, size_t index) { return ctx->vec + index; }
+    static inline type_ *func(type *ctx, size_t index) { return ctx->ptr + index; }
 #undef VEC_TOP
 #define VEC_TOP(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->num ? ctx->vec + ctx->num - 1 : null; }
+    static inline type_ *func(type *ctx) { return ctx->num ? ctx->ptr + ctx->num - 1 : null; }
 
 #undef VEC_NEW
 #define VEC_NEW(type, func, ctor)                       \
@@ -88,7 +88,7 @@
     {                        \
         ctx->mem = zero;     \
         ctx->num = zero;     \
-        ctx->vec = null;     \
+        ctx->ptr = null;     \
     }
 
 #undef VEC_DTOR_NONE
@@ -98,15 +98,15 @@
 #define VEC_DTOR(type, func, dtor)         \
     void func(type *ctx)                   \
     {                                      \
-        if (ctx->vec)                      \
+        if (ctx->ptr)                      \
         {                                  \
             while (ctx->num)               \
             {                              \
                 --ctx->num;                \
-                dtor(ctx->vec + ctx->num); \
+                dtor(ctx->ptr + ctx->num); \
             }                              \
-            free(ctx->vec);                \
-            ctx->vec = null;               \
+            free(ctx->ptr);                \
+            ctx->ptr = null;               \
         }                                  \
         ctx->num = zero;                   \
         ctx->mem = zero;                   \
@@ -119,36 +119,36 @@
         if (ctx->mem <= ctx->num)                                               \
         {                                                                       \
             size_t mem = ctx->mem + (ctx->mem >> 1) + 1;                        \
-            type_ *vec = cast(type_ *, realloc(ctx->vec, sizeof(type_) * mem)); \
+            type_ *vec = cast(type_ *, realloc(ctx->ptr, sizeof(type_) * mem)); \
             if (vec == null)                                                    \
             {                                                                   \
                 return null;                                                    \
             }                                                                   \
             ctx->mem = mem;                                                     \
-            ctx->vec = vec;                                                     \
+            ctx->ptr = vec;                                                     \
         }                                                                       \
-        return ctx->vec + ctx->num++;                                           \
+        return ctx->ptr + ctx->num++;                                           \
     }
 
 #undef VEC_POP
 #define VEC_POP(type, func, type_)                      \
     type_ *func(type *ctx)                              \
     {                                                   \
-        return ctx->num ? ctx->vec + --ctx->num : null; \
+        return ctx->num ? ctx->ptr + --ctx->num : null; \
     }
 
 #define vec_forenum(i, ctx) for (size_t i = 0; i != (ctx)->num; ++i)
 #define vec_forenum_reverse(i, ctx) for (size_t i = (ctx)->num; i--;)
 
 #define vec_foreach(T, it, ctx) \
-    for (T *it = (ctx)->vec, *it##_ = it + (ctx)->num; it != it##_; ++it)
+    for (T *it = (ctx)->ptr, *it##_ = it + (ctx)->num; it != it##_; ++it)
 #define vec_foreach_reverse(T, it, ctx) \
-    for (T *it##_ = (ctx)->vec - 1, *it = it##_ + (ctx)->num; it != it##_; --it)
+    for (T *it##_ = (ctx)->ptr - 1, *it = it##_ + (ctx)->num; it != it##_; --it)
 
 #define vec_forboth(i, it, ctx) \
-    for (size_t i = 0; (void)((it) = (ctx)->vec + i), i != (ctx)->num; ++i)
+    for (size_t i = 0; (void)((it) = (ctx)->ptr + i), i != (ctx)->num; ++i)
 #define vec_forboth_reverse(i, it, ctx) \
-    for (size_t i = (ctx)->num; i ? ((void)((it) = (ctx)->vec + --i), 1) : 0;)
+    for (size_t i = (ctx)->num; i ? ((void)((it) = (ctx)->ptr + --i), 1) : 0;)
 
 #endif /* __STDC_HOSTED__ */
 
