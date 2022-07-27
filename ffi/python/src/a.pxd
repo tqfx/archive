@@ -8,29 +8,23 @@ cdef extern from "a/a.h":
 
     ctypedef size_t a_size_t
 
-    ctypedef  int8_t  a_int8_t
-    ctypedef  int8_t a_sint8_t
-    ctypedef uint8_t a_uint8_t
+    ctypedef  int8_t a_i8_t
+    ctypedef uint8_t a_u8_t
 
-    ctypedef  int16_t  a_int16_t
-    ctypedef  int16_t a_sint16_t
-    ctypedef uint16_t a_uint16_t
+    ctypedef  int16_t a_i16_t
+    ctypedef uint16_t a_u16_t
 
-    ctypedef  int32_t  a_int32_t
-    ctypedef  int32_t a_sint32_t
-    ctypedef uint32_t a_uint32_t
+    ctypedef  int32_t a_i32_t
+    ctypedef uint32_t a_u32_t
 
-    ctypedef  int64_t  a_int64_t
-    ctypedef  int64_t a_sint64_t
-    ctypedef uint64_t a_uint64_t
+    ctypedef  int64_t a_i64_t
+    ctypedef uint64_t a_u64_t
 
-    ctypedef  intmax_t  a_intmax_t
-    ctypedef  intmax_t a_sintmax_t
-    ctypedef uintmax_t a_uintmax_t
+    ctypedef  intmax_t a_imax_t
+    ctypedef uintmax_t a_umax_t
 
-    ctypedef  intptr_t  a_intptr_t
-    ctypedef  intptr_t a_sintptr_t
-    ctypedef uintptr_t a_uintptr_t
+    ctypedef  intptr_t a_iptr_t
+    ctypedef uintptr_t a_uptr_t
 
     ctypedef ptrdiff_t a_ptrdiff_t
 
@@ -43,7 +37,13 @@ cdef extern from "a/a.h":
     ctypedef   signed char a_schar_t
     ctypedef unsigned char a_uchar_t
 
-    ctypedef float  a_float32_t
-    ctypedef double a_float64_t
+    ctypedef       char * a_str_t
+    ctypedef const char *a_cstr_t
+    ctypedef       void *a_vptr_t
+    ctypedef const void *a_cptr_t
+
+    ctypedef       float a_f32_t
+    ctypedef      double a_f64_t
+    ctypedef long double a_f128_t
 
     ctypedef double a_real_t

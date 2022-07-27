@@ -1,7 +1,7 @@
 /*!
  @file math.c
  @brief Test mathematical algorithm library
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #include "a/math.h"
@@ -10,21 +10,21 @@
 
 #include <math.h>
 
-static void test_sq(void)
+static a_noret_t test_sq(a_noarg_t)
 {
-    int x = 2;
+    a_int_t x = 2;
 
     TEST_BUG(A_SQ(x) == 4);
 }
 
-static void test_abs(void)
+static a_noret_t test_abs(a_noarg_t)
 {
     long double x = A_LDBL_C(-1.0);
 
     TEST_BUG(A_ABS(x) > 0);
 }
 
-static void test_sgn(void)
+static a_noret_t test_sgn(a_noarg_t)
 {
     double pos = A_DBL_C(+10.0);
     double neg = A_DBL_C(-10.0);
@@ -35,7 +35,7 @@ static void test_sgn(void)
     TEST_BUG(A_SGN(zero) == 0);
 }
 
-static void test_inv_sqrt(void)
+static a_noret_t test_inv_sqrt(a_noarg_t)
 {
     float data[] = {
         A_FLT_C(-1.0),
@@ -45,7 +45,7 @@ static void test_inv_sqrt(void)
         A_FLT_C(4.0),
         A_FLT_C(2.5) * A_FLT_C(2.5),
     };
-    for (unsigned int i = 0; i != sizeof(data) / sizeof(float); ++i)
+    for (a_uint_t i = 0; i != sizeof(data) / sizeof(float); ++i)
     {
         printf("1/sqrt(%g):\t%-10g%-10g\n", (double)data[i],
                1 / (double)A_FLT_F(sqrt, data[i]),
@@ -53,17 +53,12 @@ static void test_inv_sqrt(void)
     }
 }
 
-int main(int argc, char *argv[])
+a_int_t main(a_noarg_t)
 {
     test_sq();
     test_abs();
     test_sgn();
     test_inv_sqrt();
 
-    if (argc > 1)
-    {
-        (void)(argv);
-    }
-
-    return 0;
+    return A_SUCCESS;
 }

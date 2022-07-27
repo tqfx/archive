@@ -1,7 +1,7 @@
 /*!
  @file vec.cc
  @brief Test basic vector library
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #include "a/host/vec.h"
@@ -13,71 +13,71 @@
 #include <string.h>
 #include <stdio.h>
 
-static void dtor(void *ptr)
+static a_noret_t dtor(a_vptr_t ptr)
 {
-    uint32_t *p = static_cast<uint32_t *>(ptr);
+    a_u32_t *p = a_cast(a_u32_t *, ptr);
     printf("%" PRIu32 " ", *p);
 }
 
-static void test(void)
+static a_noret_t test(a_noarg_t)
 {
-    a_vec_s *ctx = a_vec_new(sizeof(uint64_t));
-    for (uint64_t i = 0; i != 10; ++i)
+    a_vec_s *ctx = a_vec_new(sizeof(a_u64_t));
+    for (a_u64_t i = 0; i != 10; ++i)
     {
-        uint64_t *p = static_cast<uint64_t *>(a_vec_push(ctx));
+        a_u64_t *p = a_cast(a_u64_t *, a_vec_push(ctx));
         if (p)
         {
             *p = i;
         }
     }
-    a_vec_resize(ctx, sizeof(uint32_t));
-    for (uint32_t i = 0; i != 20; ++i)
+    a_vec_resize(ctx, sizeof(a_u32_t));
+    for (a_u32_t i = 0; i != 20; ++i)
     {
-        uint32_t *p = static_cast<uint32_t *>(a_vec_push(ctx));
+        a_u32_t *p = a_cast(a_u32_t *, a_vec_push(ctx));
         if (p)
         {
             *p = i;
         }
     }
     a_vec_top(ctx);
-    for (uint32_t i = 0; i != 10; ++i)
+    for (a_u32_t i = 0; i != 10; ++i)
     {
         a_vec_pop(ctx);
     }
 
     a_vec_forenum(i, ctx)
     {
-        uint32_t *it = static_cast<uint32_t *>(a_vec_at(ctx, i));
+        a_u32_t *it = a_cast(a_u32_t *, a_vec_at(ctx, i));
         assert(a_vec_size(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vec_forenum_reverse(i, ctx)
     {
-        uint32_t *it = static_cast<uint32_t *>(a_vec_at(ctx, i));
+        a_u32_t *it = a_cast(a_u32_t *, a_vec_at(ctx, i));
         assert(a_vec_size(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
 
-    a_vec_foreach(uint32_t, it, ctx)
+    a_vec_foreach(a_u32_t, it, ctx)
     {
         assert(a_vec_size(ctx) == sizeof(*it));
-        static_assert(sizeof(uint32_t) == sizeof(*it), "bug in a_vec_foreach");
+        static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vec_foreach");
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
-    a_vec_foreach_reverse(uint32_t, it, ctx)
+    a_vec_foreach_reverse(a_u32_t, it, ctx)
     {
         assert(a_vec_size(ctx) == sizeof(*it));
-        static_assert(sizeof(uint32_t) == sizeof(*it), "bug in a_vec_foreach_reverse");
+        static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vec_foreach_reverse");
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
 
     {
-        uint32_t *it = nullptr;
-        a_vec_forboth(uint32_t, i, it, ctx)
+        a_u32_t *it = a_null;
+        a_vec_forboth(a_u32_t, i, it, ctx)
         {
             assert(a_vec_at(ctx, i) == it);
             printf("(%zu,%" PRIu32 ") ", i, *it);
@@ -85,8 +85,8 @@ static void test(void)
         putchar('\n');
     }
     {
-        uint32_t *it = nullptr;
-        a_vec_forboth_reverse(uint32_t, i, it, ctx)
+        a_u32_t *it = a_null;
+        a_vec_forboth_reverse(a_u32_t, i, it, ctx)
         {
             assert(a_vec_at(ctx, i) == it);
             printf("(%zu,%" PRIu32 ") ", i, *it);
@@ -106,24 +106,24 @@ VEC_AT(int_s, int_at, int)
 VEC_TOP(int_s, int_top, int)
 VEC_F(static, int, int_s, int)
 VEC_CTOR(int_s, int_ctor)
-VEC_DTOR(int_s, int_dtor, VEC_DTOR_NO)
+VEC_DTOR(int_s, int_dtor, VEC_DTOR_NONE)
 VEC_NEW(int_s, int_new, int_ctor)
 VEC_DIE(int_s, int_die, int_dtor)
 VEC_PUSH(int_s, int_push, int)
 VEC_POP(int_s, int_pop, int)
 
-static void test_intern(void)
+static a_noret_t test_intern(a_noarg_t)
 {
     int_s *ctx = int_new();
-    for (int i = 0; i != 0x100; ++i)
+    for (a_int_t i = 0; i != 0x100; ++i)
     {
-        int *p = int_push(ctx);
+        a_int_t *p = int_push(ctx);
         if (p)
         {
             *p = i;
         }
     }
-    for (int i = 0; i != 0x10; ++i)
+    for (a_int_t i = 0; i != 0x10; ++i)
     {
         int_pop(ctx);
     }
@@ -144,21 +144,21 @@ static void test_intern(void)
         *it = 0;
     }
     {
-        int *it = nullptr;
+        a_int_t *it = a_null;
         vec_forboth(i, it, ctx)
         {
-            *it = static_cast<int>(i);
+            *it = a_cast(a_int_t, i);
         }
     }
     {
-        int *it = nullptr;
+        a_int_t *it = a_null;
         vec_forboth_reverse(i, it, ctx)
         {
-            *it = static_cast<int>(i);
+            *it = a_cast(a_int_t, i);
         }
     }
     *int_ptr(ctx) = 0;
-    int *p = int_top(ctx);
+    a_int_t *p = int_top(ctx);
     if (p)
     {
         *p = 0;
@@ -171,9 +171,9 @@ static void test_intern(void)
     int_die(ctx);
 }
 
-int main(void)
+a_int_t main(a_noarg_t)
 {
     test();
     test_intern();
-    return 0;
+    return A_SUCCESS;
 }

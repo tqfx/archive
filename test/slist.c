@@ -1,7 +1,7 @@
 /*!
  @file slist.c
  @brief Test circular singly linked list.
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #include "a/slist.h"
@@ -16,15 +16,15 @@
 typedef struct int_s
 {
     a_slist_u list[1];
-    int data;
+    a_int_t data;
 } int_s;
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
 
-static size_t a_slist_len(const a_slist_s *ctx)
+static a_size_t a_slist_len(const a_slist_s *ctx)
 {
-    size_t count = 0;
+    a_size_t count = 0;
     if (ctx == 0)
     {
         goto done;
@@ -45,29 +45,29 @@ done:
     return count;
 }
 
-static void test(void)
+static a_noret_t test(a_noarg_t)
 {
-    a_slist_s *list1 = (a_slist_s *)malloc(sizeof(a_slist_s));
+    a_slist_s *list1 = a_cast(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list1);
-    for (int i = 0; i != 10; ++i)
+    for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_slist_add_tail(list1, node->list);
     }
-    a_slist_s *list2 = (a_slist_s *)malloc(sizeof(a_slist_s));
+    a_slist_s *list2 = a_cast(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list2);
-    for (int i = 14; i != 9; --i)
+    for (a_int_t i = 14; i != 9; --i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_slist_add_head(list2, node->list);
     }
-    a_slist_s *list3 = (a_slist_s *)malloc(sizeof(a_slist_s));
+    a_slist_s *list3 = a_cast(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list3);
-    for (int i = 15; i != 20; ++i)
+    for (a_int_t i = 15; i != 20; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_slist_add(list3, list3->tail, node->list);
     }
@@ -82,7 +82,7 @@ static void test(void)
         printf("%i ", node->data);
     }
     printf("%zu", a_slist_len(list1));
-    for (int i = 0; i != 10; ++i)
+    for (a_int_t i = 0; i != 10; ++i)
     {
         int_s *node = a_slist_entry_next(list1->head, int_s, list);
         a_slist_del_head(list1);
@@ -104,7 +104,7 @@ static void test(void)
     free(list1);
 }
 
-static void null(void)
+static a_noret_t null(a_noarg_t)
 {
     a_slist_u node1[1] = {{node1}};
     a_slist_u node2[1] = {{node2}};
@@ -133,9 +133,10 @@ static void null(void)
     a_slist_mov(list1, list1->tail, list2);
 }
 
-int main(void)
+a_int_t main(a_noarg_t)
 {
     test();
     null();
-    return 0;
+
+    return A_SUCCESS;
 }

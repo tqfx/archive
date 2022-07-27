@@ -18,13 +18,32 @@ namespace a
 */
 
 /*!
+ @brief enumeration for algorithm library version
+*/
+enum
+{
+    VERSION_MAJOR = A_VERSION_MAJOR,
+    VERSION_MINOR = A_VERSION_MINOR,
+    VERSION_PATCH = A_VERSION_PATCH,
+};
+
+/*!
  @brief algorithm library version string
 */
-A_PUBLIC const char_t *version(void_t);
+A_PUBLIC const char_t *version(a_noarg_t);
 
-A_PUBLIC uint_t version_major(void_t);
-A_PUBLIC uint_t version_minor(void_t);
-A_PUBLIC uint_t version_patch(void_t);
+/*!
+ @brief algorithm library version major
+*/
+A_PUBLIC uint_t version_major(a_noarg_t);
+/*!
+ @brief algorithm library version minor
+*/
+A_PUBLIC uint_t version_minor(a_noarg_t);
+/*!
+ @brief algorithm library version patch
+*/
+A_PUBLIC uint_t version_patch(a_noarg_t);
 
 /*! @} AA_VERSION */
 } // namespace a

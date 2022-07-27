@@ -63,6 +63,7 @@
 #define a_has_attribute(...) __has_attribute(__VA_ARGS__)
 #else /* !__has_attribute */
 #define a_has_attribute(...) 0
+#define __attribute__(...)
 #endif /* __has_attribute */
 
 /* has builtin expect */
@@ -128,13 +129,17 @@ typedef int a_bool_t;
 
 typedef void a_void_t;
 
+#define a_zero 0
 #if defined(__cplusplus)
 #define a_cast(T, ...) static_cast<T>(__VA_ARGS__)
 #define a_null nullptr
+#define a_noarg_t
 #else /* !__cplusplus */
 #define a_cast(T, ...) (T)(__VA_ARGS__)
 #define a_null NULL
+#define a_noarg_t a_void_t
 #endif /* __cplusplus */
+#define a_noret_t a_void_t
 
 typedef size_t a_size_t;
 
@@ -142,85 +147,59 @@ typedef size_t a_size_t;
 
 // clang-format off
 
-typedef  int8_t  a_int8_t;
-typedef  int8_t a_sint8_t;
-typedef uint8_t a_uint8_t;
+typedef  int8_t a_i8_t;
+typedef uint8_t a_u8_t;
 
-#define  A_INT8_C(X)  INT8_C(X)
-#define A_SINT8_C(X)  INT8_C(X)
-#define A_UINT8_C(X) UINT8_C(X)
+#define A_I8_C(X)  INT8_C(X)
+#define A_U8_C(X) UINT8_C(X)
+#define A_I8_MIN   INT8_MIN
+#define A_I8_MAX   INT8_MAX
+#define A_U8_MAX  UINT8_MAX
 
-#define  A_INT8_MIN  INT8_MIN
-#define  A_INT8_MAX  INT8_MAX
-#define A_SINT8_MIN  INT8_MIN
-#define A_SINT8_MAX  INT8_MAX
-#define A_UINT8_MAX UINT8_MAX
+typedef  int16_t a_i16_t;
+typedef uint16_t a_u16_t;
 
-typedef  int16_t  a_int16_t;
-typedef  int16_t a_sint16_t;
-typedef uint16_t a_uint16_t;
+#define A_I16_C(X)  INT16_C(X)
+#define A_U16_C(X) UINT16_C(X)
+#define A_I16_MIN   INT16_MIN
+#define A_I16_MAX   INT16_MAX
+#define A_U16_MAX  UINT16_MAX
 
-#define  A_INT16_C(X)  INT16_C(X)
-#define A_SINT16_C(X)  INT16_C(X)
-#define A_UINT16_C(X) UINT16_C(X)
+typedef  int32_t a_i32_t;
+typedef uint32_t a_u32_t;
 
-#define  A_INT16_MIN  INT16_MIN
-#define  A_INT16_MAX  INT16_MAX
-#define A_SINT16_MIN  INT16_MIN
-#define A_SINT16_MAX  INT16_MAX
-#define A_UINT16_MAX UINT16_MAX
+#define A_I32_C(X)  INT32_C(X)
+#define A_U32_C(X) UINT32_C(X)
+#define A_I32_MIN   INT32_MIN
+#define A_I32_MAX   INT32_MAX
+#define A_U32_MAX  UINT32_MAX
 
-typedef  int32_t  a_int32_t;
-typedef  int32_t a_sint32_t;
-typedef uint32_t a_uint32_t;
+typedef  int64_t a_i64_t;
+typedef uint64_t a_u64_t;
 
-#define  A_INT32_C(X)  INT32_C(X)
-#define A_SINT32_C(X)  INT32_C(X)
-#define A_UINT32_C(X) UINT32_C(X)
+#define A_I64_C(X)  INT64_C(X)
+#define A_U64_C(X) UINT64_C(X)
+#define A_I64_MIN   INT64_MIN
+#define A_I64_MAX   INT64_MAX
+#define A_U64_MAX  UINT64_MAX
 
-#define  A_INT32_MIN  INT32_MIN
-#define  A_INT32_MAX  INT32_MAX
-#define A_SINT32_MIN  INT32_MIN
-#define A_SINT32_MAX  INT32_MAX
-#define A_UINT32_MAX UINT32_MAX
+typedef  intmax_t a_imax_t;
+typedef uintmax_t a_umax_t;
 
-typedef  int64_t  a_int64_t;
-typedef  int64_t a_sint64_t;
-typedef uint64_t a_uint64_t;
+#define A_IMAX_C(X)  INTMAX_C(X)
+#define A_UMAX_C(X) UINTMAX_C(X)
+#define A_IMAX_MIN   INTMAX_MIN
+#define A_IMAX_MAX   INTMAX_MAX
+#define A_UMAX_MAX  UINTMAX_MAX
 
-#define  A_INT64_C(X)  INT64_C(X)
-#define A_SINT64_C(X)  INT64_C(X)
-#define A_UINT64_C(X) UINT64_C(X)
+typedef  intptr_t a_iptr_t;
+typedef uintptr_t a_uptr_t;
 
-#define  A_INT64_MIN  INT64_MIN
-#define  A_INT64_MAX  INT64_MAX
-#define A_SINT64_MIN  INT64_MIN
-#define A_SINT64_MAX  INT64_MAX
-#define A_UINT64_MAX UINT64_MAX
-
-typedef  intmax_t  a_intmax_t;
-typedef  intmax_t a_sintmax_t;
-typedef uintmax_t a_uintmax_t;
-
-#define  A_INTMAX_C(X)  INTMAX_C(X)
-#define A_SINTMAX_C(X)  INTMAX_C(X)
-#define A_UINTMAX_C(X) UINTMAX_C(X)
-
-#define  A_INTMAX_MIN  INTMAX_MIN
-#define  A_INTMAX_MAX  INTMAX_MAX
-#define A_SINTMAX_MIN  INTMAX_MIN
-#define A_SINTMAX_MAX  INTMAX_MAX
-#define A_UINTMAX_MAX UINTMAX_MAX
-
-typedef  intptr_t  a_intptr_t;
-typedef  intptr_t a_sintptr_t;
-typedef uintptr_t a_uintptr_t;
-
-#define  A_INTPTR_MIN  INTPTR_MIN
-#define  A_INTPTR_MAX  INTPTR_MAX
-#define A_SINTPTR_MIN  INTPTR_MIN
-#define A_SINTPTR_MAX  INTPTR_MAX
-#define A_UINTPTR_MAX UINTPTR_MAX
+#define A_IPTR_C(X)  INTPTR_C(X)
+#define A_UPTR_C(X) UINTPTR_C(X)
+#define A_IPTR_MIN   INTPTR_MIN
+#define A_IPTR_PTR   INTPTR_PTR
+#define A_UPTR_PTR  UINTPTR_PTR
 
 typedef ptrdiff_t a_ptrdiff_t;
 
@@ -236,42 +215,177 @@ typedef          char  a_char_t;
 typedef   signed char a_schar_t;
 typedef unsigned char a_uchar_t;
 
-typedef float  a_float32_t;
-typedef double a_float64_t;
+typedef       char * a_str_t;
+typedef const char *a_cstr_t;
+typedef       void *a_vptr_t;
+typedef const void *a_cptr_t;
+
+typedef       float a_f32_t;
+typedef      double a_f64_t;
+typedef long double a_f128_t;
 
 // clang-format on
+
+/*!
+ @addtogroup A_REAL real number
+ @{
+*/
 
 #ifndef A_REAL_BITS
 #define A_REAL_BITS 64
 #endif // real bits
 #if A_REAL_BITS == 32
 
+/*! @brief real number stored using `float` */
 typedef float a_real_t;
 
+/*!
+ @brief expands to a floating-point constant expression
+ having the value specified by its argument and the type @ref a_real_t
+*/
 #define A_REAL_C(X) X##F
+/*!
+ @brief expands to a floating-point function expression
+ having the value specified by its argument and the type @ref a_real_t
+*/
 #define A_REAL_F(F, ...) F##f(__VA_ARGS__)
+
+/*! @brief Format constants for the fprintf family of functions */
 #define A_REAL_PRI(F, ...) "%" F __VA_ARGS__
+/*! @brief Format constants for the fscanf family of functions */
 #define A_REAL_SCN(F, ...) "%" F __VA_ARGS__
 
 #elif A_REAL_BITS == 64
 
+/*! @brief real number stored using `double` */
 typedef double a_real_t;
 
+/*!
+ @brief expands to a floating-point constant expression
+ having the value specified by its argument and the type @ref a_real_t
+*/
 #define A_REAL_C(X) X
+/*!
+ @brief expands to a floating-point function expression
+ having the value specified by its argument and the type @ref a_real_t
+*/
 #define A_REAL_F(F, ...) F(__VA_ARGS__)
+
+/*! @brief Format constants for the fprintf family of functions */
 #define A_REAL_PRI(F, ...) "%" F __VA_ARGS__
+/*! @brief Format constants for the fscanf family of functions */
 #define A_REAL_SCN(F, ...) "%" F "l" __VA_ARGS__
 
 #elif A_REAL_BITS == 128
 
+/*! @brief real number stored using `long double` */
 typedef long double a_real_t;
 
+/*!
+ @brief expands to a floating-point constant expression
+ having the value specified by its argument and the type @ref a_real_t
+*/
 #define A_REAL_C(X) X##L
+/*!
+ @brief expands to a floating-point function expression
+ having the value specified by its argument and the type @ref a_real_t
+*/
 #define A_REAL_F(F, ...) F##l(__VA_ARGS__)
+
+/*! @brief Format constants for the fprintf family of functions */
 #define A_REAL_PRI(F, ...) "%" F "L" __VA_ARGS__
+/*! @brief Format constants for the fscanf family of functions */
 #define A_REAL_SCN(F, ...) "%" F "L" __VA_ARGS__
 
 #endif /* A_REAL_BITS */
+
+/*! @} A_REAL */
+
+/*!
+ @brief offset of a structure member
+ @param type structure type
+ @param member member variable
+*/
+#if defined(offsetof)
+#define a_offsetof(type, member) offsetof(type, member)
+#else /* !offsetof */
+#define a_offsetof(type, member) (size_t)(&(((type *)0)->member))
+#endif /* offsetof */
+
+/*!
+ @brief container of a structure member
+ @param ptr pointer to a member variable
+ @param type structure type
+ @param member member variable
+*/
+#define a_container_of(ptr, type, member) ((type *)((size_t)(ptr)-a_offsetof(type, member)))
+
+/*!
+ @brief iterate from 0 to n and not include n
+ @param I index type of the iteration
+ @param i index variable of the iteration
+ @param n final value of the iteration
+*/
+#define a_forenum(I, i, n) for (I i = 0; i != (n); ++i)
+/*!
+ @brief iterate from n to 0 and not include n
+ @param I index type of the iteration
+ @param i index variable of the iteration
+ @param n final value of the iteration
+*/
+#define a_forenum_reverse(I, i, n) for (I i = (n); i--;)
+
+/*!
+ @brief iterate over an array
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_foreach(T, it, ptr, num) \
+    for (T *it = a_cast(T *, ptr), *it##_ = it + (num); it != it##_; ++it)
+/*!
+ @brief iterate over an array in reverse
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_foreach_reverse(T, it, ptr, num) \
+    for (T *it##_ = a_cast(T *, ptr) - 1, *it = it##_ + (num); it != it##_; --it)
+
+/*!
+ @brief iterate over an array
+ @param I index type of this array
+ @param i index variable of this array
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_forboth(I, i, T, it, ptr, num) \
+    for (I i = 0; (void)((it) = a_cast(T *, ptr) + i), i != (num); ++i)
+/*!
+ @brief iterate over an array in reverse
+ @param I index type of this array
+ @param i index variable of this array
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param num number of elements in this array
+*/
+#define a_forboth_reverse(I, i, T, it, ptr, num) \
+    for (I i = (num); i ? ((void)((it) = a_cast(T *, ptr) + --i), 1) : 0;)
+
+/*!
+ @brief enumeration for return values
+*/
+enum
+{
+    A_SUCCESS, //!< return success
+    A_FAILURE, //!< return failure
+    A_INVALID, //!< return invalid
+};
 
 /*! @} A */
 

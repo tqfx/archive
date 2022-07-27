@@ -1,7 +1,7 @@
 /*!
  @file operator.h
  @brief algorithm library internal operators
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef __OPERATOR_H__

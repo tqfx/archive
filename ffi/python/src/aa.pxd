@@ -8,17 +8,23 @@ cdef extern from "a/a.hpp" namespace "a":
 
     ctypedef a_size_t size_t
 
-    ctypedef a_sint8_t sint8_t
+    ctypedef a_i8_t i8_t
+    ctypedef a_u8_t u8_t
 
-    ctypedef a_sint16_t sint16_t
+    ctypedef a_i16_t i16_t
+    ctypedef a_u16_t u16_t
 
-    ctypedef a_sint32_t sint32_t
+    ctypedef a_i32_t i32_t
+    ctypedef a_u32_t u32_t
 
-    ctypedef a_sint64_t sint64_t
+    ctypedef a_i64_t i64_t
+    ctypedef a_u64_t u64_t
 
-    ctypedef a_sintmax_t sintmax_t
+    ctypedef a_imax_t imax_t
+    ctypedef a_umax_t umax_t
 
-    ctypedef a_sintptr_t sintptr_t
+    ctypedef a_iptr_t iptr_t
+    ctypedef a_uptr_t uptr_t
 
     ctypedef a_ptrdiff_t ptrdiff_t
 
@@ -31,7 +37,13 @@ cdef extern from "a/a.hpp" namespace "a":
     ctypedef a_schar_t schar_t
     ctypedef a_uchar_t uchar_t
 
-    ctypedef a_float32_t float32_t
-    ctypedef a_float64_t float64_t
+    ctypedef  a_str_t  str_t
+    ctypedef a_cstr_t cstr_t
+    ctypedef a_vptr_t vptr_t
+    ctypedef a_cptr_t cptr_t
+
+    ctypedef a_f32_t  f32_t
+    ctypedef a_f64_t  f64_t
+    ctypedef a_f128_t f128_t
 
     ctypedef a_real_t real_t

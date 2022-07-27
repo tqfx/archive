@@ -2,7 +2,7 @@
 '''
  @file setup.py
  @brief Setup this algorithm library using Cython.
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 '''
 from sys import argv, executable
 from subprocess import Popen

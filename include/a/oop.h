@@ -1,11 +1,13 @@
 /*!
  @file oop.h
  @brief Object Oriented Programming Macros
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef __A_OOP_H__
 #define __A_OOP_H__
+
+#include "a.h"
 
 #include <stdlib.h>
 
@@ -21,15 +23,15 @@
  @param func function symbol
  @param ctor constructor
 */
-#define A_OOP_NEW(type, func, ctor)               \
-    type *func(void)                              \
-    {                                             \
-        type *ctx = (type *)malloc(sizeof(type)); \
-        if (ctx)                                  \
-        {                                         \
-            ctor(ctx);                            \
-        }                                         \
-        return ctx;                               \
+#define A_OOP_NEW(type, func, ctor)                       \
+    type *func(a_noarg_t)                                 \
+    {                                                     \
+        type *ctx = a_cast(type *, malloc(sizeof(type))); \
+        if (ctx)                                          \
+        {                                                 \
+            ctor(ctx);                                    \
+        }                                                 \
+        return ctx;                                       \
     }
 
 /*!
@@ -45,15 +47,15 @@
  @param args macro for declaring parameters
  @param ... declared parameter variable name
 */
-#define A_OOP_NEW_VA(type, func, ctor, args, ...) \
-    type *func(args)                              \
-    {                                             \
-        type *ctx = (type *)malloc(sizeof(type)); \
-        if (ctx)                                  \
-        {                                         \
-            ctor(ctx, __VA_ARGS__);               \
-        }                                         \
-        return ctx;                               \
+#define A_OOP_NEW_VA(type, func, ctor, args, ...)         \
+    type *func(args)                                      \
+    {                                                     \
+        type *ctx = a_cast(type *, malloc(sizeof(type))); \
+        if (ctx)                                          \
+        {                                                 \
+            ctor(ctx, __VA_ARGS__);                       \
+        }                                                 \
+        return ctx;                                       \
     }
 
 /*!
@@ -63,7 +65,7 @@
  @param dtor destructor
 */
 #define A_OOP_DIE(type, func, dtor) \
-    void func(type *ctx)            \
+    a_noret_t func(type *ctx)       \
     {                               \
         if (ctx)                    \
         {                           \
@@ -86,7 +88,7 @@
  @param ... declared parameter variable name
 */
 #define A_OOP_DIE_VA(type, func, dtor, args, ...) \
-    void func(type *ctx, args)                    \
+    a_noret_t func(type *ctx, args)               \
     {                                             \
         if (ctx)                                  \
         {                                         \

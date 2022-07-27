@@ -105,7 +105,6 @@ if(
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
 )
   check_flag(-Weverything)
-  check_flag(-Wno-reserved-id-macro)
   check_flag(-Wno-reserved-identifier)
   check_flag(-Wno-used-but-marked-unused)
   check_flag_xx(-Wno-c++98-compat-pedantic)

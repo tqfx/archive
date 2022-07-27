@@ -10,7 +10,7 @@
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
 
-#include "a/def.hpp"
+#include "a/version.hpp"
 
 JNIEXPORT jstring JNICALL Java_liba_aa_version(JNIEnv *env, jobject)
 {

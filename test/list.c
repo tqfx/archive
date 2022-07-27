@@ -1,7 +1,7 @@
 /*!
  @file list.c
  @brief Test circular doubly linked list.
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #include "a/list.h"
@@ -10,22 +10,22 @@
 #pragma GCC diagnostic ignored "-Winline"
 #endif /* __GNUC__ || __clang__ */
 
-A_INLINE void a_list_replace_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
+A_INLINE a_noret_t a_list_replace_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
 {
     a_list_add_(tail1->next, head1->prev, head2, tail2);
 }
-A_INLINE void a_list_replace_node(a_list_s *lold, a_list_s *lnew)
+A_INLINE a_noret_t a_list_replace_node(a_list_s *lold, a_list_s *lnew)
 {
     (lold != lnew) ? a_list_replace_(lold, lold, lnew, lnew) : (void)0;
 }
 
-A_INLINE void a_list_swap_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
+A_INLINE a_noret_t a_list_swap_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
 {
     a_list_s *head = tail2->next, *tail = head2->prev;
     a_list_add_(tail1->next, head1->prev, head2, tail2);
     a_list_add_(head, tail, head1, tail1);
 }
-A_INLINE void a_list_swap_node(a_list_s *node1, a_list_s *node2) { a_list_swap_(node1, node1, node2, node2); }
+A_INLINE a_noret_t a_list_swap_node(a_list_s *node1, a_list_s *node2) { a_list_swap_(node1, node1, node2, node2); }
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -37,15 +37,15 @@ A_INLINE void a_list_swap_node(a_list_s *node1, a_list_s *node2) { a_list_swap_(
 typedef struct int_s
 {
     a_list_s list[1];
-    int data;
+    a_int_t data;
 } int_s;
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
 
-static size_t a_list_len(const a_list_s *ctx)
+static a_size_t a_list_len(const a_list_s *ctx)
 {
-    size_t count = 0;
+    a_size_t count = 0;
     if (ctx == 0)
     {
         goto done;
@@ -78,22 +78,22 @@ done:
     return count;
 }
 
-static void test_next(void)
+static a_noret_t test_next(a_noarg_t)
 {
-    a_list_s *list1 = (a_list_s *)malloc(sizeof(a_list_s));
+    a_list_s *list1 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
-    for (int i = 0; i != 10; ++i)
+    for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_list_add_prev(list1, node->list);
     }
     a_list_rot_prev(list1);
-    a_list_s *list2 = (a_list_s *)malloc(sizeof(a_list_s));
+    a_list_s *list2 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list2);
-    for (int i = 10; i != 21; ++i)
+    for (a_int_t i = 10; i != 21; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_list_add_prev(list2, node->list);
     }
@@ -125,22 +125,22 @@ static void test_next(void)
     free(list2);
 }
 
-static void test_prev(void)
+static a_noret_t test_prev(a_noarg_t)
 {
-    a_list_s *list1 = (a_list_s *)malloc(sizeof(a_list_s));
+    a_list_s *list1 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
-    for (int i = 0; i != 10; ++i)
+    for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_list_add_next(list1, node->list);
     }
     a_list_rot_next(list1);
-    a_list_s *list2 = (a_list_s *)malloc(sizeof(a_list_s));
+    a_list_s *list2 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list2);
-    for (int i = 10; i != 21; ++i)
+    for (a_int_t i = 10; i != 21; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_list_add_next(list2, node->list);
     }
@@ -172,25 +172,25 @@ static void test_prev(void)
     free(list2);
 }
 
-static void test_func(void)
+static a_noret_t test_func(a_noarg_t)
 {
-    a_list_s *list1 = (a_list_s *)malloc(sizeof(a_list_s));
+    a_list_s *list1 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
-    for (int i = 0; i != 10; ++i)
+    for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_list_add_prev(list1, node->list);
     }
-    a_list_s *list2 = (a_list_s *)malloc(sizeof(a_list_s));
+    a_list_s *list2 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list2);
-    for (int i = 10; i != 20; ++i)
+    for (a_int_t i = 10; i != 20; ++i)
     {
-        int_s *node = (int_s *)malloc(sizeof(int_s));
+        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
         node->data = i;
         a_list_add_prev(list2, node->list);
     }
-    int_s *ctx = (int_s *)malloc(sizeof(int_s));
+    int_s *ctx = a_cast(int_s *, malloc(sizeof(int_s)));
     ctx->data = -1;
     {
         a_list_s *ptr = list2->prev;
@@ -231,11 +231,11 @@ static void test_func(void)
     free(ctx);
 }
 
-static void test_null(void)
+static a_noret_t test_null(a_noarg_t)
 {
     a_list_s list1[1] = {{list1, list1}};
     a_list_s list2[1] = {{list2, list2}};
-    size_t len = a_list_len(list1) + a_list_len(list2);
+    a_size_t len = a_list_len(list1) + a_list_len(list2);
 
     a_list_add_next(list1, list1);
     len = a_list_len(list1) + a_list_len(list2);
@@ -340,11 +340,12 @@ static void test_null(void)
     }
 }
 
-int main(void)
+a_int_t main(a_noarg_t)
 {
     test_next();
     test_prev();
     test_func();
     test_null();
-    return 0;
+
+    return A_SUCCESS;
 }

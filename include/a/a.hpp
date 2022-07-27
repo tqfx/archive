@@ -22,33 +22,27 @@ typedef a_void_t void_t;
 
 typedef a_size_t size_t;
 
-// clang-format off
+typedef a_i8_t i8_t;
+typedef a_u8_t u8_t;
 
-typedef  a_int8_t  int8_t;
-typedef a_sint8_t sint8_t;
-typedef a_uint8_t uint8_t;
+typedef a_i16_t i16_t;
+typedef a_u16_t u16_t;
 
-typedef  a_int16_t  int16_t;
-typedef a_sint16_t sint16_t;
-typedef a_uint16_t uint16_t;
+typedef a_i32_t i32_t;
+typedef a_u32_t u32_t;
 
-typedef  a_int32_t  int32_t;
-typedef a_sint32_t sint32_t;
-typedef a_uint32_t uint32_t;
+typedef a_i64_t i64_t;
+typedef a_u64_t u64_t;
 
-typedef  a_int64_t  int64_t;
-typedef a_sint64_t sint64_t;
-typedef a_uint64_t uint64_t;
+typedef a_imax_t imax_t;
+typedef a_umax_t umax_t;
 
-typedef  a_intmax_t  intmax_t;
-typedef a_sintmax_t sintmax_t;
-typedef a_uintmax_t uintmax_t;
-
-typedef  a_intptr_t  intptr_t;
-typedef a_sintptr_t sintptr_t;
-typedef a_uintptr_t uintptr_t;
+typedef a_iptr_t iptr_t;
+typedef a_uptr_t uptr_t;
 
 typedef a_ptrdiff_t ptrdiff_t;
+
+// clang-format off
 
 typedef  a_int_t  int_t;
 typedef a_sint_t sint_t;
@@ -59,10 +53,16 @@ typedef  a_char_t char_t;
 typedef a_schar_t schar_t;
 typedef a_uchar_t uchar_t;
 
-// clang-format on
+typedef  a_str_t  str_t;
+typedef a_cstr_t cstr_t;
+typedef a_vptr_t vptr_t;
+typedef a_cptr_t cptr_t;
 
-typedef a_float32_t float32_t;
-typedef a_float64_t float64_t;
+typedef a_f32_t  f32_t;
+typedef a_f64_t  f64_t;
+typedef a_f128_t f128_t;
+
+// clang-format on
 
 typedef a_real_t real_t;
 

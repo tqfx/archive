@@ -1,7 +1,7 @@
 /*!
  @file math.h
  @brief internal mathematical algorithm library
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef __MATH_H__

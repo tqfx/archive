@@ -14,7 +14,7 @@ set_languages("c11", "c++17")
 set_warnings("everything")
 
 -- disable some compiler errors
-add_cxflags("-Wno-reserved-id-macro", "-Wno-reserved-identifier", "-Wno-used-but-marked-unused", "-Wno-reserved-macro-identifier")
+add_cxflags("-Wno-reserved-identifier", "-Wno-used-but-marked-unused")
 add_cflags("-Wno-declaration-after-statement")
 add_cxxflags("-Wno-c++98-compat-pedantic")
 

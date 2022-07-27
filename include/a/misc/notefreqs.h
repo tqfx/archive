@@ -23,7 +23,7 @@
  The speed of sound depends on temperature,
  but is approximately 345 m/s at "room temperature."
  http://pages.mtu.edu/~suits/notefreqs.html
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef __A_NOTEFREQS_H__

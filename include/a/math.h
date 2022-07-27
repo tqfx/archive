@@ -1,13 +1,13 @@
 /*!
  @file math.h
  @brief mathematical algorithm library
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef __A_MATH_H__
 #define __A_MATH_H__
 
-#include "def.h"
+#include "a.h"
 
 /*!
  @ingroup A
@@ -98,7 +98,7 @@ extern "C" {
  @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
  @param[in] x independent variable
 */
-A_PUBLIC float a_inv_sqrt(float x);
+A_PUBLIC a_f32_t a_inv_sqrt(a_f32_t x);
 
 #if defined(__cplusplus)
 } /* extern "C" */

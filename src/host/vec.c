@@ -1,7 +1,7 @@
 /*!
  @file vec.c
  @brief basic vector library
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #if __STDC_HOSTED__
@@ -12,24 +12,27 @@
 #include <assert.h>
 #include <string.h>
 
+#undef nil
+#define nil 0
+
 #undef ARGS
-#define ARGS size_t size
+#define ARGS a_size_t size
 A_OOP_NEW_VA(a_vec_s, a_vec_new, a_vec_ctor, ARGS, size)
 #undef ARGS
-#define ARGS void (*dtor)(void *)
+#define ARGS a_noret_t (*dtor)(a_vptr_t)
 A_OOP_DIE_VA(a_vec_s, a_vec_die, a_vec_dtor, ARGS, dtor)
 #undef ARGS
 
-void a_vec_ctor(a_vec_s *ctx, size_t size)
+a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
     assert(ctx);
     ctx->__size = size;
-    ctx->__capacity = 0;
-    ctx->__number = 0;
-    ctx->__ptr = 0;
+    ctx->__capacity = a_zero;
+    ctx->__number = a_zero;
+    ctx->__ptr = a_null;
 }
 
-void a_vec_dtor(a_vec_s *ctx, void (*dtor)(void *))
+a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     if (ctx->__ptr)
@@ -42,61 +45,61 @@ void a_vec_dtor(a_vec_s *ctx, void (*dtor)(void *))
             }
         }
         free(ctx->__ptr);
-        ctx->__ptr = 0;
+        ctx->__ptr = a_null;
     }
-    ctx->__capacity = 0;
-    ctx->__number = 0;
-    ctx->__size = 0;
+    ctx->__capacity = a_zero;
+    ctx->__number = a_zero;
+    ctx->__size = a_zero;
 }
 
-int a_vec_copy(a_vec_s *ctx, const a_vec_s *vec)
+a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj)
 {
     assert(ctx);
-    assert(vec);
-    ctx->__ptr = malloc(vec->__capacity * vec->__size);
-    if (ctx->__ptr == 0)
+    assert(obj);
+    ctx->__ptr = malloc(obj->__capacity * obj->__size);
+    if (ctx->__ptr == a_null)
     {
-        return ~0;
+        return A_FAILURE;
     }
-    memcpy(ctx->__ptr, vec->__ptr, vec->__number * vec->__size);
-    ctx->__capacity = vec->__capacity;
-    ctx->__number = vec->__number;
-    ctx->__size = vec->__size;
-    return 0;
+    memcpy(ctx->__ptr, obj->__ptr, obj->__number * obj->__size);
+    ctx->__capacity = obj->__capacity;
+    ctx->__number = obj->__number;
+    ctx->__size = obj->__size;
+    return A_SUCCESS;
 }
 
-a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *vec)
+a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
 {
     assert(ctx);
-    assert(vec);
-    memcpy(ctx, vec, sizeof(a_vec_s));
-    memset(vec, 0, sizeof(a_vec_s));
+    assert(obj);
+    memcpy(ctx, obj, sizeof(a_vec_s));
+    memset(obj, nil, sizeof(a_vec_s));
     return ctx;
 }
 
-int a_vec_resize(a_vec_s *ctx, size_t size)
+a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size)
 {
     assert(ctx);
-    if (size == 0)
+    if (size == a_zero)
     {
-        return ~0;
+        return A_FAILURE;
     }
     ctx->__capacity = ctx->__size * ctx->__capacity / size;
+    ctx->__number = a_zero;
     ctx->__size = size;
-    ctx->__number = 0;
-    return 0;
+    return A_SUCCESS;
 }
 
-void *a_vec_push(a_vec_s *ctx)
+a_vptr_t a_vec_push(a_vec_s *ctx)
 {
     assert(ctx);
     if (ctx->__capacity <= ctx->__number)
     {
-        size_t capacity = ctx->__capacity + (ctx->__capacity >> 1) + 1;
-        void *ptr = realloc(ctx->__ptr, capacity * ctx->__size);
-        if (ptr == 0)
+        a_size_t capacity = ctx->__capacity + (ctx->__capacity >> 1) + 1;
+        a_vptr_t ptr = realloc(ctx->__ptr, capacity * ctx->__size);
+        if (ptr == a_null)
         {
-            return 0;
+            return a_null;
         }
         ctx->__capacity = capacity;
         ctx->__ptr = ptr;
@@ -104,10 +107,10 @@ void *a_vec_push(a_vec_s *ctx)
     return a_vec_at(ctx, ctx->__number++);
 }
 
-void *a_vec_pop(a_vec_s *ctx)
+a_vptr_t a_vec_pop(a_vec_s *ctx)
 {
     assert(ctx);
-    return ctx->__number ? a_vec_at(ctx, --ctx->__number) : 0;
+    return ctx->__number ? a_vec_at(ctx, --ctx->__number) : a_null;
 }
 
 #endif /* __STDC_HOSTED__ */

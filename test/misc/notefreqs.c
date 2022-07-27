@@ -1,10 +1,10 @@
 /*!
  @file notefreqs.c
  @brief Test note frequency
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "a/real.h"
+#include "a/a.h"
 
 #define A_NOTEFREQ_FREQ ((180000000 >> 1) / 200)
 #define A_NOTEFREQ_TYPE a_real_t
@@ -71,13 +71,13 @@ static a_real_t song[][2] = {
     /* clang-format on */
 };
 
-int main(void)
+a_int_t main(a_noarg_t)
 {
-    unsigned int song_n = sizeof(song) / sizeof(*song);
-    for (unsigned int i = 0; i != song_n; ++i)
+    a_uint_t song_n = sizeof(song) / sizeof(*song);
+    for (a_uint_t i = 0; i != song_n; ++i)
     {
         printf(A_REAL_PRI(, "g\t") A_REAL_PRI(, "g\r\n"), song[i][0], song[i][1]);
     }
 
-    return 0;
+    return A_SUCCESS;
 }

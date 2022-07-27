@@ -1,13 +1,13 @@
 /*!
  @file slist.h
  @brief circular singly linked list implementation.
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef __A_SLIST_H__
 #define __A_SLIST_H__
 
-#include "def.h"
+#include "a.h"
 
 /*!
  @ingroup A
@@ -38,7 +38,7 @@ typedef struct a_slist_s
  @param type the type of the struct this is embedded in
  @param member the name of the a_slist_u within the struct
 */
-#define a_slist_entry(ptr, type, member) container_of(ptr, type, member)
+#define a_slist_entry(ptr, type, member) a_container_of(ptr, type, member)
 #define a_slist_entry_next(ptr, type, member) a_slist_entry((ptr)->next, type, member)
 
 /*!
@@ -63,22 +63,22 @@ typedef struct a_slist_s
  @brief constructor for circular singly linked list head
  @param[in,out] ctx points to circular singly linked list head
 */
-A_INLINE void a_slist_ctor(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
+A_INLINE a_noret_t a_slist_ctor(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
 /*!
  @brief initialize for circular singly linked list head
  @param[in,out] ctx points to circular singly linked list head
 */
-A_INLINE void a_slist_init(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
+A_INLINE a_noret_t a_slist_init(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
 /*!
  @brief destructor for circular singly linked list head
  @param[in,out] ctx points to circular singly linked list head
 */
-A_INLINE void a_slist_dtor(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
+A_INLINE a_noret_t a_slist_dtor(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
 /*!
  @brief initialize for circular singly linked list node
  @param[in,out] ctx points to circular singly linked list node
 */
-A_INLINE void a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
+A_INLINE a_noret_t a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
 
 /*!
  @brief test whether a list node is null
@@ -87,7 +87,7 @@ A_INLINE void a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
   @retval 0 non-null
   @retval 1 null
 */
-A_INLINE int a_slist_null(const a_slist_u *ctx) { return ctx->next == ctx; }
+A_INLINE a_bool_t a_slist_null(const a_slist_u *ctx) { return ctx->next == ctx; }
 /*!
  @brief test whether a list node is used
  @param[in] ctx points to circular singly linked list node
@@ -95,7 +95,7 @@ A_INLINE int a_slist_null(const a_slist_u *ctx) { return ctx->next == ctx; }
   @retval 0 unused
   @retval 1 used
 */
-A_INLINE int a_slist_used(const a_slist_u *ctx) { return ctx->next != ctx; }
+A_INLINE a_bool_t a_slist_used(const a_slist_u *ctx) { return ctx->next != ctx; }
 /*!
  @brief test whether a list head is none
  @param[in] ctx points to circular singly linked list head
@@ -103,7 +103,7 @@ A_INLINE int a_slist_used(const a_slist_u *ctx) { return ctx->next != ctx; }
   @retval 0 exist
   @retval 1 none
 */
-A_INLINE int a_slist_none(const a_slist_s *ctx) { return ctx->head == ctx->head->next; }
+A_INLINE a_bool_t a_slist_none(const a_slist_s *ctx) { return ctx->head == ctx->head->next; }
 /*!
  @brief test whether a list node is a tail node
  @param[in] ctx points to circular singly linked list head
@@ -112,14 +112,14 @@ A_INLINE int a_slist_none(const a_slist_s *ctx) { return ctx->head == ctx->head-
   @retval 0 it's not a tail node
   @retval 1 it is a tail node
 */
-A_INLINE int a_slist_tail(const a_slist_s *ctx, const a_slist_u *node) { return ctx->head == node->next; }
+A_INLINE a_bool_t a_slist_tail(const a_slist_s *ctx, const a_slist_u *node) { return ctx->head == node->next; }
 
 /*!
  @brief link head node and tail node
  @param[in,out] head the head node of a list
  @param[in,out] tail the tail node of a list
 */
-A_INLINE void a_slist_link(a_slist_u *head, a_slist_u *tail) { head->next = tail; }
+A_INLINE a_noret_t a_slist_link(a_slist_u *head, a_slist_u *tail) { head->next = tail; }
 
 /*!
  @brief insert a node to a list
@@ -127,7 +127,7 @@ A_INLINE void a_slist_link(a_slist_u *head, a_slist_u *tail) { head->next = tail
  @param[in] prev previous list node
  @param[in] node a list node
 */
-A_INLINE void a_slist_add(a_slist_s *ctx, a_slist_u *prev, a_slist_u *node)
+A_INLINE a_noret_t a_slist_add(a_slist_s *ctx, a_slist_u *prev, a_slist_u *node)
 {
     if (a_slist_tail(ctx, prev))
     {
@@ -141,7 +141,7 @@ A_INLINE void a_slist_add(a_slist_s *ctx, a_slist_u *prev, a_slist_u *node)
  @param[in,out] ctx points to circular singly linked list head
  @param[in] node a list node
 */
-A_INLINE void a_slist_add_head(a_slist_s *ctx, a_slist_u *node)
+A_INLINE a_noret_t a_slist_add_head(a_slist_s *ctx, a_slist_u *node)
 {
     if (a_slist_none(ctx))
     {
@@ -155,7 +155,7 @@ A_INLINE void a_slist_add_head(a_slist_s *ctx, a_slist_u *node)
  @param[in,out] ctx points to circular singly linked list head
  @param[in] node a list node
 */
-A_INLINE void a_slist_add_tail(a_slist_s *ctx, a_slist_u *node)
+A_INLINE a_noret_t a_slist_add_tail(a_slist_s *ctx, a_slist_u *node)
 {
     a_slist_link(node, ctx->head);
     a_slist_link(ctx->tail, node);
@@ -167,7 +167,7 @@ A_INLINE void a_slist_add_tail(a_slist_s *ctx, a_slist_u *node)
  @param[in,out] ctx points to circular singly linked list head
  @param[in] prev previous list node
 */
-A_INLINE void a_slist_del(a_slist_s *ctx, a_slist_u *prev)
+A_INLINE a_noret_t a_slist_del(a_slist_s *ctx, a_slist_u *prev)
 {
     a_slist_u *node = prev->next;
     a_slist_link(prev, node->next);
@@ -180,7 +180,7 @@ A_INLINE void a_slist_del(a_slist_s *ctx, a_slist_u *prev)
  @brief delete a node from a list head
  @param[in,out] ctx points to circular singly linked list head
 */
-A_INLINE void a_slist_del_head(a_slist_s *ctx)
+A_INLINE a_noret_t a_slist_del_head(a_slist_s *ctx)
 {
     a_slist_u *node = ctx->head->next;
     a_slist_link(ctx->head, node->next);
@@ -196,7 +196,7 @@ A_INLINE void a_slist_del_head(a_slist_s *ctx)
  @param[in] at the previous &a_slist_u of the inserted node
  @param[in] src source list
 */
-A_INLINE void a_slist_mov(a_slist_s *ctx, a_slist_u *at, a_slist_s *src)
+A_INLINE a_noret_t a_slist_mov(a_slist_s *ctx, a_slist_u *at, a_slist_s *src)
 {
     if (a_slist_none(src))
     {
@@ -214,7 +214,7 @@ A_INLINE void a_slist_mov(a_slist_s *ctx, a_slist_u *at, a_slist_s *src)
  @brief rotate a node in the list
  @param[in,out] ctx points to circular singly linked list head
 */
-A_INLINE void a_slist_rot(a_slist_s *ctx)
+A_INLINE a_noret_t a_slist_rot(a_slist_s *ctx)
 {
     a_slist_u *node = ctx->head->next;
     a_slist_link(ctx->head, node->next);

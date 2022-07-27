@@ -1,13 +1,11 @@
 /*!
  @file operator.h
  @brief algorithm library operators
- @copyright Copyright (C) 2020 tqfx, All rights reserved.
+ @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef __A_OPERATOR_H__
 #define __A_OPERATOR_H__
-
-#include "def.h"
 
 /*!
  @ingroup A
