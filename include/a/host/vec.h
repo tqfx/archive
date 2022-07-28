@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_VEC_H__
-#define __A_VEC_H__
+#ifndef __A_HOST_VEC_H__
+#define __A_HOST_VEC_H__
 
 #include "../a.h"
 
@@ -245,4 +245,4 @@ A_PUBLIC a_vptr_t a_vec_pop(a_vec_s *ctx);
 
 #endif /* __STDC_HOSTED__ */
 
-#endif /* __A_VEC_H__ */
+#endif /* __A_HOST_VEC_H__ */

@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_STR_H__
-#define __A_STR_H__
+#ifndef __A_HOST_STR_H__
+#define __A_HOST_STR_H__
 
 #include "../a.h"
 
@@ -192,4 +192,4 @@ A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) __attribute__((__
 
 #endif /* __STDC_HOSTED__ */
 
-#endif /* __A_STR_H__ */
+#endif /* __A_HOST_STR_H__ */

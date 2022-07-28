@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __TEST_VEC_H__
-#define __TEST_VEC_H__
+#ifndef __TEST_HOST_VEC_H__
+#define __TEST_HOST_VEC_H__
 
 #include "a/host/vec.h"
 
@@ -56,4 +56,4 @@
 #define vec_forboth_reverse(i, it, ctx) \
     for (size_t i = (ctx)->num; i ? ((void)((it) = (ctx)->ptr + --i), 1) : 0;)
 
-#endif /* __TEST_VEC_H__ */
+#endif /* __TEST_HOST_VEC_H__ */

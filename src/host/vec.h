@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __VEC_H__
-#define __VEC_H__
+#ifndef __HOST_VEC_H__
+#define __HOST_VEC_H__
 
 #include <stddef.h>
 
@@ -155,4 +155,4 @@
 
 #endif /* __STDC_HOSTED__ */
 
-#endif /* __VEC_H__ */
+#endif /* __HOST_VEC_H__ */
