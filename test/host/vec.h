@@ -9,6 +9,7 @@
 
 #include "a/host/vec.h"
 
+#include "../test.h"
 #include "../for.h"
 
 /*!

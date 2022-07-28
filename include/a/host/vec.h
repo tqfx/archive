@@ -72,6 +72,20 @@ A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx) { return a_cast(a_byte_t *, ctx
   @retval 0 empty vector
 */
 A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx) { return ctx->__number ? a_vec_top_(ctx) : a_null; }
+/*!
+ @brief access end pointer for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+ @note need to check if vector is empty
+ @return vector end pointer
+*/
+A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx) { return a_cast(a_byte_t *, ctx->__ptr) + ctx->__number * ctx->__size; }
+/*!
+ @brief access end pointer for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+ @return vector end pointer
+  @retval 0 empty vector
+*/
+A_INLINE a_vptr_t a_vec_end(const a_vec_s *ctx) { return ctx->__ptr ? a_vec_end_(ctx) : a_null; }
 
 #if defined(__cplusplus)
 extern "C" {

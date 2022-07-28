@@ -39,10 +39,15 @@ static a_noret_t test(a_noarg_t)
             *p = i;
         }
     }
-    a_vec_top(ctx);
     for (a_u32_t i = 0; i != 10; ++i)
     {
         a_vec_pop(ctx);
+    }
+
+    {
+        a_byte_t *end = a_cast(a_byte_t *, a_vec_end(ctx));
+        a_byte_t *top = a_cast(a_byte_t *, a_vec_top(ctx));
+        TEST_BUG(a_vec_size(ctx) == a_cast(a_size_t, end - top));
     }
 
     a_vec_forenum(i, ctx)
