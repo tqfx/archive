@@ -31,3 +31,10 @@ JNIEXPORT jint JNICALL Java_liba_a_version_1patch(JNIEnv *env, jobject obj)
 {
     return (void)(env), (void)(obj), (jint)a_version_patch();
 }
+
+#include "a/math.h"
+
+JNIEXPORT jfloat JNICALL Java_liba_a_int_1sqrt(JNIEnv *env, jobject obj, jfloat x)
+{
+    return (void)(env), (void)(obj), a_inv_sqrt(x);
+}

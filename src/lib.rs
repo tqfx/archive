@@ -21,7 +21,6 @@ extern "C" {
 }
 
 use std::ffi::CStr;
-use std::str;
 
 /// algorithm library version
 ///
@@ -45,12 +44,11 @@ pub fn version() -> String {
 ///
 /// ```no_run
 /// fn main() {
-///     println!("version {}", liba::version_major());
+///     println!("major {}", liba::version_major());
 /// }
 /// ```
 pub fn version_major() -> u32 {
-    let num: u32 = unsafe { a_version_major() as u32 };
-    num
+    unsafe { a_version_major() as u32 }
 }
 
 /// algorithm library version minor
@@ -59,12 +57,11 @@ pub fn version_major() -> u32 {
 ///
 /// ```no_run
 /// fn main() {
-///     println!("version {}", liba::version_minor());
+///     println!("minor {}", liba::version_minor());
 /// }
 /// ```
 pub fn version_minor() -> u32 {
-    let num: u32 = unsafe { a_version_minor() as u32 };
-    num
+    unsafe { a_version_minor() as u32 }
 }
 
 /// algorithm library version patch
@@ -73,12 +70,28 @@ pub fn version_minor() -> u32 {
 ///
 /// ```no_run
 /// fn main() {
-///     println!("version {}", liba::version_patch());
+///     println!("patch {}", liba::version_patch());
 /// }
 /// ```
 pub fn version_patch() -> u32 {
-    let num: u32 = unsafe { a_version_patch() as u32 };
-    num
+    unsafe { a_version_patch() as u32 }
+}
+
+extern "C" {
+    fn a_inv_sqrt(x: f32) -> f32;
+}
+
+/// fast inverse square-root, \f$ \frac{1}{\sqrt{x}} \f$
+///
+/// ## Examples
+///
+/// ```no_run
+/// fn main() {
+///     println!("1/sqrt({})={}", 4, liba::inv_sqrt(4.0));
+/// }
+/// ```
+pub fn inv_sqrt(x: f32) -> f32 {
+    unsafe { a_inv_sqrt(x) }
 }
 
 #[cfg(test)]
@@ -87,5 +100,8 @@ mod tests {
     #[test]
     fn run_version() {
         println!("version {}", version());
+        println!("major {}", version_major());
+        println!("minor {}", version_minor());
+        println!("patch {}", version_patch());
     }
 }

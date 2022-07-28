@@ -25,3 +25,11 @@ def version_minor() -> int:
 def version_patch() -> int:
     '''algorithm library version patch'''
     return a_version_patch()
+
+from a_math cimport *
+
+@cython.wraparound(False)
+@cython.boundscheck(False)
+def inv_sqrt(x: float) -> float:
+    '''fast inverse square-root'''
+    return a_inv_sqrt(x)
