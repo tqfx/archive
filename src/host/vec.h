@@ -55,6 +55,9 @@
 #undef VEC_AT
 #define VEC_AT(type, func, type_) \
     static inline type_ *func(type *ctx, size_t index) { return ctx->ptr + index; }
+#undef VEC_END
+#define VEC_END(type, func, type_) \
+    static inline type_ *func(type *ctx) { return ctx->num ? ctx->ptr + ctx->num : null; }
 #undef VEC_TOP
 #define VEC_TOP(type, func, type_) \
     static inline type_ *func(type *ctx) { return ctx->num ? ctx->ptr + ctx->num - 1 : null; }

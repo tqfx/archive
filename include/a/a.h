@@ -30,8 +30,12 @@
 /* has builtin */
 #if defined(__has_builtin)
 #define a_has_builtin(...) __has_builtin(__VA_ARGS__)
+#define a_builtin_likey(...) __builtin_expect((__VA_ARGS__), 1)
+#define a_builtin_unlikey(...) __builtin_expect((__VA_ARGS__), 0)
 #else /* !__has_builtin */
 #define a_has_builtin(...) 0
+#define a_builtin_likey(...) (__VA_ARGS__)
+#define a_builtin_unlikey(...) (__VA_ARGS__)
 #endif /* __has_builtin */
 
 /* has feature */
@@ -62,15 +66,6 @@
 #define a_has_attribute(...) 0
 #define __attribute__(...)
 #endif /* __has_attribute */
-
-/* has builtin expect */
-#if defined(__builtin_expect)
-#define a_builtin_likey(...) __builtin_expect((__VA_ARGS__), 1)
-#define a_builtin_unlikey(...) __builtin_expect((__VA_ARGS__), 0)
-#else /* !__builtin_expect */
-#define a_builtin_likey(...) (__VA_ARGS__)
-#define a_builtin_unlikey(...) (__VA_ARGS__)
-#endif /* __builtin_expect */
 
 /* attribute deprecated */
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -367,8 +362,8 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_forsafe(T, it, ptr, num)                                    \
-    for (T *it = a_cast(T *, ptr), *it##_ = it ? it + (num) : a_null; \
+#define a_forsafe(T, it, ptr, num)                                                               \
+    for (T *it = a_cast(T *, ptr), *it##_ = a_builtin_likey(it != a_null) ? it + (num) : a_null; \
          it != it##_; ++it)
 /*!
  @brief iterate over an array safe in reverse
@@ -377,9 +372,9 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_forsafe_reverse(T, it, ptr, num)                 \
-    for (T *it##_ = (ptr) ? a_cast(T *, ptr) - 1 : a_null, \
-           *it = (ptr) ? it##_ + (num) : a_null;           \
+#define a_forsafe_reverse(T, it, ptr, num)                                            \
+    for (T *it##_ = a_builtin_likey((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
+           *it = a_builtin_likey((ptr) != a_null) ? it##_ + (num) : a_null;           \
          it != it##_; --it)
 
 /*!

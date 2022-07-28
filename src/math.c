@@ -13,7 +13,7 @@ a_f32_t a_inv_sqrt(a_f32_t x)
         a_f32_t x;
         a_u32_t u;
     } u[1] = {{x}};
-    if (x > 0)
+    if (a_builtin_likey(x > 0))
     {
         a_f32_t xh = 0.5F * x;
         u->u = 0x5F3759DF - (u->u >> 1);

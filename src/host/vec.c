@@ -110,7 +110,7 @@ a_vptr_t a_vec_push(a_vec_s *ctx)
 a_vptr_t a_vec_pop(a_vec_s *ctx)
 {
     assert(ctx);
-    return ctx->__number ? a_vec_at(ctx, --ctx->__number) : a_null;
+    return a_builtin_likey(ctx->__number != a_zero) ? a_vec_at(ctx, --ctx->__number) : a_null;
 }
 
 #endif /* __STDC_HOSTED__ */
