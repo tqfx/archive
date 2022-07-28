@@ -122,13 +122,13 @@
         if (ctx->mem <= ctx->num)                                               \
         {                                                                       \
             size_t mem = ctx->mem + (ctx->mem >> 1) + 1;                        \
-            type_ *vec = cast(type_ *, realloc(ctx->ptr, sizeof(type_) * mem)); \
-            if (vec == null)                                                    \
+            type_ *ptr = cast(type_ *, realloc(ctx->ptr, sizeof(type_) * mem)); \
+            if (ptr == null)                                                    \
             {                                                                   \
                 return null;                                                    \
             }                                                                   \
             ctx->mem = mem;                                                     \
-            ctx->ptr = vec;                                                     \
+            ctx->ptr = ptr;                                                     \
         }                                                                       \
         return ctx->ptr + ctx->num++;                                           \
     }
@@ -142,7 +142,6 @@
 
 #define vec_forenum(i, ctx) for (size_t i = 0; i != (ctx)->num; ++i)
 #define vec_forenum_reverse(i, ctx) for (size_t i = (ctx)->num; i--;)
-
 #define vec_foreach(T, it, ctx)                                    \
     for (T *it = (ctx)->ptr, *it##_ = it ? it + (ctx)->num : null; \
          it != it##_; ++it)
