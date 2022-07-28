@@ -343,8 +343,10 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach(T, it, ptr, num) \
-    for (T *it = a_cast(T *, ptr), *it##_ = it + (num); it != it##_; ++it)
+#define a_foreach(T, it, ptr, num)                                       \
+    for (T *it = a_cast(T *, ptr),                                       \
+           *it##_ = a_builtin_likey(it != a_null) ? it + (num) : a_null; \
+         it != it##_; ++it)
 /*!
  @brief iterate over an array in reverse
  @param T the element type in this array
@@ -352,29 +354,31 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach_reverse(T, it, ptr, num) \
-    for (T *it##_ = a_cast(T *, ptr) - 1, *it = it##_ + (num); it != it##_; --it)
-
-/*!
- @brief iterate over an array safe
- @param T the element type in this array
- @param it pointer to the current element
- @param ptr starting address of this array
- @param num number of elements in this array
-*/
-#define a_forsafe(T, it, ptr, num)                                                               \
-    for (T *it = a_cast(T *, ptr), *it##_ = a_builtin_likey(it != a_null) ? it + (num) : a_null; \
-         it != it##_; ++it)
-/*!
- @brief iterate over an array safe in reverse
- @param T the element type in this array
- @param it pointer to the current element
- @param ptr starting address of this array
- @param num number of elements in this array
-*/
-#define a_forsafe_reverse(T, it, ptr, num)                                            \
+#define a_foreach_reverse(T, it, ptr, num)                                            \
     for (T *it##_ = a_builtin_likey((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
            *it = a_builtin_likey((ptr) != a_null) ? it##_ + (num) : a_null;           \
+         it != it##_; --it)
+
+/*!
+ @brief iterate over an array
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param end the end address of this array
+*/
+#define a_iterate(T, it, ptr, end) \
+    for (T *it = a_cast(T *, ptr), *it##_ = a_cast(T *, end); it != it##_; ++it)
+
+/*!
+ @brief iterate over an array in reverse
+ @param T the element type in this array
+ @param it pointer to the current element
+ @param ptr starting address of this array
+ @param end the end address of this array
+*/
+#define a_iterate_reverse(T, it, ptr, end)                                            \
+    for (T *it##_ = a_builtin_likey((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
+           *it = a_builtin_likey((end) != a_null) ? a_cast(T *, end) - 1 : a_null;    \
          it != it##_; --it)
 
 /*!

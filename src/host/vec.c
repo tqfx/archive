@@ -26,11 +26,14 @@ A_OOP_DIE_VA(a_vec_s, a_vec_die, a_vec_dtor, ARGS, dtor)
 a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
     assert(ctx);
-    ctx->__size = size;
     ctx->__capacity = a_zero;
     ctx->__number = a_zero;
     ctx->__ptr = a_null;
+    ctx->__size = size;
 }
+
+A_INLINE a_vptr_t a_vec_inc_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * ctx->__number++; }
+A_INLINE a_vptr_t a_vec_dec_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * --ctx->__number; }
 
 a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
@@ -41,7 +44,7 @@ a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
         {
             while (ctx->__number)
             {
-                dtor(a_vec_at(ctx, --ctx->__number));
+                dtor(a_vec_dec_(ctx));
             }
         }
         free(ctx->__ptr);
@@ -50,6 +53,26 @@ a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     ctx->__capacity = a_zero;
     ctx->__number = a_zero;
     ctx->__size = a_zero;
+}
+
+a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (size == a_zero)
+    {
+        return A_FAILURE;
+    }
+    if (dtor)
+    {
+        while (ctx->__number)
+        {
+            dtor(a_vec_dec_(ctx));
+        }
+    }
+    ctx->__capacity = ctx->__size * ctx->__capacity / size;
+    ctx->__number = a_zero;
+    ctx->__size = size;
+    return A_SUCCESS;
 }
 
 a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj)
@@ -77,19 +100,6 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
     return ctx;
 }
 
-a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size)
-{
-    assert(ctx);
-    if (size == a_zero)
-    {
-        return A_FAILURE;
-    }
-    ctx->__capacity = ctx->__size * ctx->__capacity / size;
-    ctx->__number = a_zero;
-    ctx->__size = size;
-    return A_SUCCESS;
-}
-
 a_vptr_t a_vec_push(a_vec_s *ctx)
 {
     assert(ctx);
@@ -104,13 +114,13 @@ a_vptr_t a_vec_push(a_vec_s *ctx)
         ctx->__capacity = capacity;
         ctx->__ptr = ptr;
     }
-    return a_vec_at(ctx, ctx->__number++);
+    return a_vec_inc_(ctx);
 }
 
 a_vptr_t a_vec_pop(a_vec_s *ctx)
 {
     assert(ctx);
-    return a_builtin_likey(ctx->__number != a_zero) ? a_vec_at(ctx, --ctx->__number) : a_null;
+    return a_builtin_likey(ctx->__number != a_zero) ? a_vec_dec_(ctx) : a_null;
 }
 
 #endif /* __STDC_HOSTED__ */

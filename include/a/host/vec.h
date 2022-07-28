@@ -128,6 +128,17 @@ A_PUBLIC a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size);
 A_PUBLIC a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
+ @brief resize the elements in the vector
+ @param[in] ctx points to an instance of vector structure
+ @param[in] size the size of the new element
+ @param[in] dtor previous element destructor
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+
+/*!
  @brief initialize a pointer to vector structure by copying
  @param[in] ctx points to an instance of vector structure
  @param[in] obj input source pointing to an instance
@@ -143,16 +154,6 @@ A_PUBLIC a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj);
  @param[in] obj input source pointing to an instance
 */
 A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
-
-/*!
- @brief resize the elements in the vector
- @param[in] ctx points to an instance of vector structure
- @param[in] size the size of the new element
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
-*/
-A_PUBLIC a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size);
 
 /*!
  @brief push an element into the vector
@@ -205,12 +206,9 @@ A_PUBLIC a_vptr_t a_vec_pop(a_vec_s *ctx);
 /*!
  @brief iterate over a vector
  @code{.c}
- if(a_vec_num(ctx))
+ a_vec_foreach(T, it, ctx)
  {
-     a_vec_foreach(T, it, ctx)
-     {
-         assert(a_vec_size(ctx) == sizeof(*it));
-     }
+     assert(a_vec_size(ctx) == sizeof(*it));
  }
  @endcode
  @param T type of elements in the vector
@@ -222,12 +220,9 @@ A_PUBLIC a_vptr_t a_vec_pop(a_vec_s *ctx);
 /*!
  @brief iterate over a vector in reverse
  @code{.c}
- if(a_vec_num(ctx))
+ a_vec_foreach_reverse(T, it, ctx)
  {
-     a_vec_foreach_reverse(T, it, ctx)
-     {
-         assert(a_vec_size(ctx) == sizeof(*it));
-     }
+     assert(a_vec_size(ctx) == sizeof(*it));
  }
  @endcode
  @param T type of elements in the vector
@@ -235,34 +230,6 @@ A_PUBLIC a_vptr_t a_vec_pop(a_vec_s *ctx);
  @param ctx points to an instance of vector structure
 */
 #define a_vec_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->__ptr, (ctx)->__number)
-
-/*!
- @brief iterate over a vector safe
- @code{.c}
- a_vec_forsafe(T, it, ctx)
- {
-     assert(a_vec_size(ctx) == sizeof(*it));
- }
- @endcode
- @param T type of elements in the vector
- @param it the &a_vec_s to use as a loop counter
- @param ctx points to an instance of vector structure
-*/
-#define a_vec_forsafe(T, it, ctx) a_forsafe(T, it, (ctx)->__ptr, (ctx)->__number)
-
-/*!
- @brief iterate over a vector safe in reverse
- @code{.c}
- a_vec_forsafe_reverse(T, it, ctx)
- {
-     assert(a_vec_size(ctx) == sizeof(*it));
- }
- @endcode
- @param T type of elements in the vector
- @param it the &a_vec_s to use as a loop counter
- @param ctx points to an instance of vector structure
-*/
-#define a_vec_forsafe_reverse(T, it, ctx) a_forsafe_reverse(T, it, (ctx)->__ptr, (ctx)->__number)
 
 /*! @} A_VEC */
 
