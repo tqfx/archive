@@ -33,6 +33,7 @@ A_INLINE_FORCE a_vptr_t a_vec_dec_(a_vec_s *ctx)
 a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
     assert(ctx);
+    assert(size);
     ctx->__capacity = a_zero;
     ctx->__number = a_zero;
     ctx->__ptr = a_null;
@@ -44,42 +45,15 @@ a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     assert(ctx);
     if (ctx->__ptr)
     {
-        if (dtor)
-        {
-            while (ctx->__number)
-            {
-                dtor(a_vec_dec_(ctx));
-            }
-        }
+        a_vec_drop(ctx, dtor);
         free(ctx->__ptr);
         ctx->__ptr = a_null;
     }
     ctx->__capacity = a_zero;
-    ctx->__number = a_zero;
     ctx->__size = a_zero;
 }
 
-a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
-{
-    assert(ctx);
-    if (size == a_zero)
-    {
-        return A_FAILURE;
-    }
-    if (dtor)
-    {
-        while (ctx->__number)
-        {
-            dtor(a_vec_dec_(ctx));
-        }
-    }
-    ctx->__capacity = ctx->__size * ctx->__capacity / size;
-    ctx->__number = a_zero;
-    ctx->__size = size;
-    return A_SUCCESS;
-}
-
-a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj)
+a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t))
 {
     assert(ctx);
     assert(obj);
@@ -88,10 +62,23 @@ a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj)
     {
         return A_FAILURE;
     }
-    memcpy(ctx->__ptr, obj->__ptr, obj->__number * obj->__size);
-    ctx->__capacity = obj->__capacity;
-    ctx->__number = obj->__number;
     ctx->__size = obj->__size;
+    ctx->__number = obj->__number;
+    ctx->__capacity = obj->__capacity;
+    a_size_t size = obj->__number * obj->__size;
+    if (dup)
+    {
+        a_byte_t *dst = (a_byte_t *)ctx->__ptr;
+        a_byte_t *src = (a_byte_t *)obj->__ptr;
+        for (size_t idx = 0; idx != size; idx += obj->__size)
+        {
+            dup(dst + idx, src + idx);
+        }
+    }
+    else
+    {
+        memcpy(ctx->__ptr, obj->__ptr, size);
+    }
     return A_SUCCESS;
 }
 
@@ -102,6 +89,35 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
     memcpy(ctx, obj, sizeof(a_vec_s));
     memset(obj, 000, sizeof(a_vec_s));
     return ctx;
+}
+
+a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (size == a_zero)
+    {
+        return A_FAILURE;
+    }
+    a_vec_drop(ctx, dtor);
+    ctx->__capacity = ctx->__size * ctx->__capacity / size;
+    ctx->__size = size;
+    return A_SUCCESS;
+}
+
+a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (dtor)
+    {
+        while (ctx->__number)
+        {
+            dtor(a_vec_dec_(ctx));
+        }
+    }
+    else
+    {
+        ctx->__number = a_zero;
+    }
 }
 
 a_vptr_t a_vec_push(a_vec_s *ctx)

@@ -67,10 +67,11 @@
     scope void name##_die(def *ctx);            \
     scope void name##_ctor(def *ctx);           \
     scope void name##_dtor(def *ctx);           \
+    scope void name##_drop(def *ctx);           \
     scope type *name##_pop(def *ctx);           \
     scope type *name##_push(def *ctx);          \
     scope def *name##_move(def *ctx, def *obj); \
-    scope int name##_copy(def *ctx, const def *obj);
+    scope int name##_copy(def *ctx, const def *obj, int (*dup)(type *, const type *));
 
 #undef VEC_NEW
 #define VEC_NEW(def, func, ctor)                     \
@@ -104,8 +105,8 @@
         ctx->ptr = null;    \
     }
 
-#undef VEC_DTOR_NIL
-#define VEC_DTOR_NIL(...) (void)(0)
+#undef VEC_NODTOR
+#define VEC_NODTOR(...) (void)(0)
 
 #undef VEC_DTOR
 #define VEC_DTOR(def, func, dtor)          \
@@ -135,18 +136,39 @@
     }
 
 #undef VEC_COPY
-#define VEC_COPY(def, func, type)                                 \
-    int func(def *ctx, const def *obj)                            \
-    {                                                             \
-        ctx->ptr = cast(type *, malloc(sizeof(type) * obj->mem)); \
-        if (ctx->ptr == null)                                     \
-        {                                                         \
-            return ~0;                                            \
-        }                                                         \
-        memcpy(ctx->ptr, obj->ptr, sizeof(type) * obj->num);      \
-        ctx->mem = obj->mem;                                      \
-        ctx->num = obj->num;                                      \
-        return 0;                                                 \
+#define VEC_COPY(def, func, type)                                        \
+    int func(def *ctx, const def *obj, int (*dup)(type *, const type *)) \
+    {                                                                    \
+        ctx->ptr = cast(type *, malloc(sizeof(type) * obj->mem));        \
+        if (ctx->ptr == null)                                            \
+        {                                                                \
+            return ~0;                                                   \
+        }                                                                \
+        ctx->num = obj->num;                                             \
+        ctx->mem = obj->mem;                                             \
+        if (dup)                                                         \
+        {                                                                \
+            for (size_t idx = 0; idx != obj->num; ++idx)                 \
+            {                                                            \
+                dup(ctx->ptr + idx, obj->ptr + idx);                     \
+            }                                                            \
+        }                                                                \
+        else                                                             \
+        {                                                                \
+            memcpy(ctx->ptr, obj->ptr, sizeof(type) * obj->num);         \
+        }                                                                \
+        return 0;                                                        \
+    }
+
+#undef VEC_DROP
+#define VEC_DROP(def, func, dtor)      \
+    void func(def *ctx)                \
+    {                                  \
+        while (ctx->num)               \
+        {                              \
+            --ctx->num;                \
+            dtor(ctx->ptr + ctx->num); \
+        }                              \
     }
 
 #undef VEC_POP

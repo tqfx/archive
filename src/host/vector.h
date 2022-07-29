@@ -67,10 +67,11 @@
     scope void name##_die(def *ctx);            \
     scope void name##_ctor(def *ctx);           \
     scope void name##_dtor(def *ctx);           \
+    scope void name##_drop(def *ctx);           \
     scope type *name##_pop(def *ctx);           \
     scope type *name##_push(def *ctx);          \
     scope def *name##_move(def *ctx, def *obj); \
-    scope int name##_copy(def *ctx, const def *obj);
+    scope int name##_copy(def *ctx, const def *obj, int (*dup)(type *, const type *));
 
 #undef VECTOR_NEW
 #define VECTOR_NEW(def, func, ctor)                  \
@@ -104,8 +105,8 @@
         ctx->tail = null;      \
     }
 
-#undef VECTOR_DTOR_NIL
-#define VECTOR_DTOR_NIL(...) (void)(0)
+#undef VECTOR_NODTOR
+#define VECTOR_NODTOR(...) (void)(0)
 
 #undef VECTOR_DTOR
 #define VECTOR_DTOR(def, func, dtor)       \
@@ -135,20 +136,43 @@
     }
 
 #undef VECTOR_COPY
-#define VECTOR_COPY(def, func, type)                          \
-    int func(def *ctx, const def *obj)                        \
-    {                                                         \
-        size_t num = cast(size_t, obj->last - obj->head);     \
-        size_t mem = cast(size_t, obj->tail - obj->head);     \
-        ctx->head = cast(type *, malloc(sizeof(type) * mem)); \
-        if (ctx->head == null)                                \
-        {                                                     \
-            return ~0;                                        \
-        }                                                     \
-        memcpy(ctx->head, obj->head, sizeof(type) * num);     \
-        ctx->last = ctx->head + num;                          \
-        ctx->tail = ctx->head + mem;                          \
-        return 0;                                             \
+#define VECTOR_COPY(def, func, type)                                     \
+    int func(def *ctx, const def *obj, int (*dup)(type *, const type *)) \
+    {                                                                    \
+        size_t num = cast(size_t, obj->last - obj->head);                \
+        size_t mem = cast(size_t, obj->tail - obj->head);                \
+        ctx->head = cast(type *, malloc(sizeof(type) * mem));            \
+        if (ctx->head == null)                                           \
+        {                                                                \
+            return ~0;                                                   \
+        }                                                                \
+        ctx->last = ctx->head + num;                                     \
+        ctx->tail = ctx->head + mem;                                     \
+        if (dup)                                                         \
+        {                                                                \
+            type *dst = ctx->head;                                       \
+            type *src = obj->head;                                       \
+            for (; src != obj->last; ++dst, ++src)                       \
+            {                                                            \
+                dup(dst, src);                                           \
+            }                                                            \
+        }                                                                \
+        else                                                             \
+        {                                                                \
+            memcpy(ctx->head, obj->head, sizeof(type) * num);            \
+        }                                                                \
+        return 0;                                                        \
+    }
+
+#undef VECTOR_DROP
+#define VECTOR_DROP(def, func, dtor)   \
+    void func(def *ctx)                \
+    {                                  \
+        while (ctx->head != ctx->last) \
+        {                              \
+            --ctx->last;               \
+            dtor(ctx->last);           \
+        }                              \
     }
 
 #undef VECTOR_POP

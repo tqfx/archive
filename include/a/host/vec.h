@@ -154,6 +154,25 @@ A_PUBLIC a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size);
 A_PUBLIC a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
+ @brief initialize a pointer to vector structure by copying
+ @param[in] ctx points to an instance of vector structure
+ @param[in] obj input source pointing to an instance
+ @param[in] dup a function that copies elements
+  @arg 0 use function memcpy to copy elements
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t));
+
+/*!
+ @brief initialize a pointer to vector structure by moving
+ @param[in] ctx points to an instance of vector structure
+ @param[in] obj input source pointing to an instance
+*/
+A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
+
+/*!
  @brief resize the elements in the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] size the size of the new element
@@ -165,21 +184,11 @@ A_PUBLIC a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 A_PUBLIC a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
- @brief initialize a pointer to vector structure by copying
+ @brief drop all elements in the vector
  @param[in] ctx points to an instance of vector structure
- @param[in] obj input source pointing to an instance
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
+ @param[in] dtor current element destructor
 */
-A_PUBLIC a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj);
-
-/*!
- @brief initialize a pointer to vector structure by moving
- @param[in] ctx points to an instance of vector structure
- @param[in] obj input source pointing to an instance
-*/
-A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
+A_PUBLIC a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief push an element into the vector

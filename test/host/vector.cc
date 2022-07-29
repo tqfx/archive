@@ -17,6 +17,13 @@ static a_noret_t dtor(a_vptr_t ptr)
     printf("%" PRIu32 " ", *p);
 }
 
+static a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
+{
+    *a_cast(a_u32_t *, dst) = *a_cast(const a_u32_t *, src);
+    printf("%" PRIu32 " ", *a_cast(const a_u32_t *, src));
+    return 0;
+}
+
 static a_noret_t test(a_noarg_t)
 {
     a_vector_s *ctx = a_vector_new(sizeof(a_u64_t));
@@ -84,6 +91,14 @@ static a_noret_t test(a_noarg_t)
     }
     putchar('\n');
 
+    {
+        a_vector_s obj[1];
+        a_vector_copy(obj, ctx, u32dup);
+        putchar('\n');
+        a_vector_dtor(ctx, a_null);
+        a_vector_move(ctx, obj);
+    }
+
     a_vector_die(ctx, dtor);
     putchar('\n');
 }
@@ -96,13 +111,20 @@ VECTOR_AT(int_s, int_at, int)
 VECTOR_TOP(int_s, int_top, int)
 VECTOR_F(static, int, int_s, int)
 VECTOR_CTOR(int_s, int_ctor)
-VECTOR_DTOR(int_s, int_dtor, VECTOR_DTOR_NIL)
+VECTOR_DTOR(int_s, int_dtor, VECTOR_NODTOR)
+VECTOR_DROP(int_s, int_drop, VECTOR_NODTOR)
 VECTOR_NEW(int_s, int_new, int_ctor)
 VECTOR_DIE(int_s, int_die, int_dtor)
 VECTOR_COPY(int_s, int_copy, int)
 VECTOR_PUSH(int_s, int_push, int)
 VECTOR_POP(int_s, int_pop, int)
 VECTOR_MOVE(int_s, int_move)
+
+A_INLINE int intdup(int *dst, const int *src)
+{
+    *dst = *src;
+    return 0;
+}
 
 static a_noret_t test_intern(a_noarg_t)
 {
@@ -150,9 +172,10 @@ static a_noret_t test_intern(a_noarg_t)
 
     {
         int_s obj[1];
-        int_copy(obj, ctx);
+        int_copy(obj, ctx, intdup);
         int_dtor(ctx);
         int_move(ctx, obj);
+        int_drop(ctx);
     }
 
     int_die(ctx);

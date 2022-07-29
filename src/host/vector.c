@@ -33,12 +33,12 @@ A_INLINE_FORCE a_vptr_t a_vector_dec_(a_vector_s *ctx)
     return ctx->__last;
 }
 
-A_INLINE_FORCE a_size_t a_vector_num_(a_vector_s *ctx)
+A_INLINE_FORCE a_size_t a_vector_num_(const a_vector_s *ctx)
 {
     return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head);
 }
 
-A_INLINE_FORCE a_size_t a_vector_mem_(a_vector_s *ctx)
+A_INLINE_FORCE a_size_t a_vector_mem_(const a_vector_s *ctx)
 {
     return (a_size_t)((a_byte_t *)ctx->__tail - (a_byte_t *)ctx->__head);
 }
@@ -46,6 +46,7 @@ A_INLINE_FORCE a_size_t a_vector_mem_(a_vector_s *ctx)
 a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size)
 {
     assert(ctx);
+    assert(size);
     ctx->__head = a_null;
     ctx->__last = a_null;
     ctx->__tail = a_null;
@@ -57,13 +58,7 @@ a_noret_t a_vector_dtor(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     assert(ctx);
     if (ctx->__head)
     {
-        if (dtor)
-        {
-            while (ctx->__head != ctx->__last)
-            {
-                dtor(a_vector_dec_(ctx));
-            }
-        }
+        a_vector_drop(ctx, dtor);
         free(ctx->__head);
         ctx->__head = a_null;
     }
@@ -72,40 +67,35 @@ a_noret_t a_vector_dtor(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     ctx->__size = a_zero;
 }
 
-a_int_t a_vector_resize(a_vector_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
-{
-    assert(ctx);
-    if (size == a_zero)
-    {
-        return A_FAILURE;
-    }
-    if (dtor)
-    {
-        while (ctx->__head != ctx->__last)
-        {
-            dtor(a_vector_dec_(ctx));
-        }
-    }
-    ctx->__last = ctx->__head;
-    ctx->__size = size;
-    return A_SUCCESS;
-}
-
-a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj)
+a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t))
 {
     assert(ctx);
     assert(obj);
-    a_size_t num = a_vector_num_(ctx);
-    a_size_t mem = a_vector_mem_(ctx);
+    a_size_t num = a_vector_num_(obj);
+    a_size_t mem = a_vector_mem_(obj);
     ctx->__head = malloc(mem);
     if (ctx->__head == a_null)
     {
         return A_FAILURE;
     }
-    memcpy(ctx->__head, obj->__head, num);
+    ctx->__size = obj->__size;
     ctx->__last = (a_byte_t *)ctx->__head + num;
     ctx->__tail = (a_byte_t *)ctx->__head + mem;
-    ctx->__size = obj->__size;
+    if (dup)
+    {
+        a_vptr_t dst = ctx->__head;
+        a_vptr_t src = obj->__head;
+        while (src != obj->__last)
+        {
+            dup(dst, src);
+            dst = (a_byte_t *)dst + obj->__size;
+            src = (a_byte_t *)src + obj->__size;
+        }
+    }
+    else
+    {
+        memcpy(ctx->__head, obj->__head, num);
+    }
     return A_SUCCESS;
 }
 
@@ -116,6 +106,34 @@ a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj)
     memcpy(ctx, obj, sizeof(a_vector_s));
     memset(obj, 000, sizeof(a_vector_s));
     return ctx;
+}
+
+a_int_t a_vector_resize(a_vector_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (size == a_zero)
+    {
+        return A_FAILURE;
+    }
+    a_vector_drop(ctx, dtor);
+    ctx->__size = size;
+    return A_SUCCESS;
+}
+
+a_noret_t a_vector_drop(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (dtor)
+    {
+        while (ctx->__head != ctx->__last)
+        {
+            dtor(a_vector_dec_(ctx));
+        }
+    }
+    else
+    {
+        ctx->__last = ctx->__head;
+    }
 }
 
 a_vptr_t a_vector_push(a_vector_s *ctx)
