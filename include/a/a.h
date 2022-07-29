@@ -312,6 +312,13 @@ typedef long double a_real_t;
 /*! @} A_REAL */
 
 /*!
+ @brief align in power of two
+ @param addr memory address
+ @param base power of two
+*/
+#define a_align(addr, base) (((addr) + (base)-1) & ~((base)-1))
+
+/*!
  @brief offset of a structure member
  @param type structure type
  @param member member variable

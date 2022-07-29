@@ -122,7 +122,7 @@ a_vptr_t a_vector_push(a_vector_s *ctx)
         a_size_t number = a_vector_num_(ctx);
         a_size_t memory = a_vector_mem_(ctx) / ctx->__size;
         memory = (memory + (memory >> 1) + 1) * ctx->__size;
-        a_vptr_t head = realloc(ctx->__head, memory);
+        a_vptr_t head = realloc(ctx->__head, a_align(memory, sizeof(a_vptr_t)));
         if (head == a_null)
         {
             return a_null;

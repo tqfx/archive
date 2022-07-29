@@ -25,6 +25,9 @@
 #define null NULL
 #endif /* __cplusplus */
 
+#undef align
+#define align(addr, base) (((addr) + (base)-1) & ~((base)-1))
+
 #undef VEC_S
 #define VEC_S(type, type_) \
     typedef struct type    \
@@ -116,21 +119,22 @@
     }
 
 #undef VEC_PUSH
-#define VEC_PUSH(type, func, type_)                                             \
-    type_ *func(type *ctx)                                                      \
-    {                                                                           \
-        if (ctx->num >= ctx->mem)                                               \
-        {                                                                       \
-            size_t mem = ctx->mem + (ctx->mem >> 1) + 1;                        \
-            type_ *ptr = cast(type_ *, realloc(ctx->ptr, sizeof(type_) * mem)); \
-            if (ptr == null)                                                    \
-            {                                                                   \
-                return null;                                                    \
-            }                                                                   \
-            ctx->mem = mem;                                                     \
-            ctx->ptr = ptr;                                                     \
-        }                                                                       \
-        return ctx->ptr + ctx->num++;                                           \
+#define VEC_PUSH(type, func, type_)                                  \
+    type_ *func(type *ctx)                                           \
+    {                                                                \
+        if (ctx->num >= ctx->mem)                                    \
+        {                                                            \
+            size_t mem = ctx->mem + (ctx->mem >> 1) + 1;             \
+            size_t siz = align(mem * sizeof(type_), sizeof(void *)); \
+            type_ *ptr = cast(type_ *, realloc(ctx->ptr, siz));      \
+            if (ptr == null)                                         \
+            {                                                        \
+                return null;                                         \
+            }                                                        \
+            ctx->mem = mem;                                          \
+            ctx->ptr = ptr;                                          \
+        }                                                            \
+        return ctx->ptr + ctx->num++;                                \
     }
 
 #undef VEC_POP

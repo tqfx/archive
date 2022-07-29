@@ -106,7 +106,8 @@ a_vptr_t a_vec_push(a_vec_s *ctx)
     if (ctx->__number >= ctx->__capacity)
     {
         a_size_t capacity = ctx->__capacity + (ctx->__capacity >> 1) + 1;
-        a_vptr_t ptr = realloc(ctx->__ptr, capacity * ctx->__size);
+        a_size_t mem = a_align(capacity * ctx->__size, sizeof(a_vptr_t));
+        a_vptr_t ptr = realloc(ctx->__ptr, mem);
         if (ptr == a_null)
         {
             return a_null;

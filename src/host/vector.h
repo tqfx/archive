@@ -25,6 +25,9 @@
 #define null NULL
 #endif /* __cplusplus */
 
+#undef align
+#define align(addr, base) (((addr) + (base)-1) & ~((base)-1))
+
 #undef VECTOR_S
 #define VECTOR_S(type, type_) \
     typedef struct type       \
@@ -116,24 +119,25 @@
     }
 
 #undef VECTOR_PUSH
-#define VECTOR_PUSH(type, func, type_)                                               \
-    type_ *func(type *ctx)                                                           \
-    {                                                                                \
-        if (ctx->last >= ctx->tail)                                                  \
-        {                                                                            \
-            a_size_t number = cast(a_size_t, ctx->last - ctx->head);                 \
-            a_size_t memory = cast(a_size_t, ctx->tail - ctx->head);                 \
-            memory = (memory + (memory >> 1) + 1);                                   \
-            type_ *head = cast(type_ *, realloc(ctx->head, sizeof(type_) * memory)); \
-            if (head == null)                                                        \
-            {                                                                        \
-                return null;                                                         \
-            }                                                                        \
-            ctx->head = head;                                                        \
-            ctx->last = head + number;                                               \
-            ctx->tail = head + memory;                                               \
-        }                                                                            \
-        return ctx->last++;                                                          \
+#define VECTOR_PUSH(type, func, type_)                                   \
+    type_ *func(type *ctx)                                               \
+    {                                                                    \
+        if (ctx->last >= ctx->tail)                                      \
+        {                                                                \
+            size_t number = cast(size_t, ctx->last - ctx->head);         \
+            size_t memory = cast(size_t, ctx->tail - ctx->head);         \
+            memory = (memory + (memory >> 1) + 1);                       \
+            size_t size = align(memory * sizeof(type_), sizeof(void *)); \
+            type_ *head = cast(type_ *, realloc(ctx->head, size));       \
+            if (head == null)                                            \
+            {                                                            \
+                return null;                                             \
+            }                                                            \
+            ctx->head = head;                                            \
+            ctx->last = head + number;                                   \
+            ctx->tail = head + memory;                                   \
+        }                                                                \
+        return ctx->last++;                                              \
     }
 
 #undef VECTOR_POP
