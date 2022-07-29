@@ -30,12 +30,12 @@
 /* has builtin */
 #if defined(__has_builtin)
 #define a_has_builtin(...) __has_builtin(__VA_ARGS__)
-#define a_builtin_likey(...) __builtin_expect((__VA_ARGS__), 1)
-#define a_builtin_unlikey(...) __builtin_expect((__VA_ARGS__), 0)
+#define a_likely(...) __builtin_expect((__VA_ARGS__), 1)
+#define a_unlikely(...) __builtin_expect((__VA_ARGS__), 0)
 #else /* !__has_builtin */
 #define a_has_builtin(...) 0
-#define a_builtin_likey(...) (__VA_ARGS__)
-#define a_builtin_unlikey(...) (__VA_ARGS__)
+#define a_likely(...) (__VA_ARGS__)
+#define a_unlikely(...) (__VA_ARGS__)
 #endif /* __has_builtin */
 
 /* has feature */
@@ -71,10 +71,20 @@
 #if defined(_WIN32) || defined(__CYGWIN__)
 #define A_DEPRECATED __declspec(deprecated)
 #elif a_has_attribute(deprecated)
-#define A_DEPRECATED __attribute__((__deprecated__))
+#define A_DEPRECATED __attribute__((deprecated))
 #else /* !a_has_attribute(deprecated) */
 #define A_DEPRECATED
 #endif /* a_has_attribute(deprecated) */
+
+/* attribute inline */
+#if defined(_MSC_VER)
+#define A_INLINE_FORCE static __forceinline
+#elif a_has_attribute(always_inline)
+#define A_INLINE_FORCE static __inline __attribute__((always_inline))
+#else /* !_MSC_VER */
+#define A_INLINE_FORCE static __inline
+#endif /* _MSC_VER */
+#define A_INLINE static __inline
 
 /* attribute visibility */
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -82,15 +92,14 @@
 #define A_IMPORT __declspec(dllimport)
 #define A_HIDDEN
 #elif a_has_attribute(visibility)
-#define A_EXPORT __attribute__((__visibility__("default")))
-#define A_IMPORT __attribute__((__visibility__("default")))
-#define A_HIDDEN __attribute__((__visibility__("hidden")))
+#define A_EXPORT __attribute__((visibility("default")))
+#define A_IMPORT __attribute__((visibility("default")))
+#define A_HIDDEN __attribute__((visibility("hidden")))
 #else /* !a_has_attribute(visibility) */
 #define A_EXPORT
 #define A_IMPORT
 #define A_HIDDEN
 #endif /* a_has_attribute(visibility) */
-#define A_INLINE static __inline
 #if defined(A_EXPORTS)
 #define A_PUBLIC A_EXPORT
 #elif defined(A_SHARED)
@@ -343,9 +352,9 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach(T, it, ptr, num)                                       \
-    for (T *it = a_cast(T *, ptr),                                       \
-           *it##_ = a_builtin_likey(it != a_null) ? it + (num) : a_null; \
+#define a_foreach(T, it, ptr, num)                                        \
+    for (T *it = a_cast(T *, ptr),                                        \
+           *it##_ = a_likely(it != a_null) ? it + (num) : a_null; \
          it != it##_; ++it)
 /*!
  @brief iterate over an array in reverse
@@ -354,9 +363,9 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach_reverse(T, it, ptr, num)                                            \
-    for (T *it##_ = a_builtin_likey((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
-           *it = a_builtin_likey((ptr) != a_null) ? it##_ + (num) : a_null;           \
+#define a_foreach_reverse(T, it, ptr, num)                                             \
+    for (T *it##_ = a_likely((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
+           *it = a_likely((ptr) != a_null) ? it##_ + (num) : a_null;           \
          it != it##_; --it)
 
 /*!
@@ -376,9 +385,9 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param end the end address of this array
 */
-#define a_iterate_reverse(T, it, ptr, end)                                            \
-    for (T *it##_ = a_builtin_likey((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
-           *it = a_builtin_likey((end) != a_null) ? a_cast(T *, end) - 1 : a_null;    \
+#define a_iterate_reverse(T, it, ptr, end)                                             \
+    for (T *it##_ = a_likely((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
+           *it = a_likely((end) != a_null) ? a_cast(T *, end) - 1 : a_null;    \
          it != it##_; --it)
 
 /*!

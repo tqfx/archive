@@ -32,8 +32,8 @@ a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
     ctx->__size = size;
 }
 
-A_INLINE a_vptr_t a_vec_inc_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * ctx->__number++; }
-A_INLINE a_vptr_t a_vec_dec_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * --ctx->__number; }
+A_INLINE_FORCE a_vptr_t a_vec_inc_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * ctx->__number++; }
+A_INLINE_FORCE a_vptr_t a_vec_dec_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * --ctx->__number; }
 
 a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
@@ -103,7 +103,7 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
 a_vptr_t a_vec_push(a_vec_s *ctx)
 {
     assert(ctx);
-    if (ctx->__capacity <= ctx->__number)
+    if (ctx->__number >= ctx->__capacity)
     {
         a_size_t capacity = ctx->__capacity + (ctx->__capacity >> 1) + 1;
         a_vptr_t ptr = realloc(ctx->__ptr, capacity * ctx->__size);
@@ -120,7 +120,7 @@ a_vptr_t a_vec_push(a_vec_s *ctx)
 a_vptr_t a_vec_pop(a_vec_s *ctx)
 {
     assert(ctx);
-    return a_builtin_likey(ctx->__number != a_zero) ? a_vec_dec_(ctx) : a_null;
+    return a_likely(ctx->__number != a_zero) ? a_vec_dec_(ctx) : a_null;
 }
 
 #endif /* __STDC_HOSTED__ */

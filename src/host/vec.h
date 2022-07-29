@@ -119,7 +119,7 @@
 #define VEC_PUSH(type, func, type_)                                             \
     type_ *func(type *ctx)                                                      \
     {                                                                           \
-        if (ctx->mem <= ctx->num)                                               \
+        if (ctx->num >= ctx->mem)                                               \
         {                                                                       \
             size_t mem = ctx->mem + (ctx->mem >> 1) + 1;                        \
             type_ *ptr = cast(type_ *, realloc(ctx->ptr, sizeof(type_) * mem)); \

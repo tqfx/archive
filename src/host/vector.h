@@ -119,7 +119,7 @@
 #define VECTOR_PUSH(type, func, type_)                                               \
     type_ *func(type *ctx)                                                           \
     {                                                                                \
-        if (ctx->tail <= ctx->last)                                                  \
+        if (ctx->last >= ctx->tail)                                                  \
         {                                                                            \
             a_size_t number = cast(a_size_t, ctx->last - ctx->head);                 \
             a_size_t memory = cast(a_size_t, ctx->tail - ctx->head);                 \

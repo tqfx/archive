@@ -32,21 +32,21 @@ a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size)
     ctx->__size = size;
 }
 
-A_INLINE a_vptr_t a_vector_inc_(a_vector_s *ctx)
+A_INLINE_FORCE a_vptr_t a_vector_inc_(a_vector_s *ctx)
 {
     a_vptr_t last = ctx->__last;
     ctx->__last = (a_byte_t *)ctx->__last + ctx->__size;
     return last;
 }
 
-A_INLINE a_vptr_t a_vector_dec_(a_vector_s *ctx)
+A_INLINE_FORCE a_vptr_t a_vector_dec_(a_vector_s *ctx)
 {
     ctx->__last = (a_byte_t *)ctx->__last - ctx->__size;
     return ctx->__last;
 }
 
-A_INLINE a_size_t a_vector_num_(a_vector_s *ctx) { return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head); }
-A_INLINE a_size_t a_vector_mem_(a_vector_s *ctx) { return (a_size_t)((a_byte_t *)ctx->__tail - (a_byte_t *)ctx->__head); }
+A_INLINE_FORCE a_size_t a_vector_num_(a_vector_s *ctx) { return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head); }
+A_INLINE_FORCE a_size_t a_vector_mem_(a_vector_s *ctx) { return (a_size_t)((a_byte_t *)ctx->__tail - (a_byte_t *)ctx->__head); }
 
 a_noret_t a_vector_dtor(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
@@ -117,7 +117,7 @@ a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj)
 a_vptr_t a_vector_push(a_vector_s *ctx)
 {
     assert(ctx);
-    if (ctx->__tail <= ctx->__last)
+    if (ctx->__last >= ctx->__tail)
     {
         a_size_t number = a_vector_num_(ctx);
         a_size_t memory = a_vector_mem_(ctx) / ctx->__size;
@@ -137,7 +137,7 @@ a_vptr_t a_vector_push(a_vector_s *ctx)
 a_vptr_t a_vector_pop(a_vector_s *ctx)
 {
     assert(ctx);
-    return a_builtin_likey(ctx->__head != ctx->__last) ? a_vector_dec_(ctx) : a_null;
+    return a_likely(ctx->__head != ctx->__last) ? a_vector_dec_(ctx) : a_null;
 }
 
 #endif /* __STDC_HOSTED__ */

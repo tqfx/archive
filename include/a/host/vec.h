@@ -54,19 +54,19 @@ A_INLINE a_size_t a_vec_mem(const a_vec_s *ctx) { return ctx->__capacity; }
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] index index of element less than capacity
+ @param[in] idx index of element less than capacity
  @note need to check for out of bounds
  @return element pointer
 */
-A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t index) { return a_cast(a_byte_t *, ctx->__ptr) + index * ctx->__size; }
+A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx) { return a_cast(a_byte_t *, ctx->__ptr) + idx * ctx->__size; }
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] index index of element less than capacity
+ @param[in] idx index of element less than capacity
  @return element pointer
   @retval 0 out of bounds
 */
-A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t index) { return a_builtin_likey(index < ctx->__capacity) ? a_vec_at_(ctx, index) : a_null; }
+A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx) { return a_likely(idx < ctx->__capacity) ? a_vec_at_(ctx, idx) : a_null; }
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
@@ -80,7 +80,7 @@ A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx) { return a_cast(a_byte_t *, ctx
  @return element pointer
   @retval 0 empty vector
 */
-A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx) { return a_builtin_likey(ctx->__number != a_zero) ? a_vec_top_(ctx) : a_null; }
+A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx) { return a_likely(ctx->__number != a_zero) ? a_vec_top_(ctx) : a_null; }
 /*!
  @brief access end pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
@@ -94,7 +94,7 @@ A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx) { return a_cast(a_byte_t *, ctx
  @return vector end pointer
   @retval 0 empty vector
 */
-A_INLINE a_vptr_t a_vec_end(const a_vec_s *ctx) { return a_builtin_likey(ctx->__ptr != a_null) ? a_vec_end_(ctx) : a_null; }
+A_INLINE a_vptr_t a_vec_end(const a_vec_s *ctx) { return a_likely(ctx->__ptr != a_null) ? a_vec_end_(ctx) : a_null; }
 
 #if defined(__cplusplus)
 extern "C" {

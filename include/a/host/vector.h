@@ -59,22 +59,22 @@ A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx) { return a_cast(a_size_t, 
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] index index of element less than capacity
+ @param[in] idx index of element less than capacity
  @note need to check for out of bounds
  @return element pointer
 */
-A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t index) { return a_cast(a_byte_t *, ctx->__head) + index * ctx->__size; }
+A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx) { return a_cast(a_byte_t *, ctx->__head) + idx * ctx->__size; }
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] index index of element less than capacity
+ @param[in] idx index of element less than capacity
  @return element pointer
   @retval 0 out of bounds
 */
-A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t index)
+A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 {
-    a_vptr_t at = a_vector_at_(ctx, index);
-    return a_builtin_likey(at < ctx->__tail) ? at : a_null;
+    a_vptr_t at = a_vector_at_(ctx, idx);
+    return a_likely(at < ctx->__tail) ? at : a_null;
 }
 /*!
  @brief access top element for a pointer to vector structure
@@ -89,7 +89,7 @@ A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx) { return a_cast(a_byte_t 
  @return element pointer
   @retval 0 empty vector
 */
-A_INLINE a_vptr_t a_vector_top(const a_vector_s *ctx) { return a_builtin_likey(ctx->__head != ctx->__last) ? a_vector_top_(ctx) : a_null; }
+A_INLINE a_vptr_t a_vector_top(const a_vector_s *ctx) { return a_likely(ctx->__head != ctx->__last) ? a_vector_top_(ctx) : a_null; }
 
 #if defined(__cplusplus)
 extern "C" {
