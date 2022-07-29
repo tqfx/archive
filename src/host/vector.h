@@ -29,80 +29,87 @@
 #define align(addr, base) (((addr) + (base)-1) & ~((base)-1))
 
 #undef VECTOR_S
-#define VECTOR_S(type, type_) \
-    typedef struct type       \
-    {                         \
-        type_ *head;          \
-        type_ *last;          \
-        type_ *tail;          \
-    } type
-
-#undef VECTOR_F
-#define VECTOR_F(scope, name, type, type_) \
-    scope type *name##_new(void);          \
-    scope void name##_die(type *ctx);      \
-    scope void name##_ctor(type *ctx);     \
-    scope void name##_dtor(type *ctx);     \
-    scope type_ *name##_pop(type *ctx);    \
-    scope type_ *name##_push(type *ctx);
+#define VECTOR_S(def, type) \
+    typedef struct def      \
+    {                       \
+        type *head;         \
+        type *last;         \
+        type *tail;         \
+    } def
 
 #undef VECTOR_PTR
-#define VECTOR_PTR(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->head; }
+#define VECTOR_PTR(def, func, type) \
+    static inline type *func(def *ctx) { return ctx->head; }
+
 #undef VECTOR_END
-#define VECTOR_END(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->tail; }
-#undef VECTOR_NUM
-#define VECTOR_NUM(type, func) \
-    static inline size_t func(type *ctx) { return cast(size_t, ctx->last - ctx->head); }
-#undef VECTOR_MEM
-#define VECTOR_MEM(type, func) \
-    static inline size_t func(type *ctx) { return cast(size_t, ctx->tail - ctx->head); }
+#define VECTOR_END(def, func, type) \
+    static inline type *func(def *ctx) { return ctx->tail; }
+
 #undef VECTOR_AT
-#define VECTOR_AT(type, func, type_) \
-    static inline type_ *func(type *ctx, size_t index) { return ctx->head + index; }
+#define VECTOR_AT(def, func, type) \
+    static inline type *func(def *ctx, size_t idx) { return ctx->head + idx; }
+
+#undef VECTOR_NUM
+#define VECTOR_NUM(def, func) \
+    static inline size_t func(def *ctx) { return cast(size_t, ctx->last - ctx->head); }
+
+#undef VECTOR_MEM
+#define VECTOR_MEM(def, func) \
+    static inline size_t func(def *ctx) { return cast(size_t, ctx->tail - ctx->head); }
+
 #undef VECTOR_TOP
-#define VECTOR_TOP(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->head != ctx->last ? ctx->last - 1 : null; }
+#define VECTOR_TOP(def, func, type) \
+    static inline type *func(def *ctx) { return ctx->head != ctx->last ? ctx->last - 1 : null; }
+
+#undef VECTOR_F
+#define VECTOR_F(scope, name, def, type)        \
+    scope def *name##_new(void);                \
+    scope void name##_die(def *ctx);            \
+    scope void name##_ctor(def *ctx);           \
+    scope void name##_dtor(def *ctx);           \
+    scope type *name##_pop(def *ctx);           \
+    scope type *name##_push(def *ctx);          \
+    scope def *name##_move(def *ctx, def *obj); \
+    scope int name##_copy(def *ctx, const def *obj);
 
 #undef VECTOR_NEW
-#define VECTOR_NEW(type, func, ctor)                    \
-    type *func(void)                                    \
-    {                                                   \
-        type *ctx = cast(type *, malloc(sizeof(type))); \
-        if (ctx)                                        \
-        {                                               \
-            ctor(ctx);                                  \
-        }                                               \
-        return ctx;                                     \
+#define VECTOR_NEW(def, func, ctor)                  \
+    def *func(void)                                  \
+    {                                                \
+        def *ctx = cast(def *, malloc(sizeof(def))); \
+        if (ctx)                                     \
+        {                                            \
+            ctor(ctx);                               \
+        }                                            \
+        return ctx;                                  \
     }
 
 #undef VECTOR_DIE
-#define VECTOR_DIE(type, func, dtor) \
-    void func(type *ctx)             \
-    {                                \
-        if (ctx)                     \
-        {                            \
-            dtor(ctx);               \
-            free(ctx);               \
-        }                            \
+#define VECTOR_DIE(def, func, dtor) \
+    void func(def *ctx)             \
+    {                               \
+        if (ctx)                    \
+        {                           \
+            dtor(ctx);              \
+            free(ctx);              \
+        }                           \
     }
 
 #undef VECTOR_CTOR
-#define VECTOR_CTOR(type, func) \
-    void func(type *ctx)        \
-    {                           \
-        ctx->head = null;       \
-        ctx->last = null;       \
-        ctx->tail = null;       \
+#define VECTOR_CTOR(def, func) \
+    void func(def *ctx)        \
+    {                          \
+        ctx->head = null;      \
+        ctx->last = null;      \
+        ctx->tail = null;      \
     }
 
 #undef VECTOR_DTOR_NIL
 #define VECTOR_DTOR_NIL(...) (void)(0)
 
 #undef VECTOR_DTOR
-#define VECTOR_DTOR(type, func, dtor)      \
-    void func(type *ctx)                   \
+#define VECTOR_DTOR(def, func, dtor)       \
+    void func(def *ctx)                    \
     {                                      \
         if (ctx->head)                     \
         {                                  \
@@ -118,33 +125,59 @@
         ctx->tail = null;                  \
     }
 
-#undef VECTOR_PUSH
-#define VECTOR_PUSH(type, func, type_)                                   \
-    type_ *func(type *ctx)                                               \
-    {                                                                    \
-        if (ctx->last >= ctx->tail)                                      \
-        {                                                                \
-            size_t number = cast(size_t, ctx->last - ctx->head);         \
-            size_t memory = cast(size_t, ctx->tail - ctx->head);         \
-            memory = (memory + (memory >> 1) + 1);                       \
-            size_t size = align(memory * sizeof(type_), sizeof(void *)); \
-            type_ *head = cast(type_ *, realloc(ctx->head, size));       \
-            if (head == null)                                            \
-            {                                                            \
-                return null;                                             \
-            }                                                            \
-            ctx->head = head;                                            \
-            ctx->last = head + number;                                   \
-            ctx->tail = head + memory;                                   \
-        }                                                                \
-        return ctx->last++;                                              \
+#undef VECTOR_MOVE
+#define VECTOR_MOVE(def, func)         \
+    def *func(def *ctx, def *obj)      \
+    {                                  \
+        memcpy(ctx, obj, sizeof(def)); \
+        memset(obj, 000, sizeof(def)); \
+        return ctx;                    \
+    }
+
+#undef VECTOR_COPY
+#define VECTOR_COPY(def, func, type)                          \
+    int func(def *ctx, const def *obj)                        \
+    {                                                         \
+        size_t num = cast(size_t, obj->last - obj->head);     \
+        size_t mem = cast(size_t, obj->tail - obj->head);     \
+        ctx->head = cast(type *, malloc(sizeof(type) * mem)); \
+        if (ctx->head == null)                                \
+        {                                                     \
+            return ~0;                                        \
+        }                                                     \
+        memcpy(ctx->head, obj->head, sizeof(type) * num);     \
+        ctx->last = ctx->head + num;                          \
+        ctx->tail = ctx->head + mem;                          \
+        return 0;                                             \
     }
 
 #undef VECTOR_POP
-#define VECTOR_POP(type, func, type_)                       \
-    type_ *func(type *ctx)                                  \
+#define VECTOR_POP(def, func, type)                         \
+    type *func(def *ctx)                                    \
     {                                                       \
         return ctx->head != ctx->last ? ++ctx->last : null; \
+    }
+
+#undef VECTOR_PUSH
+#define VECTOR_PUSH(def, func, type)                                 \
+    type *func(def *ctx)                                             \
+    {                                                                \
+        if (ctx->last >= ctx->tail)                                  \
+        {                                                            \
+            size_t num = cast(size_t, ctx->last - ctx->head);        \
+            size_t mem = cast(size_t, ctx->tail - ctx->head);        \
+            mem = (mem + (mem >> 1) + 1);                            \
+            size_t size = align(mem * sizeof(type), sizeof(void *)); \
+            type *head = cast(type *, realloc(ctx->head, size));     \
+            if (head == null)                                        \
+            {                                                        \
+                return null;                                         \
+            }                                                        \
+            ctx->head = head;                                        \
+            ctx->last = head + num;                                  \
+            ctx->tail = head + mem;                                  \
+        }                                                            \
+        return ctx->last++;                                          \
     }
 
 #define vector_forenum(i, ctx) for (size_t i = 0; i != cast(size_t, (ctx)->last - (ctx)->head); ++i)

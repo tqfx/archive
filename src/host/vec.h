@@ -29,80 +29,87 @@
 #define align(addr, base) (((addr) + (base)-1) & ~((base)-1))
 
 #undef VEC_S
-#define VEC_S(type, type_) \
-    typedef struct type    \
-    {                      \
-        type_ *ptr;        \
-        size_t num;        \
-        size_t mem;        \
-    } type
-
-#undef VEC_F
-#define VEC_F(scope, name, type, type_) \
-    scope type *name##_new(void);       \
-    scope void name##_die(type *ctx);   \
-    scope void name##_ctor(type *ctx);  \
-    scope void name##_dtor(type *ctx);  \
-    scope type_ *name##_pop(type *ctx); \
-    scope type_ *name##_push(type *ctx);
+#define VEC_S(def, type) \
+    typedef struct def   \
+    {                    \
+        type *ptr;       \
+        size_t num;      \
+        size_t mem;      \
+    } def
 
 #undef VEC_PTR
-#define VEC_PTR(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->ptr; }
+#define VEC_PTR(def, func, type) \
+    static inline type *func(def *ctx) { return ctx->ptr; }
+
 #undef VEC_NUM
-#define VEC_NUM(type, func) \
-    static inline size_t func(type *ctx) { return ctx->num; }
+#define VEC_NUM(def, func) \
+    static inline size_t func(def *ctx) { return ctx->num; }
+
 #undef VEC_MEM
-#define VEC_MEM(type, func) \
-    static inline size_t func(type *ctx) { return ctx->mem; }
+#define VEC_MEM(def, func) \
+    static inline size_t func(def *ctx) { return ctx->mem; }
+
 #undef VEC_AT
-#define VEC_AT(type, func, type_) \
-    static inline type_ *func(type *ctx, size_t index) { return ctx->ptr + index; }
+#define VEC_AT(def, func, type) \
+    static inline type *func(def *ctx, size_t idx) { return ctx->ptr + idx; }
+
 #undef VEC_END
-#define VEC_END(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->num ? ctx->ptr + ctx->num : null; }
+#define VEC_END(def, func, type) \
+    static inline type *func(def *ctx) { return ctx->num ? ctx->ptr + ctx->num : null; }
+
 #undef VEC_TOP
-#define VEC_TOP(type, func, type_) \
-    static inline type_ *func(type *ctx) { return ctx->num ? ctx->ptr + ctx->num - 1 : null; }
+#define VEC_TOP(def, func, type) \
+    static inline type *func(def *ctx) { return ctx->num ? ctx->ptr + ctx->num - 1 : null; }
+
+#undef VEC_F
+#define VEC_F(scope, name, def, type)           \
+    scope def *name##_new(void);                \
+    scope void name##_die(def *ctx);            \
+    scope void name##_ctor(def *ctx);           \
+    scope void name##_dtor(def *ctx);           \
+    scope type *name##_pop(def *ctx);           \
+    scope type *name##_push(def *ctx);          \
+    scope def *name##_move(def *ctx, def *obj); \
+    scope int name##_copy(def *ctx, const def *obj);
 
 #undef VEC_NEW
-#define VEC_NEW(type, func, ctor)                       \
-    type *func(void)                                    \
-    {                                                   \
-        type *ctx = cast(type *, malloc(sizeof(type))); \
-        if (ctx)                                        \
-        {                                               \
-            ctor(ctx);                                  \
-        }                                               \
-        return ctx;                                     \
+#define VEC_NEW(def, func, ctor)                     \
+    def *func(void)                                  \
+    {                                                \
+        def *ctx = cast(def *, malloc(sizeof(def))); \
+        if (ctx)                                     \
+        {                                            \
+            ctor(ctx);                               \
+        }                                            \
+        return ctx;                                  \
     }
 
 #undef VEC_DIE
-#define VEC_DIE(type, func, dtor) \
-    void func(type *ctx)          \
-    {                             \
-        if (ctx)                  \
-        {                         \
-            dtor(ctx);            \
-            free(ctx);            \
-        }                         \
+#define VEC_DIE(def, func, dtor) \
+    void func(def *ctx)          \
+    {                            \
+        if (ctx)                 \
+        {                        \
+            dtor(ctx);           \
+            free(ctx);           \
+        }                        \
     }
 
 #undef VEC_CTOR
-#define VEC_CTOR(type, func) \
-    void func(type *ctx)     \
-    {                        \
-        ctx->mem = zero;     \
-        ctx->num = zero;     \
-        ctx->ptr = null;     \
+#define VEC_CTOR(def, func) \
+    void func(def *ctx)     \
+    {                       \
+        ctx->mem = zero;    \
+        ctx->num = zero;    \
+        ctx->ptr = null;    \
     }
 
 #undef VEC_DTOR_NIL
 #define VEC_DTOR_NIL(...) (void)(0)
 
 #undef VEC_DTOR
-#define VEC_DTOR(type, func, dtor)         \
-    void func(type *ctx)                   \
+#define VEC_DTOR(def, func, dtor)          \
+    void func(def *ctx)                    \
     {                                      \
         if (ctx->ptr)                      \
         {                                  \
@@ -118,30 +125,54 @@
         ctx->mem = zero;                   \
     }
 
-#undef VEC_PUSH
-#define VEC_PUSH(type, func, type_)                                  \
-    type_ *func(type *ctx)                                           \
-    {                                                                \
-        if (ctx->num >= ctx->mem)                                    \
-        {                                                            \
-            size_t mem = ctx->mem + (ctx->mem >> 1) + 1;             \
-            size_t siz = align(mem * sizeof(type_), sizeof(void *)); \
-            type_ *ptr = cast(type_ *, realloc(ctx->ptr, siz));      \
-            if (ptr == null)                                         \
-            {                                                        \
-                return null;                                         \
-            }                                                        \
-            ctx->mem = mem;                                          \
-            ctx->ptr = ptr;                                          \
-        }                                                            \
-        return ctx->ptr + ctx->num++;                                \
+#undef VEC_MOVE
+#define VEC_MOVE(def, func)            \
+    def *func(def *ctx, def *obj)      \
+    {                                  \
+        memcpy(ctx, obj, sizeof(def)); \
+        memset(obj, 000, sizeof(def)); \
+        return ctx;                    \
+    }
+
+#undef VEC_COPY
+#define VEC_COPY(def, func, type)                                 \
+    int func(def *ctx, const def *obj)                            \
+    {                                                             \
+        ctx->ptr = cast(type *, malloc(sizeof(type) * obj->mem)); \
+        if (ctx->ptr == null)                                     \
+        {                                                         \
+            return ~0;                                            \
+        }                                                         \
+        memcpy(ctx->ptr, obj->ptr, sizeof(type) * obj->num);      \
+        ctx->mem = obj->mem;                                      \
+        ctx->num = obj->num;                                      \
+        return 0;                                                 \
     }
 
 #undef VEC_POP
-#define VEC_POP(type, func, type_)                      \
-    type_ *func(type *ctx)                              \
+#define VEC_POP(def, func, type)                        \
+    type *func(def *ctx)                                \
     {                                                   \
         return ctx->num ? ctx->ptr + --ctx->num : null; \
+    }
+
+#undef VEC_PUSH
+#define VEC_PUSH(def, func, type)                                   \
+    type *func(def *ctx)                                            \
+    {                                                               \
+        if (ctx->num >= ctx->mem)                                   \
+        {                                                           \
+            size_t mem = ctx->mem + (ctx->mem >> 1) + 1;            \
+            size_t siz = align(mem * sizeof(type), sizeof(void *)); \
+            type *ptr = cast(type *, realloc(ctx->ptr, siz));       \
+            if (ptr == null)                                        \
+            {                                                       \
+                return null;                                        \
+            }                                                       \
+            ctx->mem = mem;                                         \
+            ctx->ptr = ptr;                                         \
+        }                                                           \
+        return ctx->ptr + ctx->num++;                               \
     }
 
 #define vec_forenum(i, ctx) for (size_t i = 0; i != (ctx)->num; ++i)

@@ -99,8 +99,10 @@ VECTOR_CTOR(int_s, int_ctor)
 VECTOR_DTOR(int_s, int_dtor, VECTOR_DTOR_NIL)
 VECTOR_NEW(int_s, int_new, int_ctor)
 VECTOR_DIE(int_s, int_die, int_dtor)
+VECTOR_COPY(int_s, int_copy, int)
 VECTOR_PUSH(int_s, int_push, int)
 VECTOR_POP(int_s, int_pop, int)
+VECTOR_MOVE(int_s, int_move)
 
 static a_noret_t test_intern(a_noarg_t)
 {
@@ -144,6 +146,13 @@ static a_noret_t test_intern(a_noarg_t)
     for (size_t i = int_num(ctx); i != int_mem(ctx); ++i)
     {
         *int_at(ctx, i) = 0;
+    }
+
+    {
+        int_s obj[1];
+        int_copy(obj, ctx);
+        int_dtor(ctx);
+        int_move(ctx, obj);
     }
 
     int_die(ctx);

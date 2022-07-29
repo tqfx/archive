@@ -35,16 +35,19 @@ typedef struct a_vec_s
  @param[in] ctx points to an instance of vector structure
 */
 A_INLINE a_vptr_t a_vec_ptr(const a_vec_s *ctx) { return ctx->__ptr; }
+
 /*!
  @brief access size of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
 A_INLINE a_size_t a_vec_size(const a_vec_s *ctx) { return ctx->__size; }
+
 /*!
  @brief access number of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
 A_INLINE a_size_t a_vec_num(const a_vec_s *ctx) { return ctx->__number; }
+
 /*!
  @brief access capacity of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
@@ -58,7 +61,11 @@ A_INLINE a_size_t a_vec_mem(const a_vec_s *ctx) { return ctx->__capacity; }
  @note need to check for out of bounds
  @return element pointer
 */
-A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx) { return a_cast(a_byte_t *, ctx->__ptr) + idx * ctx->__size; }
+A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx)
+{
+    return a_cast(a_byte_t *, ctx->__ptr) + idx * ctx->__size;
+}
+
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
@@ -66,35 +73,54 @@ A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx) { return a_cast(a_
  @return element pointer
   @retval 0 out of bounds
 */
-A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx) { return a_likely(idx < ctx->__capacity) ? a_vec_at_(ctx, idx) : a_null; }
+A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx)
+{
+    return a_likely(idx < ctx->__capacity) ? a_vec_at_(ctx, idx) : a_null;
+}
+
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @note need to check if vector is empty
  @return element pointer
 */
-A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx) { return a_cast(a_byte_t *, ctx->__ptr) + (ctx->__number - 1) * ctx->__size; }
+A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx)
+{
+    return a_cast(a_byte_t *, ctx->__ptr) + (ctx->__number - 1) * ctx->__size;
+}
+
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @return element pointer
   @retval 0 empty vector
 */
-A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx) { return a_likely(ctx->__number != a_zero) ? a_vec_top_(ctx) : a_null; }
+A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx)
+{
+    return a_likely(ctx->__number != a_zero) ? a_vec_top_(ctx) : a_null;
+}
+
 /*!
  @brief access end pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @note need to check if vector is empty
  @return vector end pointer
 */
-A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx) { return a_cast(a_byte_t *, ctx->__ptr) + ctx->__number * ctx->__size; }
+A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx)
+{
+    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__number * ctx->__size;
+}
+
 /*!
  @brief access end pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @return vector end pointer
   @retval 0 empty vector
 */
-A_INLINE a_vptr_t a_vec_end(const a_vec_s *ctx) { return a_likely(ctx->__ptr != a_null) ? a_vec_end_(ctx) : a_null; }
+A_INLINE a_vptr_t a_vec_end(const a_vec_s *ctx)
+{
+    return a_likely(ctx->__ptr != a_null) ? a_vec_end_(ctx) : a_null;
+}
 
 #if defined(__cplusplus)
 extern "C" {

@@ -12,9 +12,6 @@
 #include <assert.h>
 #include <string.h>
 
-#undef nil
-#define nil 0
-
 #undef ARGS
 #define ARGS a_size_t size
 A_OOP_NEW_VA(a_vec_s, a_vec_new, a_vec_ctor, ARGS, size)
@@ -22,6 +19,16 @@ A_OOP_NEW_VA(a_vec_s, a_vec_new, a_vec_ctor, ARGS, size)
 #define ARGS a_noret_t (*dtor)(a_vptr_t)
 A_OOP_DIE_VA(a_vec_s, a_vec_die, a_vec_dtor, ARGS, dtor)
 #undef ARGS
+
+A_INLINE_FORCE a_vptr_t a_vec_inc_(a_vec_s *ctx)
+{
+    return (a_byte_t *)ctx->__ptr + ctx->__size * ctx->__number++;
+}
+
+A_INLINE_FORCE a_vptr_t a_vec_dec_(a_vec_s *ctx)
+{
+    return (a_byte_t *)ctx->__ptr + ctx->__size * --ctx->__number;
+}
 
 a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
@@ -31,9 +38,6 @@ a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
     ctx->__ptr = a_null;
     ctx->__size = size;
 }
-
-A_INLINE_FORCE a_vptr_t a_vec_inc_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * ctx->__number++; }
-A_INLINE_FORCE a_vptr_t a_vec_dec_(a_vec_s *ctx) { return (a_byte_t *)ctx->__ptr + ctx->__size * --ctx->__number; }
 
 a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
@@ -96,7 +100,7 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
     assert(ctx);
     assert(obj);
     memcpy(ctx, obj, sizeof(a_vec_s));
-    memset(obj, nil, sizeof(a_vec_s));
+    memset(obj, 000, sizeof(a_vec_s));
     return ctx;
 }
 
