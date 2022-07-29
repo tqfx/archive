@@ -68,33 +68,33 @@
 #endif /* __has_attribute */
 
 /* attribute deprecated */
-#if defined(_WIN32) || defined(__CYGWIN__)
-#define A_DEPRECATED __declspec(deprecated)
-#elif a_has_attribute(deprecated)
+#if a_has_attribute(deprecated)
 #define A_DEPRECATED __attribute__((deprecated))
+#elif defined(_WIN32) || defined(__CYGWIN__)
+#define A_DEPRECATED __declspec(deprecated)
 #else /* !a_has_attribute(deprecated) */
 #define A_DEPRECATED
 #endif /* a_has_attribute(deprecated) */
 
-/* attribute inline */
-#if defined(_MSC_VER)
-#define A_INLINE_FORCE static __forceinline
-#elif a_has_attribute(always_inline)
+/* attribute always inline */
+#if a_has_attribute(always_inline)
 #define A_INLINE_FORCE static __inline __attribute__((always_inline))
+#elif defined(_MSC_VER)
+#define A_INLINE_FORCE static __forceinline
 #else /* !_MSC_VER */
 #define A_INLINE_FORCE static __inline
 #endif /* _MSC_VER */
 #define A_INLINE static __inline
 
 /* attribute visibility */
-#if defined(_WIN32) || defined(__CYGWIN__)
-#define A_EXPORT __declspec(dllexport)
-#define A_IMPORT __declspec(dllimport)
-#define A_HIDDEN
-#elif a_has_attribute(visibility)
+#if a_has_attribute(visibility)
 #define A_EXPORT __attribute__((visibility("default")))
 #define A_IMPORT __attribute__((visibility("default")))
 #define A_HIDDEN __attribute__((visibility("hidden")))
+#elif defined(_WIN32) || defined(__CYGWIN__)
+#define A_EXPORT __declspec(dllexport)
+#define A_IMPORT __declspec(dllimport)
+#define A_HIDDEN
 #else /* !a_has_attribute(visibility) */
 #define A_EXPORT
 #define A_IMPORT
@@ -352,8 +352,8 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach(T, it, ptr, num)                                        \
-    for (T *it = a_cast(T *, ptr),                                        \
+#define a_foreach(T, it, ptr, num)                                \
+    for (T *it = a_cast(T *, ptr),                                \
            *it##_ = a_likely(it != a_null) ? it + (num) : a_null; \
          it != it##_; ++it)
 /*!
@@ -363,7 +363,7 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach_reverse(T, it, ptr, num)                                             \
+#define a_foreach_reverse(T, it, ptr, num)                                     \
     for (T *it##_ = a_likely((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
            *it = a_likely((ptr) != a_null) ? it##_ + (num) : a_null;           \
          it != it##_; --it)
@@ -385,7 +385,7 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param end the end address of this array
 */
-#define a_iterate_reverse(T, it, ptr, end)                                             \
+#define a_iterate_reverse(T, it, ptr, end)                                     \
     for (T *it##_ = a_likely((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
            *it = a_likely((end) != a_null) ? a_cast(T *, end) - 1 : a_null;    \
          it != it##_; --it)
