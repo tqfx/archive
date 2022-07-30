@@ -39,9 +39,6 @@ a_noret_t a_str_dtor(a_str_s *ctx)
 #pragma GCC diagnostic ignored "-Wcomma"
 #endif /* __clang__ */
 
-#undef nil
-#define nil 0
-
 #ifndef roundup32
 #define roundup32(x)     \
     (--(x),              \
@@ -59,7 +56,7 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     ctx->__num = nbyte;
     ctx->__mem = nbyte + 1;
     ctx->__str = (a_str_t)malloc(roundup32(ctx->__mem));
-    if (ctx->__str == a_null)
+    if (a_unlikely(ctx->__str == a_null))
     {
         return A_FAILURE;
     }
@@ -67,7 +64,7 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     {
         memcpy(ctx->__str, pdata, nbyte);
     }
-    ctx->__str[ctx->__num] = nil;
+    ctx->__str[ctx->__num] = 0;
     return A_SUCCESS;
 }
 
@@ -83,7 +80,7 @@ a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj)
     assert(ctx);
     assert(obj);
     memcpy(ctx, obj, sizeof(a_str_s));
-    memset(obj, nil, sizeof(a_str_s));
+    memset(obj, 000, sizeof(a_str_s));
     return ctx;
 }
 
@@ -93,7 +90,7 @@ a_str_t a_str_exit(a_str_s *ctx)
     a_str_t str = ctx->__str;
     if (ctx->__str)
     {
-        ctx->__str[ctx->__num] = nil;
+        ctx->__str[ctx->__num] = 0;
         ctx->__str = a_null;
     }
     ctx->__mem = a_zero;
@@ -105,7 +102,7 @@ a_int_t a_str_resize_(a_str_s *ctx, a_size_t mem)
 {
     assert(ctx);
     a_str_t str = (a_str_t)realloc(ctx->__str, roundup32(mem));
-    if (!str && mem)
+    if (a_unlikely(!str && mem))
     {
         return A_FAILURE;
     }
@@ -123,7 +120,7 @@ a_int_t a_str_resize(a_str_s *ctx, a_size_t mem)
 a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 {
     assert(ctx);
-    if (a_str_resize(ctx, ctx->__num + 1))
+    if (a_unlikely(a_str_resize(ctx, ctx->__num + 1)))
     {
         return EOF;
     }
@@ -134,16 +131,16 @@ a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 a_int_t a_str_putc(a_str_s *ctx, a_int_t c)
 {
     assert(ctx);
-    if (c == nil)
+    if (a_unlikely(c == 0))
     {
         return a_str_putc_(ctx, c);
     }
-    if (a_str_resize(ctx, ctx->__num + 2))
+    if (a_unlikely(a_str_resize(ctx, ctx->__num + 2)))
     {
         return EOF;
     }
     ctx->__str[ctx->__num++] = (a_char_t)c;
-    ctx->__str[ctx->__num] = nil;
+    ctx->__str[ctx->__num] = 0;
     return c;
 }
 
@@ -152,7 +149,7 @@ a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     assert(ctx);
     if (pdata && nbyte)
     {
-        if (a_str_resize(ctx, ctx->__num + nbyte))
+        if (a_unlikely(a_str_resize(ctx, ctx->__num + nbyte)))
         {
             return A_FAILURE;
         }
@@ -167,7 +164,7 @@ a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     assert(ctx);
     if (pdata)
     {
-        if (a_str_resize(ctx, ctx->__num + nbyte + 1))
+        if (a_unlikely(a_str_resize(ctx, ctx->__num + nbyte + 1)))
         {
             return A_FAILURE;
         }
@@ -176,7 +173,7 @@ a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
             memcpy(ctx->__str + ctx->__num, pdata, nbyte);
             ctx->__num += nbyte;
         }
-        ctx->__str[ctx->__num] = nil;
+        ctx->__str[ctx->__num] = 0;
     }
     return A_SUCCESS;
 }
@@ -200,7 +197,7 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
     a_size_t size = (a_size_t)ret + 1;
     if (ctx->__mem - ctx->__num < size)
     {
-        if (a_str_resize_(ctx, ctx->__num + size))
+        if (a_unlikely(a_str_resize_(ctx, ctx->__num + size)))
         {
             return EOF;
         }

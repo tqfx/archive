@@ -190,7 +190,10 @@
         {                                                            \
             size_t num = cast(size_t, ctx->last - ctx->head);        \
             size_t mem = cast(size_t, ctx->tail - ctx->head);        \
-            mem = (mem + (mem >> 1) + 1);                            \
+            do                                                       \
+            {                                                        \
+                mem += (mem >> 1) + 1;                               \
+            } while (mem < num);                                     \
             size_t size = align(mem * sizeof(type), sizeof(void *)); \
             type *head = cast(type *, realloc(ctx->head, size));     \
             if (head == null)                                        \

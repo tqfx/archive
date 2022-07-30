@@ -182,9 +182,13 @@
 #define VEC_PUSH(def, func, type)                                   \
     type *func(def *ctx)                                            \
     {                                                               \
-        if (ctx->num >= ctx->mem)                                   \
+        if (ctx->mem <= ctx->num)                                   \
         {                                                           \
-            size_t mem = ctx->mem + (ctx->mem >> 1) + 1;            \
+            size_t mem = ctx->mem;                                  \
+            do                                                      \
+            {                                                       \
+                mem += (mem >> 1) + 1;                              \
+            } while (mem < ctx->num);                               \
             size_t siz = align(mem * sizeof(type), sizeof(void *)); \
             type *ptr = cast(type *, realloc(ctx->ptr, siz));       \
             if (ptr == null)                                        \

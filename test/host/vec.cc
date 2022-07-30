@@ -97,6 +97,86 @@ static a_noret_t test(a_noarg_t)
 
     a_vec_die(ctx, dtor);
     putchar('\n');
+
+    {
+        ctx = a_vec_new(sizeof(a_u32_t));
+        for (a_u32_t i = 5; i != 10; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_insert(ctx, i));
+            if (p)
+            {
+                *p = i;
+            }
+        }
+        for (a_u32_t i = 0; i != 5; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_insert(ctx, i));
+            if (p)
+            {
+                *p = i;
+            }
+        }
+        a_vec_foreach(a_u32_t, it, ctx)
+        {
+            printf("%" PRIu32 " ", *it);
+        }
+        putchar('\n');
+        for (a_u32_t i = 0; i != 5; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_remove(ctx, i));
+            if (p)
+            {
+                printf("%" PRIu32 " ", *p);
+            }
+        }
+        for (a_u32_t i = 0; i != 5; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_remove(ctx, 0));
+            if (p)
+            {
+                printf("%" PRIu32 " ", *p);
+            }
+        }
+        putchar('\n');
+        a_vec_die(ctx, a_null);
+    }
+    {
+        ctx = a_vec_new(sizeof(a_u32_t));
+        for (a_u32_t i = 5; i != 10; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_push_back(ctx));
+            if (p)
+            {
+                *p = i;
+            }
+        }
+        for (a_u32_t i = 5; i != 10; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_pop_back(ctx));
+            if (p)
+            {
+                printf("%" PRIu32 " ", *p);
+            }
+        }
+        for (a_u32_t i = 0; i != 5; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_push_front(ctx));
+            if (p)
+            {
+                *p = i;
+            }
+        }
+        for (a_u32_t i = 0; i != 5; ++i)
+        {
+            a_u32_t *p = a_cast(a_u32_t *, a_vec_pop_front(ctx));
+            if (p)
+            {
+                printf("%" PRIu32 " ", *p);
+            }
+        }
+        putchar('\n');
+        a_vec_die(ctx, a_null);
+    }
 }
 
 VEC_S(int_s, int);

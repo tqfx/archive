@@ -182,12 +182,70 @@ A_PUBLIC a_int_t a_vector_resize(a_vector_s *ctx, a_size_t size, a_noret_t (*dto
 A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
+ @brief insert an element into the vector
+ @param[in] ctx points to an instance of vector structure
+ @param[in] idx index of element in this vector
+  @arg 0 @ref a_vector_push_front
+  @arg n @ref a_vector_push_back
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx);
+
+/*!
+ @brief push an element into the vector forward
+ @param[in] ctx points to an instance of vector structure
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_push_front(a_vector_s *ctx);
+
+/*!
+ @brief push an element into the vector backward
+ @param[in] ctx points to an instance of vector structure
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_push_back(a_vector_s *ctx);
+
+/*!
+ @brief remove an element from the vector
+ @param[in] ctx points to an instance of vector structure
+ @param[in] idx index of element in this vector
+  @arg 0 @ref a_vector_pop_front
+  @arg n @ref a_vector_pop_back
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx);
+
+/*!
+ @brief pop an element from the vector forward
+ @param[in] ctx points to an instance of vector structure
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_pop_front(a_vector_s *ctx);
+
+/*!
+ @brief pop an element from the vector backward
+ @param[in] ctx points to an instance of vector structure
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_pop_back(a_vector_s *ctx);
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif /* __cplusplus */
+
+/*!
  @brief push an element into the vector
  @param[in] ctx points to an instance of vector structure
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_push(a_vector_s *ctx);
+A_INLINE a_vptr_t a_vector_push(a_vector_s *ctx) { return a_vector_push_back(ctx); }
 
 /*!
  @brief pop an element from the vector
@@ -195,11 +253,7 @@ A_PUBLIC a_vptr_t a_vector_push(a_vector_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_pop(a_vector_s *ctx);
-
-#if defined(__cplusplus)
-} /* extern "C" */
-#endif /* __cplusplus */
+A_INLINE a_vptr_t a_vector_pop(a_vector_s *ctx) { return a_vector_pop_back(ctx); }
 
 /*!
  @brief iterate over a vector
