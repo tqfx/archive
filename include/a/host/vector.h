@@ -25,8 +25,8 @@
 typedef struct a_vector_s
 {
     a_vptr_t __head; /* head address */
-    a_vptr_t __last; /* last address */
     a_vptr_t __tail; /* tail address */
+    a_vptr_t __last; /* last address */
     a_size_t __size; /* size element */
 } a_vector_s;
 
@@ -40,7 +40,7 @@ A_INLINE a_vptr_t a_vector_ptr(const a_vector_s *ctx) { return ctx->__head; }
  @brief access end pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->__last; }
+A_INLINE a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->__tail; }
 
 /*!
  @brief access size of element for a pointer to vector structure
@@ -54,7 +54,7 @@ A_INLINE a_size_t a_vector_size(const a_vector_s *ctx) { return ctx->__size; }
 */
 A_INLINE a_size_t a_vector_num(const a_vector_s *ctx)
 {
-    return a_cast(a_size_t, a_cast(a_byte_t *, ctx->__last) - a_cast(a_byte_t *, ctx->__head)) / ctx->__size;
+    return a_cast(a_size_t, a_cast(a_byte_t *, ctx->__tail) - a_cast(a_byte_t *, ctx->__head)) / ctx->__size;
 }
 
 /*!
@@ -63,7 +63,7 @@ A_INLINE a_size_t a_vector_num(const a_vector_s *ctx)
 */
 A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx)
 {
-    return a_cast(a_size_t, a_cast(a_byte_t *, ctx->__tail) - a_cast(a_byte_t *, ctx->__head)) / ctx->__size;
+    return a_cast(a_size_t, a_cast(a_byte_t *, ctx->__last) - a_cast(a_byte_t *, ctx->__head)) / ctx->__size;
 }
 
 /*!
@@ -88,7 +88,7 @@ A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 {
     a_vptr_t at = a_vector_at_(ctx, idx);
-    return a_likely(at < ctx->__tail) ? at : a_null;
+    return a_likely(at < ctx->__last) ? at : a_null;
 }
 
 /*!
@@ -99,7 +99,7 @@ A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
 {
-    return a_cast(a_byte_t *, ctx->__last) - ctx->__size;
+    return a_cast(a_byte_t *, ctx->__tail) - ctx->__size;
 }
 
 /*!
@@ -110,7 +110,7 @@ A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
 */
 A_INLINE a_vptr_t a_vector_top(const a_vector_s *ctx)
 {
-    return a_likely(ctx->__head != ctx->__last) ? a_vector_top_(ctx) : a_null;
+    return a_likely(ctx->__head != ctx->__tail) ? a_vector_top_(ctx) : a_null;
 }
 
 #if defined(__cplusplus)
@@ -295,7 +295,7 @@ A_INLINE a_vptr_t a_vector_pop(a_vector_s *ctx) { return a_vector_pop_back(ctx);
  @param it the &a_vector_s to use as a loop counter
  @param ctx points to an instance of vector structure
 */
-#define a_vector_foreach(T, it, ctx) a_iterate(T, it, (ctx)->__head, (ctx)->__last)
+#define a_vector_foreach(T, it, ctx) a_iterate(T, it, (ctx)->__head, (ctx)->__tail)
 
 /*!
  @brief iterate over a vector in reverse
@@ -309,7 +309,7 @@ A_INLINE a_vptr_t a_vector_pop(a_vector_s *ctx) { return a_vector_pop_back(ctx);
  @param it the &a_vector_s to use as a loop counter
  @param ctx points to an instance of vector structure
 */
-#define a_vector_foreach_reverse(T, it, ctx) a_iterate_reverse(T, it, (ctx)->__head, (ctx)->__last)
+#define a_vector_foreach_reverse(T, it, ctx) a_iterate_reverse(T, it, (ctx)->__head, (ctx)->__tail)
 
 /*! @} A_VECTOR */
 

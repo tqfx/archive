@@ -9,8 +9,6 @@
 
 #include "a/host/vector.h"
 
-#include "../src/host/vector.h"
-
 #include "../test.h"
 
 #endif /* __TEST_HOST_VECTOR_H__ */

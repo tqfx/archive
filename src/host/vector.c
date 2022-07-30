@@ -22,25 +22,25 @@ A_OOP_DIE_VA(a_vector_s, a_vector_die, a_vector_dtor, ARGS, dtor)
 
 A_INLINE_FORCE a_vptr_t a_vector_inc_(a_vector_s *ctx)
 {
-    a_vptr_t last = ctx->__last;
-    ctx->__last = (a_byte_t *)ctx->__last + ctx->__size;
+    a_vptr_t last = ctx->__tail;
+    ctx->__tail = (a_byte_t *)ctx->__tail + ctx->__size;
     return last;
 }
 
 A_INLINE_FORCE a_vptr_t a_vector_dec_(a_vector_s *ctx)
 {
-    ctx->__last = (a_byte_t *)ctx->__last - ctx->__size;
-    return ctx->__last;
+    ctx->__tail = (a_byte_t *)ctx->__tail - ctx->__size;
+    return ctx->__tail;
 }
 
 A_INLINE_FORCE a_size_t a_vector_num_(const a_vector_s *ctx)
 {
-    return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head);
+    return (a_size_t)((a_byte_t *)ctx->__tail - (a_byte_t *)ctx->__head);
 }
 
 A_INLINE_FORCE a_size_t a_vector_mem_(const a_vector_s *ctx)
 {
-    return (a_size_t)((a_byte_t *)ctx->__tail - (a_byte_t *)ctx->__head);
+    return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head);
 }
 
 a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size)
@@ -48,8 +48,8 @@ a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size)
     assert(ctx);
     assert(size);
     ctx->__head = a_null;
-    ctx->__last = a_null;
     ctx->__tail = a_null;
+    ctx->__last = a_null;
     ctx->__size = size;
 }
 
@@ -62,8 +62,8 @@ a_noret_t a_vector_dtor(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
         free(ctx->__head);
         ctx->__head = a_null;
     }
-    ctx->__last = a_null;
     ctx->__tail = a_null;
+    ctx->__last = a_null;
     ctx->__size = a_zero;
 }
 
@@ -79,13 +79,13 @@ a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_v
         return A_FAILURE;
     }
     ctx->__size = obj->__size;
-    ctx->__last = (a_byte_t *)ctx->__head + num;
-    ctx->__tail = (a_byte_t *)ctx->__head + mem;
+    ctx->__tail = (a_byte_t *)ctx->__head + num;
+    ctx->__last = (a_byte_t *)ctx->__head + mem;
     if (dup)
     {
         a_vptr_t dst = ctx->__head;
         a_vptr_t src = obj->__head;
-        while (src != obj->__last)
+        while (src != obj->__tail)
         {
             dup(dst, src);
             dst = (a_byte_t *)dst + obj->__size;
@@ -125,14 +125,14 @@ a_noret_t a_vector_drop(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     assert(ctx);
     if (dtor)
     {
-        while (ctx->__head != ctx->__last)
+        while (ctx->__head != ctx->__tail)
         {
             dtor(a_vector_dec_(ctx));
         }
     }
     else
     {
-        ctx->__last = ctx->__head;
+        ctx->__tail = ctx->__head;
     }
 }
 
@@ -154,8 +154,8 @@ static a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
             return A_FAILURE;
         }
         ctx->__head = head;
-        ctx->__last = (a_byte_t *)head + num_;
-        ctx->__tail = (a_byte_t *)head + mem_;
+        ctx->__tail = (a_byte_t *)head + num_;
+        ctx->__last = (a_byte_t *)head + mem_;
     }
     return A_SUCCESS;
 }
@@ -170,9 +170,9 @@ a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx)
     }
     if (idx < num)
     {
-        a_byte_t *ptr = (a_byte_t *)ctx->__last;
-        a_byte_t *src = (a_byte_t *)ctx->__head + ctx->__size * idx;
-        a_byte_t *dst = (a_byte_t *)ctx->__head + ctx->__size * idx + ctx->__size;
+        a_byte_t *ptr = (a_byte_t *)ctx->__tail;
+        a_byte_t *src = (a_byte_t *)ctx->__head + ctx->__size * (idx + 0);
+        a_byte_t *dst = (a_byte_t *)ctx->__head + ctx->__size * (idx + 1);
         memmove(dst, src, (a_size_t)(ptr - src));
         a_vector_inc_(ctx);
         return src;
@@ -208,15 +208,15 @@ a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx)
         {
             return a_null;
         }
-        a_byte_t *ptr = (a_byte_t *)ctx->__last;
-        a_byte_t *dst = (a_byte_t *)ctx->__head + ctx->__size * idx;
-        a_byte_t *src = (a_byte_t *)ctx->__head + ctx->__size * idx + ctx->__size;
+        a_byte_t *ptr = (a_byte_t *)ctx->__tail;
+        a_byte_t *dst = (a_byte_t *)ctx->__head + ctx->__size * (idx + 0);
+        a_byte_t *src = (a_byte_t *)ctx->__head + ctx->__size * (idx + 1);
         memcpy(ptr, dst, ctx->__size);
         memmove(dst, src, (a_size_t)(ptr - src));
         a_vector_dec_(ctx);
         return ptr;
     }
-    return a_likely(ctx->__head != ctx->__last) ? a_vector_dec_(ctx) : a_null;
+    return a_likely(ctx->__head != ctx->__tail) ? a_vector_dec_(ctx) : a_null;
 }
 
 a_vptr_t a_vector_pop_front(a_vector_s *ctx)
@@ -228,7 +228,7 @@ a_vptr_t a_vector_pop_front(a_vector_s *ctx)
 a_vptr_t a_vector_pop_back(a_vector_s *ctx)
 {
     assert(ctx);
-    return a_likely(ctx->__head != ctx->__last) ? a_vector_dec_(ctx) : a_null;
+    return a_likely(ctx->__head != ctx->__tail) ? a_vector_dec_(ctx) : a_null;
 }
 
 #endif /* __STDC_HOSTED__ */

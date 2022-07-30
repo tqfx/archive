@@ -150,8 +150,8 @@ a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)
     }
     if (idx < ctx->__number)
     {
-        a_byte_t *src = (a_byte_t *)ctx->__ptr + ctx->__size * idx;
-        a_byte_t *dst = src + ctx->__size;
+        a_byte_t *src = (a_byte_t *)ctx->__ptr + ctx->__size * (idx + 0);
+        a_byte_t *dst = (a_byte_t *)ctx->__ptr + ctx->__size * (idx + 1);
         memmove(dst, src, (ctx->__number - idx) * ctx->__size);
         ++ctx->__number;
         return src;
@@ -185,8 +185,8 @@ a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
             return a_null;
         }
         a_byte_t *ptr = (a_byte_t *)ctx->__ptr + ctx->__size * ctx->__number;
-        a_byte_t *dst = (a_byte_t *)ctx->__ptr + ctx->__size * idx;
-        a_byte_t *src = dst + ctx->__size;
+        a_byte_t *dst = (a_byte_t *)ctx->__ptr + ctx->__size * (idx + 0);
+        a_byte_t *src = (a_byte_t *)ctx->__ptr + ctx->__size * (idx + 1);
         memcpy(ptr, dst, ctx->__size);
         memmove(dst, src, (a_size_t)(ptr - src));
         --ctx->__number;

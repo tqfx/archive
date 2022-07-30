@@ -183,87 +183,8 @@ static a_noret_t test(a_noarg_t)
     }
 }
 
-VECTOR_S(int_s, int);
-VECTOR_MEM(int_s, int_mem)
-VECTOR_NUM(int_s, int_num)
-VECTOR_PTR(int_s, int_ptr, int)
-VECTOR_AT(int_s, int_at, int)
-VECTOR_TOP(int_s, int_top, int)
-VECTOR_F(static, int, int_s, int)
-VECTOR_CTOR(int_s, int_ctor)
-VECTOR_DTOR(int_s, int_dtor, VECTOR_NODTOR)
-VECTOR_DROP(int_s, int_drop, VECTOR_NODTOR)
-VECTOR_NEW(int_s, int_new, int_ctor)
-VECTOR_DIE(int_s, int_die, int_dtor)
-VECTOR_COPY(int_s, int_copy, int)
-VECTOR_PUSH(int_s, int_push, int)
-VECTOR_POP(int_s, int_pop, int)
-VECTOR_MOVE(int_s, int_move)
-
-A_INLINE int intdup(int *dst, const int *src)
-{
-    *dst = *src;
-    return 0;
-}
-
-static a_noret_t test_intern(a_noarg_t)
-{
-    int_s *ctx = int_new();
-    vector_foreach(int, it, ctx);
-    vector_foreach_reverse(int, it, ctx);
-    for (a_int_t i = 0; i != 0x100; ++i)
-    {
-        a_int_t *p = int_push(ctx);
-        if (p)
-        {
-            *p = i;
-        }
-    }
-    for (a_int_t i = 0; i != 0x10; ++i)
-    {
-        int_pop(ctx);
-    }
-    vector_forenum(i, ctx)
-    {
-        *int_at(ctx, i) = 0;
-    }
-    vector_forenum_reverse(i, ctx)
-    {
-        *int_at(ctx, i) = 0;
-    }
-    vector_foreach(int, it, ctx)
-    {
-        *it = 0;
-    }
-    vector_foreach_reverse(int, it, ctx)
-    {
-        *it = 0;
-    }
-    *int_ptr(ctx) = 0;
-    a_int_t *p = int_top(ctx);
-    if (p)
-    {
-        *p = 0;
-    }
-    for (size_t i = int_num(ctx); i != int_mem(ctx); ++i)
-    {
-        *int_at(ctx, i) = 0;
-    }
-
-    {
-        int_s obj[1];
-        int_copy(obj, ctx, intdup);
-        int_dtor(ctx);
-        int_move(ctx, obj);
-        int_drop(ctx);
-    }
-
-    int_die(ctx);
-}
-
 a_int_t main(a_noarg_t)
 {
     test();
-    test_intern();
     return A_SUCCESS;
 }
