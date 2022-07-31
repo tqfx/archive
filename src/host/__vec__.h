@@ -72,6 +72,8 @@ __public__ __type__ *__vec___move(__type__ *ctx, __type__ *obj);
 
 __public__ void __vec___drop(__type__ *ctx);
 
+__public__ int __vec___swap(__type__ *ctx, size_t lhs, size_t rhs);
+
 __public__ __T__ *__vec___insert(__type__ *ctx, size_t idx);
 
 __public__ __T__ *__vec___push_front(__type__ *ctx);

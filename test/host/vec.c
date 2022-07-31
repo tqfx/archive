@@ -57,6 +57,12 @@ static a_noret_t test(a_noarg_t)
         TEST_BUG(a_vec_size(ctx) == a_cast(a_size_t, end - top));
     }
 
+    a_vec_swap(ctx, 0, 0);
+    a_vec_swap(ctx, 0, ~0U);
+    a_vec_swap(ctx, ~0U, 0);
+    a_vec_swap(ctx, 4, 6);
+    a_vec_swap(ctx, 6, 4);
+
     a_vec_forenum(i, ctx)
     {
         a_u32_t *it = a_cast(a_u32_t *, a_vec_at(ctx, i));

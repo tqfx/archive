@@ -129,6 +129,25 @@ static int __vector___alloc(__type__ *ctx, size_t num)
 
 #undef align
 
+int __vector___swap(__type__ *ctx, size_t lhs, size_t rhs)
+{
+    const size_t num = __vector___num_(ctx);
+    lhs = lhs < num ? lhs : num - 1;
+    rhs = rhs < num ? rhs : num - 1;
+    if (lhs == rhs)
+    {
+        return __success__;
+    }
+    if (__vector___alloc(ctx, num))
+    {
+        return __failure__;
+    }
+    memcpy(ctx->head + num, ctx->head + lhs, sizeof(__T__));
+    memcpy(ctx->head + lhs, ctx->head + rhs, sizeof(__T__));
+    memcpy(ctx->head + rhs, ctx->head + num, sizeof(__T__));
+    return __success__;
+}
+
 __T__ *__vector___insert(__type__ *ctx, size_t idx)
 {
     size_t num = __vector___num_(ctx);
@@ -168,7 +187,7 @@ __T__ *__vector___remove(__type__ *ctx, size_t idx)
     size_t num = __vector___num_(ctx);
     if (idx + 1 < num)
     {
-        if (__vector___alloc(ctx, num + 1))
+        if (__vector___alloc(ctx, num))
         {
             return __null__;
         }

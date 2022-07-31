@@ -170,6 +170,29 @@ static a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
     return A_SUCCESS;
 }
 
+a_int_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
+{
+    assert(ctx);
+    const a_size_t num = a_vector_num_(ctx) / ctx->__size;
+    lhs = lhs < num ? lhs : num - 1;
+    rhs = rhs < num ? rhs : num - 1;
+    if (lhs == rhs)
+    {
+        return A_SUCCESS;
+    }
+    if (a_unlikely(a_vector_alloc(ctx, num)))
+    {
+        return A_FAILURE;
+    }
+    a_vptr_t pt = (a_byte_t *)ctx->__head + ctx->__size * num;
+    a_vptr_t pl = (a_byte_t *)ctx->__head + ctx->__size * lhs;
+    a_vptr_t pr = (a_byte_t *)ctx->__head + ctx->__size * rhs;
+    memcpy(pt, pl, ctx->__size);
+    memcpy(pl, pr, ctx->__size);
+    memcpy(pr, pt, ctx->__size);
+    return A_SUCCESS;
+}
+
 a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx)
 {
     assert(ctx);
@@ -214,7 +237,7 @@ a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx)
     a_size_t num = num_ / ctx->__size;
     if (idx + 1 < num)
     {
-        if (a_unlikely(a_vector_alloc(ctx, num + 1)))
+        if (a_unlikely(a_vector_alloc(ctx, num)))
         {
             return a_null;
         }

@@ -113,6 +113,28 @@ static int __vec___alloc(__type__ *ctx, size_t num)
 
 #undef align
 
+int __vec___swap(__type__ *ctx, size_t lhs, size_t rhs)
+{
+    {
+        const size_t num = ctx->num - 1;
+        lhs = lhs < ctx->num ? lhs : num;
+        rhs = rhs < ctx->num ? rhs : num;
+    }
+    if (lhs == rhs)
+    {
+        return __success__;
+    }
+    const size_t num = ctx->num;
+    if (__vec___alloc(ctx, num))
+    {
+        return __failure__;
+    }
+    memcpy(ctx->ptr + num, ctx->ptr + lhs, sizeof(__T__));
+    memcpy(ctx->ptr + lhs, ctx->ptr + rhs, sizeof(__T__));
+    memcpy(ctx->ptr + rhs, ctx->ptr + num, sizeof(__T__));
+    return __success__;
+}
+
 __T__ *__vec___insert(__type__ *ctx, size_t idx)
 {
     if (__vec___alloc(ctx, ctx->num))

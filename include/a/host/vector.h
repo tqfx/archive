@@ -182,6 +182,17 @@ A_PUBLIC a_int_t a_vector_resize(a_vector_s *ctx, a_size_t size, a_noret_t (*dto
 A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
+ @brief swap elements lhs and rhs in the vector
+ @param[in] ctx points to an instance of vector structure
+ @param[in] lhs element index on the left
+ @param[in] rhs element index on the right
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
+
+/*!
  @brief insert an element into the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element in this vector

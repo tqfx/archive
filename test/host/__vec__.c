@@ -77,6 +77,12 @@ static void test(void)
             }
         }
 
+        __vec___swap(ctx, 0, 0);
+        __vec___swap(ctx, 0, ~0U);
+        __vec___swap(ctx, ~0U, 0);
+        __vec___swap(ctx, 4, 6);
+        __vec___swap(ctx, 6, 4);
+
         __vec___foreach(it, ctx)
         {
             printf("%zu ", *it);
