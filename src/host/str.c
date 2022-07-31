@@ -7,13 +7,28 @@
 #if __STDC_HOSTED__
 
 #include "a/host/str.h"
-#include "a/oop.h"
 
 #include <assert.h>
 #include <stdio.h>
 
-A_OOP_NEW(a_str_s, a_str_new, a_str_ctor)
-A_OOP_DIE(a_str_s, a_str_die, a_str_dtor)
+a_str_s *a_str_new(a_noarg_t)
+{
+    a_str_s *ctx = (a_str_s *)malloc(sizeof(a_str_s));
+    if (ctx)
+    {
+        a_str_ctor(ctx);
+    }
+    return ctx;
+}
+
+a_noret_t a_str_die(a_str_s *ctx)
+{
+    if (ctx)
+    {
+        a_str_dtor(ctx);
+        free(ctx);
+    }
+}
 
 a_noret_t a_str_ctor(a_str_s *ctx)
 {

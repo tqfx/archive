@@ -7,18 +7,28 @@
 #if __STDC_HOSTED__
 
 #include "a/host/vector.h"
-#include "a/oop.h"
 
 #include <assert.h>
 #include <string.h>
 
-#undef ARGS
-#define ARGS a_size_t size
-A_OOP_NEW_VA(a_vector_s, a_vector_new, a_vector_ctor, ARGS, size)
-#undef ARGS
-#define ARGS a_noret_t (*dtor)(a_vptr_t)
-A_OOP_DIE_VA(a_vector_s, a_vector_die, a_vector_dtor, ARGS, dtor)
-#undef ARGS
+a_vector_s *a_vector_new(a_size_t size)
+{
+    a_vector_s *ctx = (a_vector_s *)malloc(sizeof(a_vector_s));
+    if (ctx)
+    {
+        a_vector_ctor(ctx, size);
+    }
+    return ctx;
+}
+
+a_noret_t a_vector_die(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+{
+    if (ctx)
+    {
+        a_vector_dtor(ctx, dtor);
+        free(ctx);
+    }
+}
 
 A_INLINE_FORCE a_vptr_t a_vector_inc_(a_vector_s *ctx)
 {
