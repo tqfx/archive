@@ -18,12 +18,12 @@
 
 #define __vec___forenum_reverse(i, ctx) for (size_t i = (ctx)->num; i--;)
 
-#define __vec___foreach(T, it, ctx) \
-    for (T *it = (ctx)->ptr, *it##_ = it ? it + (ctx)->num : __null__; it != it##_; ++it)
+#define __vec___foreach(it, ctx) \
+    for (__T__ *it = (ctx)->ptr, *it##_ = it ? it + (ctx)->num : __null__; it != it##_; ++it)
 
-#define __vec___foreach_reverse(T, it, ctx)                  \
-    for (T *it##_ = (ctx)->ptr ? (ctx)->ptr - 1 : __null__,  \
-           *it = (ctx)->ptr ? it##_ + (ctx)->num : __null__; \
+#define __vec___foreach_reverse(it, ctx)                         \
+    for (__T__ *it##_ = (ctx)->ptr ? (ctx)->ptr - 1 : __null__,  \
+               *it = (ctx)->ptr ? it##_ + (ctx)->num : __null__; \
          it != it##_; --it)
 
 typedef struct __type__

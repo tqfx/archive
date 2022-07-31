@@ -18,11 +18,11 @@
 
 #define __vector___forenum_reverse(i, ctx) for (size_t i = __cast__(size_t, (ctx)->tail - (ctx)->head); i--;)
 
-#define __vector___foreach(T, it, ctx) for (T *it = (ctx)->head, *it##_ = (ctx)->tail; it != it##_; ++it)
+#define __vector___foreach(it, ctx) for (__T__ *it = (ctx)->head, *it##_ = (ctx)->tail; it != it##_; ++it)
 
-#define __vector___foreach_reverse(T, it, ctx)                \
-    for (T *it##_ = (ctx)->head ? (ctx)->head - 1 : __null__, \
-           *it = (ctx)->tail ? (ctx)->tail - 1 : __null__;    \
+#define __vector___foreach_reverse(it, ctx)                       \
+    for (__T__ *it##_ = (ctx)->head ? (ctx)->head - 1 : __null__, \
+               *it = (ctx)->tail ? (ctx)->tail - 1 : __null__;    \
          it != it##_; --it)
 
 typedef struct __type__

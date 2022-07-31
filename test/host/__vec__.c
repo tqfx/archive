@@ -12,8 +12,8 @@ static void test(void)
     {
         __type__ *ctx = __vec___new();
 
-        __vec___foreach(__T__, it, ctx);
-        __vec___foreach_reverse(__T__, it, ctx);
+        __vec___foreach(it, ctx);
+        __vec___foreach_reverse(it, ctx);
 
         for (__T__ i = 0; i != 10; ++i)
         {
@@ -77,13 +77,13 @@ static void test(void)
             }
         }
 
-        __vec___foreach(__T__, it, ctx)
+        __vec___foreach(it, ctx)
         {
             printf("%zu ", *it);
         }
         putchar('\n');
 
-        __vec___foreach_reverse(__T__, it, ctx)
+        __vec___foreach_reverse(it, ctx)
         {
             printf("%zu ", *it);
         }
