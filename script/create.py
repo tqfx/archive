@@ -9,28 +9,20 @@ SCRIPTS = os.path.dirname(os.path.abspath(sys.argv[0]))
 ROOT = os.path.abspath(os.path.join(SCRIPTS, ".."))
 os.chdir(ROOT)
 
+tables = []
 BUILD = "build"
 if not os.path.exists(BUILD) and len(sys.argv) > 1:
     os.mkdir(BUILD)
-
 with open(sys.argv[1], "r", encoding="UTF-8") as f:
-    lines = f.read().split('\n')
-tables = []
-for line in lines:
-    if '=' not in line:
+    textlines = f.read().split('\n')
+for textline in textlines:
+    if not textline or ';' in textline[0] or '=' not in textline:
         continue
-    values = line.split('=')
+    values = textline.split('=')
     source = values[0].strip()
-    target = ""
-    for value in values[1:]:
-        target += value + "="
-    target = target[:-1].strip()
-    for string in (
-        ("\\r", '\r'),
-        ("\\t", '\t'),
-        ("\\n", '\n'),
-        ("\\\\", '\\'),
-    ):
+    target = '='.join(values[1:]).strip()
+    for string in (("\\r", '\r'), ("\\t", '\t'), ("\\n", '\n'), ("\\\\", '\\')):
+        source = source.replace(string[0], string[1])
         target = target.replace(string[0], string[1])
     tables.append((source, target))
 
@@ -45,17 +37,7 @@ for input in sys.argv[2:]:
     with open(input, "r", encoding="UTF-8") as f:
         text = f.read()
 
-    stddef = '''#include <stddef.h>\n#include <stdint.h>\n#undef __include__\n
-#undef __cast__
-#undef __null__
-#if defined(__cplusplus)
-#define __null__ nullptr
-#define __cast__(T, ...) static_cast<T>(__VA_ARGS__)
-#else /* !__cplusplus */
-#define __cast__(T, ...) (T)(__VA_ARGS__)
-#define __null__ NULL
-#endif /* __cplusplus */
-'''
+    stddef = '''#include "output.h"\n'''
     for string in (
         ('#include "../__a__.h"\n', stddef),
         ('#include "__a__.h"\n', stddef),
