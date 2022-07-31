@@ -113,6 +113,27 @@ a_str_t a_str_exit(a_str_s *ctx)
     return str;
 }
 
+a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
+{
+    assert(lhs);
+    assert(rhs);
+    a_int_t ok = 0;
+    if (lhs->__str && rhs->__str)
+    {
+        a_size_t num = lhs->__num < rhs->__num ? lhs->__num : rhs->__num;
+        ok = memcmp(lhs->__str, rhs->__str, num);
+    }
+    if (ok)
+    {
+        return ok;
+    }
+    if (lhs->__num == rhs->__num)
+    {
+        return a_zero;
+    }
+    return lhs->__num < rhs->__num ? -1 : 1;
+}
+
 a_int_t a_str_resize_(a_str_s *ctx, a_size_t mem)
 {
     assert(ctx);
@@ -207,9 +228,9 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
     va_list ap;
     va_copy(ap, va);
     a_str_t str = ctx->__str ? ctx->__str + ctx->__num : a_null;
-    a_int_t ret = vsnprintf(str, ctx->__mem - ctx->__num, fmt, ap);
+    a_int_t num = vsnprintf(str, ctx->__mem - ctx->__num, fmt, ap);
     va_end(ap);
-    a_size_t size = (a_size_t)ret + 1;
+    a_size_t size = (a_size_t)num + 1;
     if (ctx->__mem - ctx->__num < size)
     {
         if (a_unlikely(a_str_resize_(ctx, ctx->__num + size)))
@@ -218,11 +239,11 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
         }
         va_copy(ap, va);
         str = ctx->__str + ctx->__num;
-        ret = vsnprintf(str, ctx->__mem - ctx->__num, fmt, ap);
+        num = vsnprintf(str, ctx->__mem - ctx->__num, fmt, ap);
         va_end(ap);
     }
-    ctx->__num += (a_size_t)ret;
-    return ret;
+    ctx->__num += (a_size_t)num;
+    return num;
 }
 
 a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...)
@@ -231,9 +252,9 @@ a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...)
     assert(fmt);
     va_list ap;
     va_start(ap, fmt);
-    a_int_t ret = a_str_vprintf(ctx, fmt, ap);
+    a_int_t num = a_str_vprintf(ctx, fmt, ap);
     va_end(ap);
-    return ret;
+    return num;
 }
 
 #endif /* __STDC_HOSTED__ */

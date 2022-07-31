@@ -9,4 +9,6 @@
 
 #include "a/host/str.h"
 
+#include "../test.h"
+
 #endif /* __TEST_HOST_STR_H__ */

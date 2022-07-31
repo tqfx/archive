@@ -123,6 +123,17 @@ A_PUBLIC a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj);
 A_PUBLIC a_str_t a_str_exit(a_str_s *ctx);
 
 /*!
+ @brief compare the string lhs to the string rhs
+ @param[in] lhs string structure to be compared
+ @param[in] rhs string structure to be compared
+ @return relationship between the strings
+  @retval <0 lhs < rhs
+  @retval >0 lhs > rhs
+  @retval 0 lhs == rhs
+*/
+A_PUBLIC a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs);
+
+/*!
  @brief resize memory for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] mem length of real memory

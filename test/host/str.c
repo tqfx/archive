@@ -19,7 +19,7 @@ static a_noret_t tests(a_noarg_t)
     a_str_puts(ctx, "");
     a_str_putn(ctx, a_null, a_zero);
     str = a_str_val(ctx);
-    printf("0x%zX\n", (a_size_t)str);
+    printf("0x%zX ", (a_size_t)str);
     a_str_dtor(ctx);
 }
 
@@ -40,10 +40,85 @@ static a_noret_t testt(a_noarg_t)
     a_str_die(ctx);
 }
 
+static a_noret_t testc(a_noarg_t)
+{
+    {
+        a_str_s *lhs = a_str_new();
+        a_str_s *rhs = a_str_new();
+
+        TEST_BUG(a_str_cmp(lhs, rhs) == 0);
+
+        a_str_die(lhs);
+        a_str_die(rhs);
+    }
+    {
+        a_str_s *lhs = a_str_new();
+        a_str_s *rhs = a_str_new();
+        a_str_puts(lhs, "");
+
+        TEST_BUG(a_str_cmp(lhs, rhs) == 0);
+
+        a_str_die(lhs);
+        a_str_die(rhs);
+    }
+    {
+        a_str_s *lhs = a_str_new();
+        a_str_s *rhs = a_str_new();
+        a_str_puts(rhs, "");
+
+        TEST_BUG(a_str_cmp(lhs, rhs) == 0);
+
+        a_str_die(lhs);
+        a_str_die(rhs);
+    }
+    {
+        a_str_s *lhs = a_str_new();
+        a_str_s *rhs = a_str_new();
+        a_str_puts(lhs, "0");
+
+        TEST_BUG(a_str_cmp(lhs, rhs) > 0);
+
+        a_str_die(lhs);
+        a_str_die(rhs);
+    }
+    {
+        a_str_s *lhs = a_str_new();
+        a_str_s *rhs = a_str_new();
+        a_str_puts(rhs, "0");
+
+        TEST_BUG(a_str_cmp(lhs, rhs) < 0);
+
+        a_str_die(lhs);
+        a_str_die(rhs);
+    }
+    {
+        a_str_s *lhs = a_str_new();
+        a_str_s *rhs = a_str_new();
+        a_str_puts(lhs, "0");
+        a_str_puts(rhs, "00");
+
+        TEST_BUG(a_str_cmp(lhs, rhs) < 0);
+
+        a_str_die(lhs);
+        a_str_die(rhs);
+    }
+    {
+        a_str_s *lhs = a_str_new();
+        a_str_s *rhs = a_str_new();
+        a_str_puts(rhs, "0");
+        a_str_puts(lhs, "00");
+
+        TEST_BUG(a_str_cmp(lhs, rhs) > 0);
+
+        a_str_die(lhs);
+        a_str_die(rhs);
+    }
+}
+
 a_int_t main(a_noarg_t)
 {
     tests();
     testt();
-
+    testc();
     return A_SUCCESS;
 }
