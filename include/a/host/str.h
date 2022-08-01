@@ -177,6 +177,16 @@ A_PUBLIC a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte);
 A_PUBLIC a_int_t a_str_puts(a_str_s *ctx, a_cptr_t str);
 
 /*!
+ @brief concat the string structure obj to the string structure ctx
+ @param[in] ctx points to an instance of string structure
+ @param[in] obj input source pointing to an instance
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj);
+
+/*!
  @brief print string to a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] fmt format of string to be printed

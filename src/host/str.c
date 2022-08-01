@@ -221,6 +221,13 @@ a_int_t a_str_puts(a_str_s *ctx, a_cptr_t str)
     return a_str_putn(ctx, str, strlen((a_cstr_t)str));
 }
 
+a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj)
+{
+    assert(ctx);
+    assert(obj);
+    return a_str_putn(ctx, obj->__str, obj->__num);
+}
+
 a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
 {
     assert(ctx);
