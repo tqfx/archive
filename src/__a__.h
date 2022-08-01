@@ -32,7 +32,6 @@
 
 #undef __cast__
 #undef __null__
-#undef __zero__
 #if defined(__cplusplus)
 #define __null__ nullptr
 #define __cast__(T, ...) static_cast<T>(__VA_ARGS__)
@@ -40,7 +39,6 @@
 #define __cast__(T, ...) (T)(__VA_ARGS__)
 #define __null__ NULL
 #endif /* __cplusplus */
-#define __zero__ 0
 
 #undef __failure__
 #undef __success__

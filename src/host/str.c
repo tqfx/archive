@@ -33,9 +33,9 @@ a_noret_t a_str_die(a_str_s *ctx)
 a_noret_t a_str_ctor(a_str_s *ctx)
 {
     assert(ctx);
-    ctx->__str = a_null;
-    ctx->__num = a_zero;
-    ctx->__mem = a_zero;
+    ctx->__str = 0;
+    ctx->__num = 0;
+    ctx->__mem = 0;
 }
 
 a_noret_t a_str_dtor(a_str_s *ctx)
@@ -44,10 +44,10 @@ a_noret_t a_str_dtor(a_str_s *ctx)
     if (ctx->__str)
     {
         free(ctx->__str);
-        ctx->__str = a_null;
+        ctx->__str = 0;
     }
-    ctx->__num = a_zero;
-    ctx->__mem = a_zero;
+    ctx->__num = 0;
+    ctx->__mem = 0;
 }
 
 #if defined(__clang__)
@@ -71,7 +71,7 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     ctx->__num = nbyte;
     ctx->__mem = nbyte + 1;
     ctx->__str = (a_str_t)malloc(roundup32(ctx->__mem));
-    if (a_unlikely(ctx->__str == a_null))
+    if (a_unlikely(ctx->__str == 0))
     {
         return A_FAILURE;
     }
@@ -95,7 +95,7 @@ a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj)
     assert(ctx);
     assert(obj);
     memcpy(ctx, obj, sizeof(a_str_s));
-    memset(obj, 000, sizeof(a_str_s));
+    memset(obj, 0, sizeof(a_str_s));
     return ctx;
 }
 
@@ -106,10 +106,10 @@ a_str_t a_str_exit(a_str_s *ctx)
     if (ctx->__str)
     {
         ctx->__str[ctx->__num] = 0;
-        ctx->__str = a_null;
+        ctx->__str = 0;
     }
-    ctx->__mem = a_zero;
-    ctx->__num = a_zero;
+    ctx->__mem = 0;
+    ctx->__num = 0;
     return str;
 }
 
@@ -129,7 +129,7 @@ a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
     }
     if (lhs->__num == rhs->__num)
     {
-        return a_zero;
+        return 0;
     }
     return lhs->__num < rhs->__num ? -1 : 1;
 }
@@ -234,7 +234,7 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
     assert(fmt);
     va_list ap;
     va_copy(ap, va);
-    a_str_t str = ctx->__str ? ctx->__str + ctx->__num : a_null;
+    a_str_t str = ctx->__str ? ctx->__str + ctx->__num : 0;
     a_int_t num = vsnprintf(str, ctx->__mem - ctx->__num, fmt, ap);
     va_end(ap);
     a_size_t size = (a_size_t)num + 1;

@@ -29,11 +29,11 @@ a_bool_t = int
 a_zero = 0
 a_cast = CAST
 a_null = NULL
-a_void_t = void
+a_void_t  = void
 a_noarg_t = void
 a_noret_t = void
 
-a_size_t = size_t
+a_size_t   = size_t
 A_SIZE_MAX = SIZE_MAX
 
 a_i8_t   =  int8_t

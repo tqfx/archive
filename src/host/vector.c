@@ -11,25 +11,6 @@
 #include <assert.h>
 #include <string.h>
 
-a_vector_s *a_vector_new(a_size_t size)
-{
-    a_vector_s *ctx = (a_vector_s *)malloc(sizeof(a_vector_s));
-    if (ctx)
-    {
-        a_vector_ctor(ctx, size);
-    }
-    return ctx;
-}
-
-a_noret_t a_vector_die(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
-{
-    if (ctx)
-    {
-        a_vector_dtor(ctx, dtor);
-        free(ctx);
-    }
-}
-
 A_INLINE_FORCE a_vptr_t a_vector_inc_(a_vector_s *ctx)
 {
     a_vptr_t last = ctx->__tail;
@@ -53,14 +34,33 @@ A_INLINE_FORCE a_size_t a_vector_mem_(const a_vector_s *ctx)
     return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head);
 }
 
+a_vector_s *a_vector_new(a_size_t size)
+{
+    a_vector_s *ctx = (a_vector_s *)malloc(sizeof(a_vector_s));
+    if (ctx)
+    {
+        a_vector_ctor(ctx, size);
+    }
+    return ctx;
+}
+
+a_noret_t a_vector_die(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+{
+    if (ctx)
+    {
+        a_vector_dtor(ctx, dtor);
+        free(ctx);
+    }
+}
+
 a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size)
 {
     assert(ctx);
     assert(size);
-    ctx->__head = a_null;
-    ctx->__tail = a_null;
-    ctx->__last = a_null;
     ctx->__size = size;
+    ctx->__last = 0;
+    ctx->__tail = 0;
+    ctx->__head = 0;
 }
 
 a_noret_t a_vector_dtor(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
@@ -70,11 +70,11 @@ a_noret_t a_vector_dtor(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     {
         a_vector_drop(ctx, dtor);
         free(ctx->__head);
-        ctx->__head = a_null;
+        ctx->__head = 0;
     }
-    ctx->__tail = a_null;
-    ctx->__last = a_null;
-    ctx->__size = a_zero;
+    ctx->__tail = 0;
+    ctx->__last = 0;
+    ctx->__size = 0;
 }
 
 a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t))
@@ -84,7 +84,7 @@ a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_v
     a_size_t num = a_vector_num_(obj);
     a_size_t mem = a_vector_mem_(obj);
     ctx->__head = malloc(mem);
-    if (a_unlikely(ctx->__head == a_null))
+    if (a_unlikely(ctx->__head == 0))
     {
         return A_FAILURE;
     }
@@ -114,14 +114,14 @@ a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj)
     assert(ctx);
     assert(obj);
     memcpy(ctx, obj, sizeof(a_vector_s));
-    memset(obj, 000, sizeof(a_vector_s));
+    memset(obj, 0, sizeof(a_vector_s));
     return ctx;
 }
 
-a_int_t a_vector_resize(a_vector_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+a_int_t a_vector_set(a_vector_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
-    if (a_unlikely(size == a_zero))
+    if (a_unlikely(size == 0))
     {
         return A_FAILURE;
     }
@@ -159,7 +159,7 @@ static a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
         a_size_t mem_ = ctx->__size * mem;
         a_size_t size = a_align(mem_, sizeof(a_vptr_t));
         a_vptr_t head = realloc(ctx->__head, size);
-        if (a_unlikely(head == a_null))
+        if (a_unlikely(head == 0))
         {
             return A_FAILURE;
         }
@@ -199,7 +199,7 @@ a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx)
     a_size_t num = a_vector_num_(ctx) / ctx->__size;
     if (a_unlikely(a_vector_alloc(ctx, num)))
     {
-        return a_null;
+        return 0;
     }
     if (idx < num)
     {
@@ -225,7 +225,7 @@ a_vptr_t a_vector_push_back(a_vector_s *ctx)
     a_size_t num = a_vector_num_(ctx) / ctx->__size;
     if (a_unlikely(a_vector_alloc(ctx, num)))
     {
-        return a_null;
+        return 0;
     }
     return a_vector_inc_(ctx);
 }
@@ -239,7 +239,7 @@ a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx)
     {
         if (a_unlikely(a_vector_alloc(ctx, num)))
         {
-            return a_null;
+            return 0;
         }
         a_byte_t *ptr = (a_byte_t *)ctx->__tail;
         a_byte_t *dst = (a_byte_t *)ctx->__head + ctx->__size * (idx + 0);
@@ -249,7 +249,7 @@ a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx)
         a_vector_dec_(ctx);
         return ptr;
     }
-    return a_likely(ctx->__head != ctx->__tail) ? a_vector_dec_(ctx) : a_null;
+    return a_likely(ctx->__head != ctx->__tail) ? a_vector_dec_(ctx) : 0;
 }
 
 a_vptr_t a_vector_pop_front(a_vector_s *ctx)
@@ -261,7 +261,7 @@ a_vptr_t a_vector_pop_front(a_vector_s *ctx)
 a_vptr_t a_vector_pop_back(a_vector_s *ctx)
 {
     assert(ctx);
-    return a_likely(ctx->__head != ctx->__tail) ? a_vector_dec_(ctx) : a_null;
+    return a_likely(ctx->__head != ctx->__tail) ? a_vector_dec_(ctx) : 0;
 }
 
 #endif /* __STDC_HOSTED__ */

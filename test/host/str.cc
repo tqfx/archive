@@ -14,10 +14,10 @@ static a_noret_t tests(a_noarg_t)
     a_str_t str = a_str_exit(ctx);
     printf("0x%zX ", reinterpret_cast<size_t>(str));
     a_str_putc_(ctx, 0);
-    a_str_putn_(ctx, a_null, a_zero);
+    a_str_putn_(ctx, a_null, 0);
     a_str_putc(ctx, 0);
     a_str_puts(ctx, "");
-    a_str_putn(ctx, a_null, a_zero);
+    a_str_putn(ctx, a_null, 0);
     str = a_str_val(ctx);
     printf("0x%zX ", reinterpret_cast<size_t>(str));
     a_str_dtor(ctx);
@@ -27,7 +27,7 @@ static a_noret_t testt(a_noarg_t)
 {
     a_str_t str = a_null;
     a_str_s *ctx = a_str_new();
-    a_str_init(ctx, "4321+-/\\", a_zero);
+    a_str_init(ctx, "4321+-/\\", 0);
     a_str_putc(ctx, '-');
     a_str_putc_(ctx, '+');
     a_str_putn(ctx, "12", 1);

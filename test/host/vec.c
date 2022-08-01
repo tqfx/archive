@@ -37,7 +37,7 @@ static a_noret_t test(a_noarg_t)
             *p = i;
         }
     }
-    a_vec_resize(ctx, sizeof(a_u32_t), a_null);
+    a_vec_set(ctx, sizeof(a_u32_t), a_null);
     for (a_u32_t i = 0; i != 20; ++i)
     {
         a_u32_t *p = a_cast(a_u32_t *, a_vec_push(ctx));
@@ -54,7 +54,7 @@ static a_noret_t test(a_noarg_t)
     {
         a_byte_t *end = a_cast(a_byte_t *, a_vec_end(ctx));
         a_byte_t *top = a_cast(a_byte_t *, a_vec_top(ctx));
-        TEST_BUG(a_vec_size(ctx) == a_cast(a_size_t, end - top));
+        TEST_BUG(a_vec_get(ctx) == a_cast(a_size_t, end - top));
     }
 
     a_vec_swap(ctx, 0, 0);
@@ -66,28 +66,28 @@ static a_noret_t test(a_noarg_t)
     a_vec_forenum(i, ctx)
     {
         a_u32_t *it = a_cast(a_u32_t *, a_vec_at(ctx, i));
-        assert(a_vec_size(ctx) == sizeof(*it));
+        assert(a_vec_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vec_forenum_reverse(i, ctx)
     {
         a_u32_t *it = a_cast(a_u32_t *, a_vec_at(ctx, i));
-        assert(a_vec_size(ctx) == sizeof(*it));
+        assert(a_vec_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
 
     a_vec_foreach(a_u32_t, it, ctx)
     {
-        assert(a_vec_size(ctx) == sizeof(*it));
+        assert(a_vec_get(ctx) == sizeof(*it));
         static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vec_foreach");
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vec_foreach_reverse(a_u32_t, it, ctx)
     {
-        assert(a_vec_size(ctx) == sizeof(*it));
+        assert(a_vec_get(ctx) == sizeof(*it));
         static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vec_foreach_reverse");
         printf("%" PRIu32 " ", *it);
     }

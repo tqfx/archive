@@ -24,58 +24,58 @@
 */
 typedef struct a_vec_s
 {
-    a_vptr_t __ptr; /*! vector pointer */
-    a_size_t __size; /*! size of element */
-    a_size_t __number; /*! number of element */
-    a_size_t __capacity; /*! capacity of element */
+    a_vptr_t __ptr; /*! address of vector */
+    a_size_t __num; /*! number of element */
+    a_size_t __mem; /*! memory of element */
+    a_size_t __siz; /*! size of a element */
 } a_vec_s;
 
 /*!
- @brief access vector pointer for a pointer to vector structure
+ @brief access address of vector for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
 A_INLINE a_vptr_t a_vec_ptr(const a_vec_s *ctx) { return ctx->__ptr; }
 
 /*!
- @brief access size of element for a pointer to vector structure
- @param[in] ctx points to an instance of vector structure
-*/
-A_INLINE a_size_t a_vec_size(const a_vec_s *ctx) { return ctx->__size; }
-
-/*!
  @brief access number of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vec_num(const a_vec_s *ctx) { return ctx->__number; }
+A_INLINE a_size_t a_vec_num(const a_vec_s *ctx) { return ctx->__num; }
 
 /*!
- @brief access capacity of element for a pointer to vector structure
+ @brief access memory of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vec_mem(const a_vec_s *ctx) { return ctx->__capacity; }
+A_INLINE a_size_t a_vec_mem(const a_vec_s *ctx) { return ctx->__mem; }
+
+/*!
+ @brief access size of a element for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+*/
+A_INLINE a_size_t a_vec_get(const a_vec_s *ctx) { return ctx->__siz; }
 
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] idx index of element less than capacity
+ @param[in] idx index of element less than memory
  @note need to check for out of bounds
  @return element pointer
 */
 A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx)
 {
-    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__size * idx;
+    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__siz * idx;
 }
 
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] idx index of element less than capacity
+ @param[in] idx index of element less than memory
  @return element pointer
   @retval 0 out of bounds
 */
 A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx)
 {
-    return a_likely(idx < ctx->__capacity) ? a_vec_at_(ctx, idx) : a_null;
+    return a_likely(idx < ctx->__mem) ? a_vec_at_(ctx, idx) : a_null;
 }
 
 /*!
@@ -86,7 +86,7 @@ A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx)
 {
-    return a_cast(a_byte_t *, ctx->__ptr) + (ctx->__number - 1) * ctx->__size;
+    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__siz * (ctx->__num - 1);
 }
 
 /*!
@@ -97,7 +97,7 @@ A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx)
 */
 A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx)
 {
-    return a_likely(ctx->__number != a_zero) ? a_vec_top_(ctx) : a_null;
+    return a_likely(ctx->__num != 0) ? a_vec_top_(ctx) : a_null;
 }
 
 /*!
@@ -108,7 +108,7 @@ A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx)
 */
 A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx)
 {
-    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__number * ctx->__size;
+    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__siz * ctx->__num;
 }
 
 /*!
@@ -173,7 +173,7 @@ A_PUBLIC a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_v
 A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
 
 /*!
- @brief resize the elements in the vector
+ @brief modify size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] size the size of the new element
  @param[in] dtor previous element destructor
@@ -181,17 +181,17 @@ A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_vec_resize(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_int_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
- @brief drop all elements in the vector
+ @brief drop all the elements for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] dtor current element destructor
 */
 A_PUBLIC a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
- @brief swap elements lhs and rhs in the vector
+ @brief swap elements lhs and rhs for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
@@ -287,7 +287,7 @@ A_INLINE a_vptr_t a_vec_pop(a_vec_s *ctx) { return a_vec_pop_back(ctx); }
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vec_forenum(i, ctx) a_forenum(size_t, i, (ctx)->__number)
+#define a_vec_forenum(i, ctx) a_forenum(size_t, i, (ctx)->__num)
 
 /*!
  @brief iterate over a vector in reverse
@@ -301,7 +301,7 @@ A_INLINE a_vptr_t a_vec_pop(a_vec_s *ctx) { return a_vec_pop_back(ctx); }
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vec_forenum_reverse(i, ctx) a_forenum_reverse(size_t, i, (ctx)->__number)
+#define a_vec_forenum_reverse(i, ctx) a_forenum_reverse(size_t, i, (ctx)->__num)
 
 /*!
  @brief iterate over a vector
@@ -315,7 +315,7 @@ A_INLINE a_vptr_t a_vec_pop(a_vec_s *ctx) { return a_vec_pop_back(ctx); }
  @param it the &a_vec_s to use as a loop counter
  @param ctx points to an instance of vector structure
 */
-#define a_vec_foreach(T, it, ctx) a_foreach(T, it, (ctx)->__ptr, (ctx)->__number)
+#define a_vec_foreach(T, it, ctx) a_foreach(T, it, (ctx)->__ptr, (ctx)->__num)
 
 /*!
  @brief iterate over a vector in reverse
@@ -329,7 +329,7 @@ A_INLINE a_vptr_t a_vec_pop(a_vec_s *ctx) { return a_vec_pop_back(ctx); }
  @param it the &a_vec_s to use as a loop counter
  @param ctx points to an instance of vector structure
 */
-#define a_vec_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->__ptr, (ctx)->__number)
+#define a_vec_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->__ptr, (ctx)->__num)
 
 /*! @} A_VEC */
 

@@ -31,22 +31,22 @@ typedef struct a_vector_s
 } a_vector_s;
 
 /*!
- @brief access vector pointer for a pointer to vector structure
+ @brief access vector head pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
 A_INLINE a_vptr_t a_vector_ptr(const a_vector_s *ctx) { return ctx->__head; }
 
 /*!
- @brief access end pointer for a pointer to vector structure
+ @brief access vector tail pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
 A_INLINE a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->__tail; }
 
 /*!
- @brief access size of element for a pointer to vector structure
+ @brief access size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vector_size(const a_vector_s *ctx) { return ctx->__size; }
+A_INLINE a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->__size; }
 
 /*!
  @brief access number of element for a pointer to vector structure
@@ -75,7 +75,7 @@ A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx)
 */
 A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 {
-    return a_cast(a_byte_t *, ctx->__head) + idx * ctx->__size;
+    return a_cast(a_byte_t *, ctx->__head) + ctx->__size * idx;
 }
 
 /*!
@@ -164,7 +164,7 @@ A_PUBLIC a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (
 A_PUBLIC a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
 
 /*!
- @brief resize the elements in the vector
+ @brief modify size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] size the size of the new element
  @param[in] dtor previous element destructor
@@ -172,17 +172,17 @@ A_PUBLIC a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_vector_resize(a_vector_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_int_t a_vector_set(a_vector_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
- @brief drop all elements in the vector
+ @brief drop all the elements for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] dtor current element destructor
 */
 A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
- @brief swap elements lhs and rhs in the vector
+ @brief swap elements lhs and rhs for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right

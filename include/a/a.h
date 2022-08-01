@@ -139,7 +139,6 @@ typedef int a_bool_t;
 
 typedef void a_void_t;
 
-#define a_zero 0
 #if defined(__cplusplus)
 #define a_cast(T, ...) static_cast<T>(__VA_ARGS__)
 #define a_null nullptr

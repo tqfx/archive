@@ -32,9 +32,9 @@ void __vec___die(__type__ *ctx)
 
 void __vec___ctor(__type__ *ctx)
 {
-    ctx->ptr = __null__;
-    ctx->num = __zero__;
-    ctx->mem = __zero__;
+    ctx->ptr = 0;
+    ctx->num = 0;
+    ctx->mem = 0;
 }
 
 void __vec___dtor(__type__ *ctx)
@@ -43,22 +43,22 @@ void __vec___dtor(__type__ *ctx)
     {
         __vec___drop(ctx);
         free(ctx->ptr);
-        ctx->ptr = __null__;
+        ctx->ptr = 0;
     }
-    ctx->mem = __zero__;
+    ctx->mem = 0;
 }
 
 int __vec___copy(__type__ *ctx, const __type__ *obj)
 {
     ctx->ptr = (__T__ *)malloc(sizeof(__T__) * obj->mem);
-    if (ctx->ptr == __null__)
+    if (ctx->ptr == 0)
     {
         return __failure__;
     }
     ctx->num = obj->num;
     ctx->mem = obj->mem;
 #if defined(__dup__)
-    for (size_t idx = __zero__; idx != obj->num; ++idx)
+    for (size_t idx = 0; idx != obj->num; ++idx)
     {
         __dup__(ctx->ptr + idx, obj->ptr + idx);
     }
@@ -71,7 +71,7 @@ int __vec___copy(__type__ *ctx, const __type__ *obj)
 __type__ *__vec___move(__type__ *ctx, __type__ *obj)
 {
     memcpy(ctx, obj, sizeof(__type__));
-    memset(obj, 000, sizeof(__type__));
+    memset(obj, 0, sizeof(__type__));
     return ctx;
 }
 
@@ -84,7 +84,7 @@ void __vec___drop(__type__ *ctx)
         __dtor__(ctx->num);
     }
 #else /* !__dtor__ */
-    ctx->num = __zero__;
+    ctx->num = 0;
 #endif /* __dtor__ */
 }
 
@@ -101,7 +101,7 @@ static int __vec___alloc(__type__ *ctx, size_t num)
             mem += (mem >> 1) + 1;
         } while (mem < num);
         __T__ *ptr = (__T__ *)realloc(ctx->ptr, align(mem));
-        if (ptr == __null__)
+        if (ptr == 0)
         {
             return __failure__;
         }
@@ -139,7 +139,7 @@ __T__ *__vec___insert(__type__ *ctx, size_t idx)
 {
     if (__vec___alloc(ctx, ctx->num))
     {
-        return __null__;
+        return 0;
     }
     if (idx < ctx->num)
     {
@@ -162,7 +162,7 @@ __T__ *__vec___push_back(__type__ *ctx)
 {
     if (__vec___alloc(ctx, ctx->num))
     {
-        return __null__;
+        return 0;
     }
     return __vec___inc_(ctx);
 }
@@ -173,7 +173,7 @@ __T__ *__vec___remove(__type__ *ctx, size_t idx)
     {
         if (__vec___alloc(ctx, ctx->num))
         {
-            return __null__;
+            return 0;
         }
         __T__ *dst = ctx->ptr + idx + 0;
         __T__ *src = ctx->ptr + idx + 1;
@@ -183,7 +183,7 @@ __T__ *__vec___remove(__type__ *ctx, size_t idx)
         --ctx->num;
         return ptr;
     }
-    return ctx->num ? __vec___inc_(ctx) : __null__;
+    return ctx->num ? __vec___inc_(ctx) : 0;
 }
 
 __T__ *__vec___pop_front(__type__ *ctx)
@@ -193,7 +193,7 @@ __T__ *__vec___pop_front(__type__ *ctx)
 
 __T__ *__vec___pop_back(__type__ *ctx)
 {
-    return ctx->num ? __vec___dec_(ctx) : __null__;
+    return ctx->num ? __vec___dec_(ctx) : 0;
 }
 
 #endif /* __STDC_HOSTED__ */

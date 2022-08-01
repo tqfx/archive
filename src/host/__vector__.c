@@ -41,9 +41,9 @@ void __vector___die(__type__ *ctx)
 
 void __vector___ctor(__type__ *ctx)
 {
-    ctx->head = __null__;
-    ctx->tail = __null__;
-    ctx->last = __null__;
+    ctx->head = 0;
+    ctx->tail = 0;
+    ctx->last = 0;
 }
 
 void __vector___dtor(__type__ *ctx)
@@ -52,10 +52,10 @@ void __vector___dtor(__type__ *ctx)
     {
         __vector___drop(ctx);
         free(ctx->head);
-        ctx->head = __null__;
+        ctx->head = 0;
     }
-    ctx->tail = __null__;
-    ctx->last = __null__;
+    ctx->tail = 0;
+    ctx->last = 0;
 }
 
 int __vector___copy(__type__ *ctx, const __type__ *obj)
@@ -63,7 +63,7 @@ int __vector___copy(__type__ *ctx, const __type__ *obj)
     size_t num = __vector___num_(obj);
     size_t mem = __vector___mem_(obj);
     ctx->head = (__T__ *)malloc(sizeof(__T__) * mem);
-    if (ctx->head == __null__)
+    if (ctx->head == 0)
     {
         return __failure__;
     }
@@ -85,7 +85,7 @@ int __vector___copy(__type__ *ctx, const __type__ *obj)
 __type__ *__vector___move(__type__ *ctx, __type__ *obj)
 {
     memcpy(ctx, obj, sizeof(__type__));
-    memset(obj, 000, sizeof(__type__));
+    memset(obj, 0, sizeof(__type__));
     return ctx;
 }
 
@@ -116,7 +116,7 @@ static int __vector___alloc(__type__ *ctx, size_t num)
             mem += (mem >> 1) + 1;
         } while (mem < num);
         __T__ *head = (__T__ *)realloc(ctx->head, align(mem));
-        if (head == __null__)
+        if (head == 0)
         {
             return __failure__;
         }
@@ -153,7 +153,7 @@ __T__ *__vector___insert(__type__ *ctx, size_t idx)
     size_t num = __vector___num_(ctx);
     if (__vector___alloc(ctx, num))
     {
-        return __null__;
+        return 0;
     }
     if (idx < num)
     {
@@ -177,7 +177,7 @@ __T__ *__vector___push_back(__type__ *ctx)
     size_t num = __vector___num_(ctx);
     if (__vector___alloc(ctx, num))
     {
-        return __null__;
+        return 0;
     }
     return __vector___inc_(ctx);
 }
@@ -189,7 +189,7 @@ __T__ *__vector___remove(__type__ *ctx, size_t idx)
     {
         if (__vector___alloc(ctx, num))
         {
-            return __null__;
+            return 0;
         }
         __T__ *ptr = ctx->tail;
         __T__ *dst = ctx->head + idx + 0;
@@ -199,7 +199,7 @@ __T__ *__vector___remove(__type__ *ctx, size_t idx)
         __vector___dec_(ctx);
         return ptr;
     }
-    return ctx->head != ctx->tail ? __vector___inc_(ctx) : __null__;
+    return ctx->head != ctx->tail ? __vector___inc_(ctx) : 0;
 }
 
 __T__ *__vector___pop_front(__type__ *ctx)
@@ -209,7 +209,7 @@ __T__ *__vector___pop_front(__type__ *ctx)
 
 __T__ *__vector___pop_back(__type__ *ctx)
 {
-    return ctx->head != ctx->tail ? __vector___dec_(ctx) : __null__;
+    return ctx->head != ctx->tail ? __vector___dec_(ctx) : 0;
 }
 
 #endif /* __STDC_HOSTED__ */
