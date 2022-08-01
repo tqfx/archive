@@ -30,8 +30,8 @@
 /* has builtin */
 #if defined(__has_builtin)
 #define a_has_builtin(...) __has_builtin(__VA_ARGS__)
-#define a_likely(...) __builtin_expect((__VA_ARGS__), 1)
-#define a_unlikely(...) __builtin_expect((__VA_ARGS__), 0)
+#define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
+#define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
 #else /* !__has_builtin */
 #define a_has_builtin(...) 0
 #define a_likely(...) (__VA_ARGS__)

@@ -97,7 +97,7 @@ A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx)
 */
 A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx)
 {
-    return a_likely(ctx->__num != 0) ? a_vec_top_(ctx) : a_null;
+    return a_likely(ctx->__num) ? a_vec_top_(ctx) : a_null;
 }
 
 /*!
@@ -119,7 +119,7 @@ A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx)
 */
 A_INLINE a_vptr_t a_vec_end(const a_vec_s *ctx)
 {
-    return a_likely(ctx->__ptr != a_null) ? a_vec_end_(ctx) : a_null;
+    return a_likely(ctx->__ptr) ? a_vec_end_(ctx) : a_null;
 }
 
 #if defined(__cplusplus)
