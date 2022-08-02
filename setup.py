@@ -107,14 +107,14 @@ ext_modules = [
         name="liba",
         language="c",
         sources=source_c,
-        include_dirs=["include", "build"],
+        include_dirs=["include"],
         define_macros=define_macros,
     ),
     Extension(
         name="libaa",
         language="c++",
         sources=source_cc,
-        include_dirs=["include", "build"],
+        include_dirs=["include"],
         define_macros=define_macros,
     ),
 ]
