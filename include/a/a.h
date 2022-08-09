@@ -24,7 +24,7 @@
 
 #if defined(__MINGW32__)
 #undef __USE_MINGW_ANSI_STDIO
-#define __USE_MINGW_ANSI_STDIO
+#define __USE_MINGW_ANSI_STDIO 1
 #endif /* __MINGW32__ */
 
 /* has builtin */
