@@ -260,9 +260,9 @@ typedef float a_real_t;
 #define A_REAL_F(F, ...) F##f(__VA_ARGS__)
 
 /*! @brief Format constants for the fprintf family of functions */
-#define A_REAL_PRI(F, ...) "%" F __VA_ARGS__
+#define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
-#define A_REAL_SCN(F, ...) "%" F __VA_ARGS__
+#define A_REAL_SCN(_, ...) "%" _ __VA_ARGS__
 
 #elif A_REAL_BITS == 64
 
@@ -281,9 +281,9 @@ typedef double a_real_t;
 #define A_REAL_F(F, ...) F(__VA_ARGS__)
 
 /*! @brief Format constants for the fprintf family of functions */
-#define A_REAL_PRI(F, ...) "%" F __VA_ARGS__
+#define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
-#define A_REAL_SCN(F, ...) "%" F "l" __VA_ARGS__
+#define A_REAL_SCN(_, ...) "%" _ "l" __VA_ARGS__
 
 #elif A_REAL_BITS == 128
 
@@ -302,9 +302,9 @@ typedef long double a_real_t;
 #define A_REAL_F(F, ...) F##l(__VA_ARGS__)
 
 /*! @brief Format constants for the fprintf family of functions */
-#define A_REAL_PRI(F, ...) "%" F "L" __VA_ARGS__
+#define A_REAL_PRI(_, ...) "%" _ "L" __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
-#define A_REAL_SCN(F, ...) "%" F "L" __VA_ARGS__
+#define A_REAL_SCN(_, ...) "%" _ "L" __VA_ARGS__
 
 #endif /* A_REAL_BITS */
 
@@ -343,6 +343,7 @@ typedef long double a_real_t;
  @param n final value of the iteration
 */
 #define a_forenum(I, i, n) for (I i = 0; i != (n); ++i)
+
 /*!
  @brief iterate from n to 0 and not include n
  @param I index type of the iteration
@@ -358,10 +359,11 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach(T, it, ptr, num)                                \
-    for (T *it = a_cast(T *, ptr),                                \
-           *it##_ = a_likely(it != a_null) ? it + (num) : a_null; \
+#define a_foreach(T, it, ptr, num)                      \
+    for (T *it = a_cast(T *, ptr),                      \
+           *it##_ = a_likely(it) ? it + (num) : a_null; \
          it != it##_; ++it)
+
 /*!
  @brief iterate over an array in reverse
  @param T the element type in this array
@@ -369,9 +371,9 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach_reverse(T, it, ptr, num)                                     \
-    for (T *it##_ = a_likely((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
-           *it = a_likely((ptr) != a_null) ? it##_ + (num) : a_null;           \
+#define a_foreach_reverse(T, it, ptr, num)                         \
+    for (T *it##_ = a_likely(ptr) ? a_cast(T *, ptr) - 1 : a_null, \
+           *it = a_likely(ptr) ? it##_ + (num) : a_null;           \
          it != it##_; --it)
 
 /*!
@@ -391,9 +393,9 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param end the end address of this array
 */
-#define a_iterate_reverse(T, it, ptr, end)                                     \
-    for (T *it##_ = a_likely((ptr) != a_null) ? a_cast(T *, ptr) - 1 : a_null, \
-           *it = a_likely((end) != a_null) ? a_cast(T *, end) - 1 : a_null;    \
+#define a_iterate_reverse(T, it, ptr, end)                         \
+    for (T *it##_ = a_likely(ptr) ? a_cast(T *, ptr) - 1 : a_null, \
+           *it = a_likely(end) ? a_cast(T *, end) - 1 : a_null;    \
          it != it##_; --it)
 
 /*!
