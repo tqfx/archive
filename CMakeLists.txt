@@ -240,11 +240,10 @@ if(DOXYGEN_FOUND)
     "__STDC_VERSION__=201112L"
     "__cplusplus=201703L"
     "__STDC_HOSTED__=1"
-    "A_RESTRICT:="
+    "A_INLINE_FORCE:="
     "A_INLINE:="
     "A_PUBLIC:="
     "A_HIDDEN:="
-    "A_ASM:="
   )
 
   # Configuration options related to external references
