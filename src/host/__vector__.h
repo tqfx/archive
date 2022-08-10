@@ -94,12 +94,16 @@ __public__ __T__ *__vector___pop_back(__type__ *ctx);
 
 __inline__ __T__ *__vector___push(__type__ *ctx)
 {
-    return __vector___push_back(ctx);
+    __T__ *obj = __vector___push_back(ctx);
+
+    return obj;
 }
 
 __inline__ __T__ *__vector___pop(__type__ *ctx)
 {
-    return __vector___pop_back(ctx);
+    __T__ *obj = __vector___pop_back(ctx);
+
+    return obj;
 }
 
 #endif /* __STDC_HOSTED__ */
