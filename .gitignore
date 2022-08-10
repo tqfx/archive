@@ -57,6 +57,8 @@ dist/
 
 # Visual Studio Code
 .vscode
+
+# clangd
 .cache
 
 # CMake
@@ -65,7 +67,7 @@ install[_-]*
 build[_-]*
 
 # Xmake
-.xmake/
+.xmake
 
 # Rust
 Cargo.lock
