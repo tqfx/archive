@@ -137,7 +137,7 @@ static void test(void)
         }
         for (__T__ i = 0; i != 5; ++i)
         {
-            __T__ *p = __vector___push_front(ctx);
+            __T__ *p = __vector___push_fore(ctx);
             if (p)
             {
                 *p = i;
@@ -145,7 +145,7 @@ static void test(void)
         }
         for (__T__ i = 0; i != 5; ++i)
         {
-            __T__ *p = __vector___pop_front(ctx);
+            __T__ *p = __vector___pop_fore(ctx);
             if (p)
             {
                 printf("%zu ", *p);

@@ -76,13 +76,13 @@ __public__ int __vec___swap(__type__ *ctx, size_t lhs, size_t rhs);
 
 __public__ __T__ *__vec___insert(__type__ *ctx, size_t idx);
 
-__public__ __T__ *__vec___push_front(__type__ *ctx);
+__public__ __T__ *__vec___push_fore(__type__ *ctx);
 
 __public__ __T__ *__vec___push_back(__type__ *ctx);
 
 __public__ __T__ *__vec___remove(__type__ *ctx, size_t idx);
 
-__public__ __T__ *__vec___pop_front(__type__ *ctx);
+__public__ __T__ *__vec___pop_fore(__type__ *ctx);
 
 __public__ __T__ *__vec___pop_back(__type__ *ctx);
 

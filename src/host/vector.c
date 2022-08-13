@@ -213,7 +213,7 @@ a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx)
     return a_vector_inc_(ctx);
 }
 
-a_vptr_t a_vector_push_front(a_vector_s *ctx)
+a_vptr_t a_vector_push_fore(a_vector_s *ctx)
 {
     assert(ctx);
     return a_vector_insert(ctx, 0);
@@ -252,7 +252,7 @@ a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx)
     return a_likely(ctx->__head != ctx->__tail) ? a_vector_dec_(ctx) : 0;
 }
 
-a_vptr_t a_vector_pop_front(a_vector_s *ctx)
+a_vptr_t a_vector_pop_fore(a_vector_s *ctx)
 {
     assert(ctx);
     return a_vector_remove(ctx, 0);

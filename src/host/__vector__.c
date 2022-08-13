@@ -167,7 +167,7 @@ __T__ *__vector___insert(__type__ *ctx, size_t idx)
     return __vector___inc_(ctx);
 }
 
-__T__ *__vector___push_front(__type__ *ctx)
+__T__ *__vector___push_fore(__type__ *ctx)
 {
     return __vector___insert(ctx, 0);
 }
@@ -202,7 +202,7 @@ __T__ *__vector___remove(__type__ *ctx, size_t idx)
     return ctx->head != ctx->tail ? __vector___inc_(ctx) : 0;
 }
 
-__T__ *__vector___pop_front(__type__ *ctx)
+__T__ *__vector___pop_fore(__type__ *ctx)
 {
     return __vector___remove(ctx, 0);
 }

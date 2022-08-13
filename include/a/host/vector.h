@@ -196,7 +196,7 @@ A_PUBLIC a_int_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
  @brief insert an element into the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element in this vector
-  @arg 0 @ref a_vector_push_front
+  @arg 0 @ref a_vector_push_fore
   @arg n @ref a_vector_push_back
  @return element pointer
   @retval 0 failure
@@ -209,7 +209,7 @@ A_PUBLIC a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_push_front(a_vector_s *ctx);
+A_PUBLIC a_vptr_t a_vector_push_fore(a_vector_s *ctx);
 
 /*!
  @brief push an element into the vector backward
@@ -223,7 +223,7 @@ A_PUBLIC a_vptr_t a_vector_push_back(a_vector_s *ctx);
  @brief remove an element from the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element in this vector
-  @arg 0 @ref a_vector_pop_front
+  @arg 0 @ref a_vector_pop_fore
   @arg n @ref a_vector_pop_back
  @return element pointer
   @retval 0 failure
@@ -236,7 +236,7 @@ A_PUBLIC a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_pop_front(a_vector_s *ctx);
+A_PUBLIC a_vptr_t a_vector_pop_fore(a_vector_s *ctx);
 
 /*!
  @brief pop an element from the vector backward

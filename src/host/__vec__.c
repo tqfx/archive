@@ -153,7 +153,7 @@ __T__ *__vec___insert(__type__ *ctx, size_t idx)
     return __vec___inc_(ctx);
 }
 
-__T__ *__vec___push_front(__type__ *ctx)
+__T__ *__vec___push_fore(__type__ *ctx)
 {
     return __vec___insert(ctx, 0);
 }
@@ -186,7 +186,7 @@ __T__ *__vec___remove(__type__ *ctx, size_t idx)
     return ctx->num ? __vec___inc_(ctx) : 0;
 }
 
-__T__ *__vec___pop_front(__type__ *ctx)
+__T__ *__vec___pop_fore(__type__ *ctx)
 {
     return __vec___remove(ctx, 0);
 }

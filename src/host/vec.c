@@ -199,7 +199,7 @@ a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)
     return a_vec_inc_(ctx);
 }
 
-a_vptr_t a_vec_push_front(a_vec_s *ctx)
+a_vptr_t a_vec_push_fore(a_vec_s *ctx)
 {
     assert(ctx);
     return a_vec_insert(ctx, 0);
@@ -235,7 +235,7 @@ a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
     return a_likely(ctx->__num) ? a_vec_dec_(ctx) : 0;
 }
 
-a_vptr_t a_vec_pop_front(a_vec_s *ctx)
+a_vptr_t a_vec_pop_fore(a_vec_s *ctx)
 {
     assert(ctx);
     return a_vec_remove(ctx, 0);
