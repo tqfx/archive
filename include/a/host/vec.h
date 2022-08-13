@@ -232,28 +232,28 @@ A_PUBLIC a_vptr_t a_vec_push_back(a_vec_s *ctx);
  @brief remove an element from the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element in this vector
-  @arg 0 @ref a_vec_pop_fore
-  @arg n @ref a_vec_pop_back
+  @arg 0 @ref a_vec_pull_fore
+  @arg n @ref a_vec_pull_back
  @return element pointer
   @retval 0 failure
 */
 A_PUBLIC a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx);
 
 /*!
- @brief pop an element from the vector forward
+ @brief pull an element from the vector forward
  @param[in] ctx points to an instance of vector structure
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vec_pop_fore(a_vec_s *ctx);
+A_PUBLIC a_vptr_t a_vec_pull_fore(a_vec_s *ctx);
 
 /*!
- @brief pop an element from the vector backward
+ @brief pull an element from the vector backward
  @param[in] ctx points to an instance of vector structure
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vec_pop_back(a_vec_s *ctx);
+A_PUBLIC a_vptr_t a_vec_pull_back(a_vec_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */
@@ -268,12 +268,12 @@ A_PUBLIC a_vptr_t a_vec_pop_back(a_vec_s *ctx);
 A_INLINE a_vptr_t a_vec_push(a_vec_s *ctx) { return a_vec_push_back(ctx); }
 
 /*!
- @brief pop an element from the vector
+ @brief pull an element from the vector
  @param[in] ctx points to an instance of vector structure
  @return element pointer
   @retval 0 failure
 */
-A_INLINE a_vptr_t a_vec_pop(a_vec_s *ctx) { return a_vec_pop_back(ctx); }
+A_INLINE a_vptr_t a_vec_pull(a_vec_s *ctx) { return a_vec_pull_back(ctx); }
 
 /*!
  @brief iterate over a vector

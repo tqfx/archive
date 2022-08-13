@@ -12,14 +12,14 @@ static a_noret_t tests(a_noarg_t)
 {
     a_str_s ctx[1] = {A_STR_NIL};
     a_str_t str = a_str_exit(ctx);
-    printf("0x%zX ", reinterpret_cast<size_t>(str));
+    printf("0x%zX ", reinterpret_cast<a_uptr_t>(str));
     a_str_putc_(ctx, 0);
     a_str_putn_(ctx, a_null, 0);
     a_str_putc(ctx, 0);
     a_str_puts(ctx, "");
     a_str_putn(ctx, a_null, 0);
     str = a_str_val(ctx);
-    printf("0x%zX ", reinterpret_cast<size_t>(str));
+    printf("0x%zX ", reinterpret_cast<a_uptr_t>(str));
     a_str_dtor(ctx);
 }
 

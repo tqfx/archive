@@ -94,8 +94,8 @@ a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj)
 {
     assert(ctx);
     assert(obj);
-    memcpy(ctx, obj, sizeof(a_str_s));
-    memset(obj, 0, sizeof(a_str_s));
+    memcpy(ctx, obj, sizeof(*obj));
+    memset(obj, 0, sizeof(*obj));
     return ctx;
 }
 
@@ -134,7 +134,7 @@ a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
     return lhs->__num < rhs->__num ? -1 : 1;
 }
 
-a_int_t a_str_resize_(a_str_s *ctx, a_size_t mem)
+a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 {
     assert(ctx);
     a_str_t str = (a_str_t)realloc(ctx->__str, roundup32(mem));
@@ -147,16 +147,16 @@ a_int_t a_str_resize_(a_str_s *ctx, a_size_t mem)
     return A_SUCCESS;
 }
 
-a_int_t a_str_resize(a_str_s *ctx, a_size_t mem)
+a_int_t a_str_alloc(a_str_s *ctx, a_size_t mem)
 {
     assert(ctx);
-    return ctx->__mem < mem ? a_str_resize_(ctx, mem) : A_SUCCESS;
+    return ctx->__mem < mem ? a_str_alloc_(ctx, mem) : A_SUCCESS;
 }
 
 a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 {
     assert(ctx);
-    if (a_unlikely(a_str_resize(ctx, ctx->__num + 1)))
+    if (a_unlikely(a_str_alloc(ctx, ctx->__num + 1)))
     {
         return EOF;
     }
@@ -167,11 +167,7 @@ a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 a_int_t a_str_putc(a_str_s *ctx, a_int_t c)
 {
     assert(ctx);
-    if (a_unlikely(c == 0))
-    {
-        return a_str_putc_(ctx, c);
-    }
-    if (a_unlikely(a_str_resize(ctx, ctx->__num + 2)))
+    if (a_unlikely(a_str_alloc(ctx, ctx->__num + 2)))
     {
         return EOF;
     }
@@ -185,7 +181,7 @@ a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     assert(ctx);
     if (pdata && nbyte)
     {
-        if (a_unlikely(a_str_resize(ctx, ctx->__num + nbyte)))
+        if (a_unlikely(a_str_alloc(ctx, ctx->__num + nbyte)))
         {
             return A_FAILURE;
         }
@@ -200,7 +196,7 @@ a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     assert(ctx);
     if (pdata)
     {
-        if (a_unlikely(a_str_resize(ctx, ctx->__num + nbyte + 1)))
+        if (a_unlikely(a_str_alloc(ctx, ctx->__num + nbyte + 1)))
         {
             return A_FAILURE;
         }
@@ -232,21 +228,26 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
 {
     assert(ctx);
     assert(fmt);
+    a_size_t siz;
+    a_size_t mem;
+    a_str_t str;
+    a_int_t num;
     va_list ap;
     va_copy(ap, va);
-    a_str_t str = ctx->__str ? ctx->__str + ctx->__num : 0;
-    a_int_t num = vsnprintf(str, ctx->__mem - ctx->__num, fmt, ap);
+    mem = ctx->__mem - ctx->__num;
+    str = ctx->__str ? ctx->__str + ctx->__num : 0;
+    num = vsnprintf(str, mem, fmt, ap);
     va_end(ap);
-    a_size_t size = (a_size_t)num + 1;
-    if (ctx->__mem - ctx->__num < size)
+    if ((void)(siz = (a_size_t)num + 1), siz > mem)
     {
-        if (a_unlikely(a_str_resize_(ctx, ctx->__num + size)))
+        if (a_unlikely(a_str_alloc_(ctx, ctx->__num + siz)))
         {
             return EOF;
         }
         va_copy(ap, va);
+        mem = ctx->__mem - ctx->__num;
         str = ctx->__str + ctx->__num;
-        num = vsnprintf(str, ctx->__mem - ctx->__num, fmt, ap);
+        num = vsnprintf(str, mem, fmt, ap);
         va_end(ap);
     }
     ctx->__num += (a_size_t)num;
@@ -257,10 +258,10 @@ a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...)
 {
     assert(ctx);
     assert(fmt);
-    va_list ap;
-    va_start(ap, fmt);
-    a_int_t num = a_str_vprintf(ctx, fmt, ap);
-    va_end(ap);
+    va_list va;
+    va_start(va, fmt);
+    a_int_t num = a_str_vprintf(ctx, fmt, va);
+    va_end(va);
     return num;
 }
 

@@ -96,8 +96,8 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
 {
     assert(ctx);
     assert(obj);
-    memcpy(ctx, obj, sizeof(a_vec_s));
-    memset(obj, 0, sizeof(a_vec_s));
+    memcpy(ctx, obj, sizeof(*obj));
+    memset(obj, 0, sizeof(*obj));
     return ctx;
 }
 
@@ -235,13 +235,13 @@ a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
     return a_likely(ctx->__num) ? a_vec_dec_(ctx) : 0;
 }
 
-a_vptr_t a_vec_pop_fore(a_vec_s *ctx)
+a_vptr_t a_vec_pull_fore(a_vec_s *ctx)
 {
     assert(ctx);
     return a_vec_remove(ctx, 0);
 }
 
-a_vptr_t a_vec_pop_back(a_vec_s *ctx)
+a_vptr_t a_vec_pull_back(a_vec_s *ctx)
 {
     assert(ctx);
     return a_likely(ctx->__num) ? a_vec_dec_(ctx) : 0;

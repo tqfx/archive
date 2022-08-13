@@ -134,21 +134,21 @@ A_PUBLIC a_str_t a_str_exit(a_str_s *ctx);
 A_PUBLIC a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs);
 
 /*!
- @brief resize memory for a pointer to string structure
+ @brief allocate memory for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] mem length of real memory
  @return the execution state of the function
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_str_resize(a_str_s *ctx, a_size_t mem);
-A_PUBLIC a_int_t a_str_resize_(a_str_s *ctx, a_size_t mem);
+A_PUBLIC a_int_t a_str_alloc(a_str_s *ctx, a_size_t mem);
+A_PUBLIC a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem);
 
 /*!
  @brief put character to an instance of string structure
  @param[in] ctx points to an instance of string structure
- @param[in] c character
- @return character
+ @param[in] c character to be printed
+ @return printed character
   @retval EOF failure
 */
 A_PUBLIC a_int_t a_str_putc(a_str_s *ctx, a_int_t c);
@@ -194,7 +194,7 @@ A_PUBLIC a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj);
  @return number of printed characters
   @retval EOF failure
 */
-A_PUBLIC a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va) __attribute__((__format__(__printf__, 2, 0)));
+A_PUBLIC a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va) __attribute__((format(printf, 2, 0)));
 
 /*!
  @brief print string to a pointer to string structure
@@ -203,7 +203,7 @@ A_PUBLIC a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va) __attribu
  @return number of printed characters
   @retval EOF failure
 */
-A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) __attribute__((__format__(__printf__, 2, 3)));
+A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) __attribute__((format(printf, 2, 3)));
 
 #if defined(__cplusplus)
 } /* extern "C" */

@@ -16,7 +16,7 @@ A_INLINE a_noret_t a_list_replace_(a_list_s *head1, a_list_s *tail1, a_list_s *h
 }
 A_INLINE a_noret_t a_list_replace_node(a_list_s *lold, a_list_s *lnew)
 {
-    (lold != lnew) ? a_list_replace_(lold, lold, lnew, lnew) : (void)0;
+    (lold != lnew) ? a_list_replace_(lold, lold, lnew, lnew) : (void)(0);
 }
 
 A_INLINE a_noret_t a_list_swap_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)

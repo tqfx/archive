@@ -53,12 +53,10 @@ function(unit_test source target)
   add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${ARGN})
 endfunction()
 
-unit_test(for.c for)
-unit_test(for.cc for+)
+unit_test(for.cc for)
 
-unit_test(version.c version)
-unit_test(version.cc version+)
-unit_test(version.cpp version++)
+unit_test(version.cc version)
+unit_test(version.cpp version+)
 
 unit_test(real.c real)
 unit_test(math.c math)

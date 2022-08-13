@@ -46,7 +46,7 @@ static a_noret_t test(a_noarg_t)
     }
     for (a_u32_t i = 0; i != 10; ++i)
     {
-        a_vector_pop(ctx);
+        a_vector_pull(ctx);
     }
 
     {
@@ -162,7 +162,7 @@ static a_noret_t test(a_noarg_t)
         }
         for (a_u32_t i = 5; i != 10; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vector_pop_back(ctx));
+            a_u32_t *p = a_cast(a_u32_t *, a_vector_pull_back(ctx));
             if (p)
             {
                 printf("%" PRIu32 " ", *p);
@@ -178,7 +178,7 @@ static a_noret_t test(a_noarg_t)
         }
         for (a_u32_t i = 0; i != 5; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vector_pop_fore(ctx));
+            a_u32_t *p = a_cast(a_u32_t *, a_vector_pull_fore(ctx));
             if (p)
             {
                 printf("%" PRIu32 " ", *p);
