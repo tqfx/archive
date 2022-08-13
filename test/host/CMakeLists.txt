@@ -5,3 +5,5 @@ unit_test(vec.cc vec)
 unit_test(vector.cc vector)
 
 unit_test(vectors.cc vectors)
+
+unit_test(que.cc que)
