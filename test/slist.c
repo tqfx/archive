@@ -47,27 +47,27 @@ done:
 
 static a_noret_t test(a_noarg_t)
 {
-    a_slist_s *list1 = a_cast(a_slist_s *, malloc(sizeof(a_slist_s)));
+    a_slist_s *list1 = (a_slist_s *)malloc(sizeof(a_slist_s));
     a_slist_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_slist_add_tail(list1, node->list);
     }
-    a_slist_s *list2 = a_cast(a_slist_s *, malloc(sizeof(a_slist_s)));
+    a_slist_s *list2 = (a_slist_s *)malloc(sizeof(a_slist_s));
     a_slist_ctor(list2);
     for (a_int_t i = 14; i != 9; --i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_slist_add_head(list2, node->list);
     }
-    a_slist_s *list3 = a_cast(a_slist_s *, malloc(sizeof(a_slist_s)));
+    a_slist_s *list3 = (a_slist_s *)malloc(sizeof(a_slist_s));
     a_slist_ctor(list3);
     for (a_int_t i = 15; i != 20; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_slist_add(list3, list3->tail, node->list);
     }

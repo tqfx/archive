@@ -23,15 +23,15 @@
  @param func function symbol
  @param ctor constructor
 */
-#define A_OOP_NEW(type, func, ctor)                       \
-    type *func(a_noarg_t)                                 \
-    {                                                     \
-        type *ctx = a_cast(type *, malloc(sizeof(type))); \
-        if (ctx)                                          \
-        {                                                 \
-            ctor(ctx);                                    \
-        }                                                 \
-        return ctx;                                       \
+#define A_OOP_NEW(type, func, ctor)               \
+    type *func(a_noarg_t)                         \
+    {                                             \
+        type *ctx = (type *)malloc(sizeof(type)); \
+        if (ctx)                                  \
+        {                                         \
+            ctor(ctx);                            \
+        }                                         \
+        return ctx;                               \
     }
 
 /*!
@@ -47,15 +47,15 @@
  @param args macro for declaring parameters
  @param ... declared parameter variable name
 */
-#define A_OOP_NEW_VA(type, func, ctor, args, ...)         \
-    type *func(args)                                      \
-    {                                                     \
-        type *ctx = a_cast(type *, malloc(sizeof(type))); \
-        if (ctx)                                          \
-        {                                                 \
-            ctor(ctx, __VA_ARGS__);                       \
-        }                                                 \
-        return ctx;                                       \
+#define A_OOP_NEW_VA(type, func, ctor, args, ...) \
+    type *func(args)                              \
+    {                                             \
+        type *ctx = (type *)malloc(sizeof(type)); \
+        if (ctx)                                  \
+        {                                         \
+            ctor(ctx, __VA_ARGS__);               \
+        }                                         \
+        return ctx;                               \
     }
 
 /*!

@@ -13,14 +13,14 @@
 
 static a_noret_t dtor(a_vptr_t ptr)
 {
-    a_u32_t *p = a_cast(a_u32_t *, ptr);
+    a_u32_t *p = static_cast<a_u32_t *>(ptr);
     printf("%" PRIu32 " ", *p);
 }
 
 static a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
 {
-    *a_cast(a_u32_t *, dst) = *a_cast(const a_u32_t *, src);
-    printf("%" PRIu32 " ", *a_cast(const a_u32_t *, src));
+    *static_cast<a_u32_t *>(dst) = *static_cast<const a_u32_t *>(src);
+    printf("%" PRIu32 " ", *static_cast<const a_u32_t *>(src));
     return 0;
 }
 
@@ -31,7 +31,7 @@ static a_noret_t test(a_noarg_t)
     a_vec_foreach_reverse(a_u64_t, it, ctx);
     for (a_u64_t i = 0; i != 10; ++i)
     {
-        a_u64_t *p = a_cast(a_u64_t *, a_vec_push(ctx));
+        a_u64_t *p = static_cast<a_u64_t *>(a_vec_push(ctx));
         if (p)
         {
             *p = i;
@@ -40,7 +40,7 @@ static a_noret_t test(a_noarg_t)
     a_vec_set(ctx, sizeof(a_u32_t), a_null);
     for (a_u32_t i = 0; i != 20; ++i)
     {
-        a_u32_t *p = a_cast(a_u32_t *, a_vec_push(ctx));
+        a_u32_t *p = static_cast<a_u32_t *>(a_vec_push(ctx));
         if (p)
         {
             *p = i;
@@ -52,9 +52,9 @@ static a_noret_t test(a_noarg_t)
     }
 
     {
-        a_byte_t *end = a_cast(a_byte_t *, a_vec_end(ctx));
-        a_byte_t *top = a_cast(a_byte_t *, a_vec_top(ctx));
-        TEST_BUG(a_vec_get(ctx) == a_cast(a_size_t, end - top));
+        a_byte_t *end = static_cast<a_byte_t *>(a_vec_end(ctx));
+        a_byte_t *top = static_cast<a_byte_t *>(a_vec_top(ctx));
+        TEST_BUG(a_vec_get(ctx) == static_cast<a_size_t>(end - top));
     }
 
     a_vec_swap(ctx, 0, 0);
@@ -65,14 +65,14 @@ static a_noret_t test(a_noarg_t)
 
     a_vec_forenum(i, ctx)
     {
-        a_u32_t *it = a_cast(a_u32_t *, a_vec_at(ctx, i));
+        a_u32_t *it = static_cast<a_u32_t *>(a_vec_at(ctx, i));
         assert(a_vec_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vec_forenum_reverse(i, ctx)
     {
-        a_u32_t *it = a_cast(a_u32_t *, a_vec_at(ctx, i));
+        a_u32_t *it = static_cast<a_u32_t *>(a_vec_at(ctx, i));
         assert(a_vec_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
@@ -108,7 +108,7 @@ static a_noret_t test(a_noarg_t)
         ctx = a_vec_new(sizeof(a_u32_t));
         for (a_u32_t i = 5; i != 10; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_insert(ctx, i));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_insert(ctx, i));
             if (p)
             {
                 *p = i;
@@ -116,7 +116,7 @@ static a_noret_t test(a_noarg_t)
         }
         for (a_u32_t i = 0; i != 5; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_insert(ctx, i));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_insert(ctx, i));
             if (p)
             {
                 *p = i;
@@ -129,7 +129,7 @@ static a_noret_t test(a_noarg_t)
         putchar('\n');
         for (a_u32_t i = 0; i != 5; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_remove(ctx, i));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_remove(ctx, i));
             if (p)
             {
                 printf("%" PRIu32 " ", *p);
@@ -137,7 +137,7 @@ static a_noret_t test(a_noarg_t)
         }
         for (a_u32_t i = 0; i != 5; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_remove(ctx, 0));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_remove(ctx, 0));
             if (p)
             {
                 printf("%" PRIu32 " ", *p);
@@ -150,7 +150,7 @@ static a_noret_t test(a_noarg_t)
         ctx = a_vec_new(sizeof(a_u32_t));
         for (a_u32_t i = 5; i != 10; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_push_back(ctx));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_push_back(ctx));
             if (p)
             {
                 *p = i;
@@ -158,7 +158,7 @@ static a_noret_t test(a_noarg_t)
         }
         for (a_u32_t i = 5; i != 10; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_pull_back(ctx));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_pull_back(ctx));
             if (p)
             {
                 printf("%" PRIu32 " ", *p);
@@ -166,7 +166,7 @@ static a_noret_t test(a_noarg_t)
         }
         for (a_u32_t i = 0; i != 5; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_push_fore(ctx));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_push_fore(ctx));
             if (p)
             {
                 *p = i;
@@ -174,7 +174,7 @@ static a_noret_t test(a_noarg_t)
         }
         for (a_u32_t i = 0; i != 5; ++i)
         {
-            a_u32_t *p = a_cast(a_u32_t *, a_vec_pull_fore(ctx));
+            a_u32_t *p = static_cast<a_u32_t *>(a_vec_pull_fore(ctx));
             if (p)
             {
                 printf("%" PRIu32 " ", *p);

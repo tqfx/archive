@@ -11,12 +11,12 @@
 
 static a_noret_t test(a_size_t n)
 {
-    a_int_t *p = a_cast(a_int_t *, malloc(sizeof(a_int_t) * n));
+    a_int_t *p = static_cast<a_int_t *>(malloc(sizeof(a_int_t) * n));
     a_int_t *d = p + n;
 
     a_forenum(a_size_t, i, n)
     {
-        p[i] = a_cast(a_int_t, i);
+        p[i] = static_cast<a_int_t>(i);
         printf("%zu ", i);
     }
     putchar('\n');
@@ -33,7 +33,7 @@ static a_noret_t test(a_size_t n)
 
     a_forenum_reverse(a_size_t, i, n)
     {
-        p[i] = a_cast(a_int_t, i);
+        p[i] = static_cast<a_int_t>(i);
         printf("%zu ", i);
     }
     putchar('\n');

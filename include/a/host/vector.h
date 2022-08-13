@@ -54,7 +54,11 @@ A_INLINE a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->__size; }
 */
 A_INLINE a_size_t a_vector_num(const a_vector_s *ctx)
 {
-    return a_cast(a_size_t, a_cast(a_byte_t *, ctx->__tail) - a_cast(a_byte_t *, ctx->__head)) / ctx->__size;
+#if !defined __cplusplus
+    return (a_size_t)((a_byte_t *)ctx->__tail - (a_byte_t *)ctx->__head) / ctx->__size;
+#else /* !__cplusplus */
+    return static_cast<a_size_t>(static_cast<a_byte_t *>(ctx->__tail) - static_cast<a_byte_t *>(ctx->__head)) / ctx->__size;
+#endif /* __cplusplus */
 }
 
 /*!
@@ -63,7 +67,11 @@ A_INLINE a_size_t a_vector_num(const a_vector_s *ctx)
 */
 A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx)
 {
-    return a_cast(a_size_t, a_cast(a_byte_t *, ctx->__last) - a_cast(a_byte_t *, ctx->__head)) / ctx->__size;
+#if !defined __cplusplus
+    return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head) / ctx->__size;
+#else /* !__cplusplus */
+    return static_cast<a_size_t>(static_cast<a_byte_t *>(ctx->__last) - static_cast<a_byte_t *>(ctx->__head)) / ctx->__size;
+#endif /* __cplusplus */
 }
 
 /*!
@@ -75,7 +83,11 @@ A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx)
 */
 A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 {
-    return a_cast(a_byte_t *, ctx->__head) + ctx->__size * idx;
+#if !defined __cplusplus
+    return (a_byte_t *)ctx->__head + ctx->__size * idx;
+#else /* !__cplusplus */
+    return static_cast<a_byte_t *>(ctx->__head) + ctx->__size * idx;
+#endif /* __cplusplus */
 }
 
 /*!
@@ -99,7 +111,11 @@ A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
 {
-    return a_cast(a_byte_t *, ctx->__tail) - ctx->__size;
+#if !defined __cplusplus
+    return (a_byte_t *)ctx->__tail - ctx->__size;
+#else /* !__cplusplus */
+    return static_cast<a_byte_t *>(ctx->__tail) - ctx->__size;
+#endif /* __cplusplus */
 }
 
 /*!

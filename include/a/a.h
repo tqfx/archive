@@ -140,11 +140,9 @@ typedef int a_bool_t;
 typedef void a_void_t;
 
 #if defined(__cplusplus)
-#define a_cast(T, ...) static_cast<T>(__VA_ARGS__)
 #define a_null nullptr
 #define a_noarg_t
 #else /* !__cplusplus */
-#define a_cast(T, ...) (T)(__VA_ARGS__)
 #define a_null NULL
 #define a_noarg_t a_void_t
 #endif /* __cplusplus */
@@ -324,8 +322,10 @@ typedef long double a_real_t;
 */
 #if defined(offsetof)
 #define a_offsetof(type, member) offsetof(type, member)
+#elif !defined(__cplusplus)
+#define a_offsetof(type, member) (a_size_t)(&((type *)0)->member)
 #else /* !offsetof */
-#define a_offsetof(type, member) (size_t)(&(((type *)0)->member))
+#define a_offsetof(type, member) reinterpret_cast<a_size_t>(&reinterpret_cast<type *>(0)->member)
 #endif /* offsetof */
 
 /*!
@@ -334,7 +334,11 @@ typedef long double a_real_t;
  @param type structure type
  @param member member variable
 */
-#define a_container_of(ptr, type, member) ((type *)((size_t)(ptr)-a_offsetof(type, member)))
+#if !defined __cplusplus
+#define a_container_of(ptr, type, member) ((type *)((a_size_t)(ptr)-a_offsetof(type, member)))
+#else /* !__cplusplus */
+#define a_container_of(ptr, type, member) reinterpret_cast<type *>(reinterpret_cast<a_size_t>(ptr) - a_offsetof(type, member))
+#endif /* __cplusplus */
 
 /*!
  @brief iterate from 0 to n and not include n
@@ -359,10 +363,17 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
+#if !defined __cplusplus
 #define a_foreach(T, it, ptr, num)                      \
-    for (T *it = a_cast(T *, ptr),                      \
+    for (T *it = (T *)(ptr),                            \
            *it##_ = a_likely(it) ? it + (num) : a_null; \
          it != it##_; ++it)
+#else /* !__cplusplus */
+#define a_foreach(T, it, ptr, num)                      \
+    for (T *it = static_cast<T *>(ptr),                 \
+           *it##_ = a_likely(it) ? it + (num) : a_null; \
+         it != it##_; ++it)
+#endif /* __cplusplus */
 
 /*!
  @brief iterate over an array in reverse
@@ -371,10 +382,17 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#define a_foreach_reverse(T, it, ptr, num)                         \
-    for (T *it##_ = a_likely(ptr) ? a_cast(T *, ptr) - 1 : a_null, \
-           *it = a_likely(ptr) ? it##_ + (num) : a_null;           \
+#if !defined __cplusplus
+#define a_foreach_reverse(T, it, ptr, num)                 \
+    for (T *it##_ = a_likely(ptr) ? (T *)(ptr)-1 : a_null, \
+           *it = a_likely(ptr) ? it##_ + (num) : a_null;   \
          it != it##_; --it)
+#else /* !__cplusplus */
+#define a_foreach_reverse(T, it, ptr, num)                              \
+    for (T *it##_ = a_likely(ptr) ? static_cast<T *>(ptr) - 1 : a_null, \
+           *it = a_likely(ptr) ? it##_ + (num) : a_null;                \
+         it != it##_; --it)
+#endif /* __cplusplus */
 
 /*!
  @brief iterate over an array
@@ -383,8 +401,13 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param end the end address of this array
 */
+#if !defined __cplusplus
 #define a_iterate(T, it, ptr, end) \
-    for (T *it = a_cast(T *, ptr), *it##_ = a_cast(T *, end); it != it##_; ++it)
+    for (T *it = (T *)(ptr), *it##_ = (T *)(end); it != it##_; ++it)
+#else /* !__cplusplus */
+#define a_iterate(T, it, ptr, end) \
+    for (T *it = static_cast<T *>(ptr), *it##_ = static_cast<T *>(end); it != it##_; ++it)
+#endif /* __cplusplus */
 
 /*!
  @brief iterate over an array in reverse
@@ -393,10 +416,17 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param end the end address of this array
 */
-#define a_iterate_reverse(T, it, ptr, end)                         \
-    for (T *it##_ = a_likely(ptr) ? a_cast(T *, ptr) - 1 : a_null, \
-           *it = a_likely(end) ? a_cast(T *, end) - 1 : a_null;    \
+#if !defined __cplusplus
+#define a_iterate_reverse(T, it, ptr, end)                 \
+    for (T *it##_ = a_likely(ptr) ? (T *)(ptr)-1 : a_null, \
+           *it = a_likely(end) ? (T *)(end)-1 : a_null;    \
          it != it##_; --it)
+#else /* !__cplusplus */
+#define a_iterate_reverse(T, it, ptr, end)                              \
+    for (T *it##_ = a_likely(ptr) ? static_cast<T *>(ptr) - 1 : a_null, \
+           *it = a_likely(end) ? static_cast<T *>(end) - 1 : a_null;    \
+         it != it##_; --it)
+#endif /* __cplusplus */
 
 /*!
  @brief enumeration for return values

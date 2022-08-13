@@ -80,20 +80,20 @@ done:
 
 static a_noret_t test_next(a_noarg_t)
 {
-    a_list_s *list1 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
+    a_list_s *list1 = (a_list_s *)malloc(sizeof(a_list_s));
     a_list_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list1, node->list);
     }
     a_list_rot_prev(list1);
-    a_list_s *list2 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
+    a_list_s *list2 = (a_list_s *)malloc(sizeof(a_list_s));
     a_list_ctor(list2);
     for (a_int_t i = 10; i != 21; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list2, node->list);
     }
@@ -127,20 +127,20 @@ static a_noret_t test_next(a_noarg_t)
 
 static a_noret_t test_prev(a_noarg_t)
 {
-    a_list_s *list1 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
+    a_list_s *list1 = (a_list_s *)malloc(sizeof(a_list_s));
     a_list_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_next(list1, node->list);
     }
     a_list_rot_next(list1);
-    a_list_s *list2 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
+    a_list_s *list2 = (a_list_s *)malloc(sizeof(a_list_s));
     a_list_ctor(list2);
     for (a_int_t i = 10; i != 21; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_next(list2, node->list);
     }
@@ -174,23 +174,23 @@ static a_noret_t test_prev(a_noarg_t)
 
 static a_noret_t test_func(a_noarg_t)
 {
-    a_list_s *list1 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
+    a_list_s *list1 = (a_list_s *)malloc(sizeof(a_list_s));
     a_list_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list1, node->list);
     }
-    a_list_s *list2 = a_cast(a_list_s *, malloc(sizeof(a_list_s)));
+    a_list_s *list2 = (a_list_s *)malloc(sizeof(a_list_s));
     a_list_ctor(list2);
     for (a_int_t i = 10; i != 20; ++i)
     {
-        int_s *node = a_cast(int_s *, malloc(sizeof(int_s)));
+        int_s *node = (int_s *)malloc(sizeof(int_s));
         node->data = i;
         a_list_add_prev(list2, node->list);
     }
-    int_s *ctx = a_cast(int_s *, malloc(sizeof(int_s)));
+    int_s *ctx = (int_s *)malloc(sizeof(int_s));
     ctx->data = -1;
     {
         a_list_s *ptr = list2->prev;

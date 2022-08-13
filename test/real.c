@@ -124,12 +124,12 @@ static a_noret_t test_diff(size_t n)
         return;
     }
 
-    a_real_t *p = a_cast(a_real_t *, malloc(sizeof(a_real_t) * n));
+    a_real_t *p = (a_real_t *)malloc(sizeof(a_real_t) * n);
 
     clock_t t1;
     {
-        a_real_t *lhs = a_cast(a_real_t *, malloc(sizeof(a_real_t) * n));
-        a_real_t *rhs = a_cast(a_real_t *, malloc(sizeof(a_real_t) * n));
+        a_real_t *lhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
+        a_real_t *rhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
 
         memset(p, 0, sizeof(a_real_t) * n);
 
@@ -143,8 +143,8 @@ static a_noret_t test_diff(size_t n)
 
     clock_t t2;
     {
-        a_real_t *lhs = a_cast(a_real_t *, malloc(sizeof(a_real_t) * n));
-        a_real_t *rhs = a_cast(a_real_t *, malloc(sizeof(a_real_t) * n));
+        a_real_t *lhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
+        a_real_t *rhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
 
         memset(p, 0, sizeof(a_real_t) * n);
 
@@ -158,8 +158,8 @@ static a_noret_t test_diff(size_t n)
 
     clock_t t3;
     {
-        a_real_t *lhs = a_cast(a_real_t *, malloc(sizeof(a_real_t) * n));
-        a_real_t *rhs = a_cast(a_real_t *, malloc(sizeof(a_real_t) * n));
+        a_real_t *lhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
+        a_real_t *rhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
 
         memset(p, 0, sizeof(a_real_t) * n);
 
@@ -184,7 +184,7 @@ a_int_t main(a_int_t argc, a_str_t argv[])
     {
         a_str_t endptr;
         unsigned long long n = strtoull(argv[argc - 1], &endptr, 0);
-        test_diff(a_cast(size_t, n));
+        test_diff((size_t)n);
     }
 
     return A_SUCCESS;

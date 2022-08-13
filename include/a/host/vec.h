@@ -63,7 +63,11 @@ A_INLINE a_size_t a_vec_get(const a_vec_s *ctx) { return ctx->__siz; }
 */
 A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx)
 {
-    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__siz * idx;
+#if !defined __cplusplus
+    return (a_byte_t *)ctx->__ptr + ctx->__siz * idx;
+#else /* !__cplusplus */
+    return static_cast<a_byte_t *>(ctx->__ptr) + ctx->__siz * idx;
+#endif /* __cplusplus */
 }
 
 /*!
@@ -86,7 +90,11 @@ A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx)
 {
-    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__siz * (ctx->__num - 1);
+#if !defined __cplusplus
+    return (a_byte_t *)ctx->__ptr + ctx->__siz * (ctx->__num - 1);
+#else /* !__cplusplus */
+    return static_cast<a_byte_t *>(ctx->__ptr) + ctx->__siz * (ctx->__num - 1);
+#endif /* __cplusplus */
 }
 
 /*!
@@ -108,7 +116,11 @@ A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx)
 */
 A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx)
 {
-    return a_cast(a_byte_t *, ctx->__ptr) + ctx->__siz * ctx->__num;
+#if !defined __cplusplus
+    return (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num;
+#else /* !__cplusplus */
+    return static_cast<a_byte_t *>(ctx->__ptr) + ctx->__siz * ctx->__num;
+#endif /* __cplusplus */
 }
 
 /*!
