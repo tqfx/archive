@@ -31,7 +31,7 @@ static a_noret_t test(a_noarg_t)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
 
-static a_noret_t real_add1(size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
+static a_noret_t real_add1(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 {
     for (a_real_t *q = p + n; p != q; ++lhs, ++rhs, ++p)
     {
@@ -70,7 +70,7 @@ static a_noret_t real_add1(size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
         }                                  \
     } while (0)
 
-static a_noret_t real_add2(size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
+static a_noret_t real_add2(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 {
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -85,7 +85,7 @@ static a_noret_t real_add2(size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 #endif /* __GNUC__ || __clang__ */
 }
 
-static a_noret_t real_add3(size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
+static a_noret_t real_add3(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 {
     a_real_t *b = p;
     for (a_real_t *q = b + (n >> 3 << 3); p != q; lhs += 8, rhs += 8, p += 8)
@@ -117,7 +117,7 @@ static a_noret_t real_add3(size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
     }
 }
 
-static a_noret_t test_diff(size_t n)
+static a_noret_t test_diff(a_size_t n)
 {
     if (n == 0)
     {
@@ -184,7 +184,7 @@ a_int_t main(a_int_t argc, a_str_t argv[])
     {
         a_str_t endptr;
         unsigned long long n = strtoull(argv[argc - 1], &endptr, 0);
-        test_diff((size_t)n);
+        test_diff((a_size_t)n);
     }
 
     return A_SUCCESS;

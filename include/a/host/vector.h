@@ -278,7 +278,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vector_forenum(i, ctx) a_forenum(size_t, i, a_vector_num(ctx))
+#define a_vector_forenum(i, ctx) a_forenum(a_size_t, i, a_vector_num(ctx))
 
 /*!
  @brief iterate over a vector in reverse
@@ -292,7 +292,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vector_forenum_reverse(i, ctx) a_forenum_reverse(size_t, i, a_vector_num(ctx))
+#define a_vector_forenum_reverse(i, ctx) a_forenum_reverse(a_size_t, i, a_vector_num(ctx))
 
 /*!
  @brief iterate over a vector
