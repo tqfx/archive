@@ -168,6 +168,28 @@ A_PUBLIC a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr
 A_PUBLIC a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
+ @brief swap elements lhs and rhs for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @param[in] lhs element pointer on the left
+ @param[in] rhs element pointer on the right
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_que_swap_(a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
+
+/*!
+ @brief swap elements lhs and rhs for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @param[in] lhs element index on the left
+ @param[in] rhs element index on the right
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_que_swap(a_que_s *ctx, a_size_t lhs, a_size_t rhs);
+
+/*!
  @brief push an element into the queue forward
  @param[in] ctx points to an instance of queue structure
  @return element pointer

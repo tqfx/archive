@@ -79,6 +79,8 @@ static a_noret_t test(a_noarg_t)
     }
     (void)(a_que_remove(ctx, 0));
     (void)(a_que_remove(ctx, A_SIZE_MAX));
+    a_que_swap(ctx, 0, A_SIZE_MAX);
+    a_que_swap_(ctx, a_que_fore_(ctx), a_que_back_(ctx));
     a_que_foreach(a_u32_t, it, ctx)
     {
         assert(a_que_get(ctx) == sizeof(*it));

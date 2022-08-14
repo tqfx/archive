@@ -167,6 +167,76 @@ a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     }
 }
 
+a_int_t a_que_swap_(a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
+{
+    assert(ctx);
+    assert(lhs);
+    assert(rhs);
+    if (lhs == rhs)
+    {
+        return A_SUCCESS;
+    }
+    int ok = A_FAILURE;
+    a_que_node_s *l = 0;
+    a_que_node_s *r = 0;
+    a_list_foreach_next(it, ctx->__head)
+    {
+        a_que_node_s *node = (a_que_node_s *)it;
+        if (node->__vptr == lhs)
+        {
+            l = node;
+        }
+        else if (node->__vptr == rhs)
+        {
+            r = node;
+        }
+        if (l && r)
+        {
+            a_list_swap_node(l->__node, r->__node);
+            ok = A_SUCCESS;
+            break;
+        }
+    }
+    return ok;
+}
+
+a_int_t a_que_swap(a_que_s *ctx, a_size_t lhs, a_size_t rhs)
+{
+    assert(ctx);
+    a_size_t num = ctx->__num - 1;
+    lhs = lhs < ctx->__num ? lhs : num;
+    rhs = rhs < ctx->__num ? rhs : num;
+    if (lhs == rhs)
+    {
+        return A_SUCCESS;
+    }
+    a_size_t cur = 0;
+    a_que_node_s *l = 0;
+    a_que_node_s *r = 0;
+    a_list_foreach_next(it, ctx->__head)
+    {
+        if (cur == lhs)
+        {
+            // Because lhs less than num
+            // it's never a null pointer
+            l = (a_que_node_s *)it;
+        }
+        else if (cur == rhs)
+        {
+            // Because rhs less than num
+            // it's never a null pointer
+            r = (a_que_node_s *)it;
+        }
+        if (l && r)
+        {
+            a_list_swap_node(l->__node, r->__node);
+            break;
+        }
+        ++cur;
+    }
+    return A_SUCCESS;
+}
+
 a_vptr_t a_que_push_fore(a_que_s *ctx)
 {
     assert(ctx);
@@ -262,6 +332,8 @@ a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx)
         {
             if (cur++ == idx)
             {
+                // Because idx less than num
+                // it's never a null pointer
                 node = (a_que_node_s *)it;
                 break;
             }
