@@ -110,3 +110,11 @@ if(
   check_flag_xx(-Wno-c++98-compat-pedantic)
   check_flag_cc(-Wno-declaration-after-statement)
 endif()
+
+# msvc
+if(
+  "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
+)
+  check_flag(/Wall)
+endif()
