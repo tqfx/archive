@@ -49,7 +49,7 @@ typedef struct a_que_s
 {
     a_que_node_s **__ptr; /*!< mempool block */
     a_list_s __head[1]; /*!< element head */
-    a_size_t __size; /*!< element data */
+    a_size_t __size; /*!< element sizeof */
     a_size_t __num; /*!< element number */
     a_size_t __cur; /*!< mempool cursor */
     a_size_t __mem; /*!< mempool memory */
