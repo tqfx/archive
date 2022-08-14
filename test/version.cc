@@ -4,6 +4,7 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
+#include "a/a.h"
 #include <stdio.h>
 #include "a/version.h"
 
