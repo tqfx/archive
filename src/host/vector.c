@@ -235,7 +235,7 @@ a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx)
     assert(ctx);
     a_size_t num_ = a_vector_num_(ctx);
     a_size_t num = num_ / ctx->__size;
-    if (idx + 1 < num)
+    if (num && idx < num - 1)
     {
         if (a_unlikely(a_vector_alloc(ctx, num)))
         {

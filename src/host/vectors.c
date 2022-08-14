@@ -233,7 +233,7 @@ a_vptr_t a_vectors_push_back(a_vectors_s *ctx)
 a_vptr_t a_vectors_remove(a_vectors_s *ctx, a_size_t idx)
 {
     assert(ctx);
-    if (idx + 1 < ctx->__num)
+    if (ctx->__num && idx < ctx->__num - 1)
     {
         if (a_unlikely(a_vectors_alloc(ctx, ctx->__num)))
         {
