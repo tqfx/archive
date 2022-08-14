@@ -1,9 +1,6 @@
-unit_test(str.cc str)
+unittest(str SOURCE str.c str.cc)
+unittest(vec SOURCE vec.c vec.cc)
+unittest(que SOURCE que.c que.cc)
 
-unit_test(vec.cc vec)
-
-unit_test(vector.cc vector)
-
-unit_test(vectors.cc vectors)
-
-unit_test(que.cc que)
+unittest(vector SOURCE vector.c vector.cc)
+unittest(vectors SOURCE vectors.c vectors.cc)

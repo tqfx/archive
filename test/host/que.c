@@ -1,7 +1,7 @@
 /*!
- @file list.c
- @brief Test circular doubly linked list.
+ @file que.c
+ @brief Test basic queue library
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "list.h"
+#include "que.h"

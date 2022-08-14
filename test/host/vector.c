@@ -1,12 +1,7 @@
 /*!
- @file vec.cc
+ @file vector.c
  @brief Test basic vector library
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "vec.h"
-
-a_int_t main(a_noarg_t)
-{
-    return main_c() + main_cc();
-}
+#include "vector.h"

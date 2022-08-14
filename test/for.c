@@ -1,7 +1,7 @@
 /*!
- @file list.c
- @brief Test circular doubly linked list.
+ @file for.c
+ @brief Test algorithm library foreach
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "list.h"
+#include "for.h"

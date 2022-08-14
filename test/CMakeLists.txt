@@ -45,26 +45,32 @@ foreach(lang ${enabled_languages})
   endif()
 endforeach()
 
-function(unit_test source target)
-  set(TARGET test-${target})
-  add_executable(${TARGET} ${source})
+function(unittest target)
+  cmake_parse_arguments(TEST "" "TARGET" "SOURCE;COMMAND" ${ARGN})
+
+  if(NOT TEST_TARGET)
+    set(TARGET test-${target})
+  else()
+    set(TARGET ${TEST_TARGET})
+  endif()
+
+  add_executable(${TARGET} ${TEST_SOURCE})
   set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
   target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::a ${PROJECT_NAME}::aa)
-  add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${ARGN})
+  add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND})
 endfunction()
 
-unit_test(for.cc for)
+unittest(for SOURCE for.c for.cc)
 
-unit_test(version.cc version)
-unit_test(version.cpp version+)
+unittest(version SOURCE version.cc)
 
-unit_test(real.c real)
-unit_test(math.c math)
+unittest(real SOURCE real.c)
+unittest(math SOURCE math.c)
 
-unit_test(list.c list)
-unit_test(slist.c slist)
+unittest(list SOURCE list.c list.cc)
+unittest(slist SOURCE slist.c slist.cc)
 
-unit_test(operator.c operator)
+unittest(operator SOURCE operator.c)
 
 add_subdirectory(misc)
 add_subdirectory(host)

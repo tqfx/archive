@@ -10,14 +10,14 @@
 #include "a.config.h"
 
 /* extern "C" */
-#if defined(__cplusplus)
-#define A_EXTERN_C extern "C"
-#define A_EXTERN_C_ENTER extern "C" {
-#define A_EXTERN_C_LEAVE }
-#else /* !__cplusplus */
+#if !defined __cplusplus
 #define A_EXTERN_C
 #define A_EXTERN_C_ENTER
 #define A_EXTERN_C_LEAVE
+#else /* #__cplusplus */
+#define A_EXTERN_C extern "C"
+#define A_EXTERN_C_ENTER extern "C" {
+#define A_EXTERN_C_LEAVE }
 #endif /* __cplusplus */
 
 /*! @cond */
@@ -32,7 +32,7 @@
 #define a_has_builtin(...) __has_builtin(__VA_ARGS__)
 #define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
 #define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
-#else /* !__has_builtin */
+#else /* #__has_builtin */
 #define a_has_builtin(...) 0
 #define a_likely(...) (__VA_ARGS__)
 #define a_unlikely(...) (__VA_ARGS__)
@@ -41,28 +41,28 @@
 /* has feature */
 #if defined(__has_feature)
 #define a_has_feature(...) __has_feature(__VA_ARGS__)
-#else /* !__has_feature */
+#else /* #__has_feature */
 #define a_has_feature(...) 0
 #endif /* __has_feature */
 
 /* has include */
 #if defined(__has_include)
 #define a_has_include(...) __has_include(__VA_ARGS__)
-#else /* !__has_include */
+#else /* #__has_include */
 #define a_has_include(...) 0
 #endif /* __has_include */
 
 /* has warning */
 #if defined(__has_warning)
 #define a_has_warning(...) __has_warning(__VA_ARGS__)
-#else /* !__has_warning */
+#else /* #__has_warning */
 #define a_has_warning(...) 0
 #endif /* __has_warning */
 
 /* has attribute */
 #if defined(__has_attribute)
 #define a_has_attribute(...) __has_attribute(__VA_ARGS__)
-#else /* !__has_attribute */
+#else /* #__has_attribute */
 #define a_has_attribute(...) 0
 #define __attribute__(...)
 #endif /* __has_attribute */
@@ -72,7 +72,7 @@
 #define A_DEPRECATED __attribute__((deprecated))
 #elif defined(_WIN32) || defined(__CYGWIN__)
 #define A_DEPRECATED __declspec(deprecated)
-#else /* !a_has_attribute(deprecated) */
+#else /* #a_has_attribute(deprecated) */
 #define A_DEPRECATED
 #endif /* a_has_attribute(deprecated) */
 
@@ -81,7 +81,7 @@
 #define A_INLINE_FORCE static __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
 #define A_INLINE_FORCE static __forceinline
-#else /* !_MSC_VER */
+#else /* #_MSC_VER */
 #define A_INLINE_FORCE static __inline
 #endif /* _MSC_VER */
 #define A_INLINE static __inline
@@ -95,7 +95,7 @@
 #define A_EXPORT __declspec(dllexport)
 #define A_IMPORT __declspec(dllimport)
 #define A_HIDDEN
-#else /* !a_has_attribute(visibility) */
+#else /* #a_has_attribute(visibility) */
 #define A_EXPORT
 #define A_IMPORT
 #define A_HIDDEN
@@ -104,7 +104,7 @@
 #define A_PUBLIC A_EXPORT
 #elif defined(A_SHARED)
 #define A_PUBLIC A_IMPORT
-#else /* !A_PUBLIC */
+#else /* #A_PUBLIC */
 #define A_PUBLIC
 #endif /* A_PUBLIC */
 
@@ -117,36 +117,49 @@
 
 /* keywords */
 #if defined(__cplusplus)
-#define a_register register
-#else /* !__cplusplus */
 #define a_register
+#else /* #__cplusplus */
+#define a_register register
 #endif /* __cplusplus */
 #define a_volatile volatile
 #define a_restrict restrict
+
+#if !defined __cplusplus
+#define a_cast_c(T, ...) ((T)(__VA_ARGS__))
+#define a_cast_s(T, ...) ((T)(__VA_ARGS__))
+#define a_cast_d(T, ...) ((T)(__VA_ARGS__))
+#define a_cast_r(T, ...) ((T)(__VA_ARGS__))
+#else /* #__cplusplus */
+#define a_cast_c(T, ...) const_cast<T>(__VA_ARGS__)
+#define a_cast_s(T, ...) static_cast<T>(__VA_ARGS__)
+#define a_cast_d(T, ...) dynamic_cast<T>(__VA_ARGS__)
+#define a_cast_r(T, ...) reinterpret_cast<T>(__VA_ARGS__)
+#endif /* __cplusplus */
 
 #include <stddef.h>
 #include <stdint.h>
 
 typedef int a_bool_t;
 
-#if defined(__cplusplus)
-#define a_true true
-#define a_false false
-#else /* !__cplusplus */
+#if !defined __cplusplus
 #define a_true (!0)
 #define a_false (0)
+#else /* #__cplusplus */
+#define a_true true
+#define a_false false
 #endif /* __cplusplus */
 
 typedef void a_void_t;
 
-#if defined(__cplusplus)
-#define a_null nullptr
-#define a_noarg_t
-#else /* !__cplusplus */
-#define a_null NULL
-#define a_noarg_t a_void_t
-#endif /* __cplusplus */
 #define a_noret_t a_void_t
+#if !defined __cplusplus
+#define a_noarg_t a_void_t
+#define a_null NULL
+#else /* #__cplusplus */
+#define a_noarg_t
+#define a_null nullptr
+#endif /* __cplusplus */
+#define a_zero 0
 
 typedef size_t a_size_t;
 
@@ -309,11 +322,11 @@ typedef long double a_real_t;
 /*! @} A_REAL */
 
 /*!
- @brief align in power of two
- @param addr memory address
- @param base power of two
+ @brief size of memory that alignment is specified by alignment
+ @param base specifies the alignment that is a power of two
+ @param size number of bytes to allocate
 */
-#define a_align(addr, base) (((addr) + (base)-1) & ~((base)-1))
+#define a_align(base, size) ((a_cast_r(a_size_t, size) + (base)-1) & ~((base)-1))
 
 /*!
  @brief offset of a structure member
@@ -322,10 +335,8 @@ typedef long double a_real_t;
 */
 #if defined(offsetof)
 #define a_offsetof(type, member) offsetof(type, member)
-#elif !defined(__cplusplus)
-#define a_offsetof(type, member) (a_size_t)(&((type *)0)->member)
-#else /* !offsetof */
-#define a_offsetof(type, member) reinterpret_cast<a_size_t>(&reinterpret_cast<type *>(0)->member)
+#else /* #offsetof */
+#define a_offsetof(type, member) a_cast_r(a_size_t, &a_cast_r(type *, 0)->member)
 #endif /* offsetof */
 
 /*!
@@ -334,11 +345,7 @@ typedef long double a_real_t;
  @param type structure type
  @param member member variable
 */
-#if !defined __cplusplus
-#define a_container_of(ptr, type, member) ((type *)((a_size_t)(ptr)-a_offsetof(type, member)))
-#else /* !__cplusplus */
-#define a_container_of(ptr, type, member) reinterpret_cast<type *>(reinterpret_cast<a_size_t>(ptr) - a_offsetof(type, member))
-#endif /* __cplusplus */
+#define a_container_of(ptr, type, member) a_cast_r(type *, a_cast_r(a_size_t, ptr) - a_offsetof(type, member))
 
 /*!
  @brief iterate from 0 to n and not include n
@@ -363,17 +370,10 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#if !defined __cplusplus
 #define a_foreach(T, it, ptr, num)                      \
-    for (T *it = (T *)(ptr),                            \
+    for (T *it = a_cast_s(T *, ptr),                    \
            *it##_ = a_likely(it) ? it + (num) : a_null; \
          it != it##_; ++it)
-#else /* !__cplusplus */
-#define a_foreach(T, it, ptr, num)                      \
-    for (T *it = static_cast<T *>(ptr),                 \
-           *it##_ = a_likely(it) ? it + (num) : a_null; \
-         it != it##_; ++it)
-#endif /* __cplusplus */
 
 /*!
  @brief iterate over an array in reverse
@@ -382,17 +382,10 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param num number of elements in this array
 */
-#if !defined __cplusplus
-#define a_foreach_reverse(T, it, ptr, num)                 \
-    for (T *it##_ = a_likely(ptr) ? (T *)(ptr)-1 : a_null, \
-           *it = a_likely(ptr) ? it##_ + (num) : a_null;   \
+#define a_foreach_reverse(T, it, ptr, num)                           \
+    for (T *it##_ = a_likely(ptr) ? a_cast_s(T *, ptr) - 1 : a_null, \
+           *it = a_likely(ptr) ? it##_ + (num) : a_null;             \
          it != it##_; --it)
-#else /* !__cplusplus */
-#define a_foreach_reverse(T, it, ptr, num)                              \
-    for (T *it##_ = a_likely(ptr) ? static_cast<T *>(ptr) - 1 : a_null, \
-           *it = a_likely(ptr) ? it##_ + (num) : a_null;                \
-         it != it##_; --it)
-#endif /* __cplusplus */
 
 /*!
  @brief iterate over an array
@@ -401,13 +394,8 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param end the end address of this array
 */
-#if !defined __cplusplus
 #define a_iterate(T, it, ptr, end) \
-    for (T *it = (T *)(ptr), *it##_ = (T *)(end); it != it##_; ++it)
-#else /* !__cplusplus */
-#define a_iterate(T, it, ptr, end) \
-    for (T *it = static_cast<T *>(ptr), *it##_ = static_cast<T *>(end); it != it##_; ++it)
-#endif /* __cplusplus */
+    for (T *it = a_cast_s(T *, ptr), *it##_ = a_cast_s(T *, end); it != it##_; ++it)
 
 /*!
  @brief iterate over an array in reverse
@@ -416,17 +404,10 @@ typedef long double a_real_t;
  @param ptr starting address of this array
  @param end the end address of this array
 */
-#if !defined __cplusplus
-#define a_iterate_reverse(T, it, ptr, end)                 \
-    for (T *it##_ = a_likely(ptr) ? (T *)(ptr)-1 : a_null, \
-           *it = a_likely(end) ? (T *)(end)-1 : a_null;    \
+#define a_iterate_reverse(T, it, ptr, end)                           \
+    for (T *it##_ = a_likely(ptr) ? a_cast_s(T *, ptr) - 1 : a_null, \
+           *it = a_likely(end) ? a_cast_s(T *, end) - 1 : a_null;    \
          it != it##_; --it)
-#else /* !__cplusplus */
-#define a_iterate_reverse(T, it, ptr, end)                              \
-    for (T *it##_ = a_likely(ptr) ? static_cast<T *>(ptr) - 1 : a_null, \
-           *it = a_likely(end) ? static_cast<T *>(end) - 1 : a_null;    \
-         it != it##_; --it)
-#endif /* __cplusplus */
 
 /*!
  @brief enumeration for return values

@@ -1,1 +1,1 @@
-unit_test(notefreqs.c notefreqs)
+unittest(notefreqs SOURCE notefreqs.c)

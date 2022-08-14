@@ -1307,7 +1307,7 @@
 #define A_NOTEFREQ_FREQ_Bb8 7560.33 /*!< Bb8 7560.33    4.56 */
 #define A_NOTEFREQ_FREQ_B8  8009.89 /*!< B8  8009.89    4.31 */
 
-#else /* !A_NOTEFREQ_A4 */
+#else /* #A_NOTEFREQ_A4 */
 
 #error A_NOTEFREQ_A4 must be one of 432,434,436,438,440,442,444,446
 

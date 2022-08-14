@@ -54,11 +54,7 @@ A_INLINE a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->__size; }
 */
 A_INLINE a_size_t a_vector_num(const a_vector_s *ctx)
 {
-#if !defined __cplusplus
-    return (a_size_t)((a_byte_t *)ctx->__tail - (a_byte_t *)ctx->__head) / ctx->__size;
-#else /* !__cplusplus */
-    return static_cast<a_size_t>(static_cast<a_byte_t *>(ctx->__tail) - static_cast<a_byte_t *>(ctx->__head)) / ctx->__size;
-#endif /* __cplusplus */
+    return a_cast_s(a_size_t, a_cast_s(a_byte_t *, ctx->__tail) - a_cast_s(a_byte_t *, ctx->__head)) / ctx->__size;
 }
 
 /*!
@@ -67,11 +63,7 @@ A_INLINE a_size_t a_vector_num(const a_vector_s *ctx)
 */
 A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx)
 {
-#if !defined __cplusplus
-    return (a_size_t)((a_byte_t *)ctx->__last - (a_byte_t *)ctx->__head) / ctx->__size;
-#else /* !__cplusplus */
-    return static_cast<a_size_t>(static_cast<a_byte_t *>(ctx->__last) - static_cast<a_byte_t *>(ctx->__head)) / ctx->__size;
-#endif /* __cplusplus */
+    return a_cast_s(a_size_t, a_cast_s(a_byte_t *, ctx->__last) - a_cast_s(a_byte_t *, ctx->__head)) / ctx->__size;
 }
 
 /*!
@@ -83,11 +75,7 @@ A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx)
 */
 A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 {
-#if !defined __cplusplus
-    return (a_byte_t *)ctx->__head + ctx->__size * idx;
-#else /* !__cplusplus */
-    return static_cast<a_byte_t *>(ctx->__head) + ctx->__size * idx;
-#endif /* __cplusplus */
+    return a_cast_s(a_byte_t *, ctx->__head) + ctx->__size * idx;
 }
 
 /*!
@@ -111,11 +99,7 @@ A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
 {
-#if !defined __cplusplus
-    return (a_byte_t *)ctx->__tail - ctx->__size;
-#else /* !__cplusplus */
-    return static_cast<a_byte_t *>(ctx->__tail) - ctx->__size;
-#endif /* __cplusplus */
+    return a_cast_s(a_byte_t *, ctx->__tail) - ctx->__size;
 }
 
 /*!
@@ -288,7 +272,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  a_vector_forenum(i, ctx)
  {
      T *it = (T *)a_vector_at(ctx, i);
-     assert(a_vector_size(ctx) == sizeof(*it));
+     assert(a_vector_get(ctx) == sizeof(*it));
  }
  @endcode
  @param i index of elements in the vector
@@ -302,7 +286,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  a_vector_forenum_reverse(i, ctx)
  {
      T *it = (T *)a_vector_at(ctx, i);
-     assert(a_vector_size(ctx) == sizeof(*it));
+     assert(a_vector_get(ctx) == sizeof(*it));
  }
  @endcode
  @param i index of elements in the vector
@@ -315,7 +299,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @code{.c}
  a_vector_foreach(T, it, ctx)
  {
-     assert(a_vector_size(ctx) == sizeof(*it));
+     assert(a_vector_get(ctx) == sizeof(*it));
  }
  @endcode
  @param T type of elements in the vector
@@ -329,7 +313,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @code{.c}
  a_vector_foreach_reverse(T, it, ctx)
  {
-     assert(a_vector_size(ctx) == sizeof(*it));
+     assert(a_vector_get(ctx) == sizeof(*it));
  }
  @endcode
  @param T type of elements in the vector

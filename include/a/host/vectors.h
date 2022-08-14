@@ -71,11 +71,7 @@ A_INLINE a_size_t a_vectors_mem(const a_vectors_s *ctx) { return ctx->__mem; }
 */
 A_INLINE a_vptr_t a_vectors_at_(const a_vectors_s *ctx, a_size_t idx)
 {
-#if !defined __cplusplus
-    return (a_byte_t *)ctx->__head + ctx->__size * idx;
-#else /* !__cplusplus */
-    return static_cast<a_byte_t *>(ctx->__head) + ctx->__size * idx;
-#endif /* __cplusplus */
+    return a_cast_s(a_byte_t *, ctx->__head) + ctx->__size * idx;
 }
 
 /*!
@@ -98,11 +94,7 @@ A_INLINE a_vptr_t a_vectors_at(const a_vectors_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vectors_top_(const a_vectors_s *ctx)
 {
-#if !defined __cplusplus
-    return (a_byte_t *)ctx->__tail - ctx->__size;
-#else /* !__cplusplus */
-    return static_cast<a_byte_t *>(ctx->__tail) - ctx->__size;
-#endif /* __cplusplus */
+    return a_cast_s(a_byte_t *, ctx->__tail) - ctx->__size;
 }
 
 /*!
@@ -275,7 +267,7 @@ A_INLINE a_vptr_t a_vectors_pull(a_vectors_s *ctx) { return a_vectors_pull_back(
  a_vectors_forenum(i, ctx)
  {
      T *it = (T *)a_vectors_at(ctx, i);
-     assert(a_vectors_size(ctx) == sizeof(*it));
+     assert(a_vectors_get(ctx) == sizeof(*it));
  }
  @endcode
  @param i index of elements in the vector
@@ -289,7 +281,7 @@ A_INLINE a_vptr_t a_vectors_pull(a_vectors_s *ctx) { return a_vectors_pull_back(
  a_vectors_forenum_reverse(i, ctx)
  {
      T *it = (T *)a_vectors_at(ctx, i);
-     assert(a_vectors_size(ctx) == sizeof(*it));
+     assert(a_vectors_get(ctx) == sizeof(*it));
  }
  @endcode
  @param i index of elements in the vector
@@ -302,7 +294,7 @@ A_INLINE a_vptr_t a_vectors_pull(a_vectors_s *ctx) { return a_vectors_pull_back(
  @code{.c}
  a_vectors_foreach(T, it, ctx)
  {
-     assert(a_vectors_size(ctx) == sizeof(*it));
+     assert(a_vectors_get(ctx) == sizeof(*it));
  }
  @endcode
  @param T type of elements in the vector
@@ -316,7 +308,7 @@ A_INLINE a_vptr_t a_vectors_pull(a_vectors_s *ctx) { return a_vectors_pull_back(
  @code{.c}
  a_vectors_foreach_reverse(T, it, ctx)
  {
-     assert(a_vectors_size(ctx) == sizeof(*it));
+     assert(a_vectors_get(ctx) == sizeof(*it));
  }
  @endcode
  @param T type of elements in the vector

@@ -11,14 +11,22 @@
 #include <assert.h>
 #include <string.h>
 
-A_INLINE a_noret_t no_dtor(a_vptr_t vptr) { (void)(vptr); }
+#if defined(_WIN32)
+#define context_alloc(size) _aligned_malloc(size, sizeof(a_vptr_t))
+#define context_free(vptr) _aligned_free(vptr)
+#else /* #_WIN32 */
+#define context_alloc(size) malloc(size)
+#define context_free(vptr) free(vptr)
+#endif /* _WIN32 */
+
+A_INLINE a_noret_t default_dtor(a_vptr_t vptr) { (void)(vptr); }
 
 static a_que_node_s *a_que_node_alloc(a_que_s *ctx)
 {
     a_que_node_s *node = 0;
-    if (ctx->__num)
+    if (ctx->__cur)
     {
-        node = ctx->__ptr[--ctx->__num];
+        node = ctx->__ptr[--ctx->__cur];
     }
     else
     {
@@ -31,14 +39,14 @@ static a_que_node_s *a_que_node_alloc(a_que_s *ctx)
     }
     if (node->__vptr == 0)
     {
-        node->__vptr = malloc(ctx->__size);
+        node->__vptr = context_alloc(ctx->__size);
         if (a_unlikely(node->__vptr == 0))
         {
             free(node);
             return 0;
         }
     }
-    ++ctx->__cnt;
+    ++ctx->__num;
     return node;
 }
 
@@ -48,7 +56,7 @@ static int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
     {
         return A_INVALID;
     }
-    if (ctx->__mem <= ctx->__num)
+    if (ctx->__mem <= ctx->__cur)
     {
         a_size_t mem = ctx->__mem + (ctx->__mem >> 1) + 1;
         a_que_node_s **ptr = (a_que_node_s **)realloc(ctx->__ptr, sizeof(a_vptr_t) * mem);
@@ -59,8 +67,8 @@ static int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
         ctx->__ptr = ptr;
         ctx->__mem = mem;
     }
-    ctx->__ptr[ctx->__num++] = obj;
-    --ctx->__cnt;
+    ctx->__ptr[ctx->__cur++] = obj;
+    --ctx->__num;
     return A_SUCCESS;
 }
 
@@ -104,21 +112,21 @@ a_noret_t a_que_ctor(a_que_s *ctx, a_size_t size)
     ctx->__size = size;
     ctx->__ptr = 0;
     ctx->__num = 0;
+    ctx->__cur = 0;
     ctx->__mem = 0;
-    ctx->__cnt = 0;
 }
 
 a_noret_t a_que_dtor(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_que_drop_(ctx);
-    dtor = dtor ? dtor : no_dtor;
-    while (ctx->__num)
+    a_noret_t (*context_dtor)(a_vptr_t) = dtor ? dtor : default_dtor;
+    while (ctx->__cur)
     {
-        --ctx->__num;
-        dtor(ctx->__ptr[ctx->__num]->__vptr);
-        free(ctx->__ptr[ctx->__num]->__vptr);
-        free(ctx->__ptr[ctx->__num]);
+        --ctx->__cur;
+        context_dtor(ctx->__ptr[ctx->__cur]->__vptr);
+        context_free(ctx->__ptr[ctx->__cur]->__vptr);
+        free(ctx->__ptr[ctx->__cur]);
     }
     free(ctx->__ptr);
     ctx->__size = 0;
@@ -151,12 +159,12 @@ a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_que_drop_(ctx);
-    dtor = dtor ? dtor : no_dtor;
-    for (a_size_t i = ctx->__num; i--;)
+    a_noret_t (*context_dtor)(a_vptr_t) = dtor ? dtor : default_dtor;
+    for (a_size_t cur = ctx->__cur; cur--;)
     {
-        dtor(ctx->__ptr[i]->__vptr);
-        free(ctx->__ptr[i]->__vptr);
-        ctx->__ptr[i]->__vptr = 0;
+        context_dtor(ctx->__ptr[cur]->__vptr);
+        context_free(ctx->__ptr[cur]->__vptr);
+        ctx->__ptr[cur]->__vptr = 0;
     }
 }
 

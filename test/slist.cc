@@ -1,10 +1,10 @@
 /*!
- @file str.cc
- @brief Test basic string library
+ @file slist.cc
+ @brief Test circular singly linked list.
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "str.h"
+#include "slist.h"
 
 a_int_t main(a_noarg_t)
 {

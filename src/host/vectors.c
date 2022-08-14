@@ -155,7 +155,7 @@ static a_int_t a_vectors_alloc(a_vectors_s *ctx, a_size_t num)
         } while (mem < num);
         a_size_t mem_ = mem * ctx->__size;
         a_size_t num_ = ctx->__num * ctx->__size;
-        a_size_t size = a_align(mem_, sizeof(a_vptr_t));
+        a_size_t size = a_align(sizeof(a_vptr_t), mem_);
         a_vptr_t head = realloc(ctx->__head, size);
         if (a_unlikely(head == 0))
         {

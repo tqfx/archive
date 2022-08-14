@@ -130,9 +130,6 @@ a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     }
 }
 
-#undef align
-#define align(_) a_align(_, sizeof(a_vptr_t))
-
 static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
 {
     if (ctx->__mem <= num)
@@ -142,7 +139,8 @@ static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
         {
             mem += (mem >> 1) + 1;
         } while (mem < num);
-        a_vptr_t ptr = realloc(ctx->__ptr, align(ctx->__siz * mem));
+        a_size_t siz = a_align(sizeof(a_vptr_t), ctx->__siz * mem);
+        a_vptr_t ptr = realloc(ctx->__ptr, siz);
         if (a_unlikely(ptr == 0))
         {
             return A_FAILURE;
@@ -152,8 +150,6 @@ static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
     }
     return A_SUCCESS;
 }
-
-#undef align
 
 a_int_t a_vec_swap(a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
 {
