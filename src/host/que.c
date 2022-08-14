@@ -143,6 +143,36 @@ a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj)
     return ctx;
 }
 
+a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
+{
+    assert(ctx);
+    a_imax_t cur = 0;
+    a_vptr_t *vptr = 0;
+    if (idx < 0)
+    {
+        a_list_foreach_prev(it, ctx->__head)
+        {
+            if (--cur == idx)
+            {
+                vptr = ((a_que_node_s *)it)->__vptr;
+                break;
+            }
+        }
+    }
+    else
+    {
+        a_list_foreach_next(it, ctx->__head)
+        {
+            if (cur++ == idx)
+            {
+                vptr = ((a_que_node_s *)it)->__vptr;
+                break;
+            }
+        }
+    }
+    return vptr;
+}
+
 a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
@@ -167,7 +197,7 @@ a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     }
 }
 
-a_int_t a_que_swap_(a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
+a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
 {
     assert(ctx);
     assert(lhs);
@@ -200,7 +230,7 @@ a_int_t a_que_swap_(a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
     return ok;
 }
 
-a_int_t a_que_swap(a_que_s *ctx, a_size_t lhs, a_size_t rhs)
+a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
     a_size_t num = ctx->__num - 1;

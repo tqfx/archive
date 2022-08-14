@@ -150,6 +150,15 @@ A_PUBLIC a_noret_t a_que_dtor(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 A_PUBLIC a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj);
 
 /*!
+ @brief access specified element for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @param[in] idx index of element, 0 ~ n-1, -n ~ -1
+ @return element pointer
+  @retval 0 out of bounds
+*/
+A_PUBLIC a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx);
+
+/*!
  @brief modify size of a element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] size the size of the new element
@@ -176,7 +185,7 @@ A_PUBLIC a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_que_swap_(a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
 
 /*!
  @brief swap elements lhs and rhs for a pointer to queue structure
@@ -187,7 +196,7 @@ A_PUBLIC a_int_t a_que_swap_(a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_que_swap(a_que_s *ctx, a_size_t lhs, a_size_t rhs);
+A_PUBLIC a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief push an element into the queue forward
