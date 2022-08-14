@@ -149,9 +149,9 @@ a_int_t main_cc(a_noarg_t);
 #endif /* __cplusplus */
 a_int_t test_main(a_noarg_t)
 {
+    printf("%s\n", __func__);
     test();
     null();
-
     return A_SUCCESS;
 }
 

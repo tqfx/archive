@@ -9,31 +9,11 @@
 
 #include "a/list.h"
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic ignored "-Winline"
-#endif /* __GNUC__ || __clang__ */
-
-A_INLINE a_noret_t a_list_replace_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
-{
-    a_list_add_(tail1->next, head1->prev, head2, tail2);
-}
-A_INLINE a_noret_t a_list_replace_node(a_list_s *lold, a_list_s *lnew)
-{
-    (lold != lnew) ? a_list_replace_(lold, lold, lnew, lnew) : (void)(0);
-}
-
-A_INLINE a_noret_t a_list_swap_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
-{
-    a_list_s *head = tail2->next, *tail = head2->prev;
-    a_list_add_(tail1->next, head1->prev, head2, tail2);
-    a_list_add_(head, tail, head1, tail1);
-}
-A_INLINE a_noret_t a_list_swap_node(a_list_s *node1, a_list_s *node2) { a_list_swap_(node1, node1, node2, node2); }
-
 #include <stdlib.h>
 #include <stdio.h>
 
 #if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Winline"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* __GNUC__ || __clang__ */
@@ -197,7 +177,7 @@ static a_noret_t test_func(a_noarg_t)
     ctx->data = -1;
     {
         a_list_s *ptr = list2->prev;
-        a_list_replace_node(list2->prev, ctx->list);
+        a_list_shift_node(list2->prev, ctx->list);
         ctx = a_list_entry(ptr, int_s, list);
     }
     a_list_swap_node(list2->prev, list2->next);
@@ -326,15 +306,15 @@ static a_noret_t test_null(a_noarg_t)
         printf("failure in %s %i %zu\n", __FILE__, __LINE__, len);
     }
 
-    a_list_replace_node(list1, list1);
-    a_list_replace_node(list2, list2);
+    a_list_shift_node(list1, list1);
+    a_list_shift_node(list2, list2);
     len = a_list_len(list1) + a_list_len(list2);
     if (len != 2)
     {
         printf("failure in %s %i %zu\n", __FILE__, __LINE__, len);
     }
 
-    a_list_replace_node(list2, list1);
+    a_list_shift_node(list2, list1);
     a_list_init(list2);
     len = a_list_len(list1) + a_list_len(list2);
     if (len != 0)
