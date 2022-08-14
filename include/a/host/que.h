@@ -67,6 +67,50 @@ A_INLINE a_size_t a_que_get(const a_que_s *ctx) { return ctx->__size; }
 */
 A_INLINE a_size_t a_que_num(const a_que_s *ctx) { return ctx->__num; }
 
+/*!
+ @brief access foremost element for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @note need to check if queue is empty
+ @return element pointer
+*/
+A_INLINE a_vptr_t a_que_fore_(const a_que_s *ctx)
+{
+    return a_cast_r(a_que_node_s *, ctx->__head->next)->__vptr;
+}
+
+/*!
+ @brief access backmost element for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @note need to check if queue is empty
+ @return element pointer
+*/
+A_INLINE a_vptr_t a_que_back_(const a_que_s *ctx)
+{
+    return a_cast_r(a_que_node_s *, ctx->__head->prev)->__vptr;
+}
+
+/*!
+ @brief access foremost element for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @return element pointer
+  @retval 0 empty vector
+*/
+A_INLINE a_vptr_t a_que_fore(const a_que_s *ctx)
+{
+    return a_likely(a_list_used(ctx->__head)) ? a_que_fore_(ctx) : a_null;
+}
+
+/*!
+ @brief access backmost element for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @return element pointer
+  @retval 0 empty vector
+*/
+A_INLINE a_vptr_t a_que_back(const a_que_s *ctx)
+{
+    return a_likely(a_list_used(ctx->__head)) ? a_que_back_(ctx) : a_null;
+}
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */

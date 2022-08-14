@@ -32,6 +32,16 @@ static a_noret_t test(a_noarg_t)
             *p = i;
         }
     }
+    {
+        a_u64_t *fore = a_cast_s(a_u64_t *, a_que_fore_(ctx));
+        a_u64_t *back = a_cast_s(a_u64_t *, a_que_back_(ctx));
+        printf("%" PRIu64 " %" PRIu64 " ", *fore, *back);
+    }
+    {
+        a_u64_t *fore = a_cast_s(a_u64_t *, a_que_fore(ctx));
+        a_u64_t *back = a_cast_s(a_u64_t *, a_que_back(ctx));
+        printf("%" PRIu64 " %" PRIu64 "\n", *fore, *back);
+    }
     for (a_u64_t i = 0; i != 5; ++i)
     {
         (void)(a_cast_s(a_u64_t *, a_que_pull_fore(ctx)));
