@@ -63,6 +63,22 @@ static a_noret_t test(a_noarg_t)
             *p = i;
         }
     }
+    {
+        a_u32_t *p = a_cast_s(a_u32_t *, a_que_insert(ctx, 0));
+        if (p)
+        {
+            *p = A_U32_MAX;
+        }
+    }
+    {
+        a_u32_t *p = a_cast_s(a_u32_t *, a_que_insert(ctx, A_SIZE_MAX));
+        if (p)
+        {
+            *p = A_U32_MAX;
+        }
+    }
+    (void)(a_que_remove(ctx, 0));
+    (void)(a_que_remove(ctx, A_SIZE_MAX));
     a_que_foreach(a_u32_t, it, ctx)
     {
         assert(a_que_get(ctx) == sizeof(*it));

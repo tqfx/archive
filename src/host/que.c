@@ -202,7 +202,7 @@ a_vptr_t a_que_pull_fore(a_que_s *ctx)
         {
             return vptr;
         }
-        a_list_del_next(ctx->__head);
+        a_list_del_node(node->__node);
         a_list_dtor(node->__node);
         vptr = node->__vptr;
     }
@@ -220,11 +220,61 @@ a_vptr_t a_que_pull_back(a_que_s *ctx)
         {
             return vptr;
         }
-        a_list_del_prev(ctx->__head);
+        a_list_del_node(node->__node);
         a_list_dtor(node->__node);
         vptr = node->__vptr;
     }
     return vptr;
+}
+
+a_vptr_t a_que_insert(a_que_s *ctx, a_size_t idx)
+{
+    assert(ctx);
+    if (idx < ctx->__num)
+    {
+        a_size_t cur = 0;
+        a_que_node_s *node = a_que_node_alloc(ctx);
+        if (a_unlikely(node == 0))
+        {
+            return node;
+        }
+        a_list_foreach_next(it, ctx->__head)
+        {
+            if (cur++ == idx)
+            {
+                a_list_add_prev(it, node->__node);
+                break;
+            }
+        }
+        return node->__vptr;
+    }
+    return a_que_push_back(ctx);
+}
+
+a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx)
+{
+    assert(ctx);
+    if (idx < ctx->__num)
+    {
+        a_size_t cur = 0;
+        a_que_node_s *node = 0;
+        a_list_foreach_next(it, ctx->__head)
+        {
+            if (cur++ == idx)
+            {
+                node = (a_que_node_s *)it;
+                break;
+            }
+        }
+        if (a_unlikely(a_que_node_free(ctx, node)))
+        {
+            return 0;
+        }
+        a_list_del_node(node->__node);
+        a_list_dtor(node->__node);
+        return node->__vptr;
+    }
+    return a_que_pull_back(ctx);
 }
 
 #endif /* __STDC_HOSTED__ */

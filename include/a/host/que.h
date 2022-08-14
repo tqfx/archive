@@ -47,7 +47,7 @@ A_INLINE a_que_node_s *a_que_tonode(a_vptr_t ctx) { return a_cast_s(a_que_node_s
 */
 typedef struct a_que_s
 {
-    a_que_node_s **__ptr; /*!< mempool vector */
+    a_que_node_s **__ptr; /*!< mempool block */
     a_list_s __head[1]; /*!< element head */
     a_size_t __size; /*!< element data */
     a_size_t __num; /*!< element number */
@@ -93,7 +93,7 @@ A_INLINE a_vptr_t a_que_back_(const a_que_s *ctx)
  @brief access foremost element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
  @return element pointer
-  @retval 0 empty vector
+  @retval 0 empty queue
 */
 A_INLINE a_vptr_t a_que_fore(const a_que_s *ctx)
 {
@@ -104,7 +104,7 @@ A_INLINE a_vptr_t a_que_fore(const a_que_s *ctx)
  @brief access backmost element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
  @return element pointer
-  @retval 0 empty vector
+  @retval 0 empty queue
 */
 A_INLINE a_vptr_t a_que_back(const a_que_s *ctx)
 {
@@ -119,35 +119,35 @@ extern "C" {
  @brief allocate a pointer to queue structure from memory
  @param[in] size size of element
 */
-a_que_s *a_que_new(a_size_t size);
+A_PUBLIC a_que_s *a_que_new(a_size_t size);
 
 /*!
  @brief deallocate a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] dtor element destructor
 */
-a_noret_t a_que_die(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_que_die(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief constructor for queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] size size of element
 */
-a_noret_t a_que_ctor(a_que_s *ctx, a_size_t size);
+A_PUBLIC a_noret_t a_que_ctor(a_que_s *ctx, a_size_t size);
 
 /*!
  @brief destructor for queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] dtor element destructor
 */
-a_noret_t a_que_dtor(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_que_dtor(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief initialize a pointer to queue structure by moving
  @param[in] ctx points to an instance of queue structure
  @param[in] obj input source pointing to an instance
 */
-a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj);
+A_PUBLIC a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj);
 
 /*!
  @brief modify size of a element for a pointer to queue structure
@@ -158,14 +158,14 @@ a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj);
   @retval 0 success
   @retval 1 failure
 */
-a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief drop all the elements for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] dtor current element destructor
 */
-a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief push an element into the queue forward
@@ -173,7 +173,7 @@ a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_que_push_fore(a_que_s *ctx);
+A_PUBLIC a_vptr_t a_que_push_fore(a_que_s *ctx);
 
 /*!
  @brief push an element into the queue backward
@@ -181,7 +181,7 @@ a_vptr_t a_que_push_fore(a_que_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_que_push_back(a_que_s *ctx);
+A_PUBLIC a_vptr_t a_que_push_back(a_que_s *ctx);
 
 /*!
  @brief pull an element from the queue forward
@@ -189,7 +189,7 @@ a_vptr_t a_que_push_back(a_que_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_que_pull_fore(a_que_s *ctx);
+A_PUBLIC a_vptr_t a_que_pull_fore(a_que_s *ctx);
 
 /*!
  @brief pull an element from the queue backward
@@ -197,7 +197,29 @@ a_vptr_t a_que_pull_fore(a_que_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_que_pull_back(a_que_s *ctx);
+A_PUBLIC a_vptr_t a_que_pull_back(a_que_s *ctx);
+
+/*!
+ @brief insert an element into the queue
+ @param[in] ctx points to an instance of queue structure
+ @param[in] idx index of element in this queue
+  @arg 0 @ref a_que_push_fore
+  @arg n @ref a_que_push_back
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_que_insert(a_que_s *ctx, a_size_t idx);
+
+/*!
+ @brief remove an element from the queue
+ @param[in] ctx points to an instance of queue structure
+ @param[in] idx index of element in this queue
+  @arg 0 @ref a_que_pull_fore
+  @arg n @ref a_que_pull_back
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
 
 #if defined(__cplusplus)
 } /* extern "C" */
