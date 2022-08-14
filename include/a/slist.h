@@ -223,6 +223,10 @@ A_INLINE a_noret_t a_slist_rot(a_slist_s *ctx)
     ctx->tail = node;
 }
 
+/* inline function for generic */
+A_INLINE a_noret_t a_slist_ctor_(a_vptr_t vctx) { a_slist_ctor(a_cast_s(a_slist_s *, vctx)); }
+A_INLINE a_noret_t a_slist_dtor_(a_vptr_t vctx) { a_slist_dtor(a_cast_s(a_slist_s *, vctx)); }
+
 /*! @} A_SLIST */
 
 #endif /* __A_SLIST_H__ */

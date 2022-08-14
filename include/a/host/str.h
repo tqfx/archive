@@ -209,6 +209,12 @@ A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) __attribute__((fo
 } /* extern "C" */
 #endif /* __cplusplus */
 
+/* inline function for generic */
+A_INLINE a_vptr_t a_str_new_(a_noarg_t) { return a_str_new(); }
+A_INLINE a_noret_t a_str_die_(a_vptr_t vctx) { a_str_die(a_cast_s(a_str_s *, vctx)); }
+A_INLINE a_noret_t a_str_ctor_(a_vptr_t vctx) { a_str_ctor(a_cast_s(a_str_s *, vctx)); }
+A_INLINE a_noret_t a_str_dtor_(a_vptr_t vctx) { a_str_dtor(a_cast_s(a_str_s *, vctx)); }
+
 /*! @} A_STR */
 
 #endif /* __STDC_HOSTED__ */

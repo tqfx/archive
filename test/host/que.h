@@ -96,7 +96,7 @@ static a_noret_t tests(a_noarg_t)
         printf("%s ", a_str_val(it));
     }
     putchar('\n');
-    a_que_die(ctx, a_cast_r(a_noret_t(*)(a_vptr_t), a_str_dtor));
+    a_que_die(ctx, a_str_dtor_);
 }
 
 #if defined(__cplusplus)

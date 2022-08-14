@@ -253,6 +253,10 @@ A_INLINE a_noret_t a_list_rot_prev(a_list_s *ctx)
     a_list_add_prev(ctx, node);
 }
 
+/* inline function for generic */
+A_INLINE a_noret_t a_list_ctor_(a_vptr_t vctx) { a_list_ctor(a_cast_s(a_list_s *, vctx)); }
+A_INLINE a_noret_t a_list_dtor_(a_vptr_t vctx) { a_list_dtor(a_cast_s(a_list_s *, vctx)); }
+
 /*! @} A_LIST */
 
 #endif /* __A_LIST_H__ */
