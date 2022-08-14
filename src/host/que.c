@@ -160,11 +160,10 @@ a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     assert(ctx);
     a_que_drop_(ctx);
     a_noret_t (*context_dtor)(a_vptr_t) = dtor ? dtor : default_dtor;
-    for (a_size_t cur = ctx->__cur; cur--;)
+    for (a_size_t cur = ctx->__cur; cur--; ctx->__ptr[cur]->__vptr = 0)
     {
         context_dtor(ctx->__ptr[cur]->__vptr);
         context_free(ctx->__ptr[cur]->__vptr);
-        ctx->__ptr[cur]->__vptr = 0;
     }
 }
 
