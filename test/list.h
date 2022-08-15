@@ -17,6 +17,10 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* __GNUC__ || __clang__ */
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4820)
+#endif /* _MSC_VER */
 typedef struct int_s
 {
     a_list_s list[1];
@@ -25,6 +29,9 @@ typedef struct int_s
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif /* _MSC_VER */
 
 static a_size_t a_list_len(const a_list_s *ctx)
 {

@@ -5,10 +5,17 @@
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wlanguage-extension-token"
 #endif /* __clang__ */
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4820)
+#endif /* _MSC_VER */
 #include "liba_aa.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif /* _MSC_VER */
 
 #include "a/version.hpp"
 

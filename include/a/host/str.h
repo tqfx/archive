@@ -8,7 +8,6 @@
 #define __A_HOST_STR_H__
 
 #include "../a.h"
-
 #include <string.h>
 
 #if __STDC_HOSTED__
