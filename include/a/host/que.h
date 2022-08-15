@@ -70,7 +70,7 @@ A_INLINE a_size_t a_que_num(const a_que_s *ctx) { return ctx->__num; }
 /*!
  @brief access foremost element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
- @note need to check if queue is empty
+ @note should check if queue is empty
  @return element pointer
 */
 A_INLINE a_vptr_t a_que_fore_(const a_que_s *ctx)
@@ -81,7 +81,7 @@ A_INLINE a_vptr_t a_que_fore_(const a_que_s *ctx)
 /*!
  @brief access backmost element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
- @note need to check if queue is empty
+ @note should check if queue is empty
  @return element pointer
 */
 A_INLINE a_vptr_t a_que_back_(const a_que_s *ctx)

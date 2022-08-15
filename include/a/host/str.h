@@ -117,8 +117,8 @@ A_PUBLIC a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj);
 /*!
  @brief terminate a pointer to string structure
  @param[in] ctx points to an instance of string structure
+ @note should use free to release this memory
  @return string of string structure
- @note need to use free to release this memory
 */
 A_PUBLIC a_str_t a_str_exit(a_str_s *ctx);
 
@@ -136,7 +136,7 @@ A_PUBLIC a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs);
 /*!
  @brief allocate memory for a pointer to string structure
  @param[in] ctx points to an instance of string structure
- @param[in] mem length of real memory
+ @param[in] mem new memory capacity of string
  @return the execution state of the function
   @retval 0 success
   @retval 1 failure
@@ -157,8 +157,8 @@ A_PUBLIC a_int_t a_str_putc_(a_str_s *ctx, a_int_t c);
 /*!
  @brief put data to an instance of string structure
  @param[in] ctx points to an instance of string structure
- @param[in] pdata points to data to put
- @param[in] nbyte length of data to put
+ @param[in] pdata points to memory block to put
+ @param[in] nbyte length of memory block to put
  @return the execution state of the function
   @retval 0 success
   @retval 1 failure

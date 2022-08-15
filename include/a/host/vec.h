@@ -58,7 +58,7 @@ A_INLINE a_size_t a_vec_get(const a_vec_s *ctx) { return ctx->__siz; }
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element less than memory
- @note need to check for out of bounds
+ @note should check for out of bounds
  @return element pointer
 */
 A_INLINE a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx)
@@ -81,7 +81,7 @@ A_INLINE a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx)
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @note need to check if vector is empty
+ @note should check if vector is empty
  @return element pointer
 */
 A_INLINE a_vptr_t a_vec_top_(const a_vec_s *ctx)
@@ -103,7 +103,7 @@ A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx)
 /*!
  @brief access end pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @note need to check if vector is empty
+ @note should check if vector is empty
  @return vector end pointer
 */
 A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx)
