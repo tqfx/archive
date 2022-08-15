@@ -173,6 +173,27 @@ A_PUBLIC a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_v
 A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
 
 /*!
+ @brief sort all elements for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+*/
+A_PUBLIC a_noret_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
+ @brief modify element number for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] num number of all elements in the vector
+ @param[in] dtor previous element destructor
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_vec_set_num(a_vec_s *ctx, a_size_t num, a_noret_t (*dtor)(a_vptr_t));
+
+/*!
  @brief modify size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] size the size of the new element

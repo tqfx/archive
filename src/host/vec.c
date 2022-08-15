@@ -21,6 +21,39 @@ A_INLINE_FORCE a_vptr_t a_vec_dec_(a_vec_s *ctx)
     return (a_byte_t *)ctx->__ptr + ctx->__siz * --ctx->__num;
 }
 
+static a_noret_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_noret_t (*dtor)(a_vptr_t))
+{
+    if (dtor)
+    {
+        while (ctx->__num > bot)
+        {
+            dtor(a_vec_dec_(ctx));
+        }
+    }
+    ctx->__num = bot;
+}
+
+static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
+{
+    if (ctx->__mem <= num)
+    {
+        a_size_t mem = ctx->__mem;
+        do
+        {
+            mem += (mem >> 1) + 1;
+        } while (mem < num);
+        a_size_t siz = a_align(sizeof(a_vptr_t), ctx->__siz * mem);
+        a_vptr_t ptr = realloc(ctx->__ptr, siz);
+        if (a_unlikely(ptr == 0))
+        {
+            return A_FAILURE;
+        }
+        ctx->__mem = mem;
+        ctx->__ptr = ptr;
+    }
+    return A_SUCCESS;
+}
+
 a_vec_s *a_vec_new(a_size_t size)
 {
     a_vec_s *ctx = (a_vec_s *)malloc(sizeof(a_vec_s));
@@ -55,7 +88,7 @@ a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     assert(ctx);
     if (ctx->__ptr)
     {
-        a_vec_drop(ctx, dtor);
+        a_vec_drop_(ctx, 0, dtor);
         free(ctx->__ptr);
         ctx->__ptr = 0;
     }
@@ -101,6 +134,23 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
     return ctx;
 }
 
+a_noret_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+{
+    assert(ctx);
+    qsort(ctx->__ptr, ctx->__num, ctx->__siz, cmp);
+}
+
+a_int_t a_vec_set_num(a_vec_s *ctx, a_size_t num, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (a_unlikely(a_vec_alloc(ctx, num)))
+    {
+        return A_FAILURE;
+    }
+    a_vec_drop_(ctx, num, dtor);
+    return A_SUCCESS;
+}
+
 a_int_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
@@ -108,7 +158,7 @@ a_int_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
     {
         return A_FAILURE;
     }
-    a_vec_drop(ctx, dtor);
+    a_vec_drop_(ctx, 0, dtor);
     ctx->__mem = ctx->__mem * ctx->__siz / size;
     ctx->__siz = size;
     return A_SUCCESS;
@@ -117,38 +167,7 @@ a_int_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
 a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
-    if (dtor)
-    {
-        while (ctx->__num)
-        {
-            dtor(a_vec_dec_(ctx));
-        }
-    }
-    else
-    {
-        ctx->__num = 0;
-    }
-}
-
-static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
-{
-    if (ctx->__mem <= num)
-    {
-        a_size_t mem = ctx->__mem;
-        do
-        {
-            mem += (mem >> 1) + 1;
-        } while (mem < num);
-        a_size_t siz = a_align(sizeof(a_vptr_t), ctx->__siz * mem);
-        a_vptr_t ptr = realloc(ctx->__ptr, siz);
-        if (a_unlikely(ptr == 0))
-        {
-            return A_FAILURE;
-        }
-        ctx->__mem = mem;
-        ctx->__ptr = ptr;
-    }
-    return A_SUCCESS;
+    a_vec_drop_(ctx, 0, dtor);
 }
 
 a_int_t a_vec_swap(a_vec_s *ctx, a_size_t lhs, a_size_t rhs)

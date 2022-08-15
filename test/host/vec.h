@@ -189,6 +189,56 @@ static a_noret_t test(a_noarg_t)
     }
 }
 
+#include <time.h>
+
+static a_int_t cmpf(a_cptr_t lhs, a_cptr_t rhs)
+{
+    return *a_cast_s(const a_int_t *, lhs) - *a_cast_s(const a_int_t *, rhs);
+}
+
+static a_int_t cmpb(a_cptr_t lhs, a_cptr_t rhs)
+{
+    return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
+}
+
+static a_noret_t test_sort(a_noarg_t)
+{
+    a_uint_t t = a_cast_s(a_uint_t, time(a_null));
+    a_vec_s *ctx = a_vec_new(sizeof(a_int_t));
+
+    a_vec_set_num(ctx, 10, a_null);
+
+    srand(t);
+    a_vec_foreach(a_int_t, it, ctx)
+    {
+        *it = rand() % 10;
+        printf("%i ", *it);
+    }
+    printf("-> ");
+    a_vec_sort(ctx, cmpf);
+    a_vec_foreach(a_int_t, it, ctx)
+    {
+        printf("%i ", *it);
+    }
+    putchar('\n');
+
+    srand(t);
+    a_vec_foreach(a_int_t, it, ctx)
+    {
+        *it = rand() % 10;
+        printf("%i ", *it);
+    }
+    printf("-> ");
+    a_vec_sort(ctx, cmpb);
+    a_vec_foreach(a_int_t, it, ctx)
+    {
+        printf("%i ", *it);
+    }
+    putchar('\n');
+
+    a_vec_die(ctx, a_null);
+}
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
@@ -204,6 +254,7 @@ a_int_t test_main(a_noarg_t)
 {
     printf("%s\n", __func__);
     test();
+    test_sort();
     return A_SUCCESS;
 }
 
