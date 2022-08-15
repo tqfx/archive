@@ -147,7 +147,7 @@ a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
 {
     assert(ctx);
     a_imax_t cur = 0;
-    a_vptr_t *vptr = 0;
+    a_vptr_t vptr = 0;
     if (idx < 0)
     {
         a_list_foreach_prev(it, ctx->__head)
@@ -207,22 +207,22 @@ a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
         return A_SUCCESS;
     }
     int ok = A_FAILURE;
-    a_que_node_s *l = 0;
-    a_que_node_s *r = 0;
+    a_que_node_s *lobj = 0;
+    a_que_node_s *robj = 0;
     a_list_foreach_next(it, ctx->__head)
     {
         a_que_node_s *node = (a_que_node_s *)it;
         if (node->__vptr == lhs)
         {
-            l = node;
+            lobj = node;
         }
         else if (node->__vptr == rhs)
         {
-            r = node;
+            robj = node;
         }
-        if (l && r)
+        if (lobj && robj)
         {
-            a_list_swap_node(l->__node, r->__node);
+            a_list_swap_node(lobj->__node, robj->__node);
             ok = A_SUCCESS;
             break;
         }
@@ -241,25 +241,25 @@ a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
         return A_SUCCESS;
     }
     a_size_t cur = 0;
-    a_que_node_s *l = 0;
-    a_que_node_s *r = 0;
+    a_que_node_s *lobj = 0;
+    a_que_node_s *robj = 0;
     a_list_foreach_next(it, ctx->__head)
     {
         if (cur == lhs)
         {
             // Because lhs less than num
             // it's never a null pointer
-            l = (a_que_node_s *)it;
+            lobj = (a_que_node_s *)it;
         }
         else if (cur == rhs)
         {
             // Because rhs less than num
             // it's never a null pointer
-            r = (a_que_node_s *)it;
+            robj = (a_que_node_s *)it;
         }
-        if (l && r)
+        if (lobj && robj)
         {
-            a_list_swap_node(l->__node, r->__node);
+            a_list_swap_node(lobj->__node, robj->__node);
             break;
         }
         ++cur;
