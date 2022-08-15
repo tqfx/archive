@@ -258,6 +258,19 @@ A_PUBLIC a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
 A_PUBLIC a_noret_t a_vec_swap(a_vec_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
+ @brief search the given element in this vector
+ @param[in] ctx points to an instance of vector structure
+ @param[in] obj object that serves as key for the search
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+ @return matching element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vec_search(a_vec_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
  @brief insert an element into the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element in this vector
@@ -398,6 +411,7 @@ A_INLINE a_vptr_t a_vec_pull(a_vec_s *ctx) { return a_vec_pull_back(ctx); }
 #define a_vec_top_(T, ctx) a_cast_s(T *, a_vec_top_(ctx))
 #define a_vec_at(T, ctx, idx) a_cast_s(T *, a_vec_at(ctx, idx))
 #define a_vec_at_(T, ctx, idx) a_cast_s(T *, a_vec_at_(ctx, idx))
+#define a_vec_search(T, ctx, obj, cmp) a_cast_s(T *, a_vec_search(ctx, obj, cmp))
 #define a_vec_insert(T, ctx, idx) a_cast_s(T *, a_vec_insert(ctx, idx))
 #define a_vec_remove(T, ctx, idx) a_cast_s(T *, a_vec_remove(ctx, idx))
 #define a_vec_push_fore(T, ctx) a_cast_s(T *, a_vec_push_fore(ctx))

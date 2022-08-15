@@ -20,6 +20,7 @@
 #undef a_vec_top_
 #undef a_vec_push
 #undef a_vec_pull
+#undef a_vec_search
 #undef a_vec_insert
 #undef a_vec_remove
 #undef a_vec_push_fore
@@ -244,6 +245,12 @@ a_noret_t a_vec_swap(a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
         a_vptr_t robj = ptr + rhs * ctx->__siz;
         a_swap(ctx->__siz, lobj, robj);
     }
+}
+
+a_vptr_t a_vec_search(a_vec_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+{
+    assert(ctx);
+    return bsearch(obj, ctx->__ptr, ctx->__num, ctx->__siz, cmp);
 }
 
 a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)

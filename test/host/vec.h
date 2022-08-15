@@ -189,6 +189,7 @@ static a_noret_t test(a_noarg_t)
     }
 }
 
+#include "a/host/str.h"
 #include <time.h>
 
 static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
@@ -273,6 +274,28 @@ static a_noret_t test_sort(a_noarg_t)
         printf("%i ", *it);
     }
     putchar('\n');
+
+    {
+        a_str_s *ok = a_str_new();
+        a_str_s *no = a_str_new();
+        a_str_puts(ok, "finding ");
+        a_str_puts(no, "missing ");
+        for (a_int_t i = 0; i != 10; ++i)
+        {
+            a_int_t *obj = a_vec_search(a_int_t, ctx, &i, cmp);
+            if (obj)
+            {
+                a_str_printf(ok, "%i ", *obj);
+            }
+            else
+            {
+                a_str_printf(no, "%i ", i);
+            }
+        }
+        printf("%s\n%s\n", a_str_val(ok), a_str_val(no));
+        a_str_die(ok);
+        a_str_die(no);
+    }
 
     a_vec_die(ctx, a_null);
 }
