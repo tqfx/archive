@@ -24,10 +24,14 @@
 */
 typedef struct a_vector_s
 {
-    a_vptr_t __head; /* head address */
-    a_vptr_t __tail; /* tail address */
-    a_vptr_t __last; /* last address */
-    a_size_t __size; /* size element */
+    a_noret_t (*ctor)(a_vptr_t); /*!< element constructor */
+    a_noret_t (*dtor)(a_vptr_t); /*!< element destructor */
+    a_vptr_t __head; /*!< head address */
+    a_vptr_t __tail; /*!< tail address */
+    a_vptr_t __last; /*!< last address */
+    a_size_t __size; /*!< size element */
+    a_size_t __num; /*!< count number */
+    a_size_t __mem; /*!< count memory */
 } a_vector_s;
 
 /*!
@@ -52,19 +56,13 @@ A_INLINE a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->__size; }
  @brief access number of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vector_num(const a_vector_s *ctx)
-{
-    return a_cast_s(a_size_t, a_cast_s(a_byte_t *, ctx->__tail) - a_cast_s(a_byte_t *, ctx->__head)) / ctx->__size;
-}
+A_INLINE a_size_t a_vector_num(const a_vector_s *ctx) { return ctx->__num; }
 
 /*!
  @brief access capacity of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx)
-{
-    return a_cast_s(a_size_t, a_cast_s(a_byte_t *, ctx->__last) - a_cast_s(a_byte_t *, ctx->__head)) / ctx->__size;
-}
+A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->__mem; }
 
 /*!
  @brief access specified element for a pointer to vector structure
@@ -87,8 +85,7 @@ A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 {
-    a_vptr_t at = a_vector_at_(ctx, idx);
-    return a_likely(at < ctx->__last) ? at : a_null;
+    return a_likely(idx < ctx->__mem) ? a_vector_at_(ctx, idx) : a_null;
 }
 
 /*!
@@ -110,7 +107,7 @@ A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
 */
 A_INLINE a_vptr_t a_vector_top(const a_vector_s *ctx)
 {
-    return a_likely(ctx->__head != ctx->__tail) ? a_vector_top_(ctx) : a_null;
+    return a_likely(ctx->__num) ? a_vector_top_(ctx) : a_null;
 }
 
 #if defined(__cplusplus)
@@ -119,30 +116,36 @@ extern "C" {
 
 /*!
  @brief allocate a pointer to vector structure from memory
- @param[in] size size of element
+ @param[in] size the size of the element
+ @param[in] ctor element constructor
+ @param[in] dtor element destructor
 */
-A_PUBLIC a_vector_s *a_vector_new(a_size_t size);
+A_PUBLIC a_vector_s *a_vector_new(a_size_t size,
+                                  a_noret_t (*ctor)(a_vptr_t),
+                                  a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief deallocate a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_vector_die(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_vector_die(a_vector_s *ctx);
 
 /*!
  @brief constructor for vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] size size of element
+ @param[in] size the size of the element
+ @param[in] ctor element constructor
+ @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size);
+A_PUBLIC a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
+                                 a_noret_t (*ctor)(a_vptr_t),
+                                 a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief destructor for vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_vector_dtor(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_vector_dtor(a_vector_s *ctx);
 
 /*!
  @brief initialize a pointer to vector structure by copying
@@ -164,33 +167,103 @@ A_PUBLIC a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (
 A_PUBLIC a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
 
 /*!
- @brief modify size of a element for a pointer to vector structure
+ @brief sort all elements for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] size the size of the new element
- @param[in] dtor previous element destructor
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+*/
+A_PUBLIC a_noret_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
+ @brief insert sort foremost element for a pointer to vector structure
+ @code{.c}
+ T *obj = a_vector_push_fore(T, ctx);
+ if (obj)
+ {
+     CTOR(obj);
+     INIT(obj);
+     a_vector_sort_fore(ctx, cmp);
+ }
+ @endcode
+ @param[in] ctx points to an instance of vector structure
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+*/
+A_PUBLIC a_noret_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
+ @brief insert sort backmost element for a pointer to vector structure
+ @code{.c}
+ T *obj = a_vector_push_back(T, ctx);
+ if (obj)
+ {
+     CTOR(obj);
+     INIT(obj);
+     a_vector_sort_back(ctx, cmp);
+ }
+ @endcode
+ @param[in] ctx points to an instance of vector structure
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+*/
+A_PUBLIC a_noret_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
+ @brief modify element number for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] num number of all elements in the vector
  @return the execution state of the function
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_vector_set(a_vector_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_int_t a_vector_set_num(a_vector_s *ctx, a_size_t num);
+
+/*!
+ @brief modify size of a element for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+ @param[in] size the size of the new element
+ @param[in] ctor current element constructor
+ @param[in] dtor current element destructor
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_vector_set(a_vector_s *ctx, a_size_t size,
+                              a_noret_t (*ctor)(a_vptr_t),
+                              a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief drop all the elements for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @param[in] dtor current element destructor
 */
-A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx);
 
 /*!
  @brief swap elements lhs and rhs for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
 */
-A_PUBLIC a_int_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
+A_PUBLIC a_noret_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
+
+/*!
+ @brief search the given element in this vector
+ @param[in] ctx points to an instance of vector structure
+ @param[in] obj object that serves as key for the search
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+ @return matching element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_search(a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert an element into the vector
@@ -202,6 +275,17 @@ A_PUBLIC a_int_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
   @retval 0 failure
 */
 A_PUBLIC a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx);
+
+/*!
+ @brief remove an element from the vector
+ @param[in] ctx points to an instance of vector structure
+ @param[in] idx index of element in this vector
+  @arg 0 @ref a_vector_pull_fore
+  @arg n @ref a_vector_pull_back
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx);
 
 /*!
  @brief push an element into the vector forward
@@ -218,17 +302,6 @@ A_PUBLIC a_vptr_t a_vector_push_fore(a_vector_s *ctx);
   @retval 0 failure
 */
 A_PUBLIC a_vptr_t a_vector_push_back(a_vector_s *ctx);
-
-/*!
- @brief remove an element from the vector
- @param[in] ctx points to an instance of vector structure
- @param[in] idx index of element in this vector
-  @arg 0 @ref a_vector_pull_fore
-  @arg n @ref a_vector_pull_back
- @return element pointer
-  @retval 0 failure
-*/
-A_PUBLIC a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx);
 
 /*!
  @brief pull an element from the vector forward
@@ -278,7 +351,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vector_forenum(i, ctx) a_forenum(a_size_t, i, a_vector_num(ctx))
+#define a_vector_forenum(i, ctx) a_forenum(a_size_t, i, (ctx)->__num)
 
 /*!
  @brief iterate over a vector in reverse
@@ -292,7 +365,7 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vector_forenum_reverse(i, ctx) a_forenum_reverse(a_size_t, i, a_vector_num(ctx))
+#define a_vector_forenum_reverse(i, ctx) a_forenum_reverse(a_size_t, i, (ctx)->__num)
 
 /*!
  @brief iterate over a vector
@@ -321,6 +394,26 @@ A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param ctx points to an instance of vector structure
 */
 #define a_vector_foreach_reverse(T, it, ctx) a_iterate_reverse(T, it, (ctx)->__head, (ctx)->__tail)
+
+#if defined(__clang__)
+#pragma GCC diagnostic ignored "-Wdisabled-macro-expansion"
+#endif /* __clang__ */
+
+#define a_vector_ptr(T, ctx) a_cast_s(T *, a_vector_ptr(ctx))
+#define a_vector_end(T, ctx) a_cast_s(T *, a_vector_end(ctx))
+#define a_vector_top(T, ctx) a_cast_s(T *, a_vector_top(ctx))
+#define a_vector_top_(T, ctx) a_cast_s(T *, a_vector_top_(ctx))
+#define a_vector_at(T, ctx, idx) a_cast_s(T *, a_vector_at(ctx, idx))
+#define a_vector_at_(T, ctx, idx) a_cast_s(T *, a_vector_at_(ctx, idx))
+#define a_vector_search(T, ctx, obj, cmp) a_cast_s(T *, a_vector_search(ctx, obj, cmp))
+#define a_vector_insert(T, ctx, idx) a_cast_s(T *, a_vector_insert(ctx, idx))
+#define a_vector_remove(T, ctx, idx) a_cast_s(T *, a_vector_remove(ctx, idx))
+#define a_vector_push_fore(T, ctx) a_cast_s(T *, a_vector_push_fore(ctx))
+#define a_vector_push_back(T, ctx) a_cast_s(T *, a_vector_push_back(ctx))
+#define a_vector_pull_fore(T, ctx) a_cast_s(T *, a_vector_pull_fore(ctx))
+#define a_vector_pull_back(T, ctx) a_cast_s(T *, a_vector_pull_back(ctx))
+#define a_vector_push(T, ctx) a_cast_s(T *, a_vector_push(ctx))
+#define a_vector_pull(T, ctx) a_cast_s(T *, a_vector_pull(ctx))
 
 /*! @} A_VECTOR */
 
