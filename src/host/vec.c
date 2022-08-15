@@ -165,7 +165,7 @@ a_noret_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
         a_byte_t *end = (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num - ctx->__siz;
         do
         {
-            a_byte_t *cur = cur = ptr + ctx->__siz;
+            a_byte_t *cur = ptr + ctx->__siz;
             if (cmp(ptr, cur) > 0)
             {
                 a_swap(ctx->__siz, cur, ptr);
