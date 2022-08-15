@@ -11,6 +11,22 @@
 #include <assert.h>
 #include <string.h>
 
+#undef a_vec_at
+#undef a_vec_at_
+#undef a_vec_ptr
+#undef a_vec_end
+#undef a_vec_top
+#undef a_vec_end_
+#undef a_vec_top_
+#undef a_vec_push
+#undef a_vec_pull
+#undef a_vec_insert
+#undef a_vec_remove
+#undef a_vec_push_fore
+#undef a_vec_push_back
+#undef a_vec_pull_fore
+#undef a_vec_pull_back
+
 A_INLINE_FORCE a_vptr_t a_vec_inc_(a_vec_s *ctx)
 {
     return (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num++;
@@ -214,11 +230,7 @@ a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)
     return a_vec_inc_(ctx);
 }
 
-a_vptr_t a_vec_push_fore(a_vec_s *ctx)
-{
-    assert(ctx);
-    return a_vec_insert(ctx, 0);
-}
+a_vptr_t a_vec_push_fore(a_vec_s *ctx) { return a_vec_insert(ctx, 0); }
 
 a_vptr_t a_vec_push_back(a_vec_s *ctx)
 {
@@ -250,11 +262,7 @@ a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
     return a_likely(ctx->__num) ? a_vec_dec_(ctx) : 0;
 }
 
-a_vptr_t a_vec_pull_fore(a_vec_s *ctx)
-{
-    assert(ctx);
-    return a_vec_remove(ctx, 0);
-}
+a_vptr_t a_vec_pull_fore(a_vec_s *ctx) { return a_vec_remove(ctx, 0); }
 
 a_vptr_t a_vec_pull_back(a_vec_s *ctx)
 {
