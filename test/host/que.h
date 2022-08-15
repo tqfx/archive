@@ -26,35 +26,35 @@ static a_noret_t test(a_noarg_t)
     a_que_s *ctx = a_que_new(sizeof(a_u64_t));
     for (a_u64_t i = 0; i != 10; ++i)
     {
-        a_u64_t *p = a_cast_s(a_u64_t *, a_que_push_back(ctx));
+        a_u64_t *p = a_que_push_back(a_u64_t, ctx);
         if (p)
         {
             *p = i;
         }
     }
     {
-        a_u64_t *fore = a_cast_s(a_u64_t *, a_que_fore_(ctx));
-        a_u64_t *back = a_cast_s(a_u64_t *, a_que_back_(ctx));
+        a_u64_t *fore = a_que_fore_(a_u64_t, ctx);
+        a_u64_t *back = a_que_back_(a_u64_t, ctx);
         printf("%" PRIu64 " %" PRIu64 " ", *fore, *back);
     }
     {
-        a_u64_t *fore = a_cast_s(a_u64_t *, a_que_fore(ctx));
-        a_u64_t *back = a_cast_s(a_u64_t *, a_que_back(ctx));
+        a_u64_t *fore = a_que_fore(a_u64_t, ctx);
+        a_u64_t *back = a_que_back(a_u64_t, ctx);
         printf("%" PRIu64 " %" PRIu64 " ", *fore, *back);
     }
     {
-        a_u64_t *fore = a_cast_s(a_u64_t *, a_que_at(ctx, 0));
-        a_u64_t *back = a_cast_s(a_u64_t *, a_que_at(ctx, ~0));
+        a_u64_t *fore = a_que_at(a_u64_t, ctx, 0);
+        a_u64_t *back = a_que_at(a_u64_t, ctx, ~0);
         printf("%" PRIu64 " %" PRIu64 "\n", *fore, *back);
     }
     for (a_u64_t i = 0; i != 5; ++i)
     {
-        (void)(a_cast_s(a_u64_t *, a_que_pull_fore(ctx)));
+        (void)(a_que_pull_fore(a_u64_t, ctx));
     }
     a_que_set(ctx, sizeof(a_u32_t), a_null);
     for (a_u32_t i = 5; i--;)
     {
-        a_u32_t *p = a_cast_s(a_u32_t *, a_que_push_fore(ctx));
+        a_u32_t *p = a_que_push_fore(a_u32_t, ctx);
         if (p)
         {
             *p = i;
@@ -62,30 +62,34 @@ static a_noret_t test(a_noarg_t)
     }
     for (a_u32_t i = 5; i != 10; ++i)
     {
-        a_u32_t *p = a_cast_s(a_u32_t *, a_que_push_back(ctx));
+        a_u32_t *p = a_que_push_back(a_u32_t, ctx);
         if (p)
         {
             *p = i;
         }
     }
     {
-        a_u32_t *p = a_cast_s(a_u32_t *, a_que_insert(ctx, 0));
+        a_u32_t *p = a_que_insert(a_u32_t, ctx, 0);
         if (p)
         {
             *p = A_U32_MAX;
         }
     }
     {
-        a_u32_t *p = a_cast_s(a_u32_t *, a_que_insert(ctx, A_SIZE_MAX));
+        a_u32_t *p = a_que_insert(a_u32_t, ctx, A_SIZE_MAX);
         if (p)
         {
             *p = A_U32_MAX;
         }
     }
-    (void)(a_que_remove(ctx, 0));
-    (void)(a_que_remove(ctx, A_SIZE_MAX));
+    (void)(a_que_remove(a_u32_t, ctx, 0));
+    (void)(a_que_remove(a_u32_t, ctx, A_SIZE_MAX));
     a_que_swap(ctx, 0, A_SIZE_MAX);
-    a_que_swap_(ctx, a_que_fore_(ctx), a_que_back_(ctx));
+    {
+        a_u32_t *lhs = a_que_fore_(a_u32_t, ctx);
+        a_u32_t *rhs = a_que_back_(a_u32_t, ctx);
+        a_que_swap_(ctx, lhs, rhs);
+    }
     a_que_foreach(a_u32_t, it, ctx)
     {
         assert(a_que_get(ctx) == sizeof(*it));
@@ -100,11 +104,11 @@ static a_noret_t test(a_noarg_t)
     putchar('\n');
     for (a_u32_t i = 0; i != 5; ++i)
     {
-        (void)(a_cast_s(a_u32_t *, a_que_pull_back(ctx)));
+        (void)(a_que_pull_back(a_u32_t, ctx));
     }
     for (a_u32_t i = 0; i != 5; ++i)
     {
-        (void)(a_cast_s(a_u32_t *, a_que_pull_fore(ctx)));
+        (void)(a_que_pull_fore(a_u32_t, ctx));
     }
     a_que_die(ctx, dtor);
     putchar('\n');
@@ -117,7 +121,7 @@ static a_noret_t tests(a_noarg_t)
     a_que_s *ctx = a_que_new(sizeof(a_str_s));
     for (a_int_t i = 0; i != 10; ++i)
     {
-        a_str_s *p = a_cast_s(a_str_s *, a_que_push_back(ctx));
+        a_str_s *p = a_que_push_back(a_str_s, ctx);
         if (p)
         {
             a_str_ctor(p);

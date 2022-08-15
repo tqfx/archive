@@ -11,6 +11,18 @@
 #include <assert.h>
 #include <string.h>
 
+#undef a_que_at
+#undef a_que_fore
+#undef a_que_back
+#undef a_que_fore_
+#undef a_que_back_
+#undef a_que_insert
+#undef a_que_remove
+#undef a_que_push_fore
+#undef a_que_push_back
+#undef a_que_pull_fore
+#undef a_que_pull_back
+
 #if defined(_WIN32)
 #define context_alloc(size) _aligned_malloc(size, sizeof(a_vptr_t))
 #define context_free(vptr) _aligned_free(vptr)

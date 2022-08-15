@@ -296,6 +296,22 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
              : (0);                                                      \
          it = it##_, it##_ = a_cast_r(T *, a_que_tolist(it)->prev))
 
+#if defined(__clang__)
+#pragma GCC diagnostic ignored "-Wdisabled-macro-expansion"
+#endif /* __clang__ */
+
+#define a_que_fore(T, ctx) a_cast_s(T *, a_que_fore(ctx))
+#define a_que_back(T, ctx) a_cast_s(T *, a_que_back(ctx))
+#define a_que_fore_(T, ctx) a_cast_s(T *, a_que_fore_(ctx))
+#define a_que_back_(T, ctx) a_cast_s(T *, a_que_back_(ctx))
+#define a_que_at(T, ctx, idx) a_cast_s(T *, a_que_at(ctx, idx))
+#define a_que_push_fore(T, ctx) a_cast_s(T *, a_que_push_fore(ctx))
+#define a_que_push_back(T, ctx) a_cast_s(T *, a_que_push_back(ctx))
+#define a_que_pull_fore(T, ctx) a_cast_s(T *, a_que_pull_fore(ctx))
+#define a_que_pull_back(T, ctx) a_cast_s(T *, a_que_pull_back(ctx))
+#define a_que_insert(T, ctx, idx) a_cast_s(T *, a_que_insert(ctx, idx))
+#define a_que_remove(T, ctx, idx) a_cast_s(T *, a_que_remove(ctx, idx))
+
 /*! @} A_QUE */
 
 #endif /* __STDC_HOSTED__ */
