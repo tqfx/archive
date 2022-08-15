@@ -183,6 +183,44 @@ A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
 A_PUBLIC a_noret_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
+ @brief insert sort foremost element for a pointer to vector structure
+ @code{.c}
+ T *obj = a_vec_push_fore(T, ctx);
+ if (obj)
+ {
+     CTOR(obj);
+     INIT(obj);
+     a_vec_sort_fore(ctx, cmp);
+ }
+ @endcode
+ @param[in] ctx points to an instance of vector structure
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+*/
+A_PUBLIC a_noret_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
+ @brief insert sort backmost element for a pointer to vector structure
+ @code{.c}
+ T *obj = a_vec_push_back(T, ctx);
+ if (obj)
+ {
+     CTOR(obj);
+     INIT(obj);
+     a_vec_sort_back(ctx, cmp);
+ }
+ @endcode
+ @param[in] ctx points to an instance of vector structure
+ @param[in] cmp a function that compares two elements
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+*/
+A_PUBLIC a_noret_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
  @brief modify element number for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] num number of all elements in the vector
