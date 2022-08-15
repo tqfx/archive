@@ -186,30 +186,19 @@ a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     a_vec_drop_(ctx, 0, dtor);
 }
 
-a_int_t a_vec_swap(a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
+a_noret_t a_vec_swap(a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
+    a_size_t num = ctx->__num - 1;
+    lhs = lhs < ctx->__num ? lhs : num;
+    rhs = rhs < ctx->__num ? rhs : num;
+    if (lhs != rhs)
     {
-        const a_size_t num = ctx->__num - 1;
-        lhs = lhs < ctx->__num ? lhs : num;
-        rhs = rhs < ctx->__num ? rhs : num;
+        a_byte_t *ptr = (a_byte_t *)ctx->__ptr;
+        a_vptr_t lobj = ptr + lhs * ctx->__siz;
+        a_vptr_t robj = ptr + rhs * ctx->__siz;
+        a_swap(ctx->__siz, lobj, robj);
     }
-    if (lhs == rhs)
-    {
-        return A_SUCCESS;
-    }
-    const a_size_t num = ctx->__num;
-    if (a_unlikely(a_vec_alloc(ctx, num)))
-    {
-        return A_FAILURE;
-    }
-    a_vptr_t pt = (a_byte_t *)ctx->__ptr + ctx->__siz * num;
-    a_vptr_t pl = (a_byte_t *)ctx->__ptr + ctx->__siz * lhs;
-    a_vptr_t pr = (a_byte_t *)ctx->__ptr + ctx->__siz * rhs;
-    memcpy(pt, pl, ctx->__siz);
-    memcpy(pl, pr, ctx->__siz);
-    memcpy(pr, pt, ctx->__siz);
-    return A_SUCCESS;
 }
 
 a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)

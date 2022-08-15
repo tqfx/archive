@@ -419,6 +419,22 @@ enum
     A_INVALID, //!< return invalid
 };
 
+#if defined(__cplusplus)
+extern "C" {
+#endif /* __cplusplus */
+
+/*!
+ @brief swap two different memory blocks of the same size
+ @param[in] siz the size of memory block being swapped
+ @param[in,out] lhs points to memory block on the left
+ @param[in,out] rhs points to memory block on the right
+*/
+A_PUBLIC a_noret_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs);
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif /* __cplusplus */
+
 /*! @} A */
 
 #endif /* __A_A_H__ */
