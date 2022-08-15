@@ -52,7 +52,7 @@ static a_noret_t test(a_noarg_t)
     }
     for (a_u32_t i = 0; i != 10; ++i)
     {
-        a_vec_pull(a_u32_t, ctx);
+        (void)(a_vec_pull(a_u32_t, ctx));
     }
 
     {

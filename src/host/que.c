@@ -206,8 +206,8 @@ a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
         a_list_s *it = ctx->__head->next;
         for (a_list_s *at = it->next; at != ctx->__head; at = at->next)
         {
-            a_que_node_s *lhs = ((a_que_node_s *)it)->__vptr;
-            a_que_node_s *rhs = ((a_que_node_s *)at)->__vptr;
+            a_vptr_t lhs = ((a_que_node_s *)it)->__vptr;
+            a_vptr_t rhs = ((a_que_node_s *)at)->__vptr;
             if (cmp(lhs, rhs) > 0)
             {
                 pt = at;
@@ -234,8 +234,8 @@ a_noret_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
         a_list_s *it = ctx->__head->prev;
         for (a_list_s *at = it->prev; at != ctx->__head; at = at->prev)
         {
-            a_que_node_s *lhs = ((a_que_node_s *)at)->__vptr;
-            a_que_node_s *rhs = ((a_que_node_s *)it)->__vptr;
+            a_vptr_t lhs = ((a_que_node_s *)at)->__vptr;
+            a_vptr_t rhs = ((a_que_node_s *)it)->__vptr;
             if (cmp(lhs, rhs) > 0)
             {
                 pt = at;
