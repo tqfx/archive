@@ -24,10 +24,10 @@
 */
 typedef struct a_vec_s
 {
-    a_vptr_t __ptr; /*! address of vector */
-    a_size_t __num; /*! number of element */
-    a_size_t __mem; /*! memory of element */
-    a_size_t __siz; /*! size of a element */
+    a_vptr_t __ptr; /*!< address of vector */
+    a_size_t __num; /*!< number of element */
+    a_size_t __mem; /*!< memory of element */
+    a_size_t __siz; /*!< size of a element */
 } a_vec_s;
 
 /*!

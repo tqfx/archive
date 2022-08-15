@@ -17,8 +17,8 @@
 
 static a_noret_t dtor(a_vptr_t ptr)
 {
-    a_u32_t *p = a_cast_s(a_u32_t *, ptr);
-    printf("%" PRIu32 " ", *p);
+    a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
+    printf("%" PRIu32 " ", *obj);
 }
 
 static a_noret_t test(a_noarg_t)
@@ -26,10 +26,10 @@ static a_noret_t test(a_noarg_t)
     a_que_s *ctx = a_que_new(sizeof(a_u64_t));
     for (a_u64_t i = 0; i != 10; ++i)
     {
-        a_u64_t *p = a_que_push_back(a_u64_t, ctx);
-        if (p)
+        a_u64_t *obj = a_que_push_back(a_u64_t, ctx);
+        if (obj)
         {
-            *p = i;
+            *obj = i;
         }
     }
     {
@@ -54,32 +54,32 @@ static a_noret_t test(a_noarg_t)
     a_que_set(ctx, sizeof(a_u32_t), a_null);
     for (a_u32_t i = 5; i--;)
     {
-        a_u32_t *p = a_que_push_fore(a_u32_t, ctx);
-        if (p)
+        a_u32_t *obj = a_que_push_fore(a_u32_t, ctx);
+        if (obj)
         {
-            *p = i;
+            *obj = i;
         }
     }
     for (a_u32_t i = 5; i != 10; ++i)
     {
-        a_u32_t *p = a_que_push_back(a_u32_t, ctx);
-        if (p)
+        a_u32_t *obj = a_que_push_back(a_u32_t, ctx);
+        if (obj)
         {
-            *p = i;
+            *obj = i;
         }
     }
     {
-        a_u32_t *p = a_que_insert(a_u32_t, ctx, 0);
-        if (p)
+        a_u32_t *obj = a_que_insert(a_u32_t, ctx, 0);
+        if (obj)
         {
-            *p = A_U32_MAX;
+            *obj = A_U32_MAX;
         }
     }
     {
-        a_u32_t *p = a_que_insert(a_u32_t, ctx, A_SIZE_MAX);
-        if (p)
+        a_u32_t *obj = a_que_insert(a_u32_t, ctx, A_SIZE_MAX);
+        if (obj)
         {
-            *p = A_U32_MAX;
+            *obj = A_U32_MAX;
         }
     }
     (void)(a_que_remove(a_u32_t, ctx, 0));
@@ -121,11 +121,11 @@ static a_noret_t tests(a_noarg_t)
     a_que_s *ctx = a_que_new(sizeof(a_str_s));
     for (a_int_t i = 0; i != 10; ++i)
     {
-        a_str_s *p = a_que_push_back(a_str_s, ctx);
-        if (p)
+        a_str_s *obj = a_que_push_back(a_str_s, ctx);
+        if (obj)
         {
-            a_str_ctor(p);
-            a_str_printf(p, "%i", i);
+            a_str_ctor(obj);
+            a_str_printf(obj, "%i", i);
         }
     }
     a_que_foreach(a_str_s, it, ctx)

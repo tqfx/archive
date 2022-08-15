@@ -21,10 +21,10 @@ static a_noret_t dtor(a_vptr_t ptr)
     printf("%" PRIu32 " ", *obj);
 }
 
-static a_int_t u32dup(a_vptr_t lhs, a_cptr_t rhs)
+static a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
 {
-    *a_cast_s(a_u32_t *, lhs) = *a_cast_s(const a_u32_t *, rhs);
-    printf("%" PRIu32 " ", *a_cast_s(const a_u32_t *, rhs));
+    *a_cast_s(a_u32_t *, dst) = *a_cast_s(const a_u32_t *, src);
+    printf("%" PRIu32 " ", *a_cast_s(const a_u32_t *, src));
     return 0;
 }
 
