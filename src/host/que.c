@@ -197,6 +197,62 @@ a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
     return A_SUCCESS;
 }
 
+a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+{
+    assert(ctx);
+    if (ctx->__num > 1)
+    {
+        a_list_s *pt = 0;
+        a_list_s *it = ctx->__head->next;
+        for (a_list_s *at = it->next; at != ctx->__head; at = at->next)
+        {
+            a_que_node_s *lhs = ((a_que_node_s *)it)->__vptr;
+            a_que_node_s *rhs = ((a_que_node_s *)at)->__vptr;
+            if (cmp(lhs, rhs) > 0)
+            {
+                pt = at;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (pt)
+        {
+            a_list_del_(it, it);
+            a_list_add_(pt->next, pt, it, it);
+        }
+    }
+}
+
+a_noret_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+{
+    assert(ctx);
+    if (ctx->__num > 1)
+    {
+        a_list_s *pt = 0;
+        a_list_s *it = ctx->__head->prev;
+        for (a_list_s *at = it->prev; at != ctx->__head; at = at->prev)
+        {
+            a_que_node_s *lhs = ((a_que_node_s *)at)->__vptr;
+            a_que_node_s *rhs = ((a_que_node_s *)it)->__vptr;
+            if (cmp(lhs, rhs) > 0)
+            {
+                pt = at;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (pt)
+        {
+            a_list_del_(it, it);
+            a_list_add_(pt, pt->prev, it, it);
+        }
+    }
+}
+
 a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
