@@ -151,13 +151,13 @@ a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_v
     ctx->__last = (a_byte_t *)ctx->__head + mem_;
     if (dup)
     {
-        a_vptr_t dst = ctx->__head;
-        a_vptr_t src = obj->__head;
+        a_byte_t *dst = ctx->__head;
+        a_byte_t *src = obj->__head;
         while (src != obj->__tail)
         {
             dup(dst, src);
-            dst = (a_byte_t *)dst + obj->__size;
-            src = (a_byte_t *)src + obj->__size;
+            dst += obj->__size;
+            src += obj->__size;
         }
     }
     else

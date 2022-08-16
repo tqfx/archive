@@ -130,9 +130,11 @@ a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_
     {
         a_byte_t *dst = (a_byte_t *)ctx->__ptr;
         a_byte_t *src = (a_byte_t *)obj->__ptr;
-        for (a_size_t idx = 0; idx != size; idx += obj->__siz)
+        for (a_byte_t *end = src + size; src != end;)
         {
-            dup(dst + idx, src + idx);
+            dup(dst, src);
+            dst += ctx->__siz;
+            src += ctx->__siz;
         }
     }
     else
