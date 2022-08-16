@@ -62,6 +62,8 @@ endfunction()
 
 unittest(for SOURCE for.c for.cc)
 
+unittest(test SOURCE test.cc)
+
 unittest(version SOURCE version.cc)
 
 unittest(real SOURCE real.c)
