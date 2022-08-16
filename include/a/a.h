@@ -77,6 +77,7 @@
 #endif /* a_has_attribute(deprecated) */
 
 /* attribute always inline */
+#define A_INLINE static __inline
 #if a_has_attribute(always_inline)
 #define A_INLINE_FORCE static __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
@@ -84,7 +85,6 @@
 #else /* !_MSC_VER */
 #define A_INLINE_FORCE static __inline
 #endif /* _MSC_VER */
-#define A_INLINE static __inline
 
 /* attribute visibility */
 #if a_has_attribute(visibility)
