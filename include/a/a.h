@@ -14,7 +14,7 @@
 #define A_EXTERN_C
 #define A_EXTERN_C_ENTER
 #define A_EXTERN_C_LEAVE
-#else /* #__cplusplus */
+#else /* !__cplusplus */
 #define A_EXTERN_C extern "C"
 #define A_EXTERN_C_ENTER extern "C" {
 #define A_EXTERN_C_LEAVE }
@@ -32,7 +32,7 @@
 #define a_has_builtin(...) __has_builtin(__VA_ARGS__)
 #define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
 #define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
-#else /* #__has_builtin */
+#else /* !__has_builtin */
 #define a_has_builtin(...) 0
 #define a_likely(...) (__VA_ARGS__)
 #define a_unlikely(...) (__VA_ARGS__)
@@ -41,28 +41,28 @@
 /* has feature */
 #if defined(__has_feature)
 #define a_has_feature(...) __has_feature(__VA_ARGS__)
-#else /* #__has_feature */
+#else /* !__has_feature */
 #define a_has_feature(...) 0
 #endif /* __has_feature */
 
 /* has include */
 #if defined(__has_include)
 #define a_has_include(...) __has_include(__VA_ARGS__)
-#else /* #__has_include */
+#else /* !__has_include */
 #define a_has_include(...) 0
 #endif /* __has_include */
 
 /* has warning */
 #if defined(__has_warning)
 #define a_has_warning(...) __has_warning(__VA_ARGS__)
-#else /* #__has_warning */
+#else /* !__has_warning */
 #define a_has_warning(...) 0
 #endif /* __has_warning */
 
 /* has attribute */
 #if defined(__has_attribute)
 #define a_has_attribute(...) __has_attribute(__VA_ARGS__)
-#else /* #__has_attribute */
+#else /* !__has_attribute */
 #define a_has_attribute(...) 0
 #define __attribute__(...)
 #endif /* __has_attribute */
@@ -72,7 +72,7 @@
 #define A_DEPRECATED __attribute__((deprecated))
 #elif defined(_WIN32) || defined(__CYGWIN__)
 #define A_DEPRECATED __declspec(deprecated)
-#else /* #a_has_attribute(deprecated) */
+#else /* !a_has_attribute(deprecated) */
 #define A_DEPRECATED
 #endif /* a_has_attribute(deprecated) */
 
@@ -81,7 +81,7 @@
 #define A_INLINE_FORCE static __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
 #define A_INLINE_FORCE static __forceinline
-#else /* #_MSC_VER */
+#else /* !_MSC_VER */
 #define A_INLINE_FORCE static __inline
 #endif /* _MSC_VER */
 #define A_INLINE static __inline
@@ -95,7 +95,7 @@
 #define A_EXPORT __declspec(dllexport)
 #define A_IMPORT __declspec(dllimport)
 #define A_HIDDEN
-#else /* #a_has_attribute(visibility) */
+#else /* !a_has_attribute(visibility) */
 #define A_EXPORT
 #define A_IMPORT
 #define A_HIDDEN
@@ -104,7 +104,7 @@
 #define A_PUBLIC A_EXPORT
 #elif defined(A_SHARED)
 #define A_PUBLIC A_IMPORT
-#else /* #A_PUBLIC */
+#else /* !A_PUBLIC */
 #define A_PUBLIC
 #endif /* A_PUBLIC */
 
@@ -118,7 +118,7 @@
 /* keywords */
 #if defined(__cplusplus)
 #define a_register
-#else /* #__cplusplus */
+#else /* !__cplusplus */
 #define a_register register
 #endif /* __cplusplus */
 #define a_volatile volatile
@@ -129,7 +129,7 @@
 #define a_cast_s(T, ...) ((T)(__VA_ARGS__))
 #define a_cast_d(T, ...) ((T)(__VA_ARGS__))
 #define a_cast_r(T, ...) ((T)(__VA_ARGS__))
-#else /* #__cplusplus */
+#else /* !__cplusplus */
 #define a_cast_c(T, ...) const_cast<T>(__VA_ARGS__)
 #define a_cast_s(T, ...) static_cast<T>(__VA_ARGS__)
 #define a_cast_d(T, ...) dynamic_cast<T>(__VA_ARGS__)
@@ -144,7 +144,7 @@ typedef int a_bool_t;
 #if !defined __cplusplus
 #define a_true (!0)
 #define a_false (0)
-#else /* #__cplusplus */
+#else /* !__cplusplus */
 #define a_true true
 #define a_false false
 #endif /* __cplusplus */
@@ -155,7 +155,7 @@ typedef void a_void_t;
 #if !defined __cplusplus
 #define a_noarg_t a_void_t
 #define a_null NULL
-#else /* #__cplusplus */
+#else /* !__cplusplus */
 #define a_noarg_t
 #define a_null nullptr
 #endif /* __cplusplus */
@@ -335,7 +335,7 @@ typedef long double a_real_t;
 */
 #if defined(offsetof)
 #define a_offsetof(type, member) offsetof(type, member)
-#else /* #offsetof */
+#else /* !offsetof */
 #define a_offsetof(type, member) a_cast_r(a_size_t, &a_cast_r(type *, 0)->member)
 #endif /* offsetof */
 

@@ -61,7 +61,7 @@ a_int_t main_cc(a_noarg_t);
 #if defined(__cplusplus)
 } /* extern "C" */
 #define test_main main_cc
-#else /* #__cplusplus */
+#else /* !__cplusplus */
 #define test_main main_c
 #endif /* __cplusplus */
 a_int_t test_main(a_noarg_t)

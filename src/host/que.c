@@ -26,7 +26,7 @@
 #if defined(_WIN32)
 #define context_alloc(size) _aligned_malloc(size, sizeof(a_vptr_t))
 #define context_free(vptr) _aligned_free(vptr)
-#else /* #_WIN32 */
+#else /* !_WIN32 */
 #define context_alloc(size) malloc(size)
 #define context_free(vptr) free(vptr)
 #endif /* _WIN32 */
