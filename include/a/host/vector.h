@@ -250,7 +250,7 @@ A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx);
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
 */
-A_PUBLIC a_noret_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
+A_PUBLIC a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief search the given element in this vector
@@ -263,7 +263,7 @@ A_PUBLIC a_noret_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
  @return matching element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_search(a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_vptr_t a_vector_search(const a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert an element into the vector

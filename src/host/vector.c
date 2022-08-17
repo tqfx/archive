@@ -261,7 +261,7 @@ a_noret_t a_vector_drop(a_vector_s *ctx)
     a_vector_drop_(ctx, 0);
 }
 
-a_noret_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
+a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
     a_size_t num = ctx->__num - 1;
@@ -276,7 +276,7 @@ a_noret_t a_vector_swap(a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_vptr_t a_vector_search(a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_vptr_t a_vector_search(const a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     return bsearch(obj, ctx->__head, ctx->__num, ctx->__size, cmp);
