@@ -233,41 +233,39 @@ a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
     return ok;
 }
 
-a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
+a_noret_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
+    a_size_t cur = 0;
     a_size_t num = ctx->__num - 1;
     lhs = lhs < ctx->__num ? lhs : num;
     rhs = rhs < ctx->__num ? rhs : num;
-    if (lhs == rhs)
+    if (lhs != rhs)
     {
-        return A_SUCCESS;
+        a_que_node_s *lobj = 0;
+        a_que_node_s *robj = 0;
+        a_list_foreach_next(it, ctx->__head)
+        {
+            if (cur == lhs)
+            {
+                // because lhs less than num
+                // it's never a null pointer
+                lobj = a_que_from(it);
+            }
+            else if (cur == rhs)
+            {
+                // because rhs less than num
+                // it's never a null pointer
+                robj = a_que_from(it);
+            }
+            if (lobj && robj)
+            {
+                break;
+            }
+            ++cur;
+        }
+        a_list_swap_node(lobj->__node, robj->__node);
     }
-    a_size_t cur = 0;
-    a_que_node_s *lobj = 0;
-    a_que_node_s *robj = 0;
-    a_list_foreach_next(it, ctx->__head)
-    {
-        if (cur == lhs)
-        {
-            // Because lhs less than num
-            // it's never a null pointer
-            lobj = a_que_from(it);
-        }
-        else if (cur == rhs)
-        {
-            // Because rhs less than num
-            // it's never a null pointer
-            robj = a_que_from(it);
-        }
-        if (lobj && robj)
-        {
-            a_list_swap_node(lobj->__node, robj->__node);
-            break;
-        }
-        ++cur;
-    }
-    return A_SUCCESS;
 }
 
 a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
@@ -421,7 +419,7 @@ a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx)
         {
             if (cur++ == idx)
             {
-                // Because idx less than num
+                // because idx less than num
                 // it's never a null pointer
                 node = a_que_from(it);
                 break;

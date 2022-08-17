@@ -182,11 +182,8 @@ A_PUBLIC a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
  @param[in] ctx points to an instance of queue structure
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
 */
-A_PUBLIC a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
+A_PUBLIC a_noret_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief insert sort foremost element for a pointer to queue structure
