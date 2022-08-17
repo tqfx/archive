@@ -170,6 +170,35 @@ A_PUBLIC a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx);
 A_PUBLIC a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
+ @brief drop all the elements for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @param[in] dtor current element destructor
+*/
+A_PUBLIC a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+
+/*!
+ @brief swap elements lhs and rhs for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @param[in] lhs element pointer on the left
+ @param[in] rhs element pointer on the right
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
+
+/*!
+ @brief swap elements lhs and rhs for a pointer to queue structure
+ @param[in] ctx points to an instance of queue structure
+ @param[in] lhs element index on the left
+ @param[in] rhs element index on the right
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
+
+/*!
  @brief insert sort foremost element for a pointer to queue structure
  @code{.c}
  T *obj = a_que_push_fore(T, ctx);
@@ -208,57 +237,6 @@ A_PUBLIC a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, 
 A_PUBLIC a_noret_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
- @brief drop all the elements for a pointer to queue structure
- @param[in] ctx points to an instance of queue structure
- @param[in] dtor current element destructor
-*/
-A_PUBLIC a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
-
-/*!
- @brief swap elements lhs and rhs for a pointer to queue structure
- @param[in] ctx points to an instance of queue structure
- @param[in] lhs element pointer on the left
- @param[in] rhs element pointer on the right
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
-*/
-A_PUBLIC a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
-
-/*!
- @brief swap elements lhs and rhs for a pointer to queue structure
- @param[in] ctx points to an instance of queue structure
- @param[in] lhs element index on the left
- @param[in] rhs element index on the right
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
-*/
-A_PUBLIC a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
-
-/*!
- @brief insert an element into the queue
- @param[in] ctx points to an instance of queue structure
- @param[in] idx index of element in this queue
-  @arg 0 @ref a_que_push_fore
-  @arg n @ref a_que_push_back
- @return element pointer
-  @retval 0 failure
-*/
-A_PUBLIC a_vptr_t a_que_insert(a_que_s *ctx, a_size_t idx);
-
-/*!
- @brief remove an element from the queue
- @param[in] ctx points to an instance of queue structure
- @param[in] idx index of element in this queue
-  @arg 0 @ref a_que_pull_fore
-  @arg n @ref a_que_pull_back
- @return element pointer
-  @retval 0 failure
-*/
-A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
-
-/*!
  @brief push an element into the queue forward
  @param[in] ctx points to an instance of queue structure
  @return element pointer
@@ -289,6 +267,28 @@ A_PUBLIC a_vptr_t a_que_pull_fore(a_que_s *ctx);
   @retval 0 failure
 */
 A_PUBLIC a_vptr_t a_que_pull_back(a_que_s *ctx);
+
+/*!
+ @brief insert an element into the queue
+ @param[in] ctx points to an instance of queue structure
+ @param[in] idx index of element in this queue
+  @arg 0 @ref a_que_push_fore
+  @arg n @ref a_que_push_back
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_que_insert(a_que_s *ctx, a_size_t idx);
+
+/*!
+ @brief remove an element from the queue
+ @param[in] ctx points to an instance of queue structure
+ @param[in] idx index of element in this queue
+  @arg 0 @ref a_que_pull_fore
+  @arg n @ref a_que_pull_back
+ @return element pointer
+  @retval 0 failure
+*/
+A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

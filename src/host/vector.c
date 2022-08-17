@@ -176,6 +176,55 @@ a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj)
     return ctx;
 }
 
+a_int_t a_vector_set(a_vector_s *ctx, a_size_t size,
+                     a_noret_t (*ctor)(a_vptr_t),
+                     a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (a_unlikely(size == 0))
+    {
+        return A_FAILURE;
+    }
+    a_vector_drop_(ctx, 0);
+    ctx->__mem = ctx->__mem * ctx->__size / size;
+    ctx->__size = size;
+    ctx->ctor = ctor;
+    ctx->dtor = dtor;
+    return A_SUCCESS;
+}
+
+a_int_t a_vector_make(a_vector_s *ctx, a_size_t num)
+{
+    assert(ctx);
+    if (a_unlikely(a_vector_alloc(ctx, num)))
+    {
+        return A_FAILURE;
+    }
+    a_vector_drop_(ctx, num);
+    return A_SUCCESS;
+}
+
+a_noret_t a_vector_drop(a_vector_s *ctx)
+{
+    assert(ctx);
+    a_vector_drop_(ctx, 0);
+}
+
+a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
+{
+    assert(ctx);
+    a_size_t num = ctx->__num - 1;
+    lhs = lhs < ctx->__num ? lhs : num;
+    rhs = rhs < ctx->__num ? rhs : num;
+    if (lhs != rhs)
+    {
+        a_byte_t *ptr = (a_byte_t *)ctx->__head;
+        a_vptr_t lobj = ptr + lhs * ctx->__size;
+        a_vptr_t robj = ptr + rhs * ctx->__size;
+        a_swap(ctx->__size, lobj, robj);
+    }
+}
+
 a_noret_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
@@ -224,55 +273,6 @@ a_noret_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_c
             }
             ptr = cur;
         } while (ptr != ctx->__head);
-    }
-}
-
-a_int_t a_vector_set_num(a_vector_s *ctx, a_size_t num)
-{
-    assert(ctx);
-    if (a_unlikely(a_vector_alloc(ctx, num)))
-    {
-        return A_FAILURE;
-    }
-    a_vector_drop_(ctx, num);
-    return A_SUCCESS;
-}
-
-a_int_t a_vector_set(a_vector_s *ctx, a_size_t size,
-                     a_noret_t (*ctor)(a_vptr_t),
-                     a_noret_t (*dtor)(a_vptr_t))
-{
-    assert(ctx);
-    if (a_unlikely(size == 0))
-    {
-        return A_FAILURE;
-    }
-    a_vector_drop_(ctx, 0);
-    ctx->__mem = ctx->__mem * ctx->__size / size;
-    ctx->__size = size;
-    ctx->ctor = ctor;
-    ctx->dtor = dtor;
-    return A_SUCCESS;
-}
-
-a_noret_t a_vector_drop(a_vector_s *ctx)
-{
-    assert(ctx);
-    a_vector_drop_(ctx, 0);
-}
-
-a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
-{
-    assert(ctx);
-    a_size_t num = ctx->__num - 1;
-    lhs = lhs < ctx->__num ? lhs : num;
-    rhs = rhs < ctx->__num ? rhs : num;
-    if (lhs != rhs)
-    {
-        a_byte_t *ptr = (a_byte_t *)ctx->__head;
-        a_vptr_t lobj = ptr + lhs * ctx->__size;
-        a_vptr_t robj = ptr + rhs * ctx->__size;
-        a_swap(ctx->__size, lobj, robj);
     }
 }
 

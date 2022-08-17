@@ -208,7 +208,7 @@ static a_noret_t test_sort(a_noarg_t)
     a_uint_t t = a_cast_s(a_uint_t, time(a_null));
     a_vector_s *ctx = a_vector_new(sizeof(a_int_t), a_null, a_null);
 
-    a_vector_set_num(ctx, 10);
+    a_vector_make(ctx, 10);
 
     srand(t);
     a_vector_foreach(a_int_t, it, ctx)

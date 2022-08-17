@@ -167,6 +167,44 @@ A_PUBLIC a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (
 A_PUBLIC a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
 
 /*!
+ @brief modify size of a element for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+ @param[in] size the size of the new element
+ @param[in] ctor current element constructor
+ @param[in] dtor current element destructor
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_vector_set(a_vector_s *ctx, a_size_t size,
+                              a_noret_t (*ctor)(a_vptr_t),
+                              a_noret_t (*dtor)(a_vptr_t));
+
+/*!
+ @brief modify element number for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] num number of all elements in the vector
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_PUBLIC a_int_t a_vector_make(a_vector_s *ctx, a_size_t num);
+
+/*!
+ @brief drop all the elements for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+*/
+A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx);
+
+/*!
+ @brief swap elements lhs and rhs for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+ @param[in] lhs element index on the left
+ @param[in] rhs element index on the right
+*/
+A_PUBLIC a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
+
+/*!
  @brief sort all elements for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] cmp a function that compares two elements
@@ -213,44 +251,6 @@ A_PUBLIC a_noret_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cp
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
 A_PUBLIC a_noret_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
-
-/*!
- @brief modify element number for a pointer to string structure
- @param[in] ctx points to an instance of string structure
- @param[in] num number of all elements in the vector
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
-*/
-A_PUBLIC a_int_t a_vector_set_num(a_vector_s *ctx, a_size_t num);
-
-/*!
- @brief modify size of a element for a pointer to vector structure
- @param[in] ctx points to an instance of vector structure
- @param[in] size the size of the new element
- @param[in] ctor current element constructor
- @param[in] dtor current element destructor
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
-*/
-A_PUBLIC a_int_t a_vector_set(a_vector_s *ctx, a_size_t size,
-                              a_noret_t (*ctor)(a_vptr_t),
-                              a_noret_t (*dtor)(a_vptr_t));
-
-/*!
- @brief drop all the elements for a pointer to vector structure
- @param[in] ctx points to an instance of vector structure
-*/
-A_PUBLIC a_noret_t a_vector_drop(a_vector_s *ctx);
-
-/*!
- @brief swap elements lhs and rhs for a pointer to vector structure
- @param[in] ctx points to an instance of vector structure
- @param[in] lhs element index on the left
- @param[in] rhs element index on the right
-*/
-A_PUBLIC a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief search the given element in this vector

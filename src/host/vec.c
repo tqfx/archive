@@ -153,6 +153,51 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
     return ctx;
 }
 
+a_int_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (a_unlikely(size == 0))
+    {
+        return A_FAILURE;
+    }
+    a_vec_drop_(ctx, 0, dtor);
+    ctx->__mem = ctx->__mem * ctx->__siz / size;
+    ctx->__siz = size;
+    return A_SUCCESS;
+}
+
+a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    if (a_unlikely(a_vec_alloc(ctx, num)))
+    {
+        return A_FAILURE;
+    }
+    a_vec_drop_(ctx, num, dtor);
+    return A_SUCCESS;
+}
+
+a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+{
+    assert(ctx);
+    a_vec_drop_(ctx, 0, dtor);
+}
+
+a_noret_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
+{
+    assert(ctx);
+    a_size_t num = ctx->__num - 1;
+    lhs = lhs < ctx->__num ? lhs : num;
+    rhs = rhs < ctx->__num ? rhs : num;
+    if (lhs != rhs)
+    {
+        a_byte_t *ptr = (a_byte_t *)ctx->__ptr;
+        a_vptr_t lobj = ptr + lhs * ctx->__siz;
+        a_vptr_t robj = ptr + rhs * ctx->__siz;
+        a_swap(ctx->__siz, lobj, robj);
+    }
+}
+
 a_noret_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
@@ -201,51 +246,6 @@ a_noret_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
             }
             ptr = cur;
         } while (ptr != ctx->__ptr);
-    }
-}
-
-a_int_t a_vec_set_num(a_vec_s *ctx, a_size_t num, a_noret_t (*dtor)(a_vptr_t))
-{
-    assert(ctx);
-    if (a_unlikely(a_vec_alloc(ctx, num)))
-    {
-        return A_FAILURE;
-    }
-    a_vec_drop_(ctx, num, dtor);
-    return A_SUCCESS;
-}
-
-a_int_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
-{
-    assert(ctx);
-    if (a_unlikely(size == 0))
-    {
-        return A_FAILURE;
-    }
-    a_vec_drop_(ctx, 0, dtor);
-    ctx->__mem = ctx->__mem * ctx->__siz / size;
-    ctx->__siz = size;
-    return A_SUCCESS;
-}
-
-a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
-{
-    assert(ctx);
-    a_vec_drop_(ctx, 0, dtor);
-}
-
-a_noret_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
-{
-    assert(ctx);
-    a_size_t num = ctx->__num - 1;
-    lhs = lhs < ctx->__num ? lhs : num;
-    rhs = rhs < ctx->__num ? rhs : num;
-    if (lhs != rhs)
-    {
-        a_byte_t *ptr = (a_byte_t *)ctx->__ptr;
-        a_vptr_t lobj = ptr + lhs * ctx->__siz;
-        a_vptr_t robj = ptr + rhs * ctx->__siz;
-        a_swap(ctx->__siz, lobj, robj);
     }
 }
 
