@@ -22,7 +22,7 @@ add_cflags("-Wno-declaration-after-statement")
 add_cxxflags("-Wno-c++98-compat-pedantic")
 
 -- add build modes
-add_rules("mode.debug", "mode.release")
+add_rules("mode.check", "mode.debug", "mode.release")
 if is_mode("check") and not is_plat("mingw") then
     local flags = {
         "-fsanitize=address,undefined",
