@@ -24,6 +24,19 @@ typedef union a_slist_u
 } a_slist_u;
 
 /*!
+ @brief cast a list pointer from another type pointer
+ @param[in] obj points to circular singly linked list node
+ @return a pointer to circular singly linked list node
+*/
+A_INLINE a_slist_u *a_slist_from(a_vptr_t obj) { return a_cast_s(a_slist_u *, obj); }
+
+/*!
+ @brief initialize for circular singly linked list node
+ @param[in,out] ctx points to circular singly linked list node
+*/
+A_INLINE a_noret_t a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
+
+/*!
  @brief instance structure for circular singly linked list head
 */
 typedef struct a_slist_s
@@ -64,21 +77,18 @@ typedef struct a_slist_s
  @param[in,out] ctx points to circular singly linked list head
 */
 A_INLINE a_noret_t a_slist_ctor(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
+
 /*!
  @brief initialize for circular singly linked list head
  @param[in,out] ctx points to circular singly linked list head
 */
 A_INLINE a_noret_t a_slist_init(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
+
 /*!
  @brief destructor for circular singly linked list head
  @param[in,out] ctx points to circular singly linked list head
 */
 A_INLINE a_noret_t a_slist_dtor(a_slist_s *ctx) { ctx->tail = ctx->head->next = ctx->head; }
-/*!
- @brief initialize for circular singly linked list node
- @param[in,out] ctx points to circular singly linked list node
-*/
-A_INLINE a_noret_t a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
 
 /*!
  @brief test whether a list node is null
@@ -88,6 +98,7 @@ A_INLINE a_noret_t a_slist_node(a_slist_u *ctx) { ctx->next = ctx; }
   @retval 1 null
 */
 A_INLINE a_bool_t a_slist_null(const a_slist_u *ctx) { return ctx->next == ctx; }
+
 /*!
  @brief test whether a list node is used
  @param[in] ctx points to circular singly linked list node
@@ -96,6 +107,7 @@ A_INLINE a_bool_t a_slist_null(const a_slist_u *ctx) { return ctx->next == ctx; 
   @retval 1 used
 */
 A_INLINE a_bool_t a_slist_used(const a_slist_u *ctx) { return ctx->next != ctx; }
+
 /*!
  @brief test whether a list head is none
  @param[in] ctx points to circular singly linked list head
@@ -104,6 +116,7 @@ A_INLINE a_bool_t a_slist_used(const a_slist_u *ctx) { return ctx->next != ctx; 
   @retval 1 none
 */
 A_INLINE a_bool_t a_slist_none(const a_slist_s *ctx) { return ctx->head == ctx->head->next; }
+
 /*!
  @brief test whether a list node is a tail node
  @param[in] ctx points to circular singly linked list head
@@ -136,6 +149,7 @@ A_INLINE a_noret_t a_slist_add(a_slist_s *ctx, a_slist_u *prev, a_slist_u *node)
     a_slist_link(node, prev->next);
     a_slist_link(prev, node);
 }
+
 /*!
  @brief insert a node to a list head
  @param[in,out] ctx points to circular singly linked list head
@@ -150,6 +164,7 @@ A_INLINE a_noret_t a_slist_add_head(a_slist_s *ctx, a_slist_u *node)
     a_slist_link(node, ctx->head->next);
     a_slist_link(ctx->head, node);
 }
+
 /*!
  @brief insert a node to a list tail
  @param[in,out] ctx points to circular singly linked list head
@@ -176,6 +191,7 @@ A_INLINE a_noret_t a_slist_del(a_slist_s *ctx, a_slist_u *prev)
         ctx->tail = prev;
     }
 }
+
 /*!
  @brief delete a node from a list head
  @param[in,out] ctx points to circular singly linked list head
