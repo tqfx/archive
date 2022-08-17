@@ -150,8 +150,8 @@ a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_v
     ctx->__last = (a_byte_t *)ctx->__head + mem_;
     if (dup)
     {
-        a_byte_t *dst = ctx->__head;
-        a_byte_t *src = obj->__head;
+        a_byte_t *dst = (a_byte_t *)ctx->__head;
+        a_byte_t *src = (a_byte_t *)obj->__head;
         while (src != obj->__tail)
         {
             dup(dst, src);
