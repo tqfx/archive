@@ -38,8 +38,8 @@ typedef struct a_list_s
  @param it the &a_list_s to use as a loop counter
  @param ctx points to circular doubly linked list
  @param next the direction of loop iteration
-  @arg prev the backward iteration
-  @arg next the forward iteration
+  @arg next the backward iteration
+  @arg prev the forward iteration
 */
 #define a_list_foreach_(it, ctx, next) \
     for (a_list_s *it = (ctx)->next; it != (ctx); it = it->next)
@@ -52,13 +52,20 @@ typedef struct a_list_s
  @param at another &a_list_s to use as temporary storage
  @param ctx points to circular doubly linked list
  @param next the direction of loop iteration
-  @arg prev the backward iteration
-  @arg next the forward iteration
+  @arg next the backward iteration
+  @arg prev the forward iteration
 */
 #define a_list_forsafe_(it, at, ctx, next) \
     for (a_list_s *it = (ctx)->next, *at = it->next; it != (ctx); it = at, at = it->next)
 #define a_list_forsafe_next(it, at, ctx) a_list_forsafe_(it, at, ctx, next)
 #define a_list_forsafe_prev(it, at, ctx) a_list_forsafe_(it, at, ctx, prev)
+
+/*!
+ @brief cast a list pointer from another type pointer
+ @param[in] obj points to circular doubly linked list
+ @return a pointer to circular doubly linked list
+*/
+A_INLINE a_list_s *a_list_from(a_vptr_t obj) { return a_cast_s(a_list_s *, obj); }
 
 /*!
  @brief constructor for circular doubly linked list
@@ -170,6 +177,19 @@ A_INLINE a_noret_t a_list_add_(a_list_s *head1, a_list_s *tail1, a_list_s *head2
 
 /*!
  @brief insert a node to a list
+ @dot
+ digraph a_list_add_node {
+     node[shape="record"]
+     subgraph cluster0 {
+         0[label="<node>node"]
+         1[label="<head>head|<tail>tail"]
+     }
+     subgraph cluster1 {
+         2[label="<head>head|<tail>tail|<node>node"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in,out] head the head node of a list
  @param[in,out] tail the tail node of a list
  @param[in] node a list node
@@ -181,6 +201,19 @@ A_INLINE a_noret_t a_list_add_node(a_list_s *head, a_list_s *tail, a_list_s *nod
 
 /*!
  @brief append a node to a list forward
+ @dot
+ digraph a_list_add_next {
+     node[shape="record"]
+     subgraph cluster0 {
+         0[label="<0>0"]
+         1[label="<prev>prev|<node>node|<next>next"]
+     }
+     subgraph cluster1 {
+         2[label="<prev>prev|<node>node|<next>next|<0>0"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in,out] ctx points to circular doubly linked list
  @param[in] node a list node
 */
@@ -191,6 +224,19 @@ A_INLINE a_noret_t a_list_add_next(a_list_s *ctx, a_list_s *node)
 
 /*!
  @brief append a node to a list backward
+ @dot
+ digraph a_list_add_prev {
+     node[shape="record"]
+     subgraph cluster0 {
+         1[label="<prev>prev|<node>node|<next>next"]
+         0[label="<0>0"]
+     }
+     subgraph cluster1 {
+         2[label="<0>0|<prev>prev|<node>node|<next>next"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in,out] ctx points to circular doubly linked list
  @param[in] node a list node
 */
@@ -223,24 +269,76 @@ A_INLINE a_noret_t a_list_del_(a_list_s *head, a_list_s *tail)
 
 /*!
  @brief delete a node from a list
+ @dot
+ digraph a_list_del_node {
+     node[shape="record"]
+     subgraph cluster0 {
+         1[label="<head>head|<node>node|<tail>tail"]
+     }
+     subgraph cluster1 {
+         0[label="<node>node"]
+         2[label="<head>head|<tail>tail"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in] node a list node
 */
 A_INLINE a_noret_t a_list_del_node(a_list_s *node) { a_list_del_(node, node); }
 
 /*!
  @brief remove a node from a list forward
+ @dot
+ digraph a_list_del_next {
+     node[shape="record"]
+     subgraph cluster0 {
+         1[label="<prev>prev|<node>node|<next>next|<0>0"]
+     }
+     subgraph cluster1 {
+         0[label="<0>0"]
+         2[label="<prev>prev|<node>node|<next>next"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in] node a list node
 */
 A_INLINE a_noret_t a_list_del_next(a_list_s *node) { a_list_del_(node->next, node->next); }
 
 /*!
  @brief remove a node from a list backward
+ @dot
+ digraph a_list_del_prev {
+     node[shape="record"]
+     subgraph cluster0 {
+         1[label="<0>0|<prev>prev|<node>node|<next>next"]
+     }
+     subgraph cluster1 {
+         2[label="<prev>prev|<node>node|<next>next"]
+         0[label="<0>0"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in] node a list node
 */
 A_INLINE a_noret_t a_list_del_prev(a_list_s *node) { a_list_del_(node->prev, node->prev); }
 
 /*!
  @brief moving a list to another list forward
+ @dot
+ digraph a_list_mov_next {
+     node[shape="record"]
+     subgraph cluster0 {
+         0[label="<0>0|<1>1"]
+         1[label="<prev>prev|<node>node|<next>next"]
+     }
+     subgraph cluster1 {
+         2[label="<prev>prev|<node>node|<next>next|<0>0|<1>1"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in,out] ctx points to circular doubly linked list
  @param[in] obj source list
 */
@@ -251,6 +349,19 @@ A_INLINE a_noret_t a_list_mov_next(a_list_s *ctx, a_list_s *obj)
 
 /*!
  @brief moving a list to another list backward
+ @dot
+ digraph a_list_mov_prev {
+     node[shape="record"]
+     subgraph cluster0 {
+         0[label="<0>0|<1>1"]
+         1[label="<prev>prev|<node>node|<next>next"]
+     }
+     subgraph cluster1 {
+         2[label="<0>0|<1>1|<prev>prev|<node>node|<next>next"]
+     }
+     1 -> 2
+ }
+ @enddot
  @param[in,out] ctx points to circular doubly linked list
  @param[in] obj source list
 */
@@ -260,25 +371,57 @@ A_INLINE a_noret_t a_list_mov_prev(a_list_s *ctx, a_list_s *obj)
 }
 
 /*!
- @brief rotate a node in the list forward
+ @brief rotate a node in the list backward
+ @dot
+ digraph a_list_rot_next {
+     node[shape="record"]
+     subgraph cluster0 {
+         1[label="<0>0|<1>1|<2>2|<3>3|<prev>prev|<node>node|<next>next"]
+     }
+     subgraph cluster1 {
+         2[label="<0>0|<1>1|<2>2|<prev>prev|<node>node|<next>next|<3>3"]
+     }
+     1:prev -> 1:3 [color=green]
+     1:next -> 1:0 [color=green]
+     2:prev -> 2:2 [color=blue]
+     2:next -> 2:3 [color=blue]
+     1 -> 2
+ }
+ @enddot
  @param[in,out] ctx points to circular doubly linked list
 */
 A_INLINE a_noret_t a_list_rot_next(a_list_s *ctx)
 {
     a_list_s *node = ctx->prev;
     a_list_del_(node, node);
-    a_list_add_next(ctx, node);
+    a_list_add_(ctx->next, ctx, node, node);
 }
 
 /*!
- @brief rotate a node in the list backward
+ @brief rotate a node in the list forward
+ @dot
+ digraph a_list_rot_prev {
+     node[shape="record"]
+     subgraph cluster0 {
+         1[label="<prev>prev|<node>node|<next>next|<0>0|<1>1|<2>2|<3>3"]
+     }
+     subgraph cluster1 {
+         2[label="<0>0|<prev>prev|<node>node|<next>next|<1>1|<2>2|<3>3"]
+     }
+     1:prev -> 1:3 [color=green]
+     1:next -> 1:0 [color=green]
+     2:prev -> 2:0 [color=blue]
+     2:next -> 2:1 [color=blue]
+     1 -> 2
+ }
+ @enddot
  @param[in,out] ctx points to circular doubly linked list
 */
 A_INLINE a_noret_t a_list_rot_prev(a_list_s *ctx)
 {
     a_list_s *node = ctx->next;
     a_list_del_(node, node);
-    a_list_add_prev(ctx, node);
+    a_list_add_(ctx, ctx->prev, node, node);
 }
 
 /*!
