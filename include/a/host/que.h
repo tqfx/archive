@@ -29,18 +29,11 @@ typedef struct a_que_node_s
 } a_que_node_s;
 
 /*!
- @brief reinterpret a pointer to T into a pointer to a_list_s
- @param[in] ctx points to an instance of T
- @return a pointer to a_list_s
+ @brief cast a list pointer from another type pointer
+ @param[in] obj points to basic queue node
+ @return a pointer to basic queue node
 */
-A_INLINE a_list_s *a_que_tolist(a_vptr_t ctx) { return a_cast_s(a_list_s *, ctx); }
-
-/*!
- @brief reinterpret a pointer to T into a pointer to a_que_node_s
- @param[in] ctx points to an instance of T
- @return a pointer to a_que_node_s
-*/
-A_INLINE a_que_node_s *a_que_tonode(a_vptr_t ctx) { return a_cast_s(a_que_node_s *, ctx); }
+A_INLINE a_que_node_s *a_que_from(a_vptr_t obj) { return a_cast_s(a_que_node_s *, obj); }
 
 /*!
  @brief instance structure for basic queue
@@ -306,13 +299,13 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
  @param it the &a_que_s to use as a loop counter
  @param ctx points to an instance of queue structure
 */
-#define a_que_foreach(T, it, ctx)                                        \
-    for (T *it = a_cast_r(T *, (ctx)->__head->next),                     \
-           *it##_ = a_cast_r(T *, a_que_tolist(it)->next);               \
-         it != a_cast_r(T *, (ctx)->__head)                              \
-             ? ((void)(it = a_cast_s(T *, a_que_tonode(it)->__vptr)), 1) \
-             : (0);                                                      \
-         it = it##_, it##_ = a_cast_r(T *, a_que_tolist(it)->next))
+#define a_que_foreach(T, it, ctx)                                      \
+    for (T *it = a_cast_r(T *, (ctx)->__head->next),                   \
+           *it##_ = a_cast_r(T *, a_list_from(it)->next);              \
+         it != a_cast_r(T *, (ctx)->__head)                            \
+             ? ((void)(it = a_cast_s(T *, a_que_from(it)->__vptr)), 1) \
+             : (0);                                                    \
+         it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->next))
 
 /*!
  @brief iterate over a queue in reverse
@@ -326,13 +319,13 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
  @param it the &a_que_s to use as a loop counter
  @param ctx points to an instance of queue structure
 */
-#define a_que_foreach_reverse(T, it, ctx)                                \
-    for (T *it = a_cast_r(T *, (ctx)->__head->prev),                     \
-           *it##_ = a_cast_r(T *, a_que_tolist(it)->prev);               \
-         it != a_cast_r(T *, (ctx)->__head)                              \
-             ? ((void)(it = a_cast_s(T *, a_que_tonode(it)->__vptr)), 1) \
-             : (0);                                                      \
-         it = it##_, it##_ = a_cast_r(T *, a_que_tolist(it)->prev))
+#define a_que_foreach_reverse(T, it, ctx)                              \
+    for (T *it = a_cast_r(T *, (ctx)->__head->prev),                   \
+           *it##_ = a_cast_r(T *, a_list_from(it)->prev);              \
+         it != a_cast_r(T *, (ctx)->__head)                            \
+             ? ((void)(it = a_cast_s(T *, a_que_from(it)->__vptr)), 1) \
+             : (0);                                                    \
+         it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->prev))
 
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wdisabled-macro-expansion"
