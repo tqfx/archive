@@ -156,11 +156,8 @@ A_PUBLIC a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx);
  @param[in] ctx points to an instance of queue structure
  @param[in] size the size of the new element
  @param[in] dtor previous element destructor
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
 */
-A_PUBLIC a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief drop all the elements for a pointer to queue structure

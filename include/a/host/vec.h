@@ -177,11 +177,8 @@ A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
  @param[in] ctx points to an instance of vector structure
  @param[in] size the size of the new element
  @param[in] dtor previous element destructor
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
 */
-A_PUBLIC a_int_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief modify element number for a pointer to string structure

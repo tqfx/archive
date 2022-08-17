@@ -105,7 +105,7 @@ a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
 {
     assert(ctx);
     assert(size);
-    ctx->__size = size;
+    ctx->__size = size ? size : sizeof(a_cast_u);
     ctx->ctor = ctor;
     ctx->dtor = dtor;
     ctx->__last = 0;
@@ -175,21 +175,17 @@ a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj)
     return ctx;
 }
 
-a_int_t a_vector_set(a_vector_s *ctx, a_size_t size,
-                     a_noret_t (*ctor)(a_vptr_t),
-                     a_noret_t (*dtor)(a_vptr_t))
+a_noret_t a_vector_set(a_vector_s *ctx, a_size_t size,
+                       a_noret_t (*ctor)(a_vptr_t),
+                       a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
-    if (a_unlikely(size == 0))
-    {
-        return A_FAILURE;
-    }
+    size = size ? size : sizeof(a_cast_u);
     a_vector_drop_(ctx, 0);
     ctx->__mem = ctx->__mem * ctx->__size / size;
     ctx->__size = size;
     ctx->ctor = ctor;
     ctx->dtor = dtor;
-    return A_SUCCESS;
 }
 
 a_int_t a_vector_make(a_vector_s *ctx, a_size_t num)

@@ -14,24 +14,13 @@
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Winline"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
 #endif /* __GNUC__ || __clang__ */
-#if defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable : 4820)
-#endif /* _MSC_VER */
-typedef struct int_s
+
+typedef struct
 {
     a_list_s list[1];
-    a_int_t data;
-} int_s;
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif /* _MSC_VER */
+    a_cast_u data[1];
+} a_data_s;
 
 static a_size_t a_list_len(const a_list_s *ctx)
 {
@@ -74,8 +63,8 @@ static a_noret_t test_next(a_noarg_t)
     a_list_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_list_add_prev(list1, node->list);
     }
     a_list_rot_prev(list1);
@@ -83,12 +72,12 @@ static a_noret_t test_next(a_noarg_t)
     a_list_ctor(list2);
     for (a_int_t i = 10; i != 21; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_list_add_prev(list2, node->list);
     }
     {
-        int_s *node = a_list_entry_prev(list2, int_s, list);
+        a_data_s *node = a_list_entry_prev(list2, a_data_s, list);
         a_list_del_prev(list2);
         free(node);
     }
@@ -96,13 +85,13 @@ static a_noret_t test_next(a_noarg_t)
     a_list_init(list2);
     a_list_foreach_next(it, list1)
     {
-        int_s *node = a_list_entry(it, int_s, list);
-        printf("%i ", node->data);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
+        printf("%i ", node->data->i);
     }
     printf("%zu", a_list_len(list1));
     a_list_forsafe_next(it, pre, list1)
     {
-        int_s *node = a_list_entry(it, int_s, list);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
         a_list_del_node(node->list);
         free(node);
     }
@@ -121,8 +110,8 @@ static a_noret_t test_prev(a_noarg_t)
     a_list_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_list_add_next(list1, node->list);
     }
     a_list_rot_next(list1);
@@ -130,12 +119,12 @@ static a_noret_t test_prev(a_noarg_t)
     a_list_ctor(list2);
     for (a_int_t i = 10; i != 21; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_list_add_next(list2, node->list);
     }
     {
-        int_s *node = a_list_entry_next(list2, int_s, list);
+        a_data_s *node = a_list_entry_next(list2, a_data_s, list);
         a_list_del_next(list2);
         free(node);
     }
@@ -143,13 +132,13 @@ static a_noret_t test_prev(a_noarg_t)
     a_list_init(list2);
     a_list_foreach_prev(it, list1)
     {
-        int_s *node = a_list_entry(it, int_s, list);
-        printf("%i ", node->data);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
+        printf("%i ", node->data->i);
     }
     printf("%zu", a_list_len(list1));
     a_list_forsafe_prev(it, pre, list1)
     {
-        int_s *node = a_list_entry(it, int_s, list);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
         a_list_del_node(node->list);
         free(node);
     }
@@ -168,46 +157,46 @@ static a_noret_t test_func(a_noarg_t)
     a_list_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_list_add_prev(list1, node->list);
     }
     a_list_s *list2 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list2);
     for (a_int_t i = 10; i != 20; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_list_add_prev(list2, node->list);
     }
-    int_s *ctx = a_cast_s(int_s *, malloc(sizeof(int_s)));
-    ctx->data = -1;
+    a_data_s *ctx = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+    ctx->data->i = -1;
     {
         a_list_s *ptr = list2->prev;
         a_list_shift_node(list2->prev, ctx->list);
-        ctx = a_list_entry(ptr, int_s, list);
+        ctx = a_list_entry(ptr, a_data_s, list);
     }
     a_list_swap_node(list2->prev, list2->next);
     a_list_foreach_next(it, list1)
     {
-        int_s *node = a_list_entry(it, int_s, list);
-        printf("%i ", node->data);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
+        printf("%i ", node->data->i);
     }
     a_list_foreach_next(it, list2)
     {
-        int_s *node = a_list_entry(it, int_s, list);
-        printf("%i ", node->data);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
+        printf("%i ", node->data->i);
     }
     printf("%zu", a_list_len(list1) + a_list_len(list2));
     a_list_forsafe_next(it, at, list1)
     {
-        int_s *node = a_list_entry(it, int_s, list);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
         a_list_del_node(node->list);
         free(node);
     }
     a_list_forsafe_next(it, at, list2)
     {
-        int_s *node = a_list_entry(it, int_s, list);
+        a_data_s *node = a_list_entry(it, a_data_s, list);
         a_list_del_node(node->list);
         free(node);
     }

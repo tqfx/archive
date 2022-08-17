@@ -12,25 +12,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
-#endif /* __GNUC__ || __clang__ */
-#if defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable : 4820)
-#endif /* _MSC_VER */
-typedef struct int_s
+typedef struct
 {
     a_slist_u list[1];
-    a_int_t data;
-} int_s;
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif /* _MSC_VER */
+    a_cast_u data[1];
+} a_data_s;
 
 static a_size_t a_slist_len(const a_slist_s *ctx)
 {
@@ -61,24 +47,24 @@ static a_noret_t test(a_noarg_t)
     a_slist_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_slist_add_tail(list1, node->list);
     }
     a_slist_s *list2 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list2);
     for (a_int_t i = 14; i != 9; --i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_slist_add_head(list2, node->list);
     }
     a_slist_s *list3 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list3);
     for (a_int_t i = 15; i != 20; ++i)
     {
-        int_s *node = a_cast_s(int_s *, malloc(sizeof(int_s)));
-        node->data = i;
+        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        node->data->i = i;
         a_slist_add(list3, list3->tail, node->list);
     }
     a_slist_rot(list1);
@@ -88,19 +74,19 @@ static a_noret_t test(a_noarg_t)
     a_slist_dtor(list3);
     a_slist_foreach(it, list1)
     {
-        int_s *node = a_slist_entry(it, int_s, list);
-        printf("%i ", node->data);
+        a_data_s *node = a_slist_entry(it, a_data_s, list);
+        printf("%i ", node->data->i);
     }
     printf("%zu", a_slist_len(list1));
     for (a_int_t i = 0; i != 10; ++i)
     {
-        int_s *node = a_slist_entry_next(list1->head, int_s, list);
+        a_data_s *node = a_slist_entry_next(list1->head, a_data_s, list);
         a_slist_del_head(list1);
         free(node);
     }
     a_slist_forsafe(it, at, list1)
     {
-        int_s *node = a_slist_entry(it, int_s, list);
+        a_data_s *node = a_slist_entry(it, a_data_s, list);
         a_slist_del(list1, at);
         free(node);
     }

@@ -116,7 +116,7 @@ a_noret_t a_que_ctor(a_que_s *ctx, a_size_t size)
 {
     assert(ctx);
     a_list_ctor(ctx->__head);
-    ctx->__size = size;
+    ctx->__size = size ? size : sizeof(a_cast_u);
     ctx->__ptr = 0;
     ctx->__num = 0;
     ctx->__cur = 0;
@@ -180,16 +180,12 @@ a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
     return vptr;
 }
 
-a_int_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+a_noret_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
-    if (a_unlikely(size == 0))
-    {
-        return A_FAILURE;
-    }
+    size = size ? size : sizeof(a_cast_u);
     a_que_drop(ctx, dtor);
     ctx->__size = size;
-    return A_SUCCESS;
 }
 
 a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))

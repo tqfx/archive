@@ -172,13 +172,10 @@ A_PUBLIC a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
  @param[in] size the size of the new element
  @param[in] ctor current element constructor
  @param[in] dtor current element destructor
- @return the execution state of the function
-  @retval 0 success
-  @retval 1 failure
 */
-A_PUBLIC a_int_t a_vector_set(a_vector_s *ctx, a_size_t size,
-                              a_noret_t (*ctor)(a_vptr_t),
-                              a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_noret_t a_vector_set(a_vector_s *ctx, a_size_t size,
+                                a_noret_t (*ctor)(a_vptr_t),
+                                a_noret_t (*dtor)(a_vptr_t));
 
 /*!
  @brief modify element number for a pointer to string structure

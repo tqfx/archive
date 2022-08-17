@@ -246,6 +246,41 @@ typedef long double a_f128_t;
 
 // clang-format on
 
+typedef union a_cast_u
+{
+    char c;
+    // clang-format off
+      signed int i;
+    unsigned int u;
+      signed long li;
+    unsigned long lu;
+      signed short si;
+    unsigned short su;
+      signed long long lli;
+    unsigned long long llu;
+    // clang-format on
+    a_ptrdiff_t diff;
+    double f64;
+    float f32;
+    a_i8_t i8;
+    a_u8_t u8;
+    a_i16_t i16;
+    a_u16_t u16;
+    a_i32_t i32;
+    a_u32_t u32;
+    a_i64_t i64;
+    a_u64_t u64;
+    a_imax_t imax;
+    a_umax_t umax;
+    a_iptr_t iptr;
+    a_uptr_t uptr;
+    a_size_t size;
+    a_cptr_t cptr;
+    a_vptr_t vptr;
+    a_cstr_t cstr;
+    a_str_t str;
+} a_cast_u;
+
 /*!
  @addtogroup A_REAL real number
  @{
