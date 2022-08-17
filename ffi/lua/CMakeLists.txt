@@ -1,11 +1,8 @@
 file(GLOB_RECURSE SOURCES src/*.c)
-add_library(a-lua SHARED ${SOURCES})
-get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
+add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_include_directories(a-lua PRIVATE ${LUA_INCLUDE_DIR})
-target_link_libraries(a-lua PRIVATE ${LUA_LIBRARIES}
-  $<IF:$<BOOL:${A_SHARED}>,a-static,a>
-)
+target_link_libraries(a-lua PRIVATE ${LUA_LIBRARIES} a)
 target_library_options(a-lua)
 
 if(LUA_VERSION_MAJOR AND LUA_VERSION_MINOR)
@@ -29,6 +26,6 @@ find_program(LUA_EXECUTABLE NAMES lua
 
 if(NOT ENABLE_SANITIZE)
   add_test(NAME test-lua-a
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/a.lua
-)
+    COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/a.lua
+  )
 endif()

@@ -61,6 +61,7 @@ target("a")
 
     -- add the platform options
     if not is_plat("windows", "mingw") then
+        add_cxflags("-fPIC")
         add_syslinks("m")
     end
 
@@ -98,6 +99,7 @@ target("aa")
 
     -- add the platform options
     if not is_plat("windows", "mingw") then
+        add_cxflags("-fPIC")
         add_syslinks("m")
     end
 

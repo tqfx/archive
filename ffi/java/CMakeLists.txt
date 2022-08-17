@@ -11,12 +11,9 @@ add_jar(a-jar
 )
 install_jar(a-jar ${CMAKE_INSTALL_LIBDIR}/java)
 
-add_library(a-jni SHARED src/a.c)
+add_library(a-jni SHARED $<TARGET_OBJECTS:a> src/a.c)
 set_target_properties(a-jni PROPERTIES OUTPUT_NAME a)
-get_target_property(A_SHARED a POSITION_INDEPENDENT_CODE)
-target_link_libraries(a-jni PRIVATE jar-native-a
-  $<IF:$<BOOL:${A_SHARED}>,a-static,a>
-)
+target_link_libraries(a-jni PRIVATE jar-native-a a)
 target_library_options(a-jni)
 
 add_jar(aa-jar
@@ -26,12 +23,9 @@ add_jar(aa-jar
 )
 install_jar(aa-jar ${CMAKE_INSTALL_LIBDIR}/java)
 
-add_library(aa-jni SHARED src/aa.cpp)
+add_library(aa-jni SHARED $<TARGET_OBJECTS:aa> src/aa.cpp)
 set_target_properties(aa-jni PROPERTIES OUTPUT_NAME aa)
-get_target_property(A_SHARED aa POSITION_INDEPENDENT_CODE)
-target_link_libraries(aa-jni PRIVATE jar-native-aa
-  $<IF:$<BOOL:${A_SHARED}>,aa-static,aa>
-)
+target_link_libraries(aa-jni PRIVATE jar-native-aa aa)
 target_library_options(aa-jni)
 
 set_target_properties(a-jni aa-jni PROPERTIES DEFINE_SYMBOL A_EXPORTS)

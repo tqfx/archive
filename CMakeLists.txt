@@ -70,7 +70,10 @@ configure_file(
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
-  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL A_EXPORTS)
+  set_target_properties(${target} PROPERTIES
+    VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS
+  )
   target_compile_definitions(${target}
     INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
   )
@@ -81,43 +84,17 @@ function(target_library_setting target)
   target_link_libraries(${target} PUBLIC
     $<$<OR:$<BOOL:${MATH_LIBRARY}>,$<BOOL:${ANDROID}>>:m>
   )
-  set(A_SHARED ${A_SHARED} PARENT_SCOPE)
   target_library_options(${target})
 endfunction()
 
 file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
-
 add_library(a ${SOURCES})
 target_library_setting(a)
 
-if(A_SHARED)
-  add_library(a-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
-  target_library_setting(a-static)
-
-  if(NOT "${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
-    set_target_properties(a-static PROPERTIES OUTPUT_NAME a)
-  endif()
-endif()
-
 file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
-
 add_library(aa ${SOURCES})
 target_link_libraries(aa PUBLIC a)
 target_library_setting(aa)
-
-if(A_SHARED)
-  add_library(aa-static STATIC EXCLUDE_FROM_ALL ${SOURCES})
-  target_link_libraries(aa-static PUBLIC a-static)
-  target_library_setting(aa-static)
-
-  if(NOT "${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
-    set_target_properties(aa-static PROPERTIES OUTPUT_NAME aa)
-  endif()
-endif()
-
-set_target_properties(a aa PROPERTIES
-  VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-)
 
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
