@@ -55,7 +55,7 @@ a_noret_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
 
 a_noret_t a_swap16(a_vptr_t lhs, a_vptr_t rhs)
 {
-    typedef struct a_16_s
+    typedef struct
     {
         a_u64_t m0;
         a_u64_t m1;
