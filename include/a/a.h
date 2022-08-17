@@ -87,14 +87,14 @@
 #endif /* _MSC_VER */
 
 /* attribute visibility */
-#if a_has_attribute(visibility)
-#define A_EXPORT __attribute__((visibility("default")))
-#define A_IMPORT __attribute__((visibility("default")))
-#define A_HIDDEN __attribute__((visibility("hidden")))
-#elif defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32) || defined(__CYGWIN__)
 #define A_EXPORT __declspec(dllexport)
 #define A_IMPORT __declspec(dllimport)
 #define A_HIDDEN
+#elif a_has_attribute(visibility)
+#define A_EXPORT __attribute__((visibility("default")))
+#define A_IMPORT __attribute__((visibility("default")))
+#define A_HIDDEN __attribute__((visibility("hidden")))
 #else /* !a_has_attribute(visibility) */
 #define A_EXPORT
 #define A_IMPORT
