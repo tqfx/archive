@@ -68,7 +68,7 @@ A_INLINE a_size_t a_que_num(const a_que_s *ctx) { return ctx->__num; }
 */
 A_INLINE a_vptr_t a_que_fore_(const a_que_s *ctx)
 {
-    return a_cast_r(a_que_node_s *, ctx->__head->next)->__vptr;
+    return a_que_from(ctx->__head->next)->__vptr;
 }
 
 /*!
@@ -79,7 +79,7 @@ A_INLINE a_vptr_t a_que_fore_(const a_que_s *ctx)
 */
 A_INLINE a_vptr_t a_que_back_(const a_que_s *ctx)
 {
-    return a_cast_r(a_que_node_s *, ctx->__head->prev)->__vptr;
+    return a_que_from(ctx->__head->prev)->__vptr;
 }
 
 /*!
@@ -302,7 +302,7 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
 #define a_que_foreach(T, it, ctx)                                      \
     for (T *it = a_cast_r(T *, (ctx)->__head->next),                   \
            *it##_ = a_cast_r(T *, a_list_from(it)->next);              \
-         it != a_cast_r(T *, (ctx)->__head)                            \
+         a_list_from(it) != (ctx)->__head                              \
              ? ((void)(it = a_cast_s(T *, a_que_from(it)->__vptr)), 1) \
              : (0);                                                    \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->next))
@@ -322,7 +322,7 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
 #define a_que_foreach_reverse(T, it, ctx)                              \
     for (T *it = a_cast_r(T *, (ctx)->__head->prev),                   \
            *it##_ = a_cast_r(T *, a_list_from(it)->prev);              \
-         it != a_cast_r(T *, (ctx)->__head)                            \
+         a_list_from(it) != (ctx)->__head                              \
              ? ((void)(it = a_cast_s(T *, a_que_from(it)->__vptr)), 1) \
              : (0);                                                    \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->prev))

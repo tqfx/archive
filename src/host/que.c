@@ -23,13 +23,8 @@
 #undef a_que_pull_fore
 #undef a_que_pull_back
 
-#if defined(_WIN32)
-#define context_alloc(size) _aligned_malloc(size, sizeof(a_vptr_t))
-#define context_free(vptr) _aligned_free(vptr)
-#else /* !_WIN32 */
 #define context_alloc(size) malloc(size)
 #define context_free(vptr) free(vptr)
-#endif /* _WIN32 */
 
 A_INLINE a_noret_t default_dtor(a_vptr_t vptr) { (void)(vptr); }
 
@@ -88,7 +83,7 @@ static a_noret_t a_que_drop_(a_que_s *ctx)
 {
     while (a_list_used(ctx->__head))
     {
-        a_que_node_s *node = (a_que_node_s *)ctx->__head->prev;
+        a_que_node_s *node = a_que_from(ctx->__head->prev);
         if (a_unlikely(a_que_node_free(ctx, node)))
         {
             break;
@@ -166,7 +161,7 @@ a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
         {
             if (--cur == idx)
             {
-                vptr = ((a_que_node_s *)it)->__vptr;
+                vptr = a_que_from(it)->__vptr;
                 break;
             }
         }
@@ -177,7 +172,7 @@ a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
         {
             if (cur++ == idx)
             {
-                vptr = ((a_que_node_s *)it)->__vptr;
+                vptr = a_que_from(it)->__vptr;
                 break;
             }
         }
@@ -223,7 +218,7 @@ a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
     a_que_node_s *robj = 0;
     a_list_foreach_next(it, ctx->__head)
     {
-        a_que_node_s *node = (a_que_node_s *)it;
+        a_que_node_s *node = a_que_from(it);
         if (node->__vptr == lhs)
         {
             lobj = node;
@@ -261,13 +256,13 @@ a_int_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
         {
             // Because lhs less than num
             // it's never a null pointer
-            lobj = (a_que_node_s *)it;
+            lobj = a_que_from(it);
         }
         else if (cur == rhs)
         {
             // Because rhs less than num
             // it's never a null pointer
-            robj = (a_que_node_s *)it;
+            robj = a_que_from(it);
         }
         if (lobj && robj)
         {
@@ -288,8 +283,8 @@ a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
         a_list_s *it = ctx->__head->next;
         for (a_list_s *at = it->next; at != ctx->__head; at = at->next)
         {
-            a_vptr_t lhs = ((a_que_node_s *)it)->__vptr;
-            a_vptr_t rhs = ((a_que_node_s *)at)->__vptr;
+            a_vptr_t lhs = a_que_from(it)->__vptr;
+            a_vptr_t rhs = a_que_from(at)->__vptr;
             if (cmp(lhs, rhs) > 0)
             {
                 pt = at;
@@ -316,8 +311,8 @@ a_noret_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
         a_list_s *it = ctx->__head->prev;
         for (a_list_s *at = it->prev; at != ctx->__head; at = at->prev)
         {
-            a_vptr_t lhs = ((a_que_node_s *)at)->__vptr;
-            a_vptr_t rhs = ((a_que_node_s *)it)->__vptr;
+            a_vptr_t lhs = a_que_from(at)->__vptr;
+            a_vptr_t rhs = a_que_from(it)->__vptr;
             if (cmp(lhs, rhs) > 0)
             {
                 pt = at;
@@ -365,7 +360,7 @@ a_vptr_t a_que_pull_fore(a_que_s *ctx)
     a_vptr_t vptr = 0;
     if (a_list_used(ctx->__head))
     {
-        a_que_node_s *node = (a_que_node_s *)ctx->__head->next;
+        a_que_node_s *node = a_que_from(ctx->__head->next);
         if (a_unlikely(a_que_node_free(ctx, node)))
         {
             return vptr;
@@ -383,7 +378,7 @@ a_vptr_t a_que_pull_back(a_que_s *ctx)
     a_vptr_t vptr = 0;
     if (a_list_used(ctx->__head))
     {
-        a_que_node_s *node = (a_que_node_s *)ctx->__head->prev;
+        a_que_node_s *node = a_que_from(ctx->__head->prev);
         if (a_unlikely(a_que_node_free(ctx, node)))
         {
             return vptr;
@@ -432,7 +427,7 @@ a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx)
             {
                 // Because idx less than num
                 // it's never a null pointer
-                node = (a_que_node_s *)it;
+                node = a_que_from(it);
                 break;
             }
         }
