@@ -127,7 +127,6 @@ a_noret_t a_vector_dtor(a_vector_s *ctx)
     ctx->__tail = 0;
     ctx->__last = 0;
     ctx->__size = 0;
-    ctx->__num = 0;
     ctx->__mem = 0;
 }
 
@@ -240,7 +239,7 @@ a_noret_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_c
         a_byte_t *end = (a_byte_t *)ctx->__tail - ctx->__size;
         do
         {
-            a_byte_t *cur = cur = ptr + ctx->__size;
+            a_byte_t *cur = ptr + ctx->__size;
             if (cmp(ptr, cur) > 0)
             {
                 a_swap(ctx->__size, cur, ptr);
