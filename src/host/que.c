@@ -88,7 +88,7 @@ static a_noret_t a_que_drop_(a_que_s *ctx)
         {
             break;
         }
-        a_list_del_prev(ctx->__head);
+        a_list_del_node(node->__node);
         a_list_dtor(node->__node);
     }
 }
