@@ -1,8 +1,8 @@
-import liba.aa;
+import liba.ax;
 
-public class aaTest {
+public class axTest {
     public static void main(String[] args) {
-        aa obj = new aa();
+        ax obj = new ax();
         System.out.println("version " + obj.version());
         System.out.println("major " + obj.version_major());
         System.out.println("minor " + obj.version_minor());

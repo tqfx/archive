@@ -11,12 +11,12 @@ add_test(NAME test-jar-a
   COMMAND ${JAVA_EXECUTABLE} -jar test-a.jar
 )
 
-add_jar(test-jar-aa
-  SOURCES liba/aa.java test/aaTest.java
-  INCLUDE_JARS aa-jar
-  OUTPUT_NAME test-aa
-  ENTRY_POINT aaTest
+add_jar(test-jar-ax
+  SOURCES liba/ax.java test/axTest.java
+  INCLUDE_JARS ax-jar
+  OUTPUT_NAME test-ax
+  ENTRY_POINT axTest
 )
-add_test(NAME test-jar-aa
-  COMMAND ${JAVA_EXECUTABLE} -jar test-aa.jar
+add_test(NAME test-jar-ax
+  COMMAND ${JAVA_EXECUTABLE} -jar test-ax.jar
 )

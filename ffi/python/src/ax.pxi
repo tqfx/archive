@@ -1,6 +1,6 @@
 cimport cython
 
-from aa_version cimport *
+from ax_version cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)

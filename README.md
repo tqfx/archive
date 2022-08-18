@@ -86,7 +86,7 @@ add_requires("a")
 
 ```cmake
 find_package(liba CONFIG REQUIRED)
-target_link_libraries(<TARGET> PRIVATE liba::a liba::aa)
+target_link_libraries(<TARGET> PRIVATE liba::ax)
 ```
 
 #### conanfile.txt

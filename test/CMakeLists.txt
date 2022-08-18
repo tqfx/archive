@@ -58,8 +58,8 @@ function(unittest target)
   endif()
 
   add_executable(${TARGET} ${TEST_SOURCE})
+  target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::ax)
   set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
-  target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::a ${PROJECT_NAME}::aa)
   add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND})
 endfunction()
 

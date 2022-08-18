@@ -1,4 +1,4 @@
-from aa cimport *
+from ax cimport *
 
 cdef extern from "a/version.hpp" namespace "a":
     const char_t *a_version"a::version"()

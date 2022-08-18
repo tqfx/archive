@@ -73,7 +73,7 @@ target("a")
 
 target_end()
 
-target("aa")
+target("ax")
 
     -- add the dependent target
     add_deps("a")

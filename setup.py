@@ -43,10 +43,10 @@ if USE_CYTHON and os.path.exists("ffi/python/a.pyx"):
     source_c = ["ffi/python/a.pyx"]
 else:
     source_c = ["ffi/python/a.c"]
-if USE_CYTHON and os.path.exists("ffi/python/aa.pyx"):
-    source_cc = ["ffi/python/aa.pyx"]
+if USE_CYTHON and os.path.exists("ffi/python/ax.pyx"):
+    source_cc = ["ffi/python/ax.pyx"]
 else:
-    source_cc = ["ffi/python/aa.cpp"]
+    source_cc = ["ffi/python/ax.cpp"]
 
 with open("setup.cfg", "r", encoding="UTF-8") as f:
     version = re.findall(r"version = (.*)", f.read())[0]
@@ -111,7 +111,7 @@ ext_modules = [
         define_macros=define_macros,
     ),
     Extension(
-        name="libaa",
+        name="libax",
         language="c++",
         sources=source_cc,
         include_dirs=["include"],

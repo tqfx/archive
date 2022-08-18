@@ -16,26 +16,26 @@ set_target_properties(a-jni PROPERTIES OUTPUT_NAME a)
 target_link_libraries(a-jni PRIVATE jar-native-a a)
 target_library_options(a-jni)
 
-add_jar(aa-jar
-  SOURCES liba/aa.java
-  ENTRY_POINT aa OUTPUT_NAME aa
-  GENERATE_NATIVE_HEADERS jar-native-aa
+add_jar(ax-jar
+  SOURCES liba/ax.java
+  ENTRY_POINT ax OUTPUT_NAME ax
+  GENERATE_NATIVE_HEADERS jar-native-ax
 )
-install_jar(aa-jar ${CMAKE_INSTALL_LIBDIR}/java)
+install_jar(ax-jar ${CMAKE_INSTALL_LIBDIR}/java)
 
-add_library(aa-jni SHARED $<TARGET_OBJECTS:aa> src/aa.cpp)
-set_target_properties(aa-jni PROPERTIES OUTPUT_NAME aa)
-target_link_libraries(aa-jni PRIVATE jar-native-aa aa)
-target_library_options(aa-jni)
+add_library(ax-jni SHARED $<TARGET_OBJECTS:ax> src/a.cpp)
+set_target_properties(ax-jni PROPERTIES OUTPUT_NAME ax)
+target_link_libraries(ax-jni PRIVATE jar-native-ax ax)
+target_library_options(ax-jni)
 
-set_target_properties(a-jni aa-jni PROPERTIES DEFINE_SYMBOL A_EXPORTS)
+set_target_properties(a-jni ax-jni PROPERTIES DEFINE_SYMBOL A_EXPORTS)
 
-install(TARGETS a-jni aa-jni EXPORT ${PROJECT_NAME}-targets
+install(TARGETS a-jni ax-jni EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/java
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/java
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/java
 )
-install_jar_exports(TARGETS a-jni aa-jni
+install_jar_exports(TARGETS a-jni ax-jni
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
   FILE ${PROJECT_NAME}-targets.cmake
   NAMESPACE ${PROJECT_NAME}::
