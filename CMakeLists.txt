@@ -29,6 +29,7 @@ option(ENABLE_SANITIZE "Enable sanitize" OFF)
 option(ENABLE_CPPCHECK "Enable cppcheck" OFF)
 option(ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
 option(ENABLE_IYWU "Enable include-what-you-use" OFF)
+option(ENABLE_PIC "Enable position independent code" OFF)
 option(ENABLE_IPO "Enable interprocedural optimization" OFF)
 
 if(ENABLE_WARNINGS)
@@ -215,10 +216,11 @@ if(DOXYGEN_FOUND)
   set(DOXYGEN_EXPAND_ONLY_PREDEF YES)
   set(DOXYGEN_PREDEFINED
     "__STDC_VERSION__=201112L"
-    "__cplusplus=201703L"
+    "__cplusplus=201103L"
     "__STDC_HOSTED__=1"
-    "A_INLINE_FORCE:="
+    "A_ALWAYS:="
     "A_INLINE:="
+    "A_STATIC:="
     "A_PUBLIC:="
     "A_HIDDEN:="
   )
