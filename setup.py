@@ -85,7 +85,7 @@ suffix_cc = (".cc", ".cpp", ".cxx")
 suffix_hh = (".hh", ".hpp", ".hxx")
 define_macros = [("A_EXPORTS", None)]
 
-for source in glob("src/**", recursive=True):
+for source in glob("src/**"):
     if not os.path.isfile(source):
         continue
     prefix, suffix = os.path.splitext(source)
@@ -93,7 +93,7 @@ for source in glob("src/**", recursive=True):
         source_cc.append(source)
     if suffix in suffix_c:
         source_c.append(source)
-for header in glob("include/**", recursive=True):
+for header in glob("include/**"):
     if not os.path.isfile(header):
         continue
     prefix, suffix = os.path.splitext(header)
