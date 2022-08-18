@@ -1,12 +1,12 @@
 /*!
- @file vec.cc
- @brief Test basic vector library
+ @file que.cpp
+ @brief Test basic queue library
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "vec.h"
+#include "que.h"
 
 a_int_t main(a_noarg_t)
 {
-    return main_c() + main_cc();
+    return main_c() + main_cpp();
 }

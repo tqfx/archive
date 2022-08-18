@@ -1,5 +1,5 @@
 /*!
- @file version.cc
+ @file version.cpp
  @brief Test algorithm library version
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
@@ -24,7 +24,7 @@ A_STATIC a_int_t main_c(a_noarg_t)
 #include <iostream>
 #include "a/version.hpp"
 
-A_STATIC a_int_t main_cc(a_noarg_t)
+A_STATIC a_int_t main_cpp(a_noarg_t)
 {
     printf("%s\n", __func__);
     std::cout << "version " << a::version() << std::endl;
@@ -37,5 +37,5 @@ A_STATIC a_int_t main_cc(a_noarg_t)
 
 a_int_t main(a_noarg_t)
 {
-    return main_c() + main_cc();
+    return main_c() + main_cpp();
 }

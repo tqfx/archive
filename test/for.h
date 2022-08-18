@@ -57,10 +57,10 @@ A_STATIC a_noret_t test(a_size_t n)
 extern "C" {
 #endif /* __cplusplus */
 a_int_t main_c(a_noarg_t);
-a_int_t main_cc(a_noarg_t);
+a_int_t main_cpp(a_noarg_t);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cc
+#define test_main main_cpp
 #else /* !__cplusplus */
 #define test_main main_c
 #endif /* __cplusplus */

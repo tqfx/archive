@@ -1,12 +1,12 @@
 /*!
- @file str.cc
- @brief Test basic string library
+ @file vec.cpp
+ @brief Test basic vector library
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "str.h"
+#include "vec.h"
 
 a_int_t main(a_noarg_t)
 {
-    return main_c() + main_cc();
+    return main_c() + main_cpp();
 }

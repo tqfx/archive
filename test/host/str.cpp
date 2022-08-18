@@ -1,12 +1,12 @@
 /*!
- @file que.cc
- @brief Test basic queue library
+ @file str.cpp
+ @brief Test basic string library
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "que.h"
+#include "str.h"
 
 a_int_t main(a_noarg_t)
 {
-    return main_c() + main_cc();
+    return main_c() + main_cpp();
 }

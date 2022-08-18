@@ -61,17 +61,17 @@ function(unittest target)
   add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND})
 endfunction()
 
-unittest(for SOURCE for.c for.cc)
+unittest(for SOURCE for.c for.cpp)
 
-unittest(test SOURCE test.cc)
+unittest(test SOURCE test.cpp)
 
-unittest(version SOURCE version.cc)
+unittest(version SOURCE version.cpp)
 
 unittest(real SOURCE real.c)
 unittest(math SOURCE math.c)
 
-unittest(list SOURCE list.c list.cc)
-unittest(slist SOURCE slist.c slist.cc)
+unittest(list SOURCE list.c list.cpp)
+unittest(slist SOURCE slist.c slist.cpp)
 
 unittest(operator SOURCE operator.c)
 
