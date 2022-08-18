@@ -411,7 +411,7 @@ typedef long double a_real_t;
  @param i index variable of the iteration
  @param n final value of the iteration
 */
-#define a_forenum(I, i, n) for (I i = 0; i != (n); ++i)
+#define a_forenum(I, i, n) for (I i = 0; i < (n); ++i)
 
 /*!
  @brief iterate from n to 0 and not include n
@@ -419,7 +419,7 @@ typedef long double a_real_t;
  @param i index variable of the iteration
  @param n final value of the iteration
 */
-#define a_forenum_reverse(I, i, n) for (I i = (n); i--;)
+#define a_forenum_reverse(I, i, n) for (I i = (n); i-- > 0;)
 
 /*!
  @brief iterate over an array
@@ -431,7 +431,7 @@ typedef long double a_real_t;
 #define a_foreach(T, it, ptr, num)                      \
     for (T *it = a_cast_s(T *, ptr),                    \
            *it##_ = a_likely(it) ? it + (num) : a_null; \
-         it != it##_; ++it)
+         it < it##_; ++it)
 
 /*!
  @brief iterate over an array in reverse
@@ -443,7 +443,7 @@ typedef long double a_real_t;
 #define a_foreach_reverse(T, it, ptr, num)                           \
     for (T *it##_ = a_likely(ptr) ? a_cast_s(T *, ptr) - 1 : a_null, \
            *it = a_likely(ptr) ? it##_ + (num) : a_null;             \
-         it != it##_; --it)
+         it > it##_; --it)
 
 /*!
  @brief iterate over an array
@@ -453,7 +453,7 @@ typedef long double a_real_t;
  @param end the end address of this array
 */
 #define a_iterate(T, it, ptr, end) \
-    for (T *it = a_cast_s(T *, ptr), *it##_ = a_cast_s(T *, end); it != it##_; ++it)
+    for (T *it = a_cast_s(T *, ptr), *it##_ = a_cast_s(T *, end); it < it##_; ++it)
 
 /*!
  @brief iterate over an array in reverse
@@ -465,7 +465,7 @@ typedef long double a_real_t;
 #define a_iterate_reverse(T, it, ptr, end)                           \
     for (T *it##_ = a_likely(ptr) ? a_cast_s(T *, ptr) - 1 : a_null, \
            *it = a_likely(end) ? a_cast_s(T *, end) - 1 : a_null;    \
-         it != it##_; --it)
+         it > it##_; --it)
 
 /*!
  @brief enumeration for return values

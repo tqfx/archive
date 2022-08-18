@@ -33,7 +33,7 @@ A_STATIC a_noret_t test(a_noarg_t)
 
 A_STATIC a_noret_t real_add1(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 {
-    for (a_real_t *q = p + n; p != q; ++lhs, ++rhs, ++p)
+    for (a_real_t *q = p + n; p < q; ++lhs, ++rhs, ++p)
     {
         *p = *lhs + *rhs;
     }
@@ -89,7 +89,7 @@ A_STATIC a_noret_t real_add2(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *r
 A_STATIC a_noret_t real_add3(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 {
     a_real_t *b = p;
-    for (a_real_t *q = b + (n >> 3 << 3); p != q; lhs += 8, rhs += 8, p += 8)
+    for (a_real_t *q = b + (n >> 3 << 3); p < q; lhs += 8, rhs += 8, p += 8)
     {
         p[0] = lhs[0] + rhs[0];
         p[1] = lhs[1] + rhs[1];
@@ -100,19 +100,19 @@ A_STATIC a_noret_t real_add3(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *r
         p[6] = lhs[6] + rhs[6];
         p[7] = lhs[7] + rhs[7];
     }
-    for (a_real_t *q = b + (n >> 2 << 2); p != q; lhs += 4, rhs += 4, p += 4)
+    for (a_real_t *q = b + (n >> 2 << 2); p < q; lhs += 4, rhs += 4, p += 4)
     {
         p[0] = lhs[0] + rhs[0];
         p[1] = lhs[1] + rhs[1];
         p[2] = lhs[2] + rhs[2];
         p[3] = lhs[3] + rhs[3];
     }
-    for (a_real_t *q = b + (n >> 1 << 1); p != q; lhs += 2, rhs += 2, p += 2)
+    for (a_real_t *q = b + (n >> 1 << 1); p < q; lhs += 2, rhs += 2, p += 2)
     {
         p[0] = lhs[0] + rhs[0];
         p[1] = lhs[1] + rhs[1];
     }
-    for (a_real_t *q = b + n; p != q; ++lhs, ++rhs, ++p)
+    for (a_real_t *q = b + n; p < q; ++lhs, ++rhs, ++p)
     {
         *p = *lhs + *rhs;
     }
