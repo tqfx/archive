@@ -74,6 +74,7 @@ A_STATIC a_noret_t real_add2(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *r
 {
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
 #endif /* __GNUC__ || __clang__ */
     if (n)
