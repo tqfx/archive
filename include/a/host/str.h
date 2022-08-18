@@ -193,7 +193,7 @@ A_PUBLIC a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj);
  @return number of printed characters
   @retval EOF failure
 */
-A_PUBLIC a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va) __attribute__((format(printf, 2, 0)));
+A_PUBLIC a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va) A_FORMAT(printf, 2, 0);
 
 /*!
  @brief print string to a pointer to string structure
@@ -202,7 +202,7 @@ A_PUBLIC a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va) __attribu
  @return number of printed characters
   @retval EOF failure
 */
-A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) __attribute__((format(printf, 2, 3)));
+A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) A_FORMAT(printf, 2, 3);
 
 #if defined(__cplusplus)
 } /* extern "C" */

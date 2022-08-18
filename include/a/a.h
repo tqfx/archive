@@ -27,57 +27,69 @@
 #define __USE_MINGW_ANSI_STDIO 1
 #endif /* __MINGW32__ */
 
-/* has builtin */
-#if defined(__has_builtin)
-#define a_has_builtin(...) __has_builtin(__VA_ARGS__)
-#define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
-#define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
-#else /* !__has_builtin */
-#define a_has_builtin(...) 0
-#define a_likely(...) (__VA_ARGS__)
-#define a_unlikely(...) (__VA_ARGS__)
+#if !defined __has_attribute
+#define __has_attribute(...) 0
+#endif /* __has_attribute */
+#if !defined __has_builtin
+#define __has_builtin(...) 0
 #endif /* __has_builtin */
-
-/* has feature */
-#if defined(__has_feature)
-#define a_has_feature(...) __has_feature(__VA_ARGS__)
-#else /* !__has_feature */
-#define a_has_feature(...) 0
+#if !defined __has_feature
+#define __has_feature(...) 0
 #endif /* __has_feature */
-
-/* has include */
-#if defined(__has_include)
-#define a_has_include(...) __has_include(__VA_ARGS__)
-#else /* !__has_include */
-#define a_has_include(...) 0
+#if !defined __has_include
+#define __has_include(...) 0
 #endif /* __has_include */
-
-/* has warning */
-#if defined(__has_warning)
-#define a_has_warning(...) __has_warning(__VA_ARGS__)
-#else /* !__has_warning */
-#define a_has_warning(...) 0
+#if !defined __has_warning
+#define __has_warning(...) 0
 #endif /* __has_warning */
 
-/* has attribute */
-#if defined(__has_attribute)
-#define a_has_attribute(...) __has_attribute(__VA_ARGS__)
-#else /* !__has_attribute */
-#define a_has_attribute(...) 0
-#define __attribute__(...)
-#endif /* __has_attribute */
+/* https://en.wikipedia.org/wiki/Microsoft_Visual_C++ */
+#if defined(_MSC_VER)
+#define a_prereq_msvc(x) (_MSC_VER >= (x))
+#else /* !_MSC_VER */
+#define a_prereq_msvc(x) 0
+#endif /* _MSC_VER */
+
+/* https://gcc.gnu.org/onlinedocs/gcc-4.9.4/cpp/Common-Predefined-Macros.html */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#define a_prereq_gnuc(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+#else /* !__GNUC__ */
+#define a_prereq_gnuc(maj, min) 0
+#endif /* __GNUC__ */
+
+/* https://clang.llvm.org/docs/LanguageExtensions.html */
+#if defined(__clang_major__) && defined(__clang_minor__)
+#define a_prereq_clang(maj, min) ((__clang_major__ << 16) + __clang_minor__ >= ((maj) << 16) + (min))
+#else /* !__clang__ */
+#define a_prereq_clang(maj, min) 0
+#endif /* __clang__ */
+
+#if defined(__GNUC__) && (__GNUC__ > 3)
+#define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
+#define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
+#else /* !__GNUC__ */
+#define a_unlikely(...) (__VA_ARGS__)
+#define a_likely(...) (__VA_ARGS__)
+#endif /* __GNUC__ */
+
+/* attribute format */
+#if a_prereq_gnuc(2, 4)
+#define A_FORMAT(...) __attribute__((format(__VA_ARGS__)))
+#else /* !format */
+#define A_FORMAT(...)
+#endif /* format */
 
 /* attribute deprecated */
-#if a_has_attribute(deprecated)
-#define A_DEPRECATED __attribute__((deprecated))
+#if a_prereq_gnuc(3, 2)
+#define A_DEPRECATED(...) __attribute__((deprecated(__VA_ARGS__)))
 #elif defined(_WIN32) || defined(__CYGWIN__)
-#define A_DEPRECATED __declspec(deprecated)
-#else /* !a_has_attribute(deprecated) */
-#define A_DEPRECATED
-#endif /* a_has_attribute(deprecated) */
+#define A_DEPRECATED(...) __declspec(deprecated(__VA_ARGS__))
+#else /* !deprecated */
+#define A_DEPRECATED(...)
+#endif /* deprecated */
 
 /* attribute always inline */
-#if a_has_attribute(always_inline)
+#if a_prereq_gnuc(3, 2)
 #define A_ALWAYS static __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
 #define A_ALWAYS static __forceinline
@@ -92,15 +104,15 @@
 #define A_EXPORT __declspec(dllexport)
 #define A_IMPORT __declspec(dllimport)
 #define A_HIDDEN
-#elif a_has_attribute(visibility)
+#elif defined(__GNUC__) && (__GNUC__ > 3)
 #define A_EXPORT __attribute__((visibility("default")))
 #define A_IMPORT __attribute__((visibility("default")))
 #define A_HIDDEN __attribute__((visibility("hidden")))
-#else /* !a_has_attribute(visibility) */
+#else /* !__GNUC__ */
 #define A_EXPORT
 #define A_IMPORT
 #define A_HIDDEN
-#endif /* a_has_attribute(visibility) */
+#endif /* __GNUC__ */
 #if defined(A_EXPORTS)
 #define A_PUBLIC A_EXPORT
 #elif defined(A_SHARED)
