@@ -5,7 +5,6 @@ find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
 
 function(target_library_options target)
-  get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
   unset(languages)
 
   foreach(lang C CXX)
@@ -31,7 +30,7 @@ function(target_library_options target)
 
     target_compile_options(${target} PRIVATE
       $<$<${lang}_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-      $<$<${lang}_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:${lang}>:${${lang}_FLAGS}>
+      $<$<${lang}_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>
     )
   endforeach()
 
@@ -69,10 +68,10 @@ function(target_executable_options target)
 
     target_compile_options(${target} PRIVATE
       $<$<${lang}_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-      $<$<${lang}_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:${lang}>:${${lang}_FLAGS}>
+      $<$<${lang}_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>
     )
 
-    target_link_options(${target} PRIVATE $<$<COMPILE_LANGUAGE:${lang}>:${${lang}_FLAGS}>)
+    target_link_options(${target} PRIVATE $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>)
   endforeach()
 
   target_compile_options(${target} PRIVATE

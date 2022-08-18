@@ -1,5 +1,3 @@
-get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
-
 if(ANDROID)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 else()
@@ -23,11 +21,11 @@ else()
   endforeach()
 endif()
 
-foreach(v ${C_FLAGS})
+foreach(v ${CFLAGS})
   string_append(CMAKE_C_FLAGS ${v})
 endforeach()
 
-foreach(v ${CXX_FLAGS})
+foreach(v ${CXXFLAGS})
   string_append(CMAKE_CXX_FLAGS ${v})
 endforeach()
 
