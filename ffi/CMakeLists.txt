@@ -5,6 +5,10 @@ if(ENABLE_LUA)
 endif()
 
 if(LUA_FOUND)
+  if(NOT LUA_MATH_LIBRARY AND ANDROID)
+    set(LUA_MATH_LIBRARY m CACHE STRING "lua link math library" FORCE)
+  endif()
+
   add_subdirectory(lua)
 endif()
 

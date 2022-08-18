@@ -11,7 +11,8 @@ add_jar(a-jar
 )
 install_jar(a-jar ${CMAKE_INSTALL_LIBDIR}/java)
 
-add_library(a-jni SHARED $<TARGET_OBJECTS:a> src/a.c)
+file(GLOB_RECURSE SOURCES src/*.c)
+add_library(a-jni SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-jni PROPERTIES OUTPUT_NAME a)
 target_link_libraries(a-jni PRIVATE jar-native-a a)
 target_library_options(a-jni)
@@ -23,7 +24,8 @@ add_jar(ax-jar
 )
 install_jar(ax-jar ${CMAKE_INSTALL_LIBDIR}/java)
 
-add_library(ax-jni SHARED $<TARGET_OBJECTS:ax> src/a.cpp)
+file(GLOB_RECURSE SOURCES src/*.cpp)
+add_library(ax-jni SHARED ${SOURCES} $<TARGET_OBJECTS:ax>)
 set_target_properties(ax-jni PROPERTIES OUTPUT_NAME ax)
 target_link_libraries(ax-jni PRIVATE jar-native-ax ax)
 target_library_options(ax-jni)

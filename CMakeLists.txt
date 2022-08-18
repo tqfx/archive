@@ -55,13 +55,17 @@ if(ENABLE_IPO)
   check_ipo_supported(RESULT ENABLE_IPO)
 endif()
 
-find_library(MATH_LIBRARY NAMES m)
-
 set(A_VERSION ${PROJECT_VERSION})
 set(A_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
+
+find_library(MATH_LIBRARY NAMES m)
+
+if(NOT MATH_LIBRARY AND ANDROID)
+  set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
+endif()
 
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
@@ -83,7 +87,7 @@ function(target_library_setting target)
     $<INSTALL_INTERFACE:include>
   )
   target_link_libraries(${target} PUBLIC
-    $<$<OR:$<BOOL:${MATH_LIBRARY}>,$<BOOL:${ANDROID}>>:m>
+    $<$<BOOL:${MATH_LIBRARY}>:${MATH_LIBRARY}>
   )
   target_library_options(${target})
 endfunction()
