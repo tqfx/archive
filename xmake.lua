@@ -7,8 +7,8 @@ set_xmakever("2.5.0")
 -- set project version
 set_version("0.1.0", {build = "%Y%m%d%H%M"})
 
--- set language: c11 c++17
-set_languages("c11", "c++17")
+-- set language: c11 c++11
+set_languages("c11", "c++11")
 
 -- set warning everything
 set_warnings("everything")
