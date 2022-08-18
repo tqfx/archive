@@ -74,7 +74,7 @@
 #define a_prereq_clang(maj, min) 0
 #endif /* __clang__ */
 
-#if defined(__GNUC__) && (__GNUC__ > 3)
+#if a_prereq_gnuc(2, 96) || __has_builtin(__builtin_expect)
 #define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
 #define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
 #else /* !__GNUC__ */
@@ -83,14 +83,14 @@
 #endif /* __GNUC__ */
 
 /* attribute format */
-#if a_prereq_gnuc(2, 4)
+#if a_prereq_gnuc(2, 4) || __has_attribute(format)
 #define A_FORMAT(...) __attribute__((format(__VA_ARGS__)))
 #else /* !format */
 #define A_FORMAT(...)
 #endif /* format */
 
 /* attribute deprecated */
-#if a_prereq_gnuc(3, 2)
+#if a_prereq_gnuc(3, 2) || __has_attribute(deprecated)
 #define A_DEPRECATED(...) __attribute__((deprecated(__VA_ARGS__)))
 #elif defined(_WIN32) || defined(__CYGWIN__)
 #define A_DEPRECATED(...) __declspec(deprecated(__VA_ARGS__))
@@ -99,7 +99,7 @@
 #endif /* deprecated */
 
 /* attribute always inline */
-#if a_prereq_gnuc(3, 2)
+#if a_prereq_gnuc(3, 2) || __has_attribute(always_inline)
 #define A_ALWAYS static __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
 #define A_ALWAYS static __forceinline
@@ -114,15 +114,15 @@
 #define A_EXPORT __declspec(dllexport)
 #define A_IMPORT __declspec(dllimport)
 #define A_HIDDEN
-#elif defined(__GNUC__) && (__GNUC__ > 3)
+#elif a_prereq_gnuc(4, 0) || __has_attribute(visibility)
 #define A_EXPORT __attribute__((visibility("default")))
 #define A_IMPORT __attribute__((visibility("default")))
 #define A_HIDDEN __attribute__((visibility("hidden")))
-#else /* !__GNUC__ */
+#else /* !visibility */
 #define A_EXPORT
 #define A_IMPORT
 #define A_HIDDEN
-#endif /* __GNUC__ */
+#endif /* visibility */
 #if defined(A_EXPORTS)
 #define A_PUBLIC A_EXPORT
 #elif defined(A_SHARED)
