@@ -119,6 +119,7 @@ if(
   check_flag(/Wall)
   check_flag(/wd4464)
   check_flag(/wd4514)
+  check_flag(/wd4710)
   check_flag(/wd5039)
   check_flag(/wd5045)
 endif()
