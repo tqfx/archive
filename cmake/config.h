@@ -15,6 +15,8 @@
 #cmakedefine A_VERSION_PATCH @A_VERSION_PATCH@
 #cmakedefine A_VERSION_TWEAK @A_VERSION_TWEAK@
 
+#cmakedefine A_SIZEOF_P @A_SIZEOF_P@
+
 // clang-format on
 
 /*! algorithm library version string */

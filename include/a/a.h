@@ -27,6 +27,16 @@
 #define __USE_MINGW_ANSI_STDIO 1
 #endif /* __MINGW32__ */
 
+#if !defined A_SIZEOF_P
+#if defined(__SIZEOF_POINTER__)
+#define A_SIZEOF_P __SIZEOF_POINTER__
+#elif defined(_WIN64)
+#define A_SIZEOF_P 8
+#elif defined(_WIN32)
+#define A_SIZEOF_P 4
+#endif /* __SIZEOF_POINTER__ */
+#endif /* A_SIZEOF_P */
+
 #if !defined __has_attribute
 #define __has_attribute(...) 0
 #endif /* __has_attribute */
