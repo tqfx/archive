@@ -71,14 +71,20 @@ A_STATIC a_noret_t test(a_noarg_t)
     {
         a_u32_t *it = a_vec_at(a_u32_t, ctx, i);
         assert(a_vec_get(ctx) == sizeof(*it));
-        printf("%" PRIu32 " ", *it);
+        if (it)
+        {
+            printf("%" PRIu32 " ", *it);
+        }
     }
     putchar('\n');
     a_vec_forenum_reverse(i, ctx)
     {
         a_u32_t *it = a_vec_at(a_u32_t, ctx, i);
         assert(a_vec_get(ctx) == sizeof(*it));
-        printf("%" PRIu32 " ", *it);
+        if (it)
+        {
+            printf("%" PRIu32 " ", *it);
+        }
     }
     putchar('\n');
 

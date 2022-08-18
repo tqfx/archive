@@ -218,9 +218,9 @@ if(DOXYGEN_FOUND)
     "__STDC_VERSION__=201112L"
     "__cplusplus=201103L"
     "__STDC_HOSTED__=1"
-    "A_ALWAYS:="
+    "A_STATIC:=static"
+    "A_ALWAYS:=static"
     "A_INLINE:="
-    "A_STATIC:="
     "A_PUBLIC:="
     "A_HIDDEN:="
   )

@@ -40,12 +40,18 @@ A_STATIC a_noret_t test(a_noarg_t)
     {
         a_u64_t *fore = a_que_fore(a_u64_t, ctx);
         a_u64_t *back = a_que_back(a_u64_t, ctx);
-        printf("%" PRIu64 " %" PRIu64 " ", *fore, *back);
+        if (fore && back)
+        {
+            printf("%" PRIu64 " %" PRIu64 " ", *fore, *back);
+        }
     }
     {
         a_u64_t *fore = a_que_at(a_u64_t, ctx, 0);
         a_u64_t *back = a_que_at(a_u64_t, ctx, ~0);
-        printf("%" PRIu64 " %" PRIu64 "\n", *fore, *back);
+        if (fore && back)
+        {
+            printf("%" PRIu64 " %" PRIu64 "\n", *fore, *back);
+        }
     }
     for (a_u64_t i = 0; i != 5; ++i)
     {

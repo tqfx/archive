@@ -23,10 +23,7 @@
 #undef a_que_pull_fore
 #undef a_que_pull_back
 
-#define context_alloc(size) malloc(size)
-#define context_free(vptr) free(vptr)
-
-A_INLINE a_noret_t default_dtor(a_vptr_t vptr) { (void)(vptr); }
+A_ALWAYS a_noret_t func(a_vptr_t vptr) { (void)(vptr); }
 
 A_STATIC a_que_node_s *a_que_node_alloc(a_que_s *ctx)
 {
@@ -46,7 +43,7 @@ A_STATIC a_que_node_s *a_que_node_alloc(a_que_s *ctx)
     }
     if (node->__vptr == 0)
     {
-        node->__vptr = context_alloc(ctx->__size);
+        node->__vptr = malloc(ctx->__size);
         if (a_unlikely(node->__vptr == 0))
         {
             free(node);
@@ -127,12 +124,12 @@ a_noret_t a_que_dtor(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_que_drop_(ctx);
-    a_noret_t (*context_dtor)(a_vptr_t) = dtor ? dtor : default_dtor;
+    dtor = dtor ? dtor : func;
     while (ctx->__cur)
     {
         --ctx->__cur;
-        context_dtor(ctx->__ptr[ctx->__cur]->__vptr);
-        context_free(ctx->__ptr[ctx->__cur]->__vptr);
+        dtor(ctx->__ptr[ctx->__cur]->__vptr);
+        free(ctx->__ptr[ctx->__cur]->__vptr);
         free(ctx->__ptr[ctx->__cur]);
     }
     free(ctx->__ptr);
@@ -192,11 +189,11 @@ a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_que_drop_(ctx);
-    a_noret_t (*context_dtor)(a_vptr_t) = dtor ? dtor : default_dtor;
+    dtor = dtor ? dtor : func;
     for (a_size_t cur = ctx->__cur; cur--; ctx->__ptr[cur]->__vptr = 0)
     {
-        context_dtor(ctx->__ptr[cur]->__vptr);
-        context_free(ctx->__ptr[cur]->__vptr);
+        dtor(ctx->__ptr[cur]->__vptr);
+        free(ctx->__ptr[cur]->__vptr);
     }
 }
 
@@ -210,22 +207,22 @@ a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
         return A_SUCCESS;
     }
     int ok = A_FAILURE;
-    a_que_node_s *lobj = 0;
-    a_que_node_s *robj = 0;
+    a_que_node_s *l = 0;
+    a_que_node_s *r = 0;
     a_list_foreach_next(it, ctx->__head)
     {
         a_que_node_s *node = a_que_from(it);
         if (node->__vptr == lhs)
         {
-            lobj = node;
+            l = node;
         }
         else if (node->__vptr == rhs)
         {
-            robj = node;
+            r = node;
         }
-        if (lobj && robj)
+        if (l && r)
         {
-            a_list_swap_node(lobj->__node, robj->__node);
+            a_list_swap_node(l->__node, r->__node);
             ok = A_SUCCESS;
             break;
         }
@@ -242,29 +239,29 @@ a_noret_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
     rhs = rhs < ctx->__num ? rhs : num;
     if (lhs != rhs)
     {
-        a_que_node_s *lobj = 0;
-        a_que_node_s *robj = 0;
+        a_que_node_s *l = 0;
+        a_que_node_s *r = 0;
         a_list_foreach_next(it, ctx->__head)
         {
             if (cur == lhs)
             {
                 // because lhs less than num
                 // it's never a null pointer
-                lobj = a_que_from(it);
+                l = a_que_from(it);
             }
             else if (cur == rhs)
             {
                 // because rhs less than num
                 // it's never a null pointer
-                robj = a_que_from(it);
+                r = a_que_from(it);
             }
-            if (lobj && robj)
+            if (l && r)
             {
+                a_list_swap_node(l->__node, r->__node);
                 break;
             }
             ++cur;
         }
-        a_list_swap_node(lobj->__node, robj->__node);
     }
 }
 

@@ -7,14 +7,14 @@
 #ifndef __TEST_LIST_H__
 #define __TEST_LIST_H__
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Winline"
+#endif /* __GNUC__ || __clang__ */
+
 #include "a/list.h"
 
 #include <stdlib.h>
 #include <stdio.h>
-
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic ignored "-Winline"
-#endif /* __GNUC__ || __clang__ */
 
 typedef struct
 {
