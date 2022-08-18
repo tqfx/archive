@@ -18,7 +18,7 @@ typedef struct
     a_cast_u data[1];
 } a_data_s;
 
-static a_size_t a_slist_len(const a_slist_s *ctx)
+A_STATIC a_size_t a_slist_len(const a_slist_s *ctx)
 {
     a_size_t count = 0;
     if (ctx == a_null)
@@ -41,7 +41,7 @@ done:
     return count;
 }
 
-static a_noret_t test(a_noarg_t)
+A_STATIC a_noret_t test(a_noarg_t)
 {
     a_slist_s *list1 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list1);
@@ -100,7 +100,7 @@ static a_noret_t test(a_noarg_t)
     free(list1);
 }
 
-static a_noret_t null(a_noarg_t)
+A_STATIC a_noret_t null(a_noarg_t)
 {
     a_slist_u node1[1] = {{node1}};
     a_slist_u node2[1] = {{node2}};

@@ -15,20 +15,20 @@
 #include <string.h>
 #include <stdio.h>
 
-static a_noret_t dtor(a_vptr_t ptr)
+A_STATIC a_noret_t dtor(a_vptr_t ptr)
 {
     a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
     printf("%" PRIu32 " ", *obj);
 }
 
-static a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
+A_STATIC a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
 {
     *a_cast_s(a_u32_t *, dst) = *a_cast_s(const a_u32_t *, src);
     printf("%" PRIu32 " ", *a_cast_s(const a_u32_t *, src));
     return 0;
 }
 
-static a_noret_t test(a_noarg_t)
+A_STATIC a_noret_t test(a_noarg_t)
 {
     a_vec_s *ctx = a_vec_new(sizeof(a_u64_t));
     a_vec_foreach(a_u64_t, it, ctx);
@@ -192,17 +192,17 @@ static a_noret_t test(a_noarg_t)
 #include "a/host/str.h"
 #include <time.h>
 
-static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
+A_STATIC a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
 {
     return *a_cast_s(const a_int_t *, lhs) - *a_cast_s(const a_int_t *, rhs);
 }
 
-static a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
+A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 {
     return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
 }
 
-static a_noret_t test_sort(a_noarg_t)
+A_STATIC a_noret_t test_sort(a_noarg_t)
 {
     a_uint_t t = a_cast_s(a_uint_t, time(a_null));
     a_vec_s *ctx = a_vec_new(sizeof(a_int_t));

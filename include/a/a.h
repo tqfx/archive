@@ -77,14 +77,15 @@
 #endif /* a_has_attribute(deprecated) */
 
 /* attribute always inline */
-#define A_INLINE static __inline
 #if a_has_attribute(always_inline)
-#define A_INLINE_FORCE static __inline __attribute__((always_inline))
+#define A_ALWAYS static __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
-#define A_INLINE_FORCE static __forceinline
+#define A_ALWAYS static __forceinline
 #else /* !_MSC_VER */
-#define A_INLINE_FORCE static __inline
+#define A_ALWAYS static __inline
 #endif /* _MSC_VER */
+#define A_INLINE static __inline
+#define A_STATIC static
 
 /* attribute visibility */
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -119,10 +120,10 @@
 #if defined(__cplusplus)
 #define a_register
 #else /* !__cplusplus */
-#define a_register register
+#define a_register __register
 #endif /* __cplusplus */
-#define a_volatile volatile
-#define a_restrict restrict
+#define a_volatile __volatile
+#define a_restrict __restrict
 
 #if !defined __cplusplus
 #define a_cast_c(T, ...) ((T)(__VA_ARGS__))

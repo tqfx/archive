@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "a/version.h"
 
-static a_int_t main_c(a_noret_t)
+A_STATIC a_int_t main_c(a_noret_t)
 {
     printf("%s\n", __func__);
     printf("version %s\n", a_version());
@@ -22,7 +22,7 @@ static a_int_t main_c(a_noret_t)
 #include <iostream>
 #include "a/version.hpp"
 
-static a_int_t main_cc(a_noret_t)
+A_STATIC a_int_t main_cc(a_noret_t)
 {
     printf("%s\n", __func__);
     std::cout << "version " << a::version() << std::endl;

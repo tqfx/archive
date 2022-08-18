@@ -28,7 +28,7 @@
 
 A_INLINE a_noret_t default_dtor(a_vptr_t vptr) { (void)(vptr); }
 
-static a_que_node_s *a_que_node_alloc(a_que_s *ctx)
+A_STATIC a_que_node_s *a_que_node_alloc(a_que_s *ctx)
 {
     a_que_node_s *node = 0;
     if (ctx->__cur)
@@ -57,7 +57,7 @@ static a_que_node_s *a_que_node_alloc(a_que_s *ctx)
     return node;
 }
 
-static int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
+A_STATIC int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
 {
     if (obj == 0)
     {
@@ -79,7 +79,7 @@ static int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
     return A_SUCCESS;
 }
 
-static a_noret_t a_que_drop_(a_que_s *ctx)
+A_STATIC a_noret_t a_que_drop_(a_que_s *ctx)
 {
     while (a_list_used(ctx->__head))
     {

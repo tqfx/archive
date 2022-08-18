@@ -10,21 +10,21 @@
 
 #include <math.h>
 
-static a_noret_t test_sq(a_noarg_t)
+A_STATIC a_noret_t test_sq(a_noarg_t)
 {
     a_int_t x = 2;
 
     TEST_BUG(A_SQ(x) == 4);
 }
 
-static a_noret_t test_abs(a_noarg_t)
+A_STATIC a_noret_t test_abs(a_noarg_t)
 {
     long double x = A_LDBL_C(-1.0);
 
     TEST_BUG(A_ABS(x) > 0);
 }
 
-static a_noret_t test_sgn(a_noarg_t)
+A_STATIC a_noret_t test_sgn(a_noarg_t)
 {
     double pos = A_DBL_C(+10.0);
     double neg = A_DBL_C(-10.0);
@@ -35,7 +35,7 @@ static a_noret_t test_sgn(a_noarg_t)
     TEST_BUG(A_SGN(zero) == 0);
 }
 
-static a_noret_t test_inv_sqrt(a_noarg_t)
+A_STATIC a_noret_t test_inv_sqrt(a_noarg_t)
 {
     float data[] = {
         A_FLT_C(-1.0),

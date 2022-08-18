@@ -28,17 +28,17 @@
 #undef a_vec_pull_fore
 #undef a_vec_pull_back
 
-A_INLINE_FORCE a_vptr_t a_vec_inc_(a_vec_s *ctx)
+A_ALWAYS a_vptr_t a_vec_inc_(a_vec_s *ctx)
 {
     return (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num++;
 }
 
-A_INLINE_FORCE a_vptr_t a_vec_dec_(a_vec_s *ctx)
+A_ALWAYS a_vptr_t a_vec_dec_(a_vec_s *ctx)
 {
     return (a_byte_t *)ctx->__ptr + ctx->__siz * --ctx->__num;
 }
 
-static a_noret_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_noret_t (*dtor)(a_vptr_t))
+A_STATIC a_noret_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_noret_t (*dtor)(a_vptr_t))
 {
     if (dtor)
     {
@@ -50,7 +50,7 @@ static a_noret_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_noret_t (*dtor)(a_vpt
     ctx->__num = bot;
 }
 
-static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
+A_STATIC a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
 {
     if (ctx->__mem <= num)
     {

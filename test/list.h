@@ -22,7 +22,7 @@ typedef struct
     a_cast_u data[1];
 } a_data_s;
 
-static a_size_t a_list_len(const a_list_s *ctx)
+A_STATIC a_size_t a_list_len(const a_list_s *ctx)
 {
     a_size_t count = 0;
     if (ctx == a_null)
@@ -57,7 +57,7 @@ done:
     return count;
 }
 
-static a_noret_t test_next(a_noarg_t)
+A_STATIC a_noret_t test_next(a_noarg_t)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -104,7 +104,7 @@ static a_noret_t test_next(a_noarg_t)
     free(list2);
 }
 
-static a_noret_t test_prev(a_noarg_t)
+A_STATIC a_noret_t test_prev(a_noarg_t)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -151,7 +151,7 @@ static a_noret_t test_prev(a_noarg_t)
     free(list2);
 }
 
-static a_noret_t test_func(a_noarg_t)
+A_STATIC a_noret_t test_func(a_noarg_t)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -210,7 +210,7 @@ static a_noret_t test_func(a_noarg_t)
     free(ctx);
 }
 
-static a_noret_t test_null(a_noarg_t)
+A_STATIC a_noret_t test_null(a_noarg_t)
 {
     a_list_s list1[1] = {{list1, list1}};
     a_list_s list2[1] = {{list2, list2}};

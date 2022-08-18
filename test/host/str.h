@@ -11,7 +11,7 @@
 #include "../test.h"
 #include <stdio.h>
 
-static a_noret_t tests(a_noarg_t)
+A_STATIC a_noret_t tests(a_noarg_t)
 {
     a_str_s ctx[1] = {A_STR_NIL};
     a_str_t str = a_str_exit(ctx);
@@ -26,7 +26,7 @@ static a_noret_t tests(a_noarg_t)
     a_str_dtor(ctx);
 }
 
-static a_noret_t testt(a_noarg_t)
+A_STATIC a_noret_t testt(a_noarg_t)
 {
     a_str_t str = a_null;
     a_str_s *ctx = a_str_new();
@@ -43,7 +43,7 @@ static a_noret_t testt(a_noarg_t)
     a_str_die(ctx);
 }
 
-static a_noret_t testc(a_noarg_t)
+A_STATIC a_noret_t testc(a_noarg_t)
 {
     {
         a_str_s *lhs = a_str_new();

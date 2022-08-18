@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static a_noret_t test(a_size_t n)
+A_STATIC a_noret_t test(a_size_t n)
 {
     a_int_t *p = a_cast_s(a_int_t *, malloc(sizeof(a_int_t) * n));
     a_int_t *d = p + n;

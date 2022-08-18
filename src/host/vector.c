@@ -27,20 +27,20 @@
 #undef a_vector_pull_fore
 #undef a_vector_pull_back
 
-A_INLINE_FORCE a_vptr_t a_vector_inc_(a_vector_s *ctx)
+A_ALWAYS a_vptr_t a_vector_inc_(a_vector_s *ctx)
 {
     a_vptr_t last = ctx->__tail;
     ctx->__tail = (a_byte_t *)ctx->__tail + ctx->__size;
     return (void)(++ctx->__num), last;
 }
 
-A_INLINE_FORCE a_vptr_t a_vector_dec_(a_vector_s *ctx)
+A_ALWAYS a_vptr_t a_vector_dec_(a_vector_s *ctx)
 {
     ctx->__tail = (a_byte_t *)ctx->__tail - ctx->__size;
     return (void)(--ctx->__num), ctx->__tail;
 }
 
-static a_noret_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
+A_STATIC a_noret_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
 {
     if (ctx->dtor)
     {
@@ -53,7 +53,7 @@ static a_noret_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
     ctx->__num = bot;
 }
 
-static a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
+A_STATIC a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
 {
     if (ctx->__mem <= num)
     {
