@@ -54,10 +54,11 @@ elseif(
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
 )
   check_flag_cx(-Weverything)
+  check_flag_cx(-Wno-reserved-id-macro)
   check_flag_cx(-Wno-reserved-identifier)
   check_flag_cx(-Wno-used-but-marked-unused)
-  check_flag_xx(-Wno-c++98-compat-pedantic)
   check_flag_cc(-Wno-declaration-after-statement)
+  check_flag_xx(-Wno-c++98-compat-pedantic)
 elseif(
   "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
