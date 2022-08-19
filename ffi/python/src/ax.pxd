@@ -26,7 +26,7 @@ cdef extern from "a/a.hpp" namespace "a":
     ctypedef a_iptr_t iptr_t
     ctypedef a_uptr_t uptr_t
 
-    ctypedef a_ptrdiff_t ptrdiff_t
+    ctypedef a_diff_t diff_t
 
     ctypedef  a_int_t  int_t
     ctypedef a_sint_t sint_t

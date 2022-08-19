@@ -174,7 +174,8 @@ A_STATIC a_noret_t test_diff(a_size_t n)
 
     free(p);
 
-    printf("algorithm(1) %ld\nalgorithm(2) %ld\nalgorithm(3) %ld\n", t1, t2, t3);
+    printf("algorithm(1) %li\nalgorithm(2) %li\nalgorithm(3) %li\n",
+           a_cast_s(long, t1), a_cast_s(long, t2), a_cast_s(long, t3));
 }
 
 a_int_t main(a_int_t argc, a_str_t argv[])
@@ -185,7 +186,7 @@ a_int_t main(a_int_t argc, a_str_t argv[])
     {
         a_str_t endptr;
         unsigned long long n = strtoull(argv[argc - 1], &endptr, 0);
-        test_diff((a_size_t)n);
+        test_diff(a_cast_s(a_size_t, n));
     }
 
     return A_SUCCESS;

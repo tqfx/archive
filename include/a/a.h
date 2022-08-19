@@ -244,10 +244,10 @@ typedef uintptr_t a_uptr_t;
 #define A_IPTR_PTR   INTPTR_PTR
 #define A_UPTR_PTR  UINTPTR_PTR
 
-typedef ptrdiff_t a_ptrdiff_t;
+typedef ptrdiff_t a_diff_t;
 
-#define A_PTRDIFF_MIN PTRDIFF_MIN
-#define A_PTRDIFF_MAX PTRDIFF_MAX
+#define A_DIFF_MIN PTRDIFF_MIN
+#define A_DIFF_MAX PTRDIFF_MAX
 
 typedef          int  a_int_t;
 typedef          int a_sint_t;
@@ -282,7 +282,6 @@ typedef union a_cast_u
       signed long long lli;
     unsigned long long llu;
     // clang-format on
-    a_ptrdiff_t diff;
     double f64;
     float f32;
     a_i8_t i8;
@@ -293,6 +292,7 @@ typedef union a_cast_u
     a_u32_t u32;
     a_i64_t i64;
     a_u64_t u64;
+    a_diff_t diff;
     a_imax_t imax;
     a_umax_t umax;
     a_iptr_t iptr;

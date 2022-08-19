@@ -40,7 +40,7 @@ typedef a_umax_t umax_t;
 typedef a_iptr_t iptr_t;
 typedef a_uptr_t uptr_t;
 
-typedef a_ptrdiff_t ptrdiff_t;
+typedef a_diff_t diff_t;
 
 // clang-format off
 

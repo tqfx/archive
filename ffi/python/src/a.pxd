@@ -26,7 +26,7 @@ cdef extern from "a/a.h":
     ctypedef  intptr_t a_iptr_t
     ctypedef uintptr_t a_uptr_t
 
-    ctypedef ptrdiff_t a_ptrdiff_t
+    ctypedef ptrdiff_t a_diff_t
 
     ctypedef          int  a_int_t
     ctypedef          int a_sint_t
