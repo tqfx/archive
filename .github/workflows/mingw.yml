@@ -27,7 +27,7 @@ jobs:
           cmake -S . -B build \
             -DBUILD_TESTING=ON \
             -DENABLE_WARNINGS=ON \
-            --toolchain cmake/${{matrix.mingw}}.cmake
+            --toolchain cmake/${{ matrix.mingw }}.cmake
           cmake --build build
       - name: Run ctest
         if: ${{ matrix.mingw == 'mingw64' }}

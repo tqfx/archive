@@ -25,7 +25,7 @@ jobs:
           prepare: |
             pkg install -y cmake gmake
           run: |
-            cmake -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.type}} \
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.type }} \
               -DENABLE_WARNINGS=ON \
               -DENABLE_SANITIZE=1 \
               -DENABLE_PYTHON=ON \
@@ -33,5 +33,5 @@ jobs:
               -DENABLE_JAVA=ON \
               -DENABLE_LUA=ON \
               -DBUILD_TESTING=ON
-            cmake --build build --config ${{matrix.type}}
+            cmake --build build --config ${{ matrix.type }}
             cmake --build build --target test

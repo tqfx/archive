@@ -23,7 +23,7 @@ jobs:
           Set-PSDebug -Trace 1
           python -m pip install -U conan
           conan profile new default --detect
-          conan create . -s arch=${{matrix.arch}} -s build_type=${{matrix.type}}
+          conan create . -s arch=${{ matrix.arch }} -s build_type=${{ matrix.type }}
   Linux:
     strategy:
       fail-fast: false
@@ -42,14 +42,14 @@ jobs:
           submodules: true
       - name: Run conan
         env:
-          CC: ${{matrix.cc}}
-          CXX: ${{matrix.cxx}}
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
         run: |
           set -x
           python3 -m pip install -U conan
           conan profile new default --detect
           conan profile update settings.compiler.libcxx=libstdc++11 default
-          conan create . -s build_type=${{matrix.type}}
+          conan create . -s build_type=${{ matrix.type }}
   MacOS:
     strategy:
       fail-fast: false
@@ -66,11 +66,11 @@ jobs:
           submodules: true
       - name: Run conan clang
         env:
-          CC: ${{matrix.cc}}
-          CXX: ${{matrix.cxx}}
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
         run: |
           set -x
           python3 -m pip install -U conan
           conan profile new default --detect
-          conan profile update settings.compiler=${{matrix.cc}} default
-          conan create . -s build_type=${{matrix.type}}
+          conan profile update settings.compiler=${{ matrix.cc }} default
+          conan create . -s build_type=${{ matrix.type }}

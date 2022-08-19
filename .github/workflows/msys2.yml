@@ -17,7 +17,7 @@ jobs:
         with:
           update: true
           location: D:\
-          msystem: ${{matrix.sys}}
+          msystem: ${{ matrix.sys }}
           pacboy: >-
             make:p
             cmake:p
@@ -25,7 +25,7 @@ jobs:
       - name: Run cmake
         shell: msys2 {0}
         env:
-          MSYSTEM: ${{matrix.sys}}
+          MSYSTEM: ${{ matrix.sys }}
         run: |
           set -x
           cmake -S . -B build \
@@ -36,7 +36,7 @@ jobs:
       - name: Run ctest
         shell: msys2 {0}
         env:
-          MSYSTEM: ${{matrix.sys}}
+          MSYSTEM: ${{ matrix.sys }}
         run: |
           set -x
           cmake --build build --target test

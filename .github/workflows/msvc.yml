@@ -19,19 +19,15 @@ jobs:
           lfs: true
           submodules: true
       - name: Prepare
-        env:
-          VCPKG_DEFAULT_TRIPLET: ${{matrix.triple}}-windows-static
         run: |
           Set-PSDebug -Trace 1
-          &$ENV:VCPKG_INSTALLATION_ROOT/vcpkg.exe install lua[tools]
+          vcpkg install lua[tools]:${{ matrix.triple }}-windows-static
       - name: Run cmake
-        env:
-          VCPKG_DEFAULT_TRIPLET: ${{matrix.triple}}-windows-static
         run: |
           Set-PSDebug -Trace 1
-          cmake -S . -B build -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} `
+          cmake -S . -B build -A ${{ matrix.arch }} -DCMAKE_BUILD_TYPE=${{ matrix.type }} `
              --toolchain $ENV:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake `
-            -DVCPKG_TARGET_TRIPLET="$ENV:VCPKG_DEFAULT_TRIPLET" `
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.triple }}-windows-static `
             -DENABLE_WARNINGS=ON `
             -DENABLE_SANITIZE=1 `
             -DENABLE_PYTHON=ON `
@@ -41,16 +37,14 @@ jobs:
             -DBUILD_TESTING=ON
           cmake --build build --target a-py-setup
           cmake --build build --target a-py-build
-          cmake --build build --config ${{matrix.type}}
+          cmake --build build --config ${{ matrix.type }}
+          cp -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
       - name: Run vcpkg
         if: ${{ matrix.type == 'Debug' }}
-        env:
-          VCPKG_DEFAULT_TRIPLET: ${{matrix.triple}}-windows-static
         run: |
           Set-PSDebug -Trace 1
-          cp -v -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
-          & $ENV:VCPKG_INSTALLATION_ROOT/vcpkg.exe install liba
+          vcpkg install liba:${{ matrix.triple }}-windows-static
       - name: Run ctest
         run: |
           Set-PSDebug -Trace 1
-          cmake --build build --config ${{matrix.type}} --target run_tests
+          cmake --build build --config ${{ matrix.type }} --target run_tests
