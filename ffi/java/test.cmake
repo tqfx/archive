@@ -1,4 +1,4 @@
-set(JAVA_LIBRARY_PATH -Djava.library.path=)
+set(JAVA_LIBRARY_PATH -Djava.library.path=.)
 set(JAVA_EXECUTABLE ${Java_JAVA_EXECUTABLE} ${JAVA_LIBRARY_PATH})
 
 add_jar(test-jar-a
