@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
 jobs:
   MSYS2:
-    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         sys: [ MINGW64, MINGW32, UCRT64, CLANG64 ]
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -30,8 +30,7 @@ jobs:
           set -x
           cmake -S . -B build \
             -DBUILD_TESTING=ON \
-            -DENABLE_WARNINGS=ON \
-            -DCMAKE_BUILD_TYPE=Debug \
+            -DENABLE_WARNINGS=1 \
             -G "MinGW Makefiles"
           cmake --build build
       - name: Run ctest

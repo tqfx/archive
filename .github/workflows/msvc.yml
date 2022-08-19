@@ -3,25 +3,54 @@ on:
   workflow_dispatch:
 jobs:
   MSVC:
-    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         include: [
-          { arch: x64 },
-          { arch: win32 },
+          { triple: x64, arch: x64, type: Debug },
+          { triple: x86, arch: win32, type: Debug },
+          { triple: x64, arch: x64, type: RelWithDebInfo },
+          { triple: x86, arch: win32, type: RelWithDebInfo },
         ]
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
         with:
           lfs: true
           submodules: true
-      - name: Run cmake
+      - name: Prepare
+        env:
+          VCPKG_DEFAULT_TRIPLET: ${{matrix.triple}}-windows-static
         run: |
           Set-PSDebug -Trace 1
-          cmake -S . -B build -A ${{matrix.arch}} -DBUILD_TESTING=ON -DENABLE_WARNINGS=ON -DENABLE_SANITIZE=ON -DCMAKE_BUILD_TYPE=Debug
-          cmake --build build --config Debug
+          &$ENV:VCPKG_INSTALLATION_ROOT/vcpkg.exe install lua[tools]
+      - name: Run cmake
+        env:
+          VCPKG_DEFAULT_TRIPLET: ${{matrix.triple}}-windows-static
+        run: |
+          Set-PSDebug -Trace 1
+          cmake -S . -B build -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} `
+             --toolchain $ENV:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake `
+            -DVCPKG_TARGET_TRIPLET="$ENV:VCPKG_DEFAULT_TRIPLET" `
+            -DENABLE_WARNINGS=ON `
+            -DENABLE_SANITIZE=1 `
+            -DENABLE_PYTHON=ON `
+            -DENABLE_VCPKG=ON `
+            -DENABLE_JAVA=ON `
+            -DENABLE_LUA=ON `
+            -DBUILD_TESTING=ON
+          cmake --build build --target a-py-setup
+          cmake --build build --target a-py-build
+          cmake --build build --config ${{matrix.type}}
+      - name: Run vcpkg
+        if: ${{ matrix.type == 'Debug' }}
+        env:
+          VCPKG_DEFAULT_TRIPLET: ${{matrix.triple}}-windows-static
+        run: |
+          Set-PSDebug -Trace 1
+          cp -v -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
+          & $ENV:VCPKG_INSTALLATION_ROOT/vcpkg.exe install liba
       - name: Run ctest
         run: |
           Set-PSDebug -Trace 1
-          cmake --build build --config Debug --target run_tests
+          cmake --build build --config ${{matrix.type}} --target run_tests

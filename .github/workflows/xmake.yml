@@ -1,0 +1,26 @@
+name: xmake
+on:
+  workflow_dispatch:
+jobs:
+  xmake:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+      - name: Run xmake
+        run: |
+          xmake f -y -m check --with-lua=y --with-rust=y
+          xmake -wy -g test
+          xmake run -g test
+      - name: Run cargo
+        run: |
+          cargo test

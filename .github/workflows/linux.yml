@@ -3,34 +3,59 @@ on:
   workflow_dispatch:
 jobs:
   Linux:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include: [
-          { sanitizer: 1, buildtype: Debug, cc: gcc, cxx: g++ },
-          { sanitizer: 0, buildtype: Release, cc: gcc, cxx: g++ },
-          { sanitizer: 1, buildtype: Debug, cc: clang, cxx: clang++ },
-          { sanitizer: 0, buildtype: Release, cc: clang, cxx: clang++ },
+          { cc: gcc, cxx: g++, type: Debug },
+          { cc: clang, cxx: clang++, type: Debug },
+          { cc: gcc, cxx: g++, type: RelWithDebInfo },
+          { cc: clang, cxx: clang++, type: RelWithDebInfo },
         ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           lfs: true
           submodules: true
+      - name: Prepare
+        env:
+          CC: ${{matrix.cc}}
+          CXX: ${{matrix.cxx}}
+        run: |
+          set -x
+          curl http://www.lua.org/ftp/lua-5.4.4.tar.gz | tar -xzf - && cd lua-5.4.4
+          make CC="$CC -std=gnu99 -fPIC" AR="ar rc" linux -j$(nproc) && sudo make install
       - name: Run cmake
         env:
           CC: ${{matrix.cc}}
           CXX: ${{matrix.cxx}}
         run: |
           set -x
-          cmake -S . -B build \
-            -DBUILD_TESTING=ON \
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.type}} \
             -DENABLE_WARNINGS=ON \
-            -DENABLE_SANITIZE=${{matrix.sanitizer}} \
-            -DCMAKE_BUILD_TYPE=${{matrix.buildtype}}
-          cmake --build build
+            -DENABLE_SANITIZE=1 \
+            -DENABLE_PYTHON=ON \
+            -DENABLE_VCPKG=ON \
+            -DENABLE_JAVA=ON \
+            -DENABLE_LUA=ON \
+            -DBUILD_TESTING=ON
+          cmake --build build --target a-py-setup
+          cmake --build build --target a-py-build
+          cmake --build build --config ${{matrix.type}}
+      - name: Run vcpkg
+        if: ${{ matrix.type == 'Debug' }}
+        env:
+          CC: ${{matrix.cc}}
+          CXX: ${{matrix.cxx}}
+        run: |
+          set -x
+          cp -r build/vcpkg/* $VCPKG_INSTALLATION_ROOT
+          $VCPKG_INSTALLATION_ROOT/vcpkg install liba
       - name: Run ctest
+        env:
+          CC: ${{matrix.cc}}
+          CXX: ${{matrix.cxx}}
         run: |
           set -x
           cmake --build build --target test

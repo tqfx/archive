@@ -1,9 +1,15 @@
 cmake_minimum_required(VERSION 3.15)
 
+if("${VCPKG_TARGET_TRIPLET}" MATCHES "x86-mingw(.*)")
+  include(cmake/mingw32.cmake)
+elseif("${VCPKG_TARGET_TRIPLET}" MATCHES "x64-mingw(.*)")
+  include(cmake/mingw64.cmake)
+endif()
+
 set(PROJECT_LICENSE "MPL-2.0")
 project(liba VERSION 0.1.0 LANGUAGES C CXX
-  DESCRIPTION "An algorithm library based on C/C++ language"
   HOMEPAGE_URL "https://github.com/tqfx/liba.git"
+  DESCRIPTION "An algorithm library based on C/C++ language"
 )
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -177,13 +183,17 @@ if(Python_Interpreter_FOUND)
     COMMAND ${Python_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
     COMMENT "Formatting code using black"
   )
-  add_custom_target(a-wheel # https://setuptools.readthedocs.io/en/stable
+  add_custom_target(a-py-build # https://cython.readthedocs.io/en/stable
+    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
+    COMMENT "setup.py build_ext --inplace"
+  )
+  add_custom_target(a-py-bdist # https://setuptools.readthedocs.io/en/stable
     COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py bdist_wheel --universal
     COMMENT "setup.py bdist_wheel --universal"
   )
-  add_custom_target(a-cython # https://cython.readthedocs.io/en/stable
-    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
-    COMMENT "setup.py build_ext --inplace"
+  add_custom_target(a-py-setup # https://pip.readthedocs.io/en/stable
+    COMMAND ${Python_EXECUTABLE} -m pip install -r ${CMAKE_CURRENT_LIST_DIR}/requirements.txt
+    COMMENT "pip install -r requirements.txt"
   )
 endif()
 

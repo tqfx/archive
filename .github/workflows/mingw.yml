@@ -3,7 +3,6 @@ on:
   workflow_dispatch:
 jobs:
   MinGW:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -11,6 +10,7 @@ jobs:
           { mingw: mingw64 },
           { mingw: mingw32 },
         ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -19,8 +19,7 @@ jobs:
       - name: Run apt-get
         run: |
           set -x
-          sudo dpkg --add-architecture i386
-          sudo apt-get -y update
+          sudo dpkg --add-architecture i386 && sudo apt-get -y update
           sudo apt-get -y install mingw-w64 wine wine64
       - name: Run cmake
         run: |
@@ -28,10 +27,10 @@ jobs:
           cmake -S . -B build \
             -DBUILD_TESTING=ON \
             -DENABLE_WARNINGS=ON \
-            -DCMAKE_BUILD_TYPE=Debug \
             --toolchain cmake/${{matrix.mingw}}.cmake
           cmake --build build
       - name: Run ctest
+        if: ${{ matrix.mingw == 'mingw64' }}
         run: |
-          set -x
+          set -x && winecfg
           cmake --build build --target test
