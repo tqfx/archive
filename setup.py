@@ -4,7 +4,7 @@
  @brief Setup this algorithm library using Cython.
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 '''
-from sys import argv, executable
+from sys import argv, executable, version_info
 from subprocess import Popen
 import time
 import os
@@ -21,9 +21,21 @@ import re
 
 class Build(build_ext):
     def build_extensions(self):
+        if self.compiler.compiler_type == "msvc":
+            for e in self.extensions:
+                if e.language == "c":
+                    e.extra_compile_args += ["/std:c11"]
+                elif e.language == "c++":
+                    e.extra_compile_args += ["/std:c++11"]
+        if not self.compiler.compiler_type == "msvc":
+            for e in self.extensions:
+                if e.language == "c":
+                    e.extra_compile_args += ["-std=c11"]
+                elif e.language == "c++":
+                    e.extra_compile_args += ["-std=c++11"]
         if self.compiler.compiler_type == "mingw32":
             for e in self.extensions:
-                e.extra_link_args = [
+                e.extra_link_args += [
                     "-static-libgcc",
                     "-static-libstdc++",
                     "-Wl,-Bstatic,--whole-archive",
@@ -48,7 +60,7 @@ if USE_CYTHON and os.path.exists("ffi/python/ax.pyx"):
 else:
     source_cc = ["ffi/python/ax.cpp"]
 
-with open("setup.cfg", "r", encoding="UTF-8") as f:
+with open("setup.cfg", "r") as f:
     version = re.findall(r"version = (.*)", f.read())[0]
 major, minor, patch = version.split('.')
 tweak = time.strftime("%Y%m%d%H%M")
@@ -124,15 +136,12 @@ if USE_CYTHON:
 
     ext_modules = cythonize(
         ext_modules,
-        language_level=3,
+        language_level=version_info[0],
         annotate=True,
         quiet=True,
     )
 
-try:
-    setup(
-        ext_modules=ext_modules,
-        cmdclass={"build_ext": Build},
-    )
-except Exception as e:
-    print(e)
+setup(
+    ext_modules=ext_modules,
+    cmdclass={"build_ext": Build},
+)
