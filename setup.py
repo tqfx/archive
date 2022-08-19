@@ -21,18 +21,16 @@ import re
 
 class Build(build_ext):
     def build_extensions(self):
+        if not self.compiler.compiler_type == "msvc":
+            for e in self.extensions:
+                if e.language == "c++":
+                    e.extra_compile_args += ["-std=c++11"]
+                elif e.language == "c":
+                    e.extra_compile_args += ["-std=c11"]
         if self.compiler.compiler_type == "msvc":
             for e in self.extensions:
                 if e.language == "c":
                     e.extra_compile_args += ["/std:c11"]
-                elif e.language == "c++":
-                    e.extra_compile_args += ["/std:c++11"]
-        if not self.compiler.compiler_type == "msvc":
-            for e in self.extensions:
-                if e.language == "c":
-                    e.extra_compile_args += ["-std=c11"]
-                elif e.language == "c++":
-                    e.extra_compile_args += ["-std=c++11"]
         if self.compiler.compiler_type == "mingw32":
             for e in self.extensions:
                 e.extra_link_args += [
