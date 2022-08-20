@@ -25,7 +25,5 @@ find_program(LUA_EXECUTABLE NAMES lua
 )
 
 if(NOT ENABLE_SANITIZE)
-  add_test(NAME test-lua-a
-    COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/a.lua
-  )
+  include(test.cmake)
 endif()

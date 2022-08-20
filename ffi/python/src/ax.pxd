@@ -1,4 +1,4 @@
-from a cimport *
+from ac cimport *
 
 cdef extern from "a/a.hpp" namespace "a":
 

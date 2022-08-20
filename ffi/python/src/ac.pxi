@@ -1,6 +1,6 @@
 cimport cython
 
-from a_version cimport *
+from ac_version cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
@@ -26,7 +26,7 @@ def version_patch() -> int:
     '''algorithm library version patch'''
     return a_version_patch()
 
-from a_math cimport *
+from ac_math cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)

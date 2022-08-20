@@ -1,22 +1,25 @@
-set(JAVA_LIBRARY_PATH -Djava.library.path=.)
-set(JAVA_EXECUTABLE ${Java_JAVA_EXECUTABLE} ${JAVA_LIBRARY_PATH})
+get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+set(JAVA_EXECUTABLE ${Java_JAVA_EXECUTABLE} -Djava.library.path=.)
 
-add_jar(test-jar-a
-  SOURCES liba/a.java test/aTest.java
-  INCLUDE_JARS a-jar
-  OUTPUT_NAME test-a
-  ENTRY_POINT aTest
-)
-add_test(NAME test-jar-a
-  COMMAND ${JAVA_EXECUTABLE} -jar test-a.jar
+function(unittest target source)
+  add_test(NAME ${target}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
+    COMMAND ${JAVA_EXECUTABLE} -jar ${CMAKE_CURRENT_BINARY_DIR}/${source} ${ARGN}
+  )
+endfunction()
+
+unittest(jar-ac acTest.jar)
+add_jar(ac-jar-test
+  SOURCES liba/ac.java test/acTest.java
+  INCLUDE_JARS ac-jar
+  OUTPUT_NAME acTest
+  ENTRY_POINT acTest
 )
 
-add_jar(test-jar-ax
+unittest(jar-ax axTest.jar)
+add_jar(ax-jar-test
   SOURCES liba/ax.java test/axTest.java
   INCLUDE_JARS ax-jar
-  OUTPUT_NAME test-ax
+  OUTPUT_NAME axTest
   ENTRY_POINT axTest
-)
-add_test(NAME test-jar-ax
-  COMMAND ${JAVA_EXECUTABLE} -jar test-ax.jar
 )

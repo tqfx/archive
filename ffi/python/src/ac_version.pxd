@@ -1,4 +1,4 @@
-from a cimport *
+from ac cimport *
 
 cdef extern from "a/version.h":
     const a_char_t *a_version"a_version"()

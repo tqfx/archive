@@ -47,7 +47,14 @@ cmake --install build
 
 ```bash
 cmake -S . -B build -DENABLE_VCPKG=ON
+```
+
+```bash
 cp -r build/vcpkg/* $VCPKG_INSTALLATION_ROOT
+```
+
+```pwsh
+cp -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
 ```
 
 ### conan
@@ -88,7 +95,7 @@ add_requires("a")
 
 ```cmake
 find_package(liba CONFIG REQUIRED)
-target_link_libraries(<TARGET> PRIVATE liba::ax)
+target_link_libraries(<TARGET> PRIVATE liba::a)
 ```
 
 #### conanfile.txt
@@ -108,7 +115,8 @@ print("version", a.version())
 ### Java
 
 ```java
-import liba;
+import liba.ac;
+import liba.ax;
 ```
 
 ### Rust
@@ -132,8 +140,10 @@ fn main() {
 ### Python
 
 ```py
-import liba
-print("version", liba.version())
+import libac
+print("version", libac.version())
+import libax
+print("version", libax.version())
 ```
 
 ## Copyright {#copyright}

@@ -1,8 +1,8 @@
-import liba.a;
+import liba.ac;
 
-public class aTest {
+public class acTest {
     public static void main(String[] args) {
-        a obj = new a();
+        ac obj = new ac();
         System.out.println("version " + obj.version());
         System.out.println("major " + obj.version_major());
         System.out.println("minor " + obj.version_minor());

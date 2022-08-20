@@ -49,10 +49,10 @@ try:
     USE_CYTHON = True
 except:
     USE_CYTHON = False
-if USE_CYTHON and os.path.exists("ffi/python/a.pyx"):
-    source_c = ["ffi/python/a.pyx"]
+if USE_CYTHON and os.path.exists("ffi/python/ac.pyx"):
+    source_c = ["ffi/python/ac.pyx"]
 else:
-    source_c = ["ffi/python/a.c"]
+    source_c = ["ffi/python/ac.c"]
 if USE_CYTHON and os.path.exists("ffi/python/ax.pyx"):
     source_cc = ["ffi/python/ax.pyx"]
 else:
@@ -114,7 +114,7 @@ for header in glob("include/**"):
 
 ext_modules = [
     Extension(
-        name="liba",
+        name="libac",
         language="c",
         sources=source_c,
         include_dirs=["include"],

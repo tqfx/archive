@@ -56,14 +56,14 @@ function(unittest target)
   endif()
 
   add_executable(${TARGET} ${TEST_SOURCE})
-  target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::ax)
+  target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::a)
   set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
-  add_test(NAME ${TARGET} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND})
+  add_test(NAME ${target} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND})
 endfunction()
 
-unittest(for SOURCE for.c for.cpp)
+unittest(a SOURCE a.cpp)
 
-unittest(test SOURCE test.cpp)
+unittest(for SOURCE for.c for.cpp)
 
 unittest(version SOURCE version.cpp)
 

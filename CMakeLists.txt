@@ -99,19 +99,21 @@ function(target_library_setting target)
 endfunction()
 
 file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
-add_library(a ${SOURCES})
-target_library_setting(a)
+add_library(ac ${SOURCES})
+target_library_setting(ac)
 
 file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
 add_library(ax ${SOURCES})
-target_link_libraries(ax PUBLIC a)
 target_library_setting(ax)
+
+add_library(a $<TARGET_OBJECTS:ac> $<TARGET_OBJECTS:ax>)
+target_library_setting(a)
 
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
 )
-install(TARGETS a ax EXPORT ${PROJECT_NAME}-targets
+install(TARGETS a ac ax EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

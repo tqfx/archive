@@ -9,7 +9,7 @@
 #pragma warning(push)
 #pragma warning(disable : 4820)
 #endif /* _MSC_VER */
-#include "liba_a.h"
+#include "liba_ac.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
@@ -19,29 +19,29 @@
 
 #include "a/version.h"
 
-JNIEXPORT jstring JNICALL Java_liba_a_version(JNIEnv *env, jobject obj)
+JNIEXPORT jstring JNICALL Java_liba_ac_version(JNIEnv *env, jobject obj)
 {
     return (void)(obj), (*env)->NewStringUTF(env, a_version());
 }
 
-JNIEXPORT jint JNICALL Java_liba_a_version_1major(JNIEnv *env, jobject obj)
+JNIEXPORT jint JNICALL Java_liba_ac_version_1major(JNIEnv *env, jobject obj)
 {
     return (void)(env), (void)(obj), (jint)a_version_major();
 }
 
-JNIEXPORT jint JNICALL Java_liba_a_version_1minor(JNIEnv *env, jobject obj)
+JNIEXPORT jint JNICALL Java_liba_ac_version_1minor(JNIEnv *env, jobject obj)
 {
     return (void)(env), (void)(obj), (jint)a_version_minor();
 }
 
-JNIEXPORT jint JNICALL Java_liba_a_version_1patch(JNIEnv *env, jobject obj)
+JNIEXPORT jint JNICALL Java_liba_ac_version_1patch(JNIEnv *env, jobject obj)
 {
     return (void)(env), (void)(obj), (jint)a_version_patch();
 }
 
 #include "a/math.h"
 
-JNIEXPORT jfloat JNICALL Java_liba_a_int_1sqrt(JNIEnv *env, jobject obj, jfloat x)
+JNIEXPORT jfloat JNICALL Java_liba_ac_int_1sqrt(JNIEnv *env, jobject obj, jfloat x)
 {
     return (void)(env), (void)(obj), a_inv_sqrt(x);
 }
