@@ -48,9 +48,9 @@ if(
   check_flag_cx(-Wno-pedantic-ms-format)
   check_flag_cx(-Wlogical-op)
 elseif(
-  "${CMAKE_C_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
+  "${CMAKE_C_COMPILER_ID}" MATCHES "(ARM|Apple)?[Cc]lang" OR
   "${CMAKE_C_COMPILER_ID}" MATCHES "IntelLLVM" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "(ARM|Apple)?[Cc]lang" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
 )
   check_flag_cx(-Weverything)

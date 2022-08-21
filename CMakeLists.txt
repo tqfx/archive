@@ -109,6 +109,10 @@ target_library_setting(ax)
 add_library(a $<TARGET_OBJECTS:ac> $<TARGET_OBJECTS:ax>)
 target_library_setting(a)
 
+set(prop "$<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>")
+set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
+set(PROJECT_LIBRARIES -la)
+
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
@@ -137,6 +141,10 @@ configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+file(GENERATE
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  INPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
 )
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc

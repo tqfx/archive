@@ -28,14 +28,13 @@ function(target_library_options target)
       set_target_properties(${target} PROPERTIES ${lang}_CPPCHECK "${CPPCHECK};--enable=warning,performance")
     endif()
 
-    target_compile_options(${target} PRIVATE
-      $<$<${lang}_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-      $<$<${lang}_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>
+    target_compile_options(${target} PRIVATE $<IF:$<${lang}_COMPILER_ID:MSVC>,/W4 /sdl,-Wall -Wextra -Wpedantic>
+      $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>
     )
   endforeach()
 
   target_compile_options(${target} PRIVATE
-    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>>:-Weffc++>
+    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-Weffc++>
   )
 
   if(ENABLE_IPO)
@@ -66,16 +65,15 @@ function(target_executable_options target)
       set_target_properties(${target} PROPERTIES ${lang}_CPPCHECK "${CPPCHECK};--enable=warning,performance")
     endif()
 
-    target_compile_options(${target} PRIVATE
-      $<$<${lang}_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>:-Wall -Wextra -Wpedantic>
-      $<$<${lang}_COMPILER_ID:MSVC>:/W4 /sdl> $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>
+    target_compile_options(${target} PRIVATE $<IF:$<${lang}_COMPILER_ID:MSVC>,/W4 /sdl,-Wall -Wextra -Wpedantic>
+      $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>
     )
 
     target_link_options(${target} PRIVATE $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>)
   endforeach()
 
   target_compile_options(${target} PRIVATE
-    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang,AppleClang,IntelLLVM>>:-Weffc++>
+    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-Weffc++>
   )
 
   if(ENABLE_IPO)
