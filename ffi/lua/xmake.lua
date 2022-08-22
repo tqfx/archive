@@ -2,7 +2,6 @@
 option("with-lua")
     set_default(false)
     set_showmenu(true)
-    set_values(false, true)
     set_description("Enable or disable lua")
 option_end()
 
