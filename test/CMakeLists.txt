@@ -43,8 +43,11 @@ foreach(lang ${enabled_languages})
   endif()
 endforeach()
 
-include(CheckPIESupported)
-check_pie_supported()
+if(CMAKE_VERSION VERSION_GREATER 3.13)
+  cmake_policy(SET CMP0083 NEW)
+  include(CheckPIESupported)
+  check_pie_supported()
+endif()
 
 function(unittest target)
   cmake_parse_arguments(TEST "" "TARGET" "SOURCE;COMMAND" ${ARGN})

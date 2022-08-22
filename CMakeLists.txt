@@ -1,4 +1,12 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.15) # CheckPIESupported
+
+if(POLICY CMP0057)
+  cmake_policy(SET CMP0057 NEW)
+endif() # IN_LIST if()
+
+if(POLICY CMP0063)
+  cmake_policy(SET CMP0063 NEW)
+endif() # <LANG>_VISIBILITY_PRESET
 
 if("${VCPKG_TARGET_TRIPLET}" MATCHES "x86-mingw(.*)")
   include(cmake/mingw32.cmake)
@@ -48,17 +56,26 @@ endif()
 
 include(cmake/git.cmake)
 
-if(ENABLE_PYTHON)
-  find_package(Python)
+if(ENABLE_PYTHON AND CMAKE_VERSION VERSION_GREATER 3.11)
+  find_package(Python COMPONENTS Interpreter)
+  set(PYTHONINTERP_FOUND ${Python_Interpreter_FOUND})
+  set(PYTHON_EXECUTABLE ${Python_EXECUTABLE})
+elseif(ENABLE_PYTHON) # cmake < 3.12
+  find_package(PythonInterp)
 endif()
 
-if(ENABLE_DOXYGEN)
+if(ENABLE_DOXYGEN AND CMAKE_VERSION VERSION_GREATER 3.8)
   find_package(Doxygen OPTIONAL_COMPONENTS dot mscgen dia)
+elseif(ENABLE_DOXYGEN) # cmake < 3.9
+  find_package(Doxygen)
 endif()
 
-if(ENABLE_IPO)
+if(ENABLE_IPO AND CMAKE_VERSION VERSION_GREATER 3.8)
+  cmake_policy(SET CMP0069 NEW)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT ENABLE_IPO)
+elseif(ENABLE_IPO) # cmake < 3.9
+  set(ENABLE_IPO NO)
 endif()
 
 set(A_VERSION ${PROJECT_VERSION})
@@ -188,21 +205,21 @@ if(CLANG_FORMAT)
   )
 endif()
 
-if(Python_Interpreter_FOUND)
+if(PYTHONINTERP_FOUND)
   add_custom_target(a-black # https://black.readthedocs.io/en/stable
-    COMMAND ${Python_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
+    COMMAND ${PYTHON_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
     COMMENT "Formatting code using black"
   )
   add_custom_target(a-py-build # https://cython.readthedocs.io/en/stable
-    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
     COMMENT "setup.py build_ext --inplace"
   )
   add_custom_target(a-py-bdist # https://setuptools.readthedocs.io/en/stable
-    COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py bdist_wheel --universal
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py bdist_wheel --universal
     COMMENT "setup.py bdist_wheel --universal"
   )
   add_custom_target(a-py-setup # https://pip.readthedocs.io/en/stable
-    COMMAND ${Python_EXECUTABLE} -m pip install -r ${CMAKE_CURRENT_LIST_DIR}/requirements.txt
+    COMMAND ${PYTHON_EXECUTABLE} -m pip install -r ${CMAKE_CURRENT_LIST_DIR}/requirements.txt
     COMMENT "pip install -r requirements.txt"
   )
 endif()
@@ -256,6 +273,10 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_CALL_GRAPH YES)
     set(DOXYGEN_INTERACTIVE_SVG YES)
     set(DOXYGEN_DOT_IMAGE_FORMAT svg)
+  endif()
+
+  if(CMAKE_VERSION VERSION_LESS 3.9)
+    include(cmake/doxygen.cmake)
   endif()
 
   # https://www.doxygen.nl/manual/config.html

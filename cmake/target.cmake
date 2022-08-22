@@ -43,7 +43,6 @@ function(target_library_options target)
 endfunction()
 
 function(target_executable_options target)
-  get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
   unset(languages)
 
   foreach(lang C CXX)

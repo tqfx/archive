@@ -23,6 +23,6 @@ if(Java_FOUND AND JNI_FOUND)
   add_subdirectory(java)
 endif()
 
-if(Python_Interpreter_FOUND)
+if(PYTHONINTERP_FOUND)
   add_subdirectory(python)
 endif()
