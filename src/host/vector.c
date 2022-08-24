@@ -104,7 +104,6 @@ a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
                         a_noret_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
-    assert(size);
     ctx->__size = size ? size : sizeof(a_cast_u);
     ctx->ctor = ctor;
     ctx->dtor = dtor;

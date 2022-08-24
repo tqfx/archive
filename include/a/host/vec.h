@@ -103,7 +103,6 @@ A_INLINE a_vptr_t a_vec_top(const a_vec_s *ctx)
 /*!
  @brief access end pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @note should check if vector is empty
  @return vector end pointer
 */
 A_INLINE a_vptr_t a_vec_end_(const a_vec_s *ctx)

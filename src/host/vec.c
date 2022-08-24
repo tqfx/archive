@@ -93,7 +93,6 @@ a_noret_t a_vec_die(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
 a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
     assert(ctx);
-    assert(size);
     ctx->__siz = size ? size : sizeof(a_cast_u);
     ctx->__mem = 0;
     ctx->__num = 0;
