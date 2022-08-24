@@ -73,6 +73,7 @@ unittest(version SOURCE version.cpp)
 unittest(real SOURCE real.c)
 unittest(math SOURCE math.c)
 
+unittest(arr SOURCE arr.c arr.cpp)
 unittest(list SOURCE list.c list.cpp)
 unittest(slist SOURCE slist.c slist.cpp)
 
