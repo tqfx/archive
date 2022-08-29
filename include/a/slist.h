@@ -240,8 +240,8 @@ A_INLINE a_noret_t a_slist_rot(a_slist_s *ctx)
 }
 
 /* inline function for generic */
-A_INLINE a_noret_t a_slist_ctor_(a_vptr_t vctx) { a_slist_ctor(a_cast_s(a_slist_s *, vctx)); }
-A_INLINE a_noret_t a_slist_dtor_(a_vptr_t vctx) { a_slist_dtor(a_cast_s(a_slist_s *, vctx)); }
+A_INLINE a_noret_t a_slist_ctor_(a_vptr_t ctx) { a_slist_ctor(a_cast_s(a_slist_s *, ctx)); }
+A_INLINE a_noret_t a_slist_dtor_(a_vptr_t ctx) { a_slist_dtor(a_cast_s(a_slist_s *, ctx)); }
 
 /*! @} A_SLIST */
 

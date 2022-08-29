@@ -499,8 +499,8 @@ A_INLINE a_noret_t a_list_swap_node(a_list_s *lhs, a_list_s *rhs)
 }
 
 /* inline function for generic */
-A_INLINE a_noret_t a_list_ctor_(a_vptr_t vctx) { a_list_ctor(a_cast_s(a_list_s *, vctx)); }
-A_INLINE a_noret_t a_list_dtor_(a_vptr_t vctx) { a_list_dtor(a_cast_s(a_list_s *, vctx)); }
+A_INLINE a_noret_t a_list_ctor_(a_vptr_t ctx) { a_list_ctor(a_cast_s(a_list_s *, ctx)); }
+A_INLINE a_noret_t a_list_dtor_(a_vptr_t ctx) { a_list_dtor(a_cast_s(a_list_s *, ctx)); }
 
 /*! @} A_LIST */
 
