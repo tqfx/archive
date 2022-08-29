@@ -49,14 +49,14 @@ try:
     USE_CYTHON = True
 except:
     USE_CYTHON = False
-if USE_CYTHON and os.path.exists("ffi/python/ac.pyx"):
-    source_c = ["ffi/python/ac.pyx"]
+if USE_CYTHON and os.path.exists("ffi/python/src/ac.pyx"):
+    source_c = ["ffi/python/src/ac.pyx"]
 else:
-    source_c = ["ffi/python/ac.c"]
-if USE_CYTHON and os.path.exists("ffi/python/ax.pyx"):
-    source_cc = ["ffi/python/ax.pyx"]
+    source_c = ["ffi/python/src/ac.c"]
+if USE_CYTHON and os.path.exists("ffi/python/src/ax.pyx"):
+    source_cc = ["ffi/python/src/ax.pyx"]
 else:
-    source_cc = ["ffi/python/ax.cpp"]
+    source_cc = ["ffi/python/src/ax.cpp"]
 
 with open("setup.cfg", "r") as f:
     version = re.findall(r"version = (.*)", f.read())[0]
