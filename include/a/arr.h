@@ -215,7 +215,7 @@ A_PUBLIC a_vptr_t a_arr_search(const a_arr_s *ctx, a_cptr_t obj, a_int_t (*cmp)(
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_arr_insert(a_arr_s *ctx, a_size_t idx);
+A_PUBLIC a_vptr_t a_arr_insert(a_arr_s *ctx, a_size_t idx);
 
 /*!
  @brief remove an element from the array
@@ -226,7 +226,7 @@ a_vptr_t a_arr_insert(a_arr_s *ctx, a_size_t idx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_arr_remove(a_arr_s *ctx, a_size_t idx);
+A_PUBLIC a_vptr_t a_arr_remove(a_arr_s *ctx, a_size_t idx);
 
 /*!
  @brief push an element into the array forward
@@ -234,7 +234,7 @@ a_vptr_t a_arr_remove(a_arr_s *ctx, a_size_t idx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_arr_push_fore(a_arr_s *ctx);
+A_PUBLIC a_vptr_t a_arr_push_fore(a_arr_s *ctx);
 
 /*!
  @brief push an element into the array backward
@@ -242,7 +242,7 @@ a_vptr_t a_arr_push_fore(a_arr_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_arr_push_back(a_arr_s *ctx);
+A_PUBLIC a_vptr_t a_arr_push_back(a_arr_s *ctx);
 
 /*!
  @brief pull an element from the array forward
@@ -250,7 +250,7 @@ a_vptr_t a_arr_push_back(a_arr_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_arr_pull_fore(a_arr_s *ctx);
+A_PUBLIC a_vptr_t a_arr_pull_fore(a_arr_s *ctx);
 
 /*!
  @brief pull an element from the array backward
@@ -258,7 +258,7 @@ a_vptr_t a_arr_pull_fore(a_arr_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-a_vptr_t a_arr_pull_back(a_arr_s *ctx);
+A_PUBLIC a_vptr_t a_arr_pull_back(a_arr_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */
