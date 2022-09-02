@@ -22,7 +22,7 @@ extern "C" {
 /*!
  @brief algorithm library version string
 */
-A_PUBLIC const a_char_t *a_version(a_noarg_t);
+A_PUBLIC a_cstr_t a_version(a_noarg_t);
 
 /*!
  @brief algorithm library version major

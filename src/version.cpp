@@ -9,7 +9,7 @@
 namespace a
 {
 
-const char_t *version(a_noarg_t)
+cstr_t version(a_noarg_t)
 {
     return A_VERSION;
 }

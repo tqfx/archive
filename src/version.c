@@ -6,7 +6,7 @@
 
 #include "a/version.h"
 
-const a_char_t *a_version(a_noarg_t)
+a_cstr_t a_version(a_noarg_t)
 {
     return A_VERSION;
 }

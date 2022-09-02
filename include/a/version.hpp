@@ -30,7 +30,7 @@ enum
 /*!
  @brief algorithm library version string
 */
-A_PUBLIC const char_t *version(a_noarg_t);
+A_PUBLIC cstr_t version(a_noarg_t);
 
 /*!
  @brief algorithm library version major
