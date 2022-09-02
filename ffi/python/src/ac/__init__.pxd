@@ -1,4 +1,6 @@
+from libc.stddef cimport *
 from libc.stdint cimport *
+cimport cython
 
 cdef extern from "a/a.h":
 

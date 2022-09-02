@@ -6,8 +6,6 @@ cdef extern from "a/a.hpp" namespace "a":
 
     ctypedef a_void_t void_t
 
-    ctypedef a_size_t size_t
-
     ctypedef a_i8_t i8_t
     ctypedef a_u8_t u8_t
 
