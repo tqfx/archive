@@ -1,6 +1,6 @@
 [package]
 name = "liba"
-version = "0.1.0"
+version = "0.1.0-rc2"
 authors = ["tqfx <tqfx@foxmail.com>"]
 edition = "2018"
 description = """
@@ -14,7 +14,7 @@ keywords = ["algorithm"]
 categories = ["algorithms"]
 
 [build-dependencies]
-cmake = "*"
+cmake = "0.1"
 
 [dependencies]
-libc = "*"
+libc = "0.2"
