@@ -60,7 +60,7 @@ else:
 
 with open("setup.cfg", "r") as f:
     version = re.findall(r"version = (.*)", f.read())[0]
-major, minor, patch = version.split('.')
+major, minor, patch = version.split('.')[:3]
 tweak = time.strftime("%Y%m%d%H%M")
 text = '''/*!
  @file a.config.h
