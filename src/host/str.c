@@ -153,6 +153,28 @@ a_int_t a_str_alloc(a_str_s *ctx, a_size_t mem)
     return ctx->__mem < mem ? a_str_alloc_(ctx, mem) : A_SUCCESS;
 }
 
+a_int_t a_str_getc_(a_str_s *ctx)
+{
+    int c = EOF;
+    if (ctx->__num)
+    {
+        c = ctx->__str[--ctx->__num];
+    }
+    return c;
+}
+
+a_int_t a_str_getc(a_str_s *ctx)
+{
+    int c = EOF;
+    if (ctx->__num)
+    {
+        --ctx->__num;
+        c = ctx->__str[ctx->__num];
+        ctx->__str[ctx->__num] = 0;
+    }
+    return c;
+}
+
 a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 {
     assert(ctx);

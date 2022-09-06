@@ -144,7 +144,16 @@ A_PUBLIC a_int_t a_str_alloc(a_str_s *ctx, a_size_t mem);
 A_PUBLIC a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem);
 
 /*!
- @brief put character to an instance of string structure
+ @brief get character for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @return deleted character
+  @retval EOF failure
+*/
+A_PUBLIC a_int_t a_str_getc(a_str_s *ctx);
+A_PUBLIC a_int_t a_str_getc_(a_str_s *ctx);
+
+/*!
+ @brief put character to a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] c character to be printed
  @return printed character
@@ -154,7 +163,7 @@ A_PUBLIC a_int_t a_str_putc(a_str_s *ctx, a_int_t c);
 A_PUBLIC a_int_t a_str_putc_(a_str_s *ctx, a_int_t c);
 
 /*!
- @brief put data to an instance of string structure
+ @brief put memory block to a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] pdata points to memory block to put
  @param[in] nbyte length of memory block to put
@@ -166,7 +175,7 @@ A_PUBLIC a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte);
 A_PUBLIC a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte);
 
 /*!
- @brief put string to an instance of string structure
+ @brief put string to a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @param[in] str string terminated with a null character
  @return the execution state of the function
