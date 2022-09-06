@@ -77,7 +77,8 @@ unittest(arr SOURCE arr.c arr.cpp)
 unittest(list SOURCE list.c list.cpp)
 unittest(slist SOURCE slist.c slist.cpp)
 
+unittest(notefreqs SOURCE notefreqs.c)
+
 unittest(operator SOURCE operator.c)
 
-add_subdirectory(misc)
 add_subdirectory(host)

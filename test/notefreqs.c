@@ -8,7 +8,7 @@
 
 #define A_NOTEFREQ_FREQ ((180000000 >> 1) / 200)
 #define A_NOTEFREQ_TYPE a_real_t
-#include "a/misc/notefreqs.h"
+#include "a/notefreqs.h"
 
 #include <stdio.h>
 
