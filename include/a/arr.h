@@ -112,7 +112,9 @@ extern "C" {
 /*!
  @brief constructor for array structure
  @param[in] ctx points to an instance of array structure
- @param[in] siz size of element
+ @param[in] ptr address of memory
+ @param[in] siz size of a element
+ @param[in] num number of element
 */
 A_PUBLIC a_noret_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num);
 
