@@ -55,9 +55,9 @@
 
 /* https://en.wikipedia.org/wiki/Microsoft_Visual_C++ */
 #if defined(_MSC_VER)
-#define a_prereq_msvc(x) (_MSC_VER >= (x))
+#define a_prereq_msvc(maj, min) (_MSC_VER >= (maj * 100 + min * 10))
 #else /* !_MSC_VER */
-#define a_prereq_msvc(x) 0
+#define a_prereq_msvc(maj, min) 0
 #endif /* _MSC_VER */
 
 /* https://gcc.gnu.org/onlinedocs/gcc-4.9.4/cpp/Common-Predefined-Macros.html */
