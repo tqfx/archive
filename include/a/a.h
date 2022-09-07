@@ -247,17 +247,17 @@ typedef unsigned int a_u_t;
 #define A_I_MAX  INT_MAX
 #define A_U_MIN UINT_MAX
 
-typedef   signed short a_is_t;
-typedef unsigned short a_us_t;
-#define A_IS_MIN  SHRT_MIN
-#define A_IS_MAX  SHRT_MAX
-#define A_US_MIN USHRT_MAX
-
 typedef   signed long a_il_t;
 typedef unsigned long a_ul_t;
 #define A_IL_MIN  LONG_MIN
 #define A_IL_MAX  LONG_MAX
 #define A_UL_MIN ULONG_MAX
+
+typedef   signed short a_is_t;
+typedef unsigned short a_us_t;
+#define A_IS_MIN  SHRT_MIN
+#define A_IS_MAX  SHRT_MAX
+#define A_US_MIN USHRT_MAX
 
 typedef   signed long long a_ill_t;
 typedef unsigned long long a_ull_t;
