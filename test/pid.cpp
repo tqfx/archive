@@ -6,7 +6,7 @@
 
 #include "pid.h"
 
-a_int_t main(a_noarg_t)
+int main(void)
 {
-    return main_c() + main_cpp();
+    return pid_c() + pid_cpp();
 }

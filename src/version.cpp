@@ -9,22 +9,22 @@
 namespace a
 {
 
-cstr_t version(a_noarg_t)
+cstr_t version(void)
 {
     return A_VERSION;
 }
 
-uint_t version_major(a_noarg_t)
+uint_t version_major(void)
 {
     return A_VERSION_MAJOR;
 }
 
-uint_t version_minor(a_noarg_t)
+uint_t version_minor(void)
 {
     return A_VERSION_MINOR;
 }
 
-uint_t version_patch(a_noarg_t)
+uint_t version_patch(void)
 {
     return A_VERSION_PATCH;
 }

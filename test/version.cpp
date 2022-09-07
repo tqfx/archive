@@ -10,7 +10,7 @@
 #include <inttypes.h>
 #include "a/version.h"
 
-A_STATIC a_int_t main_c(a_noarg_t)
+A_STATIC a_int_t version_c(void)
 {
     printf("%s\n", __func__);
     printf("version %s\n", a_version());
@@ -24,7 +24,7 @@ A_STATIC a_int_t main_c(a_noarg_t)
 #include <iostream>
 #include "a/version.hpp"
 
-A_STATIC a_int_t main_cpp(a_noarg_t)
+A_STATIC a_int_t version_cpp(void)
 {
     printf("%s\n", __func__);
     std::cout << "version " << a::version() << std::endl;
@@ -35,7 +35,7 @@ A_STATIC a_int_t main_cpp(a_noarg_t)
     return A_SUCCESS;
 }
 
-a_int_t main(a_noarg_t)
+int main(void)
 {
-    return main_c() + main_cpp();
+    return version_c() + version_cpp();
 }

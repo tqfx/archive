@@ -38,7 +38,7 @@ A_ALWAYS a_vptr_t a_vec_dec_(a_vec_s *ctx)
     return (a_byte_t *)ctx->__ptr + ctx->__siz * --ctx->__num;
 }
 
-A_STATIC a_noret_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_noret_t (*dtor)(a_vptr_t))
+A_STATIC a_void_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vptr_t))
 {
     if (dtor)
     {
@@ -81,7 +81,7 @@ a_vec_s *a_vec_new(a_size_t size)
     return ctx;
 }
 
-a_noret_t a_vec_die(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_vec_die(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     if (ctx)
     {
@@ -90,7 +90,7 @@ a_noret_t a_vec_die(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     }
 }
 
-a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
+a_void_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
     assert(ctx);
     ctx->__siz = size ? size : sizeof(a_cast_u);
@@ -99,7 +99,7 @@ a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
     ctx->__ptr = 0;
 }
 
-a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     if (ctx->__ptr)
@@ -152,7 +152,7 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
     return ctx;
 }
 
-a_noret_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_vec_set(a_vec_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     size = size ? size : sizeof(a_cast_u);
@@ -161,7 +161,7 @@ a_noret_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
     ctx->__siz = size;
 }
 
-a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_noret_t (*dtor)(a_vptr_t))
+a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     if (a_unlikely(a_vec_alloc(ctx, num)))
@@ -172,13 +172,13 @@ a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_noret_t (*dtor)(a_vptr_t))
     return A_SUCCESS;
 }
 
-a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_vec_drop(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_vec_drop_(ctx, 0, dtor);
 }
 
-a_noret_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
+a_void_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
     a_size_t num = ctx->__num - 1;
@@ -193,13 +193,13 @@ a_noret_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_noret_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     qsort(ctx->__ptr, ctx->__num, ctx->__siz, cmp);
 }
 
-a_noret_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)
@@ -222,7 +222,7 @@ a_noret_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
     }
 }
 
-a_noret_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)

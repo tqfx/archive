@@ -6,7 +6,7 @@
 
 #include "for.h"
 
-a_int_t main(a_noarg_t)
+int main(void)
 {
-    return main_c() + main_cpp();
+    return for_c() + for_cpp();
 }

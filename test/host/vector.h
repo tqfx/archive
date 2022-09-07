@@ -15,7 +15,7 @@
 #include <string.h>
 #include <stdio.h>
 
-A_STATIC a_noret_t dtor(a_vptr_t ptr)
+A_STATIC a_void_t dtor(a_vptr_t ptr)
 {
     a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
     printf("%" PRIu32 " ", *obj);
@@ -28,7 +28,7 @@ A_STATIC a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
     return 0;
 }
 
-A_STATIC a_noret_t test(a_noarg_t)
+A_STATIC a_void_t test(void)
 {
     a_vector_s *ctx = a_vector_new(sizeof(a_u64_t), a_null, a_null);
     a_vector_foreach(a_u64_t, it, ctx);
@@ -209,7 +209,7 @@ A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
     return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
 }
 
-A_STATIC a_noret_t test_sort(a_noarg_t)
+A_STATIC a_void_t test_sort(void)
 {
     a_uint_t t = a_cast_s(a_uint_t, time(a_null));
     a_vector_s *ctx = a_vector_new(sizeof(a_int_t), a_null, a_null);
@@ -310,15 +310,15 @@ A_STATIC a_noret_t test_sort(a_noarg_t)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+a_int_t vector_c(void);
+a_int_t vector_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func vector_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func vector_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+a_int_t func(void)
 {
     printf("%s\n", __func__);
     test();

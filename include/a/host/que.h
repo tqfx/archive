@@ -119,21 +119,21 @@ A_PUBLIC a_que_s *a_que_new(a_size_t size);
  @param[in] ctx points to an instance of queue structure
  @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_que_die(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_que_die(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief constructor for queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] size size of element
 */
-A_PUBLIC a_noret_t a_que_ctor(a_que_s *ctx, a_size_t size);
+A_PUBLIC a_void_t a_que_ctor(a_que_s *ctx, a_size_t size);
 
 /*!
  @brief destructor for queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_que_dtor(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_que_dtor(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief initialize a pointer to queue structure by moving
@@ -157,14 +157,14 @@ A_PUBLIC a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx);
  @param[in] size the size of the new element
  @param[in] dtor previous element destructor
 */
-A_PUBLIC a_noret_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_que_set(a_que_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief drop all the elements for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
  @param[in] dtor current element destructor
 */
-A_PUBLIC a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_que_drop(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief swap elements lhs and rhs for a pointer to queue structure
@@ -183,7 +183,7 @@ A_PUBLIC a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
 */
-A_PUBLIC a_noret_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
+A_PUBLIC a_void_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief insert sort foremost element for a pointer to queue structure
@@ -202,7 +202,7 @@ A_PUBLIC a_noret_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort backmost element for a pointer to queue structure
@@ -221,7 +221,7 @@ A_PUBLIC a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, 
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief push an element into the queue forward

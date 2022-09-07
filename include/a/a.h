@@ -161,9 +161,13 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <limits.h>
+
+typedef char a_c_t;
+#define A_C_MIN CHAR_MIN
+#define A_C_MAX CHAR_MAX
 
 typedef int a_bool_t;
-
 #if !defined __cplusplus
 #define a_true (!0)
 #define a_false (0)
@@ -173,26 +177,20 @@ typedef int a_bool_t;
 #endif /* __cplusplus */
 
 typedef void a_void_t;
-
-#define a_noret_t a_void_t
 #if !defined __cplusplus
-#define a_noarg_t a_void_t
 #define a_null NULL
 #else /* !__cplusplus */
-#define a_noarg_t
 #define a_null nullptr
 #endif /* __cplusplus */
 #define a_zero 0
 
 typedef size_t a_size_t;
-
 #define A_SIZE_MAX SIZE_MAX
 
 // clang-format off
 
 typedef  int8_t a_i8_t;
 typedef uint8_t a_u8_t;
-
 #define A_I8_C(X)  INT8_C(X)
 #define A_U8_C(X) UINT8_C(X)
 #define A_I8_MIN   INT8_MIN
@@ -201,7 +199,6 @@ typedef uint8_t a_u8_t;
 
 typedef  int16_t a_i16_t;
 typedef uint16_t a_u16_t;
-
 #define A_I16_C(X)  INT16_C(X)
 #define A_U16_C(X) UINT16_C(X)
 #define A_I16_MIN   INT16_MIN
@@ -210,7 +207,6 @@ typedef uint16_t a_u16_t;
 
 typedef  int32_t a_i32_t;
 typedef uint32_t a_u32_t;
-
 #define A_I32_C(X)  INT32_C(X)
 #define A_U32_C(X) UINT32_C(X)
 #define A_I32_MIN   INT32_MIN
@@ -219,7 +215,6 @@ typedef uint32_t a_u32_t;
 
 typedef  int64_t a_i64_t;
 typedef uint64_t a_u64_t;
-
 #define A_I64_C(X)  INT64_C(X)
 #define A_U64_C(X) UINT64_C(X)
 #define A_I64_MIN   INT64_MIN
@@ -228,7 +223,6 @@ typedef uint64_t a_u64_t;
 
 typedef  intmax_t a_imax_t;
 typedef uintmax_t a_umax_t;
-
 #define A_IMAX_C(X)  INTMAX_C(X)
 #define A_UMAX_C(X) UINTMAX_C(X)
 #define A_IMAX_MIN   INTMAX_MIN
@@ -237,7 +231,6 @@ typedef uintmax_t a_umax_t;
 
 typedef  intptr_t a_iptr_t;
 typedef uintptr_t a_uptr_t;
-
 #define A_IPTR_C(X)  INTPTR_C(X)
 #define A_UPTR_C(X) UINTPTR_C(X)
 #define A_IPTR_MIN   INTPTR_MIN
@@ -245,12 +238,35 @@ typedef uintptr_t a_uptr_t;
 #define A_UPTR_PTR  UINTPTR_PTR
 
 typedef ptrdiff_t a_diff_t;
-
 #define A_DIFF_MIN PTRDIFF_MIN
 #define A_DIFF_MAX PTRDIFF_MAX
 
+typedef   signed int a_i_t;
+typedef unsigned int a_u_t;
+#define A_I_MIN  INT_MIN
+#define A_I_MAX  INT_MAX
+#define A_U_MIN UINT_MAX
+
+typedef   signed short a_is_t;
+typedef unsigned short a_us_t;
+#define A_IS_MIN  SHRT_MIN
+#define A_IS_MAX  SHRT_MAX
+#define A_US_MIN USHRT_MAX
+
+typedef   signed long a_il_t;
+typedef unsigned long a_ul_t;
+#define A_IL_MIN  LONG_MIN
+#define A_IL_MAX  LONG_MAX
+#define A_UL_MIN ULONG_MAX
+
+typedef   signed long long a_ill_t;
+typedef unsigned long long a_ull_t;
+#define A_ILL_MIN  LLONG_MIN
+#define A_ILL_MAX  LLONG_MAX
+#define A_ULL_MIN ULLONG_MAX
+
 typedef          int  a_int_t;
-typedef          int a_sint_t;
+typedef   signed int a_sint_t;
 typedef unsigned int a_uint_t;
 
 typedef unsigned char  a_byte_t;
@@ -271,19 +287,17 @@ typedef long double a_f128_t;
 
 typedef union a_cast_u
 {
-    char c;
-    // clang-format off
-      signed int i;
-    unsigned int u;
-      signed long li;
-    unsigned long lu;
-      signed short si;
-    unsigned short su;
-      signed long long lli;
-    unsigned long long llu;
-    // clang-format on
-    double f64;
-    float f32;
+    a_c_t c;
+    a_i_t i;
+    a_u_t u;
+    a_is_t is;
+    a_us_t us;
+    a_il_t il;
+    a_ul_t ul;
+    a_ill_t ill;
+    a_ull_t ull;
+    a_f64_t f64;
+    a_f32_t f32;
     a_i8_t i8;
     a_u8_t u8;
     a_i16_t i16;
@@ -487,13 +501,13 @@ extern "C" {
  @param[in,out] lhs points to memory block on the left
  @param[in,out] rhs points to memory block on the right
 */
-A_PUBLIC a_noret_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs);
-A_PUBLIC a_noret_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);
-A_PUBLIC a_noret_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
-A_PUBLIC a_noret_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
-A_PUBLIC a_noret_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
-A_PUBLIC a_noret_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
-A_PUBLIC a_noret_t a_swap16(a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
+A_PUBLIC a_void_t a_swap16(a_vptr_t lhs, a_vptr_t rhs);
 
 #if defined(__cplusplus)
 } /* extern "C" */

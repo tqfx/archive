@@ -71,7 +71,7 @@ A_STATIC a_real_t song[][2] = {
     /* clang-format on */
 };
 
-a_int_t main(a_noarg_t)
+int main(void)
 {
     a_uint_t song_n = sizeof(song) / sizeof(*song);
     for (a_uint_t i = 0; i != song_n; ++i)

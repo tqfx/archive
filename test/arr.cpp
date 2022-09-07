@@ -6,7 +6,7 @@
 
 #include "arr.h"
 
-a_int_t main(a_noarg_t)
+int main(void)
 {
-    return main_c() + main_cpp();
+    return arr_c() + arr_cpp();
 }

@@ -8,15 +8,12 @@
 #define __TEST_POLYTRACK_H__
 
 #include "a/polytrack.h"
-#include "a/poly.h"
 
 static void test(void)
 {
     static a_real_t source[5] = {0, 0, 0, 0, 0};
     static a_real_t target[5] = {10, 10, 10, 10, 10};
     static a_real_t out[4];
-    a_horner(target, 5, 2);
-    a_hornerr(target, 5, 2);
     {
         a_polytrack3_s ctx[1];
         a_polytrack3_init(ctx, source, target);
@@ -47,15 +44,15 @@ static void test(void)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+a_int_t polytrack_c(void);
+a_int_t polytrack_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func polytrack_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func polytrack_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+a_int_t func(void)
 {
     test();
     return A_SUCCESS;

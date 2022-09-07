@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-A_STATIC a_noret_t test(a_size_t n)
+A_STATIC a_void_t test(a_size_t n)
 {
     a_int_t *p = a_cast_s(a_int_t *, malloc(sizeof(a_int_t) * n));
     a_int_t *d = p + n;
@@ -56,15 +56,15 @@ A_STATIC a_noret_t test(a_size_t n)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+a_int_t for_c(void);
+a_int_t for_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func for_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func for_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+a_int_t func(void)
 {
     printf("%s\n", __func__);
 

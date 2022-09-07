@@ -116,14 +116,14 @@ extern "C" {
  @param[in] siz size of a element
  @param[in] num number of element
 */
-A_PUBLIC a_noret_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num);
+A_PUBLIC a_void_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num);
 
 /*!
  @brief destructor for array structure
  @param[in] ctx points to an instance of array structure
  @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_arr_dtor(a_arr_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_arr_dtor(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief initialize a pointer to array structure by moving
@@ -137,7 +137,7 @@ A_PUBLIC a_arr_s *a_arr_move(a_arr_s *ctx, a_arr_s *obj);
  @param[in] ctx points to an instance of array structure
  @param[in] dtor current element destructor
 */
-A_PUBLIC a_noret_t a_arr_drop(a_arr_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_arr_drop(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief swap elements lhs and rhs for a pointer to array structure
@@ -145,7 +145,7 @@ A_PUBLIC a_noret_t a_arr_drop(a_arr_s *ctx, a_noret_t (*dtor)(a_vptr_t));
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
 */
-A_PUBLIC a_noret_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs);
+A_PUBLIC a_void_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief sort all elements for a pointer to array structure
@@ -155,7 +155,7 @@ A_PUBLIC a_noret_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs);
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_arr_sort(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_arr_sort(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort foremost element for a pointer to array structure
@@ -174,7 +174,7 @@ A_PUBLIC a_noret_t a_arr_sort(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cpt
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort backmost element for a pointer to array structure
@@ -193,7 +193,7 @@ A_PUBLIC a_noret_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, 
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_arr_sort_back(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_arr_sort_back(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief search the given element in this array

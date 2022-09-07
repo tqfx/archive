@@ -11,7 +11,7 @@
 #include "../test.h"
 #include <stdio.h>
 
-A_STATIC a_noret_t tests(a_noarg_t)
+A_STATIC a_void_t tests(void)
 {
     a_str_s ctx[1] = {A_STR_NIL};
     a_str_t str = a_str_exit(ctx);
@@ -28,7 +28,7 @@ A_STATIC a_noret_t tests(a_noarg_t)
     a_str_dtor(ctx);
 }
 
-A_STATIC a_noret_t testt(a_noarg_t)
+A_STATIC a_void_t testt(void)
 {
     a_str_t str = a_null;
     a_str_s *ctx = a_str_new();
@@ -47,7 +47,7 @@ A_STATIC a_noret_t testt(a_noarg_t)
     a_str_die(ctx);
 }
 
-A_STATIC a_noret_t testc(a_noarg_t)
+A_STATIC a_void_t testc(void)
 {
     {
         a_str_s *lhs = a_str_new();
@@ -125,15 +125,15 @@ A_STATIC a_noret_t testc(a_noarg_t)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+a_int_t vector_c(void);
+a_int_t vector_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func vector_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func vector_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+a_int_t func(void)
 {
     printf("%s\n", __func__);
     tests();

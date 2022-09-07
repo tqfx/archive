@@ -65,25 +65,25 @@ extern "C" {
 /*!
  @brief allocate a pointer to string structure from memory
 */
-A_PUBLIC a_str_s *a_str_new(a_noarg_t);
+A_PUBLIC a_str_s *a_str_new(void);
 
 /*!
  @brief deallocate a pointer to string structure
  @param[in] ctx points to an instance of string structure
 */
-A_PUBLIC a_noret_t a_str_die(a_str_s *ctx);
+A_PUBLIC a_void_t a_str_die(a_str_s *ctx);
 
 /*!
  @brief constructor for string structure
  @param[in] ctx points to an instance of string structure
 */
-A_PUBLIC a_noret_t a_str_ctor(a_str_s *ctx);
+A_PUBLIC a_void_t a_str_ctor(a_str_s *ctx);
 
 /*!
  @brief destructor for string structure
  @param[in] ctx points to an instance of string structure
 */
-A_PUBLIC a_noret_t a_str_dtor(a_str_s *ctx);
+A_PUBLIC a_void_t a_str_dtor(a_str_s *ctx);
 
 /*!
  @brief initialize a pointer to string structure
@@ -218,10 +218,10 @@ A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) A_FORMAT(printf, 
 #endif /* __cplusplus */
 
 /* inline function for generic */
-A_INLINE a_vptr_t a_str_new_(a_noarg_t) { return a_str_new(); }
-A_INLINE a_noret_t a_str_die_(a_vptr_t ctx) { a_str_die(a_cast_s(a_str_s *, ctx)); }
-A_INLINE a_noret_t a_str_ctor_(a_vptr_t ctx) { a_str_ctor(a_cast_s(a_str_s *, ctx)); }
-A_INLINE a_noret_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx)); }
+A_INLINE a_vptr_t a_str_new_(void) { return a_str_new(); }
+A_INLINE a_void_t a_str_die_(a_vptr_t ctx) { a_str_die(a_cast_s(a_str_s *, ctx)); }
+A_INLINE a_void_t a_str_ctor_(a_vptr_t ctx) { a_str_ctor(a_cast_s(a_str_s *, ctx)); }
+A_INLINE a_void_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx)); }
 
 /*! @} A_STR */
 

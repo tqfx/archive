@@ -40,7 +40,7 @@ A_ALWAYS a_vptr_t a_vector_dec_(a_vector_s *ctx)
     return (void)(--ctx->__num), ctx->__tail;
 }
 
-A_STATIC a_noret_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
+A_STATIC a_void_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
 {
     if (ctx->dtor)
     {
@@ -79,8 +79,8 @@ A_STATIC a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
 }
 
 a_vector_s *a_vector_new(a_size_t size,
-                         a_noret_t (*ctor)(a_vptr_t),
-                         a_noret_t (*dtor)(a_vptr_t))
+                         a_void_t (*ctor)(a_vptr_t),
+                         a_void_t (*dtor)(a_vptr_t))
 {
     a_vector_s *ctx = (a_vector_s *)malloc(sizeof(a_vector_s));
     if (ctx)
@@ -90,7 +90,7 @@ a_vector_s *a_vector_new(a_size_t size,
     return ctx;
 }
 
-a_noret_t a_vector_die(a_vector_s *ctx)
+a_void_t a_vector_die(a_vector_s *ctx)
 {
     if (ctx)
     {
@@ -99,9 +99,9 @@ a_noret_t a_vector_die(a_vector_s *ctx)
     }
 }
 
-a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
-                        a_noret_t (*ctor)(a_vptr_t),
-                        a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
+                       a_void_t (*ctor)(a_vptr_t),
+                       a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     ctx->__size = size ? size : sizeof(a_cast_u);
@@ -114,7 +114,7 @@ a_noret_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
     ctx->__mem = 0;
 }
 
-a_noret_t a_vector_dtor(a_vector_s *ctx)
+a_void_t a_vector_dtor(a_vector_s *ctx)
 {
     assert(ctx);
     if (ctx->__head)
@@ -174,9 +174,9 @@ a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj)
     return ctx;
 }
 
-a_noret_t a_vector_set(a_vector_s *ctx, a_size_t size,
-                       a_noret_t (*ctor)(a_vptr_t),
-                       a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_vector_set(a_vector_s *ctx, a_size_t size,
+                      a_void_t (*ctor)(a_vptr_t),
+                      a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     size = size ? size : sizeof(a_cast_u);
@@ -198,13 +198,13 @@ a_int_t a_vector_make(a_vector_s *ctx, a_size_t num)
     return A_SUCCESS;
 }
 
-a_noret_t a_vector_drop(a_vector_s *ctx)
+a_void_t a_vector_drop(a_vector_s *ctx)
 {
     assert(ctx);
     a_vector_drop_(ctx, 0);
 }
 
-a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
+a_void_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
     a_size_t num = ctx->__num - 1;
@@ -219,13 +219,13 @@ a_noret_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_noret_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     qsort(ctx->__head, ctx->__num, ctx->__size, cmp);
 }
 
-a_noret_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)
@@ -248,7 +248,7 @@ a_noret_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_c
     }
 }
 
-a_noret_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)

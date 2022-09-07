@@ -11,7 +11,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-a_str_s *a_str_new(a_noarg_t)
+a_str_s *a_str_new(void)
 {
     a_str_s *ctx = (a_str_s *)malloc(sizeof(a_str_s));
     if (ctx)
@@ -21,7 +21,7 @@ a_str_s *a_str_new(a_noarg_t)
     return ctx;
 }
 
-a_noret_t a_str_die(a_str_s *ctx)
+a_void_t a_str_die(a_str_s *ctx)
 {
     if (ctx)
     {
@@ -30,7 +30,7 @@ a_noret_t a_str_die(a_str_s *ctx)
     }
 }
 
-a_noret_t a_str_ctor(a_str_s *ctx)
+a_void_t a_str_ctor(a_str_s *ctx)
 {
     assert(ctx);
     ctx->__str = 0;
@@ -38,7 +38,7 @@ a_noret_t a_str_ctor(a_str_s *ctx)
     ctx->__mem = 0;
 }
 
-a_noret_t a_str_dtor(a_str_s *ctx)
+a_void_t a_str_dtor(a_str_s *ctx)
 {
     assert(ctx);
     if (ctx->__str)

@@ -22,20 +22,20 @@ extern "C" {
 /*!
  @brief algorithm library version string
 */
-A_PUBLIC a_cstr_t a_version(a_noarg_t);
+A_PUBLIC a_cstr_t a_version(void);
 
 /*!
  @brief algorithm library version major
 */
-A_PUBLIC a_uint_t a_version_major(a_noarg_t);
+A_PUBLIC a_uint_t a_version_major(void);
 /*!
  @brief algorithm library version minor
 */
-A_PUBLIC a_uint_t a_version_minor(a_noarg_t);
+A_PUBLIC a_uint_t a_version_minor(void);
 /*!
  @brief algorithm library version patch
 */
-A_PUBLIC a_uint_t a_version_patch(a_noarg_t);
+A_PUBLIC a_uint_t a_version_patch(void);
 
 #if defined(__cplusplus)
 } /* extern "C" */

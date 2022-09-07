@@ -57,7 +57,7 @@ done:
     return count;
 }
 
-A_STATIC a_noret_t test_next(a_noarg_t)
+A_STATIC a_void_t test_next(void)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -104,7 +104,7 @@ A_STATIC a_noret_t test_next(a_noarg_t)
     free(list2);
 }
 
-A_STATIC a_noret_t test_prev(a_noarg_t)
+A_STATIC a_void_t test_prev(void)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -151,7 +151,7 @@ A_STATIC a_noret_t test_prev(a_noarg_t)
     free(list2);
 }
 
-A_STATIC a_noret_t test_func(a_noarg_t)
+A_STATIC a_void_t test_func(void)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -210,7 +210,7 @@ A_STATIC a_noret_t test_func(a_noarg_t)
     free(ctx);
 }
 
-A_STATIC a_noret_t test_null(a_noarg_t)
+A_STATIC a_void_t test_null(void)
 {
     a_list_s list1[1] = {{list1, list1}};
     a_list_s list2[1] = {{list2, list2}};
@@ -322,15 +322,15 @@ A_STATIC a_noret_t test_null(a_noarg_t)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+a_int_t list_c(void);
+a_int_t list_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func list_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func list_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+a_int_t func(void)
 {
     printf("%s\n", __func__);
     test_next();

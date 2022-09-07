@@ -136,21 +136,21 @@ A_PUBLIC a_vec_s *a_vec_new(a_size_t size);
  @param[in] ctx points to an instance of vector structure
  @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_vec_die(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_vec_die(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief constructor for vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] size size of element
 */
-A_PUBLIC a_noret_t a_vec_ctor(a_vec_s *ctx, a_size_t size);
+A_PUBLIC a_void_t a_vec_ctor(a_vec_s *ctx, a_size_t size);
 
 /*!
  @brief destructor for vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] dtor element destructor
 */
-A_PUBLIC a_noret_t a_vec_dtor(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief initialize a pointer to vector structure by copying
@@ -177,7 +177,7 @@ A_PUBLIC a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj);
  @param[in] size the size of the new element
  @param[in] dtor previous element destructor
 */
-A_PUBLIC a_noret_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_vec_set(a_vec_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief modify element number for a pointer to string structure
@@ -188,14 +188,14 @@ A_PUBLIC a_noret_t a_vec_set(a_vec_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vp
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief drop all the elements for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] dtor current element destructor
 */
-A_PUBLIC a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
+A_PUBLIC a_void_t a_vec_drop(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t));
 
 /*!
  @brief swap elements lhs and rhs for a pointer to vector structure
@@ -203,7 +203,7 @@ A_PUBLIC a_noret_t a_vec_drop(a_vec_s *ctx, a_noret_t (*dtor)(a_vptr_t));
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
 */
-A_PUBLIC a_noret_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs);
+A_PUBLIC a_void_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief sort all elements for a pointer to vector structure
@@ -213,7 +213,7 @@ A_PUBLIC a_noret_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs);
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort foremost element for a pointer to vector structure
@@ -232,7 +232,7 @@ A_PUBLIC a_noret_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cpt
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort backmost element for a pointer to vector structure
@@ -251,7 +251,7 @@ A_PUBLIC a_noret_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, 
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_noret_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_PUBLIC a_void_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief search the given element in this vector

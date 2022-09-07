@@ -26,15 +26,15 @@ static void test(void)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+a_int_t pid_c(void);
+a_int_t pid_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func pid_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func pid_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+a_int_t func(void)
 {
     test();
     return A_SUCCESS;

@@ -74,7 +74,7 @@ extern "C" {
   @arg 1 position for target
   @arg 2 velocity for target
 */
-A_PUBLIC void a_polytrack3_init(a_polytrack3_s *ctx, const a_real_t source[3], const a_real_t target[3]);
+A_PUBLIC a_void_t a_polytrack3_init(a_polytrack3_s *ctx, const a_real_t source[3], const a_real_t target[3]);
 
 /*!
  @brief process function for cubic polynomial trajectory
@@ -131,7 +131,7 @@ A_PUBLIC a_real_t a_polytrack3_acc(const a_polytrack3_s *ctx, a_real_t ts);
   @arg 1 velocity output
   @arg 2 acceleration output
 */
-A_PUBLIC void a_polytrack3_all(const a_polytrack3_s *ctx, a_real_t ts, a_real_t out[3]);
+A_PUBLIC a_void_t a_polytrack3_all(const a_polytrack3_s *ctx, a_real_t ts, a_real_t out[3]);
 
 /* function for quintic polynomial trajectory */
 
@@ -161,7 +161,7 @@ A_PUBLIC void a_polytrack3_all(const a_polytrack3_s *ctx, a_real_t ts, a_real_t 
   @arg 2 velocity for target
   @arg 3 acceleration for target
 */
-A_PUBLIC void a_polytrack5_init(a_polytrack5_s *ctx, const a_real_t source[4], const a_real_t target[4]);
+A_PUBLIC a_void_t a_polytrack5_init(a_polytrack5_s *ctx, const a_real_t source[4], const a_real_t target[4]);
 
 /*!
  @brief process function for quintic polynomial trajectory
@@ -218,7 +218,7 @@ A_PUBLIC a_real_t a_polytrack5_acc(const a_polytrack5_s *ctx, a_real_t ts);
   @arg 1 velocity output
   @arg 2 acceleration output
 */
-A_PUBLIC void a_polytrack5_all(const a_polytrack5_s *ctx, a_real_t ts, a_real_t out[3]);
+A_PUBLIC a_void_t a_polytrack5_all(const a_polytrack5_s *ctx, a_real_t ts, a_real_t out[3]);
 
 /* function for hepta polynomial trajectory */
 
@@ -252,7 +252,7 @@ A_PUBLIC void a_polytrack5_all(const a_polytrack5_s *ctx, a_real_t ts, a_real_t 
   @arg 3 acceleration for target
   @arg 4 jerk for target
 */
-A_PUBLIC void a_polytrack7_init(a_polytrack7_s *ctx, const a_real_t source[5], const a_real_t target[5]);
+A_PUBLIC a_void_t a_polytrack7_init(a_polytrack7_s *ctx, const a_real_t source[5], const a_real_t target[5]);
 
 /*!
  @brief process function for hepta polynomial trajectory
@@ -324,7 +324,7 @@ A_PUBLIC a_real_t a_polytrack7_jer(const a_polytrack7_s *ctx, a_real_t ts);
   @arg 2 acceleration output
   @arg 3 jerk output
 */
-A_PUBLIC void a_polytrack7_all(const a_polytrack7_s *ctx, a_real_t ts, a_real_t out[4]);
+A_PUBLIC a_void_t a_polytrack7_all(const a_polytrack7_s *ctx, a_real_t ts, a_real_t out[4]);
 
 #if defined(__cplusplus)
 } /* extern "C" */

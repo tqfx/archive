@@ -36,7 +36,7 @@ A_ALWAYS a_vptr_t a_arr_dec_(a_arr_s *ctx)
     return (a_byte_t *)ctx->__ptr + ctx->__siz * --ctx->__num;
 }
 
-A_STATIC a_noret_t a_arr_drop_(a_arr_s *ctx, a_size_t bot, a_noret_t (*dtor)(a_vptr_t))
+A_STATIC a_void_t a_arr_drop_(a_arr_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vptr_t))
 {
     if (dtor)
     {
@@ -48,7 +48,7 @@ A_STATIC a_noret_t a_arr_drop_(a_arr_s *ctx, a_size_t bot, a_noret_t (*dtor)(a_v
     ctx->__num = bot;
 }
 
-a_noret_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num)
+a_void_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num)
 {
     assert(ctx);
     ctx->__ptr = ptr;
@@ -57,7 +57,7 @@ a_noret_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num)
     ctx->__num = 0;
 }
 
-a_noret_t a_arr_dtor(a_arr_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_arr_dtor(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     if (ctx->__ptr)
@@ -78,13 +78,13 @@ a_arr_s *a_arr_move(a_arr_s *ctx, a_arr_s *obj)
     return ctx;
 }
 
-a_noret_t a_arr_drop(a_arr_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_arr_drop(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_arr_drop_(ctx, 0, dtor);
 }
 
-a_noret_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs)
+a_void_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
     a_size_t num = ctx->__num - 1;
@@ -99,13 +99,13 @@ a_noret_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_noret_t a_arr_sort(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_arr_sort(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     qsort(ctx->__ptr, ctx->__num, ctx->__siz, cmp);
 }
 
-a_noret_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)
@@ -128,7 +128,7 @@ a_noret_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
     }
 }
 
-a_noret_t a_arr_sort_back(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_arr_sort_back(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)

@@ -23,7 +23,7 @@
 #undef a_que_pull_fore
 #undef a_que_pull_back
 
-A_ALWAYS a_noret_t func(a_vptr_t vptr) { (void)(vptr); }
+A_ALWAYS a_void_t func(a_vptr_t vptr) { (void)(vptr); }
 
 A_STATIC a_que_node_s *a_que_node_alloc(a_que_s *ctx)
 {
@@ -76,7 +76,7 @@ A_STATIC int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
     return A_SUCCESS;
 }
 
-A_STATIC a_noret_t a_que_drop_(a_que_s *ctx)
+A_STATIC a_void_t a_que_drop_(a_que_s *ctx)
 {
     while (a_list_used(ctx->__head))
     {
@@ -100,7 +100,7 @@ a_que_s *a_que_new(a_size_t size)
     return ctx;
 }
 
-a_noret_t a_que_die(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_que_die(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     if (ctx)
     {
@@ -109,7 +109,7 @@ a_noret_t a_que_die(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
     }
 }
 
-a_noret_t a_que_ctor(a_que_s *ctx, a_size_t size)
+a_void_t a_que_ctor(a_que_s *ctx, a_size_t size)
 {
     assert(ctx);
     a_list_ctor(ctx->__head);
@@ -120,7 +120,7 @@ a_noret_t a_que_ctor(a_que_s *ctx, a_size_t size)
     ctx->__mem = 0;
 }
 
-a_noret_t a_que_dtor(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_que_dtor(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_que_drop_(ctx);
@@ -177,7 +177,7 @@ a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
     return vptr;
 }
 
-a_noret_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_que_set(a_que_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     size = size ? size : sizeof(a_cast_u);
@@ -185,7 +185,7 @@ a_noret_t a_que_set(a_que_s *ctx, a_size_t size, a_noret_t (*dtor)(a_vptr_t))
     ctx->__size = size;
 }
 
-a_noret_t a_que_drop(a_que_s *ctx, a_noret_t (*dtor)(a_vptr_t))
+a_void_t a_que_drop(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     assert(ctx);
     a_que_drop_(ctx);
@@ -230,7 +230,7 @@ a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
     return ok;
 }
 
-a_noret_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
+a_void_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
 {
     assert(ctx);
     a_size_t cur = 0;
@@ -265,7 +265,7 @@ a_noret_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)
@@ -293,7 +293,7 @@ a_noret_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t)
     }
 }
 
-a_noret_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     assert(ctx);
     if (ctx->__num > 1)

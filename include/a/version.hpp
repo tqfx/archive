@@ -30,20 +30,20 @@ enum
 /*!
  @brief algorithm library version string
 */
-A_PUBLIC cstr_t version(a_noarg_t);
+A_PUBLIC cstr_t version(void);
 
 /*!
  @brief algorithm library version major
 */
-A_PUBLIC uint_t version_major(a_noarg_t);
+A_PUBLIC uint_t version_major(void);
 /*!
  @brief algorithm library version minor
 */
-A_PUBLIC uint_t version_minor(a_noarg_t);
+A_PUBLIC uint_t version_minor(void);
 /*!
  @brief algorithm library version patch
 */
-A_PUBLIC uint_t version_patch(a_noarg_t);
+A_PUBLIC uint_t version_patch(void);
 
 /*! @} AA_VERSION */
 } // namespace a

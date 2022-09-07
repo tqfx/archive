@@ -12,13 +12,13 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
-A_STATIC a_noret_t dtor(a_vptr_t ptr)
+A_STATIC a_void_t dtor(a_vptr_t ptr)
 {
     a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
     printf("%" PRIu32 " ", *obj);
 }
 
-A_STATIC a_noret_t back(a_noarg_t)
+A_STATIC a_void_t back(void)
 {
     a_arr_s ctx[1];
     a_u32_t buf[10];
@@ -52,7 +52,7 @@ A_STATIC a_noret_t back(a_noarg_t)
     a_arr_dtor(ctx, dtor);
 }
 
-A_STATIC a_noret_t fore(a_noarg_t)
+A_STATIC a_void_t fore(void)
 {
     a_arr_s ctx[1];
     a_u32_t buf[10];
@@ -99,12 +99,12 @@ A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
     return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
 }
 
-A_STATIC a_int_t rand10(a_noarg_t)
+A_STATIC a_int_t rand10(void)
 {
     return a_cast_s(a_int_t, rand() / a_cast_s(double, RAND_MAX) * 10);
 }
 
-A_STATIC a_noret_t test_sort(a_noarg_t)
+A_STATIC a_void_t test_sort(void)
 {
     a_arr_s ctx[1];
     a_int_t buf[10];
@@ -205,15 +205,15 @@ A_STATIC a_noret_t test_sort(a_noarg_t)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+a_int_t arr_c(void);
+a_int_t arr_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func arr_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func arr_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+a_int_t func(void)
 {
     printf("%s\n", __func__);
 

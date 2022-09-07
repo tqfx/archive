@@ -45,7 +45,7 @@ done:
     return count;
 }
 
-A_STATIC a_noret_t test(a_noarg_t)
+A_STATIC a_void_t test(void)
 {
     a_slist_s *list1 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list1);
@@ -104,7 +104,7 @@ A_STATIC a_noret_t test(a_noarg_t)
     free(list1);
 }
 
-A_STATIC a_noret_t null(a_noarg_t)
+A_STATIC a_void_t null(void)
 {
     a_slist_u node1[1] = {{node1}};
     a_slist_u node2[1] = {{node2}};
@@ -136,15 +136,15 @@ A_STATIC a_noret_t null(a_noarg_t)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-a_int_t main_c(a_noarg_t);
-a_int_t main_cpp(a_noarg_t);
+int slist_c(void);
+int slist_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
-#define test_main main_cpp
+#define func slist_cpp
 #else /* !__cplusplus */
-#define test_main main_c
+#define func slist_c
 #endif /* __cplusplus */
-a_int_t test_main(a_noarg_t)
+int func(void)
 {
     printf("%s\n", __func__);
     test();

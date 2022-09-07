@@ -16,6 +16,8 @@ namespace a
  @{
 */
 
+typedef a_c_t c_t;
+
 typedef a_bool_t bool_t;
 
 typedef a_void_t void_t;
@@ -43,6 +45,15 @@ typedef a_uptr_t uptr_t;
 typedef a_diff_t diff_t;
 
 // clang-format off
+
+typedef a_i_t   i_t;
+typedef a_u_t   u_t;
+typedef a_is_t  is_t;
+typedef a_us_t  us_t;
+typedef a_il_t  il_t;
+typedef a_ul_t  ul_t;
+typedef a_ill_t ill_t;
+typedef a_ull_t ull_t;
 
 typedef  a_int_t  int_t;
 typedef a_sint_t sint_t;

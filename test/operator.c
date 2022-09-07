@@ -17,7 +17,7 @@
 #pragma GCC diagnostic ignored "-Wc++-compat"
 #endif /* __GNUC__ || __clang__ */
 
-A_STATIC a_noret_t test_intern(a_noarg_t)
+A_STATIC a_void_t test_intern(void)
 {
     {
         a_int_t x = 1;
@@ -211,7 +211,7 @@ A_STATIC a_noret_t test_intern(a_noarg_t)
 #pragma GCC diagnostic pop
 #endif /* __GNUC__ || __clang__ */
 
-A_STATIC a_noret_t test_extern(a_noarg_t)
+A_STATIC a_void_t test_extern(void)
 {
     {
         a_int_t x = 1;
@@ -401,7 +401,7 @@ A_STATIC a_noret_t test_extern(a_noarg_t)
     }
 }
 
-a_int_t main(a_noarg_t)
+int main(void)
 {
     test_intern();
     test_extern();

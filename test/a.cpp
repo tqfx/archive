@@ -9,7 +9,7 @@
 
 #include <inttypes.h>
 
-A_STATIC a_noret_t test_swap(a_noarg_t)
+A_STATIC a_void_t test_swap(void)
 {
     {
         a_i8_t lhs = A_I8_MIN;
@@ -76,7 +76,7 @@ A_STATIC a_noret_t test_swap(a_noarg_t)
     }
 }
 
-a_int_t main(a_noarg_t)
+int main(void)
 {
     test_swap();
     return A_SUCCESS;

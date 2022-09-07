@@ -3,6 +3,8 @@ from libc.stdint cimport *
 
 cdef extern from "a/a.h":
 
+    ctypedef char a_c_t
+
     ctypedef int a_bool_t
 
     ctypedef void a_void_t
@@ -29,8 +31,20 @@ cdef extern from "a/a.h":
 
     ctypedef ptrdiff_t a_diff_t
 
+    ctypedef   signed int a_i_t
+    ctypedef unsigned int a_u_t
+
+    ctypedef   signed short a_is_t
+    ctypedef unsigned short a_us_t
+
+    ctypedef   signed long a_il_t
+    ctypedef unsigned long a_ul_t
+
+    ctypedef   signed long long a_ill_t
+    ctypedef unsigned long long a_ull_t
+
     ctypedef          int  a_int_t
-    ctypedef          int a_sint_t
+    ctypedef   signed int a_sint_t
     ctypedef unsigned int a_uint_t
 
     ctypedef unsigned char  a_byte_t

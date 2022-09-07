@@ -71,19 +71,19 @@ A_INLINE a_list_s *a_list_from(a_vptr_t obj) { return a_cast_s(a_list_s *, obj);
  @brief constructor for circular doubly linked list
  @param[in,out] ctx points to circular doubly linked list
 */
-A_INLINE a_noret_t a_list_ctor(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
+A_INLINE a_void_t a_list_ctor(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
 
 /*!
  @brief initialize for circular doubly linked list
  @param[in,out] ctx points to circular doubly linked list
 */
-A_INLINE a_noret_t a_list_init(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
+A_INLINE a_void_t a_list_init(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
 
 /*!
  @brief destructor for circular doubly linked list
  @param[in,out] ctx points to circular doubly linked list
 */
-A_INLINE a_noret_t a_list_dtor(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
+A_INLINE a_void_t a_list_dtor(a_list_s *ctx) { ctx->prev = ctx->next = ctx; }
 
 /*!
  @brief test whether a list is null
@@ -118,7 +118,7 @@ A_INLINE a_bool_t a_list_used(const a_list_s *ctx) { return ctx->next != ctx; }
  @param[in,out] head the head node of a list
  @param[in,out] tail the tail node of a list
 */
-A_INLINE a_noret_t a_list_link(a_list_s *head, a_list_s *tail)
+A_INLINE a_void_t a_list_link(a_list_s *head, a_list_s *tail)
 {
     head->next = tail;
     tail->prev = head;
@@ -139,7 +139,7 @@ A_INLINE a_noret_t a_list_link(a_list_s *head, a_list_s *tail)
  @param[in,out] head the head node of a list
  @param[in,out] tail the tail node of a list
 */
-A_INLINE a_noret_t a_list_loop(a_list_s *head, a_list_s *tail)
+A_INLINE a_void_t a_list_loop(a_list_s *head, a_list_s *tail)
 {
     head->prev = tail;
     tail->next = head;
@@ -169,7 +169,7 @@ A_INLINE a_noret_t a_list_loop(a_list_s *head, a_list_s *tail)
  @param[in,out] head2 the head node of the list2
  @param[in,out] tail2 the tail node of the list2
 */
-A_INLINE a_noret_t a_list_add_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
+A_INLINE a_void_t a_list_add_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
 {
     a_list_link(tail1, head2);
     a_list_link(tail2, head1);
@@ -194,7 +194,7 @@ A_INLINE a_noret_t a_list_add_(a_list_s *head1, a_list_s *tail1, a_list_s *head2
  @param[in,out] tail the tail node of a list
  @param[in] node a list node
 */
-A_INLINE a_noret_t a_list_add_node(a_list_s *head, a_list_s *tail, a_list_s *node)
+A_INLINE a_void_t a_list_add_node(a_list_s *head, a_list_s *tail, a_list_s *node)
 {
     a_list_add_(head, tail, node, node);
 }
@@ -217,7 +217,7 @@ A_INLINE a_noret_t a_list_add_node(a_list_s *head, a_list_s *tail, a_list_s *nod
  @param[in,out] ctx points to circular doubly linked list
  @param[in] node a list node
 */
-A_INLINE a_noret_t a_list_add_next(a_list_s *ctx, a_list_s *node)
+A_INLINE a_void_t a_list_add_next(a_list_s *ctx, a_list_s *node)
 {
     a_list_add_(ctx->next, ctx, node, node);
 }
@@ -240,7 +240,7 @@ A_INLINE a_noret_t a_list_add_next(a_list_s *ctx, a_list_s *node)
  @param[in,out] ctx points to circular doubly linked list
  @param[in] node a list node
 */
-A_INLINE a_noret_t a_list_add_prev(a_list_s *ctx, a_list_s *node)
+A_INLINE a_void_t a_list_add_prev(a_list_s *ctx, a_list_s *node)
 {
     a_list_add_(ctx, ctx->prev, node, node);
 }
@@ -262,7 +262,7 @@ A_INLINE a_noret_t a_list_add_prev(a_list_s *ctx, a_list_s *node)
  @param[in,out] head the head node of a list
  @param[in,out] tail the tail node of a list
 */
-A_INLINE a_noret_t a_list_del_(a_list_s *head, a_list_s *tail)
+A_INLINE a_void_t a_list_del_(a_list_s *head, a_list_s *tail)
 {
     a_list_link(head->prev, tail->next);
 }
@@ -284,7 +284,7 @@ A_INLINE a_noret_t a_list_del_(a_list_s *head, a_list_s *tail)
  @enddot
  @param[in] node a list node
 */
-A_INLINE a_noret_t a_list_del_node(a_list_s *node) { a_list_del_(node, node); }
+A_INLINE a_void_t a_list_del_node(a_list_s *node) { a_list_del_(node, node); }
 
 /*!
  @brief remove a node from a list forward
@@ -303,7 +303,7 @@ A_INLINE a_noret_t a_list_del_node(a_list_s *node) { a_list_del_(node, node); }
  @enddot
  @param[in] node a list node
 */
-A_INLINE a_noret_t a_list_del_next(a_list_s *node) { a_list_del_(node->next, node->next); }
+A_INLINE a_void_t a_list_del_next(a_list_s *node) { a_list_del_(node->next, node->next); }
 
 /*!
  @brief remove a node from a list backward
@@ -322,7 +322,7 @@ A_INLINE a_noret_t a_list_del_next(a_list_s *node) { a_list_del_(node->next, nod
  @enddot
  @param[in] node a list node
 */
-A_INLINE a_noret_t a_list_del_prev(a_list_s *node) { a_list_del_(node->prev, node->prev); }
+A_INLINE a_void_t a_list_del_prev(a_list_s *node) { a_list_del_(node->prev, node->prev); }
 
 /*!
  @brief moving a list to another list forward
@@ -342,7 +342,7 @@ A_INLINE a_noret_t a_list_del_prev(a_list_s *node) { a_list_del_(node->prev, nod
  @param[in,out] ctx points to circular doubly linked list
  @param[in] obj source list
 */
-A_INLINE a_noret_t a_list_mov_next(a_list_s *ctx, a_list_s *obj)
+A_INLINE a_void_t a_list_mov_next(a_list_s *ctx, a_list_s *obj)
 {
     a_list_add_(ctx->next, ctx, obj->next, obj->prev);
 }
@@ -365,7 +365,7 @@ A_INLINE a_noret_t a_list_mov_next(a_list_s *ctx, a_list_s *obj)
  @param[in,out] ctx points to circular doubly linked list
  @param[in] obj source list
 */
-A_INLINE a_noret_t a_list_mov_prev(a_list_s *ctx, a_list_s *obj)
+A_INLINE a_void_t a_list_mov_prev(a_list_s *ctx, a_list_s *obj)
 {
     a_list_add_(ctx, ctx->prev, obj->next, obj->prev);
 }
@@ -390,7 +390,7 @@ A_INLINE a_noret_t a_list_mov_prev(a_list_s *ctx, a_list_s *obj)
  @enddot
  @param[in,out] ctx points to circular doubly linked list
 */
-A_INLINE a_noret_t a_list_rot_next(a_list_s *ctx)
+A_INLINE a_void_t a_list_rot_next(a_list_s *ctx)
 {
     a_list_s *node = ctx->prev;
     a_list_del_(node, node);
@@ -417,7 +417,7 @@ A_INLINE a_noret_t a_list_rot_next(a_list_s *ctx)
  @enddot
  @param[in,out] ctx points to circular doubly linked list
 */
-A_INLINE a_noret_t a_list_rot_prev(a_list_s *ctx)
+A_INLINE a_void_t a_list_rot_prev(a_list_s *ctx)
 {
     a_list_s *node = ctx->next;
     a_list_del_(node, node);
@@ -444,7 +444,7 @@ A_INLINE a_noret_t a_list_rot_prev(a_list_s *ctx)
  @param[in,out] head2 the head node of the list2
  @param[in,out] tail2 the tail node of the list2
 */
-A_INLINE a_noret_t a_list_shift_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
+A_INLINE a_void_t a_list_shift_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
 {
     a_list_add_(tail1->next, head1->prev, head2, tail2);
 }
@@ -454,7 +454,7 @@ A_INLINE a_noret_t a_list_shift_(a_list_s *head1, a_list_s *tail1, a_list_s *hea
  @param[in,out] lhs the old node
  @param[in,out] rhs the new node
 */
-A_INLINE a_noret_t a_list_shift_node(a_list_s *lhs, a_list_s *rhs)
+A_INLINE a_void_t a_list_shift_node(a_list_s *lhs, a_list_s *rhs)
 {
     a_list_shift_(lhs, lhs, rhs, rhs);
 }
@@ -481,7 +481,7 @@ A_INLINE a_noret_t a_list_shift_node(a_list_s *lhs, a_list_s *rhs)
  @param[in,out] head2 the head node of the list2
  @param[in,out] tail2 the tail node of the list2
 */
-A_INLINE a_noret_t a_list_swap_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
+A_INLINE a_void_t a_list_swap_(a_list_s *head1, a_list_s *tail1, a_list_s *head2, a_list_s *tail2)
 {
     a_list_s *head = tail2->next, *tail = head2->prev;
     a_list_add_(tail1->next, head1->prev, head2, tail2);
@@ -493,14 +493,14 @@ A_INLINE a_noret_t a_list_swap_(a_list_s *head1, a_list_s *tail1, a_list_s *head
  @param[in,out] lhs a node on the left
  @param[in,out] rhs a node on the right
 */
-A_INLINE a_noret_t a_list_swap_node(a_list_s *lhs, a_list_s *rhs)
+A_INLINE a_void_t a_list_swap_node(a_list_s *lhs, a_list_s *rhs)
 {
     a_list_swap_(lhs, lhs, rhs, rhs);
 }
 
 /* inline function for generic */
-A_INLINE a_noret_t a_list_ctor_(a_vptr_t ctx) { a_list_ctor(a_cast_s(a_list_s *, ctx)); }
-A_INLINE a_noret_t a_list_dtor_(a_vptr_t ctx) { a_list_dtor(a_cast_s(a_list_s *, ctx)); }
+A_INLINE a_void_t a_list_ctor_(a_vptr_t ctx) { a_list_ctor(a_cast_s(a_list_s *, ctx)); }
+A_INLINE a_void_t a_list_dtor_(a_vptr_t ctx) { a_list_dtor(a_cast_s(a_list_s *, ctx)); }
 
 /*! @} A_LIST */
 

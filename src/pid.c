@@ -9,41 +9,68 @@
 
 #include <assert.h>
 
-void a_pid_time(a_pid_s *ctx, a_real_t ts)
+a_pid_s *a_pid_off(a_pid_s *ctx)
 {
-    assert(ctx);
+    ctx->mode = A_PID_OFF;
+    return ctx;
+}
+
+a_pid_s *a_pid_inc(a_pid_s *ctx)
+{
+    ctx->mode = A_PID_INC;
+    return ctx;
+}
+
+a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
+{
+    ctx->summax = (max > 0) ? max : -max;
+    if (ctx->outmax < ctx->summax)
+    {
+        ctx->summax = ctx->outmax;
+    }
+    ctx->mode = A_PID_POS;
+    return ctx;
+}
+
+a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t mode)
+{
+    ctx->mode = mode;
+    return ctx;
+}
+
+a_pid_s *a_pid_time(a_pid_s *ctx, a_real_t ts)
+{
     a_real_t t = ts / ctx->ts;
     ctx->ki *= t;
     ctx->kd /= t;
     ctx->ts = ts;
+    return ctx;
 }
 
-void a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
+a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
 {
-    assert(ctx);
     ctx->kp = kp;
     ctx->ki = ki * ctx->ts;
     ctx->kd = kd / ctx->ts;
+    return ctx;
 }
 
-void a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
+a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
 {
-    assert(ctx);
-    assert(ts > 0);
-    assert(min < max);
     ctx->mode = A_PID_OFF;
     ctx->outmin = min;
     ctx->outmax = max;
+    ctx->summax = 0;
     ctx->ts = ts;
     ctx->kp = 0;
     ctx->ki = 0;
     ctx->kd = 0;
-    ctx->sum = 0;
-    ctx->summax = 0;
     ctx->out = 0;
+    ctx->sum = 0;
     ctx->ref = 0;
     ctx->ec = 0;
     ctx->e = 0;
+    return ctx;
 }
 
 a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
@@ -107,12 +134,12 @@ a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
     return ctx->out;
 }
 
-void a_pid_done(a_pid_s *ctx)
+a_pid_s *a_pid_done(a_pid_s *ctx)
 {
-    assert(ctx);
     ctx->out = 0;
     ctx->sum = 0;
     ctx->ref = 0;
     ctx->ec = 0;
     ctx->e = 0;
+    return ctx;
 }

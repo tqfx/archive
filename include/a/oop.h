@@ -24,7 +24,7 @@
  @param ctor constructor
 */
 #define A_OOP_NEW(type, func, ctor)               \
-    type *func(a_noarg_t)                         \
+    type *func(void)                              \
     {                                             \
         type *ctx = (type *)malloc(sizeof(type)); \
         if (ctx)                                  \
@@ -65,7 +65,7 @@
  @param dtor destructor
 */
 #define A_OOP_DIE(type, func, dtor) \
-    a_noret_t func(type *ctx)       \
+    a_void_t func(type *ctx)        \
     {                               \
         if (ctx)                    \
         {                           \
@@ -88,7 +88,7 @@
  @param ... declared parameter variable name
 */
 #define A_OOP_DIE_VA(type, func, dtor, args, ...) \
-    a_noret_t func(type *ctx, args)               \
+    a_void_t func(type *ctx, args)                \
     {                                             \
         if (ctx)                                  \
         {                                         \
