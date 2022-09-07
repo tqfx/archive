@@ -1,17 +1,22 @@
-//! An algorithm library based on C/C++ language
-//!
-//! ## Installation
-//!
-//! Add this to your `Cargo.toml`:
-//!
-//! ```toml
-//! [dependencies]
-//! liba = "0.1"
-//! ```
+/*!
+An algorithm library based on C/C++ language
+
+## Installation
+
+Add this to your `Cargo.toml`:
+
+```toml
+[dependencies]
+liba = "0.1"
+```
+*/
 
 #![deny(missing_docs)]
 
-extern crate libc;
+pub mod pid;
+pub use crate::pid::PID;
+
+use libc;
 
 extern "C" {
     fn a_version() -> *const libc::c_char;
@@ -22,15 +27,15 @@ extern "C" {
 
 use std::ffi::CStr;
 
-/// algorithm library version
-///
-/// ## Examples
-///
-/// ```no_run
-/// fn main() {
-///     println!("version {}", liba::version());
-/// }
-/// ```
+/**
+algorithm library version
+
+## Examples
+
+```no_run
+println!("version {}", liba::version());
+```
+*/
 pub fn version() -> String {
     let c_str: &CStr = unsafe { CStr::from_ptr(a_version()) };
     let str_slice: &str = c_str.to_str().unwrap();
@@ -38,41 +43,41 @@ pub fn version() -> String {
     str_buf
 }
 
-/// algorithm library version major
-///
-/// ## Examples
-///
-/// ```no_run
-/// fn main() {
-///     println!("major {}", liba::version_major());
-/// }
-/// ```
+/**
+algorithm library version major
+
+## Examples
+
+```no_run
+println!("major {}", liba::version_major());
+```
+*/
 pub fn version_major() -> u32 {
     unsafe { a_version_major() as u32 }
 }
 
-/// algorithm library version minor
-///
-/// ## Examples
-///
-/// ```no_run
-/// fn main() {
-///     println!("minor {}", liba::version_minor());
-/// }
-/// ```
+/**
+algorithm library version minor
+
+## Examples
+
+```no_run
+println!("minor {}", liba::version_minor());
+```
+*/
 pub fn version_minor() -> u32 {
     unsafe { a_version_minor() as u32 }
 }
 
-/// algorithm library version patch
-///
-/// ## Examples
-///
-/// ```no_run
-/// fn main() {
-///     println!("patch {}", liba::version_patch());
-/// }
-/// ```
+/**
+algorithm library version patch
+
+## Examples
+
+```no_run
+println!("patch {}", liba::version_patch());
+```
+*/
 pub fn version_patch() -> u32 {
     unsafe { a_version_patch() as u32 }
 }
@@ -81,15 +86,15 @@ extern "C" {
     fn a_inv_sqrt(x: f32) -> f32;
 }
 
-/// fast inverse square-root, \f$ \frac{1}{\sqrt{x}} \f$
-///
-/// ## Examples
-///
-/// ```no_run
-/// fn main() {
-///     println!("1/sqrt({})={}", 4, liba::inv_sqrt(4.0));
-/// }
-/// ```
+/**
+fast inverse square-root, $ \frac{1}{\sqrt{x}} $
+
+## Examples
+
+```no_run
+println!("1/sqrt({})={}", 4, liba::inv_sqrt(4.0));
+```
+*/
 pub fn inv_sqrt(x: f32) -> f32 {
     unsafe { a_inv_sqrt(x) }
 }
