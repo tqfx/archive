@@ -14,7 +14,24 @@ extern "C" {
 #endif /* __cplusplus */
 
 /*!
- @brief horner function for polynomial
+ @brief convert between \f$ \sum_{i=0}^{n}a_{i}x^{i} \f$ and \f$ \sum_{i=0}^{n}a_{i}x^{n-i} \f$
+*/
+A_PUBLIC a_real_t *a_poly_inv(a_real_t *a, a_size_t n);
+
+/*!
+ @brief horner function for polynomial \f$ \sum_{i=0}^{n}a_{i}x^{i} \f$
+ \f[
+  \left\{\begin{array}{l}
+  S_n = a_n\\
+  S_i = xS_{i+1} + a_i,\quad(i=n-1,n-2,\cdots,1,0)\\
+  P(x) = S_0
+  \end{array}\right.
+ \f]
+*/
+A_PUBLIC a_real_t a_poly_c(const a_real_t *a, a_size_t n, a_real_t x);
+
+/*!
+ @brief horner function for polynomial \f$ \sum_{i=0}^{n}a_{i}x^{n-i} \f$
  @f[
   \left\{\begin{array}{l}
   S_0 = a_0\\
@@ -23,19 +40,7 @@ extern "C" {
   \end{array}\right.
  @f]
 */
-A_PUBLIC a_real_t a_horner(const a_real_t *a, size_t n, a_real_t x);
-
-/*!
- @brief horner function for polynomial reserved
- @f[
-  \left\{\begin{array}{l}
-  S_n = a_n\\
-  S_i = xS_{i+1} + a_i,\quad(i=n-1,n-2,\cdots,1,0)\\
-  P(x) = S_0
-  \end{array}\right.
- @f]
-*/
-A_PUBLIC a_real_t a_hornerr(const a_real_t *a, size_t n, a_real_t x);
+A_PUBLIC a_real_t a_poly_r(const a_real_t *a, a_size_t n, a_real_t x);
 
 #if defined(__cplusplus)
 } /* extern "C" */
