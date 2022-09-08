@@ -89,6 +89,13 @@
 #define A_FORMAT(...)
 #endif /* format */
 
+/* attribute fallthrough */
+#if a_prereq_gnuc(7, 1) || __has_attribute(fallthrough)
+#define A_FALLTHROUGH __attribute__((fallthrough));
+#else /* !fallthrough */
+#define A_FALLTHROUGH
+#endif /* fallthrough */
+
 /* attribute deprecated */
 #if a_prereq_gnuc(3, 2) || __has_attribute(deprecated)
 #define A_DEPRECATED(...) __attribute__((deprecated(__VA_ARGS__)))
