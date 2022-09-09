@@ -4,11 +4,10 @@ public class ac {
     static {
         System.loadLibrary("ac");
     }
+    public final static native String version();
+    public final static native int version_major();
+    public final static native int version_minor();
+    public final static native int version_patch();
 
-    public native String version();
-    public native int version_major();
-    public native int version_minor();
-    public native int version_patch();
-
-    public native float int_sqrt(float x);
+    public final static native float int_sqrt(float x);
 }
