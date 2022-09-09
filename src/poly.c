@@ -13,7 +13,7 @@
 a_real_t *a_poly_inv(a_real_t *a, a_size_t n)
 {
     assert(!n || a);
-    for (a_real_t *l = a, *r = a + n - 1, *m = a + (n >> 1); l != m; ++l, --r)
+    for (a_real_t *l = a, *r = a + n - 1, *m = a + (n >> 1); l < m; ++l, --r)
     {
         a_swap(sizeof(a_real_t), l, r);
     }
@@ -24,7 +24,7 @@ a_real_t a_poly_c(const a_real_t *a, a_size_t n, a_real_t x)
 {
     assert(!n || a);
     a_real_t y = 0;
-    for (const a_real_t *p = --a + n; p != a; --p)
+    for (const a_real_t *p = --a + n; p > a; --p)
     {
         y = y * x + *p;
     }
@@ -35,7 +35,7 @@ a_real_t a_poly_r(const a_real_t *a, a_size_t n, a_real_t x)
 {
     assert(!n || a);
     a_real_t y = 0;
-    for (const a_real_t *q = a + n; a != q; ++a)
+    for (const a_real_t *q = a + n; a < q; ++a)
     {
         y = y * x + *a;
     }
