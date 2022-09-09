@@ -13,6 +13,8 @@
 #undef CALL
 #define NAME "__name"
 #define CALL "__call"
+#undef USERDATA
+#define USERDATA "__userdata"
 
 typedef struct
 {
@@ -32,10 +34,9 @@ typedef struct
     lua_Integer data;
 } RegEnum;
 
-#undef USERDATA
-#define USERDATA "userdata"
-
 #if 0
+#include "a/a.h"
+A_ATTRIBUTE(unused)
 static void show(lua_State *L, int id)
 {
     int n = lua_gettop(L);
@@ -71,10 +72,10 @@ static void *touserdata(lua_State *L)
     return userdata;
 }
 
-static void *newuserdata(lua_State *L, size_t sz)
+static void *newuserdata(lua_State *L, size_t sz, int op)
 {
     void *userdata = NULL; /* :func() */
-    if (lua_istable(L, 1) && lua_gettop(L) > 1)
+    if (lua_istable(L, 1) && lua_gettop(L) > op)
     {
         lua_pushstring(L, USERDATA);
         if (lua_rawget(L, 1) == LUA_TUSERDATA)
@@ -90,6 +91,37 @@ static void *newuserdata(lua_State *L, size_t sz)
         memset(userdata, 0, sz);
     }
     return userdata;
+}
+
+static unsigned int array_getnum(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
+{
+    unsigned int counter = 0;
+    if (lua_rawlen(L, idx) < num)
+    {
+        return counter;
+    }
+    idx = idx < 0 ? idx - 1 : idx;
+    for (unsigned int i = 0; i++ < num;)
+    {
+        lua_pushinteger(L, i);
+        if (lua_rawget(L, idx) == LUA_TNUMBER)
+        {
+            ptr[counter++] = lua_tonumber(L, -1);
+        }
+        lua_pop(L, 1);
+    }
+    return counter;
+}
+
+static void array_setnum(lua_State *L, int idx, const lua_Number *ptr, unsigned int num)
+{
+    idx = idx < 0 ? idx - 2 : idx;
+    for (unsigned int i = 0; i < num; ++i)
+    {
+        lua_pushinteger(L, i + 1);
+        lua_pushnumber(L, ptr[i]);
+        lua_rawset(L, idx);
+    }
 }
 
 #include "a/math.h"
@@ -195,7 +227,7 @@ static void open_version(lua_State *L)
 
 static int pid_from(lua_State *L)
 {
-    a_pid_s *ctx = (a_pid_s *)newuserdata(L, sizeof(a_pid_s));
+    a_pid_s *ctx = (a_pid_s *)newuserdata(L, sizeof(a_pid_s), 1);
     if (lua_type(L, -1) == LUA_TTABLE)
     {
         lua_pushstring(L, USERDATA);
@@ -273,7 +305,7 @@ static int pid_init(lua_State *L)
     int n = lua_gettop(L) - lua_istable(L, 1);
     if (n > 2)
     {
-        a_pid_s *ctx = (a_pid_s *)newuserdata(L, sizeof(a_pid_s));
+        a_pid_s *ctx = (a_pid_s *)newuserdata(L, sizeof(a_pid_s), 3);
         ctx->ts = luaL_checknumber(L, 1);
         switch (n)
         {
@@ -554,6 +586,627 @@ static void open_pid(lua_State *L)
     lua_rawset(L, -3);
 }
 
+#include "a/polytrack.h"
+
+static int polytrack3_from(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)newuserdata(L, sizeof(a_polytrack3_s), 1);
+    if (lua_type(L, -1) == LUA_TTABLE)
+    {
+        lua_pushstring(L, USERDATA);
+        lua_pushlightuserdata(L, ctx);
+        lua_rawset(L, 1); /* :from() */
+    }
+#undef get
+#define get(field, num)                       \
+    lua_pushstring(L, #field);                \
+    if (lua_rawget(L, -3) == LUA_TTABLE)      \
+    {                                         \
+        array_getnum(L, -1, ctx->field, num); \
+    }                                         \
+    lua_pop(L, 1)
+    get(t, 2);
+    get(q, 2);
+    get(v, 2);
+    get(k, 4);
+#undef get
+    return 1;
+}
+
+static int polytrack3_into(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)touserdata(L);
+    if (ctx)
+    {
+        lua_createtable(L, 0, 4);
+#undef set
+#define set(field, num)                   \
+    lua_pushstring(L, #field);            \
+    lua_createtable(L, num, 0);           \
+    array_setnum(L, -1, ctx->field, num); \
+    lua_rawset(L, -3)
+        set(t, 2);
+        set(q, 2);
+        set(v, 2);
+        set(k, 4);
+#undef set
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack3_init(lua_State *L)
+{
+    int n = lua_gettop(L);
+    if (n > 1)
+    {
+        a_real_t target[3];
+        a_real_t source[3];
+        luaL_checktype(L, 1, LUA_TTABLE);
+        luaL_checktype(L, 2, LUA_TTABLE);
+        if (n > 2)
+        {
+            luaL_checktype(L, 3, LUA_TTABLE);
+        }
+        a_polytrack3_s *ctx = (a_polytrack3_s *)newuserdata(L, sizeof(a_polytrack3_s), 2);
+        array_getnum(L, 1, source, 3);
+        array_getnum(L, 2, target, 3);
+        a_polytrack3_init(ctx, source, target);
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack3_all(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t out[3];
+        a_real_t ts = luaL_checknumber(L, 2);
+        a_polytrack3_all(ctx, ts, out);
+        lua_createtable(L, 3, 0);
+        array_setnum(L, -1, out, 3);
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack3_pos(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack3_pos(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack3_vec(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack3_vec(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack3_acc(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack3_acc(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static const RegFunc polytrack3[] = {
+    {"from", polytrack3_from},
+    {"into", polytrack3_into},
+    {"init", polytrack3_init},
+    {"all", polytrack3_all},
+    {"pos", polytrack3_pos},
+    {"vec", polytrack3_vec},
+    {"acc", polytrack3_acc},
+    {NULL, NULL},
+};
+
+static int polytrack3_new(lua_State *L)
+{
+    if (lua_istable(L, 1) && lua_istable(L, 2) && lua_istable(L, 3) && lua_gettop(L) > 3)
+    {
+        /* :polytrack3() */
+        lua_rotate(L, 1, -1);
+        lua_pop(L, 1);
+    }
+
+    int ok = polytrack3_init(L);
+
+    lua_createtable(L, 0, sizeof(polytrack3) / sizeof(polytrack3[0]) - 1);
+    lua_pushstring(L, USERDATA);
+    lua_pushvalue(L, -3);
+    lua_rawset(L, -3);
+    for (const RegFunc *p = polytrack3; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+
+    lua_createtable(L, 0, 1);
+    lua_pushstring(L, CALL);
+    lua_pushcclosure(L, polytrack3_all, 0);
+    lua_rawset(L, -3);
+    lua_setmetatable(L, -2);
+
+    return ok;
+}
+
+static const RegFunc polytrack3mt[] = {
+    {CALL, polytrack3_new},
+    {NULL, NULL},
+};
+
+static void open_polytrack3(lua_State *L)
+{
+    /* table[name] = {} */
+    const char *name = "polytrack3";
+    lua_pushstring(L, name);
+
+    lua_createtable(L, 0, sizeof(polytrack3) / sizeof(polytrack3[0]) - 1);
+    for (const RegFunc *p = polytrack3; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+
+    lua_createtable(L, 0, sizeof(polytrack3mt) / sizeof(polytrack3mt[0]));
+    /* metatable[NAME]=name */
+    lua_pushstring(L, NAME);
+    lua_pushstring(L, name);
+    lua_rawset(L, -3);
+    for (const RegFunc *p = polytrack3mt; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+    lua_setmetatable(L, -2);
+
+    lua_rawset(L, -3);
+}
+
+static int polytrack5_from(lua_State *L)
+{
+    a_polytrack5_s *ctx = (a_polytrack5_s *)newuserdata(L, sizeof(a_polytrack5_s), 1);
+    if (lua_type(L, -1) == LUA_TTABLE)
+    {
+        lua_pushstring(L, USERDATA);
+        lua_pushlightuserdata(L, ctx);
+        lua_rawset(L, 1); /* :from() */
+    }
+#undef get
+#define get(field, num)                       \
+    lua_pushstring(L, #field);                \
+    if (lua_rawget(L, -3) == LUA_TTABLE)      \
+    {                                         \
+        array_getnum(L, -1, ctx->field, num); \
+    }                                         \
+    lua_pop(L, 1)
+    get(t, 2);
+    get(q, 2);
+    get(v, 2);
+    get(a, 2);
+    get(k, 6);
+#undef get
+    return 1;
+}
+
+static int polytrack5_into(lua_State *L)
+{
+    a_polytrack5_s *ctx = (a_polytrack5_s *)touserdata(L);
+    if (ctx)
+    {
+        lua_createtable(L, 0, 4);
+#undef set
+#define set(field, num)                   \
+    lua_pushstring(L, #field);            \
+    lua_createtable(L, num, 0);           \
+    array_setnum(L, -1, ctx->field, num); \
+    lua_rawset(L, -3)
+        set(t, 2);
+        set(q, 2);
+        set(v, 2);
+        set(a, 2);
+        set(k, 6);
+#undef set
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack5_init(lua_State *L)
+{
+    int n = lua_gettop(L);
+    if (n > 1)
+    {
+        a_real_t target[4];
+        a_real_t source[4];
+        luaL_checktype(L, 1, LUA_TTABLE);
+        luaL_checktype(L, 2, LUA_TTABLE);
+        if (n > 2)
+        {
+            luaL_checktype(L, 3, LUA_TTABLE);
+        }
+        a_polytrack5_s *ctx = (a_polytrack5_s *)newuserdata(L, sizeof(a_polytrack5_s), 2);
+        array_getnum(L, 1, source, 4);
+        array_getnum(L, 2, target, 4);
+        a_polytrack5_init(ctx, source, target);
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack5_all(lua_State *L)
+{
+    a_polytrack5_s *ctx = (a_polytrack5_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t out[3];
+        a_real_t ts = luaL_checknumber(L, 2);
+        a_polytrack5_all(ctx, ts, out);
+        lua_createtable(L, 3, 0);
+        array_setnum(L, -1, out, 3);
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack5_pos(lua_State *L)
+{
+    a_polytrack5_s *ctx = (a_polytrack5_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack5_pos(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack5_vec(lua_State *L)
+{
+    a_polytrack5_s *ctx = (a_polytrack5_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack5_vec(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack5_acc(lua_State *L)
+{
+    a_polytrack5_s *ctx = (a_polytrack5_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack5_acc(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static const RegFunc polytrack5[] = {
+    {"from", polytrack5_from},
+    {"into", polytrack5_into},
+    {"init", polytrack5_init},
+    {"all", polytrack5_all},
+    {"pos", polytrack5_pos},
+    {"vec", polytrack5_vec},
+    {"acc", polytrack5_acc},
+    {NULL, NULL},
+};
+
+static int polytrack5_new(lua_State *L)
+{
+    if (lua_istable(L, 1) && lua_istable(L, 2) && lua_istable(L, 3) && lua_gettop(L) > 3)
+    {
+        /* :polytrack5() */
+        lua_rotate(L, 1, -1);
+        lua_pop(L, 1);
+    }
+
+    int ok = polytrack5_init(L);
+
+    lua_createtable(L, 0, sizeof(polytrack5) / sizeof(polytrack5[0]) - 1);
+    lua_pushstring(L, USERDATA);
+    lua_pushvalue(L, -3);
+    lua_rawset(L, -3);
+    for (const RegFunc *p = polytrack5; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+
+    lua_createtable(L, 0, 1);
+    lua_pushstring(L, CALL);
+    lua_pushcclosure(L, polytrack5_all, 0);
+    lua_rawset(L, -3);
+    lua_setmetatable(L, -2);
+
+    return ok;
+}
+
+static const RegFunc polytrack5mt[] = {
+    {CALL, polytrack5_new},
+    {NULL, NULL},
+};
+
+static void open_polytrack5(lua_State *L)
+{
+    /* table[name] = {} */
+    const char *name = "polytrack5";
+    lua_pushstring(L, name);
+
+    lua_createtable(L, 0, sizeof(polytrack5) / sizeof(polytrack5[0]) - 1);
+    for (const RegFunc *p = polytrack5; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+
+    lua_createtable(L, 0, sizeof(polytrack5mt) / sizeof(polytrack5mt[0]));
+    /* metatable[NAME]=name */
+    lua_pushstring(L, NAME);
+    lua_pushstring(L, name);
+    lua_rawset(L, -3);
+    for (const RegFunc *p = polytrack5mt; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+    lua_setmetatable(L, -2);
+
+    lua_rawset(L, -3);
+}
+
+static int polytrack7_from(lua_State *L)
+{
+    a_polytrack7_s *ctx = (a_polytrack7_s *)newuserdata(L, sizeof(a_polytrack7_s), 1);
+    if (lua_type(L, -1) == LUA_TTABLE)
+    {
+        lua_pushstring(L, USERDATA);
+        lua_pushlightuserdata(L, ctx);
+        lua_rawset(L, 1); /* :from() */
+    }
+#undef get
+#define get(field, num)                       \
+    lua_pushstring(L, #field);                \
+    if (lua_rawget(L, -3) == LUA_TTABLE)      \
+    {                                         \
+        array_getnum(L, -1, ctx->field, num); \
+    }                                         \
+    lua_pop(L, 1)
+    get(t, 2);
+    get(q, 2);
+    get(v, 2);
+    get(a, 2);
+    get(j, 2);
+    get(k, 8);
+#undef get
+    return 1;
+}
+
+static int polytrack7_into(lua_State *L)
+{
+    a_polytrack7_s *ctx = (a_polytrack7_s *)touserdata(L);
+    if (ctx)
+    {
+        lua_createtable(L, 0, 4);
+#undef set
+#define set(field, num)                   \
+    lua_pushstring(L, #field);            \
+    lua_createtable(L, num, 0);           \
+    array_setnum(L, -1, ctx->field, num); \
+    lua_rawset(L, -3)
+        set(t, 2);
+        set(q, 2);
+        set(v, 2);
+        set(a, 2);
+        set(j, 2);
+        set(k, 8);
+#undef set
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack7_init(lua_State *L)
+{
+    int n = lua_gettop(L);
+    if (n > 1)
+    {
+        a_real_t target[5];
+        a_real_t source[5];
+        luaL_checktype(L, 1, LUA_TTABLE);
+        luaL_checktype(L, 2, LUA_TTABLE);
+        if (n > 2)
+        {
+            luaL_checktype(L, 3, LUA_TTABLE);
+        }
+        a_polytrack7_s *ctx = (a_polytrack7_s *)newuserdata(L, sizeof(a_polytrack7_s), 2);
+        array_getnum(L, 1, source, 5);
+        array_getnum(L, 2, target, 5);
+        a_polytrack7_init(ctx, source, target);
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack7_all(lua_State *L)
+{
+    a_polytrack7_s *ctx = (a_polytrack7_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t out[4];
+        a_real_t ts = luaL_checknumber(L, 2);
+        a_polytrack7_all(ctx, ts, out);
+        lua_createtable(L, 4, 0);
+        array_setnum(L, -1, out, 4);
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack7_pos(lua_State *L)
+{
+    a_polytrack7_s *ctx = (a_polytrack7_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack7_pos(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack7_vec(lua_State *L)
+{
+    a_polytrack7_s *ctx = (a_polytrack7_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack7_vec(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack7_acc(lua_State *L)
+{
+    a_polytrack7_s *ctx = (a_polytrack7_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack7_acc(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static int polytrack7_jer(lua_State *L)
+{
+    a_polytrack7_s *ctx = (a_polytrack7_s *)touserdata(L);
+    if (ctx)
+    {
+        a_real_t ts = luaL_checknumber(L, 2);
+        lua_pushnumber(L, a_polytrack7_jer(ctx, ts));
+        return 1;
+    }
+    return 0;
+}
+
+static const RegFunc polytrack7[] = {
+    {"from", polytrack7_from},
+    {"into", polytrack7_into},
+    {"init", polytrack7_init},
+    {"all", polytrack7_all},
+    {"pos", polytrack7_pos},
+    {"vec", polytrack7_vec},
+    {"acc", polytrack7_acc},
+    {"jer", polytrack7_jer},
+    {NULL, NULL},
+};
+
+static int polytrack7_new(lua_State *L)
+{
+    if (lua_istable(L, 1) && lua_istable(L, 2) && lua_istable(L, 3) && lua_gettop(L) > 3)
+    {
+        /* :polytrack7() */
+        lua_rotate(L, 1, -1);
+        lua_pop(L, 1);
+    }
+
+    int ok = polytrack7_init(L);
+
+    lua_createtable(L, 0, sizeof(polytrack7) / sizeof(polytrack7[0]) - 1);
+    lua_pushstring(L, USERDATA);
+    lua_pushvalue(L, -3);
+    lua_rawset(L, -3);
+    for (const RegFunc *p = polytrack7; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+
+    lua_createtable(L, 0, 1);
+    lua_pushstring(L, CALL);
+    lua_pushcclosure(L, polytrack7_all, 0);
+    lua_rawset(L, -3);
+    lua_setmetatable(L, -2);
+
+    return ok;
+}
+
+static const RegFunc polytrack7mt[] = {
+    {CALL, polytrack7_new},
+    {NULL, NULL},
+};
+
+static void open_polytrack7(lua_State *L)
+{
+    /* table[name] = {} */
+    const char *name = "polytrack7";
+    lua_pushstring(L, name);
+
+    lua_createtable(L, 0, sizeof(polytrack7) / sizeof(polytrack7[0]) - 1);
+    for (const RegFunc *p = polytrack7; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+
+    lua_createtable(L, 0, sizeof(polytrack7mt) / sizeof(polytrack7mt[0]));
+    /* metatable[NAME]=name */
+    lua_pushstring(L, NAME);
+    lua_pushstring(L, name);
+    lua_rawset(L, -3);
+    for (const RegFunc *p = polytrack7mt; p->name; ++p)
+    {
+        /* table[name]=func */
+        lua_pushstring(L, p->name);
+        lua_pushcclosure(L, p->func, 0);
+        lua_rawset(L, -3);
+    }
+    lua_setmetatable(L, -2);
+
+    lua_rawset(L, -3);
+}
+
 A_PUBLIC LUA_API int luaopen_liba(lua_State *L);
 
 int luaopen_liba(lua_State *L)
@@ -562,5 +1215,8 @@ int luaopen_liba(lua_State *L)
     open_liba(L);
     open_version(L);
     open_pid(L);
+    open_polytrack3(L);
+    open_polytrack5(L);
+    open_polytrack7(L);
     return 1;
 }
