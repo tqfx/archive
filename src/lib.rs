@@ -13,9 +13,6 @@ liba = "0.1"
 
 #![deny(missing_docs)]
 
-pub mod pid;
-pub use crate::pid::PID;
-
 use libc;
 
 extern "C" {
@@ -98,6 +95,14 @@ println!("1/sqrt({})={}", 4, liba::inv_sqrt(4.0));
 pub fn inv_sqrt(x: f32) -> f32 {
     unsafe { a_inv_sqrt(x) }
 }
+
+pub mod pid;
+pub use crate::pid::PID;
+
+pub mod polytrack;
+pub use crate::polytrack::PolyTrack3;
+pub use crate::polytrack::PolyTrack5;
+pub use crate::polytrack::PolyTrack7;
 
 #[cfg(test)]
 mod tests {

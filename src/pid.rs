@@ -49,12 +49,18 @@ extern "C" {
 }
 
 /**
-proportional integral derivative controller
-
 ## Examples
 
 ```no_run
-let mut pid = liba::PID::new_pos(0.1, 1.0, 0.01, 0.1, -1.0, 1.0, 1.0);
+let mut pid = liba::PID::new(1.0, -10.0, 10.0);
+pid.mode(liba::pid::OFF);
+pid.mode(liba::pid::POS);
+pid.mode(liba::pid::INC);
+pid.kpid(10.0, 0.1, 1.0);
+pid.time(0.1);
+pid.pos(10.0);
+pid.off();
+pid.inc();
 pid.proc(1.0, 0.0);
 pid.done();
 ```
@@ -78,6 +84,7 @@ impl PID {
             mode: OFF,
         }
     }
+
     /// initialize function for positional PID controller
     pub fn new_pos(
         ts: f64,
@@ -104,6 +111,7 @@ impl PID {
             e: 0.0,
         }
     }
+
     /// initialize function for incremental PID controller
     pub fn new_inc(ts: f64, kp: f64, ki: f64, kd: f64, outmin: f64, outmax: f64) -> Self {
         Self {
@@ -123,109 +131,42 @@ impl PID {
         }
     }
 
-    /**
-    set turn off mode
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0).off();
-    ```
-    */
+    /// set turn off mode
     pub fn off(&mut self) -> &mut PID {
         unsafe { a_pid_off(self).as_mut().unwrap_unchecked() }
     }
 
-    /**
-    set incremental mode
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0).inc();
-    ```
-    */
+    /// set incremental mode
     pub fn inc(&mut self) -> &mut PID {
         unsafe { a_pid_inc(self).as_mut().unwrap_unchecked() }
     }
 
-    /**
-    set positional mode
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0).pos(1.0);
-    ```
-    */
+    /// set positional mode
     pub fn pos(&mut self, max: f64) -> &mut PID {
         unsafe { a_pid_pos(self, max).as_mut().unwrap_unchecked() }
     }
 
-    /**
-    set mode for PID controller
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0)
-        .mode(liba::pid::OFF)
-        .mode(liba::pid::POS)
-        .mode(liba::pid::INC);
-    ```
-    */
+    /// set mode for PID controller
     pub fn mode(&mut self, mode: u32) -> &mut PID {
         unsafe { a_pid_mode(self, mode).as_mut().unwrap_unchecked() }
     }
 
-    /**
-    set sampling period for PID controller
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0).time(0.01);
-    ```
-    */
+    /// set sampling period for PID controller
     pub fn time(&mut self, ts: f64) -> &mut PID {
         unsafe { a_pid_time(self, ts).as_mut().unwrap_unchecked() }
     }
 
-    /**
-    set proportional integral derivative constant for PID controller
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0).kpid(1.0, 0.01, 0.1);
-    ```
-    */
+    /// set proportional integral derivative constant for PID controller
     pub fn kpid(&mut self, kp: f64, ki: f64, kd: f64) -> &mut PID {
         unsafe { a_pid_kpid(self, kp, ki, kd).as_mut().unwrap_unchecked() }
     }
 
-    /**
-    process function for PID controller
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0).proc(1.0,0.1);
-    ```
-    */
+    /// process function for PID controller
     pub fn proc(&mut self, set: f64, r#ref: f64) -> f64 {
         unsafe { a_pid_proc(self, set, r#ref) }
     }
 
-    /**
-    terminate function for PID controller
-
-    # Examples
-
-    ```no_run
-    liba::PID::new(0.1, -1.0, 1.0).done();
-    ```
-    */
+    /// terminate function for PID controller
     pub fn done(&mut self) -> &mut PID {
         unsafe { a_pid_done(self).as_mut().unwrap_unchecked() }
     }
