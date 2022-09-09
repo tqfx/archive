@@ -91,9 +91,9 @@
 
 /* attribute fallthrough */
 #if a_prereq_gnuc(7, 1) || __has_attribute(fallthrough)
-#define A_FALLTHROUGH __attribute__((fallthrough));
+#define A_FALLTHROUGH __attribute__((fallthrough))
 #else /* !fallthrough */
-#define A_FALLTHROUGH
+#define A_FALLTHROUGH ((void)(0))
 #endif /* fallthrough */
 
 /* attribute deprecated */

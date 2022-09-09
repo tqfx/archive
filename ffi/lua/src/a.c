@@ -281,7 +281,7 @@ static int pid_init(lua_State *L)
         {
             ctx->summax = luaL_checknumber(L, 7);
             ctx->mode = A_PID_POS;
-            A_FALLTHROUGH
+            A_FALLTHROUGH;
         }
         case 6: /* ts, kp, ki, kd, outmin, outmax */
         {
@@ -301,7 +301,7 @@ static int pid_init(lua_State *L)
         {
             ctx->summax = luaL_checknumber(L, 4);
             ctx->mode = A_PID_POS;
-            A_FALLTHROUGH
+            A_FALLTHROUGH;
         }
         case 3: /* ts, outmin, outmax */
         {
