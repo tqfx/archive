@@ -83,7 +83,7 @@ extern "C" {
 A_PUBLIC a_void_t a_polytrack3_init(a_polytrack3_s *ctx, const a_real_t source[3], const a_real_t target[3]);
 
 /*!
- @brief process function for cubic polynomial trajectory
+ @brief process function for cubic polynomial trajectory position
  @f{aligned}{
   \begin{array}{l}
   q(t)=k_{0}+k_{1}\left(t-t_{0}\right)+k_{2}\left(t-t_{0}\right)^{2}+k_{3}\left(t-t_{0}\right)^{3} \\
@@ -96,7 +96,7 @@ A_PUBLIC a_void_t a_polytrack3_init(a_polytrack3_s *ctx, const a_real_t source[3
 A_PUBLIC a_real_t a_polytrack3_pos(const a_polytrack3_s *ctx, a_real_t ts);
 
 /*!
- @brief process function for cubic polynomial trajectory
+ @brief process function for cubic polynomial trajectory velocity
  @f{aligned}{
   \begin{array}{l}
   \dot{q}(t)=k_{1}+2 k_{2}\left(t-t_{0}\right)+3 k_{3}\left(t-t_{0}\right)^{2} \\
@@ -109,7 +109,7 @@ A_PUBLIC a_real_t a_polytrack3_pos(const a_polytrack3_s *ctx, a_real_t ts);
 A_PUBLIC a_real_t a_polytrack3_vec(const a_polytrack3_s *ctx, a_real_t ts);
 
 /*!
- @brief process function for cubic polynomial trajectory
+ @brief process function for cubic polynomial trajectory acceleration
  @f{aligned}{
   \begin{array}{l}
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)
@@ -170,7 +170,7 @@ A_PUBLIC a_void_t a_polytrack3_all(const a_polytrack3_s *ctx, a_real_t ts, a_rea
 A_PUBLIC a_void_t a_polytrack5_init(a_polytrack5_s *ctx, const a_real_t source[4], const a_real_t target[4]);
 
 /*!
- @brief process function for quintic polynomial trajectory
+ @brief process function for quintic polynomial trajectory position
  @f{aligned}{
   \begin{array}{l}
   q(t)=k_{0}+k_{1}\left(t-t_{0}\right)+k_{2}\left(t-t_{0}\right)^{2}+k_{3}\left(t-t_{0}\right)^{3}+k_{4}\left(t-t_{0}\right)^{4}+k_{5}\left(t-t_{0}\right)^{5}\\
@@ -183,7 +183,7 @@ A_PUBLIC a_void_t a_polytrack5_init(a_polytrack5_s *ctx, const a_real_t source[4
 A_PUBLIC a_real_t a_polytrack5_pos(const a_polytrack5_s *ctx, a_real_t ts);
 
 /*!
- @brief process function for quintic polynomial trajectory
+ @brief process function for quintic polynomial trajectory velocity
  @f{aligned}{
   \begin{array}{l}
   \dot{q}(t)=k_{1}+2 k_{2}\left(t-t_{0}\right)+3 k_{3}\left(t-t_{0}\right)^{2}+4 k_{4}\left(t-t_{0}\right)^{3}+5 k_{5}\left(t-t_{0}\right)^{4}\\
@@ -196,7 +196,7 @@ A_PUBLIC a_real_t a_polytrack5_pos(const a_polytrack5_s *ctx, a_real_t ts);
 A_PUBLIC a_real_t a_polytrack5_vec(const a_polytrack5_s *ctx, a_real_t ts);
 
 /*!
- @brief process function for quintic polynomial trajectory
+ @brief process function for quintic polynomial trajectory acceleration
  @f{aligned}{
   \begin{array}{l}
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)+12 k_{4}\left(t-t_{0}\right)^{2}+20 k_{5}\left(t-t_{0}\right)^{3}
@@ -261,7 +261,7 @@ A_PUBLIC a_void_t a_polytrack5_all(const a_polytrack5_s *ctx, a_real_t ts, a_rea
 A_PUBLIC a_void_t a_polytrack7_init(a_polytrack7_s *ctx, const a_real_t source[5], const a_real_t target[5]);
 
 /*!
- @brief process function for hepta polynomial trajectory
+ @brief process function for hepta polynomial trajectory position
  @f{aligned}{
   \begin{array}{l}
   q(t)=k_{0}+k_{1}\left(t-t_{0}\right)+k_{2}\left(t-t_{0}\right)^{2}+k_{3}\left(t-t_{0}\right)^{3}+k_{4}\left(t-t_{0}\right)^{4}+k_{5}\left(t-t_{0}\right)^{5}+k_{6}\left(t-t_{0}\right)^{6}+k_{7}\left(t-t_{0}\right)^{7}\\
@@ -274,7 +274,7 @@ A_PUBLIC a_void_t a_polytrack7_init(a_polytrack7_s *ctx, const a_real_t source[5
 A_PUBLIC a_real_t a_polytrack7_pos(const a_polytrack7_s *ctx, a_real_t ts);
 
 /*!
- @brief process function for hepta polynomial trajectory
+ @brief process function for hepta polynomial trajectory velocity
  @f{aligned}{
   \begin{array}{l}
   \dot{q}(t)=k_{1}+2 k_{2}\left(t-t_{0}\right)+3 k_{3}\left(t-t_{0}\right)^{2}+4 k_{4}\left(t-t_{0}\right)^{3}+5 k_{5}\left(t-t_{0}\right)^{4}+6 k_{6}\left(t-t_{0}\right)^{5}+7 k_{7}\left(t-t_{0}\right)^{6}\\
@@ -287,7 +287,7 @@ A_PUBLIC a_real_t a_polytrack7_pos(const a_polytrack7_s *ctx, a_real_t ts);
 A_PUBLIC a_real_t a_polytrack7_vec(const a_polytrack7_s *ctx, a_real_t ts);
 
 /*!
- @brief process function for hepta polynomial trajectory
+ @brief process function for hepta polynomial trajectory acceleration
  @f{aligned}{
   \begin{array}{l}
   \ddot{q}(t)=2 k_{2}+6 k_{3}\left(t-t_{0}\right)+12 k_{4}\left(t-t_{0}\right)^{2}+20 k_{5}\left(t-t_{0}\right)^{3}+30 k_{6}\left(t-t_{0}\right)^{4}+42 k_{7}\left(t-t_{0}\right)^{5}\\
@@ -300,7 +300,7 @@ A_PUBLIC a_real_t a_polytrack7_vec(const a_polytrack7_s *ctx, a_real_t ts);
 A_PUBLIC a_real_t a_polytrack7_acc(const a_polytrack7_s *ctx, a_real_t ts);
 
 /*!
- @brief process function for hepta polynomial trajectory
+ @brief process function for hepta polynomial trajectory jerk
  @f{aligned}{
   \begin{array}{l}
   q^{(3)}(t)=6 k_{3}+24 k_{4}\left(t-t_{0}\right)+60 k_{5}\left(t-t_{0}\right)^{2}+120 k_{6}\left(t-t_{0}\right)^{3}+210 k_{7}\left(t-t_{0}\right)^{4}
