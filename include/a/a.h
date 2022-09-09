@@ -82,12 +82,17 @@
 #define a_likely(...) (__VA_ARGS__)
 #endif /* __GNUC__ */
 
-/* attribute format */
-#if a_prereq_gnuc(2, 4) || __has_attribute(format)
-#define A_FORMAT(...) __attribute__((format(__VA_ARGS__)))
-#else /* !format */
-#define A_FORMAT(...)
-#endif /* format */
+#if defined(__GNUC__) || defined(__clang__)
+#define A_ATTRIBUTE(...) __attribute__((__VA_ARGS__))
+#else /* !__attribute__ */
+#define A_ATTRIBUTE(...)
+#endif /* __attribute__ */
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define A_DECLSPEC(...) __declspec(__VA_ARGS__)
+#else /* !__declspec */
+#define A_DECLSPEC(...)
+#endif /* __declspec */
 
 /* attribute fallthrough */
 #if a_prereq_gnuc(7, 1) || __has_attribute(fallthrough)
@@ -95,6 +100,13 @@
 #else /* !fallthrough */
 #define A_FALLTHROUGH ((void)(0))
 #endif /* fallthrough */
+
+/* attribute format */
+#if a_prereq_gnuc(2, 4) || __has_attribute(format)
+#define A_FORMAT(...) __attribute__((format(__VA_ARGS__)))
+#else /* !format */
+#define A_FORMAT(...)
+#endif /* format */
 
 /* attribute deprecated */
 #if a_prereq_gnuc(3, 2) || __has_attribute(deprecated)
