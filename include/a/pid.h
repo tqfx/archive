@@ -33,6 +33,12 @@
 #include "a.h"
 
 /*!
+ @ingroup A
+ @addtogroup A_PID proportional integral derivative controller
+ @{
+*/
+
+/*!
  @brief instance enumeration for PID controller mode
 */
 typedef enum a_pid_e
@@ -142,7 +148,7 @@ A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t m
  @param[in] set setpoint
  @param[in] ref feedback
  @return output
-  @retval set When PID is off
+  @retval set when PID controller is off
 */
 A_PUBLIC a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref);
 
@@ -155,5 +161,7 @@ A_PUBLIC a_pid_s *a_pid_done(a_pid_s *ctx);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
+
+/*! @} A_PID */
 
 #endif /* __A_PID_H__ */

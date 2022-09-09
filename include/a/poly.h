@@ -9,6 +9,12 @@
 
 #include "a.h"
 
+/*!
+ @ingroup A
+ @addtogroup A_POLY polynomial
+ @{
+*/
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
@@ -45,5 +51,7 @@ A_PUBLIC a_real_t a_poly_r(const a_real_t *a, a_size_t n, a_real_t x);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
+
+/*! @} A_POLY */
 
 #endif /* __A_POLY_H__ */

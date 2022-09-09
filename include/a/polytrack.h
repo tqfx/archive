@@ -11,6 +11,12 @@
 #include "a.h"
 
 /*!
+ @ingroup A
+ @addtogroup A_POLYTRACK polynomial trajectory
+ @{
+*/
+
+/*!
  @brief instance structure for cubic polynomial trajectory
 */
 typedef struct a_polytrack3_s
@@ -329,5 +335,7 @@ A_PUBLIC a_void_t a_polytrack7_all(const a_polytrack7_s *ctx, a_real_t ts, a_rea
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
+
+/*! @} A_POLYTRACK */
 
 #endif /* __A_POLYTRACK_H__ */
