@@ -5,7 +5,7 @@ get_filename_component(JAVA_HMOE "${JAVA_BINDIR}" DIRECTORY)
 set(JAVA_LIBDIR "${JAVA_HMOE}/lib")
 
 add_jar(ac-jar
-  SOURCES src/ac.java
+  SOURCES src/${PROJECT_NAME}/ac.java
   ENTRY_POINT ac OUTPUT_NAME ac
   GENERATE_NATIVE_HEADERS jar-native-ac
 )
@@ -18,7 +18,7 @@ target_link_libraries(ac-jni PRIVATE jar-native-ac ac)
 target_library_options(ac-jni)
 
 add_jar(ax-jar
-  SOURCES src/ax.java
+  SOURCES src/${PROJECT_NAME}/ax.java
   ENTRY_POINT ax OUTPUT_NAME ax
   GENERATE_NATIVE_HEADERS jar-native-ax
 )

@@ -10,7 +10,7 @@ endfunction()
 
 unittest(jar-ac acTest.jar)
 add_jar(ac-jar-test
-  SOURCES src/ac.java test/acTest.java
+  SOURCES test/acTest.java src/${PROJECT_NAME}/ac.java
   INCLUDE_JARS ac-jar
   OUTPUT_NAME acTest
   ENTRY_POINT acTest
@@ -18,7 +18,7 @@ add_jar(ac-jar-test
 
 unittest(jar-ax axTest.jar)
 add_jar(ax-jar-test
-  SOURCES src/ax.java test/axTest.java
+  SOURCES test/axTest.java src/${PROJECT_NAME}/ax.java
   INCLUDE_JARS ax-jar
   OUTPUT_NAME axTest
   ENTRY_POINT axTest
