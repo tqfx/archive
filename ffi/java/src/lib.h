@@ -26,6 +26,8 @@
 #pragma warning(pop)
 #endif /* _MSC_VER */
 
+#define ARRAY_SIZE(A) (sizeof(A) / sizeof(*A))
+
 #define CLASSPATH "liba/ac$"
 
 #endif /* __LIB_H__ */

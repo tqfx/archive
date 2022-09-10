@@ -12,7 +12,7 @@
 #endif /* diagnostic */
 #include <string.h>
 
-#define Larray(T) (sizeof(T) / sizeof(*(T)))
+#define Larray(A) (sizeof(A) / sizeof(*A))
 #define Lstack(L) lua_show(L, __LINE__)
 
 typedef struct

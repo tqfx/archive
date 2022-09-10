@@ -426,6 +426,12 @@ typedef long double a_real_t;
 #define a_align(base, size) ((a_cast_r(a_size_t, size) + (base)-1) & ~((base)-1))
 
 /*!
+ @brief size of an array
+ @param a must be an array variable
+*/
+#define a_arrayof(a) (sizeof(a) / sizeof(*a))
+
+/*!
  @brief offset of a structure member
  @param type structure type
  @param member member variable
