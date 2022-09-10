@@ -7,7 +7,7 @@ option_end()
 
 if has_config("with-lua") then
     add_requires("lua")
-    target("a-lua")
+    target("a.lua")
         set_basename("a")
         add_deps("a.objs")
         add_packages("lua")

@@ -139,7 +139,7 @@ option_end()
 
 if has_config("with-rust") then
     add_requires("cargo::liba", {configs = {cargo_toml = path.join(os.projectdir(), "Cargo.toml")}})
-    target("a-rust")
+    target("a.rust")
         set_basename("a")
         set_kind("static")
         add_deps("a.objs")
