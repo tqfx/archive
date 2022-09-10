@@ -4,6 +4,7 @@ package.path = arg[0]:sub(0, -arg[0]:match("([^/\\]*)$"):len() - 1) .. "?.lua;" 
 local test = require("test")
 local a = require("liba")
 
+test:r(getmetatable(a.polytrack3))
 ctx = a.polytrack3.init({0, 0, 0}, {1, 1, 1})
 a.polytrack3.all(ctx, 0.5)
 a.polytrack3:all(ctx, 0.5)
@@ -25,6 +26,7 @@ ctx:vec(0.5)
 ctx:acc(0.5)
 ctx(0.5)
 
+test:r(getmetatable(a.polytrack5))
 ctx = a.polytrack5.init({0, 0, 0, 0}, {1, 1, 1, 1})
 a.polytrack5.all(ctx, 0.5)
 a.polytrack5:all(ctx, 0.5)
@@ -46,6 +48,7 @@ ctx:vec(0.5)
 ctx:acc(0.5)
 ctx(0.5)
 
+test:r(getmetatable(a.polytrack7))
 ctx = a.polytrack7.init({0, 0, 0, 0, 0}, {1, 1, 1, 1, 1})
 a.polytrack7.all(ctx, 0.5)
 a.polytrack7:all(ctx, 0.5)
