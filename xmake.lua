@@ -143,7 +143,7 @@ if has_config("with-rust") then
         set_basename("a")
         set_kind("static")
         add_deps("a.objs")
-        add_files("src/**.rs")
+        add_files("src/lib.rs")
         add_packages("cargo::liba")
     target_end()
 end
