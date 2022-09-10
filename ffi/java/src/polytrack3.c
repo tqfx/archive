@@ -3,94 +3,98 @@
 
 typedef struct
 {
+    JNIEnv *jenv;
+    jobject jobj;
     jfieldID t;
+    jobject lt;
     jfieldID q;
+    jobject lq;
     jfieldID v;
+    jobject lv;
     jfieldID k;
-    jobject ot;
-    jobject oq;
-    jobject ov;
-    jobject ok;
+    jobject lk;
 } j_polytrack3_s;
 
-static void j_polytrack3_new(JNIEnv *env, jobject obj, j_polytrack3_s *dat)
+static j_polytrack3_s *j_polytrack3_new(JNIEnv *jenv, jobject jobj, j_polytrack3_s *jctx)
 {
-    jclass cls = (*env)->FindClass(env, CLASSPATH "polytrack3");
-    dat->t = (*env)->GetFieldID(env, cls, "t", "[D");
-    dat->ot = (*env)->GetObjectField(env, obj, dat->t);
-    dat->q = (*env)->GetFieldID(env, cls, "q", "[D");
-    dat->oq = (*env)->GetObjectField(env, obj, dat->q);
-    dat->v = (*env)->GetFieldID(env, cls, "v", "[D");
-    dat->ov = (*env)->GetObjectField(env, obj, dat->v);
-    dat->k = (*env)->GetFieldID(env, cls, "k", "[D");
-    dat->ok = (*env)->GetObjectField(env, obj, dat->k);
+    jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "polytrack3");
+    jctx->t = (*jenv)->GetFieldID(jenv, jcls, "t", "[D");
+    jctx->lt = (*jenv)->GetObjectField(jenv, jobj, jctx->t);
+    jctx->q = (*jenv)->GetFieldID(jenv, jcls, "q", "[D");
+    jctx->lq = (*jenv)->GetObjectField(jenv, jobj, jctx->q);
+    jctx->v = (*jenv)->GetFieldID(jenv, jcls, "v", "[D");
+    jctx->lv = (*jenv)->GetObjectField(jenv, jobj, jctx->v);
+    jctx->k = (*jenv)->GetFieldID(jenv, jcls, "k", "[D");
+    jctx->lk = (*jenv)->GetObjectField(jenv, jobj, jctx->k);
+    jctx->jenv = jenv;
+    jctx->jobj = jobj;
+    return jctx;
 }
 
-static void j_polytrack3_get(JNIEnv *env, const j_polytrack3_s *dat, a_polytrack3_s *ctx)
+static jobject j_polytrack3_get(const j_polytrack3_s *jctx, a_polytrack3_s *ctx)
 {
-    (*env)->GetDoubleArrayRegion(env, dat->ot, 0, 2, ctx->t);
-    (*env)->GetDoubleArrayRegion(env, dat->oq, 0, 2, ctx->q);
-    (*env)->GetDoubleArrayRegion(env, dat->ov, 0, 2, ctx->v);
-    (*env)->GetDoubleArrayRegion(env, dat->ok, 0, 4, ctx->k);
+    JNIEnv *jenv = jctx->jenv;
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->lt, 0, ARRAY_SIZE(ctx->t), ctx->t);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->lq, 0, ARRAY_SIZE(ctx->q), ctx->q);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->lv, 0, ARRAY_SIZE(ctx->v), ctx->v);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->lk, 0, ARRAY_SIZE(ctx->k), ctx->k);
+    return jctx->jobj;
 }
 
-static void j_polytrack3_set(JNIEnv *env, const j_polytrack3_s *dat, const a_polytrack3_s *ctx)
+static jobject j_polytrack3_set(const j_polytrack3_s *jctx, const a_polytrack3_s *ctx)
 {
-    (*env)->SetDoubleArrayRegion(env, dat->ot, 0, 2, ctx->t);
-    (*env)->SetDoubleArrayRegion(env, dat->oq, 0, 2, ctx->q);
-    (*env)->SetDoubleArrayRegion(env, dat->ov, 0, 2, ctx->v);
-    (*env)->SetDoubleArrayRegion(env, dat->ok, 0, 4, ctx->k);
+    JNIEnv *jenv = jctx->jenv;
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->lt, 0, ARRAY_SIZE(ctx->t), ctx->t);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->lq, 0, ARRAY_SIZE(ctx->q), ctx->q);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->lv, 0, ARRAY_SIZE(ctx->v), ctx->v);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->lk, 0, ARRAY_SIZE(ctx->k), ctx->k);
+    return jctx->jobj;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_ac_00024polytrack3_init(JNIEnv *env, jobject obj, jdoubleArray jsource, jdoubleArray jtarget)
+JNIEXPORT jobject JNICALL Java_liba_ac_00024polytrack3_init(JNIEnv *jenv, jobject jobj, jdoubleArray jsource, jdoubleArray jtarget)
 {
     jdouble source[3], target[3];
-    (*env)->GetDoubleArrayRegion(env, jsource, 0, 3, source);
-    (*env)->GetDoubleArrayRegion(env, jtarget, 0, 3, target);
+    (*jenv)->GetDoubleArrayRegion(jenv, jsource, 0, ARRAY_SIZE(source), source);
+    (*jenv)->GetDoubleArrayRegion(jenv, jtarget, 0, ARRAY_SIZE(target), target);
     a_polytrack3_s ctx[1];
-    j_polytrack3_s dat[1];
-    j_polytrack3_new(env, obj, dat);
+    j_polytrack3_s jctx[1];
+    j_polytrack3_new(jenv, jobj, jctx);
     a_polytrack3_init(ctx, source, target);
-    j_polytrack3_set(env, dat, ctx);
-    return obj;
+    return j_polytrack3_set(jctx, ctx);
 }
 
-JNIEXPORT jdoubleArray JNICALL Java_liba_ac_00024polytrack3_all(JNIEnv *env, jobject obj, jdouble ts)
+JNIEXPORT jdoubleArray JNICALL Java_liba_ac_00024polytrack3_all(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     jdouble out[3];
     a_polytrack3_s ctx[1];
-    j_polytrack3_s dat[1];
-    j_polytrack3_new(env, obj, dat);
-    j_polytrack3_get(env, dat, ctx);
-    a_polytrack3_all(ctx, ts, out);
-    jdoubleArray jresult = (*env)->NewDoubleArray(env, 3);
-    (*env)->SetDoubleArrayRegion(env, jresult, 0, 3, out);
+    j_polytrack3_s jctx[1];
+    j_polytrack3_get(j_polytrack3_new(jenv, jobj, jctx), ctx);
+    a_polytrack3_all(ctx, jts, out);
+    jdoubleArray jresult = (*jenv)->NewDoubleArray(jenv, ARRAY_SIZE(out));
+    (*jenv)->SetDoubleArrayRegion(jenv, jresult, 0, ARRAY_SIZE(out), out);
     return jresult;
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack3_pos(JNIEnv *env, jobject obj, jdouble ts)
+JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack3_pos(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack3_s ctx[1];
-    j_polytrack3_s dat[1];
-    j_polytrack3_new(env, obj, dat);
-    j_polytrack3_get(env, dat, ctx);
-    return a_polytrack3_pos(ctx, ts);
+    j_polytrack3_s jctx[1];
+    j_polytrack3_get(j_polytrack3_new(jenv, jobj, jctx), ctx);
+    return a_polytrack3_pos(ctx, jts);
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack3_vec(JNIEnv *env, jobject obj, jdouble ts)
+JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack3_vec(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack3_s ctx[1];
-    j_polytrack3_s dat[1];
-    j_polytrack3_new(env, obj, dat);
-    j_polytrack3_get(env, dat, ctx);
-    return a_polytrack3_vec(ctx, ts);
+    j_polytrack3_s jctx[1];
+    j_polytrack3_get(j_polytrack3_new(jenv, jobj, jctx), ctx);
+    return a_polytrack3_vec(ctx, jts);
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack3_acc(JNIEnv *env, jobject obj, jdouble ts)
+JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack3_acc(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack3_s ctx[1];
-    j_polytrack3_s dat[1];
-    j_polytrack3_new(env, obj, dat);
-    j_polytrack3_get(env, dat, ctx);
-    return a_polytrack3_acc(ctx, ts);
+    j_polytrack3_s jctx[1];
+    j_polytrack3_get(j_polytrack3_new(jenv, jobj, jctx), ctx);
+    return a_polytrack3_acc(ctx, jts);
 }

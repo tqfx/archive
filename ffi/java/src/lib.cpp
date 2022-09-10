@@ -1,9 +1,9 @@
 #include "lib.hpp"
 #include "a/version.hpp"
 
-JNIEXPORT jstring JNICALL Java_liba_ax_version(JNIEnv *env, jclass)
+JNIEXPORT jstring JNICALL Java_liba_ax_version(JNIEnv *jenv, jclass)
 {
-    return env->NewStringUTF(a::version());
+    return jenv->NewStringUTF(a::version());
 }
 
 JNIEXPORT jint JNICALL Java_liba_ax_version_1major(JNIEnv *, jclass)
