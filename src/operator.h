@@ -10,7 +10,7 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wc++-compat"
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 
 // clang-format off
 
@@ -110,6 +110,6 @@
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 
 #endif /* __OPERATOR_H__ */

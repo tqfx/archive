@@ -15,11 +15,11 @@ static int inv_sqrt(lua_State *L)
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
         lua_Number y = a_inv_sqrt(x);
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
         lua_pushnumber(L, y);
     }
     return n;

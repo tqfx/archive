@@ -9,7 +9,7 @@
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Winline"
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 
 #include "a/list.h"
 

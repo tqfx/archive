@@ -14,7 +14,7 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 
 A_STATIC a_void_t test(void)
 {
@@ -29,7 +29,7 @@ A_STATIC a_void_t test(void)
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 
 A_STATIC a_void_t real_add1(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 {
@@ -76,14 +76,14 @@ A_STATIC a_void_t real_add2(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rh
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
     if (n)
     {
         DUFF_DEVICE_8(n, *p++ = *lhs++ + *rhs++);
     }
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 }
 
 A_STATIC a_void_t real_add3(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)

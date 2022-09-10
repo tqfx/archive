@@ -15,7 +15,7 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wc++-compat"
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 
 A_STATIC a_void_t test_intern(void)
 {
@@ -209,7 +209,7 @@ A_STATIC a_void_t test_intern(void)
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
-#endif /* __GNUC__ || __clang__ */
+#endif /* diagnostic */
 
 A_STATIC a_void_t test_extern(void)
 {
