@@ -21,6 +21,12 @@
  @{
 */
 
+#ifndef A_STR_NIL
+// clang-format off
+#define A_STR_NIL {A_NULL, 0, 0}
+// clang-format on
+#endif /* A_STR_NIL */
+
 /*!
  @brief instance structure for basic string
 */
@@ -30,12 +36,6 @@ typedef struct a_str_s
     a_size_t __num; /*!< length */
     a_size_t __mem; /*!< memory */
 } a_str_s;
-
-#ifndef A_STR_NIL
-// clang-format off
-#define A_STR_NIL {a_null, 0, 0}
-// clang-format on
-#endif /* A_STR_NIL */
 
 /*!
  @brief string for a pointer to string structure

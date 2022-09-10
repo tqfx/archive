@@ -111,7 +111,7 @@ a_void_t a_que_die(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_void_t a_que_ctor(a_que_s *ctx, a_size_t size)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_list_ctor(ctx->__head);
     ctx->__size = size ? size : sizeof(a_cast_u);
     ctx->__ptr = 0;
@@ -122,7 +122,7 @@ a_void_t a_que_ctor(a_que_s *ctx, a_size_t size)
 
 a_void_t a_que_dtor(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_que_drop_(ctx);
     dtor = dtor ? dtor : func;
     while (ctx->__cur)
@@ -140,8 +140,8 @@ a_void_t a_que_dtor(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj)
 {
-    assert(ctx);
-    assert(obj);
+    A_ASSERT(ctx);
+    A_ASSERT(obj);
     memcpy(ctx, obj, sizeof(*obj));
     memset(obj, 0, sizeof(*obj));
     return ctx;
@@ -149,7 +149,7 @@ a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj)
 
 a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_imax_t cur = 0;
     a_vptr_t vptr = 0;
     if (idx < 0)
@@ -179,7 +179,7 @@ a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx)
 
 a_void_t a_que_set(a_que_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     size = size ? size : sizeof(a_cast_u);
     a_que_drop(ctx, dtor);
     ctx->__size = size;
@@ -187,7 +187,7 @@ a_void_t a_que_set(a_que_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t))
 
 a_void_t a_que_drop(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_que_drop_(ctx);
     dtor = dtor ? dtor : func;
     for (a_size_t cur = ctx->__cur; cur--; ctx->__ptr[cur]->__vptr = 0)
@@ -199,9 +199,9 @@ a_void_t a_que_drop(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
 {
-    assert(ctx);
-    assert(lhs);
-    assert(rhs);
+    A_ASSERT(ctx);
+    A_ASSERT(lhs);
+    A_ASSERT(rhs);
     if (lhs == rhs)
     {
         return A_SUCCESS;
@@ -232,7 +232,7 @@ a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs)
 
 a_void_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_size_t cur = 0;
     a_size_t num = ctx->__num - 1;
     lhs = lhs < ctx->__num ? lhs : num;
@@ -267,7 +267,7 @@ a_void_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs)
 
 a_void_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num > 1)
     {
         a_list_s *pt = 0;
@@ -295,7 +295,7 @@ a_void_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 
 a_void_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num > 1)
     {
         a_list_s *pt = 0;
@@ -323,7 +323,7 @@ a_void_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 
 a_vptr_t a_que_push_fore(a_que_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_que_node_s *node = a_que_node_alloc(ctx);
     if (a_unlikely(node == 0))
     {
@@ -335,7 +335,7 @@ a_vptr_t a_que_push_fore(a_que_s *ctx)
 
 a_vptr_t a_que_push_back(a_que_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_que_node_s *node = a_que_node_alloc(ctx);
     if (a_unlikely(node == 0))
     {
@@ -347,7 +347,7 @@ a_vptr_t a_que_push_back(a_que_s *ctx)
 
 a_vptr_t a_que_pull_fore(a_que_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_vptr_t vptr = 0;
     if (a_list_used(ctx->__head))
     {
@@ -365,7 +365,7 @@ a_vptr_t a_que_pull_fore(a_que_s *ctx)
 
 a_vptr_t a_que_pull_back(a_que_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_vptr_t vptr = 0;
     if (a_list_used(ctx->__head))
     {
@@ -383,7 +383,7 @@ a_vptr_t a_que_pull_back(a_que_s *ctx)
 
 a_vptr_t a_que_insert(a_que_s *ctx, a_size_t idx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (idx < ctx->__num)
     {
         a_size_t cur = 0;
@@ -407,7 +407,7 @@ a_vptr_t a_que_insert(a_que_s *ctx, a_size_t idx)
 
 a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (idx < ctx->__num)
     {
         a_size_t cur = 0;

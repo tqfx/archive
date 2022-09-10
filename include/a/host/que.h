@@ -90,7 +90,7 @@ A_INLINE a_vptr_t a_que_back_(const a_que_s *ctx)
 */
 A_INLINE a_vptr_t a_que_fore(const a_que_s *ctx)
 {
-    return a_likely(a_list_used(ctx->__head)) ? a_que_fore_(ctx) : a_null;
+    return a_likely(a_list_used(ctx->__head)) ? a_que_fore_(ctx) : A_NULL;
 }
 
 /*!
@@ -101,7 +101,7 @@ A_INLINE a_vptr_t a_que_fore(const a_que_s *ctx)
 */
 A_INLINE a_vptr_t a_que_back(const a_que_s *ctx)
 {
-    return a_likely(a_list_used(ctx->__head)) ? a_que_back_(ctx) : a_null;
+    return a_likely(a_list_used(ctx->__head)) ? a_que_back_(ctx) : A_NULL;
 }
 
 #if defined(__cplusplus)

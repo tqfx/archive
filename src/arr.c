@@ -50,7 +50,7 @@ A_STATIC a_void_t a_arr_drop_(a_arr_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vpt
 
 a_void_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     ctx->__ptr = ptr;
     ctx->__siz = siz;
     ctx->__mem = num;
@@ -59,7 +59,7 @@ a_void_t a_arr_ctor(a_arr_s *ctx, a_vptr_t ptr, a_size_t siz, a_size_t num)
 
 a_void_t a_arr_dtor(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__ptr)
     {
         a_arr_drop_(ctx, 0, dtor);
@@ -71,8 +71,8 @@ a_void_t a_arr_dtor(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_arr_s *a_arr_move(a_arr_s *ctx, a_arr_s *obj)
 {
-    assert(ctx);
-    assert(obj);
+    A_ASSERT(ctx);
+    A_ASSERT(obj);
     memcpy(ctx, obj, sizeof(*obj));
     memset(obj, 0, sizeof(*obj));
     return ctx;
@@ -80,13 +80,13 @@ a_arr_s *a_arr_move(a_arr_s *ctx, a_arr_s *obj)
 
 a_void_t a_arr_drop(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_arr_drop_(ctx, 0, dtor);
 }
 
 a_void_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_size_t num = ctx->__num - 1;
     lhs = lhs < ctx->__num ? lhs : num;
     rhs = rhs < ctx->__num ? rhs : num;
@@ -101,13 +101,13 @@ a_void_t a_arr_swap(const a_arr_s *ctx, a_size_t lhs, a_size_t rhs)
 
 a_void_t a_arr_sort(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     qsort(ctx->__ptr, ctx->__num, ctx->__siz, cmp);
 }
 
 a_void_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num > 1)
     {
         a_byte_t *ptr = (a_byte_t *)ctx->__ptr;
@@ -130,7 +130,7 @@ a_void_t a_arr_sort_fore(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 
 a_void_t a_arr_sort_back(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num > 1)
     {
         a_byte_t *ptr = (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num - ctx->__siz;
@@ -152,13 +152,13 @@ a_void_t a_arr_sort_back(const a_arr_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 
 a_vptr_t a_arr_search(const a_arr_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     return bsearch(obj, ctx->__ptr, ctx->__num, ctx->__siz, cmp);
 }
 
 a_vptr_t a_arr_insert(a_arr_s *ctx, a_size_t idx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (a_likely(ctx->__num < ctx->__mem))
     {
         if (idx < ctx->__num)
@@ -178,13 +178,13 @@ a_vptr_t a_arr_push_fore(a_arr_s *ctx) { return a_arr_insert(ctx, 0); }
 
 a_vptr_t a_arr_push_back(a_arr_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     return a_likely(ctx->__num < ctx->__mem) ? a_arr_inc_(ctx) : 0;
 }
 
 a_vptr_t a_arr_remove(a_arr_s *ctx, a_size_t idx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num && idx < ctx->__num - 1)
     {
         a_byte_t *end = (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num;
@@ -204,6 +204,6 @@ a_vptr_t a_arr_pull_fore(a_arr_s *ctx) { return a_arr_remove(ctx, 0); }
 
 a_vptr_t a_arr_pull_back(a_arr_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     return a_likely(ctx->__num) ? a_arr_dec_(ctx) : 0;
 }

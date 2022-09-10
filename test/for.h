@@ -70,7 +70,7 @@ a_int_t func(void)
 
     test(10);
 
-    a_str_t a = a_null;
+    a_str_t a = A_NULL;
     a_foreach(a_char_t, it, a, 0);
     a_foreach_reverse(a_char_t, it, a, 0);
 

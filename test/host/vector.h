@@ -30,7 +30,7 @@ A_STATIC a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
 
 A_STATIC a_void_t test(void)
 {
-    a_vector_s *ctx = a_vector_new(sizeof(a_u64_t), a_null, a_null);
+    a_vector_s *ctx = a_vector_new(sizeof(a_u64_t), A_NULL, A_NULL);
     a_vector_foreach(a_u64_t, it, ctx);
     a_vector_foreach_reverse(a_u64_t, it, ctx);
     for (a_u64_t i = 0; i != 10; ++i)
@@ -41,7 +41,7 @@ A_STATIC a_void_t test(void)
             *obj = i;
         }
     }
-    a_vector_set(ctx, sizeof(a_u32_t), a_null, dtor);
+    a_vector_set(ctx, sizeof(a_u32_t), A_NULL, dtor);
     for (a_u32_t i = 0; i != 20; ++i)
     {
         a_u32_t *obj = a_vector_push(a_u32_t, ctx);
@@ -70,7 +70,7 @@ A_STATIC a_void_t test(void)
     a_vector_forenum(i, ctx)
     {
         a_u32_t *it = a_vector_at(a_u32_t, ctx, i);
-        assert(a_vector_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
         if (it)
         {
             printf("%" PRIu32 " ", *it);
@@ -80,7 +80,7 @@ A_STATIC a_void_t test(void)
     a_vector_forenum_reverse(i, ctx)
     {
         a_u32_t *it = a_vector_at(a_u32_t, ctx, i);
-        assert(a_vector_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
         if (it)
         {
             printf("%" PRIu32 " ", *it);
@@ -90,14 +90,14 @@ A_STATIC a_void_t test(void)
 
     a_vector_foreach(a_u32_t, it, ctx)
     {
-        assert(a_vector_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
         static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vector_foreach");
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vector_foreach_reverse(a_u32_t, it, ctx)
     {
-        assert(a_vector_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
         static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vector_foreach_reverse");
         printf("%" PRIu32 " ", *it);
     }
@@ -116,7 +116,7 @@ A_STATIC a_void_t test(void)
     putchar('\n');
 
     {
-        ctx = a_vector_new(sizeof(a_u32_t), a_null, a_null);
+        ctx = a_vector_new(sizeof(a_u32_t), A_NULL, A_NULL);
         for (a_u32_t i = 5; i != 10; ++i)
         {
             a_u32_t *obj = a_vector_insert(a_u32_t, ctx, i);
@@ -158,7 +158,7 @@ A_STATIC a_void_t test(void)
         a_vector_die(ctx);
     }
     {
-        ctx = a_vector_new(sizeof(a_u32_t), a_null, a_null);
+        ctx = a_vector_new(sizeof(a_u32_t), A_NULL, A_NULL);
         for (a_u32_t i = 5; i != 10; ++i)
         {
             a_u32_t *obj = a_vector_push_back(a_u32_t, ctx);
@@ -211,8 +211,8 @@ A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 
 A_STATIC a_void_t test_sort(void)
 {
-    a_uint_t t = a_cast_s(a_uint_t, time(a_null));
-    a_vector_s *ctx = a_vector_new(sizeof(a_int_t), a_null, a_null);
+    a_uint_t t = a_cast_s(a_uint_t, time(A_NULL));
+    a_vector_s *ctx = a_vector_new(sizeof(a_int_t), A_NULL, A_NULL);
 
     a_vector_make(ctx, 10);
 

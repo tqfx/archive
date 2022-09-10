@@ -92,7 +92,7 @@ a_void_t a_vec_die(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_void_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     ctx->__siz = size ? size : sizeof(a_cast_u);
     ctx->__mem = 0;
     ctx->__num = 0;
@@ -101,7 +101,7 @@ a_void_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 
 a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__ptr)
     {
         a_vec_drop_(ctx, 0, dtor);
@@ -114,8 +114,8 @@ a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t))
 {
-    assert(ctx);
-    assert(obj);
+    A_ASSERT(ctx);
+    A_ASSERT(obj);
     ctx->__ptr = malloc(obj->__mem * obj->__siz);
     if (a_unlikely(ctx->__ptr == 0))
     {
@@ -145,8 +145,8 @@ a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_
 
 a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
 {
-    assert(ctx);
-    assert(obj);
+    A_ASSERT(ctx);
+    A_ASSERT(obj);
     memcpy(ctx, obj, sizeof(*obj));
     memset(obj, 0, sizeof(*obj));
     return ctx;
@@ -154,7 +154,7 @@ a_vec_s *a_vec_move(a_vec_s *ctx, a_vec_s *obj)
 
 a_void_t a_vec_set(a_vec_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     size = size ? size : sizeof(a_cast_u);
     a_vec_drop_(ctx, 0, dtor);
     ctx->__mem = ctx->__mem * ctx->__siz / size;
@@ -163,7 +163,7 @@ a_void_t a_vec_set(a_vec_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t))
 
 a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (a_unlikely(a_vec_alloc(ctx, num)))
     {
         return A_FAILURE;
@@ -174,13 +174,13 @@ a_int_t a_vec_make(a_vec_s *ctx, a_size_t num, a_void_t (*dtor)(a_vptr_t))
 
 a_void_t a_vec_drop(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_vec_drop_(ctx, 0, dtor);
 }
 
 a_void_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_size_t num = ctx->__num - 1;
     lhs = lhs < ctx->__num ? lhs : num;
     rhs = rhs < ctx->__num ? rhs : num;
@@ -195,13 +195,13 @@ a_void_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
 
 a_void_t a_vec_sort(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     qsort(ctx->__ptr, ctx->__num, ctx->__siz, cmp);
 }
 
 a_void_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num > 1)
     {
         a_byte_t *ptr = (a_byte_t *)ctx->__ptr;
@@ -224,7 +224,7 @@ a_void_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 
 a_void_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num > 1)
     {
         a_byte_t *ptr = (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num - ctx->__siz;
@@ -246,13 +246,13 @@ a_void_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 
 a_vptr_t a_vec_search(const a_vec_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     return bsearch(obj, ctx->__ptr, ctx->__num, ctx->__siz, cmp);
 }
 
 a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (a_unlikely(a_vec_alloc(ctx, ctx->__num)))
     {
         return 0;
@@ -272,7 +272,7 @@ a_vptr_t a_vec_push_fore(a_vec_s *ctx) { return a_vec_insert(ctx, 0); }
 
 a_vptr_t a_vec_push_back(a_vec_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (a_unlikely(a_vec_alloc(ctx, ctx->__num)))
     {
         return 0;
@@ -282,7 +282,7 @@ a_vptr_t a_vec_push_back(a_vec_s *ctx)
 
 a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__num && idx < ctx->__num - 1)
     {
         if (a_unlikely(a_vec_alloc(ctx, ctx->__num)))
@@ -304,7 +304,7 @@ a_vptr_t a_vec_pull_fore(a_vec_s *ctx) { return a_vec_remove(ctx, 0); }
 
 a_vptr_t a_vec_pull_back(a_vec_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     return a_likely(ctx->__num) ? a_vec_dec_(ctx) : 0;
 }
 

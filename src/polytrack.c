@@ -13,9 +13,9 @@
 
 a_void_t a_polytrack3_init(a_polytrack3_s *ctx, const a_real_t source[3], const a_real_t target[3])
 {
-    assert(ctx);
-    assert(source);
-    assert(target);
+    A_ASSERT(ctx);
+    A_ASSERT(source);
+    A_ASSERT(target);
 
     ctx->t[0] = source[0];
     ctx->q[0] = source[1];
@@ -40,7 +40,7 @@ a_void_t a_polytrack3_init(a_polytrack3_s *ctx, const a_real_t source[3], const 
 
 a_real_t a_polytrack3_pos(const a_polytrack3_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[4] = {
         ctx->k[3],
         ctx->k[2],
@@ -52,7 +52,7 @@ a_real_t a_polytrack3_pos(const a_polytrack3_s *ctx, a_real_t ts)
 
 a_real_t a_polytrack3_vec(const a_polytrack3_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[3] = {
         ctx->k[3] * 3,
         ctx->k[2] * 2,
@@ -63,7 +63,7 @@ a_real_t a_polytrack3_vec(const a_polytrack3_s *ctx, a_real_t ts)
 
 a_real_t a_polytrack3_acc(const a_polytrack3_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[2] = {
         ctx->k[3] * 3 * 2,
         ctx->k[2] * 2,
@@ -73,8 +73,8 @@ a_real_t a_polytrack3_acc(const a_polytrack3_s *ctx, a_real_t ts)
 
 a_void_t a_polytrack3_all(const a_polytrack3_s *ctx, a_real_t ts, a_real_t out[3])
 {
-    assert(out);
-    assert(ctx);
+    A_ASSERT(out);
+    A_ASSERT(ctx);
     a_real_t a[4] = {
         ctx->k[3],
         ctx->k[2],
@@ -94,9 +94,9 @@ a_void_t a_polytrack3_all(const a_polytrack3_s *ctx, a_real_t ts, a_real_t out[3
 
 a_void_t a_polytrack5_init(a_polytrack5_s *ctx, const a_real_t source[4], const a_real_t target[4])
 {
-    assert(ctx);
-    assert(source);
-    assert(target);
+    A_ASSERT(ctx);
+    A_ASSERT(source);
+    A_ASSERT(target);
 
     ctx->t[0] = source[0];
     ctx->q[0] = source[1];
@@ -134,7 +134,7 @@ a_void_t a_polytrack5_init(a_polytrack5_s *ctx, const a_real_t source[4], const 
 
 a_real_t a_polytrack5_pos(const a_polytrack5_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[6] = {
         ctx->k[5],
         ctx->k[4],
@@ -148,7 +148,7 @@ a_real_t a_polytrack5_pos(const a_polytrack5_s *ctx, a_real_t ts)
 
 a_real_t a_polytrack5_vec(const a_polytrack5_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[5] = {
         ctx->k[5] * 5,
         ctx->k[4] * 4,
@@ -161,7 +161,7 @@ a_real_t a_polytrack5_vec(const a_polytrack5_s *ctx, a_real_t ts)
 
 a_real_t a_polytrack5_acc(const a_polytrack5_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[4] = {
         ctx->k[5] * 5 * 4,
         ctx->k[4] * 4 * 3,
@@ -173,8 +173,8 @@ a_real_t a_polytrack5_acc(const a_polytrack5_s *ctx, a_real_t ts)
 
 a_void_t a_polytrack5_all(const a_polytrack5_s *ctx, a_real_t ts, a_real_t out[3])
 {
-    assert(out);
-    assert(ctx);
+    A_ASSERT(out);
+    A_ASSERT(ctx);
     a_real_t a[6] = {
         ctx->k[5],
         ctx->k[4],
@@ -200,9 +200,9 @@ a_void_t a_polytrack5_all(const a_polytrack5_s *ctx, a_real_t ts, a_real_t out[3
 
 a_void_t a_polytrack7_init(a_polytrack7_s *ctx, const a_real_t source[5], const a_real_t target[5])
 {
-    assert(ctx);
-    assert(source);
-    assert(target);
+    A_ASSERT(ctx);
+    A_ASSERT(source);
+    A_ASSERT(target);
 
     ctx->t[0] = source[0];
     ctx->q[0] = source[1];
@@ -253,7 +253,7 @@ a_void_t a_polytrack7_init(a_polytrack7_s *ctx, const a_real_t source[5], const 
 
 a_real_t a_polytrack7_pos(const a_polytrack7_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[8] = {
         ctx->k[7],
         ctx->k[6],
@@ -269,7 +269,7 @@ a_real_t a_polytrack7_pos(const a_polytrack7_s *ctx, a_real_t ts)
 
 a_real_t a_polytrack7_vec(const a_polytrack7_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[7] = {
         ctx->k[7] * 7,
         ctx->k[6] * 6,
@@ -284,7 +284,7 @@ a_real_t a_polytrack7_vec(const a_polytrack7_s *ctx, a_real_t ts)
 
 a_real_t a_polytrack7_acc(const a_polytrack7_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[6] = {
         ctx->k[7] * 7 * 6,
         ctx->k[6] * 6 * 5,
@@ -298,7 +298,7 @@ a_real_t a_polytrack7_acc(const a_polytrack7_s *ctx, a_real_t ts)
 
 a_real_t a_polytrack7_jer(const a_polytrack7_s *ctx, a_real_t ts)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_real_t a[5] = {
         ctx->k[7] * 7 * 6 * 5,
         ctx->k[6] * 6 * 5 * 4,
@@ -311,8 +311,8 @@ a_real_t a_polytrack7_jer(const a_polytrack7_s *ctx, a_real_t ts)
 
 a_void_t a_polytrack7_all(const a_polytrack7_s *ctx, a_real_t ts, a_real_t out[4])
 {
-    assert(out);
-    assert(ctx);
+    A_ASSERT(out);
+    A_ASSERT(ctx);
     a_real_t a[8] = {
         ctx->k[7],
         ctx->k[6],

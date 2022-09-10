@@ -57,7 +57,7 @@ A_STATIC a_void_t test(void)
     {
         (void)(a_que_pull_fore(a_u64_t, ctx));
     }
-    a_que_set(ctx, sizeof(a_u32_t), a_null);
+    a_que_set(ctx, sizeof(a_u32_t), A_NULL);
     for (a_u32_t i = 5; i--;)
     {
         a_u32_t *obj = a_que_push_fore(a_u32_t, ctx);
@@ -98,13 +98,13 @@ A_STATIC a_void_t test(void)
     }
     a_que_foreach(a_u32_t, it, ctx)
     {
-        assert(a_que_get(ctx) == sizeof(*it));
+        A_ASSERT(a_que_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_que_foreach_reverse(a_u32_t, it, ctx)
     {
-        assert(a_que_get(ctx) == sizeof(*it));
+        A_ASSERT(a_que_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
@@ -134,11 +134,11 @@ A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 
 A_STATIC a_void_t test_sort(void)
 {
-    a_uint_t t = a_cast_s(a_uint_t, time(a_null));
+    a_uint_t t = a_cast_s(a_uint_t, time(A_NULL));
     a_que_s *ctx = a_que_new(sizeof(a_int_t));
 
     srand(t);
-    a_que_drop(ctx, a_null);
+    a_que_drop(ctx, A_NULL);
     for (a_int_t i = 0; i != 10; ++i)
     {
         a_int_t *obj = a_que_push_fore(a_int_t, ctx);
@@ -157,7 +157,7 @@ A_STATIC a_void_t test_sort(void)
     putchar('\n');
 
     srand(t);
-    a_que_drop(ctx, a_null);
+    a_que_drop(ctx, A_NULL);
     for (a_int_t i = 0; i != 10; ++i)
     {
         a_int_t *obj = a_que_push_back(a_int_t, ctx);
@@ -175,7 +175,7 @@ A_STATIC a_void_t test_sort(void)
     }
     putchar('\n');
 
-    a_que_die(ctx, a_null);
+    a_que_die(ctx, A_NULL);
 }
 
 #if defined(__cplusplus)

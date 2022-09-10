@@ -85,7 +85,7 @@ A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 */
 A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 {
-    return a_likely(idx < ctx->__mem) ? a_vector_at_(ctx, idx) : a_null;
+    return a_likely(idx < ctx->__mem) ? a_vector_at_(ctx, idx) : A_NULL;
 }
 
 /*!
@@ -107,7 +107,7 @@ A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
 */
 A_INLINE a_vptr_t a_vector_top(const a_vector_s *ctx)
 {
-    return a_likely(ctx->__num) ? a_vector_top_(ctx) : a_null;
+    return a_likely(ctx->__num) ? a_vector_top_(ctx) : A_NULL;
 }
 
 #if defined(__cplusplus)

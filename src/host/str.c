@@ -32,7 +32,7 @@ a_void_t a_str_die(a_str_s *ctx)
 
 a_void_t a_str_ctor(a_str_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     ctx->__str = 0;
     ctx->__num = 0;
     ctx->__mem = 0;
@@ -40,7 +40,7 @@ a_void_t a_str_ctor(a_str_s *ctx)
 
 a_void_t a_str_dtor(a_str_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (ctx->__str)
     {
         free(ctx->__str);
@@ -67,7 +67,7 @@ a_void_t a_str_dtor(a_str_s *ctx)
 
 a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     ctx->__num = nbyte;
     ctx->__mem = nbyte + 1;
     ctx->__str = (a_str_t)malloc(roundup32(ctx->__mem));
@@ -85,15 +85,15 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 
 a_int_t a_str_copy(a_str_s *ctx, const a_str_s *obj)
 {
-    assert(ctx);
-    assert(obj);
+    A_ASSERT(ctx);
+    A_ASSERT(obj);
     return a_str_init(ctx, obj->__str, obj->__num);
 }
 
 a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj)
 {
-    assert(ctx);
-    assert(obj);
+    A_ASSERT(ctx);
+    A_ASSERT(obj);
     memcpy(ctx, obj, sizeof(*obj));
     memset(obj, 0, sizeof(*obj));
     return ctx;
@@ -101,7 +101,7 @@ a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj)
 
 a_str_t a_str_exit(a_str_s *ctx)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_str_t str = ctx->__str;
     if (ctx->__str)
     {
@@ -115,8 +115,8 @@ a_str_t a_str_exit(a_str_s *ctx)
 
 a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
 {
-    assert(lhs);
-    assert(rhs);
+    A_ASSERT(lhs);
+    A_ASSERT(rhs);
     a_int_t ok = 0;
     if (lhs->__str && rhs->__str)
     {
@@ -136,7 +136,7 @@ a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
 
 a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     a_str_t str = (a_str_t)realloc(ctx->__str, roundup32(mem));
     if (a_unlikely(!str && mem))
     {
@@ -149,7 +149,7 @@ a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 
 a_int_t a_str_alloc(a_str_s *ctx, a_size_t mem)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     return ctx->__mem < mem ? a_str_alloc_(ctx, mem) : A_SUCCESS;
 }
 
@@ -177,7 +177,7 @@ a_int_t a_str_getc(a_str_s *ctx)
 
 a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (a_unlikely(a_str_alloc(ctx, ctx->__num + 1)))
     {
         return EOF;
@@ -188,7 +188,7 @@ a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 
 a_int_t a_str_putc(a_str_s *ctx, a_int_t c)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (a_unlikely(a_str_alloc(ctx, ctx->__num + 2)))
     {
         return EOF;
@@ -200,7 +200,7 @@ a_int_t a_str_putc(a_str_s *ctx, a_int_t c)
 
 a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (pdata && nbyte)
     {
         if (a_unlikely(a_str_alloc(ctx, ctx->__num + nbyte)))
@@ -215,7 +215,7 @@ a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 
 a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
     if (pdata)
     {
         if (a_unlikely(a_str_alloc(ctx, ctx->__num + nbyte + 1)))
@@ -234,22 +234,22 @@ a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 
 a_int_t a_str_puts(a_str_s *ctx, a_cptr_t str)
 {
-    assert(ctx);
-    assert(str);
+    A_ASSERT(ctx);
+    A_ASSERT(str);
     return a_str_putn(ctx, str, strlen((a_cstr_t)str));
 }
 
 a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj)
 {
-    assert(ctx);
-    assert(obj);
+    A_ASSERT(ctx);
+    A_ASSERT(obj);
     return a_str_putn(ctx, obj->__str, obj->__num);
 }
 
 a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
 {
-    assert(ctx);
-    assert(fmt);
+    A_ASSERT(ctx);
+    A_ASSERT(fmt);
     a_size_t siz;
     a_size_t mem;
     a_str_t str;
@@ -278,8 +278,8 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
 
 a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...)
 {
-    assert(ctx);
-    assert(fmt);
+    A_ASSERT(ctx);
+    A_ASSERT(fmt);
     va_list va;
     va_start(va, fmt);
     a_int_t num = a_str_vprintf(ctx, fmt, va);

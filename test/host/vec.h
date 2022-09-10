@@ -41,7 +41,7 @@ A_STATIC a_void_t test(void)
             *obj = i;
         }
     }
-    a_vec_set(ctx, sizeof(a_u32_t), a_null);
+    a_vec_set(ctx, sizeof(a_u32_t), A_NULL);
     for (a_u32_t i = 0; i != 20; ++i)
     {
         a_u32_t *obj = a_vec_push(a_u32_t, ctx);
@@ -70,7 +70,7 @@ A_STATIC a_void_t test(void)
     a_vec_forenum(i, ctx)
     {
         a_u32_t *it = a_vec_at(a_u32_t, ctx, i);
-        assert(a_vec_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vec_get(ctx) == sizeof(*it));
         if (it)
         {
             printf("%" PRIu32 " ", *it);
@@ -80,7 +80,7 @@ A_STATIC a_void_t test(void)
     a_vec_forenum_reverse(i, ctx)
     {
         a_u32_t *it = a_vec_at(a_u32_t, ctx, i);
-        assert(a_vec_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vec_get(ctx) == sizeof(*it));
         if (it)
         {
             printf("%" PRIu32 " ", *it);
@@ -90,14 +90,14 @@ A_STATIC a_void_t test(void)
 
     a_vec_foreach(a_u32_t, it, ctx)
     {
-        assert(a_vec_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vec_get(ctx) == sizeof(*it));
         static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vec_foreach");
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vec_foreach_reverse(a_u32_t, it, ctx)
     {
-        assert(a_vec_get(ctx) == sizeof(*it));
+        A_ASSERT(a_vec_get(ctx) == sizeof(*it));
         static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vec_foreach_reverse");
         printf("%" PRIu32 " ", *it);
     }
@@ -107,7 +107,7 @@ A_STATIC a_void_t test(void)
         a_vec_s obj[1];
         a_vec_copy(obj, ctx, u32dup);
         putchar('\n');
-        a_vec_dtor(ctx, a_null);
+        a_vec_dtor(ctx, A_NULL);
         a_vec_move(ctx, obj);
     }
 
@@ -154,7 +154,7 @@ A_STATIC a_void_t test(void)
             }
         }
         putchar('\n');
-        a_vec_die(ctx, a_null);
+        a_vec_die(ctx, A_NULL);
     }
     {
         ctx = a_vec_new(sizeof(a_u32_t));
@@ -191,7 +191,7 @@ A_STATIC a_void_t test(void)
             }
         }
         putchar('\n');
-        a_vec_die(ctx, a_null);
+        a_vec_die(ctx, A_NULL);
     }
 }
 
@@ -210,10 +210,10 @@ A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 
 A_STATIC a_void_t test_sort(void)
 {
-    a_uint_t t = a_cast_s(a_uint_t, time(a_null));
+    a_uint_t t = a_cast_s(a_uint_t, time(A_NULL));
     a_vec_s *ctx = a_vec_new(sizeof(a_int_t));
 
-    a_vec_make(ctx, 10, a_null);
+    a_vec_make(ctx, 10, A_NULL);
 
     srand(t);
     a_vec_foreach(a_int_t, it, ctx)
@@ -244,7 +244,7 @@ A_STATIC a_void_t test_sort(void)
     putchar('\n');
 
     srand(t);
-    a_vec_drop(ctx, a_null);
+    a_vec_drop(ctx, A_NULL);
     for (a_int_t i = 0; i != 10; ++i)
     {
         a_int_t *obj = a_vec_push_fore(a_int_t, ctx);
@@ -263,7 +263,7 @@ A_STATIC a_void_t test_sort(void)
     putchar('\n');
 
     srand(t);
-    a_vec_drop(ctx, a_null);
+    a_vec_drop(ctx, A_NULL);
     for (a_int_t i = 0; i != 10; ++i)
     {
         a_int_t *obj = a_vec_push_back(a_int_t, ctx);
@@ -303,7 +303,7 @@ A_STATIC a_void_t test_sort(void)
         a_str_die(no);
     }
 
-    a_vec_die(ctx, a_null);
+    a_vec_die(ctx, A_NULL);
 }
 
 #if defined(__cplusplus)

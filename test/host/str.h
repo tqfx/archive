@@ -19,10 +19,10 @@ A_STATIC a_void_t tests(void)
     a_str_getc(ctx);
     a_str_getc_(ctx);
     a_str_putc_(ctx, 0);
-    a_str_putn_(ctx, a_null, 0);
+    a_str_putn_(ctx, A_NULL, 0);
     a_str_putc(ctx, 0);
     a_str_puts(ctx, "");
-    a_str_putn(ctx, a_null, 0);
+    a_str_putn(ctx, A_NULL, 0);
     str = a_str_val(ctx);
     printf("0x%zX ", a_cast_r(a_uptr_t, str));
     a_str_dtor(ctx);
@@ -30,7 +30,7 @@ A_STATIC a_void_t tests(void)
 
 A_STATIC a_void_t testt(void)
 {
-    a_str_t str = a_null;
+    a_str_t str = A_NULL;
     a_str_s *ctx = a_str_new();
     a_str_init(ctx, "4321+-/\\", 0);
     a_str_getc(ctx);

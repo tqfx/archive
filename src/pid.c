@@ -75,7 +75,7 @@ a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
 
 a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
 {
-    assert(ctx);
+    A_ASSERT(ctx);
 
     /* current error */
     a_real_t e = set - ref;

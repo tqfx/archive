@@ -108,11 +108,11 @@ A_STATIC a_void_t test_sort(void)
 {
     a_arr_s ctx[1];
     a_int_t buf[10];
-    a_uint_t t = a_cast_s(a_uint_t, time(a_null));
+    a_uint_t t = a_cast_s(a_uint_t, time(A_NULL));
     a_arr_ctor(ctx, buf, sizeof(a_int_t), 10);
 
     srand(t);
-    a_arr_drop(ctx, a_null);
+    a_arr_drop(ctx, A_NULL);
     for (a_int_t i = 0; i != 10; ++i)
     {
         a_int_t *obj = a_arr_push_fore(a_int_t, ctx);
@@ -131,7 +131,7 @@ A_STATIC a_void_t test_sort(void)
     putchar('\n');
 
     srand(t);
-    a_arr_drop(ctx, a_null);
+    a_arr_drop(ctx, A_NULL);
     for (a_int_t i = 0; i != 10; ++i)
     {
         a_int_t *obj = a_arr_push_back(a_int_t, ctx);
@@ -199,7 +199,7 @@ A_STATIC a_void_t test_sort(void)
         a_str_die(no);
     }
 
-    a_arr_dtor(ctx, a_null);
+    a_arr_dtor(ctx, A_NULL);
 }
 
 #if defined(__cplusplus)

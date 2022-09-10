@@ -25,7 +25,7 @@ typedef struct
 A_STATIC a_size_t a_list_len(const a_list_s *ctx)
 {
     a_size_t count = 0;
-    if (ctx == a_null)
+    if (ctx == A_NULL)
     {
         goto done;
     }
