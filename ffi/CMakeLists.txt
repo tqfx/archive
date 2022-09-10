@@ -19,7 +19,7 @@ if(ENABLE_JAVA)
   find_package(JNI)
 endif()
 
-if(Java_FOUND AND JNI_FOUND)
+if(Java_FOUND)
   add_subdirectory(java)
 endif()
 
