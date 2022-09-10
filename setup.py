@@ -59,8 +59,8 @@ else:
     source_cc = ["ffi/python/src/ax.cpp"]
 
 with open("setup.cfg", "r") as f:
-    version = re.findall(r"version = (.*)", f.read())[0]
-major, minor, patch = version.split('.')[:3]
+    version = re.findall(r"version = (.+)", f.read())[0]
+major, minor, patch = re.findall(r"(\d+).(\d+).(\d+)", version)[0]
 tweak = time.strftime("%Y%m%d%H%M")
 text = '''/*!
  @file a.config.h

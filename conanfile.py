@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class aConan(ConanFile):
     name = "liba"
-    version = "0.1.0"
+    version = "0.1.1-rc0"
     license = "MPL-2.0"
     author = "tqfx tqfx@foxmail.com"
     homepage = url = "https://github.com/tqfx/liba.git"

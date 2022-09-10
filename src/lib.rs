@@ -13,7 +13,13 @@ liba = "0.1"
 
 #![deny(missing_docs)]
 
-use libc;
+pub mod pid;
+pub use crate::pid::PID;
+
+pub mod polytrack;
+pub use crate::polytrack::PolyTrack3;
+pub use crate::polytrack::PolyTrack5;
+pub use crate::polytrack::PolyTrack7;
 
 extern "C" {
     fn a_version() -> *const libc::c_char;
@@ -21,8 +27,6 @@ extern "C" {
     fn a_version_minor() -> libc::c_uint;
     fn a_version_patch() -> libc::c_uint;
 }
-
-use std::ffi::CStr;
 
 /**
 algorithm library version
@@ -34,7 +38,7 @@ println!("version {}", liba::version());
 ```
 */
 pub fn version() -> String {
-    let c_str: &CStr = unsafe { CStr::from_ptr(a_version()) };
+    let c_str: &std::ffi::CStr = unsafe { std::ffi::CStr::from_ptr(a_version()) };
     let str_slice: &str = c_str.to_str().unwrap();
     let str_buf: String = str_slice.to_owned();
     str_buf
@@ -95,14 +99,6 @@ println!("1/sqrt({})={}", 4, liba::inv_sqrt(4.0));
 pub fn inv_sqrt(x: f32) -> f32 {
     unsafe { a_inv_sqrt(x) }
 }
-
-pub mod pid;
-pub use crate::pid::PID;
-
-pub mod polytrack;
-pub use crate::polytrack::PolyTrack3;
-pub use crate::polytrack::PolyTrack5;
-pub use crate::polytrack::PolyTrack7;
 
 #[cfg(test)]
 mod tests {
