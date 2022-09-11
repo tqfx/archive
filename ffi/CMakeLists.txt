@@ -26,3 +26,14 @@ endif()
 if(PYTHONINTERP_FOUND)
   add_subdirectory(python)
 endif()
+
+option(ENABLE_JAVASCRIPT "Enable ffi javascript" OFF)
+
+if(ENABLE_JAVASCRIPT)
+  find_program(EMCC emcc)
+  find_program(EMCXX em++)
+
+  if(EMCC AND EMCXX)
+    add_subdirectory(javascript)
+  endif()
+endif()
