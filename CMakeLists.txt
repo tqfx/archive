@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.15) # CheckPIESupported
 
-if(POLICY CMP0057)
+if(POLICY CMP0057) # 3.3
   cmake_policy(SET CMP0057 NEW)
 endif() # IN_LIST if()
 
-if(POLICY CMP0063)
+if(POLICY CMP0063) # 3.3
   cmake_policy(SET CMP0063 NEW)
 endif() # <LANG>_VISIBILITY_PRESET
 

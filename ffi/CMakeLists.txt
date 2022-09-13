@@ -37,3 +37,23 @@ if(ENABLE_JAVASCRIPT)
     add_subdirectory(javascript)
   endif()
 endif()
+
+option(ENABLE_SWIG "Enable ffi swig" OFF)
+
+if(ENABLE_SWIG)
+  # https://cmake.org/cmake/help/latest/module/UseSWIG.html
+  if(POLICY CMP0078) # 3.13
+    cmake_policy(SET CMP0078 NEW)
+  endif() # UseSWIG_TARGET_NAME_PREFERENCE
+
+  if(POLICY CMP0086) # 3.14
+    cmake_policy(SET CMP0086 NEW)
+  endif() # SWIG_MODULE_NAME
+
+  find_package(SWIG)
+endif()
+
+if(SWIG_FOUND)
+  include(UseSWIG)
+  add_subdirectory(swig)
+endif()
