@@ -34,6 +34,7 @@ if(ENABLE_JAVASCRIPT)
   find_program(EMCXX em++)
 
   if(EMCC AND EMCXX)
+    find_program(NODE_EXECUTABLE node)
     add_subdirectory(javascript)
   endif()
 endif()
