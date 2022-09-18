@@ -124,8 +124,8 @@ import liba.ax;
 #### Cargo.toml
 
 ```toml
-[build-dependencies]
-liba = "*"
+[dependencies]
+liba = { git = "https://github.com/tqfx/liba.git" }
 ```
 
 #### main.rs

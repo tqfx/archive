@@ -15,7 +15,7 @@ elseif("${VCPKG_TARGET_TRIPLET}" MATCHES "x64-mingw(.*)")
 endif()
 
 set(PROJECT_LICENSE "MPL-2.0")
-project(liba VERSION 0.1.1.0 LANGUAGES C CXX
+project(liba VERSION 0.1.1 LANGUAGES C CXX
   HOMEPAGE_URL "https://github.com/tqfx/liba.git"
   DESCRIPTION "An algorithm library based on C/C++ language"
 )
