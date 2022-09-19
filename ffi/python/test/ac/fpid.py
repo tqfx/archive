@@ -158,7 +158,7 @@ except Exception as e:
     print(e)
     exit()
 
-fpid = a.fpid(Ts, mma, mkp, mki, mkd, IMIN, IMAX, OMIN, OMAX).inc()
+fpid = a.fpid(1, Ts, mma, mkp, mki, mkd, IMIN, IMAX, OMIN, OMAX).buff(2).inc()
 
 r = 1.0
 setpoint = [r] * len(data)
