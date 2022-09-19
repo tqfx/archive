@@ -146,7 +146,7 @@ impl PID {
         unsafe { a_pid_pos(self, max).as_mut().unwrap_unchecked() }
     }
 
-    /// set mode for PID controller
+    /// set mode for PID controller directly
     pub fn mode(&mut self, mode: u32) -> &mut PID {
         unsafe { a_pid_mode(self, mode).as_mut().unwrap_unchecked() }
     }

@@ -26,7 +26,7 @@ cdef class pid:
         a_pid_time(self.ctx, ts)
         return self
     def mode(self, mode: int):
-        '''set mode for PID controller'''
+        '''set mode for PID controller directly'''
         a_pid_mode(self.ctx, mode)
         return self
     def pos(self, max: float):

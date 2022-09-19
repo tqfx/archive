@@ -108,7 +108,7 @@ A_PUBLIC a_pid_s *a_pid_inc(a_pid_s *ctx);
 A_PUBLIC a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max);
 
 /*!
- @brief set mode for PID controller
+ @brief set mode for PID controller directly
  @param[in,out] ctx points to an instance of PID controller
  @param[in] mode Mode for PID controller
   @arg @ref A_PID_OFF turn off PID controller
