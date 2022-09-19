@@ -78,6 +78,7 @@ unittest(list SOURCE list.c list.cpp)
 unittest(slist SOURCE slist.c slist.cpp)
 
 unittest(pid SOURCE pid.c pid.cpp)
+unittest(fpid SOURCE fpid.c fpid.cpp)
 unittest(notefreqs SOURCE notefreqs.c)
 unittest(poly SOURCE poly.c poly.cpp)
 unittest(polytrack SOURCE polytrack.c polytrack.cpp)

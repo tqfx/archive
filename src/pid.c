@@ -64,6 +64,7 @@ a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
     ctx->kd = 0;
     ctx->out = 0;
     ctx->sum = 0;
+    ctx->num = 0;
     ctx->ref = 0;
     ctx->ec = 0;
     ctx->e = 0;
@@ -72,12 +73,22 @@ a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
 
 a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
 {
-    A_ASSERT(ctx);
-
-    /* current error */
     a_real_t e = set - ref;
-    a_real_t ec = e - ctx->e;
+    return a_pid_proc_(ctx, set, ref, e, e - ctx->e);
+}
 
+a_pid_s *a_pid_done(a_pid_s *ctx)
+{
+    ctx->out = 0;
+    ctx->sum = 0;
+    ctx->ref = 0;
+    ctx->ec = 0;
+    ctx->e = 0;
+    return ctx;
+}
+
+a_real_t a_pid_proc_(a_pid_s *ctx, a_real_t set, a_real_t ref, a_real_t e, a_real_t ec)
+{
     /* calculation */
     switch (ctx->mode)
     {
@@ -90,8 +101,7 @@ a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
     {
         a_real_t sum = ctx->ki * e;
         /* when the limit of integration is exceeded or */
-        /* the direction of integration is the same, */
-        /* the integration stops. */
+        /* the direction of integration is the same, the integration stops. */
         if ((-ctx->summax < ctx->sum && ctx->sum < ctx->summax) || ctx->sum * sum < 0)
         {
             /* sum = K_i \sum^k_{i=0} e(i) */
@@ -129,14 +139,4 @@ a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
     ctx->e = e;
 
     return ctx->out;
-}
-
-a_pid_s *a_pid_done(a_pid_s *ctx)
-{
-    ctx->out = 0;
-    ctx->sum = 0;
-    ctx->ref = 0;
-    ctx->ec = 0;
-    ctx->e = 0;
-    return ctx;
 }

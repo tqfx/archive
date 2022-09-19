@@ -48,15 +48,6 @@ typedef enum a_pid_e
     A_PID_INC, //!< incremental PID controller
 } a_pid_e;
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
-#endif /* diagnostic */
-#if defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable : 4820)
-#endif /* _MSC_VER */
-
 /*!
  @brief instance structure for PID controller
 */
@@ -74,15 +65,9 @@ typedef struct a_pid_s
     a_real_t ref; //!< cache feedback
     a_real_t ec; //!< error change
     a_real_t e; //!< error input
-    a_uint_t mode;
+    a_uint_t mode; //!< mode for PID controller
+    a_uint_t num; //!< number of columns
 } a_pid_s;
-
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* diagnostic */
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif /* _MSC_VER */
 
 #if defined(__cplusplus)
 extern "C" {
@@ -141,6 +126,8 @@ A_PUBLIC a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd
  @param[in] max maximum output
 */
 A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max);
+
+A_HIDDEN a_real_t a_pid_proc_(a_pid_s *ctx, a_real_t set, a_real_t ref, a_real_t e, a_real_t ec);
 
 /*!
  @brief process function for PID controller

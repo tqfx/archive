@@ -8,6 +8,12 @@ static int pid_from(lua_State *L)
     {
         userdata_setp(L, 1, ctx); /* :from() */
     }
+    lua_pushstring(L, "num");
+    if (lua_rawget(L, -3) == LUA_TNUMBER)
+    {
+        ctx->num = (a_uint_t)lua_tointeger(L, -1);
+    }
+    lua_pop(L, 1);
     lua_pushstring(L, "mode");
     if (lua_rawget(L, -3) == LUA_TNUMBER)
     {
@@ -58,9 +64,10 @@ static int pid_into(lua_State *L)
             {"e", ctx->e},
             {NULL, 0},
         };
-        lua_createtable(L, 0, Larray(pid));
+        lua_createtable(L, 0, Larray(pid) + 1);
         reg_fnums(L, -1, pid);
         reg_enum(L, -1, "mode", ctx->mode);
+        reg_enum(L, -1, "num", ctx->num);
         return 1;
     }
     return 0;

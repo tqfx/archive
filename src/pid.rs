@@ -1,50 +1,54 @@
 //! proportional integral derivative controller
 
+use crate::Real;
+use crate::Uint;
+
 /// turn off PID controller
-pub const OFF: u32 = 0;
+pub const OFF: Uint = 0;
 /// positional PID controller
-pub const POS: u32 = 1;
+pub const POS: Uint = 1;
 /// incremental PID controller
-pub const INC: u32 = 2;
+pub const INC: Uint = 2;
 
 /// proportional integral derivative controller
 #[repr(C)]
 pub struct PID {
     /// sampling time unit(s)
-    pub ts: f64,
+    pub ts: Real,
     /// proportional constant
-    pub kp: f64,
+    pub kp: Real,
     /// integral constant
-    pub ki: f64,
+    pub ki: Real,
     /// derivative constant
-    pub kd: f64,
+    pub kd: Real,
     /// controller output
-    pub out: f64,
+    pub out: Real,
     /// minimum output
-    pub outmin: f64,
+    pub outmin: Real,
     /// maximum output
-    pub outmax: f64,
+    pub outmax: Real,
     /// maximum integral output
-    pub summax: f64,
+    pub summax: Real,
     /// (integral) output item sum
-    pub sum: f64,
+    pub sum: Real,
     /// cache feedback
-    pub r#ref: f64,
+    pub r#ref: Real,
     /// error change
-    pub ec: f64,
+    pub ec: Real,
     /// error input
-    pub e: f64,
-    mode: u32,
+    pub e: Real,
+    mode: Uint,
+    num: Uint,
 }
 
 extern "C" {
     fn a_pid_off(ctx: *mut PID) -> *mut PID;
     fn a_pid_inc(ctx: *mut PID) -> *mut PID;
-    fn a_pid_pos(ctx: *mut PID, max: f64) -> *mut PID;
-    fn a_pid_mode(ctx: *mut PID, mode: u32) -> *mut PID;
-    fn a_pid_time(ctx: *mut PID, ts: f64) -> *mut PID;
-    fn a_pid_kpid(ctx: *mut PID, kp: f64, ki: f64, kd: f64) -> *mut PID;
-    fn a_pid_proc(ctx: *mut PID, set: f64, r#ref: f64) -> f64;
+    fn a_pid_pos(ctx: *mut PID, max: Real) -> *mut PID;
+    fn a_pid_mode(ctx: *mut PID, mode: Uint) -> *mut PID;
+    fn a_pid_time(ctx: *mut PID, ts: Real) -> *mut PID;
+    fn a_pid_kpid(ctx: *mut PID, kp: Real, ki: Real, kd: Real) -> *mut PID;
+    fn a_pid_proc(ctx: *mut PID, set: Real, r#ref: Real) -> Real;
     fn a_pid_done(ctx: *mut PID) -> *mut PID;
 }
 
@@ -67,7 +71,7 @@ pid.done();
 */
 impl PID {
     /// initialize function for PID controller, default is turn off
-    pub fn new(ts: f64, outmin: f64, outmax: f64) -> Self {
+    pub fn new(ts: Real, outmin: Real, outmax: Real) -> Self {
         Self {
             ts,
             outmin,
@@ -82,18 +86,19 @@ impl PID {
             ec: 0.0,
             e: 0.0,
             mode: OFF,
+            num: 0,
         }
     }
 
     /// initialize function for positional PID controller
     pub fn new_pos(
-        ts: f64,
-        kp: f64,
-        ki: f64,
-        kd: f64,
-        outmin: f64,
-        outmax: f64,
-        summax: f64,
+        ts: Real,
+        kp: Real,
+        ki: Real,
+        kd: Real,
+        outmin: Real,
+        outmax: Real,
+        summax: Real,
     ) -> Self {
         Self {
             ts,
@@ -109,11 +114,12 @@ impl PID {
             r#ref: 0.0,
             ec: 0.0,
             e: 0.0,
+            num: 0,
         }
     }
 
     /// initialize function for incremental PID controller
-    pub fn new_inc(ts: f64, kp: f64, ki: f64, kd: f64, outmin: f64, outmax: f64) -> Self {
+    pub fn new_inc(ts: Real, kp: Real, ki: Real, kd: Real, outmin: Real, outmax: Real) -> Self {
         Self {
             ts,
             kp,
@@ -128,46 +134,47 @@ impl PID {
             r#ref: 0.0,
             ec: 0.0,
             e: 0.0,
+            num: 0,
         }
     }
 
     /// set turn off mode
-    pub fn off(&mut self) -> &mut PID {
+    pub fn off(&mut self) -> &mut Self {
         unsafe { a_pid_off(self).as_mut().unwrap_unchecked() }
     }
 
     /// set incremental mode
-    pub fn inc(&mut self) -> &mut PID {
+    pub fn inc(&mut self) -> &mut Self {
         unsafe { a_pid_inc(self).as_mut().unwrap_unchecked() }
     }
 
     /// set positional mode
-    pub fn pos(&mut self, max: f64) -> &mut PID {
+    pub fn pos(&mut self, max: Real) -> &mut Self {
         unsafe { a_pid_pos(self, max).as_mut().unwrap_unchecked() }
     }
 
     /// set mode for PID controller directly
-    pub fn mode(&mut self, mode: u32) -> &mut PID {
-        unsafe { a_pid_mode(self, mode).as_mut().unwrap_unchecked() }
+    pub fn mode(&mut self, mode: u32) -> &mut Self {
+        unsafe { a_pid_mode(self, mode as Uint).as_mut().unwrap_unchecked() }
     }
 
     /// set sampling period for PID controller
-    pub fn time(&mut self, ts: f64) -> &mut PID {
+    pub fn time(&mut self, ts: Real) -> &mut Self {
         unsafe { a_pid_time(self, ts).as_mut().unwrap_unchecked() }
     }
 
     /// set proportional integral derivative constant for PID controller
-    pub fn kpid(&mut self, kp: f64, ki: f64, kd: f64) -> &mut PID {
+    pub fn kpid(&mut self, kp: Real, ki: Real, kd: Real) -> &mut Self {
         unsafe { a_pid_kpid(self, kp, ki, kd).as_mut().unwrap_unchecked() }
     }
 
     /// process function for PID controller
-    pub fn proc(&mut self, set: f64, r#ref: f64) -> f64 {
+    pub fn proc(&mut self, set: Real, r#ref: Real) -> Real {
         unsafe { a_pid_proc(self, set, r#ref) }
     }
 
     /// terminate function for PID controller
-    pub fn done(&mut self) -> &mut PID {
+    pub fn done(&mut self) -> &mut Self {
         unsafe { a_pid_done(self).as_mut().unwrap_unchecked() }
     }
 }

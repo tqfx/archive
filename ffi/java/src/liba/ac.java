@@ -32,6 +32,7 @@ public class ac {
         public double ec;
         public double e;
         int mode;
+        int num;
 
         public pid(double ts, double min, double max) {
             this.init(ts, min, max);

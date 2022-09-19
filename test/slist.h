@@ -135,15 +135,15 @@ A_STATIC a_void_t null(void)
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-int slist_c(void);
-int slist_cpp(void);
+a_int_t slist_c(void);
+a_int_t slist_cpp(void);
 #if defined(__cplusplus)
 } /* extern "C" */
 #define func slist_cpp
 #else /* !__cplusplus */
 #define func slist_c
 #endif /* __cplusplus */
-int func(void)
+a_int_t func(void)
 {
     printf("%s\n", __func__);
     test();

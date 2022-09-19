@@ -19,6 +19,7 @@ cdef extern from "a/pid.h":
         a_real_t ec
         a_real_t e
         a_uint_t mode
+        a_uint_t num
     a_pid_s *a_pid_off  "a_pid_off"  (a_pid_s *ctx)
     a_pid_s *a_pid_inc  "a_pid_inc"  (a_pid_s *ctx)
     a_pid_s *a_pid_pos  "a_pid_pos"  (a_pid_s *ctx, a_real_t max)

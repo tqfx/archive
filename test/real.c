@@ -177,7 +177,7 @@ A_STATIC a_void_t test_diff(a_size_t n)
            a_cast_s(long, t1), a_cast_s(long, t2), a_cast_s(long, t3));
 }
 
-int main(a_int_t argc, a_str_t argv[])
+int main(int argc, char *argv[])
 {
     test();
 

@@ -18,11 +18,13 @@ typedef struct
     jfieldID ec;
     jfieldID e;
     jfieldID mode;
+    jfieldID num;
 } j_pid_s;
 
 static j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
 {
     jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "pid");
+    jctx->num = (*jenv)->GetFieldID(jenv, jcls, "num", "I");
     jctx->mode = (*jenv)->GetFieldID(jenv, jcls, "mode", "I");
     jctx->ts = (*jenv)->GetFieldID(jenv, jcls, "ts", "D");
     jctx->kp = (*jenv)->GetFieldID(jenv, jcls, "kp", "D");
@@ -45,6 +47,7 @@ static jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;
+    ctx->num = (a_uint_t)(*jenv)->GetIntField(jenv, jobj, jctx->num);
     ctx->mode = (a_uint_t)(*jenv)->GetIntField(jenv, jobj, jctx->mode);
     ctx->ts = (*jenv)->GetDoubleField(jenv, jobj, jctx->ts);
     ctx->kp = (*jenv)->GetDoubleField(jenv, jobj, jctx->kp);
@@ -65,6 +68,7 @@ static jobject j_pid_set(const j_pid_s *jctx, const a_pid_s *ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;
+    (*jenv)->SetIntField(jenv, jobj, jctx->num, (jint)ctx->num);
     (*jenv)->SetIntField(jenv, jobj, jctx->mode, (jint)ctx->mode);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->ts, ctx->ts);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kp, ctx->kp);

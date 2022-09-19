@@ -11,10 +11,17 @@ liba = "0.1"
 ```
 */
 
-#![deny(missing_docs)]
+#![warn(missing_docs)]
+#[allow(missing_docs)]
+pub type Uint = libc::c_uint;
+#[allow(missing_docs)]
+pub type Real = f64;
 
+pub mod mf;
 pub mod pid;
 pub use crate::pid::PID;
+pub mod fpid;
+pub use crate::fpid::FPID;
 
 pub mod polytrack;
 pub use crate::polytrack::PolyTrack3;
@@ -23,9 +30,9 @@ pub use crate::polytrack::PolyTrack7;
 
 extern "C" {
     fn a_version() -> *const libc::c_char;
-    fn a_version_major() -> libc::c_uint;
-    fn a_version_minor() -> libc::c_uint;
-    fn a_version_patch() -> libc::c_uint;
+    fn a_version_major() -> Uint;
+    fn a_version_minor() -> Uint;
+    fn a_version_patch() -> Uint;
 }
 
 /**
