@@ -5,7 +5,6 @@
 */
 
 #include "a/arr.h"
-
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>

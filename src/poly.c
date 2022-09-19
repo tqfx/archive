@@ -5,10 +5,7 @@
 */
 
 #include "a/poly.h"
-
 #include <assert.h>
-
-#include <stdio.h>
 
 a_real_t *a_poly_inv(a_real_t *a, a_size_t n)
 {

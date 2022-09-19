@@ -5,11 +5,8 @@
 */
 
 #include "a/a.h"
-
 #include "a/operator.h"
-
 #include "../src/operator.h"
-
 #include <stdio.h>
 
 #if defined(__GNUC__) || defined(__clang__)

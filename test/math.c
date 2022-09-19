@@ -5,9 +5,7 @@
 */
 
 #include "a/math.h"
-
 #include "test.h"
-
 #include <math.h>
 
 A_STATIC a_void_t test_sq(void)

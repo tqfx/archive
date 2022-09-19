@@ -7,7 +7,6 @@
 #if __STDC_HOSTED__
 
 #include "a/host/que.h"
-
 #include <assert.h>
 #include <string.h>
 

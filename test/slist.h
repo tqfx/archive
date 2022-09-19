@@ -12,7 +12,6 @@
 #endif /* diagnostic */
 
 #include "a/slist.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 

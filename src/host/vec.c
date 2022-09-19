@@ -7,7 +7,6 @@
 #if __STDC_HOSTED__
 
 #include "a/host/vec.h"
-
 #include <assert.h>
 #include <string.h>
 

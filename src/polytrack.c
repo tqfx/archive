@@ -6,7 +6,6 @@
 
 #include "a/polytrack.h"
 #include "a/poly.h"
-
 #include <assert.h>
 
 /* function for cubic polynomial trajectory */

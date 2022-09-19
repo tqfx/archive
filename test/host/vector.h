@@ -9,7 +9,6 @@
 
 #include "a/host/vector.h"
 #include "../test.h"
-
 #include <inttypes.h>
 #include <assert.h>
 #include <string.h>

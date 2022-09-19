@@ -6,7 +6,6 @@
 
 #include "a/a.h"
 #include "test.h"
-
 #include <inttypes.h>
 
 A_STATIC a_void_t test_swap(void)

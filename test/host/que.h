@@ -9,7 +9,6 @@
 
 #include "a/host/que.h"
 #include "../test.h"
-
 #include <inttypes.h>
 #include <assert.h>
 #include <string.h>

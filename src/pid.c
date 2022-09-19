@@ -5,9 +5,6 @@
 */
 
 #include "a/pid.h"
-#include "a/math.h"
-
-#include <assert.h>
 
 a_pid_s *a_pid_off(a_pid_s *ctx)
 {
