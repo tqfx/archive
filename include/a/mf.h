@@ -20,7 +20,7 @@
 */
 typedef enum a_mf_e
 {
-    A_MF_NONE, //!< none
+    A_MF_NUL, //!< none
     A_MF_GAUSS, //!< gaussian membership function
     A_MF_GBELL, //!< generalized bell-shaped membership function
     A_MF_SIG, //!< sigmoidal membership function

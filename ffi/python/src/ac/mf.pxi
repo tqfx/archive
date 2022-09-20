@@ -4,7 +4,7 @@ from ac.mf cimport *
 @cython.boundscheck(False)
 cdef class mf:
     '''membership function'''
-    NONE  = A_MF_NONE
+    NUL   = A_MF_NUL
     GAUSS = A_MF_GAUSS
     GBELL = A_MF_GBELL
     SIG   = A_MF_SIG

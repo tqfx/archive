@@ -105,7 +105,7 @@ a_real_t a_mf(a_uint_t e, a_real_t x, a_real_t *a)
         return a_mf_tri(x, a[0], a[1], a[2]);
     case A_MF_Z:
         return a_mf_z(x, a[0], a[1]);
-    case A_MF_NONE:
+    case A_MF_NUL:
     default:
         return 0;
     }

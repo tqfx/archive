@@ -131,7 +131,7 @@ let mma = [
     PM,
     PB,
     PB,
-    liba::mf::NONE,
+    liba::mf::NUL,
 ];
 let mut fpid = liba::FPID::new(
     1.0,

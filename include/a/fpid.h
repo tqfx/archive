@@ -26,7 +26,7 @@ typedef struct a_fpid_s
     const a_real_t *mkp; //!< points to Kp's rule base table, the rule base must be square
     const a_real_t *mki; //!< points to Ki's rule base table, the rule base must be square
     const a_real_t *mkd; //!< points to Kd's rule base table, the rule base must be square
-    const a_real_t *mma; //!< points to membership function argument table, an array terminated by @ref A_MF_NONE
+    const a_real_t *mma; //!< points to membership function argument table, an array terminated by @ref A_MF_NUL
 
     a_uint_t *idx; //!< the memory cache for membership index
     /*!< the length must be greater than or equal to twice the maximum number triggered by the rule */
@@ -100,6 +100,16 @@ A_PUBLIC a_fpid_s *a_fpid_ilim(a_fpid_s *ctx, a_real_t min, a_real_t max);
 */
 A_PUBLIC a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max);
 
+A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
+/*!
+ @brief set one cache buffer for fuzzy PID controller
+ @param[in,out] ctx points to an instance of fuzzy PID controller
+ @param[in] ptr points to a buffer at least A_FPID_BUF1(max)
+ @param[in] max the maximum number triggered by the rule
+*/
+A_PUBLIC a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max);
+#define A_FPID_BUF1(N) (sizeof(a_uint_t) * 2 * (N) + sizeof(a_real_t) * (N) * ((N) + 2))
+
 /*!
  @brief set proportional integral derivative constant for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
@@ -119,12 +129,18 @@ A_PUBLIC a_fpid_s *a_fpid_kpid(a_fpid_s *ctx, a_real_t kp, a_real_t ki, a_real_t
  @param[in] mat the memory cache for matrix of the membership outer product of e and ec
 */
 A_PUBLIC a_fpid_s *a_fpid_buff(a_fpid_s *ctx, a_uint_t *idx, a_real_t *mms, a_real_t *mat);
+#define A_FPID_MAT1(N) (sizeof(a_real_t) * (N) * (N))
+#define A_FPID_MMS1(N) (sizeof(a_real_t) * 2 * (N))
+#define A_FPID_IDX1(N) (sizeof(a_uint_t) * 2 * (N))
+#define A_FPID_MAT(N) ((N) * (N))
+#define A_FPID_MMS(N) (2 * (N))
+#define A_FPID_IDX(N) (2 * (N))
 
 /*!
  @brief set rule base for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
  @param[in] num number of columns in the rule base
- @param[in] mma points to membership function parameter table, an array terminated by @ref A_MF_NONE
+ @param[in] mma points to membership function parameter table, an array terminated by @ref A_MF_NUL
  @param[in] mkp points to Kp's rule base table, the rule base must be square
  @param[in] mki points to Ki's rule base table, the rule base must be square
  @param[in] mkd points to Kd's rule base table, the rule base must be square
@@ -136,7 +152,7 @@ A_PUBLIC a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mma,
  @param[in,out] ctx points to an instance of fuzzy PID controller
  @param[in] ts sampling time unit(s)
  @param[in] num number of columns in the rule base
- @param[in] mma points to membership function parameter table, an array terminated by @ref A_MF_NONE
+ @param[in] mma points to membership function parameter table, an array terminated by @ref A_MF_NUL
  @param[in] mkp points to Kp's rule base table, the rule base must be square
  @param[in] mki points to Ki's rule base table, the rule base must be square
  @param[in] mkd points to Kd's rule base table, the rule base must be square

@@ -207,7 +207,7 @@ typedef void a_void_t;
 #else /* !__cplusplus */
 #define A_NULL nullptr
 #endif /* __cplusplus */
-#define A_ZERO 0
+#define A_INIT 0
 
 typedef size_t a_size_t;
 #define A_SIZE_MAX SIZE_MAX

@@ -2,7 +2,7 @@ from ac cimport *
 
 cdef extern from "a/mf.h":
     ctypedef enum a_mf_e "a_mf_e":
-        A_MF_NONE  "A_MF_NONE"
+        A_MF_NUL   "A_MF_NUL"
         A_MF_GAUSS "A_MF_GAUSS"
         A_MF_GBELL "A_MF_GBELL"
         A_MF_SIG   "A_MF_SIG"

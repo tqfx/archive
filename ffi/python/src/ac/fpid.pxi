@@ -5,6 +5,7 @@ from ac.fpid cimport *
 cdef class fpid:
     '''fuzzy proportional integral derivative controller'''
     cdef a_fpid_s ctx[1]
+    cdef a_vptr_t ptr
     cdef array mma
     cdef array mkp
     cdef array mki
@@ -18,16 +19,11 @@ cdef class fpid:
         cdef a_real_t *kp = self.mkp.data.as_doubles
         cdef a_real_t *ki = self.mki.data.as_doubles
         cdef a_real_t *kd = self.mkd.data.as_doubles
-        cdef a_fpid_s *ctx = self.ctx
-        a_fpid_init(ctx, ts, len(mkp), ma, kp, ki, kd, imin, imax, omin, omax)
-        ctx.idx = <a_uint_t *>PyMem_Malloc(sizeof(a_uint_t) * num * 2)
-        ctx.mms = <a_real_t *>PyMem_Malloc(sizeof(a_real_t) * num * 2)
-        ctx.mat = <a_real_t *>PyMem_Malloc(sizeof(a_real_t) * num * num)
+        a_fpid_init(self.ctx, ts, len(mkp), ma, kp, ki, kd, imin, imax, omin, omax)
+        self.ptr = PyMem_Malloc(A_FPID_BUF1(num))
+        a_fpid_buf1(self.ctx, self.ptr, num)
     def __dealloc__(self):
-        cdef a_fpid_s *ctx = self.ctx
-        PyMem_Free(ctx.idx)
-        PyMem_Free(ctx.mms)
-        PyMem_Free(ctx.mat)
+        PyMem_Free(self.ptr)
     def __call__(self, set: float, ref: float) -> float:
         '''process function for fuzzy PID controller'''
         return a_fpid_proc(self.ctx, set, ref)
@@ -37,10 +33,8 @@ cdef class fpid:
         return self
     def buff(self, max: a_uint_t):
         '''set buffer for fuzzy PID controller'''
-        cdef a_fpid_s *ctx = self.ctx
-        ctx.idx = <a_uint_t *>PyMem_Realloc(ctx.idx, sizeof(a_uint_t) * max * 2)
-        ctx.mms = <a_real_t *>PyMem_Realloc(ctx.mms, sizeof(a_real_t) * max * 2)
-        ctx.mat = <a_real_t *>PyMem_Realloc(ctx.mat, sizeof(a_real_t) * max * max)
+        self.ptr = PyMem_Realloc(self.ptr, A_FPID_BUF1(max))
+        a_fpid_buf1(self.ctx, self.ptr, max)
         return self
     def base(self, mma, mkp, mki, mkd):
         '''set rule base for fuzzy PID controller'''

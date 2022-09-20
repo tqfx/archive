@@ -74,7 +74,7 @@ mma = [
     [a.mf.TRI, +0, +1, +2],  # PS
     [a.mf.TRI, +1, +2, +3],  # PM
     [a.mf.TRI, +2, +3, +3],  # PB
-    [a.mf.NONE, 0, 0, 0],
+    [a.mf.NUL, +0, +0, +0],
 ]
 
 

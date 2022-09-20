@@ -53,13 +53,14 @@
             A_MF_TRI, ZO, PS, PM,                     \
             A_MF_TRI, PS, PM, PB,                     \
             A_MF_TRI, PM, PB, PB,                     \
-            A_MF_NONE};                               \
+            A_MF_NUL};                                \
         a_fpid_init(ctx, ts, 7, mma, mkp, mki, mkd,   \
                     imin, imax, omin, omax);          \
-        static a_uint_t idx[] = {0, 0, 0, 0};         \
-        static a_real_t mms[] = {0, 0, 0, 0};         \
-        static a_real_t mat[] = {0, 0, 0, 0};         \
+        static a_uint_t idx[A_FPID_IDX(2)];           \
+        static a_real_t mms[A_FPID_MMS(2)];           \
+        static a_real_t mat[A_FPID_MAT(2)];           \
         a_fpid_buff(ctx, idx, mms, mat);              \
+        a_fpid_pos(ctx, omax);                        \
     } while (0)
 
 static void test(void)
@@ -68,6 +69,13 @@ static void test(void)
     A_FPID_INIT7(ctx, A_REAL_C(0.01), -3, -3, -10, +10);
     a_fpid_kpid(ctx, 1, 0, 0);
     a_fpid_time(ctx, A_REAL_C(0.001));
+    for (a_real_t i = -3; i < 3; i += A_REAL_C(0.001))
+    {
+        a_fpid_proc(ctx, 0, i);
+    }
+    a_fpid_done(ctx);
+    char buff[A_FPID_BUF1(2)];
+    a_fpid_buf1(ctx, buff, 2);
     for (a_real_t i = -3; i < 3; i += A_REAL_C(0.001))
     {
         a_fpid_proc(ctx, 0, i);

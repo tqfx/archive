@@ -1,6 +1,7 @@
 from ac.pid cimport *
 
 cdef extern from "a/fpid.h":
+    a_size_t A_FPID_BUF1 "A_FPID_BUF1" (a_uint_t N)
     ctypedef struct a_fpid_s "a_fpid_s":
         a_pid_s pid[1]
         const double *mkp
@@ -23,6 +24,7 @@ cdef extern from "a/fpid.h":
     a_fpid_s *a_fpid_time "a_fpid_time" (a_fpid_s *ctx, a_real_t ts)
     a_fpid_s *a_fpid_ilim "a_fpid_ilim" (a_fpid_s *ctx, a_real_t min, a_real_t max)
     a_fpid_s *a_fpid_olim "a_fpid_olim" (a_fpid_s *ctx, a_real_t min, a_real_t max)
+    a_fpid_s *a_fpid_buf1 "a_fpid_buf1" (a_fpid_s *ctx, a_vptr_t ptr, a_size_t max)
     a_fpid_s *a_fpid_kpid "a_fpid_kpid" (a_fpid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
     a_fpid_s *a_fpid_buff "a_fpid_buff" (a_fpid_s *ctx, a_uint_t *idx, a_real_t *mms, a_real_t *mat)
     a_fpid_s *a_fpid_base "a_fpid_base" (a_fpid_s *ctx, a_uint_t num, const a_real_t *mma, const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd)

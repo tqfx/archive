@@ -3,7 +3,7 @@
 use crate::Real;
 
 /// none
-pub const NONE: Real = 0.0;
+pub const NUL: Real = 0.0;
 /// gaussian membership function
 pub const GAUSS: Real = 1.0;
 /// generalized bell-shaped membership function

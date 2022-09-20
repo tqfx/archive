@@ -7,6 +7,12 @@
 #include "a/fpid.h"
 #include <math.h>
 
+#undef A_FPID_BUF1
+a_size_t A_FPID_BUF1(a_uint_t max)
+{
+    return sizeof(a_uint_t) * (max << 1) + sizeof(a_real_t) * (max + 2) * max;
+}
+
 a_fpid_s *a_fpid_off(a_fpid_s *ctx)
 {
     a_pid_off(ctx->pid);
@@ -51,6 +57,17 @@ a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max)
     return ctx;
 }
 
+a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max)
+{
+    max <<= 1;
+    ctx->idx = (a_uint_t *)ptr;
+    ptr = (a_byte_t *)ptr + sizeof(a_uint_t) * max;
+    ctx->mms = (a_real_t *)ptr;
+    ptr = (a_byte_t *)ptr + sizeof(a_real_t) * max;
+    ctx->mat = (a_real_t *)ptr;
+    return ctx;
+}
+
 a_fpid_s *a_fpid_kpid(a_fpid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
 {
     a_pid_kpid(ctx->pid, kp, ki, kd);
@@ -92,6 +109,9 @@ a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t ts, a_uint_t num, const a_real_t *
     a_fpid_base(ctx, num, mma, mkp, mki, mkd);
     ctx->sigma = x / (imax - imin);
     ctx->alpha = (omax - omin) / x;
+    ctx->idx = 0;
+    ctx->mms = 0;
+    ctx->mat = 0;
     ctx->op = op;
     ctx->kp = 0;
     ctx->ki = 0;
@@ -114,9 +134,9 @@ a_fpid_s *a_fpid_done(a_fpid_s *ctx)
 A_STATIC a_uint_t mf(a_fpid_s *ctx, a_real_t x, a_uint_t *idx, a_real_t *mms)
 {
     a_uint_t num = 0;
-    a_int_t e = A_MF_NONE;
+    a_int_t e = A_MF_NUL;
     const a_real_t *a = ctx->mma;
-    for (a_uint_t i = 0; (void)(e = (a_int_t)*a++), e != A_MF_NONE; ++i)
+    for (a_uint_t i = 0; (void)(e = (a_int_t)*a++), e != A_MF_NUL; ++i)
     {
         a_real_t y = 0;
         switch (e)
@@ -157,7 +177,7 @@ A_STATIC a_uint_t mf(a_fpid_s *ctx, a_real_t x, a_uint_t *idx, a_real_t *mms)
             a += 2;
         }
         break;
-        case A_MF_NONE:
+        case A_MF_NUL:
         default:
             goto done;
         }
