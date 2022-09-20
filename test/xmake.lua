@@ -2,7 +2,7 @@ target("test.a")
     set_group("test")
     set_default(false)
     set_kind("binary")
-    add_files("a.cpp")
+    add_files("lib.cpp")
     add_deps("a")
 target_end()
 

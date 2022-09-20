@@ -64,7 +64,7 @@ function(unittest target)
   add_test(NAME ${target} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND})
 endfunction()
 
-unittest(a SOURCE a.cpp)
+unittest(a SOURCE lib.cpp)
 
 unittest(for SOURCE for.c for.cpp)
 
