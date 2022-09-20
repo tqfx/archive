@@ -22,7 +22,7 @@ cdef class mf:
             return y
         return a_mf(e, x, v)
     @staticmethod
-    def gauss(x, sigma: float, c: float):
+    def gauss(x, sigma: a_real_t, c: a_real_t):
         '''Gaussian membership function'''
         if iterable(x):
             y = array('d', x)
@@ -31,7 +31,7 @@ cdef class mf:
             return y
         return a_mf_gauss(x, sigma, c)
     @staticmethod
-    def gbell(x, a: float, b: float, c: float):
+    def gbell(x, a: a_real_t, b: a_real_t, c: a_real_t):
         '''Generalized bell-shaped membership function'''
         if iterable(x):
             y = array('d', x)
@@ -40,7 +40,7 @@ cdef class mf:
             return y
         return a_mf_gbell(x, a, b, c)
     @staticmethod
-    def sig(x, a: float, c: float):
+    def sig(x, a: a_real_t, c: a_real_t):
         '''Sigmoidal membership function'''
         if iterable(x):
             y = array('d', x)
@@ -49,7 +49,7 @@ cdef class mf:
             return y
         return a_mf_sig(x, a, c)
     @staticmethod
-    def trap(x, a: float, b: float, c: float, d: float):
+    def trap(x, a: a_real_t, b: a_real_t, c: a_real_t, d: a_real_t):
         '''Trapezoidal membership function'''
         if iterable(x):
             y = array('d', x)
@@ -58,7 +58,7 @@ cdef class mf:
             return y
         return a_mf_trap(x, a, b, c, d)
     @staticmethod
-    def tri(x, a: float, b: float, c: float):
+    def tri(x, a: a_real_t, b: a_real_t, c: a_real_t):
         '''Triangular membership function'''
         if iterable(x):
             y = array('d', x)
@@ -67,7 +67,7 @@ cdef class mf:
             return y
         return a_mf_tri(x, a, b, c)
     @staticmethod
-    def z(x, a: float, b: float):
+    def z(x, a: a_real_t, b: a_real_t):
         '''Z-shaped membership function'''
         if iterable(x):
             y = array('d', x)

@@ -5,9 +5,9 @@ from ac.polytrack cimport *
 cdef class polytrack3:
     '''cubic polynomial trajectory'''
     cdef a_polytrack3_s ctx[1]
-    cdef double source[3]
-    cdef double target[3]
-    cdef double out[3]
+    cdef a_real_t source[3]
+    cdef a_real_t target[3]
+    cdef a_real_t out[3]
     def __cinit__(self, source, target):
         self.source[0] = source[0]
         self.source[1] = source[1]
@@ -88,9 +88,9 @@ cdef class polytrack3:
 cdef class polytrack5:
     '''quintic polynomial trajectory'''
     cdef a_polytrack5_s ctx[1]
-    cdef double source[4]
-    cdef double target[4]
-    cdef double out[3]
+    cdef a_real_t source[4]
+    cdef a_real_t target[4]
+    cdef a_real_t out[3]
     def __cinit__(self, source, target):
         self.source[0] = source[0]
         self.source[1] = source[1]
@@ -185,9 +185,9 @@ cdef class polytrack5:
 cdef class polytrack7:
     '''hepta polynomial trajectory'''
     cdef a_polytrack7_s ctx[1]
-    cdef double source[5]
-    cdef double target[5]
-    cdef double out[4]
+    cdef a_real_t source[5]
+    cdef a_real_t target[5]
+    cdef a_real_t out[4]
     def __cinit__(self, source, target):
         self.source[0] = source[0]
         self.source[1] = source[1]
