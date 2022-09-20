@@ -25,7 +25,7 @@ static int inv_sqrt(lua_State *L)
     return n;
 }
 
-static const RegFunc funcs[] = {
+static const SFunc funcs[] = {
     {"inv_sqrt", inv_sqrt},
     {NULL, NULL},
 };
@@ -34,7 +34,7 @@ int luaopen_liba(lua_State *L)
 {
     luaL_checkversion(L);
     lua_createtable(L, 0, Larray(funcs) - 1);
-    reg_funcs(L, -1, funcs);
+    set_funcs(L, -1, funcs);
 
     lua_pushstring(L, "pid");
     luaopen_liba_pid(L);

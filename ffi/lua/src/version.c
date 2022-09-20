@@ -7,14 +7,14 @@ static int version(lua_State *L)
     return 1;
 }
 
-static const RegEnum versionet[] = {
+static const SEnum versionet[] = {
     {"major", A_VERSION_MAJOR},
     {"minor", A_VERSION_MINOR},
     {"patch", A_VERSION_PATCH},
     {NULL, 0},
 };
 
-static const RegFunc versionmt[] = {
+static const SFunc versionmt[] = {
     {"__call", version},
     {NULL, NULL},
 };
@@ -22,10 +22,10 @@ static const RegFunc versionmt[] = {
 int luaopen_liba_version(lua_State *L)
 {
     lua_createtable(L, 0, Larray(versionet) - 1);
-    reg_enums(L, -1, versionet);
+    set_enums(L, -1, versionet);
     lua_createtable(L, 0, Larray(versionmt));
-    reg_funcs(L, -1, versionmt);
-    reg_name(L, -1, "version");
+    set_funcs(L, -1, versionmt);
+    set_name(L, -1, "version");
     lua_setmetatable(L, -2);
     return 1;
 }

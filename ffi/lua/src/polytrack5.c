@@ -1,6 +1,38 @@
 #include "lua.h"
 #include "a/polytrack.h"
 
+int polytrack5_from_(lua_State *L, int idx, a_polytrack5_s *ctx);
+int polytrack5_into_(lua_State *L, int idx, a_polytrack5_s *ctx);
+
+int polytrack5_from_(lua_State *L, int idx, a_polytrack5_s *ctx)
+{
+    GFnums polytrack5[] = {
+        {"t", ctx->t, 2},
+        {"q", ctx->q, 2},
+        {"v", ctx->v, 2},
+        {"a", ctx->a, 2},
+        {"k", ctx->k, 6},
+        {NULL, NULL, 0},
+    };
+    arraynum_gets(L, idx, polytrack5);
+    return 1;
+}
+
+int polytrack5_into_(lua_State *L, int idx, a_polytrack5_s *ctx)
+{
+    SFnums polytrack5[] = {
+        {"t", ctx->t, 2},
+        {"q", ctx->q, 2},
+        {"v", ctx->v, 2},
+        {"a", ctx->a, 2},
+        {"k", ctx->k, 6},
+        {NULL, NULL, 0},
+    };
+    lua_createtable(L, 0, Larray(polytrack5) - 1);
+    arraynum_sets(L, idx, polytrack5);
+    return 1;
+}
+
 static int polytrack5_from(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)userdata_new(L, sizeof(a_polytrack5_s), 1);
@@ -8,21 +40,7 @@ static int polytrack5_from(lua_State *L)
     {
         userdata_setp(L, 1, ctx); /* :from() */
     }
-#undef get
-#define get(field, num)                       \
-    lua_pushstring(L, #field);                \
-    if (lua_rawget(L, -3) == LUA_TTABLE)      \
-    {                                         \
-        arraynum_get(L, -1, ctx->field, num); \
-    }                                         \
-    lua_pop(L, 1)
-    get(t, 2);
-    get(q, 2);
-    get(v, 2);
-    get(a, 2);
-    get(k, 6);
-#undef get
-    return 1;
+    return polytrack5_from_(L, -1, ctx);
 }
 
 static int polytrack5_into(lua_State *L)
@@ -30,20 +48,7 @@ static int polytrack5_into(lua_State *L)
     a_polytrack5_s *ctx = (a_polytrack5_s *)userdata_get(L);
     if (ctx)
     {
-        lua_createtable(L, 0, 4);
-#undef set
-#define set(field, num)                   \
-    lua_pushstring(L, #field);            \
-    lua_createtable(L, num, 0);           \
-    arraynum_set(L, -1, ctx->field, num); \
-    lua_rawset(L, -3)
-        set(t, 2);
-        set(q, 2);
-        set(v, 2);
-        set(a, 2);
-        set(k, 6);
-#undef set
-        return 1;
+        return polytrack5_into_(L, -1, ctx);
     }
     return 0;
 }
@@ -62,8 +67,8 @@ static int polytrack5_init(lua_State *L)
             luaL_checktype(L, 3, LUA_TTABLE);
         }
         a_polytrack5_s *ctx = (a_polytrack5_s *)userdata_new(L, sizeof(a_polytrack5_s), 2);
-        arraynum_get(L, 1, source, 4);
-        arraynum_get(L, 2, target, 4);
+        arraynum_get(L, 1, source, Larray(source));
+        arraynum_get(L, 2, target, Larray(target));
         a_polytrack5_init(ctx, source, target);
         return 1;
     }
@@ -121,7 +126,7 @@ static int polytrack5_acc(lua_State *L)
     return 0;
 }
 
-static const RegFunc polytrack5TF[] = {
+static const SFunc polytrack5TF[] = {
     {"from", polytrack5_from},
     {"into", polytrack5_into},
     {"init", polytrack5_init},
@@ -144,17 +149,17 @@ static int polytrack5_new(lua_State *L)
     int ok = polytrack5_init(L);
 
     lua_createtable(L, 0, Larray(polytrack5TF) - 1);
-    reg_funcs(L, -1, polytrack5TF);
+    set_funcs(L, -1, polytrack5TF);
     userdata_seti(L, -1, -2);
 
     lua_createtable(L, 0, 1);
-    reg_func(L, -1, "__call", polytrack5_all);
+    set_func(L, -1, "__call", polytrack5_all);
     lua_setmetatable(L, -2);
 
     return ok;
 }
 
-static const RegFunc polytrack5TM[] = {
+static const SFunc polytrack5TM[] = {
     {"__call", polytrack5_new},
     {NULL, NULL},
 };
@@ -162,10 +167,10 @@ static const RegFunc polytrack5TM[] = {
 int luaopen_liba_polytrack5(lua_State *L)
 {
     lua_createtable(L, 0, Larray(polytrack5TF) - 1);
-    reg_funcs(L, -1, polytrack5TF);
+    set_funcs(L, -1, polytrack5TF);
     lua_createtable(L, 0, Larray(polytrack5TM));
-    reg_funcs(L, -1, polytrack5TM);
-    reg_name(L, -1, "polytrack5");
+    set_funcs(L, -1, polytrack5TM);
+    set_name(L, -1, "polytrack5");
     lua_setmetatable(L, -2);
     return 1;
 }

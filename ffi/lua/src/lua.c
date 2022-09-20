@@ -13,20 +13,33 @@ void lua_show(lua_State *L, int line)
     }
 }
 
-void reg_enum(lua_State *L, int idx, const char *name, lua_Integer data)
+lua_Number get_fnum(lua_State *L, int idx, const char *name)
 {
-    /* table[name]=func */
+    lua_Number x = 0;
+    /* data=table[name] */
+    lua_pushstring(L, name);
+    if (lua_rawget(L, idx < 0 ? idx - 2 : idx) == LUA_TNUMBER)
+    {
+        x = lua_tonumber(L, -1);
+    }
+    lua_pop(L, 1);
+    return x;
+}
+
+void set_enum(lua_State *L, int idx, const char *name, lua_Integer data)
+{
+    /* table[name]=data */
     lua_pushstring(L, name);
     lua_pushinteger(L, data);
     lua_rawset(L, idx < 0 ? idx - 2 : idx);
 }
 
-void reg_enums(lua_State *L, int idx, const RegEnum *tab)
+void set_enums(lua_State *L, int idx, const SEnum *tab)
 {
     idx = idx < 0 ? idx - 2 : idx;
     while (tab->name)
     {
-        /* table[name]=func */
+        /* table[name]=data */
         lua_pushstring(L, tab->name);
         lua_pushinteger(L, tab->data);
         lua_rawset(L, idx);
@@ -34,12 +47,33 @@ void reg_enums(lua_State *L, int idx, const RegEnum *tab)
     }
 }
 
-void reg_fnums(lua_State *L, int idx, const RegFnum *tab)
+lua_Integer get_enum(lua_State *L, int idx, const char *name)
+{
+    lua_Number x = 0;
+    /* data=table[name] */
+    lua_pushstring(L, name);
+    if (lua_rawget(L, idx < 0 ? idx - 2 : idx) == LUA_TNUMBER)
+    {
+        x = lua_tonumber(L, -1);
+    }
+    lua_pop(L, 1);
+    return (lua_Integer)x;
+}
+
+void set_fnum(lua_State *L, int idx, const char *name, lua_Number data)
+{
+    /* table[name]=data */
+    lua_pushstring(L, name);
+    lua_pushnumber(L, data);
+    lua_rawset(L, idx < 0 ? idx - 2 : idx);
+}
+
+void set_fnums(lua_State *L, int idx, const SFnum *tab)
 {
     idx = idx < 0 ? idx - 2 : idx;
     while (tab->name)
     {
-        /* table[name]=func */
+        /* table[name]=data */
         lua_pushstring(L, tab->name);
         lua_pushnumber(L, tab->data);
         lua_rawset(L, idx);
@@ -47,7 +81,23 @@ void reg_fnums(lua_State *L, int idx, const RegFnum *tab)
     }
 }
 
-void reg_func(lua_State *L, int idx, const char *name, lua_CFunction func)
+void get_fnums(lua_State *L, int idx, const GFnum *tab)
+{
+    idx = idx < 0 ? idx - 2 : idx;
+    while (tab->name)
+    {
+        /* data=table[name] */
+        lua_pushstring(L, tab->name);
+        if (lua_rawget(L, idx) == LUA_TNUMBER)
+        {
+            *tab->data = lua_tonumber(L, -1);
+        }
+        lua_pop(L, 1);
+        ++tab;
+    }
+}
+
+void set_func(lua_State *L, int idx, const char *name, lua_CFunction func)
 {
     /* table[name]=func */
     lua_pushstring(L, name);
@@ -55,7 +105,7 @@ void reg_func(lua_State *L, int idx, const char *name, lua_CFunction func)
     lua_rawset(L, idx < 0 ? idx - 2 : idx);
 }
 
-void reg_funcs(lua_State *L, int idx, const RegFunc *tab)
+void set_funcs(lua_State *L, int idx, const SFunc *tab)
 {
     idx = idx < 0 ? idx - 2 : idx;
     while (tab->name)
@@ -68,7 +118,7 @@ void reg_funcs(lua_State *L, int idx, const RegFunc *tab)
     }
 }
 
-void reg_name(lua_State *L, int idx, const char *name)
+void set_name(lua_State *L, int idx, const char *name)
 {
     /* table["__name"]=name */
     lua_pushstring(L, "__name");
@@ -95,6 +145,34 @@ void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num
     {
         lua_pushnumber(L, ptr[i]);
         lua_rawseti(L, idx, num);
+    }
+}
+
+void arraynum_gets(lua_State *L, int idx, const GFnums *tab)
+{
+    idx = idx < 0 ? idx - 2 : idx;
+    while (tab->name)
+    {
+        lua_pushstring(L, tab->name);
+        if (lua_rawget(L, idx) == LUA_TTABLE)
+        {
+            arraynum_get(L, -1, tab->ptr, (unsigned int)tab->num);
+        }
+        lua_pop(L, 1);
+        ++tab;
+    }
+}
+
+void arraynum_sets(lua_State *L, int idx, const SFnums *tab)
+{
+    idx = idx < 0 ? idx - 2 : idx;
+    while (tab->name)
+    {
+        lua_pushstring(L, tab->name);
+        lua_createtable(L, (int)tab->num, 0);
+        arraynum_set(L, -1, tab->ptr, (unsigned int)tab->num);
+        lua_rawset(L, idx);
+        ++tab;
     }
 }
 

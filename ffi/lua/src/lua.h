@@ -19,19 +19,45 @@ typedef struct
 {
     const char *name;
     lua_Integer data;
-} RegEnum;
+} SEnum;
+
+typedef struct
+{
+    const char *name;
+    lua_Integer *data;
+} GEnum;
 
 typedef struct
 {
     const char *name;
     lua_Number data;
-} RegFnum;
+} SFnum;
+
+typedef struct
+{
+    const char *name;
+    lua_Number *data;
+} GFnum;
+
+typedef struct
+{
+    const char *name;
+    const lua_Number *ptr;
+    a_size_t num;
+} SFnums;
+
+typedef struct
+{
+    const char *name;
+    lua_Number *ptr;
+    a_size_t num;
+} GFnums;
 
 typedef struct
 {
     const char *name;
     lua_CFunction func;
-} RegFunc;
+} SFunc;
 
 #if defined(__cplusplus)
 extern "C" {
@@ -39,15 +65,21 @@ extern "C" {
 
 void lua_show(lua_State *L, int line);
 
-void reg_enum(lua_State *L, int idx, const char *name, lua_Integer data);
-void reg_enums(lua_State *L, int idx, const RegEnum *tab);
-void reg_fnums(lua_State *L, int idx, const RegFnum *tab);
-void reg_func(lua_State *L, int idx, const char *name, lua_CFunction func);
-void reg_funcs(lua_State *L, int idx, const RegFunc *tab);
-void reg_name(lua_State *L, int idx, const char *name);
+lua_Integer get_enum(lua_State *L, int idx, const char *name);
+void set_enum(lua_State *L, int idx, const char *name, lua_Integer data);
+void set_enums(lua_State *L, int idx, const SEnum *tab);
+lua_Number get_fnum(lua_State *L, int idx, const char *name);
+void set_fnum(lua_State *L, int idx, const char *name, lua_Number data);
+void set_fnums(lua_State *L, int idx, const SFnum *tab);
+void get_fnums(lua_State *L, int idx, const GFnum *tab);
+void set_func(lua_State *L, int idx, const char *name, lua_CFunction func);
+void set_funcs(lua_State *L, int idx, const SFunc *tab);
+void set_name(lua_State *L, int idx, const char *name);
 
 void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num);
 void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num);
+void arraynum_gets(lua_State *L, int idx, const GFnums *tab);
+void arraynum_sets(lua_State *L, int idx, const SFnums *tab);
 
 void *userdata_get(lua_State *L);
 void *userdata_new(lua_State *L, size_t sz, int op);
