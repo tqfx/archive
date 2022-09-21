@@ -285,7 +285,7 @@ static int pid_new(lua_State *L)
 
     int ok = pid_init(L);
 
-    lua_createtable(L, 0, Larray(pidTF) + Larray(pidTE) - 1);
+    lua_createtable(L, 0, Larray(pidTE) + Larray(pidTF) - 1);
     userdata_seti(L, -1, -2);
     set_enums(L, -1, pidTE);
     set_funcs(L, -1, pidTF);
@@ -304,7 +304,7 @@ static const SFunc pidTM[] = {
 
 int luaopen_liba_pid(lua_State *L)
 {
-    lua_createtable(L, 0, Larray(pidTF) + Larray(pidTE) - 2);
+    lua_createtable(L, 0, Larray(pidTE) + Larray(pidTF) - 2);
     set_enums(L, -1, pidTE);
     set_funcs(L, -1, pidTF);
     lua_createtable(L, 0, Larray(pidTM));

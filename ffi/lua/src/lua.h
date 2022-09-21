@@ -86,6 +86,7 @@ void *userdata_new(lua_State *L, size_t sz, int op);
 void userdata_seti(lua_State *L, int idx, int dat);
 void userdata_setp(lua_State *L, int idx, void *ptr);
 
+int luaopen_liba_mf(lua_State *L);
 int luaopen_liba_pid(lua_State *L);
 int luaopen_liba_polytrack3(lua_State *L);
 int luaopen_liba_polytrack5(lua_State *L);

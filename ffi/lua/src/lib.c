@@ -36,6 +36,10 @@ int luaopen_liba(lua_State *L)
     lua_createtable(L, 0, Larray(funcs) - 1);
     set_funcs(L, -1, funcs);
 
+    lua_pushstring(L, "mf");
+    luaopen_liba_mf(L);
+    lua_rawset(L, -3);
+
     lua_pushstring(L, "pid");
     luaopen_liba_pid(L);
     lua_rawset(L, -3);
