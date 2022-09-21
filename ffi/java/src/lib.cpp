@@ -1,4 +1,5 @@
 #include "lib.hpp"
+#include "liba_ax.h"
 #include "a/version.hpp"
 
 JNIEXPORT jstring JNICALL Java_liba_ax_version(JNIEnv *jenv, jclass)

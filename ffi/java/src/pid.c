@@ -1,27 +1,6 @@
-#include "lib.h"
-#include "a/pid.h"
+#include "pid.h"
 
-typedef struct
-{
-    JNIEnv *jenv;
-    jobject jobj;
-    jfieldID ts;
-    jfieldID kp;
-    jfieldID ki;
-    jfieldID kd;
-    jfieldID out;
-    jfieldID outmin;
-    jfieldID outmax;
-    jfieldID summax;
-    jfieldID sum;
-    jfieldID ref;
-    jfieldID ec;
-    jfieldID e;
-    jfieldID mode;
-    jfieldID num;
-} j_pid_s;
-
-static j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
+j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
 {
     jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "pid");
     jctx->num = (*jenv)->GetFieldID(jenv, jcls, "num", "I");
@@ -43,7 +22,7 @@ static j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
     return jctx;
 }
 
-static jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
+jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;
@@ -64,7 +43,7 @@ static jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
     return jctx->jobj;
 }
 
-static jobject j_pid_set(const j_pid_s *jctx, const a_pid_s *ctx)
+jobject j_pid_set(const j_pid_s *jctx, const a_pid_s *ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;
@@ -155,7 +134,7 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024pid_proc(JNIEnv *jenv, jobject jobj,
     j_pid_get(j_pid_new(jenv, jobj, jctx), ctx);
     jdouble jresult = a_pid_proc(ctx, jset, jref);
     j_pid_set(jctx, ctx);
-    return (void)(jobj), jresult;
+    return jresult;
 }
 
 JNIEXPORT jobject JNICALL Java_liba_ac_00024pid_done(JNIEnv *jenv, jobject jobj)

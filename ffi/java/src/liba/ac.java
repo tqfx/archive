@@ -15,6 +15,28 @@ public class ac {
 
     public final static native float int_sqrt(float x);
 
+    public final static class mf {
+        public final static int NUL = 0;
+        public final static int GAUSS = 1;
+        public final static int GBELL = 2;
+        public final static int SIG = 3;
+        public final static int TRAP = 4;
+        public final static int TRI = 5;
+        public final static int Z = 6;
+
+        public final static native double gauss(double x, double sigma, double c);
+
+        public final static native double gbell(double x, double a, double b, double c);
+
+        public final static native double sig(double x, double a, double c);
+
+        public final static native double trap(double x, double a, double b, double c, double d);
+
+        public final static native double tri(double x, double a, double b, double c);
+
+        public final static native double z(double x, double a, double b);
+    }
+
     public final static class pid {
         public final static int OFF = 0;
         public final static int POS = 1;
@@ -55,6 +77,59 @@ public class ac {
         public final native double proc(double set, double ref);
 
         public final native pid done();
+    }
+
+    public final static class fpid {
+        public pid pid;
+        double[] mkp;
+        double[] mki;
+        double[] mkd;
+        double[] mma;
+        double[] mat;
+        double[] mms;
+        int[] idx;
+        double sigma;
+        double alpha;
+        public double kp;
+        public double ki;
+        public double kd;
+        long op;
+
+        public fpid(double ts, int num, double[][] mma,
+                double[][] mkp, double[][] mki, double[][] mkd,
+                double imin, double imax, double omin, double omax) {
+            this.pid = new pid(ts, omin, omax);
+            this.init(ts, mma, mkp, mki, mkd, imin, imax, omin, omax).buff(num);
+        }
+
+        public final native fpid inc();
+
+        public final native fpid off();
+
+        public final native fpid pos(double max);
+
+        public final native fpid mode(int mode);
+
+        public final native fpid time(double ts);
+
+        public final native fpid ilim(double min, double max);
+
+        public final native fpid olim(double min, double max);
+
+        public final native fpid kpid(double kp, double ki, double kd);
+
+        public final native fpid buff(int num);
+
+        public final native fpid base(double[][] mma, double[][] mkp, double[][] mki, double[][] mkd);
+
+        public final native fpid init(double ts, double[][] mma,
+                double[][] mkp, double[][] mki, double[][] mkd,
+                double imin, double imax, double omin, double omax);
+
+        public final native double proc(double set, double ref);
+
+        public final native fpid done();
+
     }
 
     public final static class polytrack3 {
