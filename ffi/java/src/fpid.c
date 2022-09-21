@@ -79,14 +79,14 @@ jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx)
     return jctx->jobj;
 }
 
-A_INLINE jdouble *cast(const void *obj)
+A_INLINE a_real_t *cast(a_cptr_t o)
 {
     union
     {
-        const void *p;
-        jdouble *d;
-    } u[1] = {{obj}};
-    return u->d;
+        a_cptr_t o;
+        a_real_t *x;
+    } u[1] = {{o}};
+    return u->x;
 }
 
 jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
