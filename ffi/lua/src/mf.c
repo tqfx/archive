@@ -1,6 +1,58 @@
 #include "lua.h"
 #include "a/mf.h"
 
+int mf_into_(lua_State *L, int idx, a_real_t *ptr);
+
+int mf_into_(lua_State *L, int idx, a_real_t *ptr)
+{
+    a_uint_t i = 1;
+    a_int_t e = A_MF_NUL;
+    const a_real_t *a = ptr;
+    lua_createtable(L, 0, 0);
+    while ((void)(e = (a_int_t)*a), e != A_MF_NUL)
+    {
+        switch (e)
+        {
+        case A_MF_GAUSS:
+        case A_MF_SIG:
+        case A_MF_Z:
+        {
+            lua_createtable(L, 3, 0);
+            arraynum_set(L, -1, a, 3);
+            lua_rawseti(L, -2, i);
+            a += 3;
+        }
+        break;
+        case A_MF_GBELL:
+        case A_MF_TRI:
+        {
+            lua_createtable(L, 4, 0);
+            arraynum_set(L, -1, a, 4);
+            lua_rawseti(L, -2, i);
+            a += 4;
+        }
+        break;
+        case A_MF_TRAP:
+        {
+            lua_createtable(L, 5, 0);
+            arraynum_set(L, -1, a, 5);
+            lua_rawseti(L, -2, i);
+            a += 5;
+        }
+        break;
+        case A_MF_NUL:
+        default:
+            goto done;
+        }
+        ++i;
+    }
+done:
+    lua_pushnumber(L, A_MF_NUL);
+    lua_rawseti(L, -2, i);
+    lua_rawset(L, idx < 0 ? idx - 1 : idx);
+    return 1;
+}
+
 static int gauss(lua_State *L)
 {
     if (lua_istable(L, 1))
