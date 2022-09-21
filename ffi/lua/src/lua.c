@@ -167,3 +167,80 @@ void arraynum_sets(lua_State *L, int idx, const SFnums *tab)
         ++tab;
     }
 }
+
+lua_Unsigned tablenum_len(lua_State *L, int idx)
+{
+    lua_Unsigned num = 0;
+    lua_Unsigned n = lua_rawlen(L, idx);
+    for (unsigned int i = 0; i++ != n;)
+    {
+        int e = lua_rawgeti(L, idx, i);
+        if (e == LUA_TNUMBER)
+        {
+            ++num;
+        }
+        else if (e == LUA_TTABLE)
+        {
+            num += tablenum_len(L, -1);
+        }
+        lua_pop(L, 1);
+    }
+    return num;
+}
+
+lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr)
+{
+    lua_Unsigned n = lua_rawlen(L, idx);
+    for (unsigned int i = 0; i++ != n;)
+    {
+        int e = lua_rawgeti(L, idx, i);
+        if (e == LUA_TNUMBER)
+        {
+            *ptr++ = lua_tonumber(L, -1);
+        }
+        else if (e == LUA_TTABLE)
+        {
+            ptr = tablenum_num(L, -1, ptr);
+        }
+        lua_pop(L, 1);
+    }
+    return ptr;
+}
+
+lua_Number *tablenum_get(lua_State *L, int idx, lua_Unsigned *num)
+{
+    lua_Number *ptr = NULL;
+    if (lua_type(L, idx) == LUA_TTABLE)
+    {
+        lua_Unsigned buf = 0;
+        num = num ? num : &buf;
+        *num = tablenum_len(L, idx);
+        if (*num)
+        {
+            ptr = (lua_Number *)lua_newuserdata(L, sizeof(lua_Number) * *num);
+            tablenum_num(L, idx - 1, ptr);
+            lua_pop(L, 1);
+        }
+    }
+    return ptr;
+}
+
+void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, lua_Unsigned num, unsigned int col)
+{
+    lua_Unsigned n = num / col;
+    lua_createtable(L, 0, 0);
+    for (unsigned int i = 0; i++ != n;)
+    {
+        lua_createtable(L, 0, 0);
+        arraynum_set(L, -1, ptr, col);
+        lua_rawseti(L, -2, i);
+    }
+    num %= col;
+    if (num)
+    {
+        lua_createtable(L, 0, 0);
+        arraynum_set(L, -1, ptr, (unsigned int)num);
+        lua_rawseti(L, -2, (unsigned int)n + 1);
+    }
+    lua_rawset(L, idx < 0 ? idx - 1 : idx);
+}

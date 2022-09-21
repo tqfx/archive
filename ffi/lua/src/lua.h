@@ -80,6 +80,11 @@ void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num
 void arraynum_gets(lua_State *L, int idx, const GFnums *tab);
 void arraynum_sets(lua_State *L, int idx, const SFnums *tab);
 
+lua_Unsigned tablenum_len(lua_State *L, int idx);
+lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr);
+lua_Number *tablenum_get(lua_State *L, int idx, lua_Unsigned *num);
+void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, lua_Unsigned num, unsigned int col);
+
 int luaopen_liba_mf(lua_State *L);
 int luaopen_liba_pid(lua_State *L);
 int luaopen_liba_polytrack3(lua_State *L);
