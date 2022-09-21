@@ -10,12 +10,16 @@
 #include "a/poly.h"
 #include <stdio.h>
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* diagnostic */
+
 static a_void_t print(const a_real_t *a, a_size_t n)
 {
     putchar('{');
     a_forenum(a_size_t, i, n)
     {
-        printf("%g", a[i]);
+        printf(A_REAL_PRI(, "g"), a[i]);
         if (i < n - 1)
         {
             putchar(',');
@@ -28,21 +32,21 @@ static void test(void)
 {
     a_real_t x3[] = {A_REAL_C(1.0), A_REAL_C(2.0), A_REAL_C(3.0)};
     print(x3, 3);
-    printf("=%g\n", a_poly_c(x3, 3, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x3, 3, 2));
     a_poly_inv(x3, 3);
     print(x3, 3);
-    printf("=%g\n", a_poly_c(x3, 3, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x3, 3, 2));
     print(x3, 3);
-    printf("=%g\n", a_poly_r(x3, 3, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_r(x3, 3, 2));
 
     a_real_t x4[] = {A_REAL_C(1.0), A_REAL_C(2.0), A_REAL_C(3.0), A_REAL_C(4.0)};
     print(x4, 4);
-    printf("=%g\n", a_poly_c(x4, 4, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x4, 4, 2));
     a_poly_inv(x4, 4);
     print(x4, 4);
-    printf("=%g\n", a_poly_c(x4, 4, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x4, 4, 2));
     print(x4, 4);
-    printf("=%g\n", a_poly_r(x4, 4, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_r(x4, 4, 2));
 }
 
 #if defined(__cplusplus)

@@ -217,7 +217,7 @@ lua_Number *tablenum_get(lua_State *L, int idx, lua_Unsigned *num)
         *num = tablenum_len(L, idx);
         if (*num)
         {
-            ptr = (lua_Number *)lua_newuserdata(L, sizeof(lua_Number) * *num);
+            ptr = (lua_Number *)lua_newuserdata(L, sizeof(lua_Number) * (size_t)*num);
             tablenum_num(L, idx - 1, ptr);
             lua_pop(L, 1);
         }

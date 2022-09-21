@@ -127,7 +127,7 @@ jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kp, ctx->kp);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->ki, ctx->ki);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kd, ctx->kd);
-    (*jenv)->SetLongField(jenv, jobj, jctx->op, (jlong)ctx->op);
+    (*jenv)->SetLongField(jenv, jobj, jctx->op, (a_iptr_t)ctx->op);
     return jctx->jobj;
 }
 
