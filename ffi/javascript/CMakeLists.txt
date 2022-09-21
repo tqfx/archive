@@ -24,6 +24,7 @@ file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.c src/*.c)
 add_executable(a-js ${SOURCES})
 set_target_properties(a-js PROPERTIES OUTPUT_NAME ${PROJECT_NAME} LINK_FLAGS ${EMFLAGS})
 target_include_directories(a-js PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_compile_definitions(a-js PRIVATE A_REAL_BITS=64)
 
 if(NOT ENABLE_SANITIZE)
   target_compile_options(a-js PRIVATE $<$<C_COMPILER_ID:Clang>:${CFLAGS}>)

@@ -2,6 +2,7 @@ file(GLOB_RECURSE SOURCES src/*.c)
 add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_include_directories(a-lua PRIVATE ${LUA_INCLUDE_DIR})
+target_compile_definitions(a-lua PRIVATE A_REAL_BITS=64)
 target_link_libraries(a-lua PRIVATE ${LUA_LIBRARIES} a)
 target_library_options(a-lua)
 
