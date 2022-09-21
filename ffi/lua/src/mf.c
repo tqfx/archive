@@ -150,9 +150,8 @@ int luaopen_liba_mf(lua_State *L)
     lua_createtable(L, 0, Larray(mfTE) + Larray(mfTF) - 2);
     set_enums(L, -1, mfTE);
     set_funcs(L, -1, mfTF);
-    lua_createtable(L, 0, Larray(mfTM));
+    lua_createtable(L, 0, Larray(mfTM) - 1);
     set_funcs(L, -1, mfTM);
-    set_name(L, -1, "mf");
     lua_setmetatable(L, -2);
     return 1;
 }

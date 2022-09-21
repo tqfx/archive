@@ -118,14 +118,6 @@ void set_funcs(lua_State *L, int idx, const SFunc *tab)
     }
 }
 
-void set_name(lua_State *L, int idx, const char *name)
-{
-    /* table["__name"]=name */
-    lua_pushstring(L, "__name");
-    lua_pushstring(L, name);
-    lua_rawset(L, idx < 0 ? idx - 2 : idx);
-}
-
 void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
 {
     for (unsigned int i = num; i--; num = i)
