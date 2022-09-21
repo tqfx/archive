@@ -81,11 +81,6 @@ void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num
 void arraynum_gets(lua_State *L, int idx, const GFnums *tab);
 void arraynum_sets(lua_State *L, int idx, const SFnums *tab);
 
-void *userdata_get(lua_State *L);
-void *userdata_new(lua_State *L, size_t sz, int op);
-void userdata_seti(lua_State *L, int idx, int dat);
-void userdata_setp(lua_State *L, int idx, void *ptr);
-
 int luaopen_liba_mf(lua_State *L);
 int luaopen_liba_pid(lua_State *L);
 int luaopen_liba_polytrack3(lua_State *L);
