@@ -1,10 +1,10 @@
 #include "lua.h"
 #include "a/pid.h"
 
-int pid_from_(lua_State *L, a_pid_s *ctx);
+int pid_from_(lua_State *L, int idx, a_pid_s *ctx);
 int pid_into_(lua_State *L, a_pid_s *ctx);
 
-int pid_from_(lua_State *L, a_pid_s *ctx)
+int pid_from_(lua_State *L, int idx, a_pid_s *ctx)
 {
     GFnum pid[] = {
         {"ts", &ctx->ts},
@@ -21,9 +21,9 @@ int pid_from_(lua_State *L, a_pid_s *ctx)
         {"e", &ctx->e},
         {NULL, NULL},
     };
-    get_fnums(L, -1, pid);
-    ctx->mode = (a_uint_t)get_enum(L, -1, "mode");
-    ctx->num = (a_uint_t)get_enum(L, -1, "num");
+    get_fnums(L, idx, pid);
+    ctx->mode = (a_uint_t)get_enum(L, idx, "mode");
+    ctx->num = (a_uint_t)get_enum(L, idx, "num");
     return 1;
 }
 
@@ -56,11 +56,15 @@ static int pid_meta_(lua_State *L, int idx);
 static int pid_from(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -2);
-    if (ctx == NULL)
+    if (ctx)
+    {
+        lua_rotate(L, -2, 1);
+    }
+    else
     {
         ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
     }
-    pid_from_(L, ctx);
+    pid_from_(L, -2, ctx);
     return pid_meta_(L, -1);
 }
 

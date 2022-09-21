@@ -1,10 +1,10 @@
 #include "lua.h"
 #include "a/polytrack.h"
 
-int polytrack3_from_(lua_State *L, a_polytrack3_s *ctx);
+int polytrack3_from_(lua_State *L, int idx, a_polytrack3_s *ctx);
 int polytrack3_into_(lua_State *L, a_polytrack3_s *ctx);
 
-int polytrack3_from_(lua_State *L, a_polytrack3_s *ctx)
+int polytrack3_from_(lua_State *L, int idx, a_polytrack3_s *ctx)
 {
     GFnums polytrack3[] = {
         {"t", ctx->t, 2},
@@ -13,7 +13,7 @@ int polytrack3_from_(lua_State *L, a_polytrack3_s *ctx)
         {"k", ctx->k, 4},
         {NULL, NULL, 0},
     };
-    arraynum_gets(L, -1, polytrack3);
+    arraynum_gets(L, idx, polytrack3);
     return 1;
 }
 
@@ -36,11 +36,15 @@ static int polytrack3_meta_(lua_State *L, int idx);
 static int polytrack3_from(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
-    if (ctx == NULL)
+    if (ctx)
+    {
+        lua_rotate(L, -2, 1);
+    }
+    else
     {
         ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
     }
-    polytrack3_from_(L, ctx);
+    polytrack3_from_(L, -2, ctx);
     return polytrack3_meta_(L, -1);
 }
 

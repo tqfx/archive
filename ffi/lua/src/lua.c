@@ -18,7 +18,7 @@ lua_Number get_fnum(lua_State *L, int idx, const char *name)
     lua_Number x = 0;
     /* data=table[name] */
     lua_pushstring(L, name);
-    if (lua_rawget(L, idx < 0 ? idx - 2 : idx) == LUA_TNUMBER)
+    if (lua_rawget(L, idx < 0 ? idx - 1 : idx) == LUA_TNUMBER)
     {
         x = lua_tonumber(L, -1);
     }
@@ -52,7 +52,7 @@ lua_Integer get_enum(lua_State *L, int idx, const char *name)
     lua_Number x = 0;
     /* data=table[name] */
     lua_pushstring(L, name);
-    if (lua_rawget(L, idx < 0 ? idx - 2 : idx) == LUA_TNUMBER)
+    if (lua_rawget(L, idx < 0 ? idx - 1 : idx) == LUA_TNUMBER)
     {
         x = lua_tonumber(L, -1);
     }
@@ -83,7 +83,7 @@ void set_fnums(lua_State *L, int idx, const SFnum *tab)
 
 void get_fnums(lua_State *L, int idx, const GFnum *tab)
 {
-    idx = idx < 0 ? idx - 2 : idx;
+    idx = idx < 0 ? idx - 1 : idx;
     while (tab->name)
     {
         /* data=table[name] */
@@ -142,7 +142,7 @@ void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num
 
 void arraynum_gets(lua_State *L, int idx, const GFnums *tab)
 {
-    idx = idx < 0 ? idx - 2 : idx;
+    idx = idx < 0 ? idx - 1 : idx;
     while (tab->name)
     {
         lua_pushstring(L, tab->name);
