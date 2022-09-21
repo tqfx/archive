@@ -95,7 +95,7 @@ public class ac {
         public double kd;
         long op;
 
-        public fpid(double ts, int num, double[][] mma,
+        public fpid(int num, double ts, double[][] mma,
                 double[][] mkp, double[][] mki, double[][] mkd,
                 double imin, double imax, double omin, double omax) {
             this.pid = new pid(ts, omin, omax);

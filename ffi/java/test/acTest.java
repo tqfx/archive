@@ -78,7 +78,7 @@ public class acTest {
                 { ac.mf.TRI, +2, +3, +3 },
                 { ac.mf.NUL },
         };
-        ac.fpid fpid = new ac.fpid(1, 0, mma, mkp, mki, mkd, -3, 3, -10, +10);
+        ac.fpid fpid = new ac.fpid(0, 1, mma, mkp, mki, mkd, -3, 3, -10, +10);
         System.out.print(fpid.proc(1, 0) + " ");
         fpid.off().inc().pos(10).buff(2);
         fpid.kpid(10, 0.1, 1);
