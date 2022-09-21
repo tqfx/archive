@@ -87,6 +87,7 @@ void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, lua_Unsigned num
 
 int luaopen_liba_mf(lua_State *L);
 int luaopen_liba_pid(lua_State *L);
+int luaopen_liba_fpid(lua_State *L);
 int luaopen_liba_polytrack3(lua_State *L);
 int luaopen_liba_polytrack5(lua_State *L);
 int luaopen_liba_polytrack7(lua_State *L);
