@@ -25,13 +25,13 @@ static int inv_sqrt(lua_State *L)
     return n;
 }
 
-static const SFunc funcs[] = {
-    {"inv_sqrt", inv_sqrt},
-    {NULL, NULL},
-};
-
 int luaopen_liba(lua_State *L)
 {
+    const SFunc funcs[] = {
+        {"inv_sqrt", inv_sqrt},
+        {NULL, NULL},
+    };
+
     luaL_checkversion(L);
     lua_createtable(L, 0, Larray(funcs) - 1);
     set_funcs(L, -1, funcs);

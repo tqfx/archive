@@ -7,24 +7,22 @@ static int version(lua_State *L)
     return 1;
 }
 
-static const SEnum versionTE[] = {
-    {"major", A_VERSION_MAJOR},
-    {"minor", A_VERSION_MINOR},
-    {"patch", A_VERSION_PATCH},
-    {NULL, 0},
-};
-
-static const SFunc versionTM[] = {
-    {"__call", version},
-    {NULL, NULL},
-};
-
 int luaopen_liba_version(lua_State *L)
 {
-    lua_createtable(L, 0, Larray(versionTE) - 1);
-    set_enums(L, -1, versionTE);
-    lua_createtable(L, 0, Larray(versionTM) - 1);
-    set_funcs(L, -1, versionTM);
+    const SEnum enums[] = {
+        {"major", A_VERSION_MAJOR},
+        {"minor", A_VERSION_MINOR},
+        {"patch", A_VERSION_PATCH},
+        {NULL, 0},
+    };
+    const SFunc metas[] = {
+        {"__call", version},
+        {NULL, NULL},
+    };
+    lua_createtable(L, 0, Larray(enums) - 1);
+    set_enums(L, -1, enums);
+    lua_createtable(L, 0, Larray(metas) - 1);
+    set_funcs(L, -1, metas);
     lua_setmetatable(L, -2);
     return 1;
 }

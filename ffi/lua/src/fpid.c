@@ -1,12 +1,18 @@
-#include "lua.h"
-#include "a/fpid.h"
-#include <stdlib.h>
+#include "fpid.h"
 
-int pid_from_(lua_State *L, int idx, a_pid_s *ctx);
-int pid_into_(lua_State *L, a_pid_s *ctx);
-int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx);
-int fpid_into_(lua_State *L, a_fpid_s *ctx);
 int mf_into_(lua_State *L, int idx, a_real_t *ptr);
+
+int fpid_meta_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)fpid_meta_);
+    return 1;
+}
+
+int fpid_func_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)fpid_func_);
+    return 1;
+}
 
 int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx)
 {
@@ -51,7 +57,7 @@ int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx)
         pid_from_(L, -1, ctx->pid);
     }
     lua_pop(L, 1);
-    return 1;
+    return 0;
 }
 
 A_INLINE a_real_t *cast(a_cptr_t o)
@@ -67,7 +73,7 @@ A_INLINE a_real_t *cast(a_cptr_t o)
 int fpid_into_(lua_State *L, a_fpid_s *ctx)
 {
     a_uint_t num = ctx->pid->num;
-    SFnum pid[] = {
+    SFnum fpid[] = {
         {"sigma", ctx->sigma},
         {"alpha", ctx->alpha},
         {"kp", ctx->kp},
@@ -75,8 +81,8 @@ int fpid_into_(lua_State *L, a_fpid_s *ctx)
         {"kd", ctx->kd},
         {NULL, 0},
     };
-    lua_createtable(L, 0, Larray(pid) + 1);
-    set_fnums(L, -1, pid);
+    lua_createtable(L, 0, Larray(fpid) + 1);
+    set_fnums(L, -1, fpid);
     lua_pushstring(L, "mkp");
     tablenum_set(L, -2, cast(ctx->mkp), num * num, num);
     lua_pushstring(L, "mki");
@@ -91,8 +97,6 @@ int fpid_into_(lua_State *L, a_fpid_s *ctx)
     return 1;
 }
 
-static int fpid_meta_(lua_State *L, int idx);
-
 static int fpid_from(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -2);
@@ -104,8 +108,10 @@ static int fpid_from(lua_State *L)
     {
         ctx = (a_fpid_s *)lua_newuserdata(L, sizeof(a_fpid_s));
     }
+    fpid_meta_(L);
+    lua_setmetatable(L, -2);
     fpid_from_(L, -2, ctx);
-    return fpid_meta_(L, -1);
+    return 1;
 }
 
 static int fpid_into(lua_State *L)
@@ -164,8 +170,10 @@ static int fpid_new(lua_State *L)
             lua_pop(L, 1);
         }
         a_fpid_s *ctx = (a_fpid_s *)lua_newuserdata(L, sizeof(a_fpid_s));
+        fpid_meta_(L);
+        lua_setmetatable(L, -2);
         fpid_init_(L, ctx);
-        return fpid_meta_(L, -1);
+        return 1;
     }
     return 0;
 }
@@ -286,55 +294,50 @@ static int fpid_off(lua_State *L)
     return 0;
 }
 
-static const SFunc fpidTF[] = {
-    {"from", fpid_from},
-    {"into", fpid_into},
-    {"init", fpid_init},
-    {"proc", fpid_proc},
-    {"done", fpid_done},
-    {"base", fpid_base},
-    {"buff", fpid_buff},
-    {"kpid", fpid_kpid},
-    {"time", fpid_time},
-    {"pos", fpid_pos},
-    {"inc", fpid_inc},
-    {"off", fpid_off},
-    {"new", fpid_new},
-    {NULL, NULL},
-};
-
-static const SEnum fpidTE[] = {
-    {"OFF", A_PID_OFF},
-    {"POS", A_PID_POS},
-    {"INC", A_PID_INC},
-    {NULL, 0},
-};
-
-static int fpid_meta_(lua_State *L, int idx)
-{
-    lua_createtable(L, 0, 2);
-    lua_pushstring(L, "__index");
-    lua_createtable(L, 0, Larray(fpidTE) + Larray(fpidTF) - 1);
-    set_enums(L, -1, fpidTE);
-    set_funcs(L, -1, fpidTF);
-    lua_rawset(L, -3);
-    set_func(L, -1, "__call", fpid_proc);
-    lua_setmetatable(L, idx < 0 ? idx - 1 : idx);
-    return 1;
-}
-
-static const SFunc fpidTM[] = {
-    {"__call", fpid_new},
-    {NULL, NULL},
-};
-
 int luaopen_liba_fpid(lua_State *L)
 {
-    lua_createtable(L, 0, Larray(fpidTE) + Larray(fpidTF) - 2);
-    set_enums(L, -1, fpidTE);
-    set_funcs(L, -1, fpidTF);
-    lua_createtable(L, 0, Larray(fpidTM) - 1);
-    set_funcs(L, -1, fpidTM);
+    const SEnum enums[] = {
+        {"OFF", A_PID_OFF},
+        {"POS", A_PID_POS},
+        {"INC", A_PID_INC},
+        {NULL, 0},
+    };
+    const SFunc funcs[] = {
+        {"from", fpid_from},
+        {"into", fpid_into},
+        {"init", fpid_init},
+        {"proc", fpid_proc},
+        {"done", fpid_done},
+        {"base", fpid_base},
+        {"buff", fpid_buff},
+        {"kpid", fpid_kpid},
+        {"time", fpid_time},
+        {"pos", fpid_pos},
+        {"inc", fpid_inc},
+        {"off", fpid_off},
+        {"new", fpid_new},
+        {NULL, NULL},
+    };
+    const SFunc metas[] = {
+        {"__call", fpid_new},
+        {NULL, NULL},
+    };
+    lua_createtable(L, 0, Larray(enums) + Larray(funcs) - 2);
+    set_enums(L, -1, enums);
+    set_funcs(L, -1, funcs);
+    lua_createtable(L, 0, Larray(metas) - 1);
+    set_funcs(L, -1, metas);
     lua_setmetatable(L, -2);
+
+    lua_createtable(L, 0, 2);
+    set_func(L, -1, "__call", fpid_proc);
+    lua_pushstring(L, "__index");
+    lua_pushvalue(L, -3);
+    lua_rawset(L, -3);
+
+    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)fpid_meta_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)fpid_func_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)fpid_func_);
+
     return 1;
 }

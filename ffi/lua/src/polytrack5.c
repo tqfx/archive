@@ -1,8 +1,16 @@
-#include "lua.h"
-#include "a/polytrack.h"
+#include "polytrack5.h"
 
-int polytrack5_from_(lua_State *L, int idx, a_polytrack5_s *ctx);
-int polytrack5_into_(lua_State *L, a_polytrack5_s *ctx);
+int polytrack5_meta_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_meta_);
+    return 1;
+}
+
+int polytrack5_func_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_func_);
+    return 1;
+}
 
 int polytrack5_from_(lua_State *L, int idx, a_polytrack5_s *ctx)
 {
@@ -15,7 +23,7 @@ int polytrack5_from_(lua_State *L, int idx, a_polytrack5_s *ctx)
         {NULL, NULL, 0},
     };
     arraynum_gets(L, idx, polytrack5);
-    return 1;
+    return 0;
 }
 
 int polytrack5_into_(lua_State *L, a_polytrack5_s *ctx)
@@ -33,8 +41,6 @@ int polytrack5_into_(lua_State *L, a_polytrack5_s *ctx)
     return 1;
 }
 
-static int polytrack5_meta_(lua_State *L, int idx);
-
 static int polytrack5_from(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
@@ -46,8 +52,10 @@ static int polytrack5_from(lua_State *L)
     {
         ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
     }
+    polytrack5_meta_(L);
+    lua_setmetatable(L, -2);
     polytrack5_from_(L, -2, ctx);
-    return polytrack5_meta_(L, -1);
+    return 1;
 }
 
 static int polytrack5_into(lua_State *L)
@@ -89,8 +97,10 @@ static int polytrack5_new(lua_State *L)
         arraynum_get(L, -1, target, Larray(target));
         arraynum_get(L, -2, source, Larray(source));
         a_polytrack5_s *ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
+        polytrack5_meta_(L);
+        lua_setmetatable(L, -2);
         a_polytrack5_init(ctx, source, target);
-        return polytrack5_meta_(L, -1);
+        return 1;
     }
     return 0;
 }
@@ -146,41 +156,38 @@ static int polytrack5_acc(lua_State *L)
     return 0;
 }
 
-static const SFunc polytrack5TF[] = {
-    {"from", polytrack5_from},
-    {"into", polytrack5_into},
-    {"init", polytrack5_init},
-    {"new", polytrack5_new},
-    {"all", polytrack5_all},
-    {"pos", polytrack5_pos},
-    {"vec", polytrack5_vec},
-    {"acc", polytrack5_acc},
-    {NULL, NULL},
-};
-
-static int polytrack5_meta_(lua_State *L, int idx)
-{
-    lua_createtable(L, 0, 2);
-    lua_pushstring(L, "__index");
-    lua_createtable(L, 0, Larray(polytrack5TF) - 1);
-    set_funcs(L, -1, polytrack5TF);
-    lua_rawset(L, -3);
-    set_func(L, -1, "__call", polytrack5_all);
-    lua_setmetatable(L, idx < 0 ? idx - 1 : idx);
-    return 1;
-}
-
-static const SFunc polytrack5TM[] = {
-    {"__call", polytrack5_new},
-    {NULL, NULL},
-};
-
 int luaopen_liba_polytrack5(lua_State *L)
 {
-    lua_createtable(L, 0, Larray(polytrack5TF) - 1);
-    set_funcs(L, -1, polytrack5TF);
-    lua_createtable(L, 0, Larray(polytrack5TM) - 1);
-    set_funcs(L, -1, polytrack5TM);
+    const SFunc funcs[] = {
+        {"from", polytrack5_from},
+        {"into", polytrack5_into},
+        {"init", polytrack5_init},
+        {"new", polytrack5_new},
+        {"all", polytrack5_all},
+        {"pos", polytrack5_pos},
+        {"vec", polytrack5_vec},
+        {"acc", polytrack5_acc},
+        {NULL, NULL},
+    };
+    const SFunc metas[] = {
+        {"__call", polytrack5_new},
+        {NULL, NULL},
+    };
+    lua_createtable(L, 0, Larray(funcs) - 1);
+    set_funcs(L, -1, funcs);
+    lua_createtable(L, 0, Larray(metas) - 1);
+    set_funcs(L, -1, metas);
     lua_setmetatable(L, -2);
+
+    lua_createtable(L, 0, 2);
+    set_func(L, -1, "__call", polytrack5_all);
+    lua_pushstring(L, "__index");
+    lua_pushvalue(L, -3);
+    lua_rawset(L, -3);
+
+    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_meta_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_func_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_func_);
+
     return 1;
 }

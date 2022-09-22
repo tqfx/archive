@@ -1,8 +1,16 @@
-#include "lua.h"
-#include "a/polytrack.h"
+#include "polytrack3.h"
 
-int polytrack3_from_(lua_State *L, int idx, a_polytrack3_s *ctx);
-int polytrack3_into_(lua_State *L, a_polytrack3_s *ctx);
+int polytrack3_meta_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack3_meta_);
+    return 1;
+}
+
+int polytrack3_func_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack3_func_);
+    return 1;
+}
 
 int polytrack3_from_(lua_State *L, int idx, a_polytrack3_s *ctx)
 {
@@ -14,7 +22,7 @@ int polytrack3_from_(lua_State *L, int idx, a_polytrack3_s *ctx)
         {NULL, NULL, 0},
     };
     arraynum_gets(L, idx, polytrack3);
-    return 1;
+    return 0;
 }
 
 int polytrack3_into_(lua_State *L, a_polytrack3_s *ctx)
@@ -31,8 +39,6 @@ int polytrack3_into_(lua_State *L, a_polytrack3_s *ctx)
     return 1;
 }
 
-static int polytrack3_meta_(lua_State *L, int idx);
-
 static int polytrack3_from(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
@@ -44,8 +50,10 @@ static int polytrack3_from(lua_State *L)
     {
         ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
     }
+    polytrack3_meta_(L);
+    lua_setmetatable(L, -2);
     polytrack3_from_(L, -2, ctx);
-    return polytrack3_meta_(L, -1);
+    return 1;
 }
 
 static int polytrack3_into(lua_State *L)
@@ -87,8 +95,10 @@ static int polytrack3_new(lua_State *L)
         arraynum_get(L, -1, target, Larray(target));
         arraynum_get(L, -2, source, Larray(source));
         a_polytrack3_s *ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
+        polytrack3_meta_(L);
+        lua_setmetatable(L, -2);
         a_polytrack3_init(ctx, source, target);
-        return polytrack3_meta_(L, -1);
+        return 1;
     }
     return 0;
 }
@@ -144,41 +154,38 @@ static int polytrack3_acc(lua_State *L)
     return 0;
 }
 
-static const SFunc polytrack3TF[] = {
-    {"from", polytrack3_from},
-    {"into", polytrack3_into},
-    {"init", polytrack3_init},
-    {"new", polytrack3_new},
-    {"all", polytrack3_all},
-    {"pos", polytrack3_pos},
-    {"vec", polytrack3_vec},
-    {"acc", polytrack3_acc},
-    {NULL, NULL},
-};
-
-static int polytrack3_meta_(lua_State *L, int idx)
-{
-    lua_createtable(L, 0, 2);
-    lua_pushstring(L, "__index");
-    lua_createtable(L, 0, Larray(polytrack3TF) - 1);
-    set_funcs(L, -1, polytrack3TF);
-    lua_rawset(L, -3);
-    set_func(L, -1, "__call", polytrack3_all);
-    lua_setmetatable(L, idx < 0 ? idx - 1 : idx);
-    return 1;
-}
-
-static const SFunc polytrack3TM[] = {
-    {"__call", polytrack3_new},
-    {NULL, NULL},
-};
-
 int luaopen_liba_polytrack3(lua_State *L)
 {
-    lua_createtable(L, 0, Larray(polytrack3TF) - 1);
-    set_funcs(L, -1, polytrack3TF);
-    lua_createtable(L, 0, Larray(polytrack3TM) - 1);
-    set_funcs(L, -1, polytrack3TM);
+    const SFunc funcs[] = {
+        {"from", polytrack3_from},
+        {"into", polytrack3_into},
+        {"init", polytrack3_init},
+        {"new", polytrack3_new},
+        {"all", polytrack3_all},
+        {"pos", polytrack3_pos},
+        {"vec", polytrack3_vec},
+        {"acc", polytrack3_acc},
+        {NULL, NULL},
+    };
+    const SFunc metas[] = {
+        {"__call", polytrack3_new},
+        {NULL, NULL},
+    };
+    lua_createtable(L, 0, Larray(funcs) - 1);
+    set_funcs(L, -1, funcs);
+    lua_createtable(L, 0, Larray(metas) - 1);
+    set_funcs(L, -1, metas);
     lua_setmetatable(L, -2);
+
+    lua_createtable(L, 0, 2);
+    set_func(L, -1, "__call", polytrack3_all);
+    lua_pushstring(L, "__index");
+    lua_pushvalue(L, -3);
+    lua_rawset(L, -3);
+
+    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)polytrack3_meta_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)polytrack3_func_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack3_func_);
+
     return 1;
 }
