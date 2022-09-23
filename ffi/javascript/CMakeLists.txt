@@ -19,15 +19,19 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ENABLE_IPO})
 string_append(EMFLAGS -sSINGLE_FILE=1 -sWASM=0)
 string_append(EMFLAGS -sWASM_ASYNC_COMPILATION=0)
 string_append(EMFLAGS -sEXPORTED_RUNTIME_METHODS=ccall,cwrap)
-file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.c src/*.c)
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.c src/*.cc)
 
 add_executable(a-js ${SOURCES})
 set_target_properties(a-js PROPERTIES OUTPUT_NAME ${PROJECT_NAME} LINK_FLAGS ${EMFLAGS})
 target_include_directories(a-js PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_compile_definitions(a-js PRIVATE A_REAL_BITS=64)
+target_link_libraries(a-js PRIVATE embind)
 
 if(NOT ENABLE_SANITIZE)
-  target_compile_options(a-js PRIVATE $<$<C_COMPILER_ID:Clang>:${CFLAGS}>)
+  target_compile_options(a-js PRIVATE
+    $<$<C_COMPILER_ID:Clang>:${CFLAGS}>
+    $<$<CXX_COMPILER_ID:Clang>:${CXXFLAGS}>
+  )
 endif()
 
 if(NODE_EXECUTABLE)

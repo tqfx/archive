@@ -9,5 +9,8 @@ function(unittest target)
   )
 endfunction()
 
+unittest(lib)
 unittest(pid)
+unittest(fpid)
+unittest(polytrack)
 unittest(version)
