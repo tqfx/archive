@@ -5,6 +5,9 @@ find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
 
 function(target_library_options target)
+  set_target_properties(${target} PROPERTIES
+    INTERPROCEDURAL_OPTIMIZATION ${ENABLE_IPO}
+  )
   unset(languages)
 
   foreach(lang C CXX)
@@ -36,13 +39,12 @@ function(target_library_options target)
   target_compile_options(${target} PRIVATE
     $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-Weffc++>
   )
-
-  if(ENABLE_IPO)
-    set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
-  endif()
 endfunction()
 
 function(target_executable_options target)
+  set_target_properties(${target} PROPERTIES
+    INTERPROCEDURAL_OPTIMIZATION ${ENABLE_IPO}
+  )
   unset(languages)
 
   foreach(lang C CXX)
@@ -75,7 +77,12 @@ function(target_executable_options target)
     $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-Weffc++>
   )
 
-  if(ENABLE_IPO)
-    set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
+  if(MINGW)
+    target_link_options(${target} PRIVATE -static-libgcc
+      $<$<COMPILE_LANGUAGE:CXX>:-static-libstdc++>
+      -Wl,-Bstatic,--whole-archive
+      -lwinpthread
+      -Wl,--no-whole-archive
+    )
   endif()
 endfunction()
