@@ -10,9 +10,9 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
-#if defined(__clang__)
+#if a_prereq_clang(10, 0)
 #pragma clang diagnostic ignored "-Wimplicit-float-conversion"
-#endif /* __clang__ */
+#endif /* clang 10.0+ */
 #endif /* diagnostic */
 #include "a/notefreqs.h"
 #include <stdio.h>
