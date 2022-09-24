@@ -76,18 +76,8 @@ jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx)
     ctx->ki = (*jenv)->GetDoubleField(jenv, jobj, jctx->ki);
     ctx->kd = (*jenv)->GetDoubleField(jenv, jobj, jctx->kd);
     jlong op = (*jenv)->GetLongField(jenv, jobj, jctx->op);
-    ctx->op = (a_real_t(*)(a_real_t, a_real_t))op;
+    ctx->op = (a_real_t(*)(a_real_t, a_real_t))(intptr_t)op;
     return jctx->jobj;
-}
-
-A_INLINE a_real_t *cast(a_cptr_t o)
-{
-    union
-    {
-        a_cptr_t o;
-        a_real_t *x;
-    } u[1] = {{o}};
-    return u->x;
 }
 
 jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
@@ -97,19 +87,23 @@ jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
     j_pid_set(jctx->pid, ctx->pid);
     if (ctx->mkp)
     {
-        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmkp, cast(ctx->mkp), JNI_ABORT);
+        jdouble *mkp = (jdouble *)(intptr_t)ctx->mkp;
+        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmkp, mkp, JNI_ABORT);
     }
     if (ctx->mki)
     {
-        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmki, cast(ctx->mki), JNI_ABORT);
+        jdouble *mki = (jdouble *)(intptr_t)ctx->mki;
+        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmki, mki, JNI_ABORT);
     }
     if (ctx->mkd)
     {
-        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmkd, cast(ctx->mkd), JNI_ABORT);
+        jdouble *mkd = (jdouble *)(intptr_t)ctx->mkd;
+        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmkd, mkd, JNI_ABORT);
     }
     if (ctx->mma)
     {
-        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmma, cast(ctx->mma), JNI_ABORT);
+        jdouble *mma = (jdouble *)(intptr_t)ctx->mma;
+        (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmma, mma, JNI_ABORT);
     }
     if (ctx->mat)
     {
@@ -128,7 +122,7 @@ jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kp, ctx->kp);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->ki, ctx->ki);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kd, ctx->kd);
-    (*jenv)->SetLongField(jenv, jobj, jctx->op, (jlong)ctx->op);
+    (*jenv)->SetLongField(jenv, jobj, jctx->op, (intptr_t)ctx->op);
     return jctx->jobj;
 }
 
