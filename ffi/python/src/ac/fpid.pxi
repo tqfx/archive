@@ -19,7 +19,7 @@ cdef class fpid:
         cdef a_real_t *kp = self.mkp.data.as_doubles
         cdef a_real_t *ki = self.mki.data.as_doubles
         cdef a_real_t *kd = self.mkd.data.as_doubles
-        a_fpid_init(self.ctx, ts, len(mkp), ma, kp, ki, kd, imin, imax, omin, omax)
+        a_fpid_init(self.ctx, ts, <a_uint_t>len(mkp), ma, kp, ki, kd, imin, imax, omin, omax)
         self.ptr = PyMem_Malloc(A_FPID_BUF1(num))
         a_fpid_buf1(self.ctx, self.ptr, num)
     def __dealloc__(self):
@@ -46,7 +46,7 @@ cdef class fpid:
         cdef a_real_t *kp = self.mkp.data.as_doubles
         cdef a_real_t *ki = self.mki.data.as_doubles
         cdef a_real_t *kd = self.mkd.data.as_doubles
-        a_fpid_base(self.ctx, len(mkp), ma, kp, ki, kd)
+        a_fpid_base(self.ctx, <a_uint_t>len(mkp), ma, kp, ki, kd)
         return self
     def kpid(self, kp: a_real_t, ki: a_real_t, kd: a_real_t):
         '''set proportional integral derivative constant for fuzzy PID controller'''
