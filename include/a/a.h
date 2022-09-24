@@ -448,7 +448,7 @@ typedef long double a_real_t;
  @param type structure type
  @param member member variable
 */
-#define a_container_of(ptr, type, member) a_cast_r(type *, a_cast_r(a_size_t, ptr) - a_offsetof(type, member))
+#define a_container_of(ptr, type, member) a_cast_r(type *, a_cast_r(a_uptr_t, ptr) - a_offsetof(type, member))
 
 /*!
  @brief iterate from 0 to n and not include n
