@@ -16,6 +16,15 @@
  @{
 */
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4820)
+#endif /* _MSC_VER */
+
 /*!
  @brief instance structure for fuzzy PID controller
 */
@@ -43,6 +52,13 @@ typedef struct a_fpid_s
 
     a_real_t (*op)(a_real_t, a_real_t); //!< fuzzy relational operator
 } a_fpid_s;
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif /* _MSC_VER */
 
 #if defined(__cplusplus)
 extern "C" {

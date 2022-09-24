@@ -48,6 +48,15 @@ typedef enum a_pid_e
     A_PID_INC, //!< incremental PID controller
 } a_pid_e;
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4820)
+#endif /* _MSC_VER */
+
 /*!
  @brief instance structure for PID controller
 */
@@ -68,6 +77,13 @@ typedef struct a_pid_s
     a_uint_t mode; //!< mode for PID controller
     a_uint_t num; //!< number of columns
 } a_pid_s;
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif /* _MSC_VER */
 
 #if defined(__cplusplus)
 extern "C" {

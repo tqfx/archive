@@ -1,6 +1,11 @@
-#pragma clang diagnostic ignored "-Wglobal-constructors"
-#pragma clang diagnostic ignored "-Wmissing-prototypes"
 #include "lib.h"
+#include "a/math.h"
+#include "a/version.h"
+
+emscripten::val version()
+{
+    return emscripten::val(a_version());
+}
 
 #include "a/pid.h"
 
@@ -216,14 +221,6 @@ public:
         return emscripten::val(emscripten::typed_memory_view(4, out));
     }
 };
-
-#include "a/math.h"
-#include "a/version.h"
-
-emscripten::val version()
-{
-    return emscripten::val(a_version());
-}
 
 EMSCRIPTEN_BINDINGS(module)
 {
