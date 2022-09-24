@@ -55,13 +55,13 @@ endfunction()
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
 
-get_property(enabled_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
 
 macro(check_flag_cx)
   foreach(v ${ARGN})
     string(REGEX REPLACE "[^A-Za-z0-9_+-]+" "-" r ${v})
 
-    if(C IN_LIST enabled_languages)
+    if(C IN_LIST ENABLED_LANGUAGES)
       check_c_compiler_flag(${v} CC${r})
 
       if(NOT ${v} IN_LIST CFLAGS AND CC${r})
@@ -69,7 +69,7 @@ macro(check_flag_cx)
       endif()
     endif()
 
-    if(CXX IN_LIST enabled_languages)
+    if(CXX IN_LIST ENABLED_LANGUAGES)
       check_cxx_compiler_flag(${v} CXX${r})
 
       if(NOT ${v} IN_LIST CXXFLAGS AND CXX${r})
@@ -83,7 +83,7 @@ macro(check_flag_cc)
   foreach(v ${ARGN})
     string(REGEX REPLACE "[^A-Za-z0-9_+-]+" "-" r ${v})
 
-    if(C IN_LIST enabled_languages)
+    if(C IN_LIST ENABLED_LANGUAGES)
       check_c_compiler_flag(${v} CC${r})
 
       if(NOT ${v} IN_LIST CFLAGS AND CC${r})
@@ -97,7 +97,7 @@ macro(check_flag_xx)
   foreach(v ${ARGN})
     string(REGEX REPLACE "[^A-Za-z0-9_+-]+" "-" r ${v})
 
-    if(CXX IN_LIST enabled_languages)
+    if(CXX IN_LIST ENABLED_LANGUAGES)
       check_cxx_compiler_flag(${v} CXX${r})
 
       if(NOT ${v} IN_LIST CXXFLAGS AND CXX${r})

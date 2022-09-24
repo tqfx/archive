@@ -29,7 +29,7 @@ foreach(v ${CXXFLAGS})
   string_append(CMAKE_CXX_FLAGS ${v})
 endforeach()
 
-foreach(lang ${enabled_languages})
+foreach(lang ${ENABLED_LANGUAGES})
   if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
     set(CMAKE_${lang}_INCLUDE_WHAT_YOU_USE ${INCLUDE_WHAT_YOU_USE})
   endif()
