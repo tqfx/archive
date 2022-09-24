@@ -1,10 +1,10 @@
 #include "mf.h"
 
-int mf_into_(lua_State *L, int idx, a_real_t *ptr)
+int mf_into_(lua_State *L, int idx, const lua_Number *ptr)
 {
     a_uint_t i = 1;
     a_int_t e = A_MF_NUL;
-    const a_real_t *a = ptr;
+    const lua_Number *a = ptr;
     lua_createtable(L, 0, 0);
     while ((void)(e = (a_int_t)*a), e != A_MF_NUL)
     {

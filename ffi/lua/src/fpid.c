@@ -1,7 +1,5 @@
 #include "fpid.h"
 
-int mf_into_(lua_State *L, int idx, a_real_t *ptr);
-
 int fpid_meta_(lua_State *L)
 {
     lua_rawgetp(L, LUA_REGISTRYINDEX, FPID_META_);
@@ -60,16 +58,6 @@ int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx)
     return 0;
 }
 
-A_INLINE a_real_t *cast(a_cptr_t o)
-{
-    union
-    {
-        a_cptr_t o;
-        a_real_t *x;
-    } u[1] = {{o}};
-    return u->x;
-}
-
 int fpid_into_(lua_State *L, a_fpid_s *ctx)
 {
     a_uint_t num = ctx->pid->num;
@@ -84,13 +72,13 @@ int fpid_into_(lua_State *L, a_fpid_s *ctx)
     lua_createtable(L, 0, Larray(fpid) + 1);
     set_fnums(L, -1, fpid);
     lua_pushstring(L, "mkp");
-    tablenum_set(L, -2, cast(ctx->mkp), num * num, num);
+    tablenum_set(L, -2, ctx->mkp, num * num, num);
     lua_pushstring(L, "mki");
-    tablenum_set(L, -2, cast(ctx->mki), num * num, num);
+    tablenum_set(L, -2, ctx->mki, num * num, num);
     lua_pushstring(L, "mkd");
-    tablenum_set(L, -2, cast(ctx->mkd), num * num, num);
+    tablenum_set(L, -2, ctx->mkd, num * num, num);
     lua_pushstring(L, "mma");
-    mf_into_(L, -2, cast(ctx->mma));
+    mf_into_(L, -2, ctx->mma);
     lua_pushstring(L, "pid");
     pid_into_(L, ctx->pid);
     lua_rawset(L, -3);

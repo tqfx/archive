@@ -8,7 +8,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int mf_into_(lua_State *L, int idx, a_real_t *ptr);
+int mf_into_(lua_State *L, int idx, const lua_Number *ptr);
 
 #if defined(__cplusplus)
 } /* extern "C" */

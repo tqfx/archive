@@ -1,6 +1,7 @@
 #ifndef __FPID_H__
 #define __FPID_H__
 
+#include "mf.h"
 #include "pid.h"
 #include "a/fpid.h"
 
