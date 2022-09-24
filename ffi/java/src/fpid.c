@@ -75,7 +75,8 @@ jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx)
     ctx->kp = (*jenv)->GetDoubleField(jenv, jobj, jctx->kp);
     ctx->ki = (*jenv)->GetDoubleField(jenv, jobj, jctx->ki);
     ctx->kd = (*jenv)->GetDoubleField(jenv, jobj, jctx->kd);
-    ctx->op = (a_real_t(*)(a_real_t, a_real_t))(a_iptr_t)(*jenv)->GetLongField(jenv, jobj, jctx->op);
+    jlong op = (*jenv)->GetLongField(jenv, jobj, jctx->op);
+    ctx->op = (a_real_t(*)(a_real_t, a_real_t))op;
     return jctx->jobj;
 }
 
@@ -127,7 +128,7 @@ jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kp, ctx->kp);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->ki, ctx->ki);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kd, ctx->kd);
-    (*jenv)->SetLongField(jenv, jobj, jctx->op, (a_iptr_t)ctx->op);
+    (*jenv)->SetLongField(jenv, jobj, jctx->op, (jlong)ctx->op);
     return jctx->jobj;
 }
 
