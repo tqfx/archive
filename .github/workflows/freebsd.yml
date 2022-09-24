@@ -10,17 +10,19 @@ jobs:
           { type: Debug },
           { type: RelWithDebInfo },
         ]
-    runs-on: macos-10.15
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
         with:
           lfs: true
           submodules: true
-      - uses: vmactions/freebsd-vm@v0.1.6
+      - uses: vmactions/freebsd-vm@v0
         env:
           CC: clang
           CXX: clang++
         with:
+          mem: 2048
+          copyback: false
           envs: 'CC CXX'
           prepare: |
             pkg install -y cmake gmake
