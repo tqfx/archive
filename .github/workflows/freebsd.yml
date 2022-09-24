@@ -26,6 +26,10 @@ jobs:
           envs: 'CC CXX'
           prepare: |
             pkg install -y cmake gmake
+            pkg install -y python && curl -sSL https://bootstrap.pypa.io/get-pip.py | python -
+            pkg install -y openjdk8
+            pkg install -y lua54
+            pkg install -y rust
           run: |
             cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.type }} \
               -DENABLE_WARNINGS=ON \
@@ -35,5 +39,8 @@ jobs:
               -DENABLE_JAVA=ON \
               -DENABLE_LUA=ON \
               -DBUILD_TESTING=ON
+            cmake --build build --target a-py-setup
+            cmake --build build --target a-py-build
             cmake --build build --config ${{ matrix.type }}
             cmake --build build --target test
+            cargo test
