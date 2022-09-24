@@ -2,13 +2,13 @@
 
 int polytrack5_meta_(lua_State *L)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_meta_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK5_META_);
     return 1;
 }
 
 int polytrack5_func_(lua_State *L)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_func_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK5_FUNC_);
     return 1;
 }
 
@@ -185,9 +185,9 @@ int luaopen_liba_polytrack5(lua_State *L)
     lua_pushvalue(L, -3);
     lua_rawset(L, -3);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_meta_);
-    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_func_);
-    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)polytrack5_func_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK5_META_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK5_FUNC_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK5_FUNC_);
 
     return 1;
 }

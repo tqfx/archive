@@ -4,6 +4,9 @@
 #include "lua.h"
 #include "a/polytrack.h"
 
+#define POLYTRACK7_META_ (void *)(intptr_t)polytrack7_meta_
+#define POLYTRACK7_FUNC_ (void *)(intptr_t)polytrack7_func_
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */

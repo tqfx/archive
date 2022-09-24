@@ -2,13 +2,13 @@
 
 int pid_meta_(lua_State *L)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)pid_meta_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_META_);
     return 1;
 }
 
 int pid_func_(lua_State *L)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)pid_func_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_FUNC_);
     return 1;
 }
 
@@ -293,9 +293,9 @@ int luaopen_liba_pid(lua_State *L)
     lua_pushvalue(L, -3);
     lua_rawset(L, -3);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)pid_meta_);
-    lua_rawsetp(L, LUA_REGISTRYINDEX, (void *)pid_func_);
-    lua_rawgetp(L, LUA_REGISTRYINDEX, (void *)pid_func_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, PID_META_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, PID_FUNC_);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_FUNC_);
 
     return 1;
 }

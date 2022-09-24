@@ -4,6 +4,9 @@
 #include "pid.h"
 #include "a/fpid.h"
 
+#define FPID_META_ (void *)(intptr_t)fpid_meta_
+#define FPID_FUNC_ (void *)(intptr_t)fpid_func_
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */

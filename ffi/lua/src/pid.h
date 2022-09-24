@@ -4,6 +4,9 @@
 #include "lua.h"
 #include "a/pid.h"
 
+#define PID_META_ (void *)(intptr_t)pid_meta_
+#define PID_FUNC_ (void *)(intptr_t)pid_func_
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
