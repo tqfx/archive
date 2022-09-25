@@ -18,16 +18,10 @@ jobs:
         with:
           lfs: true
           submodules: true
-      - name: Prepare
-        run: |
-          Set-PSDebug -Trace 1
-          vcpkg install lua[tools]:${{ matrix.triple }}-windows-static
       - name: Run cmake
         run: |
           Set-PSDebug -Trace 1
           cmake -S . -B build -A ${{ matrix.arch }} -DCMAKE_BUILD_TYPE=${{ matrix.type }} `
-             --toolchain $ENV:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake `
-            -DVCPKG_TARGET_TRIPLET=${{ matrix.triple }}-windows-static `
             -DENABLE_WARNINGS=ON `
             -DENABLE_SANITIZE=1 `
             -DENABLE_PYTHON=ON `

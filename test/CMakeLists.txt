@@ -1,3 +1,28 @@
+if(
+  "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
+  "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
+)
+  foreach(v /W4 /sdl)
+    string_append(CMAKE_C_FLAGS ${v})
+    string_append(CMAKE_CXX_FLAGS ${v})
+  endforeach()
+else()
+  foreach(v -Wall -Wextra -Wpedantic)
+    string_append(CMAKE_C_FLAGS ${v})
+    string_append(CMAKE_CXX_FLAGS ${v})
+  endforeach()
+
+  string_append(CMAKE_CXX_FLAGS -Weffc++)
+endif()
+
+foreach(v ${CFLAGS})
+  string_append(CMAKE_C_FLAGS ${v})
+endforeach()
+
+foreach(v ${CXXFLAGS})
+  string_append(CMAKE_CXX_FLAGS ${v})
+endforeach()
+
 if(ANDROID)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 else()

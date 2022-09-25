@@ -65,17 +65,7 @@ function(target_executable_options target)
     if(ENABLE_CPPCHECK AND CPPCHECK)
       set_target_properties(${target} PROPERTIES ${lang}_CPPCHECK "${CPPCHECK};--enable=warning,performance")
     endif()
-
-    target_compile_options(${target} PRIVATE $<IF:$<${lang}_COMPILER_ID:MSVC>,/W4 /sdl,-Wall -Wextra -Wpedantic>
-      $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>
-    )
-
-    target_link_options(${target} PRIVATE $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>)
   endforeach()
-
-  target_compile_options(${target} PRIVATE
-    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-Weffc++>
-  )
 
   if(MINGW)
     target_link_options(${target} PRIVATE -static-libgcc
