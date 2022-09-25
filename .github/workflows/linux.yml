@@ -18,14 +18,6 @@ jobs:
         with:
           lfs: true
           submodules: true
-      - name: Prepare
-        env:
-          CC: ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
-        run: |
-          set -x
-          curl http://www.lua.org/ftp/lua-5.4.4.tar.gz | tar -xzf - && cd lua-5.4.4
-          make CC="$CC -std=gnu99 -fPIC" AR="ar rc" linux -j$(nproc) && sudo make install
       - name: Run cmake
         env:
           CC: ${{ matrix.cc }}
