@@ -2,11 +2,13 @@ option(ENABLE_LUA "Enable ffi lua" OFF)
 
 if(ENABLE_LUA)
   find_package(Lua)
-endif()
 
-if(LUA_FOUND)
-  if(NOT LUA_MATH_LIBRARY AND ANDROID)
-    set(LUA_MATH_LIBRARY m CACHE STRING "lua link math library" FORCE)
+  if(LUA_FOUND)
+    if(NOT LUA_MATH_LIBRARY AND ANDROID)
+      set(LUA_MATH_LIBRARY m CACHE STRING "lua link math library" FORCE)
+    endif()
+  else()
+    add_subdirectory(lua/cmake)
   endif()
 
   add_subdirectory(lua)
