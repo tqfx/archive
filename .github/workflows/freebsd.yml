@@ -17,13 +17,9 @@ jobs:
           lfs: true
           submodules: true
       - uses: vmactions/freebsd-vm@v0
-        env:
-          CC: clang
-          CXX: clang++
         with:
-          mem: 2048
           copyback: false
-          envs: 'CC CXX'
+          mem: 2048
           prepare: |
             pkg install -y cmake gmake
             pkg install -y python && curl -sSL https://bootstrap.pypa.io/get-pip.py | python -
