@@ -160,8 +160,7 @@ static int fpid_new(lua_State *L)
         a_fpid_s *ctx = (a_fpid_s *)lua_newuserdata(L, sizeof(a_fpid_s));
         fpid_meta_(L);
         lua_setmetatable(L, -2);
-        fpid_init_(L, ctx);
-        return 1;
+        return fpid_init_(L, ctx);
     }
     return 0;
 }

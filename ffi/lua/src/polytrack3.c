@@ -75,10 +75,11 @@ static int polytrack3_init(lua_State *L)
         luaL_checktype(L, -1, LUA_TTABLE);
         luaL_checktype(L, -2, LUA_TTABLE);
         luaL_checktype(L, -3, LUA_TUSERDATA);
+        a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -3);
         arraynum_get(L, -1, target, Larray(target));
         arraynum_get(L, -2, source, Larray(source));
-        a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -3);
         a_polytrack3_init(ctx, source, target);
+        lua_pop(L, 2);
         return 1;
     }
     return 0;

@@ -162,8 +162,7 @@ static int pid_new(lua_State *L)
         a_pid_s *ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
         pid_meta_(L);
         lua_setmetatable(L, -2);
-        pid_init_(L, ctx);
-        return 1;
+        return pid_init_(L, ctx);
     }
     return 0;
 }
