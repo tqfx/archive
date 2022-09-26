@@ -14,23 +14,6 @@ except Exception as e:
     print(e)
     exit()
 
-
-class TF:
-    def __init__(self, num, den) -> None:
-        self.num = np.array(num, dtype=float)
-        self.den = np.array(den, dtype=float)[1:]
-        self.u = np.array(len(self.num) * [0.0], dtype=float)
-        self.y = np.array(len(self.den) * [0.0], dtype=float)
-
-    def __call__(self, u: float) -> float:
-        self.u = np.roll(self.u, 1)
-        self.u[0] = u
-        y = self.num @ self.u - self.den @ self.y  # type: ignore
-        self.y = np.roll(self.y, 1)
-        self.y[0] = y
-        return y
-
-
 NB = -3
 NM = -2
 NS = -1
@@ -158,6 +141,7 @@ except Exception as e:
     print(e)
     exit()
 
+tf = a.tf(num, den[1:])
 fpid = a.fpid(1, Ts, mma, mkp, mki, mkd, IMIN, IMAX, OMIN, OMAX).buff(2).inc()
 
 r = 1.0
@@ -166,9 +150,9 @@ setpoint = [r] * len(data)
 title = "Fuzzy Proportional Integral Derivative"
 
 y = 0.0
+tf.zero()
 error1 = []
 feedback1 = []
-tf = TF(num, den)
 fpid.kpid(kp, ki, kd)
 for i in data:
     u = fpid(r, y)
@@ -178,11 +162,11 @@ for i in data:
 
 s = 0.0
 y = 0.0
+tf.zero()
 e = [0.0, 0.0, 0.0]
 x = [0.0, 0.0, 0.0]
 error2 = []
 feedback2 = []
-tf = TF(num, den)
 for i in data:
     e = np.roll(e, 1)
     e[0] = r - y

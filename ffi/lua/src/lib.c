@@ -40,6 +40,10 @@ int luaopen_liba(lua_State *L)
     luaopen_liba_mf(L);
     lua_rawset(L, -3);
 
+    lua_pushstring(L, "tf");
+    luaopen_liba_tf(L);
+    lua_rawset(L, -3);
+
     lua_pushstring(L, "pid");
     luaopen_liba_pid(L);
     lua_rawset(L, -3);

@@ -8,6 +8,7 @@ cimport cython
 include "ac/version.pxi"
 include "ac/math.pxi"
 include "ac/mf.pxi"
+include "ac/tf.pxi"
 include "ac/pid.pxi"
 include "ac/fpid.pxi"
 include "ac/poly.pxi"

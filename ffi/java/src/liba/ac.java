@@ -37,6 +37,23 @@ public class ac {
         public final static native double z(double x, double a, double b);
     }
 
+    public final static class tf {
+        public double num[];
+        public double den[];
+        double u[];
+        double v[];
+
+        public tf(double num[], double den[]) {
+            this.init(num, den);
+        }
+
+        public final native tf init(double num[], double den[]);
+
+        public final native double proc(double x);
+
+        public final native tf zero();
+    }
+
     public final static class pid {
         public final static int OFF = 0;
         public final static int POS = 1;

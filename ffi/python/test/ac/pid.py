@@ -14,23 +14,6 @@ except Exception as e:
     print(e)
     exit()
 
-
-class TF:
-    def __init__(self, num, den) -> None:
-        self.num = np.array(num, dtype=float)
-        self.den = np.array(den, dtype=float)[1:]
-        self.u = np.array(len(self.num) * [0.0], dtype=float)
-        self.y = np.array(len(self.den) * [0.0], dtype=float)
-
-    def __call__(self, u: float) -> float:
-        self.u = np.roll(self.u, 1)
-        self.u[0] = u
-        y = self.num @ self.u - self.den @ self.y  # type: ignore
-        self.y = np.roll(self.y, 1)
-        self.y[0] = y
-        return y
-
-
 Ts = 0.001
 data = np.arange(0, 0.2, Ts)
 
@@ -56,6 +39,7 @@ kp = 10.0
 ki = 0.01
 kd = 0.24
 
+tf = a.tf(num, den[1:])
 pid = a.pid(Ts, MIN, MAX).kpid(kp, ki, kd)
 
 r = 1.0
@@ -64,9 +48,9 @@ setpoint = [r] * len(data)
 title = "Proportional Integral Derivative Position"
 
 y = 0.0
+tf.zero()
 error1 = []
 feedback1 = []
-tf = TF(num, den)
 pid.pos(MAX)
 for i in data:
     u = pid(r, y)
@@ -75,9 +59,9 @@ for i in data:
     error1.append(r - y)
 
 y = 0.0
+tf.zero()
 error2 = []
 feedback2 = []
-tf = TF(num, den)
 e = [0.0, 0.0, 0.0]
 x = [0.0, 0.0, 0.0]
 for i in data:
@@ -111,9 +95,9 @@ plt.savefig(os.path.join(prefix, "pid_pos.png"))
 title = "Proportional Integral Derivative Increment"
 
 y = 0.0
+tf.zero()
 error1 = []
 feedback1 = []
-tf = TF(num, den)
 pid.inc()
 for i in data:
     u = pid(r, y)
@@ -123,9 +107,9 @@ for i in data:
 
 s = 0.0
 y = 0.0
+tf.zero()
 error2 = []
 feedback2 = []
-tf = TF(num, den)
 e = [0.0, 0.0, 0.0]
 x = [0.0, 0.0, 0.0]
 for i in data:

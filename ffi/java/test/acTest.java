@@ -7,6 +7,7 @@ public class acTest {
         System.out.println("minor " + ac.version_minor());
         System.out.println("patch " + ac.version_patch());
         test_mf();
+        test_tf();
         test_pid();
         test_fpid();
         test_polytrack3();
@@ -21,6 +22,14 @@ public class acTest {
         ac.mf.trap(0, 0, 0, 0, 0);
         ac.mf.tri(0, 0, 0, 0);
         ac.mf.z(0, 0, 0);
+    }
+
+    public static void test_tf() {
+        double num[] = { 6.59492796e-05, 6.54019884e-05 };
+        double den[] = { -1.97530991, 0.97530991 };
+        ac.tf tf = new ac.tf(num, den);
+        System.out.println(tf.proc(1));
+        tf.zero();
     }
 
     public static void test_pid() {
