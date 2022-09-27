@@ -13,9 +13,12 @@ cdef class pid:
     def __call__(self, set: a_real_t, ref: a_real_t) -> a_real_t:
         '''process function for PID controller'''
         return a_pid_proc(self.ctx, set, ref)
-    def done(self):
+    def __dealloc__(self):
         '''terminate function for PID controller'''
-        a_pid_done(self.ctx)
+        a_pid_exit(self.ctx)
+    def zero(self):
+        '''zero function for PID controller'''
+        a_pid_zero(self.ctx)
         return self
     def kpid(self, kp: a_real_t, ki: a_real_t, kd: a_real_t):
         '''set proportional integral derivative constant for PID controller'''

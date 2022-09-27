@@ -267,11 +267,11 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024fpid_proc(JNIEnv *jenv, jobject jobj
     return jresult;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_ac_00024fpid_done(JNIEnv *jenv, jobject jobj)
+JNIEXPORT jobject JNICALL Java_liba_ac_00024fpid_zero(JNIEnv *jenv, jobject jobj)
 {
     a_fpid_s ctx[1];
     j_fpid_s jctx[1];
     j_fpid_get(j_fpid_new(jenv, jobj, jctx), ctx);
-    a_fpid_done(ctx);
+    a_fpid_zero(ctx);
     return j_fpid_set(jctx, ctx);
 }

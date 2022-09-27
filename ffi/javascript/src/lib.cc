@@ -18,11 +18,12 @@ public:
     {
         a_pid_init(this->ctx, jts, jmin, jmax);
     }
+    ~pid() { a_pid_exit(this->ctx); }
     double proc(double jset, double jref)
     {
         return a_pid_proc(this->ctx, jset, jref);
     }
-    void done() { a_pid_done(this->ctx); }
+    void zero() { a_pid_zero(this->ctx); }
     void kpid(double jkp, double jki, double jkd)
     {
         a_pid_kpid(this->ctx, jkp, jki, jkd);
@@ -73,6 +74,7 @@ public:
     }
     ~fpid()
     {
+        a_fpid_exit(this->ctx);
         delete[] this->mkp;
         delete[] this->mki;
         delete[] this->mkd;
@@ -97,7 +99,7 @@ public:
     {
         return a_fpid_proc(this->ctx, jset, jref);
     }
-    void done() { a_fpid_done(this->ctx); }
+    void zero() { a_fpid_zero(this->ctx); }
     void kpid(double jkp, double jki, double jkd)
     {
         a_fpid_kpid(this->ctx, jkp, jki, jkd);
@@ -244,7 +246,7 @@ EMSCRIPTEN_BINDINGS(module)
     emscripten::class_<pid>("pid")
         .constructor<double, double, double>()
         .function("proc", &pid::proc)
-        .function("done", &pid::done)
+        .function("zero", &pid::zero)
         .function("kpid", &pid::kpid)
         .function("time", &pid::time)
         .function("pos", &pid::pos)
@@ -255,7 +257,7 @@ EMSCRIPTEN_BINDINGS(module)
                      emscripten::val, emscripten::val, emscripten::val,
                      double, double, double, double>()
         .function("proc", &fpid::proc)
-        .function("done", &fpid::done)
+        .function("zero", &fpid::zero)
         .function("buff", &fpid::buff)
         .function("base", &fpid::base)
         .function("kpid", &fpid::kpid)

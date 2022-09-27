@@ -125,9 +125,11 @@ a_real_t a_fpid_proc(a_fpid_s *ctx, a_real_t set, a_real_t ref)
     return a_fpid_proc_(ctx, set, ref, e, e - ctx->pid->e);
 }
 
-a_fpid_s *a_fpid_done(a_fpid_s *ctx)
+a_fpid_s *a_fpid_exit(a_fpid_s *ctx) { return a_fpid_zero(ctx); }
+
+a_fpid_s *a_fpid_zero(a_fpid_s *ctx)
 {
-    a_pid_done(ctx->pid);
+    a_pid_zero(ctx->pid);
     return ctx;
 }
 

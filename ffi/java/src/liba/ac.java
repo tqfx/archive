@@ -93,7 +93,7 @@ public class ac {
 
         public final native double proc(double set, double ref);
 
-        public final native pid done();
+        public final native pid zero();
     }
 
     public final static class fpid {
@@ -145,7 +145,7 @@ public class ac {
 
         public final native double proc(double set, double ref);
 
-        public final native fpid done();
+        public final native fpid zero();
 
     }
 

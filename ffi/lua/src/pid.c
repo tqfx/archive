@@ -181,12 +181,12 @@ static int pid_proc(lua_State *L)
     return 0;
 }
 
-static int pid_done(lua_State *L)
+static int pid_zero(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)
     {
-        a_pid_done(ctx);
+        a_pid_zero(ctx);
         return 1;
     }
     return 0;
@@ -266,7 +266,7 @@ int luaopen_liba_pid(lua_State *L)
         {"into", pid_into},
         {"init", pid_init},
         {"proc", pid_proc},
-        {"done", pid_done},
+        {"zero", pid_zero},
         {"kpid", pid_kpid},
         {"time", pid_time},
         {"pos", pid_pos},

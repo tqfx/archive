@@ -28,4 +28,5 @@ cdef extern from "a/pid.h":
     a_pid_s *a_pid_kpid "a_pid_kpid" (a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
     a_pid_s *a_pid_init "a_pid_init" (a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
     a_real_t a_pid_proc "a_pid_proc" (a_pid_s *ctx, a_real_t set, a_real_t ref)
-    a_pid_s *a_pid_done "a_pid_done" (a_pid_s *ctx)
+    a_pid_s *a_pid_exit "a_pid_exit" (a_pid_s *ctx)
+    a_pid_s *a_pid_zero "a_pid_zero" (a_pid_s *ctx)

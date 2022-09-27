@@ -27,9 +27,12 @@ cdef class fpid:
     def __call__(self, set: a_real_t, ref: a_real_t) -> a_real_t:
         '''process function for fuzzy PID controller'''
         return a_fpid_proc(self.ctx, set, ref)
-    def done(self):
+    def __dealloc__(self):
         '''terminate function for fuzzy PID controller'''
-        a_fpid_done(self.ctx)
+        a_fpid_exit(self.ctx)
+    def zero(self):
+        '''zero function for fuzzy PID controller'''
+        a_fpid_zero(self.ctx)
         return self
     def buff(self, max: a_uint_t):
         '''set buffer for fuzzy PID controller'''

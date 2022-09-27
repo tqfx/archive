@@ -38,7 +38,7 @@ public class acTest {
         pid.off().inc().pos(10);
         pid.kpid(10, 0.1, 1);
         pid.mode(ac.pid.INC);
-        pid.time(0.1).done();
+        pid.time(0.1).zero();
         System.out.println(pid.proc(1, 0));
     }
 
@@ -92,7 +92,7 @@ public class acTest {
         fpid.off().inc().pos(10).buff(2);
         fpid.kpid(10, 0.1, 1);
         fpid.mode(ac.pid.INC);
-        fpid.time(0.1).done();
+        fpid.time(0.1).zero();
         System.out.println(fpid.proc(1, 0));
     }
 

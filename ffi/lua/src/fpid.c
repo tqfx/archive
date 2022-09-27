@@ -179,12 +179,12 @@ static int fpid_proc(lua_State *L)
     return 0;
 }
 
-static int fpid_done(lua_State *L)
+static int fpid_zero(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -1);
     if (ctx)
     {
-        a_fpid_done(ctx);
+        a_fpid_zero(ctx);
         return 1;
     }
     return 0;
@@ -294,7 +294,7 @@ int luaopen_liba_fpid(lua_State *L)
         {"into", fpid_into},
         {"init", fpid_init},
         {"proc", fpid_proc},
-        {"done", fpid_done},
+        {"zero", fpid_zero},
         {"base", fpid_base},
         {"buff", fpid_buff},
         {"kpid", fpid_kpid},

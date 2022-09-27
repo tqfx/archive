@@ -49,7 +49,7 @@ extern "C" {
     fn a_pid_time(ctx: *mut PID, ts: Real) -> *mut PID;
     fn a_pid_kpid(ctx: *mut PID, kp: Real, ki: Real, kd: Real) -> *mut PID;
     fn a_pid_proc(ctx: *mut PID, set: Real, r#ref: Real) -> Real;
-    fn a_pid_done(ctx: *mut PID) -> *mut PID;
+    fn a_pid_zero(ctx: *mut PID) -> *mut PID;
 }
 
 /**
@@ -66,7 +66,7 @@ pid.pos(10.0);
 pid.off();
 pid.inc();
 pid.proc(1.0, 0.0);
-pid.done();
+pid.zero();
 ```
 */
 impl PID {
@@ -173,8 +173,8 @@ impl PID {
         unsafe { a_pid_proc(self, set, r#ref) }
     }
 
-    /// terminate function for PID controller
-    pub fn done(&mut self) -> &mut Self {
-        unsafe { a_pid_done(self).as_mut().unwrap_unchecked() }
+    /// zero function for PID controller
+    pub fn zero(&mut self) -> &mut Self {
+        unsafe { a_pid_zero(self).as_mut().unwrap_unchecked() }
     }
 }

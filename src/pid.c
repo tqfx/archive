@@ -58,17 +58,12 @@ a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
     ctx->outmin = min;
     ctx->outmax = max;
     ctx->summax = 0;
+    ctx->num = 0;
     ctx->ts = ts;
     ctx->kp = 0;
     ctx->ki = 0;
     ctx->kd = 0;
-    ctx->out = 0;
-    ctx->sum = 0;
-    ctx->num = 0;
-    ctx->ref = 0;
-    ctx->ec = 0;
-    ctx->e = 0;
-    return ctx;
+    return a_pid_zero(ctx);
 }
 
 a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
@@ -77,7 +72,9 @@ a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref)
     return a_pid_proc_(ctx, set, ref, e, e - ctx->e);
 }
 
-a_pid_s *a_pid_done(a_pid_s *ctx)
+a_pid_s *a_pid_exit(a_pid_s *ctx) { return a_pid_zero(ctx); }
+
+a_pid_s *a_pid_zero(a_pid_s *ctx)
 {
     ctx->out = 0;
     ctx->sum = 0;

@@ -33,7 +33,7 @@ static void test(void)
         printf(A_REAL_PRI(".3", "f ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"), t, A_REAL_C(1.0), v[0]);
 #endif /* __cplusplus */
     }
-    a_pid_done(ctx);
+    a_pid_exit(ctx);
 }
 
 #if defined(__cplusplus)

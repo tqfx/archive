@@ -159,7 +159,13 @@ A_PUBLIC a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref);
  @brief terminate function for PID controller
  @param[in,out] ctx points to an instance of PID controller
 */
-A_PUBLIC a_pid_s *a_pid_done(a_pid_s *ctx);
+A_PUBLIC a_pid_s *a_pid_exit(a_pid_s *ctx);
+
+/*!
+ @brief zero function for PID controller
+ @param[in,out] ctx points to an instance of PID controller
+*/
+A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

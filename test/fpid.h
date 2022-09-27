@@ -85,7 +85,7 @@ static void test(void)
 #endif /* __cplusplus */
     }
     a_tf_zero(tf);
-    a_fpid_done(ctx);
+    a_fpid_zero(ctx);
     char buff[A_FPID_BUF1(2)];
     a_fpid_buf1(ctx, buff, 2);
     for (a_real_t t = 0; t < A_REAL_C(0.2); t += A_REAL_C(0.001))
@@ -93,7 +93,7 @@ static void test(void)
         u[0] = a_fpid_proc(ctx, 1, v[0]);
         v[0] = a_tf_proc(tf, u[0]);
     }
-    a_fpid_done(ctx);
+    a_fpid_exit(ctx);
 }
 
 #if defined(__cplusplus)

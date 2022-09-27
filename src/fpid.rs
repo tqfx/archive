@@ -60,7 +60,7 @@ extern "C" {
         omax: Real,
     ) -> *mut FPID;
     fn a_fpid_proc(ctx: *mut FPID, set: Real, r#ref: Real) -> Real;
-    fn a_fpid_done(ctx: *mut FPID) -> *mut FPID;
+    fn a_fpid_zero(ctx: *mut FPID) -> *mut FPID;
 }
 
 /**
@@ -154,7 +154,7 @@ fpid.buff(&mut idx, &mut mms, &mut mat);
 fpid.time(0.1).pos(10.0);
 fpid.off().inc();
 fpid.proc(1.0, 0.0);
-fpid.done();
+fpid.zero();
 ```
 */
 impl FPID {
@@ -282,8 +282,8 @@ impl FPID {
         unsafe { a_fpid_proc(self, set, r#ref) }
     }
 
-    /// terminate function for fuzzy PID controller
-    pub fn done(&mut self) -> &mut Self {
-        unsafe { a_fpid_done(self).as_mut().unwrap_unchecked() }
+    /// zero function for fuzzy PID controller
+    pub fn zero(&mut self) -> &mut Self {
+        unsafe { a_fpid_zero(self).as_mut().unwrap_unchecked() }
     }
 }

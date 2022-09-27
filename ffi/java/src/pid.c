@@ -137,11 +137,11 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024pid_proc(JNIEnv *jenv, jobject jobj,
     return jresult;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_ac_00024pid_done(JNIEnv *jenv, jobject jobj)
+JNIEXPORT jobject JNICALL Java_liba_ac_00024pid_zero(JNIEnv *jenv, jobject jobj)
 {
     a_pid_s ctx[1];
     j_pid_s jctx[1];
     j_pid_get(j_pid_new(jenv, jobj, jctx), ctx);
-    a_pid_done(ctx);
+    a_pid_zero(ctx);
     return j_pid_set(jctx, ctx);
 }

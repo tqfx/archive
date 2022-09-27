@@ -197,7 +197,13 @@ A_PUBLIC a_real_t a_fpid_proc(a_fpid_s *ctx, a_real_t set, a_real_t ref);
  @brief terminate function for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
 */
-A_PUBLIC a_fpid_s *a_fpid_done(a_fpid_s *ctx);
+A_PUBLIC a_fpid_s *a_fpid_exit(a_fpid_s *ctx);
+
+/*!
+ @brief zero function for fuzzy PID controller
+ @param[in,out] ctx points to an instance of fuzzy PID controller
+*/
+A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

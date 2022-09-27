@@ -32,4 +32,5 @@ cdef extern from "a/fpid.h":
                                          const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd,
                                          a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax)
     a_real_t  a_fpid_proc "a_fpid_proc" (a_fpid_s *ctx, a_real_t set, a_real_t ref)
-    a_fpid_s *a_fpid_done "a_fpid_done" (a_fpid_s *ctx)
+    a_fpid_s *a_fpid_exit "a_fpid_exit" (a_fpid_s *ctx)
+    a_fpid_s *a_fpid_zero "a_fpid_zero" (a_fpid_s *ctx)
