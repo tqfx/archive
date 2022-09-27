@@ -38,8 +38,11 @@
  @{
 */
 
+#define A_PID_REG 4
+#include <stdio.h>
+
 /*!
- @brief instance enumeration for PID controller mode
+ @brief instance enumeration for PID controller register
 */
 typedef enum a_pid_e
 {
@@ -66,16 +69,16 @@ typedef struct a_pid_s
     a_real_t kp; //!< proportional constant
     a_real_t ki; //!< integral constant
     a_real_t kd; //!< derivative constant
-    a_real_t out; //!< controller output
-    a_real_t outmin; //!< minimum output
-    a_real_t outmax; //!< maximum output
+    a_real_u out; //!< controller output
+    a_real_u sum; //!< (integral) output item sum
+    a_real_u fdb; //!< cache feedback
+    a_real_u ec; //!< error change
+    a_real_u e; //!< error input
+    a_real_t outmin; //!< minimum final output
+    a_real_t outmax; //!< maximum final output
     a_real_t summax; //!< maximum integral output
-    a_real_t sum; //!< (integral) output item sum
-    a_real_t ref; //!< cache feedback
-    a_real_t ec; //!< error change
-    a_real_t e; //!< error input
-    a_uint_t mode; //!< mode for PID controller
-    a_uint_t num; //!< number of columns
+    a_uint_t num; //!< number of processing
+    a_uint_t reg; //!< status register
 } a_pid_s;
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -109,14 +112,14 @@ A_PUBLIC a_pid_s *a_pid_inc(a_pid_s *ctx);
 A_PUBLIC a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max);
 
 /*!
- @brief set mode for PID controller directly
+ @brief set register for PID controller directly
  @param[in,out] ctx points to an instance of PID controller
- @param[in] mode Mode for PID controller
+ @param[in] reg enumeration for PID controller register
   @arg @ref A_PID_OFF turn off PID controller
   @arg @ref A_PID_POS positional PID controller
   @arg @ref A_PID_INC incremental PID controller
 */
-A_PUBLIC a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t mode);
+A_PUBLIC a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t reg);
 
 /*!
  @brief set sampling period for PID controller
@@ -135,6 +138,18 @@ A_PUBLIC a_pid_s *a_pid_time(a_pid_s *ctx, a_real_t ts);
 A_PUBLIC a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd);
 
 /*!
+ @brief set buffer for PID controller
+ @param[in,out] ctx points to an instance of PID controller
+ @param[in] num number of controllers output
+ @param[in] out points to controllers output
+ @param[in] fdb points to cache feedback buffer
+ @param[in] sum points to (integral) output buffer
+ @param[in] ec points to error change buffer
+ @param[in] e points to error input buffer
+*/
+A_PUBLIC a_pid_s *a_pid_setv(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
+
+/*!
  @brief initialize function for PID controller, default is turn off
  @param[in,out] ctx points to an instance of PID controller
  @param[in] ts sampling time unit(s)
@@ -143,17 +158,27 @@ A_PUBLIC a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd
 */
 A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max);
 
-A_HIDDEN a_real_t a_pid_proc_(a_pid_s *ctx, a_real_t set, a_real_t ref, a_real_t e, a_real_t ec);
-
 /*!
- @brief process function for PID controller
+ @brief calculate function for PID controller
  @param[in,out] ctx points to an instance of PID controller
  @param[in] set setpoint
- @param[in] ref feedback
+ @param[in] fdb feedback
  @return output
   @retval set when PID controller is off
 */
-A_PUBLIC a_real_t a_pid_proc(a_pid_s *ctx, a_real_t set, a_real_t ref);
+A_PUBLIC a_real_t a_pid_cc_x(a_pid_s *ctx, a_real_t set, a_real_t fdb);
+A_HIDDEN a_real_t a_pid_cc_x_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e);
+
+/*!
+ @brief calculate function for PID controller
+ @param[in,out] ctx points to an instance of PID controller
+ @param[in] set points to setpoint
+ @param[in] fdb points to feedback
+ @return points to output
+  @retval set when PID controller is off
+*/
+A_PUBLIC a_real_t *a_pid_cc_v(a_pid_s *ctx, a_real_t *set, a_real_t *fdb);
+A_HIDDEN a_real_t a_pid_cc_v_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e, a_uint_t i);
 
 /*!
  @brief terminate function for PID controller

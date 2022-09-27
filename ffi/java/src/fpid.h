@@ -10,14 +10,14 @@ typedef struct
     j_pid_s pid[1];
     JNIEnv *jenv;
     jobject jobj;
+    jfieldID mmp;
+    jobject jmmp;
     jfieldID mkp;
     jobject jmkp;
     jfieldID mki;
     jobject jmki;
     jfieldID mkd;
     jobject jmkd;
-    jfieldID mma;
-    jobject jmma;
     jfieldID mat;
     jobject jmat;
     jfieldID mms;

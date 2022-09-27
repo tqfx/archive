@@ -50,6 +50,16 @@ public class acTest {
         final int PS = +1;
         final int PM = +2;
         final int PB = +3;
+        double[][] mmp = {
+                { ac.mf.TRI, NB, NB, NM },
+                { ac.mf.TRI, NB, NM, NS },
+                { ac.mf.TRI, NM, NS, ZO },
+                { ac.mf.TRI, NS, ZO, PS },
+                { ac.mf.TRI, ZO, PS, PM },
+                { ac.mf.TRI, PS, PM, PB },
+                { ac.mf.TRI, PM, PB, PB },
+                { ac.mf.NUL },
+        };
         double[][] mkp = {
                 { NB, NB, NM, NM, NS, ZO, ZO },
                 { NB, NB, NM, NS, NS, ZO, PS },
@@ -77,17 +87,7 @@ public class acTest {
                 { NB, NS, NS, NS, NS, NS, NB },
                 { NB, NM, NM, NM, NS, NS, NB },
         };
-        double[][] mma = {
-                { ac.mf.TRI, -3, -3, -2 },
-                { ac.mf.TRI, -3, -2, -1 },
-                { ac.mf.TRI, -2, -1, +0 },
-                { ac.mf.TRI, -1, +0, +1 },
-                { ac.mf.TRI, +0, +1, +2 },
-                { ac.mf.TRI, +1, +2, +3 },
-                { ac.mf.TRI, +2, +3, +3 },
-                { ac.mf.NUL },
-        };
-        ac.fpid fpid = new ac.fpid(0, 1, mma, mkp, mki, mkd, -3, 3, -10, +10);
+        ac.fpid fpid = new ac.fpid(0, 1, mmp, mkp, mki, mkd, -3, 3, -10, +10);
         System.out.print(fpid.proc(1, 0) + " ");
         fpid.off().inc().pos(10).buff(2);
         fpid.kpid(10, 0.1, 1);

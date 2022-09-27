@@ -62,16 +62,16 @@ public class ac {
         public double kp;
         public double ki;
         public double kd;
-        public double out;
-        public double outmin;
-        public double outmax;
         public double summax;
+        public double outmax;
+        public double outmin;
+        public double out;
         public double sum;
-        public double ref;
+        public double fdb;
         public double ec;
         public double e;
-        int mode;
         int num;
+        int reg;
 
         public pid(double ts, double min, double max) {
             this.init(ts, min, max);
@@ -91,17 +91,17 @@ public class ac {
 
         public final native pid init(double ts, double min, double max);
 
-        public final native double proc(double set, double ref);
+        public final native double proc(double set, double fdb);
 
         public final native pid zero();
     }
 
     public final static class fpid {
         public pid pid;
+        double[] mmp;
         double[] mkp;
         double[] mki;
         double[] mkd;
-        double[] mma;
         double[] mat;
         double[] mms;
         int[] idx;
@@ -112,11 +112,11 @@ public class ac {
         public double kd;
         long op;
 
-        public fpid(int num, double ts, double[][] mma,
+        public fpid(int num, double ts, double[][] mmp,
                 double[][] mkp, double[][] mki, double[][] mkd,
                 double imin, double imax, double omin, double omax) {
             this.pid = new pid(ts, omin, omax);
-            this.init(ts, mma, mkp, mki, mkd, imin, imax, omin, omax).buff(num);
+            this.init(ts, mmp, mkp, mki, mkd, imin, imax, omin, omax).buff(num);
         }
 
         public final native fpid inc();
@@ -125,7 +125,7 @@ public class ac {
 
         public final native fpid pos(double max);
 
-        public final native fpid mode(int mode);
+        public final native fpid mode(int reg);
 
         public final native fpid time(double ts);
 
@@ -137,13 +137,13 @@ public class ac {
 
         public final native fpid buff(int num);
 
-        public final native fpid base(double[][] mma, double[][] mkp, double[][] mki, double[][] mkd);
+        public final native fpid base(double[][] mmp, double[][] mkp, double[][] mki, double[][] mkd);
 
-        public final native fpid init(double ts, double[][] mma,
+        public final native fpid init(double ts, double[][] mmp,
                 double[][] mkp, double[][] mki, double[][] mkd,
                 double imin, double imax, double omin, double omax);
 
-        public final native double proc(double set, double ref);
+        public final native double proc(double set, double fdb);
 
         public final native fpid zero();
 

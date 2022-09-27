@@ -7,8 +7,8 @@
 #ifndef __A_FPID_H__
 #define __A_FPID_H__
 
-#include "pid.h"
 #include "mf.h"
+#include "pid.h"
 
 /*!
  @ingroup A
@@ -32,16 +32,17 @@ typedef struct a_fpid_s
 {
     a_pid_s pid[1]; //!< instance structure for PID controller
 
+    const a_real_t *mmp; //!< points to membership function parameter table, an array terminated by @ref A_MF_NUL
     const a_real_t *mkp; //!< points to Kp's rule base table, the rule base must be square
     const a_real_t *mki; //!< points to Ki's rule base table, the rule base must be square
     const a_real_t *mkd; //!< points to Kd's rule base table, the rule base must be square
-    const a_real_t *mma; //!< points to membership function argument table, an array terminated by @ref A_MF_NUL
 
     a_uint_t *idx; //!< the memory cache for membership index
     /*!< the length must be greater than or equal to twice the maximum number triggered by the rule */
-    a_real_t *mms; //!< the memory cache for membership
+    a_real_t *mms; //!< the memory cache for membership value
     /*!< the length must be greater than or equal to twice the maximum number triggered by the rule */
     a_real_t *mat; //!< the memory cache for matrix of the membership outer product of e and ec
+    a_real_t (*op)(a_real_t, a_real_t); //!< fuzzy relational operator
 
     a_real_t sigma; //!< the coefficient of the input, ((num-1)>>1<<1)/(Imax-Imin)
     a_real_t alpha; //!< the coefficient of the output, (Omax-Omin)/((num-1)>>1<<1)
@@ -49,8 +50,6 @@ typedef struct a_fpid_s
     a_real_t kp; //!< base proportional constant
     a_real_t ki; //!< base integral constant
     a_real_t kd; //!< base derivative constant
-
-    a_real_t (*op)(a_real_t, a_real_t); //!< fuzzy relational operator
 } a_fpid_s;
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -63,6 +62,9 @@ typedef struct a_fpid_s
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+
+A_HIDDEN a_real_t a_fpid_op(a_real_t a, a_real_t b);
+A_HIDDEN a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real_t *mms);
 
 /*!
  @brief turn off fuzzy PID controller
@@ -84,14 +86,14 @@ A_PUBLIC a_fpid_s *a_fpid_inc(a_fpid_s *ctx);
 A_PUBLIC a_fpid_s *a_fpid_pos(a_fpid_s *ctx, a_real_t max);
 
 /*!
- @brief set mode for fuzzy PID controller directly
+ @brief set register for fuzzy PID controller directly
  @param[in,out] ctx points to an instance of fuzzy PID controller
- @param[in] mode Mode for fuzzy PID controller
+ @param[in] reg enumeration for fuzzy PID controller register
   @arg @ref A_PID_OFF turn off fuzzy PID controller
   @arg @ref A_PID_POS positional fuzzy PID controller
   @arg @ref A_PID_INC incremental fuzzy PID controller
 */
-A_PUBLIC a_fpid_s *a_fpid_mode(a_fpid_s *ctx, a_uint_t mode);
+A_PUBLIC a_fpid_s *a_fpid_mode(a_fpid_s *ctx, a_uint_t reg);
 
 /*!
  @brief set sampling period for fuzzy PID controller
@@ -153,22 +155,34 @@ A_PUBLIC a_fpid_s *a_fpid_buff(a_fpid_s *ctx, a_uint_t *idx, a_real_t *mms, a_re
 #define A_FPID_IDX(N) (2 * (N))
 
 /*!
+ @brief set buffer for fuzzy PID controller
+ @param[in,out] ctx points to an instance of fuzzy PID controller
+ @param[in] num number of controllers output
+ @param[in] out points to controllers output
+ @param[in] fdb points to cache feedback buffer
+ @param[in] sum points to (integral) output buffer
+ @param[in] ec points to error change buffer
+ @param[in] e points to error input buffer
+*/
+A_PUBLIC a_fpid_s *a_fpid_setv(a_fpid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
+
+/*!
  @brief set rule base for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
  @param[in] num number of columns in the rule base
- @param[in] mma points to membership function parameter table, an array terminated by @ref A_MF_NUL
+ @param[in] mmp points to membership function parameter table, an array terminated by @ref A_MF_NUL
  @param[in] mkp points to Kp's rule base table, the rule base must be square
  @param[in] mki points to Ki's rule base table, the rule base must be square
  @param[in] mkd points to Kd's rule base table, the rule base must be square
 */
-A_PUBLIC a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mma, const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd);
+A_PUBLIC a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp, const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd);
 
 /*!
  @brief initialize function for fuzzy PID controller, default setting is off
  @param[in,out] ctx points to an instance of fuzzy PID controller
  @param[in] ts sampling time unit(s)
  @param[in] num number of columns in the rule base
- @param[in] mma points to membership function parameter table, an array terminated by @ref A_MF_NUL
+ @param[in] mmp points to membership function parameter table, an array terminated by @ref A_MF_NUL
  @param[in] mkp points to Kp's rule base table, the rule base must be square
  @param[in] mki points to Ki's rule base table, the rule base must be square
  @param[in] mkd points to Kd's rule base table, the rule base must be square
@@ -177,21 +191,29 @@ A_PUBLIC a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mma,
  @param[in] omin mininum output
  @param[in] omax maxinum output
 */
-A_PUBLIC a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t ts, a_uint_t num, const a_real_t *mma,
+A_PUBLIC a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t ts, a_uint_t num, const a_real_t *mmp,
                                const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd,
                                a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax);
 
-A_HIDDEN a_real_t a_fpid_proc_(a_fpid_s *ctx, a_real_t set, a_real_t ref, a_real_t e, a_real_t ec);
-
 /*!
- @brief process function for fuzzy PID controller
+ @brief calculate function for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
  @param[in] set setpoint
- @param[in] ref feedback
+ @param[in] fdb feedback
  @return output
   @retval set when fuzzy PID controller is off
 */
-A_PUBLIC a_real_t a_fpid_proc(a_fpid_s *ctx, a_real_t set, a_real_t ref);
+A_PUBLIC a_real_t a_fpid_cc_x(a_fpid_s *ctx, a_real_t set, a_real_t fdb);
+
+/*!
+ @brief calculate function for fuzzy PID controller
+ @param[in,out] ctx points to an instance of fuzzy PID controller
+ @param[in] set points to setpoint
+ @param[in] fdb points to feedback
+ @return points to output
+  @retval set when fuzzy PID controller is off
+*/
+A_PUBLIC a_real_t *a_fpid_cc_v(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb);
 
 /*!
  @brief terminate function for fuzzy PID controller

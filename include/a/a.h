@@ -416,6 +416,12 @@ typedef long double a_real_t;
 
 #endif /* A_REAL_BITS */
 
+typedef union a_real_u
+{
+    a_real_t *v; //!< real vector
+    a_real_t x; //!< a real value
+} a_real_u;
+
 /*! @} A_REAL */
 
 /*!

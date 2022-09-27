@@ -13,16 +13,16 @@ typedef struct
     jfieldID kp;
     jfieldID ki;
     jfieldID kd;
-    jfieldID out;
     jfieldID outmin;
     jfieldID outmax;
     jfieldID summax;
+    jfieldID out;
     jfieldID sum;
-    jfieldID ref;
+    jfieldID fdb;
     jfieldID ec;
     jfieldID e;
-    jfieldID mode;
     jfieldID num;
+    jfieldID reg;
 } j_pid_s;
 
 #if defined(__cplusplus)

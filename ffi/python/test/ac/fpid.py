@@ -22,6 +22,16 @@ PS = +1
 PM = +2
 PB = +3
 
+mmp = [
+    [a.mf.TRI, NB, NB, NM],
+    [a.mf.TRI, NB, NM, NS],
+    [a.mf.TRI, NM, NS, ZO],
+    [a.mf.TRI, NS, ZO, PS],
+    [a.mf.TRI, ZO, PS, PM],
+    [a.mf.TRI, PS, PM, PB],
+    [a.mf.TRI, PM, PB, PB],
+    [a.mf.NUL, ZO, ZO, ZO],
+]
 mkp = [
     [NB, NB, NM, NM, NS, ZO, ZO],
     [NB, NB, NM, NS, NS, ZO, PS],
@@ -49,17 +59,6 @@ mkd = [
     [NB, NS, NS, NS, NS, NS, NB],
     [NB, NM, NM, NM, NS, NS, NB],
 ]
-mma = [
-    [a.mf.TRI, -3, -3, -2],  # NB
-    [a.mf.TRI, -3, -2, -1],  # NM
-    [a.mf.TRI, -2, -1, +0],  # NS
-    [a.mf.TRI, -1, +0, +1],  # ZO
-    [a.mf.TRI, +0, +1, +2],  # PS
-    [a.mf.TRI, +1, +2, +3],  # PM
-    [a.mf.TRI, +2, +3, +3],  # PB
-    [a.mf.NUL, +0, +0, +0],
-]
-
 
 IMIN = -3
 IMAX = +3
@@ -74,14 +73,14 @@ def fuzzy(e: float, c: float):
     mse = []
     idxe = []
     mf = a.mf()
-    for idx, param in enumerate(mma[:-1]):
+    for idx, param in enumerate(mmp[:-1]):
         ms = mf(param[0], e, param[1:])
         if ms > 0:
             idxe.append(idx)
             mse.append(ms)
     msc = []
     idxc = []
-    for idx, param in enumerate(mma[:-1]):
+    for idx, param in enumerate(mmp[:-1]):
         ms = mf(param[0], c, param[1:])
         if ms > 0:
             idxc.append(idx)
@@ -142,7 +141,7 @@ except Exception as e:
     exit()
 
 tf = a.tf(num, den[1:])
-fpid = a.fpid(1, Ts, mma, mkp, mki, mkd, IMIN, IMAX, OMIN, OMAX).buff(2).inc()
+fpid = a.fpid(1, Ts, mmp, mkp, mki, mkd, IMIN, IMAX, OMIN, OMAX).buff(2).inc()
 
 r = 1.0
 setpoint = [r] * len(data)

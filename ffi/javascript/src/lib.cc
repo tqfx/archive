@@ -19,9 +19,9 @@ public:
         a_pid_init(this->ctx, jts, jmin, jmax);
     }
     ~pid() { a_pid_exit(this->ctx); }
-    double proc(double jset, double jref)
+    double proc(double jset, double jfdb)
     {
-        return a_pid_proc(this->ctx, jset, jref);
+        return a_pid_cc_x(this->ctx, jset, jfdb);
     }
     void zero() { a_pid_zero(this->ctx); }
     void kpid(double jkp, double jki, double jkd)
@@ -39,10 +39,10 @@ public:
 class fpid
 {
     a_fpid_s ctx[1];
+    double *mmp;
     double *mkp;
     double *mki;
     double *mkd;
-    double *mma;
     void *buf;
     double *from(emscripten::val x)
     {
@@ -57,16 +57,16 @@ class fpid
     }
 
 public:
-    fpid(a_uint_t jmax, double jts, emscripten::val jmma,
+    fpid(a_uint_t jmax, double jts, emscripten::val jmmp,
          emscripten::val jmkp, emscripten::val jmki, emscripten::val jmkd,
          double jimin, double jimax, double jomin, double jomax)
     {
+        this->mmp = from(jmmp);
         this->mkp = from(jmkp);
         this->mki = from(jmki);
         this->mkd = from(jmkd);
-        this->mma = from(jmma);
         unsigned int num = jmkp["length"].as<unsigned int>();
-        a_fpid_init(this->ctx, jts, num, this->mma,
+        a_fpid_init(this->ctx, jts, num, this->mmp,
                     this->mkp, this->mki, this->mkd,
                     jimin, jimax, jomin, jomax);
         this->buf = malloc(A_FPID_BUF1(jmax));
@@ -75,10 +75,10 @@ public:
     ~fpid()
     {
         a_fpid_exit(this->ctx);
+        delete[] this->mmp;
         delete[] this->mkp;
         delete[] this->mki;
         delete[] this->mkd;
-        delete[] this->mma;
         free(this->buf);
     }
     void buff(a_uint_t jmax)
@@ -86,18 +86,18 @@ public:
         this->buf = realloc(this->buf, A_FPID_BUF1(jmax));
         a_fpid_buf1(this->ctx, this->buf, jmax);
     }
-    void base(emscripten::val jmma, emscripten::val jmkp, emscripten::val jmki, emscripten::val jmkd)
+    void base(emscripten::val jmmp, emscripten::val jmkp, emscripten::val jmki, emscripten::val jmkd)
     {
+        this->mmp = from(jmmp);
         this->mkp = from(jmkp);
         this->mki = from(jmki);
         this->mkd = from(jmkd);
-        this->mma = from(jmma);
         unsigned int num = jmkp["length"].as<unsigned int>();
-        a_fpid_base(this->ctx, num, this->mma, this->mkp, this->mki, this->mkd);
+        a_fpid_base(this->ctx, num, this->mmp, this->mkp, this->mki, this->mkd);
     }
-    double proc(double jset, double jref)
+    double proc(double jset, double jfdb)
     {
-        return a_fpid_proc(this->ctx, jset, jref);
+        return a_fpid_cc_x(this->ctx, jset, jfdb);
     }
     void zero() { a_fpid_zero(this->ctx); }
     void kpid(double jkp, double jki, double jkd)

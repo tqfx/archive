@@ -7,6 +7,16 @@ var ZO = 0
 var PS = +1
 var PM = +2
 var PB = +3
+var mmp = [
+    [Module.MF_TRI, NB, NB, NM],
+    [Module.MF_TRI, NB, NM, NS],
+    [Module.MF_TRI, NM, NS, ZO],
+    [Module.MF_TRI, NS, ZO, PS],
+    [Module.MF_TRI, ZO, PS, PM],
+    [Module.MF_TRI, PS, PM, PB],
+    [Module.MF_TRI, PM, PB, PB],
+    [Module.MF_NUL, ZO, ZO, ZO],
+]
 var mkp = [
     [NB, NB, NM, NM, NS, ZO, ZO],
     [NB, NB, NM, NS, NS, ZO, PS],
@@ -34,17 +44,7 @@ var mkd = [
     [NB, NS, NS, NS, NS, NS, NB],
     [NB, NM, NM, NM, NS, NS, NB],
 ]
-var mma = [
-    [Module.MF_TRI, -3, -3, -2],
-    [Module.MF_TRI, -3, -2, -1],
-    [Module.MF_TRI, -2, -1, +0],
-    [Module.MF_TRI, -1, +0, +1],
-    [Module.MF_TRI, +0, +1, +2],
-    [Module.MF_TRI, +1, +2, +3],
-    [Module.MF_TRI, +2, +3, +3],
-    [Module.MF_NUL, +0, +0, +0],
-]
-var fpid = new Module.fpid(2, 1, mma, mkp, mki, mkd, -3, 3, -10, 10)
+var fpid = new Module.fpid(2, 1, mmp, mkp, mki, mkd, -3, 3, -10, 10)
 fpid.kpid(10, 0.1, 1)
 fpid.pos(10)
 console.log(fpid.proc(10, 0))

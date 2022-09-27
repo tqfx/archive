@@ -19,19 +19,19 @@ int pid_from_(lua_State *L, int idx, a_pid_s *ctx)
         {"kp", &ctx->kp},
         {"ki", &ctx->ki},
         {"kd", &ctx->kd},
-        {"out", &ctx->out},
         {"outmin", &ctx->outmin},
         {"outmax", &ctx->outmax},
         {"summax", &ctx->summax},
-        {"sum", &ctx->sum},
-        {"ref", &ctx->ref},
-        {"ec", &ctx->ec},
-        {"e", &ctx->e},
+        {"out", &ctx->out.x},
+        {"sum", &ctx->sum.x},
+        {"fdb", &ctx->fdb.x},
+        {"ec", &ctx->ec.x},
+        {"e", &ctx->e.x},
         {NULL, NULL},
     };
     get_fnums(L, idx, pid);
-    ctx->mode = (a_uint_t)get_enum(L, idx, "mode");
     ctx->num = (a_uint_t)get_enum(L, idx, "num");
+    ctx->reg = (a_uint_t)get_enum(L, idx, "reg");
     return 0;
 }
 
@@ -42,20 +42,20 @@ int pid_into_(lua_State *L, a_pid_s *ctx)
         {"kp", ctx->kp},
         {"ki", ctx->ki},
         {"kd", ctx->kd},
-        {"out", ctx->out},
         {"outmin", ctx->outmin},
         {"outmax", ctx->outmax},
         {"summax", ctx->summax},
-        {"sum", ctx->sum},
-        {"ref", ctx->ref},
-        {"ec", ctx->ec},
-        {"e", ctx->e},
+        {"out", ctx->out.x},
+        {"sum", ctx->sum.x},
+        {"fdb", ctx->fdb.x},
+        {"ec", ctx->ec.x},
+        {"e", ctx->e.x},
         {NULL, 0},
     };
     lua_createtable(L, 0, Larray(pid) + 1);
     set_fnums(L, -1, pid);
-    set_enum(L, -1, "mode", ctx->mode);
     set_enum(L, -1, "num", ctx->num);
+    set_enum(L, -1, "reg", ctx->reg);
     return 1;
 }
 
@@ -69,6 +69,7 @@ static int pid_from(lua_State *L)
     else
     {
         ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
+        memset(ctx, 0, sizeof(a_pid_s));
     }
     pid_meta_(L);
     lua_setmetatable(L, -2);
@@ -94,7 +95,7 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
     case 7: /* ts, kp, ki, kd, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 7);
-        ctx->mode = A_PID_POS;
+        a_pid_mode(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
     case 6: /* ts, kp, ki, kd, outmin, outmax */
@@ -105,25 +106,25 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
         a_real_t ki = luaL_checknumber(L, 3);
         a_real_t kp = luaL_checknumber(L, 2);
         a_pid_kpid(ctx, kp, ki, kd);
-        if (ctx->mode != A_PID_POS)
+        if ((ctx->reg & ((1U << A_PID_REG) - 1)) != A_PID_POS)
         {
-            ctx->mode = A_PID_INC;
+            a_pid_mode(ctx, A_PID_INC);
         }
     }
     break;
     case 4: /* ts, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 4);
-        ctx->mode = A_PID_POS;
+        a_pid_mode(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
     case 3: /* ts, outmin, outmax */
     {
         ctx->outmax = luaL_checknumber(L, 3);
         ctx->outmin = luaL_checknumber(L, 2);
-        if (ctx->mode != A_PID_POS)
+        if ((ctx->reg & ((1U << A_PID_REG) - 1)) != A_PID_POS)
         {
-            ctx->mode = A_PID_INC;
+            a_pid_mode(ctx, A_PID_INC);
         }
     }
     break;
@@ -160,6 +161,7 @@ static int pid_new(lua_State *L)
             lua_pop(L, 1);
         }
         a_pid_s *ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
+        memset(ctx, 0, sizeof(a_pid_s));
         pid_meta_(L);
         lua_setmetatable(L, -2);
         return pid_init_(L, ctx);
@@ -173,8 +175,8 @@ static int pid_proc(lua_State *L)
     if (ctx)
     {
         a_real_t set = luaL_checknumber(L, -2);
-        a_real_t ref = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_pid_proc(ctx, set, ref));
+        a_real_t fdb = luaL_checknumber(L, -1);
+        lua_pushnumber(L, a_pid_cc_x(ctx, set, fdb));
         lua_pop(L, 2);
         return 1;
     }
