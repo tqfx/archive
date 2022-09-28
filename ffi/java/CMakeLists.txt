@@ -1,8 +1,11 @@
 include(UseJava)
-
 get_filename_component(JAVA_BINDIR "${Java_JAVA_EXECUTABLE}" DIRECTORY)
 get_filename_component(JAVA_HMOE "${JAVA_BINDIR}" DIRECTORY)
 set(JAVA_LIBDIR "${JAVA_HMOE}/lib")
+
+if(WIN32)
+  set(CMAKE_SHARED_LIBRARY_PREFIX "")
+endif()
 
 add_jar(ac-jar
   SOURCES src/${PROJECT_NAME}/ac.java
