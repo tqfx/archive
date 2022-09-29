@@ -70,45 +70,45 @@ def fuzzy(e: float, c: float):
     e = 6 / (IMAX - IMIN) * e
     c = 3 / (IMAX - IMIN) * c
 
-    mse = []
+    mmse = []
     idxe = []
     mf = a.mf()
     for idx, param in enumerate(mmp[:-1]):
         ms = mf(param[0], e, param[1:])
         if ms > 0:
             idxe.append(idx)
-            mse.append(ms)
-    msc = []
+            mmse.append(ms)
+    mmsc = []
     idxc = []
     for idx, param in enumerate(mmp[:-1]):
         ms = mf(param[0], c, param[1:])
         if ms > 0:
             idxc.append(idx)
-            msc.append(ms)
-    if mse == [] or msc == []:
+            mmsc.append(ms)
+    if mmse == [] or mmsc == []:
         return 0, 0, 0
 
     num = 0.0
     joint = []
-    for e in mse:
+    for e in mmse:
         row = []
-        for c in msc:
+        for c in mmsc:
             y = pow(e * c, 0.5) * pow(1 - (1 - e) * (1 - c), 0.5)
             row.append(y)
             num += y
         joint.append(row)
 
     kp = 0.0
-    for i in range(len(mse)):
-        for j in range(len(msc)):
+    for i in range(len(mmse)):
+        for j in range(len(mmsc)):
             kp += joint[i][j] * mkp[idxe[i]][idxc[j]]
     ki = 0.0
-    for i in range(len(mse)):
-        for j in range(len(msc)):
+    for i in range(len(mmse)):
+        for j in range(len(mmsc)):
             ki += joint[i][j] * mki[idxe[i]][idxc[j]]
     kd = 0.0
-    for i in range(len(mse)):
-        for j in range(len(msc)):
+    for i in range(len(mmse)):
+        for j in range(len(mmsc)):
             kd += joint[i][j] * mkd[idxe[i]][idxc[j]]
 
     alpha = (OMAX - OMIN) / 6.0 / num
