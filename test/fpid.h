@@ -86,10 +86,10 @@ static void test(void)
     a_tf_init(tf + 2, a_arrayof(num1), num1, u1, a_arrayof(den1), den1, v1);
     a_tf_init(tf + 3, a_arrayof(num2), num2, u2, a_arrayof(den2), den2, v2);
     a_fpid_s ctx[2];
-    A_FPID_INIT7(ctx + 0, A_REAL_C(0.01), -3, -3, -10, +10);
+    A_FPID_INIT7(ctx + 0, A_REAL_C(0.01), NB, PB, -10, +10);
     a_fpid_kpid(ctx + 0, 400, 200, A_REAL_C(0.005));
     a_fpid_time(ctx + 0, A_REAL_C(0.001));
-    A_FPID_INIT7(ctx + 1, A_REAL_C(0.01), -3, -3, -10, +10);
+    A_FPID_INIT7(ctx + 1, A_REAL_C(0.01), NB, PB, -10, +10);
     a_fpid_kpid(ctx + 1, 400, 200, A_REAL_C(0.005));
     a_fpid_time(ctx + 1, A_REAL_C(0.001));
     a_real_t set[3] = {1, 1, 1};

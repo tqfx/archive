@@ -50,7 +50,7 @@ static void test(void)
     a_real_t ec[3];
     a_real_t e[3];
     a_pid_setv(ctx + 1, 3, out, fdb, sum, ec, e);
-    for (a_real_t t = 0; t < A_REAL_C(0.2); t += A_REAL_C(0.001))
+    for (a_real_t t = 0; t < A_REAL_C(0.4); t += A_REAL_C(0.001))
     {
         a_real_t buf[3] = {v0[0], v1[0], v2[0]};
         a_real_t *ptr = a_pid_cc_v(ctx + 1, set, buf);
