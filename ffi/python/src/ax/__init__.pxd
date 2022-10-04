@@ -46,4 +46,6 @@ cdef extern from "a/a.hpp" namespace "a":
     ctypedef a_f32_t  f32_t
     ctypedef a_f64_t  f64_t
     ctypedef a_f128_t f128_t
+    ctypedef a_fp64_t fp64_t
+    ctypedef a_fp32_t fp32_t
     ctypedef a_real_t real_t

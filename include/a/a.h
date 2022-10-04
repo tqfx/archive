@@ -307,6 +307,8 @@ typedef const void *a_cptr_t;
 typedef       float a_f32_t;
 typedef      double a_f64_t;
 typedef long double a_f128_t;
+typedef      double a_fp64_t;
+typedef       float a_fp32_t;
 
 // clang-format on
 
@@ -321,8 +323,6 @@ typedef union a_cast_u
     a_ul_t ul;
     a_ill_t ill;
     a_ull_t ull;
-    a_f64_t f64;
-    a_f32_t f32;
     a_i8_t i8;
     a_u8_t u8;
     a_i16_t i16;
@@ -331,6 +331,8 @@ typedef union a_cast_u
     a_u32_t u32;
     a_i64_t i64;
     a_u64_t u64;
+    a_f32_t f32;
+    a_f64_t f64;
     a_diff_t diff;
     a_imax_t imax;
     a_umax_t umax;
