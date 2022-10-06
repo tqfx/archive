@@ -119,13 +119,12 @@
 
 /* attribute always inline */
 #if a_prereq_gnuc(3, 2) || __has_attribute(always_inline)
-#define A_ALWAYS static __inline __attribute__((always_inline))
+#define A_INTERN static __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
-#define A_ALWAYS static __forceinline
+#define A_INTERN static __forceinline
 #else /* !_MSC_VER */
-#define A_ALWAYS static __inline
-#endif /* _MSC_VER */
 #define A_INTERN static __inline
+#endif /* _MSC_VER */
 #define A_STATIC static
 
 /* attribute visibility */

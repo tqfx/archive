@@ -26,14 +26,14 @@
 #undef a_vector_pull_fore
 #undef a_vector_pull_back
 
-A_ALWAYS a_vptr_t a_vector_inc_(a_vector_s *ctx)
+A_INTERN a_vptr_t a_vector_inc_(a_vector_s *ctx)
 {
     a_vptr_t last = ctx->__tail;
     ctx->__tail = (a_byte_t *)ctx->__tail + ctx->__size;
     return (void)(++ctx->__num), last;
 }
 
-A_ALWAYS a_vptr_t a_vector_dec_(a_vector_s *ctx)
+A_INTERN a_vptr_t a_vector_dec_(a_vector_s *ctx)
 {
     ctx->__tail = (a_byte_t *)ctx->__tail - ctx->__size;
     return (void)(--ctx->__num), ctx->__tail;

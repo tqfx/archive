@@ -22,7 +22,7 @@
 #undef a_que_pull_fore
 #undef a_que_pull_back
 
-A_ALWAYS a_void_t func(a_vptr_t vptr) { (void)(vptr); }
+A_INTERN a_void_t func(a_vptr_t vptr) { (void)(vptr); }
 
 A_STATIC a_que_node_s *a_que_node_alloc(a_que_s *ctx)
 {

@@ -25,12 +25,12 @@
 #undef a_arr_pull_fore
 #undef a_arr_pull_back
 
-A_ALWAYS a_vptr_t a_arr_inc_(a_arr_s *ctx)
+A_INTERN a_vptr_t a_arr_inc_(a_arr_s *ctx)
 {
     return (a_byte_t *)ctx->__ptr + ctx->__siz * ctx->__num++;
 }
 
-A_ALWAYS a_vptr_t a_arr_dec_(a_arr_s *ctx)
+A_INTERN a_vptr_t a_arr_dec_(a_arr_s *ctx)
 {
     return (a_byte_t *)ctx->__ptr + ctx->__siz * --ctx->__num;
 }
