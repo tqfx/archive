@@ -15,18 +15,18 @@ a_f32_t a_inv_sqrt(a_f32_t x)
     } u = {x};
     if (a_likely(x > 0))
     {
-        a_f32_t xh = 0.5F * x;
-        u.u = 0x5F3759DF - (u.u >> 1);
-        u.x *= 1.5F - SQ(u.x) * xh;
-        u.x *= 1.5F - SQ(u.x) * xh;
+        a_f32_t xh = A_F32_C(0.5) * x;
+        u.u = A_U32_C(0x5F3759DF) - (u.u >> 1);
+        u.x *= A_F32_C(1.5) - SQ(u.x) * xh;
+        u.x *= A_F32_C(1.5) - SQ(u.x) * xh;
     }
     else if (x < 0)
     {
-        u.u = 0xFFC00000;
+        u.u = A_F32_NNAN;
     }
     else
     {
-        u.u = 0x7F800000;
+        u.u |= A_F32_PINF;
     }
     return u.x;
 }

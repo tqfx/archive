@@ -187,6 +187,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <limits.h>
+#include <float.h>
 
 typedef char a_c_t;
 #define A_C_MIN CHAR_MIN
@@ -304,13 +305,51 @@ typedef const char *a_cstr_t;
 typedef       void *a_vptr_t;
 typedef const void *a_cptr_t;
 
-typedef       float a_f32_t;
-typedef      double a_f64_t;
-typedef long double a_f128_t;
-typedef      double a_fp64_t;
-typedef       float a_fp32_t;
-
 // clang-format on
+
+#define A_F16_NNAN A_U16_C(0xFE00)
+#define A_F16_PNAN A_U16_C(0x7E00)
+#define A_F16_NINF A_U16_C(0xFC00)
+#define A_F16_PINF A_U16_C(0x7C00)
+
+typedef float a_f32_t;
+#define A_F32_C(X) (X##F)
+#define A_F32_F(F, ...) F##f(__VA_ARGS__)
+#define A_F32_MIN FLT_MIN
+#define A_F32_MAX FLT_MAX
+#define A_F32_NAN (0.0F / 0.0F)
+#define A_F32_INF (1.0F / 0.0F)
+#define A_F32_NNAN A_U32_C(0xFFC00000)
+#define A_F32_PNAN A_U32_C(0x7FC00000)
+#define A_F32_NINF A_U32_C(0xFF800000)
+#define A_F32_PINF A_U32_C(0x7F800000)
+
+typedef double a_f64_t;
+#define A_F64_C(X) (X)
+#define A_F64_F(F, ...) F(__VA_ARGS__)
+#define A_F64_MIN DBL_MIN
+#define A_F64_MAX DBL_MAX
+#define A_F64_NAN (0.0 / 0.0)
+#define A_F64_INF (1.0 / 0.0)
+#define A_F64_NNAN A_U64_C(0xFFF8000000000000)
+#define A_F64_PNAN A_U64_C(0x7FF8000000000000)
+#define A_F64_NINF A_U64_C(0xFFF0000000000000)
+#define A_F64_PINF A_U64_C(0x7FF0000000000000)
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif /* diagnostic */
+
+/* from/into */
+A_INLINE a_f32_t a_f32_from(a_u32_t x) { return *a_cast_s(a_f32_t *, a_cast_s(a_vptr_t, &x)); }
+A_INLINE a_u32_t a_f32_into(a_f32_t x) { return *a_cast_s(a_u32_t *, a_cast_s(a_vptr_t, &x)); }
+A_INLINE a_f64_t a_f64_from(a_u64_t x) { return *a_cast_s(a_f64_t *, a_cast_s(a_vptr_t, &x)); }
+A_INLINE a_u64_t a_f64_into(a_f64_t x) { return *a_cast_s(a_u64_t *, a_cast_s(a_vptr_t, &x)); }
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* diagnostic */
 
 typedef union a_cast_u
 {
@@ -373,6 +412,16 @@ typedef float a_real_t;
 #define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
 #define A_REAL_SCN(_, ...) "%" _ __VA_ARGS__
+#define A_REAL_MIN FLT_MIN
+#define A_REAL_MAX FLT_MAX
+
+typedef union a_real_u
+{
+    a_real_t *v; //!< real vector
+    a_real_t x; //!< a real value
+    a_u32_t u;
+    a_i32_t i;
+} a_real_u;
 
 #elif A_REAL_BITS == 64
 
@@ -394,8 +443,18 @@ typedef double a_real_t;
 #define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
 #define A_REAL_SCN(_, ...) "%" _ "l" __VA_ARGS__
+#define A_REAL_MIN DBL_MIN
+#define A_REAL_MAX DBL_MAX
 
-#elif A_REAL_BITS == 128
+typedef union a_real_u
+{
+    a_real_t *v; //!< real vector
+    a_real_t x; //!< a real value
+    a_u64_t u;
+    a_i64_t i;
+} a_real_u;
+
+#elif A_REAL_BITS > 64
 
 /*! @brief real number stored using `long double` */
 typedef long double a_real_t;
@@ -415,14 +474,19 @@ typedef long double a_real_t;
 #define A_REAL_PRI(_, ...) "%" _ "L" __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
 #define A_REAL_SCN(_, ...) "%" _ "L" __VA_ARGS__
-
-#endif /* A_REAL_BITS */
+#define A_REAL_MIN LDBL_MIN
+#define A_REAL_MAX LDBL_MAX
 
 typedef union a_real_u
 {
     a_real_t *v; //!< real vector
     a_real_t x; //!< a real value
 } a_real_u;
+
+#endif /* A_REAL_BITS */
+
+#define A_REAL_NAN (A_REAL_C(0.0) / A_REAL_C(0.0))
+#define A_REAL_INF (A_REAL_C(1.0) / A_REAL_C(0.0))
 
 /*! @} A_REAL */
 

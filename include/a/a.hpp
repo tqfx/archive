@@ -69,12 +69,8 @@ typedef a_cstr_t cstr_t;
 typedef a_vptr_t vptr_t;
 typedef a_cptr_t cptr_t;
 
-typedef a_f32_t  f32_t;
-typedef a_f64_t  f64_t;
-typedef a_f128_t f128_t;
-typedef a_fp64_t fp64_t;
-typedef a_fp32_t fp32_t;
-typedef a_real_t real_t;
+typedef a_f32_t f32_t;
+typedef a_f64_t f64_t;
 
 // clang-format on
 
