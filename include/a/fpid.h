@@ -63,9 +63,6 @@ typedef struct a_fpid_s
 extern "C" {
 #endif /* __cplusplus */
 
-A_HIDDEN a_real_t a_fpid_op(a_real_t a, a_real_t b);
-A_HIDDEN a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real_t *mms);
-
 /*!
  @brief turn off fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller

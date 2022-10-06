@@ -4,7 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#include "a/fpid.h"
+#include "pid.h"
+#include "fpid.h"
 #include <math.h>
 
 a_real_t a_fpid_op(a_real_t a, a_real_t b)

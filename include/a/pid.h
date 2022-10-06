@@ -39,7 +39,6 @@
 */
 
 #define A_PID_REG 4
-#include <stdio.h>
 
 /*!
  @brief instance enumeration for PID controller register
@@ -167,7 +166,6 @@ A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t m
   @retval set when PID controller is off
 */
 A_PUBLIC a_real_t a_pid_cc_x(a_pid_s *ctx, a_real_t set, a_real_t fdb);
-A_HIDDEN a_real_t a_pid_cc_x_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e);
 
 /*!
  @brief calculate function for PID controller
@@ -178,7 +176,6 @@ A_HIDDEN a_real_t a_pid_cc_x_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_
   @retval set when PID controller is off
 */
 A_PUBLIC a_real_t *a_pid_cc_v(a_pid_s *ctx, a_real_t *set, a_real_t *fdb);
-A_HIDDEN a_real_t a_pid_cc_v_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e, a_uint_t i);
 
 /*!
  @brief terminate function for PID controller
