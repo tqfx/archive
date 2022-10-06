@@ -29,6 +29,7 @@ if(NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Generic" AND CMAKE_PROJECT_NAME STREQUAL 
   include(CTest)
 endif()
 
+include(TestBigEndian)
 include(GNUInstallDirs)
 include(cmake/core.cmake)
 include(cmake/target.cmake)
@@ -85,6 +86,7 @@ set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 set(A_SIZEOF_P ${CMAKE_SIZEOF_VOID_P})
 find_library(MATH_LIBRARY NAMES m)
+test_big_endian(A_BIG_ENDIAN)
 
 if(NOT MATH_LIBRARY AND ANDROID)
   set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
