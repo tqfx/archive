@@ -43,7 +43,7 @@ for input in sys.argv[1:]:
         text = text.replace(string, '')
 
     for string in (
-        ("A_INLINE ", "static inline "),
+        ("A_INTERN ", "static inline "),
         ('#include "../a.h"\n', '#include "' + OUTPUT_H + '"\n'),
         ('#include "a.h"\n', '#include "' + OUTPUT_H + '"\n'),
     ):

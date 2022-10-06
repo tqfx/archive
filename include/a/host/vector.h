@@ -38,31 +38,31 @@ typedef struct a_vector_s
  @brief access vector head pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_vptr_t a_vector_ptr(const a_vector_s *ctx) { return ctx->__head; }
+A_INTERN a_vptr_t a_vector_ptr(const a_vector_s *ctx) { return ctx->__head; }
 
 /*!
  @brief access vector tail pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->__tail; }
+A_INTERN a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->__tail; }
 
 /*!
  @brief access size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->__size; }
+A_INTERN a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->__size; }
 
 /*!
  @brief access number of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vector_num(const a_vector_s *ctx) { return ctx->__num; }
+A_INTERN a_size_t a_vector_num(const a_vector_s *ctx) { return ctx->__num; }
 
 /*!
  @brief access capacity of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->__mem; }
+A_INTERN a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->__mem; }
 
 /*!
  @brief access specified element for a pointer to vector structure
@@ -71,7 +71,7 @@ A_INLINE a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->__mem; }
  @note should check for out of bounds
  @return element pointer
 */
-A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
+A_INTERN a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 {
     return a_cast_s(a_byte_t *, ctx->__head) + ctx->__size * idx;
 }
@@ -83,7 +83,7 @@ A_INLINE a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
  @return element pointer
   @retval 0 out of bounds
 */
-A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
+A_INTERN a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 {
     return a_likely(idx < ctx->__mem) ? a_vector_at_(ctx, idx) : A_NULL;
 }
@@ -94,7 +94,7 @@ A_INLINE a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
  @note should check if vector is empty
  @return element pointer
 */
-A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
+A_INTERN a_vptr_t a_vector_top_(const a_vector_s *ctx)
 {
     return a_cast_s(a_byte_t *, ctx->__tail) - ctx->__size;
 }
@@ -105,7 +105,7 @@ A_INLINE a_vptr_t a_vector_top_(const a_vector_s *ctx)
  @return element pointer
   @retval 0 empty vector
 */
-A_INLINE a_vptr_t a_vector_top(const a_vector_s *ctx)
+A_INTERN a_vptr_t a_vector_top(const a_vector_s *ctx)
 {
     return a_likely(ctx->__num) ? a_vector_top_(ctx) : A_NULL;
 }
@@ -326,7 +326,7 @@ A_PUBLIC a_vptr_t a_vector_pull_back(a_vector_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-A_INLINE a_vptr_t a_vector_push(a_vector_s *ctx) { return a_vector_push_back(ctx); }
+A_INTERN a_vptr_t a_vector_push(a_vector_s *ctx) { return a_vector_push_back(ctx); }
 
 /*!
  @brief pull an element from the vector
@@ -334,7 +334,7 @@ A_INLINE a_vptr_t a_vector_push(a_vector_s *ctx) { return a_vector_push_back(ctx
  @return element pointer
   @retval 0 failure
 */
-A_INLINE a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx); }
+A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx); }
 
 /*!
  @brief iterate over a vector

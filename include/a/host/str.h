@@ -42,21 +42,21 @@ typedef struct a_str_s
  @param[in] ctx points to an instance of string structure
  @return string
 */
-A_INLINE a_str_t a_str_val(const a_str_s *ctx) { return ctx->__str; }
+A_INTERN a_str_t a_str_val(const a_str_s *ctx) { return ctx->__str; }
 
 /*!
  @brief length for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @return size of length
 */
-A_INLINE a_size_t a_str_len(const a_str_s *ctx) { return ctx->__num; }
+A_INTERN a_size_t a_str_len(const a_str_s *ctx) { return ctx->__num; }
 
 /*!
  @brief memory for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @return size of memory
 */
-A_INLINE a_size_t a_str_mem(const a_str_s *ctx) { return ctx->__mem; }
+A_INTERN a_size_t a_str_mem(const a_str_s *ctx) { return ctx->__mem; }
 
 #if defined(__cplusplus)
 extern "C" {
@@ -218,10 +218,10 @@ A_PUBLIC a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...) A_FORMAT(printf, 
 #endif /* __cplusplus */
 
 /* inline function for generic */
-A_INLINE a_vptr_t a_str_new_(void) { return a_str_new(); }
-A_INLINE a_void_t a_str_die_(a_vptr_t ctx) { a_str_die(a_cast_s(a_str_s *, ctx)); }
-A_INLINE a_void_t a_str_ctor_(a_vptr_t ctx) { a_str_ctor(a_cast_s(a_str_s *, ctx)); }
-A_INLINE a_void_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx)); }
+A_INTERN a_vptr_t a_str_new_(void) { return a_str_new(); }
+A_INTERN a_void_t a_str_die_(a_vptr_t ctx) { a_str_die(a_cast_s(a_str_s *, ctx)); }
+A_INTERN a_void_t a_str_ctor_(a_vptr_t ctx) { a_str_ctor(a_cast_s(a_str_s *, ctx)); }
+A_INTERN a_void_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx)); }
 
 /*! @} A_STR */
 

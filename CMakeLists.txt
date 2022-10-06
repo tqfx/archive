@@ -264,7 +264,7 @@ if(DOXYGEN_FOUND)
     "__STDC_HOSTED__=1"
     "A_STATIC:=static"
     "A_ALWAYS:=static"
-    "A_INLINE:="
+    "A_INTERN:="
     "A_PUBLIC:="
     "A_HIDDEN:="
   )

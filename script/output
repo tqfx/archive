@@ -7,8 +7,8 @@ A_EXTERN_C       = extern "C"
 A_DEPRECATED =
 
 ; static inline
-A_INLINE_FORCE = static inline
-A_INLINE       = static inline
+A_INTERN_FORCE = static inline
+A_INTERN       = static inline
 
 ; attribute visibility
 A_EXPORT =

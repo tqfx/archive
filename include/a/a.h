@@ -125,7 +125,7 @@
 #else /* !_MSC_VER */
 #define A_ALWAYS static __inline
 #endif /* _MSC_VER */
-#define A_INLINE static __inline
+#define A_INTERN static __inline
 #define A_STATIC static
 
 /* attribute visibility */
@@ -342,10 +342,10 @@ typedef double a_f64_t;
 #endif /* diagnostic */
 
 /* from/into */
-A_INLINE a_f32_t a_f32_from(a_u32_t x) { return *a_cast_s(a_f32_t *, a_cast_s(a_vptr_t, &x)); }
-A_INLINE a_u32_t a_f32_into(a_f32_t x) { return *a_cast_s(a_u32_t *, a_cast_s(a_vptr_t, &x)); }
-A_INLINE a_f64_t a_f64_from(a_u64_t x) { return *a_cast_s(a_f64_t *, a_cast_s(a_vptr_t, &x)); }
-A_INLINE a_u64_t a_f64_into(a_f64_t x) { return *a_cast_s(a_u64_t *, a_cast_s(a_vptr_t, &x)); }
+A_INTERN a_f32_t a_f32_from(a_u32_t x) { return *a_cast_s(a_f32_t *, a_cast_s(a_vptr_t, &x)); }
+A_INTERN a_u32_t a_f32_into(a_f32_t x) { return *a_cast_s(a_u32_t *, a_cast_s(a_vptr_t, &x)); }
+A_INTERN a_f64_t a_f64_from(a_u64_t x) { return *a_cast_s(a_f64_t *, a_cast_s(a_vptr_t, &x)); }
+A_INTERN a_u64_t a_f64_into(a_f64_t x) { return *a_cast_s(a_u64_t *, a_cast_s(a_vptr_t, &x)); }
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
