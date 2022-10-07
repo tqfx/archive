@@ -1,5 +1,5 @@
-file(GLOB_RECURSE SOURCES src/*.c)
 set(CMAKE_SHARED_LIBRARY_PREFIX lib)
+file(GLOB_RECURSE SOURCES src/*.[ch])
 add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_include_directories(a-lua PRIVATE ${LUA_INCLUDE_DIR})
