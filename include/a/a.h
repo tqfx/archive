@@ -162,7 +162,11 @@
  @{
 */
 
-/* keywords */
+#include <stddef.h>
+#include <stdint.h>
+#include <limits.h>
+#include <float.h>
+
 #if defined(__cplusplus)
 #define a_register
 #else /* !__cplusplus */
@@ -183,11 +187,6 @@
 #define a_cast_r(T, ...) reinterpret_cast<T>(__VA_ARGS__)
 #endif /* __cplusplus */
 
-#include <stddef.h>
-#include <stdint.h>
-#include <limits.h>
-#include <float.h>
-
 typedef char a_c_t;
 #define A_C_MIN CHAR_MIN
 #define A_C_MAX CHAR_MAX
@@ -197,8 +196,8 @@ typedef int a_bool_t;
 #define A_FALSE 0
 #define A_TRUE !A_FALSE
 #else /* !__cplusplus */
-#define A_TRUE true
 #define A_FALSE false
+#define A_TRUE true
 #endif /* __cplusplus */
 
 typedef void a_void_t;
