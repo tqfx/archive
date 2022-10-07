@@ -7,7 +7,7 @@ prefix = os.path.join(sys.path[0], "build")
 if not os.path.exists(prefix):
     os.mkdir(prefix)
 try:
-    import libac as a
+    import liba as a
     import numpy as np
 except Exception as e:
     print(e)

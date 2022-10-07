@@ -1,4 +1,4 @@
-from ac.math cimport *
+from a.math cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)

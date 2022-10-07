@@ -1,9 +1,4 @@
 #!/usr/bin/env python
-'''
- @file setup.py
- @brief Setup this algorithm library using Cython.
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-'''
 from sys import argv, executable, version_info
 from subprocess import Popen
 import time
@@ -43,20 +38,20 @@ class Build(build_ext):
         super(Build, self).build_extensions()
 
 
+source_c, source_cc = [], []
+header_h, header_hh = [], []
+define_macros = [("A_EXPORTS", None)]
+suffix_c, suffix_cc = (".c",), (".cc", ".cpp", ".cxx")
+suffix_h, suffix_hh = (".h",), (".hh", ".hpp", ".hxx")
 try:
-    from Cython.Build import cythonize
-
     USE_CYTHON = True
+    from Cython.Build import cythonize
 except:
     USE_CYTHON = False
-if USE_CYTHON and os.path.exists("ffi/python/src/ac.pyx"):
-    source_c = ["ffi/python/src/ac.pyx"]
-else:
-    source_c = ["ffi/python/src/ac.c"]
-if USE_CYTHON and os.path.exists("ffi/python/src/ax.pyx"):
-    source_cc = ["ffi/python/src/ax.pyx"]
-else:
-    source_cc = ["ffi/python/src/ax.cpp"]
+if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
+    source_c = ["ffi/python/src/lib.pyx"]
+elif os.path.exists("ffi/python/src/lib.c"):
+    source_c = ["ffi/python/src/lib.c"]
 
 with open("setup.cfg", "r") as f:
     version = re.findall(r"version = (.+)", f.read())[0]
@@ -87,21 +82,13 @@ text = '''/*!
 with open("include/a.config.h", "wb") as f:
     f.write(text.encode("UTF-8"))
 
-header_h = []
-header_hh = []
-suffix_c = (".c",)
-suffix_h = (".h",)
-suffix_cc = (".cc", ".cpp", ".cxx")
-suffix_hh = (".hh", ".hpp", ".hxx")
-define_macros = [("A_EXPORTS", None)]
-
 for source in glob("src/**"):
     if not os.path.isfile(source):
         continue
     prefix, suffix = os.path.splitext(source)
     if suffix in suffix_cc:
         source_cc.append(source)
-    if suffix in suffix_c:
+    elif suffix in suffix_c:
         source_c.append(source)
 for header in glob("include/**"):
     if not os.path.isfile(header):
@@ -109,24 +96,17 @@ for header in glob("include/**"):
     prefix, suffix = os.path.splitext(header)
     if suffix in suffix_hh:
         header_hh.append(header)
-    if suffix in suffix_h:
+    elif suffix in suffix_h:
         header_h.append(header)
 
 ext_modules = [
     Extension(
-        name="libac",
+        name="liba",
         language="c",
         sources=source_c,
         include_dirs=["include"],
         define_macros=define_macros,
-    ),
-    Extension(
-        name="libax",
-        language="c++",
-        sources=source_cc,
-        include_dirs=["include"],
-        define_macros=define_macros,
-    ),
+    )
 ]
 
 if USE_CYTHON:

@@ -1,4 +1,4 @@
-from ac cimport *
+from a cimport *
 
 cdef extern from "a/poly.h":
     a_real_t *a_poly_inv(a_real_t *a, a_size_t n)

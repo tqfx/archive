@@ -139,10 +139,8 @@ fn main() {
 ### Python
 
 ```py
-import libac
-print("version", libac.version())
-import libax
-print("version", libax.version())
+import liba
+print("version", liba.version())
 ```
 
 ## Copyright {#copyright}

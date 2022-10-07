@@ -1,4 +1,4 @@
-from ac.mf cimport *
+from a.mf cimport *
 
 @cython.wraparound(False)
 @cython.boundscheck(False)

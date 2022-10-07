@@ -7,5 +7,4 @@ function(unittest target)
   )
 endfunction()
 
-unittest(ac)
-unittest(ax)
+unittest(a)

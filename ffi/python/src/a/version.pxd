@@ -1,4 +1,4 @@
-from ac cimport *
+from a cimport *
 
 cdef extern from "a/version.h":
     a_cstr_t a_version()

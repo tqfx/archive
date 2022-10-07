@@ -1,4 +1,4 @@
-from ac cimport *
+from a cimport *
 
 cdef extern from "a/mf.h":
     ctypedef enum a_mf_e:
