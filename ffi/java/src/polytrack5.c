@@ -40,7 +40,7 @@ jobject j_polytrack5_set(const j_polytrack5_s *jctx, const a_polytrack5_s *ctx)
     return jctx->jobj;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_ac_00024polytrack5_init(JNIEnv *jenv, jobject jobj, jdoubleArray jsource, jdoubleArray jtarget)
+JNIEXPORT jobject JNICALL Java_liba_a_00024polytrack5_init(JNIEnv *jenv, jobject jobj, jdoubleArray jsource, jdoubleArray jtarget)
 {
     jdouble source[4], target[4];
     (*jenv)->GetDoubleArrayRegion(jenv, jsource, 0, ARRAY_SIZE(source), source);
@@ -52,7 +52,7 @@ JNIEXPORT jobject JNICALL Java_liba_ac_00024polytrack5_init(JNIEnv *jenv, jobjec
     return j_polytrack5_set(jctx, ctx);
 }
 
-JNIEXPORT jdoubleArray JNICALL Java_liba_ac_00024polytrack5_all(JNIEnv *jenv, jobject jobj, jdouble ts)
+JNIEXPORT jdoubleArray JNICALL Java_liba_a_00024polytrack5_all(JNIEnv *jenv, jobject jobj, jdouble ts)
 {
     jdouble out[3];
     a_polytrack5_s ctx[1];
@@ -64,7 +64,7 @@ JNIEXPORT jdoubleArray JNICALL Java_liba_ac_00024polytrack5_all(JNIEnv *jenv, jo
     return jresult;
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack5_pos(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdouble JNICALL Java_liba_a_00024polytrack5_pos(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack5_s ctx[1];
     j_polytrack5_s jctx[1];
@@ -72,7 +72,7 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack5_pos(JNIEnv *jenv, jobject
     return a_polytrack5_pos(ctx, jts);
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack5_vec(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdouble JNICALL Java_liba_a_00024polytrack5_vec(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack5_s ctx[1];
     j_polytrack5_s jctx[1];
@@ -80,7 +80,7 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack5_vec(JNIEnv *jenv, jobject
     return a_polytrack5_vec(ctx, jts);
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack5_acc(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdouble JNICALL Java_liba_a_00024polytrack5_acc(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack5_s ctx[1];
     j_polytrack5_s jctx[1];

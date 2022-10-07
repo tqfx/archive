@@ -8,18 +8,10 @@ function(unittest target source)
   )
 endfunction()
 
-unittest(jar-ac acTest.jar)
-add_jar(ac-jar-test
-  SOURCES test/acTest.java src/${PROJECT_NAME}/ac.java
-  INCLUDE_JARS ac-jar
-  OUTPUT_NAME acTest
-  ENTRY_POINT acTest
-)
-
-unittest(jar-ax axTest.jar)
-add_jar(ax-jar-test
-  SOURCES test/axTest.java src/${PROJECT_NAME}/ax.java
-  INCLUDE_JARS ax-jar
-  OUTPUT_NAME axTest
-  ENTRY_POINT axTest
+unittest(jar-a aTest.jar)
+add_jar(a-jar-test
+  SOURCES test/aTest.java src/${PROJECT_NAME}/a.java
+  INCLUDE_JARS a-jar
+  OUTPUT_NAME aTest
+  ENTRY_POINT aTest
 )

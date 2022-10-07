@@ -5,6 +5,6 @@
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof(*A))
 
-#define CLASSPATH "liba/ac$"
+#define CLASSPATH "liba/a$"
 
 #endif /* __LIB_H__ */

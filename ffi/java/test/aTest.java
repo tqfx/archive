@@ -1,11 +1,11 @@
-import liba.ac;
+import liba.a;
 
-public class acTest {
+public class aTest {
     public static void main(String[] args) {
-        System.out.println("version " + ac.version());
-        System.out.println("major " + ac.version_major());
-        System.out.println("minor " + ac.version_minor());
-        System.out.println("patch " + ac.version_patch());
+        System.out.println("version " + a.version());
+        System.out.println("major " + a.version_major());
+        System.out.println("minor " + a.version_minor());
+        System.out.println("patch " + a.version_patch());
         test_mf();
         test_tf();
         test_pid();
@@ -16,28 +16,28 @@ public class acTest {
     }
 
     public static void test_mf() {
-        ac.mf.gauss(0, 0, 0);
-        ac.mf.gbell(0, 0, 0, 0);
-        ac.mf.sig(0, 0, 0);
-        ac.mf.trap(0, 0, 0, 0, 0);
-        ac.mf.tri(0, 0, 0, 0);
-        ac.mf.z(0, 0, 0);
+        a.mf.gauss(0, 0, 0);
+        a.mf.gbell(0, 0, 0, 0);
+        a.mf.sig(0, 0, 0);
+        a.mf.trap(0, 0, 0, 0, 0);
+        a.mf.tri(0, 0, 0, 0);
+        a.mf.z(0, 0, 0);
     }
 
     public static void test_tf() {
         double num[] = { 6.59492796e-05, 6.54019884e-05 };
         double den[] = { -1.97530991, 0.97530991 };
-        ac.tf tf = new ac.tf(num, den);
+        a.tf tf = new a.tf(num, den);
         System.out.println(tf.proc(1));
         tf.zero();
     }
 
     public static void test_pid() {
-        ac.pid pid = new ac.pid(1, -10, +10);
+        a.pid pid = new a.pid(1, -10, +10);
         System.out.print(pid.proc(1, 0) + " ");
         pid.off().inc().pos(10);
         pid.kpid(10, 0.1, 1);
-        pid.mode(ac.pid.INC);
+        pid.mode(a.pid.INC);
         pid.time(0.1).zero();
         System.out.println(pid.proc(1, 0));
     }
@@ -51,14 +51,14 @@ public class acTest {
         final int PM = +2;
         final int PB = +3;
         double[][] mmp = {
-                { ac.mf.TRI, NB, NB, NM },
-                { ac.mf.TRI, NB, NM, NS },
-                { ac.mf.TRI, NM, NS, ZO },
-                { ac.mf.TRI, NS, ZO, PS },
-                { ac.mf.TRI, ZO, PS, PM },
-                { ac.mf.TRI, PS, PM, PB },
-                { ac.mf.TRI, PM, PB, PB },
-                { ac.mf.NUL },
+                { a.mf.TRI, NB, NB, NM },
+                { a.mf.TRI, NB, NM, NS },
+                { a.mf.TRI, NM, NS, ZO },
+                { a.mf.TRI, NS, ZO, PS },
+                { a.mf.TRI, ZO, PS, PM },
+                { a.mf.TRI, PS, PM, PB },
+                { a.mf.TRI, PM, PB, PB },
+                { a.mf.NUL },
         };
         double[][] mkp = {
                 { NB, NB, NM, NM, NS, ZO, ZO },
@@ -87,11 +87,11 @@ public class acTest {
                 { NB, NS, NS, NS, NS, NS, NB },
                 { NB, NM, NM, NM, NS, NS, NB },
         };
-        ac.fpid fpid = new ac.fpid(0, 1, mmp, mkp, mki, mkd, -3, 3, -10, +10);
+        a.fpid fpid = new a.fpid(0, 1, mmp, mkp, mki, mkd, -3, 3, -10, +10);
         System.out.print(fpid.proc(1, 0) + " ");
         fpid.off().inc().pos(10).buff(2);
         fpid.kpid(10, 0.1, 1);
-        fpid.mode(ac.pid.INC);
+        fpid.mode(a.pid.INC);
         fpid.time(0.1).zero();
         System.out.println(fpid.proc(1, 0));
     }
@@ -99,7 +99,7 @@ public class acTest {
     public static void test_polytrack3() {
         double[] source = { 0, 0, 0 };
         double[] target = { 1, 1, 1 };
-        ac.polytrack3 obj = new ac.polytrack3(source, target);
+        a.polytrack3 obj = new a.polytrack3(source, target);
         double[] out = obj.all(0.5);
         System.out.print(obj.pos(0.5) + "," + obj.vec(0.5) + "," + obj.acc(0.5));
         System.out.println(" " + out[0] + "," + out[1] + "," + out[2]);
@@ -108,7 +108,7 @@ public class acTest {
     public static void test_polytrack5() {
         double[] source = { 0, 0, 0, 0 };
         double[] target = { 1, 1, 1, 1 };
-        ac.polytrack5 obj = new ac.polytrack5(source, target);
+        a.polytrack5 obj = new a.polytrack5(source, target);
         double[] out = obj.all(0.5);
         System.out.print(obj.pos(0.5) + "," + obj.vec(0.5) + "," + obj.acc(0.5));
         System.out.println(" " + out[0] + "," + out[1] + "," + out[2]);
@@ -117,7 +117,7 @@ public class acTest {
     public static void test_polytrack7() {
         double[] source = { 0, 0, 0, 0, 0 };
         double[] target = { 1, 1, 1, 1, 1 };
-        ac.polytrack7 obj = new ac.polytrack7(source, target);
+        a.polytrack7 obj = new a.polytrack7(source, target);
         double[] out = obj.all(0.5);
         System.out.print(obj.pos(0.5) + "," + obj.vec(0.5) + "," + obj.acc(0.5) + "," + obj.jer(0.5));
         System.out.println(" " + out[0] + "," + out[1] + "," + out[2] + "," + out[3]);

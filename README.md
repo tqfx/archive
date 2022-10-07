@@ -115,8 +115,7 @@ print("version", a.version())
 ### Java
 
 ```java
-import liba.ac;
-import liba.ax;
+import liba.a;
 ```
 
 ### Rust

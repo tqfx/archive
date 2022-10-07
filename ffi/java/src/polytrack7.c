@@ -44,7 +44,7 @@ jobject j_polytrack7_set(const j_polytrack7_s *jctx, const a_polytrack7_s *ctx)
     return jctx->jobj;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_ac_00024polytrack7_init(JNIEnv *jenv, jobject jobj, jdoubleArray jsource, jdoubleArray jtarget)
+JNIEXPORT jobject JNICALL Java_liba_a_00024polytrack7_init(JNIEnv *jenv, jobject jobj, jdoubleArray jsource, jdoubleArray jtarget)
 {
     jdouble source[5], target[5];
     (*jenv)->GetDoubleArrayRegion(jenv, jsource, 0, ARRAY_SIZE(source), source);
@@ -56,7 +56,7 @@ JNIEXPORT jobject JNICALL Java_liba_ac_00024polytrack7_init(JNIEnv *jenv, jobjec
     return j_polytrack7_set(jctx, ctx);
 }
 
-JNIEXPORT jdoubleArray JNICALL Java_liba_ac_00024polytrack7_all(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdoubleArray JNICALL Java_liba_a_00024polytrack7_all(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     jdouble out[4];
     a_polytrack7_s ctx[1];
@@ -68,7 +68,7 @@ JNIEXPORT jdoubleArray JNICALL Java_liba_ac_00024polytrack7_all(JNIEnv *jenv, jo
     return jresult;
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack7_pos(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdouble JNICALL Java_liba_a_00024polytrack7_pos(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack7_s ctx[1];
     j_polytrack7_s jctx[1];
@@ -76,7 +76,7 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack7_pos(JNIEnv *jenv, jobject
     return a_polytrack7_pos(ctx, jts);
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack7_vec(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdouble JNICALL Java_liba_a_00024polytrack7_vec(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack7_s ctx[1];
     j_polytrack7_s jctx[1];
@@ -84,7 +84,7 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack7_vec(JNIEnv *jenv, jobject
     return a_polytrack7_vec(ctx, jts);
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack7_acc(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdouble JNICALL Java_liba_a_00024polytrack7_acc(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack7_s ctx[1];
     j_polytrack7_s jctx[1];
@@ -92,7 +92,7 @@ JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack7_acc(JNIEnv *jenv, jobject
     return a_polytrack7_acc(ctx, jts);
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_ac_00024polytrack7_jer(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jdouble JNICALL Java_liba_a_00024polytrack7_jer(JNIEnv *jenv, jobject jobj, jdouble jts)
 {
     a_polytrack7_s ctx[1];
     j_polytrack7_s jctx[1];

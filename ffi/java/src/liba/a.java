@@ -1,8 +1,8 @@
 package liba;
 
-public class ac {
+public class a {
     static {
-        System.loadLibrary("ac");
+        System.loadLibrary("a");
     }
 
     public final static native String version();
