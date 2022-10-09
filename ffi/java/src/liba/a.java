@@ -5,39 +5,39 @@ public class a {
         System.loadLibrary("a");
     }
 
-    public final static native String version();
+    public static final native String version();
 
-    public final static native int version_major();
+    public static final native int version_major();
 
-    public final static native int version_minor();
+    public static final native int version_minor();
 
-    public final static native int version_patch();
+    public static final native int version_patch();
 
-    public final static native float sqrt_inv(float x);
+    public static final native float sqrt_inv(float x);
 
-    public final static class mf {
-        public final static int NUL = 0;
-        public final static int GAUSS = 1;
-        public final static int GBELL = 2;
-        public final static int SIG = 3;
-        public final static int TRAP = 4;
-        public final static int TRI = 5;
-        public final static int Z = 6;
+    public static final class mf {
+        public static final int NUL = 0;
+        public static final int GAUSS = 1;
+        public static final int GBELL = 2;
+        public static final int SIG = 3;
+        public static final int TRAP = 4;
+        public static final int TRI = 5;
+        public static final int Z = 6;
 
-        public final static native double gauss(double x, double sigma, double c);
+        public static final native double gauss(double x, double sigma, double c);
 
-        public final static native double gbell(double x, double a, double b, double c);
+        public static final native double gbell(double x, double a, double b, double c);
 
-        public final static native double sig(double x, double a, double c);
+        public static final native double sig(double x, double a, double c);
 
-        public final static native double trap(double x, double a, double b, double c, double d);
+        public static final native double trap(double x, double a, double b, double c, double d);
 
-        public final static native double tri(double x, double a, double b, double c);
+        public static final native double tri(double x, double a, double b, double c);
 
-        public final static native double z(double x, double a, double b);
+        public static final native double z(double x, double a, double b);
     }
 
-    public final static class tf {
+    public static final class tf {
         public double num[];
         public double den[];
         double u[];
@@ -54,10 +54,10 @@ public class a {
         public final native tf zero();
     }
 
-    public final static class pid {
-        public final static int OFF = 0;
-        public final static int POS = 1;
-        public final static int INC = 2;
+    public static final class pid {
+        public static final int OFF = 0;
+        public static final int POS = 1;
+        public static final int INC = 2;
         public double dt;
         public double kp;
         public double ki;
@@ -108,7 +108,7 @@ public class a {
         public final native pid zero();
     }
 
-    public final static class fpid {
+    public static final class fpid {
         public pid pid;
         double[] mmp;
         double[] mkp;
@@ -168,7 +168,7 @@ public class a {
 
     }
 
-    public final static class polytrack3 {
+    public static final class polytrack3 {
         public double[] k;
         public double[] t;
         public double[] q;
@@ -218,7 +218,7 @@ public class a {
         public final native double acc(double ts);
     }
 
-    public final static class polytrack5 {
+    public static final class polytrack5 {
         public double[] k;
         public double[] t;
         public double[] q;
@@ -286,7 +286,7 @@ public class a {
         public final native double acc(double ts);
     }
 
-    public final static class polytrack7 {
+    public static final class polytrack7 {
         public double[] k;
         public double[] t;
         public double[] q;
