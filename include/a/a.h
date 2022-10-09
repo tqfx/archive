@@ -413,14 +413,6 @@ typedef float a_real_t;
 #define A_REAL_MIN FLT_MIN
 #define A_REAL_MAX FLT_MAX
 
-typedef union a_real_u
-{
-    a_real_t *v; //!< real vector
-    a_real_t x; //!< a real value
-    a_u32_t u;
-    a_i32_t i;
-} a_real_u;
-
 #elif A_REAL_BITS == 64
 
 /*! @brief real number stored using `double` */
@@ -443,14 +435,6 @@ typedef double a_real_t;
 #define A_REAL_SCN(_, ...) "%" _ "l" __VA_ARGS__
 #define A_REAL_MIN DBL_MIN
 #define A_REAL_MAX DBL_MAX
-
-typedef union a_real_u
-{
-    a_real_t *v; //!< real vector
-    a_real_t x; //!< a real value
-    a_u64_t u;
-    a_i64_t i;
-} a_real_u;
 
 #elif A_REAL_BITS > 64
 
@@ -475,16 +459,16 @@ typedef long double a_real_t;
 #define A_REAL_MIN LDBL_MIN
 #define A_REAL_MAX LDBL_MAX
 
-typedef union a_real_u
-{
-    a_real_t *v; //!< real vector
-    a_real_t x; //!< a real value
-} a_real_u;
-
 #endif /* A_REAL_BITS */
 
 #define A_REAL_NAN (A_REAL_C(0.0) / A_REAL_C(0.0))
 #define A_REAL_INF (A_REAL_C(1.0) / A_REAL_C(0.0))
+
+typedef union a_real_u
+{
+    a_real_t x; //!< a real value
+    a_real_t *v; //!< real vector
+} a_real_u;
 
 /*! @} A_REAL */
 
