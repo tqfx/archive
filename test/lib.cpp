@@ -45,34 +45,6 @@ A_STATIC a_void_t test_swap(void)
         a_swapz(&lhs, &rhs);
         printf("%zu %zu  \n", lhs, rhs);
     }
-    {
-        typedef struct
-        {
-            a_byte_t m0;
-            a_byte_t m1;
-            a_byte_t m2;
-            a_byte_t m3;
-            a_byte_t m4;
-            a_byte_t m5;
-            a_byte_t m6;
-            a_byte_t m7;
-            a_byte_t m8;
-            a_byte_t m9;
-            a_byte_t ma;
-            a_byte_t mb;
-            a_byte_t mc;
-            a_byte_t md;
-            a_byte_t me;
-            a_byte_t mf;
-        } a_16_s;
-        a_16_s lhs = {0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF};
-        a_16_s rhs = {0xF, 0xE, 0xD, 0xC, 0xB, 0xA, 0x9, 0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1, 0x0};
-        printf("%X %X %X %X -> ", lhs.m0, rhs.m0, lhs.mf, rhs.mf);
-        a_swap(sizeof(a_16_s), &lhs, &rhs);
-        printf("%X %X %X %X -> ", lhs.m0, rhs.m0, lhs.mf, rhs.mf);
-        a_swap16(&lhs, &rhs);
-        printf("%X %X %X %X  \n", lhs.m0, rhs.m0, lhs.mf, rhs.mf);
-    }
 }
 
 int main(void)

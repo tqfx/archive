@@ -592,7 +592,6 @@ A_PUBLIC a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
 A_PUBLIC a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
 A_PUBLIC a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
 A_PUBLIC a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
-A_PUBLIC a_void_t a_swap16(a_vptr_t lhs, a_vptr_t rhs);
 
 #if defined(__cplusplus)
 } /* extern "C" */

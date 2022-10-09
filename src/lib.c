@@ -52,15 +52,3 @@ a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
     *(a_size_t *)rhs = *(a_size_t *)rhs ^ *(a_size_t *)lhs;
     *(a_size_t *)lhs = *(a_size_t *)lhs ^ *(a_size_t *)rhs;
 }
-
-a_void_t a_swap16(a_vptr_t lhs, a_vptr_t rhs)
-{
-    typedef struct
-    {
-        a_u64_t m0;
-        a_u64_t m1;
-    } a_16_s;
-    a_16_s buf = *(a_16_s *)lhs;
-    *(a_16_s *)lhs = *(a_16_s *)rhs;
-    *(a_16_s *)rhs = buf;
-}
