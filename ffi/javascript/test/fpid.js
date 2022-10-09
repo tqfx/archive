@@ -44,8 +44,13 @@ var mkd = [
     [NB, NS, NS, NS, NS, NS, NB],
     [NB, NM, NM, NM, NS, NS, NB],
 ]
-var fpid = new Module.fpid(2, 1, mmp, mkp, mki, mkd, -3, 3, -10, 10)
-fpid.kpid(10, 0.1, 1)
-fpid.pos(10)
-console.log(fpid.proc(10, 0))
-fpid.delete()
+
+var ctx = new Module.fpid(2, 1, mmp, mkp, mki, mkd, -3, 3, -10, 10)
+ctx.kpid(10, 0.1, 1)
+console.log(ctx.proc(10, 0))
+ctx.delete()
+
+var ctx = new Module.fpid(2, 1, mmp, mkp, mki, mkd, -3, 3, -10, 10, 10)
+ctx.kpid(10, 0.1, 1)
+console.log(ctx.proc(10, 0))
+ctx.delete()

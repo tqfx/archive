@@ -5,31 +5,23 @@ from a.polytrack cimport *
 cdef class polytrack3:
     '''cubic polynomial trajectory'''
     cdef a_polytrack3_s ctx[1]
-    cdef a_real_t source[3]
-    cdef a_real_t target[3]
-    cdef a_real_t out[3]
-    def __cinit__(self, source, target):
-        self.source[0] = source[0]
-        self.source[1] = source[1]
-        self.source[2] = source[2]
-        self.target[0] = target[0]
-        self.target[1] = target[1]
-        self.target[2] = target[2]
-        a_polytrack3_init(self.ctx, self.source, self.target)
+    def __cinit__(self, a_real_t t0, a_real_t t1, a_real_t q0, a_real_t q1, a_real_t v0 = 0, a_real_t v1 = 0):
+        a_polytrack3_init(self.ctx, t0, t1, q0, q1, v0, v1)
     def __call__(self, ts):
         '''calculate all'''
+        cdef a_real_t out[3]
         if iterable(ts):
             p = array('d')
             v = array('d')
             a = array('d')
             for i, it in enumerate(ts):
-                a_polytrack3_all(self.ctx, it, self.out)
-                p.append(self.out[0])
-                v.append(self.out[1])
-                a.append(self.out[2])
+                a_polytrack3_out(self.ctx, it, out)
+                p.append(out[0])
+                v.append(out[1])
+                a.append(out[2])
             return p, v, a
-        a_polytrack3_all(self.ctx, ts, self.out)
-        return self.out[0], self.out[1], self.out[2]
+        a_polytrack3_out(self.ctx, ts, out)
+        return out[0], out[1], out[2]
     def pos(self, ts):
         '''calculate position'''
         if iterable(ts):
@@ -88,33 +80,23 @@ cdef class polytrack3:
 cdef class polytrack5:
     '''quintic polynomial trajectory'''
     cdef a_polytrack5_s ctx[1]
-    cdef a_real_t source[4]
-    cdef a_real_t target[4]
-    cdef a_real_t out[3]
-    def __cinit__(self, source, target):
-        self.source[0] = source[0]
-        self.source[1] = source[1]
-        self.source[2] = source[2]
-        self.source[3] = source[3]
-        self.target[0] = target[0]
-        self.target[1] = target[1]
-        self.target[2] = target[2]
-        self.target[3] = target[3]
-        a_polytrack5_init(self.ctx, self.source, self.target)
+    def __cinit__(self, a_real_t t0, a_real_t t1, a_real_t q0, a_real_t q1, a_real_t v0 = 0, a_real_t v1 = 0, a_real_t a0 = 0, a_real_t a1 = 0):
+        a_polytrack5_init(self.ctx, t0, t1, q0, q1, v0, v1, a0, a1)
     def __call__(self, ts):
         '''calculate all'''
+        cdef a_real_t out[3]
         if iterable(ts):
             p = array('d')
             v = array('d')
             a = array('d')
             for i, it in enumerate(ts):
-                a_polytrack5_all(self.ctx, it, self.out)
-                p.append(self.out[0])
-                v.append(self.out[1])
-                a.append(self.out[2])
+                a_polytrack5_out(self.ctx, it, out)
+                p.append(out[0])
+                v.append(out[1])
+                a.append(out[2])
             return p, v, a
-        a_polytrack5_all(self.ctx, ts, self.out)
-        return self.out[0], self.out[1], self.out[2]
+        a_polytrack5_out(self.ctx, ts, out)
+        return out[0], out[1], out[2]
     def pos(self, ts):
         '''calculate position'''
         if iterable(ts):
@@ -185,37 +167,25 @@ cdef class polytrack5:
 cdef class polytrack7:
     '''hepta polynomial trajectory'''
     cdef a_polytrack7_s ctx[1]
-    cdef a_real_t source[5]
-    cdef a_real_t target[5]
-    cdef a_real_t out[4]
-    def __cinit__(self, source, target):
-        self.source[0] = source[0]
-        self.source[1] = source[1]
-        self.source[2] = source[2]
-        self.source[3] = source[3]
-        self.source[4] = source[4]
-        self.target[0] = target[0]
-        self.target[1] = target[1]
-        self.target[2] = target[2]
-        self.target[3] = target[3]
-        self.target[4] = target[4]
-        a_polytrack7_init(self.ctx, self.source, self.target)
+    def __cinit__(self, a_real_t t0, a_real_t t1, a_real_t q0, a_real_t q1, a_real_t v0 = 0, a_real_t v1 = 0, a_real_t a0 = 0, a_real_t a1 = 0, a_real_t j0 = 0, a_real_t j1 = 0):
+        a_polytrack7_init(self.ctx, t0, t1, q0, q1, v0, v1, a0, a1, j0, j1)
     def __call__(self, ts):
         '''calculate all'''
+        cdef a_real_t out[4]
         if iterable(ts):
             p = array('d')
             v = array('d')
             a = array('d')
             j = array('d')
             for i, it in enumerate(ts):
-                a_polytrack7_all(self.ctx, it, self.out)
-                p.append(self.out[0])
-                v.append(self.out[1])
-                a.append(self.out[2])
-                j.append(self.out[3])
+                a_polytrack7_out(self.ctx, it, out)
+                p.append(out[0])
+                v.append(out[1])
+                a.append(out[2])
+                j.append(out[3])
             return p, v, a, j
-        a_polytrack7_all(self.ctx, ts, self.out)
-        return self.out[0], self.out[1], self.out[2], self.out[3]
+        a_polytrack7_out(self.ctx, ts, out)
+        return out[0], out[1], out[2], out[3]
     def pos(self, ts):
         '''calculate position'''
         if iterable(ts):

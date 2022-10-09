@@ -34,19 +34,6 @@ extern "C" {
     fn a_tf_zero(ctx: *mut TF) -> *mut TF;
 }
 
-/**
-## Examples
-
-```no_run
-let num = [6.59492796e-05, 6.54019884e-05];
-let den = [-1.97530991, 0.97530991];
-let mut u = [0.0; 2];
-let mut v = [0.0; 2];
-let mut tf = liba::TF::new(&num, &mut u, &den, &mut v);
-tf.proc(0.0);
-tf.zero();
-```
-*/
 impl TF {
     /// initialize function for transfer function
     pub fn new(num: &[Real], u: &mut [Real], den: &[Real], v: &mut [Real]) -> Self {
@@ -81,4 +68,15 @@ impl TF {
     pub fn zero(&mut self) -> &mut Self {
         unsafe { a_tf_zero(self).as_mut().unwrap_unchecked() }
     }
+}
+
+#[test]
+fn tf() {
+    let num = [6.59492796e-05, 6.54019884e-05];
+    let den = [-1.97530991, 0.97530991];
+    let mut u = [0.0; 2];
+    let mut v = [0.0; 2];
+    let mut a = crate::TF::new(&num, &mut u, &den, &mut v);
+    println!("{}", a.proc(10.0));
+    a.zero();
 }

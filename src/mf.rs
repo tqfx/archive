@@ -55,3 +55,31 @@ pub fn tri(x: Real, a: Real, b: Real, c: Real) -> Real {
 pub fn z(x: Real, a: Real, b: Real) -> Real {
     unsafe { a_mf_z(x, a, b) }
 }
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn gauss() {
+        println!("{}", crate::mf::gauss(0.0, 1.0, 0.0));
+    }
+    #[test]
+    fn gbell() {
+        println!("{}", crate::mf::gbell(0.0, 2.0, 1.0, 0.0));
+    }
+    #[test]
+    fn sig() {
+        println!("{}", crate::mf::sig(0.0, 2.0, 0.0));
+    }
+    #[test]
+    fn trap() {
+        println!("{}", crate::mf::trap(0.0, -2.0, -1.0, 1.0, 2.0));
+    }
+    #[test]
+    fn tri() {
+        println!("{}", crate::mf::tri(0.0, -1.0, 0.0, 1.0));
+    }
+    #[test]
+    fn z() {
+        println!("{}", crate::mf::z(0.0, -1.0, 1.0));
+    }
+}

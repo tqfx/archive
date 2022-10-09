@@ -9,6 +9,8 @@ typedef struct
 {
     JNIEnv *jenv;
     jobject jobj;
+    jfieldID k;
+    jobject jk;
     jfieldID t;
     jobject jt;
     jfieldID q;
@@ -17,8 +19,6 @@ typedef struct
     jobject jv;
     jfieldID a;
     jobject ja;
-    jfieldID k;
-    jobject jk;
 } j_polytrack5_s;
 
 #if defined(__cplusplus)

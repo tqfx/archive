@@ -15,12 +15,10 @@ add_jar(a-jar
 install_jar(a-jar ${CMAKE_INSTALL_LIBDIR}/java)
 
 file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
-add_library(a-jni SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
-target_compile_definitions(a-jni PRIVATE A_REAL_BITS=64)
-target_link_libraries(a-jni PRIVATE jar-native-a a)
-set_target_properties(a-jni PROPERTIES
-  DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a
-)
+add_library(a-jni SHARED ${SOURCES} $<TARGET_PROPERTY:a,SOURCES>)
+set_target_properties(a-jni PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
+target_include_directories(a-jni PRIVATE $<TARGET_PROPERTY:a,INTERFACE_INCLUDE_DIRECTORIES>)
+target_link_libraries(a-jni PRIVATE jar-native-a)
 target_library_options(a-jni)
 
 install(TARGETS a-jni EXPORT ${PROJECT_NAME}-targets

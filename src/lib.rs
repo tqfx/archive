@@ -41,7 +41,7 @@ algorithm library version
 
 ## Examples
 
-```no_run
+```
 println!("version {}", liba::version());
 ```
 */
@@ -52,41 +52,17 @@ pub fn version() -> String {
     str_buf
 }
 
-/**
-algorithm library version major
-
-## Examples
-
-```no_run
-println!("major {}", liba::version_major());
-```
-*/
+/// algorithm library version major
 pub fn version_major() -> u32 {
     unsafe { a_version_major() as u32 }
 }
 
-/**
-algorithm library version minor
-
-## Examples
-
-```no_run
-println!("minor {}", liba::version_minor());
-```
-*/
+/// algorithm library version minor
 pub fn version_minor() -> u32 {
     unsafe { a_version_minor() as u32 }
 }
 
-/**
-algorithm library version patch
-
-## Examples
-
-```no_run
-println!("patch {}", liba::version_patch());
-```
-*/
+/// algorithm library version patch
 pub fn version_patch() -> u32 {
     unsafe { a_version_patch() as u32 }
 }
@@ -95,27 +71,22 @@ extern "C" {
     fn a_sqrt_inv(x: f32) -> f32;
 }
 
-/**
-fast inverse square-root, $ \frac{1}{\sqrt{x}} $
-
-## Examples
-
-```no_run
-println!("1/sqrt({})={}", 4, liba::sqrt_inv(4.0));
-```
-*/
+/// fast inverse square-root, $ \frac{1}{\sqrt{x}} $
 pub fn sqrt_inv(x: f32) -> f32 {
     unsafe { a_sqrt_inv(x) }
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
+mod test {
     #[test]
-    fn run_version() {
-        println!("version {}", version());
-        println!("major {}", version_major());
-        println!("minor {}", version_minor());
-        println!("patch {}", version_patch());
+    fn version() {
+        println!("version {}", crate::version());
+        println!("major {}", crate::version_major());
+        println!("minor {}", crate::version_minor());
+        println!("patch {}", crate::version_patch());
+    }
+    #[test]
+    fn sqrt_inv() {
+        println!("1/sqrt({})={}", 4, crate::sqrt_inv(4.0));
     }
 }

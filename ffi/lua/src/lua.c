@@ -120,6 +120,11 @@ void set_funcs(lua_State *L, int idx, const SFunc *tab)
 
 void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
 {
+    lua_Unsigned len = lua_rawlen(L, idx);
+    if (num > len)
+    {
+        num = (unsigned int)len;
+    }
     for (unsigned int i = num; i--; num = i)
     {
         if (lua_rawgeti(L, idx, num) == LUA_TNUMBER)

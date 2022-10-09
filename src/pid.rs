@@ -52,23 +52,6 @@ extern "C" {
     fn a_pid_zero(ctx: *mut PID) -> *mut PID;
 }
 
-/**
-## Examples
-
-```no_run
-let mut pid = liba::PID::new(1.0, -10.0, 10.0);
-pid.mode(liba::pid::OFF);
-pid.mode(liba::pid::POS);
-pid.mode(liba::pid::INC);
-pid.kpid(10.0, 0.1, 1.0);
-pid.time(0.1);
-pid.pos(10.0);
-pid.off();
-pid.inc();
-pid.proc(1.0, 0.0);
-pid.zero();
-```
-*/
 impl PID {
     /// initialize function for PID controller, default is turn off
     pub fn new(dt: Real, outmin: Real, outmax: Real) -> Self {
@@ -177,4 +160,27 @@ impl PID {
     pub fn zero(&mut self) -> &mut Self {
         unsafe { a_pid_zero(self).as_mut().unwrap_unchecked() }
     }
+}
+
+#[test]
+fn pid() {
+    {
+        let mut a = crate::PID::new_pos(0.1, 10.0, 0.1, 1.0, -10.0, 10.0, 10.0);
+        println!("{}", a.proc(1.0, 0.0));
+    }
+    {
+        let mut a = crate::PID::new_inc(0.1, 10.0, 0.1, 1.0, -10.0, 10.0);
+        println!("{}", a.proc(1.0, 0.0));
+    }
+    let mut a = crate::PID::new(1.0, -10.0, 10.0);
+    a.mode(crate::pid::OFF);
+    a.mode(crate::pid::POS);
+    a.mode(crate::pid::INC);
+    a.kpid(10.0, 0.1, 1.0);
+    a.time(0.1);
+    a.pos(10.0);
+    a.off();
+    a.inc();
+    println!("{}", a.proc(1.0, 0.0));
+    a.zero();
 }

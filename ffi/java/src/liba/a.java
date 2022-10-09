@@ -74,7 +74,19 @@ public class a {
         int reg;
 
         public pid(double dt, double min, double max) {
-            this.init(dt, min, max);
+            this.init(dt, min, max).inc();
+        }
+
+        public pid(double dt, double min, double max, double sum) {
+            this.init(dt, min, max).pos(sum);
+        }
+
+        public pid(double dt, double kp, double ki, double kd, double min, double max) {
+            this.init(dt, min, max).kpid(kp, ki, kd).inc();
+        }
+
+        public pid(double dt, double kp, double ki, double kd, double min, double max, double sum) {
+            this.init(dt, min, max).kpid(kp, ki, kd).pos(sum);
         }
 
         public final native pid inc();
@@ -119,6 +131,13 @@ public class a {
             this.init(dt, mmp, mkp, mki, mkd, imin, imax, omin, omax).buff(num);
         }
 
+        public fpid(int num, double dt, double[][] mmp,
+                double[][] mkp, double[][] mki, double[][] mkd,
+                double imin, double imax, double omin, double omax, double sum) {
+            this.pid = new pid(dt, omin, omax, sum);
+            this.init(dt, mmp, mkp, mki, mkd, imin, imax, omin, omax).buff(num);
+        }
+
         public final native fpid inc();
 
         public final native fpid off();
@@ -150,22 +169,47 @@ public class a {
     }
 
     public final static class polytrack3 {
+        public double[] k;
         public double[] t;
         public double[] q;
         public double[] v;
-        public double[] k;
 
-        public polytrack3(double[] source, double[] target) {
+        private polytrack3() {
+            this.k = new double[4];
             this.t = new double[2];
             this.q = new double[2];
             this.v = new double[2];
-            this.k = new double[4];
+        }
+
+        public polytrack3(double[] source, double[] target) {
+            this();
             this.init(source, target);
         }
 
+        public polytrack3(double[] t, double[] q, double[] v) {
+            this();
+            this.init(t, q, v);
+        }
+
+        public polytrack3(double t0, double t1, double q0, double q1) {
+            this();
+            this.init(t0, t1, q0, q1);
+        }
+
+        public polytrack3(double t0, double t1, double q0, double q1, double v0, double v1) {
+            this();
+            this.init(t0, t1, q0, q1, v0, v1);
+        }
+
+        public final native polytrack3 init(double t0, double t1, double q0, double q1, double v0, double v1);
+
+        public final native polytrack3 init(double t0, double t1, double q0, double q1);
+
+        public final native polytrack3 init(double[] t, double[] q, double[] v);
+
         public final native polytrack3 init(double[] source, double[] target);
 
-        public final native double[] all(double ts);
+        public final native double[] out(double ts);
 
         public final native double pos(double ts);
 
@@ -175,24 +219,65 @@ public class a {
     }
 
     public final static class polytrack5 {
+        public double[] k;
         public double[] t;
         public double[] q;
         public double[] v;
         public double[] a;
-        public double[] k;
 
-        public polytrack5(double[] source, double[] target) {
+        private polytrack5() {
+            this.k = new double[6];
             this.t = new double[2];
             this.q = new double[2];
             this.v = new double[2];
             this.a = new double[2];
-            this.k = new double[6];
+        }
+
+        public polytrack5(double[] source, double[] target) {
+            this();
             this.init(source, target);
         }
 
+        public polytrack5(double[] t, double[] q, double[] v) {
+            this();
+            this.init(t, q, v);
+        }
+
+        public polytrack5(double[] t, double[] q, double[] v, double[] a) {
+            this();
+            this.init(t, q, v, a);
+        }
+
+        public polytrack5(double t0, double t1, double q0, double q1) {
+            this();
+            this.init(t0, t1, q0, q1);
+        }
+
+        public polytrack5(double t0, double t1, double q0, double q1, double v0, double v1) {
+            this();
+            this.init(t0, t1, q0, q1, v0, v1);
+        }
+
+        public polytrack5(double t0, double t1, double q0, double q1, double v0, double v1,
+                double a0, double a1) {
+            this();
+            this.init(t0, t1, q0, q1, v0, v1, a0, a1);
+        }
+
+        public final native polytrack5 init(double t0, double t1, double q0, double q1, double v0, double v1,
+                double a0, double a1);
+
+        public final native polytrack5 init(double t0, double t1, double q0, double q1, double v0, double v1);
+
+        public final native polytrack5 init(double t0, double t1, double q0, double q1);
+
+        public final native polytrack5 init(double[] t, double[] q, double[] v, double[] a);
+
+        public final native polytrack5 init(double[] t, double[] q, double[] v);
+
         public final native polytrack5 init(double[] source, double[] target);
 
-        public final native double[] all(double ts);
+        public final native double[] out(double ts);
 
         public final native double pos(double ts);
 
@@ -202,26 +287,83 @@ public class a {
     }
 
     public final static class polytrack7 {
+        public double[] k;
         public double[] t;
         public double[] q;
         public double[] v;
         public double[] a;
         public double[] j;
-        public double[] k;
 
-        public polytrack7(double[] source, double[] target) {
+        private polytrack7() {
+            this.k = new double[8];
             this.t = new double[2];
             this.q = new double[2];
             this.v = new double[2];
             this.a = new double[2];
             this.j = new double[2];
-            this.k = new double[8];
+        }
+
+        public polytrack7(double[] source, double[] target) {
+            this();
             this.init(source, target);
         }
 
+        public polytrack7(double[] t, double[] q, double[] v) {
+            this();
+            this.init(t, q, v);
+        }
+
+        public polytrack7(double[] t, double[] q, double[] v, double[] a) {
+            this();
+            this.init(t, q, v, a);
+        }
+
+        public polytrack7(double[] t, double[] q, double[] v, double[] a, double[] j) {
+            this();
+            this.init(t, q, v, a, j);
+        }
+
+        public polytrack7(double t0, double t1, double q0, double q1) {
+            this();
+            this.init(t0, t1, q0, q1);
+        }
+
+        public polytrack7(double t0, double t1, double q0, double q1, double v0, double v1) {
+            this();
+            this.init(t0, t1, q0, q1, v0, v1);
+        }
+
+        public polytrack7(double t0, double t1, double q0, double q1, double v0, double v1,
+                double a0, double a1) {
+            this();
+            this.init(t0, t1, q0, q1, v0, v1, a0, a1);
+        }
+
+        public polytrack7(double t0, double t1, double q0, double q1, double v0, double v1,
+                double a0, double a1, double j0, double j1) {
+            this();
+            this.init(t0, t1, q0, q1, v0, v1, a0, a1, j0, j1);
+        }
+
+        public final native polytrack7 init(double t0, double t1, double q0, double q1, double v0, double v1,
+                double a0, double a1, double j0, double j1);
+
+        public final native polytrack7 init(double t0, double t1, double q0, double q1, double v0, double v1,
+                double a0, double a1);
+
+        public final native polytrack7 init(double t0, double t1, double q0, double q1, double v0, double v1);
+
+        public final native polytrack7 init(double t0, double t1, double q0, double q1);
+
+        public final native polytrack7 init(double[] t, double[] q, double[] v, double[] a, double[] j);
+
+        public final native polytrack7 init(double[] t, double[] q, double[] v, double[] a);
+
+        public final native polytrack7 init(double[] t, double[] q, double[] v);
+
         public final native polytrack7 init(double[] source, double[] target);
 
-        public final native double[] all(double ts);
+        public final native double[] out(double ts);
 
         public final native double pos(double ts);
 

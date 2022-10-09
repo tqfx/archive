@@ -16,11 +16,10 @@ except Exception as e:
 
 t = (0, 1)
 q = (0, 1)
+v = (0, 1)
 data = np.arange(t[0], t[1], 0.01)
-source = (t[0], q[0], 0, 0, 0)
-target = (t[1], q[1], 1, 1, 1)
 
-track = a.polytrack3(source, target)
+track = a.polytrack3(t[0], t[1], q[0], q[1], v[0], v[1])
 label = track.text()
 plt.figure("3 polynomial trajectory")
 
@@ -65,7 +64,7 @@ plt.legend()
 plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_3a.png"))
 
-track = a.polytrack5(source, target)
+track = a.polytrack5(t[0], t[1], q[0], q[1], v[0], v[1])
 label = track.text()
 plt.figure("5 polynomial trajectory")
 
@@ -110,7 +109,7 @@ plt.legend()
 plt.xlabel('t')
 plt.savefig(os.path.join(prefix, "trajectory_polynomial_5a.png"))
 
-track = a.polytrack7(source, target)
+track = a.polytrack7(t[0], t[1], q[0], q[1], v[0], v[1])
 label = track.text()
 plt.figure("7 polynomial trajectory")
 

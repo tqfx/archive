@@ -63,100 +63,6 @@ extern "C" {
     fn a_fpid_zero(ctx: *mut FPID) -> *mut FPID;
 }
 
-/**
-## Examples
-
-```no_run
-use liba::Real;
-const NB: Real = -3.0;
-const NM: Real = -2.0;
-const NS: Real = -1.0;
-const ZO: Real = 0.0;
-const PS: Real = 1.0;
-const PM: Real = 2.0;
-const PB: Real = 3.0;
-let mmp = [
-    liba::mf::TRI,
-    NB,
-    NB,
-    NM,
-    liba::mf::TRI,
-    NB,
-    NM,
-    NS,
-    liba::mf::TRI,
-    NM,
-    NS,
-    ZO,
-    liba::mf::TRI,
-    NS,
-    ZO,
-    PS,
-    liba::mf::TRI,
-    ZO,
-    PS,
-    PM,
-    liba::mf::TRI,
-    PS,
-    PM,
-    PB,
-    liba::mf::TRI,
-    PM,
-    PB,
-    PB,
-    liba::mf::NUL,
-];
-let mkp = [
-    [NB, NB, NM, NM, NS, ZO, ZO],
-    [NB, NB, NM, NS, NS, ZO, PS],
-    [NM, NM, NM, NS, ZO, PS, PS],
-    [NM, NM, NS, ZO, PS, PM, PM],
-    [NS, NS, ZO, PS, PS, PM, PM],
-    [NS, ZO, PS, PM, PM, PM, PB],
-    [ZO, ZO, PM, PM, PM, PB, PB],
-];
-let mki = [
-    [PB, PB, PM, PM, PS, ZO, ZO],
-    [PB, PB, PM, PS, PS, ZO, ZO],
-    [PB, PM, PS, PS, ZO, NS, NS],
-    [PM, PM, PS, ZO, NS, NM, NM],
-    [PM, PS, ZO, NS, NS, NM, NB],
-    [ZO, ZO, NS, NS, NM, NB, NB],
-    [ZO, ZO, NS, NM, NM, NB, NB],
-];
-let mkd = [
-    [NS, PS, PB, PB, PB, PM, NS],
-    [NS, PS, PB, PM, PM, PS, ZO],
-    [ZO, PS, PM, PM, PS, PS, ZO],
-    [ZO, PS, PS, PS, PS, PS, ZO],
-    [ZO, ZO, ZO, ZO, ZO, ZO, ZO],
-    [NB, NS, NS, NS, NS, NS, NB],
-    [NB, NM, NM, NM, NS, NS, NB],
-];
-let mut fpid = liba::FPID::new(
-    1.0,
-    mkp.len(),
-    &mmp,
-    &mkp.concat(),
-    &mki.concat(),
-    &mkd.concat(),
-    -10.0,
-    10.0,
-    -10.0,
-    10.0,
-);
-fpid.base(mkp.len(), &mmp, &mkp.concat(), &mki.concat(), &mkd.concat());
-fpid.kpid(10.0, 0.1, 1.0);
-let mut idx = [0u32; 4];
-let mut mms = [0.0; 4];
-let mut mat = [0.0; 4];
-fpid.buff(&mut idx, &mut mms, &mut mat);
-fpid.time(0.1).pos(10.0);
-fpid.off().inc();
-fpid.proc(1.0, 0.0);
-fpid.zero();
-```
-*/
 impl FPID {
     /// initialize function for fuzzy PID controller, default is turn off
     pub fn new(
@@ -286,4 +192,95 @@ impl FPID {
     pub fn zero(&mut self) -> &mut Self {
         unsafe { a_fpid_zero(self).as_mut().unwrap_unchecked() }
     }
+}
+
+#[test]
+fn fpid() {
+    const NB: Real = -3.0;
+    const NM: Real = -2.0;
+    const NS: Real = -1.0;
+    const ZO: Real = 0.0;
+    const PS: Real = 1.0;
+    const PM: Real = 2.0;
+    const PB: Real = 3.0;
+    let mmp = [
+        crate::mf::TRI,
+        NB,
+        NB,
+        NM,
+        crate::mf::TRI,
+        NB,
+        NM,
+        NS,
+        crate::mf::TRI,
+        NM,
+        NS,
+        ZO,
+        crate::mf::TRI,
+        NS,
+        ZO,
+        PS,
+        crate::mf::TRI,
+        ZO,
+        PS,
+        PM,
+        crate::mf::TRI,
+        PS,
+        PM,
+        PB,
+        crate::mf::TRI,
+        PM,
+        PB,
+        PB,
+        crate::mf::NUL,
+    ];
+    let mkp = [
+        [NB, NB, NM, NM, NS, ZO, ZO],
+        [NB, NB, NM, NS, NS, ZO, PS],
+        [NM, NM, NM, NS, ZO, PS, PS],
+        [NM, NM, NS, ZO, PS, PM, PM],
+        [NS, NS, ZO, PS, PS, PM, PM],
+        [NS, ZO, PS, PM, PM, PM, PB],
+        [ZO, ZO, PM, PM, PM, PB, PB],
+    ];
+    let mki = [
+        [PB, PB, PM, PM, PS, ZO, ZO],
+        [PB, PB, PM, PS, PS, ZO, ZO],
+        [PB, PM, PS, PS, ZO, NS, NS],
+        [PM, PM, PS, ZO, NS, NM, NM],
+        [PM, PS, ZO, NS, NS, NM, NB],
+        [ZO, ZO, NS, NS, NM, NB, NB],
+        [ZO, ZO, NS, NM, NM, NB, NB],
+    ];
+    let mkd = [
+        [NS, PS, PB, PB, PB, PM, NS],
+        [NS, PS, PB, PM, PM, PS, ZO],
+        [ZO, PS, PM, PM, PS, PS, ZO],
+        [ZO, PS, PS, PS, PS, PS, ZO],
+        [ZO, ZO, ZO, ZO, ZO, ZO, ZO],
+        [NB, NS, NS, NS, NS, NS, NB],
+        [NB, NM, NM, NM, NS, NS, NB],
+    ];
+    let mut a = crate::FPID::new(
+        1.0,
+        mkp.len(),
+        &mmp,
+        &mkp.concat(),
+        &mki.concat(),
+        &mkd.concat(),
+        -10.0,
+        10.0,
+        -10.0,
+        10.0,
+    );
+    a.base(mkp.len(), &mmp, &mkp.concat(), &mki.concat(), &mkd.concat());
+    a.kpid(10.0, 0.1, 1.0);
+    let mut idx = [0u32; 4];
+    let mut mms = [0.0; 4];
+    let mut mat = [0.0; 4];
+    a.buff(&mut idx, &mut mms, &mut mat);
+    a.time(0.1).pos(10.0);
+    a.off().inc();
+    println!("{}", a.proc(1.0, 0.0));
+    a.zero();
 }
