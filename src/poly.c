@@ -17,7 +17,7 @@ a_real_t *a_poly_inv(a_real_t *a, a_size_t n)
     return a;
 }
 
-a_real_t a_poly_c(const a_real_t *a, a_size_t n, a_real_t x)
+a_real_t a_poly_x(const a_real_t *a, a_size_t n, a_real_t x)
 {
     A_ASSERT(!n || a);
     a_real_t y = 0;
@@ -26,6 +26,24 @@ a_real_t a_poly_c(const a_real_t *a, a_size_t n, a_real_t x)
         y = y * x + *p;
     }
     return y;
+}
+
+a_real_t *a_poly_xs(const a_real_t *a, a_size_t n, const a_real_t *ptr, a_size_t num, a_real_t *out)
+{
+    A_ASSERT(out);
+    A_ASSERT(!n || a);
+    A_ASSERT(!num || ptr);
+    a_real_t x; /* when ptr == out, cache it */
+    for (const a_real_t *p = --a + n; num--; ++ptr, ++out)
+    {
+        x = *ptr;
+        *out = 0;
+        for (const a_real_t *q = p; q > a; --q)
+        {
+            *out = *out * x + *q;
+        }
+    }
+    return out;
 }
 
 a_real_t a_poly_r(const a_real_t *a, a_size_t n, a_real_t x)
@@ -37,4 +55,22 @@ a_real_t a_poly_r(const a_real_t *a, a_size_t n, a_real_t x)
         y = y * x + *a;
     }
     return y;
+}
+
+a_real_t *a_poly_rs(const a_real_t *a, a_size_t n, const a_real_t *ptr, a_size_t num, a_real_t *out)
+{
+    A_ASSERT(out);
+    A_ASSERT(!n || a);
+    A_ASSERT(!num || ptr);
+    a_real_t x; /* when ptr == out, cache it */
+    for (const a_real_t *q = a + n; num--; ++ptr, ++out)
+    {
+        x = *ptr;
+        *out = 0;
+        for (const a_real_t *p = a; p < q; ++p)
+        {
+            *out = *out * x + *p;
+        }
+    }
+    return out;
 }

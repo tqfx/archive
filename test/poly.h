@@ -32,19 +32,19 @@ static void test(void)
 {
     a_real_t x3[] = {A_REAL_C(1.0), A_REAL_C(2.0), A_REAL_C(3.0)};
     print(x3, 3);
-    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x3, 3, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_x(x3, 3, 2));
     a_poly_inv(x3, 3);
     print(x3, 3);
-    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x3, 3, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_x(x3, 3, 2));
     print(x3, 3);
     printf("=" A_REAL_PRI(, "g") "\n", a_poly_r(x3, 3, 2));
 
     a_real_t x4[] = {A_REAL_C(1.0), A_REAL_C(2.0), A_REAL_C(3.0), A_REAL_C(4.0)};
     print(x4, 4);
-    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x4, 4, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_x(x4, 4, 2));
     a_poly_inv(x4, 4);
     print(x4, 4);
-    printf("=" A_REAL_PRI(, "g") "\n", a_poly_c(x4, 4, 2));
+    printf("=" A_REAL_PRI(, "g") "\n", a_poly_x(x4, 4, 2));
     print(x4, 4);
     printf("=" A_REAL_PRI(, "g") "\n", a_poly_r(x4, 4, 2));
 }

@@ -34,7 +34,8 @@ A_PUBLIC a_real_t *a_poly_inv(a_real_t *a, a_size_t n);
   \end{array}\right.
  \f]
 */
-A_PUBLIC a_real_t a_poly_c(const a_real_t *a, a_size_t n, a_real_t x);
+A_PUBLIC a_real_t a_poly_x(const a_real_t *a, a_size_t n, a_real_t x);
+A_PUBLIC a_real_t *a_poly_xs(const a_real_t *a, a_size_t n, const a_real_t *ptr, a_size_t num, a_real_t *out);
 
 /*!
  @brief horner function for polynomial \f$ \sum_{i=0}^{n}a_{i}x^{n-i} \f$
@@ -47,6 +48,7 @@ A_PUBLIC a_real_t a_poly_c(const a_real_t *a, a_size_t n, a_real_t x);
  @f]
 */
 A_PUBLIC a_real_t a_poly_r(const a_real_t *a, a_size_t n, a_real_t x);
+A_PUBLIC a_real_t *a_poly_rs(const a_real_t *a, a_size_t n, const a_real_t *ptr, a_size_t num, a_real_t *out);
 
 #if defined(__cplusplus)
 } /* extern "C" */
