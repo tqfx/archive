@@ -10,7 +10,7 @@ cdef class fpid:
     cdef array mkp
     cdef array mki
     cdef array mkd
-    def __cinit__(self, a_uint_t num, a_real_t ts, mmp, mkp, mki, mkd, a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax):
+    def __cinit__(self, a_uint_t num, a_real_t dt, mmp, mkp, mki, mkd, a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax):
         self.mmp = array('d', (i for j in mmp for i in j))
         self.mkp = array('d', (i for j in mkp for i in j))
         self.mki = array('d', (i for j in mki for i in j))
@@ -19,7 +19,7 @@ cdef class fpid:
         cdef a_real_t *kp = self.mkp.data.as_doubles
         cdef a_real_t *ki = self.mki.data.as_doubles
         cdef a_real_t *kd = self.mkd.data.as_doubles
-        a_fpid_init(self.ctx, ts, <a_uint_t>len(mkp), ma, kp, ki, kd, imin, imax, omin, omax)
+        a_fpid_init(self.ctx, dt, <a_uint_t>len(mkp), ma, kp, ki, kd, imin, imax, omin, omax)
         self.ptr = PyMem_Malloc(A_FPID_BUF1(num))
         a_fpid_buf1(self.ctx, self.ptr, num)
     def __call__(self, set: a_real_t, fdb: a_real_t) -> a_real_t:
@@ -62,9 +62,9 @@ cdef class fpid:
         '''set input extreme value for fuzzy PID controller'''
         a_fpid_ilim(self.ctx, min, max)
         return self
-    def time(self, ts: a_real_t):
+    def time(self, dt: a_real_t):
         '''set sampling period for fuzzy PID controller'''
-        a_fpid_time(self.ctx, ts)
+        a_fpid_time(self.ctx, dt)
         return self
     def mode(self, reg: a_uint_t):
         '''set mode for fuzzy PID controller directly'''

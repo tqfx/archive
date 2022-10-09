@@ -33,7 +33,7 @@ extern "C" {
     fn a_fpid_inc(ctx: *mut FPID) -> *mut FPID;
     fn a_fpid_pos(ctx: *mut FPID, max: Real) -> *mut FPID;
     fn a_fpid_mode(ctx: *mut FPID, reg: Uint) -> *mut FPID;
-    fn a_fpid_time(ctx: *mut FPID, ts: Real) -> *mut FPID;
+    fn a_fpid_time(ctx: *mut FPID, dt: Real) -> *mut FPID;
     fn a_fpid_ilim(ctx: *mut FPID, min: Real, max: Real) -> *mut FPID;
     fn a_fpid_olim(ctx: *mut FPID, min: Real, max: Real) -> *mut FPID;
     fn a_fpid_kpid(ctx: *mut FPID, kp: Real, ki: Real, kd: Real) -> *mut FPID;
@@ -48,7 +48,7 @@ extern "C" {
     ) -> *mut FPID;
     fn a_fpid_init(
         ctx: *mut FPID,
-        ts: Real,
+        dt: Real,
         num: Uint,
         mmp: *const Real,
         mkp: *const Real,
@@ -160,7 +160,7 @@ fpid.zero();
 impl FPID {
     /// initialize function for fuzzy PID controller, default is turn off
     pub fn new(
-        ts: Real,
+        dt: Real,
         num: usize,
         mmp: &[Real],
         mkp: &[Real],
@@ -172,7 +172,7 @@ impl FPID {
         omax: Real,
     ) -> Self {
         let mut ctx: Self = Self {
-            pid: PID::new(ts, omin, omax),
+            pid: PID::new(dt, omin, omax),
             mkp: std::ptr::null(),
             mki: std::ptr::null(),
             mkd: std::ptr::null(),
@@ -190,7 +190,7 @@ impl FPID {
         unsafe {
             a_fpid_init(
                 &mut ctx,
-                ts,
+                dt,
                 num as Uint,
                 mmp.as_ptr(),
                 mkp.as_ptr(),
@@ -226,8 +226,8 @@ impl FPID {
     }
 
     /// set sampling period for fuzzy PID controller
-    pub fn time(&mut self, ts: Real) -> &mut Self {
-        unsafe { a_fpid_time(self, ts).as_mut().unwrap_unchecked() }
+    pub fn time(&mut self, dt: Real) -> &mut Self {
+        unsafe { a_fpid_time(self, dt).as_mut().unwrap_unchecked() }
     }
 
     /// set input extreme value for fuzzy PID controller

@@ -95,9 +95,9 @@ A_PUBLIC a_fpid_s *a_fpid_mode(a_fpid_s *ctx, a_uint_t reg);
 /*!
  @brief set sampling period for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
- @param[in] ts sampling time unit(s)
+ @param[in] dt sampling time unit(s)
 */
-A_PUBLIC a_fpid_s *a_fpid_time(a_fpid_s *ctx, a_real_t ts);
+A_PUBLIC a_fpid_s *a_fpid_time(a_fpid_s *ctx, a_real_t dt);
 
 /*!
  @brief set input extreme value for fuzzy PID controller
@@ -177,7 +177,7 @@ A_PUBLIC a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp,
 /*!
  @brief initialize function for fuzzy PID controller, default setting is off
  @param[in,out] ctx points to an instance of fuzzy PID controller
- @param[in] ts sampling time unit(s)
+ @param[in] dt sampling time unit(s)
  @param[in] num number of columns in the rule base
  @param[in] mmp points to membership function parameter table, an array terminated by @ref A_MF_NUL
  @param[in] mkp points to Kp's rule base table, the rule base must be square
@@ -188,7 +188,7 @@ A_PUBLIC a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp,
  @param[in] omin mininum output
  @param[in] omax maxinum output
 */
-A_PUBLIC a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t ts, a_uint_t num, const a_real_t *mmp,
+A_PUBLIC a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *mmp,
                                const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd,
                                a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax);
 

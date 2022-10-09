@@ -64,7 +64,7 @@ typedef enum a_pid_e
 */
 typedef struct a_pid_s
 {
-    a_real_t ts; //!< sampling time unit(s)
+    a_real_t dt; //!< sampling time unit(s)
     a_real_t kp; //!< proportional constant
     a_real_t ki; //!< integral constant
     a_real_t kd; //!< derivative constant
@@ -123,9 +123,9 @@ A_PUBLIC a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t reg);
 /*!
  @brief set sampling period for PID controller
  @param[in,out] ctx points to an instance of PID controller
- @param[in] ts sampling time unit(s)
+ @param[in] dt sampling time unit(s)
 */
-A_PUBLIC a_pid_s *a_pid_time(a_pid_s *ctx, a_real_t ts);
+A_PUBLIC a_pid_s *a_pid_time(a_pid_s *ctx, a_real_t dt);
 
 /*!
  @brief set proportional integral derivative constant for PID controller
@@ -151,11 +151,11 @@ A_PUBLIC a_pid_s *a_pid_setv(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t
 /*!
  @brief initialize function for PID controller, default is turn off
  @param[in,out] ctx points to an instance of PID controller
- @param[in] ts sampling time unit(s)
+ @param[in] dt sampling time unit(s)
  @param[in] min minimum output
  @param[in] max maximum output
 */
-A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max);
+A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t max);
 
 /*!
  @brief calculate function for PID controller

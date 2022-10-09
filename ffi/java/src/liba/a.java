@@ -58,7 +58,7 @@ public class a {
         public final static int OFF = 0;
         public final static int POS = 1;
         public final static int INC = 2;
-        public double ts;
+        public double dt;
         public double kp;
         public double ki;
         public double kd;
@@ -73,8 +73,8 @@ public class a {
         int num;
         int reg;
 
-        public pid(double ts, double min, double max) {
-            this.init(ts, min, max);
+        public pid(double dt, double min, double max) {
+            this.init(dt, min, max);
         }
 
         public final native pid inc();
@@ -85,11 +85,11 @@ public class a {
 
         public final native pid mode(int mode);
 
-        public final native pid time(double ts);
+        public final native pid time(double dt);
 
         public final native pid kpid(double kp, double ki, double kd);
 
-        public final native pid init(double ts, double min, double max);
+        public final native pid init(double dt, double min, double max);
 
         public final native double proc(double set, double fdb);
 
@@ -112,11 +112,11 @@ public class a {
         public double kd;
         long op;
 
-        public fpid(int num, double ts, double[][] mmp,
+        public fpid(int num, double dt, double[][] mmp,
                 double[][] mkp, double[][] mki, double[][] mkd,
                 double imin, double imax, double omin, double omax) {
-            this.pid = new pid(ts, omin, omax);
-            this.init(ts, mmp, mkp, mki, mkd, imin, imax, omin, omax).buff(num);
+            this.pid = new pid(dt, omin, omax);
+            this.init(dt, mmp, mkp, mki, mkd, imin, imax, omin, omax).buff(num);
         }
 
         public final native fpid inc();
@@ -127,7 +127,7 @@ public class a {
 
         public final native fpid mode(int reg);
 
-        public final native fpid time(double ts);
+        public final native fpid time(double dt);
 
         public final native fpid ilim(double min, double max);
 
@@ -139,7 +139,7 @@ public class a {
 
         public final native fpid base(double[][] mmp, double[][] mkp, double[][] mki, double[][] mkd);
 
-        public final native fpid init(double ts, double[][] mmp,
+        public final native fpid init(double dt, double[][] mmp,
                 double[][] mkp, double[][] mki, double[][] mkd,
                 double imin, double imax, double omin, double omax);
 

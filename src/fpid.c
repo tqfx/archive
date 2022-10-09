@@ -103,9 +103,9 @@ a_fpid_s *a_fpid_mode(a_fpid_s *ctx, a_uint_t reg)
     return ctx;
 }
 
-a_fpid_s *a_fpid_time(a_fpid_s *ctx, a_real_t ts)
+a_fpid_s *a_fpid_time(a_fpid_s *ctx, a_real_t dt)
 {
-    a_pid_time(ctx->pid, ts);
+    a_pid_time(ctx->pid, dt);
     return ctx;
 }
 
@@ -168,12 +168,12 @@ a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp, const a_
     return ctx;
 }
 
-a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t ts, a_uint_t num, const a_real_t *mmp,
+a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *mmp,
                       const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd,
                       a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax)
 {
     a_real_t x = (a_real_t)((num - 1) >> 1 << 1);
-    a_pid_init(ctx->pid, ts, omin, omax);
+    a_pid_init(ctx->pid, dt, omin, omax);
     a_fpid_base(ctx, num, mmp, mkp, mki, mkd);
     ctx->sigma = x / (imax - imin);
     ctx->alpha = (omax - omin) / x;

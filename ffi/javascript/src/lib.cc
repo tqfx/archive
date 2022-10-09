@@ -14,9 +14,9 @@ class pid
     a_pid_s ctx[1];
 
 public:
-    pid(double jts, double jmin, double jmax)
+    pid(double jdt, double jmin, double jmax)
     {
-        a_pid_init(this->ctx, jts, jmin, jmax);
+        a_pid_init(this->ctx, jdt, jmin, jmax);
     }
     ~pid() { a_pid_exit(this->ctx); }
     double proc(double jset, double jfdb)
@@ -28,7 +28,7 @@ public:
     {
         a_pid_kpid(this->ctx, jkp, jki, jkd);
     }
-    void time(double jts) { a_pid_time(this->ctx, jts); }
+    void time(double jdt) { a_pid_time(this->ctx, jdt); }
     void pos(double jmax) { a_pid_pos(this->ctx, jmax); }
     void inc() { a_pid_inc(this->ctx); }
     void off() { a_pid_off(this->ctx); }
@@ -57,7 +57,7 @@ class fpid
     }
 
 public:
-    fpid(a_uint_t jmax, double jts, emscripten::val jmmp,
+    fpid(a_uint_t jmax, double jdt, emscripten::val jmmp,
          emscripten::val jmkp, emscripten::val jmki, emscripten::val jmkd,
          double jimin, double jimax, double jomin, double jomax)
     {
@@ -66,7 +66,7 @@ public:
         this->mki = from(jmki);
         this->mkd = from(jmkd);
         unsigned int num = jmkp["length"].as<unsigned int>();
-        a_fpid_init(this->ctx, jts, num, this->mmp,
+        a_fpid_init(this->ctx, jdt, num, this->mmp,
                     this->mkp, this->mki, this->mkd,
                     jimin, jimax, jomin, jomax);
         this->buf = malloc(A_FPID_BUF1(jmax));
@@ -104,7 +104,7 @@ public:
     {
         a_fpid_kpid(this->ctx, jkp, jki, jkd);
     }
-    void time(double jts) { a_fpid_time(this->ctx, jts); }
+    void time(double jdt) { a_fpid_time(this->ctx, jdt); }
     void pos(double jmax) { a_fpid_pos(this->ctx, jmax); }
     void inc() { a_fpid_inc(this->ctx); }
     void off() { a_fpid_off(this->ctx); }

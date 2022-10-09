@@ -26,20 +26,20 @@ a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t reg)
     return ctx;
 }
 
-a_pid_s *a_pid_time(a_pid_s *ctx, a_real_t ts)
+a_pid_s *a_pid_time(a_pid_s *ctx, a_real_t dt)
 {
-    a_real_t t = ts / ctx->ts;
+    a_real_t t = dt / ctx->dt;
     ctx->ki *= t;
     ctx->kd /= t;
-    ctx->ts = ts;
+    ctx->dt = dt;
     return ctx;
 }
 
 a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
 {
     ctx->kp = kp;
-    ctx->ki = ki * ctx->ts;
-    ctx->kd = kd / ctx->ts;
+    ctx->ki = ki * ctx->dt;
+    ctx->kd = kd / ctx->dt;
     return ctx;
 }
 
@@ -54,14 +54,14 @@ a_pid_s *a_pid_setv(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_
     return a_pid_zero(ctx);
 }
 
-a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t ts, a_real_t min, a_real_t max)
+a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t max)
 {
     ctx->reg = A_PID_OFF;
     ctx->outmin = min;
     ctx->outmax = max;
     ctx->summax = 0;
     ctx->num = 0;
-    ctx->ts = ts;
+    ctx->dt = dt;
     ctx->kp = 0;
     ctx->ki = 0;
     ctx->kd = 0;

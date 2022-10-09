@@ -115,7 +115,7 @@ static int fpid_into(lua_State *L)
 static int fpid_init_(lua_State *L, a_fpid_s *ctx)
 {
     a_uint_t max = (a_uint_t)luaL_checkinteger(L, 1);
-    lua_Number ts = luaL_checknumber(L, 2);
+    lua_Number dt = luaL_checknumber(L, 2);
     lua_Number imin = luaL_checknumber(L, 7);
     lua_Number imax = luaL_checknumber(L, 8);
     lua_Number omin = luaL_checknumber(L, 9);
@@ -125,7 +125,7 @@ static int fpid_init_(lua_State *L, a_fpid_s *ctx)
     a_real_t *mkp = tablenum_get(L, 4, 0);
     a_real_t *mki = tablenum_get(L, 5, 0);
     a_real_t *mkd = tablenum_get(L, 6, 0);
-    a_fpid_init(ctx, ts, num, mmp, mkp, mki, mkd, imin, imax, omin, omax);
+    a_fpid_init(ctx, dt, num, mmp, mkp, mki, mkd, imin, imax, omin, omax);
     a_fpid_buf1(ctx, lua_newuserdata(L, A_FPID_BUF1(max)), max);
     lua_pop(L, 1);
     return 1;

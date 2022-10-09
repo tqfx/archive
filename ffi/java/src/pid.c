@@ -5,7 +5,7 @@ j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
     jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "pid");
     jctx->num = (*jenv)->GetFieldID(jenv, jcls, "num", "I");
     jctx->reg = (*jenv)->GetFieldID(jenv, jcls, "reg", "I");
-    jctx->ts = (*jenv)->GetFieldID(jenv, jcls, "ts", "D");
+    jctx->dt = (*jenv)->GetFieldID(jenv, jcls, "dt", "D");
     jctx->kp = (*jenv)->GetFieldID(jenv, jcls, "kp", "D");
     jctx->ki = (*jenv)->GetFieldID(jenv, jcls, "ki", "D");
     jctx->kd = (*jenv)->GetFieldID(jenv, jcls, "kd", "D");
@@ -28,7 +28,7 @@ jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
     jobject jobj = jctx->jobj;
     ctx->num = (a_uint_t)(*jenv)->GetIntField(jenv, jobj, jctx->num);
     ctx->reg = (a_uint_t)(*jenv)->GetIntField(jenv, jobj, jctx->reg);
-    ctx->ts = (*jenv)->GetDoubleField(jenv, jobj, jctx->ts);
+    ctx->dt = (*jenv)->GetDoubleField(jenv, jobj, jctx->dt);
     ctx->kp = (*jenv)->GetDoubleField(jenv, jobj, jctx->kp);
     ctx->ki = (*jenv)->GetDoubleField(jenv, jobj, jctx->ki);
     ctx->kd = (*jenv)->GetDoubleField(jenv, jobj, jctx->kd);
@@ -49,7 +49,7 @@ jobject j_pid_set(const j_pid_s *jctx, const a_pid_s *ctx)
     jobject jobj = jctx->jobj;
     (*jenv)->SetIntField(jenv, jobj, jctx->num, (jint)ctx->num);
     (*jenv)->SetIntField(jenv, jobj, jctx->reg, (jint)ctx->reg);
-    (*jenv)->SetDoubleField(jenv, jobj, jctx->ts, ctx->ts);
+    (*jenv)->SetDoubleField(jenv, jobj, jctx->dt, ctx->dt);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kp, ctx->kp);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->ki, ctx->ki);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->kd, ctx->kd);
@@ -100,12 +100,12 @@ JNIEXPORT jobject JNICALL Java_liba_a_00024pid_mode(JNIEnv *jenv, jobject jobj, 
     return j_pid_set(jctx, ctx);
 }
 
-JNIEXPORT jobject JNICALL Java_liba_a_00024pid_time(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jobject JNICALL Java_liba_a_00024pid_time(JNIEnv *jenv, jobject jobj, jdouble jdt)
 {
     a_pid_s ctx[1];
     j_pid_s jctx[1];
     j_pid_get(j_pid_new(jenv, jobj, jctx), ctx);
-    a_pid_time(ctx, jts);
+    a_pid_time(ctx, jdt);
     return j_pid_set(jctx, ctx);
 }
 
@@ -118,12 +118,12 @@ JNIEXPORT jobject JNICALL Java_liba_a_00024pid_kpid(JNIEnv *jenv, jobject jobj, 
     return j_pid_set(jctx, ctx);
 }
 
-JNIEXPORT jobject JNICALL Java_liba_a_00024pid_init(JNIEnv *jenv, jobject jobj, jdouble jts, jdouble jmin, jdouble jmax)
+JNIEXPORT jobject JNICALL Java_liba_a_00024pid_init(JNIEnv *jenv, jobject jobj, jdouble jdt, jdouble jmin, jdouble jmax)
 {
     a_pid_s ctx[1];
     j_pid_s jctx[1];
     j_pid_new(jenv, jobj, jctx);
-    a_pid_init(ctx, jts, jmin, jmax);
+    a_pid_init(ctx, jdt, jmin, jmax);
     return j_pid_set(jctx, ctx);
 }
 

@@ -162,12 +162,12 @@ JNIEXPORT jobject JNICALL Java_liba_a_00024fpid_mode(JNIEnv *jenv, jobject jobj,
     return j_fpid_set(jctx, ctx);
 }
 
-JNIEXPORT jobject JNICALL Java_liba_a_00024fpid_time(JNIEnv *jenv, jobject jobj, jdouble jts)
+JNIEXPORT jobject JNICALL Java_liba_a_00024fpid_time(JNIEnv *jenv, jobject jobj, jdouble jdt)
 {
     a_fpid_s ctx[1];
     j_fpid_s jctx[1];
     j_fpid_get(j_fpid_new(jenv, jobj, jctx), ctx);
-    a_fpid_time(ctx, jts);
+    a_fpid_time(ctx, jdt);
     return j_fpid_set(jctx, ctx);
 }
 
@@ -241,7 +241,7 @@ JNIEXPORT jobject JNICALL Java_liba_a_00024fpid_base(JNIEnv *jenv, jobject jobj,
     return jobj;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_a_00024fpid_init(JNIEnv *jenv, jobject jobj, jdouble jts, jobjectArray jmmp,
+JNIEXPORT jobject JNICALL Java_liba_a_00024fpid_init(JNIEnv *jenv, jobject jobj, jdouble jdt, jobjectArray jmmp,
                                                      jobjectArray jmkp, jobjectArray jmki, jobjectArray jmkd,
                                                      jdouble jimin, jdouble jimax, jdouble jomin, jdouble jomax)
 {
@@ -253,7 +253,7 @@ JNIEXPORT jobject JNICALL Java_liba_a_00024fpid_init(JNIEnv *jenv, jobject jobj,
     (*jenv)->SetObjectField(jenv, jobj, jctx->mki, concat(jctx, jmki));
     (*jenv)->SetObjectField(jenv, jobj, jctx->mkd, concat(jctx, jmkd));
     (*jenv)->SetObjectField(jenv, jobj, jctx->mmp, concat(jctx, jmmp));
-    a_fpid_init(ctx, jts, num, 0, 0, 0, 0, jimin, jimax, jomin, jomax);
+    a_fpid_init(ctx, jdt, num, 0, 0, 0, 0, jimin, jimax, jomin, jomax);
     return j_fpid_set(jctx, ctx);
 }
 

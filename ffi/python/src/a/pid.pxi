@@ -8,8 +8,8 @@ cdef class pid:
     POS = A_PID_POS
     INC = A_PID_INC
     cdef a_pid_s ctx[1]
-    def __cinit__(self, a_real_t ts, a_real_t min, a_real_t max):
-        a_pid_mode(a_pid_init(self.ctx, ts, min, max), A_PID_INC)
+    def __cinit__(self, a_real_t dt, a_real_t min, a_real_t max):
+        a_pid_mode(a_pid_init(self.ctx, dt, min, max), A_PID_INC)
     def __call__(self, set: a_real_t, fdb: a_real_t) -> a_real_t:
         '''process function for PID controller'''
         return a_pid_cc_x(self.ctx, set, fdb)
@@ -24,9 +24,9 @@ cdef class pid:
         '''set proportional integral derivative constant for PID controller'''
         a_pid_kpid(self.ctx, kp, ki, kd)
         return self
-    def time(self, ts: a_real_t):
+    def time(self, dt: a_real_t):
         '''set sampling period for PID controller'''
-        a_pid_time(self.ctx, ts)
+        a_pid_time(self.ctx, dt)
         return self
     def mode(self, reg: a_uint_t):
         '''set register for PID controller directly'''

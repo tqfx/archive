@@ -15,7 +15,7 @@ int pid_func_(lua_State *L)
 int pid_from_(lua_State *L, int idx, a_pid_s *ctx)
 {
     GFnum pid[] = {
-        {"ts", &ctx->ts},
+        {"dt", &ctx->dt},
         {"kp", &ctx->kp},
         {"ki", &ctx->ki},
         {"kd", &ctx->kd},
@@ -38,7 +38,7 @@ int pid_from_(lua_State *L, int idx, a_pid_s *ctx)
 int pid_into_(lua_State *L, a_pid_s *ctx)
 {
     SFnum pid[] = {
-        {"ts", ctx->ts},
+        {"dt", ctx->dt},
         {"kp", ctx->kp},
         {"ki", ctx->ki},
         {"kd", ctx->kd},
@@ -89,16 +89,16 @@ static int pid_into(lua_State *L)
 
 static int pid_init_(lua_State *L, a_pid_s *ctx)
 {
-    ctx->ts = luaL_checknumber(L, 1);
+    ctx->dt = luaL_checknumber(L, 1);
     switch (lua_gettop(L) - lua_isuserdata(L, -1))
     {
-    case 7: /* ts, kp, ki, kd, outmin, outmax, summax */
+    case 7: /* dt, kp, ki, kd, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 7);
         a_pid_mode(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
-    case 6: /* ts, kp, ki, kd, outmin, outmax */
+    case 6: /* dt, kp, ki, kd, outmin, outmax */
     {
         ctx->outmax = luaL_checknumber(L, 6);
         ctx->outmin = luaL_checknumber(L, 5);
@@ -112,13 +112,13 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
         }
     }
     break;
-    case 4: /* ts, outmin, outmax, summax */
+    case 4: /* dt, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 4);
         a_pid_mode(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
-    case 3: /* ts, outmin, outmax */
+    case 3: /* dt, outmin, outmax */
     {
         ctx->outmax = luaL_checknumber(L, 3);
         ctx->outmin = luaL_checknumber(L, 2);

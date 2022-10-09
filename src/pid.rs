@@ -14,7 +14,7 @@ pub const INC: Uint = 2;
 #[repr(C)]
 pub struct PID {
     /// sampling time unit(s)
-    pub ts: Real,
+    pub dt: Real,
     /// proportional constant
     pub kp: Real,
     /// integral constant
@@ -46,7 +46,7 @@ extern "C" {
     fn a_pid_inc(ctx: *mut PID) -> *mut PID;
     fn a_pid_pos(ctx: *mut PID, max: Real) -> *mut PID;
     fn a_pid_mode(ctx: *mut PID, reg: Uint) -> *mut PID;
-    fn a_pid_time(ctx: *mut PID, ts: Real) -> *mut PID;
+    fn a_pid_time(ctx: *mut PID, dt: Real) -> *mut PID;
     fn a_pid_kpid(ctx: *mut PID, kp: Real, ki: Real, kd: Real) -> *mut PID;
     fn a_pid_cc_x(ctx: *mut PID, set: Real, fdb: Real) -> Real;
     fn a_pid_zero(ctx: *mut PID) -> *mut PID;
@@ -71,9 +71,9 @@ pid.zero();
 */
 impl PID {
     /// initialize function for PID controller, default is turn off
-    pub fn new(ts: Real, outmin: Real, outmax: Real) -> Self {
+    pub fn new(dt: Real, outmin: Real, outmax: Real) -> Self {
         Self {
-            ts,
+            dt,
             kp: 0.0,
             ki: 0.0,
             kd: 0.0,
@@ -92,7 +92,7 @@ impl PID {
 
     /// initialize function for positional PID controller
     pub fn new_pos(
-        ts: Real,
+        dt: Real,
         kp: Real,
         ki: Real,
         kd: Real,
@@ -101,7 +101,7 @@ impl PID {
         summax: Real,
     ) -> Self {
         Self {
-            ts,
+            dt,
             kp,
             ki,
             kd,
@@ -119,9 +119,9 @@ impl PID {
     }
 
     /// initialize function for incremental PID controller
-    pub fn new_inc(ts: Real, kp: Real, ki: Real, kd: Real, outmin: Real, outmax: Real) -> Self {
+    pub fn new_inc(dt: Real, kp: Real, ki: Real, kd: Real, outmin: Real, outmax: Real) -> Self {
         Self {
-            ts,
+            dt,
             kp,
             ki,
             kd,
@@ -159,8 +159,8 @@ impl PID {
     }
 
     /// set sampling period for PID controller
-    pub fn time(&mut self, ts: Real) -> &mut Self {
-        unsafe { a_pid_time(self, ts).as_mut().unwrap_unchecked() }
+    pub fn time(&mut self, dt: Real) -> &mut Self {
+        unsafe { a_pid_time(self, dt).as_mut().unwrap_unchecked() }
     }
 
     /// set proportional integral derivative constant for PID controller
