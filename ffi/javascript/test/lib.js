@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 var Module = require("./liba.js")
-console.log(Module.inv_sqrt(4))
+console.log(Module.sqrt_inv(4))

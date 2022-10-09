@@ -13,7 +13,7 @@ public class a {
 
     public final static native int version_patch();
 
-    public final static native float int_sqrt(float x);
+    public final static native float sqrt_inv(float x);
 
     public final static class mf {
         public final static int NUL = 0;

@@ -23,7 +23,7 @@ JNIEXPORT jint JNICALL Java_liba_a_version_1patch(JNIEnv *jenv, jclass jcls)
     return (void)(jenv), (void)(jcls), (jint)a_version_patch();
 }
 
-JNIEXPORT jfloat JNICALL Java_liba_a_int_1sqrt(JNIEnv *jenv, jclass jcls, jfloat jx)
+JNIEXPORT jfloat JNICALL Java_liba_a_sqrt_1inv(JNIEnv *jenv, jclass jcls, jfloat jx)
 {
-    return (void)(jenv), (void)(jcls), a_inv_sqrt(jx);
+    return (void)(jenv), (void)(jcls), a_sqrt_inv(jx);
 }

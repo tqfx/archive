@@ -1,7 +1,7 @@
 #include "lua.h"
 #include "a/math.h"
 
-static int inv_sqrt(lua_State *L)
+static int sqrt_inv(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
@@ -16,7 +16,7 @@ static int inv_sqrt(lua_State *L)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif /* diagnostic */
-        lua_Number y = a_inv_sqrt(x);
+        lua_Number y = a_sqrt_inv(x);
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
@@ -28,7 +28,7 @@ static int inv_sqrt(lua_State *L)
 int luaopen_liba(lua_State *L)
 {
     const SFunc funcs[] = {
-        {"inv_sqrt", inv_sqrt},
+        {"sqrt_inv", sqrt_inv},
         {NULL, NULL},
     };
 

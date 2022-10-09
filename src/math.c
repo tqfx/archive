@@ -6,7 +6,7 @@
 
 #include "math.h"
 
-a_f32_t a_inv_sqrt(a_f32_t x)
+a_f32_t a_sqrt_inv(a_f32_t x)
 {
     union
     {

@@ -98,7 +98,7 @@ extern "C" {
  @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
  @param[in] x independent variable
 */
-A_PUBLIC a_f32_t a_inv_sqrt(a_f32_t x);
+A_PUBLIC a_f32_t a_sqrt_inv(a_f32_t x);
 
 #if defined(__cplusplus)
 } /* extern "C" */

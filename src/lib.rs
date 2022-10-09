@@ -92,7 +92,7 @@ pub fn version_patch() -> u32 {
 }
 
 extern "C" {
-    fn a_inv_sqrt(x: f32) -> f32;
+    fn a_sqrt_inv(x: f32) -> f32;
 }
 
 /**
@@ -101,11 +101,11 @@ fast inverse square-root, $ \frac{1}{\sqrt{x}} $
 ## Examples
 
 ```no_run
-println!("1/sqrt({})={}", 4, liba::inv_sqrt(4.0));
+println!("1/sqrt({})={}", 4, liba::sqrt_inv(4.0));
 ```
 */
-pub fn inv_sqrt(x: f32) -> f32 {
-    unsafe { a_inv_sqrt(x) }
+pub fn sqrt_inv(x: f32) -> f32 {
+    unsafe { a_sqrt_inv(x) }
 }
 
 #[cfg(test)]

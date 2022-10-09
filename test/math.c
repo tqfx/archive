@@ -33,7 +33,7 @@ A_STATIC a_void_t test_sgn(void)
     TEST_BUG(A_SGN(zero) == 0);
 }
 
-A_STATIC a_void_t test_inv_sqrt(void)
+A_STATIC a_void_t test_sqrt_inv(void)
 {
     float data[] = {
         A_FLT_C(-1.0),
@@ -47,7 +47,7 @@ A_STATIC a_void_t test_inv_sqrt(void)
     {
         printf("1/sqrt(%g):\t%-10g%-10g\n", (double)data[i],
                1 / (double)A_FLT_F(sqrt, data[i]),
-               (double)a_inv_sqrt(data[i]));
+               (double)a_sqrt_inv(data[i]));
     }
 }
 
@@ -56,7 +56,7 @@ int main(void)
     test_sq();
     test_abs();
     test_sgn();
-    test_inv_sqrt();
+    test_sqrt_inv();
 
     return A_SUCCESS;
 }

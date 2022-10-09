@@ -226,7 +226,7 @@ public:
 
 EMSCRIPTEN_BINDINGS(module)
 {
-    emscripten::function("inv_sqrt", a_inv_sqrt);
+    emscripten::function("sqrt_inv", a_sqrt_inv);
     emscripten::constant("MF_NUL", 0);
     emscripten::function("mf_gauss", a_mf_gauss);
     emscripten::constant("MF_GAUSS", 1);
