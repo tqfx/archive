@@ -44,7 +44,8 @@ static int polytrack3_from(lua_State *L)
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        lua_rotate(L, -2, 1);
+        lua_pushvalue(L, -2);
+        lua_remove(L, -3);
     }
     else
     {
@@ -105,12 +106,12 @@ static int polytrack3_init(lua_State *L)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
         {
-            lua_rotate(L, 1, -1);
-            lua_pop(L, 1);
+            lua_remove(L, 1);
         }
         luaL_checktype(L, 1, LUA_TUSERDATA);
         a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, 1);
-        lua_rotate(L, 1, -1);
+        lua_pushvalue(L, 1);
+        lua_remove(L, 1);
         return polytrack3_init_(L, ctx);
     }
     if (top > 2 && type == LUA_TTABLE)
@@ -138,8 +139,7 @@ static int polytrack3_new(lua_State *L)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
         {
-            lua_rotate(L, 1, -1);
-            lua_pop(L, 1);
+            lua_remove(L, 1);
         }
         a_polytrack3_s *ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
         polytrack3_meta_(L);

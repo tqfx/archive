@@ -16,7 +16,8 @@ int tf_from_(lua_State *L, int idx, a_tf_s *ctx)
 {
     idx = idx < 0 ? idx - 1 : idx;
     lua_pushstring(L, "num");
-    if (lua_rawget(L, idx) == LUA_TTABLE)
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->m = (a_uint_t)lua_rawlen(L, -1);
         a_real_t *num = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * ctx->m * 2);
@@ -27,7 +28,8 @@ int tf_from_(lua_State *L, int idx, a_tf_s *ctx)
     }
     lua_pop(L, 1);
     lua_pushstring(L, "den");
-    if (lua_rawget(L, idx) == LUA_TTABLE)
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->n = (a_uint_t)lua_rawlen(L, -1);
         a_real_t *den = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * ctx->n * 2);
@@ -57,7 +59,8 @@ static int tf_from(lua_State *L)
     a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        lua_rotate(L, -2, 1);
+        lua_pushvalue(L, -2);
+        lua_remove(L, -3);
     }
     else
     {

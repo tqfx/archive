@@ -16,7 +16,7 @@ int mf_into_(lua_State *L, int idx, const lua_Number *ptr)
         {
             lua_createtable(L, 3, 0);
             arraynum_set(L, -1, a, 3);
-            lua_rawseti(L, -2, i);
+            lua_rawseti(L, -2, (int)i);
             a += 3;
         }
         break;
@@ -25,7 +25,7 @@ int mf_into_(lua_State *L, int idx, const lua_Number *ptr)
         {
             lua_createtable(L, 4, 0);
             arraynum_set(L, -1, a, 4);
-            lua_rawseti(L, -2, i);
+            lua_rawseti(L, -2, (int)i);
             a += 4;
         }
         break;
@@ -33,7 +33,7 @@ int mf_into_(lua_State *L, int idx, const lua_Number *ptr)
         {
             lua_createtable(L, 5, 0);
             arraynum_set(L, -1, a, 5);
-            lua_rawseti(L, -2, i);
+            lua_rawseti(L, -2, (int)i);
             a += 5;
         }
         break;
@@ -45,7 +45,7 @@ int mf_into_(lua_State *L, int idx, const lua_Number *ptr)
     }
 done:
     lua_pushnumber(L, A_MF_NUL);
-    lua_rawseti(L, -2, i);
+    lua_rawseti(L, -2, (int)i);
     lua_rawset(L, idx < 0 ? idx - 1 : idx);
     return 1;
 }
@@ -54,8 +54,7 @@ static int mf_gauss(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     lua_Number x = luaL_checknumber(L, 1);
     lua_Number sigma = luaL_checknumber(L, 2);
@@ -68,8 +67,7 @@ static int mf_gbell(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     lua_Number x = luaL_checknumber(L, 1);
     lua_Number a = luaL_checknumber(L, 2);
@@ -83,8 +81,7 @@ static int mf_sig(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     lua_Number x = luaL_checknumber(L, 1);
     lua_Number a = luaL_checknumber(L, 2);
@@ -97,8 +94,7 @@ static int mf_trap(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     lua_Number x = luaL_checknumber(L, 1);
     lua_Number a = luaL_checknumber(L, 2);
@@ -113,8 +109,7 @@ static int mf_tri(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     lua_Number x = luaL_checknumber(L, 1);
     lua_Number a = luaL_checknumber(L, 2);
@@ -128,8 +123,7 @@ static int mf_z(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     lua_Number x = luaL_checknumber(L, 1);
     lua_Number a = luaL_checknumber(L, 2);
@@ -142,12 +136,10 @@ static int mf(lua_State *L)
 {
     while (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     lua_Integer e = luaL_checkinteger(L, 1);
-    lua_rotate(L, 1, -1);
-    lua_pop(L, 1);
+    lua_remove(L, 1);
     switch (e)
     {
     case A_MF_GAUSS:

@@ -1,7 +1,7 @@
 option(ENABLE_LUA "Enable ffi lua" OFF)
 
 if(ENABLE_LUA)
-  find_package(Lua)
+  find_package(Lua 5.2)
 
   if(LUA_FOUND)
     if(NOT LUA_MATH_LIBRARY AND ANDROID)

@@ -64,7 +64,8 @@ static int pid_from(lua_State *L)
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        lua_rotate(L, -2, 1);
+        lua_pushvalue(L, -2);
+        lua_remove(L, -3);
     }
     else
     {
@@ -140,12 +141,12 @@ static int pid_init(lua_State *L)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
         {
-            lua_rotate(L, 1, -1);
-            lua_pop(L, 1);
+            lua_remove(L, 1);
         }
         luaL_checktype(L, 1, LUA_TUSERDATA);
         a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
-        lua_rotate(L, 1, -1);
+        lua_pushvalue(L, 1);
+        lua_remove(L, 1);
         return pid_init_(L, ctx);
     }
     return 0;
@@ -157,8 +158,7 @@ static int pid_new(lua_State *L)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
         {
-            lua_rotate(L, 1, -1);
-            lua_pop(L, 1);
+            lua_remove(L, 1);
         }
         a_pid_s *ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
         memset(ctx, 0, sizeof(a_pid_s));

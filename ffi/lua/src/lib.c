@@ -5,8 +5,7 @@ static int sqrt_inv(lua_State *L)
 {
     if (lua_istable(L, 1))
     {
-        lua_rotate(L, 1, -1);
-        lua_pop(L, 1);
+        lua_remove(L, 1);
     }
     int n = lua_gettop(L);
     for (int i = 0; i++ != n;)
@@ -27,12 +26,12 @@ static int sqrt_inv(lua_State *L)
 
 int luaopen_liba(lua_State *L)
 {
+    luaL_checkversion(L);
+
     const SFunc funcs[] = {
         {"sqrt_inv", sqrt_inv},
         {NULL, NULL},
     };
-
-    luaL_checkversion(L);
     lua_createtable(L, 0, Larray(funcs) - 1);
     set_funcs(L, -1, funcs);
 

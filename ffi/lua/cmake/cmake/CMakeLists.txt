@@ -1,13 +1,11 @@
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 find_library(MATH_LIBRARY NAMES m)
 option(LUA_32BITS "lua 32bits" OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_library(READLINE_LIBRARY NAMES readline)
 find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
-
-if(NOT MATH_LIBRARY AND ANDROID)
-  set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
-endif()
 
 if(LUA_32BITS)
   set(LUA_32BITS 1 CACHE BOOL "lua 32bits" FORCE)
@@ -15,14 +13,21 @@ else()
   set(LUA_32BITS 0 CACHE BOOL "lua 32bits" FORCE)
 endif()
 
-file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF)
+file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF_H)
 set(LUA_ROOT ${CMAKE_INSTALL_PREFIX} CACHE STRING "lua root")
-string(REGEX REPLACE "([^/\\]+)$" "\\1/" LUA_ROOT "${LUA_ROOT}")
-string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT}\"\n" LUACONF "${LUACONF}")
-string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" LUACONF "${LUACONF}")
-file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF}")
+string(REGEX REPLACE "([^/\\]+)$" "\\1/" LUA_ROOT2 "${LUA_ROOT}")
+string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT2}\"\n" LUACONF_H "${LUACONF_H}")
+string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" LUACONF_H "${LUACONF_H}")
+file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF_H}")
 
-if(ANDROID)
+if(UNIX AND ANDROID)
+  string(REGEX REPLACE "([^/\\]+)([/\\]*)$" "\\1/tmp/lua_XXXXXX" LUA_ROOT2 "${LUA_ROOT}")
+  file(READ ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c LOSLIB_C)
+  string(LENGTH "${LUA_ROOT2}0" LUA_ROOT_LENGTH)
+  string(REGEX REPLACE "#define LUA_TMPNAMTEMPLATE\t([^\n]+)\n" "#define LUA_TMPNAMTEMPLATE\t\"${LUA_ROOT2}\"\n" LOSLIB_C "${LOSLIB_C}")
+  string(REGEX REPLACE "#define LUA_TMPNAMBUFSIZE\t([^\n]+)\n" "#define LUA_TMPNAMBUFSIZE\t${LUA_ROOT_LENGTH}\n" LOSLIB_C "${LOSLIB_C}")
+  file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c "${LOSLIB_C}")
+  set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 else()
   set(CMAKE_POSITION_INDEPENDENT_CODE OFF)
@@ -32,6 +37,14 @@ if(CMAKE_VERSION VERSION_GREATER 3.13)
   cmake_policy(SET CMP0083 NEW)
   include(CheckPIESupported)
   check_pie_supported()
+endif()
+
+if(LUA_VERSION VERSION_GREATER 5.3.6)
+  set(DEFINE_SYMBOL LUA_COMPAT_5_3)
+elseif(LUA_VERSION VERSION_GREATER 5.2.4)
+  set(DEFINE_SYMBOL LUA_COMPAT_5_2)
+else()
+  set(DEFINE_SYMBOL LUA_COMPAT_ALL)
 endif()
 
 if(WIN32)
@@ -45,8 +58,8 @@ else()
 endif()
 
 function(lua_library target)
-  target_compile_definitions(${target} PRIVATE
-    $<$<BOOL:${READLINE_INCLUDE_DIR}>:LUA_USE_READLINE>
+  target_compile_definitions(${target} PUBLIC
+    $<$<AND:$<BOOL:${READLINE_INCLUDE_DIR}>,$<VERSION_GREATER:LUA_VERSION,5.3.6>>:LUA_USE_READLINE>
     $<$<BOOL:${LUA_PLATFORM}>:${LUA_PLATFORM}>
   )
   target_include_directories(${target} PUBLIC
@@ -57,7 +70,7 @@ function(lua_library target)
     $<$<BOOL:${MATH_LIBRARY}>:${MATH_LIBRARY}>
   )
   set_target_properties(${target} PROPERTIES
-    OUTPUT_NAME lua DEFINE_SYMBOL LUA_COMPAT_5_3
+    OUTPUT_NAME lua DEFINE_SYMBOL ${DEFINE_SYMBOL}
   )
 endfunction()
 
@@ -76,16 +89,20 @@ target_link_libraries(lua-shared INTERFACE ${CMAKE_DL_LIBS}
   $<$<BOOL:${READLINE_LIBRARY}>:${READLINE_LIBRARY}>
 )
 
-if(WIN32)
-  set_target_properties(lua-shared PROPERTIES
-    OUTPUT_NAME lua${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR}
-  )
-endif()
-
 add_executable(lua src/lua.c)
 target_link_libraries(lua PRIVATE lua-shared)
 add_executable(luac src/luac.c)
 target_link_libraries(luac PRIVATE lua-static)
+
+if(NOT WIN32)
+  set_target_properties(lua-shared PROPERTIES
+    VERSION ${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR}
+  )
+else()
+  set_target_properties(lua-shared PROPERTIES
+    OUTPUT_NAME lua${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR}
+  )
+endif()
 
 install(FILES src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}

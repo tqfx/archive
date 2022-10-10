@@ -18,7 +18,8 @@ lua_Number get_fnum(lua_State *L, int idx, const char *name)
     lua_Number x = 0;
     /* data=table[name] */
     lua_pushstring(L, name);
-    if (lua_rawget(L, idx < 0 ? idx - 1 : idx) == LUA_TNUMBER)
+    lua_rawget(L, idx < 0 ? idx - 1 : idx);
+    if (lua_type(L, -1) == LUA_TNUMBER)
     {
         x = lua_tonumber(L, -1);
     }
@@ -52,7 +53,8 @@ lua_Integer get_enum(lua_State *L, int idx, const char *name)
     lua_Number x = 0;
     /* data=table[name] */
     lua_pushstring(L, name);
-    if (lua_rawget(L, idx < 0 ? idx - 1 : idx) == LUA_TNUMBER)
+    lua_rawget(L, idx < 0 ? idx - 1 : idx);
+    if (lua_type(L, -1) == LUA_TNUMBER)
     {
         x = lua_tonumber(L, -1);
     }
@@ -88,7 +90,8 @@ void get_fnums(lua_State *L, int idx, const GFnum *tab)
     {
         /* data=table[name] */
         lua_pushstring(L, tab->name);
-        if (lua_rawget(L, idx) == LUA_TNUMBER)
+        lua_rawget(L, idx);
+        if (lua_type(L, -1) == LUA_TNUMBER)
         {
             *tab->data = lua_tonumber(L, -1);
         }
@@ -120,14 +123,15 @@ void set_funcs(lua_State *L, int idx, const SFunc *tab)
 
 void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
 {
-    lua_Unsigned len = lua_rawlen(L, idx);
+    size_t len = lua_rawlen(L, idx);
     if (num > len)
     {
         num = (unsigned int)len;
     }
     for (unsigned int i = num; i--; num = i)
     {
-        if (lua_rawgeti(L, idx, num) == LUA_TNUMBER)
+        lua_rawgeti(L, idx, (int)num);
+        if (lua_type(L, -1) == LUA_TNUMBER)
         {
             ptr[i] = lua_tonumber(L, -1);
         }
@@ -141,7 +145,7 @@ void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num
     for (unsigned int i = num; i--; num = i)
     {
         lua_pushnumber(L, ptr[i]);
-        lua_rawseti(L, idx, num);
+        lua_rawseti(L, idx, (int)num);
     }
 }
 
@@ -151,7 +155,8 @@ void arraynum_gets(lua_State *L, int idx, const GFnums *tab)
     while (tab->name)
     {
         lua_pushstring(L, tab->name);
-        if (lua_rawget(L, idx) == LUA_TTABLE)
+        lua_rawget(L, idx);
+        if (lua_type(L, -1) == LUA_TTABLE)
         {
             arraynum_get(L, -1, tab->ptr, (unsigned int)tab->num);
         }
@@ -173,13 +178,14 @@ void arraynum_sets(lua_State *L, int idx, const SFnums *tab)
     }
 }
 
-lua_Unsigned tablenum_len(lua_State *L, int idx)
+size_t tablenum_len(lua_State *L, int idx)
 {
-    lua_Unsigned num = 0;
-    lua_Unsigned n = lua_rawlen(L, idx);
+    size_t num = 0;
+    size_t n = lua_rawlen(L, idx);
     for (unsigned int i = 0; i++ != n;)
     {
-        int e = lua_rawgeti(L, idx, i);
+        lua_rawgeti(L, idx, (int)i);
+        int e = lua_type(L, -1);
         if (e == LUA_TNUMBER)
         {
             ++num;
@@ -195,10 +201,11 @@ lua_Unsigned tablenum_len(lua_State *L, int idx)
 
 lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr)
 {
-    lua_Unsigned n = lua_rawlen(L, idx);
+    size_t n = lua_rawlen(L, idx);
     for (unsigned int i = 0; i++ != n;)
     {
-        int e = lua_rawgeti(L, idx, i);
+        lua_rawgeti(L, idx, (int)i);
+        int e = lua_type(L, -1);
         if (e == LUA_TNUMBER)
         {
             *ptr++ = lua_tonumber(L, -1);
@@ -212,12 +219,12 @@ lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr)
     return ptr;
 }
 
-lua_Number *tablenum_get(lua_State *L, int idx, lua_Unsigned *num)
+lua_Number *tablenum_get(lua_State *L, int idx, size_t *num)
 {
     lua_Number *ptr = NULL;
     if (lua_type(L, idx) == LUA_TTABLE)
     {
-        lua_Unsigned buf = 0;
+        size_t buf = 0;
         num = num ? num : &buf;
         *num = tablenum_len(L, idx);
         if (*num)
@@ -230,22 +237,22 @@ lua_Number *tablenum_get(lua_State *L, int idx, lua_Unsigned *num)
     return ptr;
 }
 
-void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, lua_Unsigned num, unsigned int col)
+void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, size_t num, unsigned int col)
 {
-    lua_Unsigned n = num / col;
+    size_t n = num / col;
     lua_createtable(L, 0, 0);
     for (unsigned int i = 0; i++ != n;)
     {
         lua_createtable(L, 0, 0);
         arraynum_set(L, -1, ptr, col);
-        lua_rawseti(L, -2, i);
+        lua_rawseti(L, -2, (int)i);
     }
     num %= col;
     if (num)
     {
         lua_createtable(L, 0, 0);
         arraynum_set(L, -1, ptr, (unsigned int)num);
-        lua_rawseti(L, -2, (unsigned int)n + 1);
+        lua_rawseti(L, -2, (int)n + 1);
     }
     lua_rawset(L, idx < 0 ? idx - 1 : idx);
 }

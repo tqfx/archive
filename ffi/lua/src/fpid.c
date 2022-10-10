@@ -25,32 +25,37 @@ int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx)
     get_fnums(L, idx, fpid);
     idx = idx < 0 ? idx - 1 : idx;
     lua_pushstring(L, "mmp");
-    if (lua_rawget(L, idx) == LUA_TTABLE)
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->mmp = tablenum_get(L, -1, 0);
     }
     lua_pop(L, 1);
     lua_pushstring(L, "mkp");
-    if (lua_rawget(L, idx) == LUA_TTABLE)
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->pid->num = (a_uint_t)lua_rawlen(L, -1);
         ctx->mkp = tablenum_get(L, -1, 0);
     }
     lua_pop(L, 1);
     lua_pushstring(L, "mki");
-    if (lua_rawget(L, idx) == LUA_TTABLE)
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->mki = tablenum_get(L, -1, 0);
     }
     lua_pop(L, 1);
     lua_pushstring(L, "mkd");
-    if (lua_rawget(L, idx) == LUA_TTABLE)
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->mkd = tablenum_get(L, -1, 0);
     }
     lua_pop(L, 1);
     lua_pushstring(L, "pid");
-    if (lua_rawget(L, idx) == LUA_TTABLE)
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TTABLE)
     {
         pid_from_(L, -1, ctx->pid);
     }
@@ -90,7 +95,8 @@ static int fpid_from(lua_State *L)
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        lua_rotate(L, -2, 1);
+        lua_pushvalue(L, -2);
+        lua_remove(L, -3);
     }
     else
     {
@@ -137,12 +143,12 @@ static int fpid_init(lua_State *L)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
         {
-            lua_rotate(L, 1, -1);
-            lua_pop(L, 1);
+            lua_remove(L, 1);
         }
         luaL_checktype(L, 1, LUA_TUSERDATA);
         a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, 1);
-        lua_rotate(L, 1, -1);
+        lua_pushvalue(L, 1);
+        lua_remove(L, 1);
         return fpid_init_(L, ctx);
     }
     return 0;
@@ -154,8 +160,7 @@ static int fpid_new(lua_State *L)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
         {
-            lua_rotate(L, 1, -1);
-            lua_pop(L, 1);
+            lua_remove(L, 1);
         }
         a_fpid_s *ctx = (a_fpid_s *)lua_newuserdata(L, sizeof(a_fpid_s));
         fpid_meta_(L);
