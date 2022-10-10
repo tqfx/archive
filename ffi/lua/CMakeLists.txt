@@ -1,5 +1,21 @@
-include(cmake/warnings.cmake)
+if(ENABLE_WARNINGS)
+  include(cmake/warnings.cmake)
+endif()
+
 set(CMAKE_SHARED_LIBRARY_PREFIX lib)
+find_program(LDOC_EXECUTABLE NAMES ldoc)
+find_program(LUA_EXECUTABLE NAMES lua
+  lua${LUA_VERSION_MAJOR}${LUA_VERSION_MINOR}
+  lua${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
+  lua-${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
+  lua.${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
+  HINTS ENV LUA_DIR
+)
+
+if(LUA_VERSION_MAJOR AND LUA_VERSION_MINOR)
+  set(LUA_VERSION ${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR})
+endif()
+
 file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
 add_library(a-lua SHARED ${SOURCES} $<TARGET_PROPERTY:a,SOURCES>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
@@ -8,23 +24,11 @@ target_include_directories(a-lua PRIVATE ${LUA_INCLUDE_DIR})
 target_link_libraries(a-lua PRIVATE ${LUA_LIBRARIES})
 target_library_options(a-lua)
 
-if(LUA_VERSION_MAJOR AND LUA_VERSION_MINOR)
-  set(LUA_VERSION ${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR})
-endif()
-
 install(TARGETS a-lua
   EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/lua/${LUA_VERSION}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/lua/${LUA_VERSION}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/lua/${LUA_VERSION}
-)
-
-find_program(LUA_EXECUTABLE NAMES lua
-  lua${LUA_VERSION_MAJOR}${LUA_VERSION_MINOR}
-  lua${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
-  lua-${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
-  lua.${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
-  HINTS ENV LUA_DIR
 )
 
 function(create_ldoc target)
@@ -34,7 +38,6 @@ function(create_ldoc target)
     ${CMAKE_CURRENT_BINARY_DIR}/LDoc.${target}
     @ONLY
   )
-  find_program(LDOC_EXECUTABLE NAMES ldoc)
   add_custom_target(${target}
     COMMAND ${LDOC_EXECUTABLE} -c ${CMAKE_CURRENT_BINARY_DIR}/LDoc.${target} ${ARGN}
     COMMENT "Generate API documentation for ${target}"
@@ -43,7 +46,7 @@ function(create_ldoc target)
 endfunction()
 
 if(ENABLE_LDOC)
-  create_ldoc(a-ldoc ${CMAKE_CURRENT_SOURCE_DIR}/src)
+  create_ldoc(a-ldoc -f markdown ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()
 
 if(NOT ENABLE_SANITIZE)

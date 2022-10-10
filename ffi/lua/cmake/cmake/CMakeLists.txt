@@ -59,7 +59,7 @@ endif()
 
 function(lua_library target)
   target_compile_definitions(${target} PUBLIC
-    $<$<AND:$<BOOL:${READLINE_INCLUDE_DIR}>,$<VERSION_GREATER:LUA_VERSION,5.3.6>>:LUA_USE_READLINE>
+    $<$<AND:$<BOOL:${READLINE_INCLUDE_DIR}>,$<VERSION_GREATER:${LUA_VERSION},5.3.6>>:LUA_USE_READLINE>
     $<$<BOOL:${LUA_PLATFORM}>:${LUA_PLATFORM}>
   )
   target_include_directories(${target} PUBLIC
@@ -96,7 +96,7 @@ target_link_libraries(luac PRIVATE lua-static)
 
 if(NOT WIN32)
   set_target_properties(lua-shared PROPERTIES
-    VERSION ${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR}
+    OUTPUT_NAME lua${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
   )
 else()
   set_target_properties(lua-shared PROPERTIES
