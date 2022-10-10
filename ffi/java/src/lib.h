@@ -5,8 +5,8 @@
 #include "a/a.h"
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof(*A))
-
-#define CLASSPATH "liba/a$"
+#define JPACKAGE(F) Java_liba_##F
+#define CLASSPATH "liba/"
 
 A_INTERN jsize GetArrayLengthN(JNIEnv *jenv, jarray jobj, jsize jmax)
 {

@@ -64,7 +64,7 @@ jobject j_tf_set(const j_tf_s *jctx, const a_tf_s *ctx)
     return jctx->jobj;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_a_00024tf_init(JNIEnv *jenv, jobject jobj, jdoubleArray jnum, jdoubleArray jden)
+JNIEXPORT jobject JNICALL JPACKAGE(tf_init)(JNIEnv *jenv, jobject jobj, jdoubleArray jnum, jdoubleArray jden)
 {
     j_tf_s jctx[1];
     jsize m = (*jenv)->GetArrayLength(jenv, jnum);
@@ -79,7 +79,7 @@ JNIEXPORT jobject JNICALL Java_liba_a_00024tf_init(JNIEnv *jenv, jobject jobj, j
     return jobj;
 }
 
-JNIEXPORT jdouble JNICALL Java_liba_a_00024tf_proc(JNIEnv *jenv, jobject jobj, jdouble jx)
+JNIEXPORT jdouble JNICALL JPACKAGE(tf_proc)(JNIEnv *jenv, jobject jobj, jdouble jx)
 {
     a_tf_s ctx[1];
     j_tf_s jctx[1];
@@ -89,7 +89,7 @@ JNIEXPORT jdouble JNICALL Java_liba_a_00024tf_proc(JNIEnv *jenv, jobject jobj, j
     return jresult;
 }
 
-JNIEXPORT jobject JNICALL Java_liba_a_00024tf_zero(JNIEnv *jenv, jobject jobj)
+JNIEXPORT jobject JNICALL JPACKAGE(tf_zero)(JNIEnv *jenv, jobject jobj)
 {
     a_tf_s ctx[1];
     j_tf_s jctx[1];

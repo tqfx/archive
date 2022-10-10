@@ -7,12 +7,17 @@ if(WIN32)
   set(CMAKE_SHARED_LIBRARY_PREFIX "")
 endif()
 
+file(GLOB_RECURSE SOURCES src/${PROJECT_NAME}/*.java)
 add_jar(a-jar
-  SOURCES src/${PROJECT_NAME}/a.java
+  SOURCES ${SOURCES}
   ENTRY_POINT a OUTPUT_NAME a
   GENERATE_NATIVE_HEADERS jar-native-a
 )
 install_jar(a-jar ${CMAKE_INSTALL_LIBDIR}/java)
+
+if(ENABLE_JAVADOC)
+  create_javadoc(${PROJECT_NAME} FILES ${SOURCES} INSTALLPATH ${CMAKE_INSTALL_DATADIR}/javadoc)
+endif()
 
 file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
 add_library(a-jni SHARED ${SOURCES} $<TARGET_PROPERTY:a,SOURCES>)

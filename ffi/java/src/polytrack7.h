@@ -2,7 +2,7 @@
 #define __POLYTRACK7_H__
 
 #include "lib.h"
-#include "liba_a_polytrack7.h"
+#include "liba_polytrack7.h"
 #include "a/polytrack.h"
 
 typedef struct

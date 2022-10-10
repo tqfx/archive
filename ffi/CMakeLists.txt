@@ -15,6 +15,7 @@ if(ENABLE_LUA)
 endif()
 
 option(ENABLE_JAVA "Enable ffi java" OFF)
+option(ENABLE_JAVADOC "Enable ffi java documentation" OFF)
 
 if(ENABLE_JAVA)
   find_package(Java)

@@ -2,7 +2,7 @@
 #define __POLYTRACK3_H__
 
 #include "lib.h"
-#include "liba_a_polytrack3.h"
+#include "liba_polytrack3.h"
 #include "a/polytrack.h"
 
 typedef struct

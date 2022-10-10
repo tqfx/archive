@@ -97,6 +97,7 @@ extern "C" {
  @brief fast inverse square-root, \f$ \frac{1}{\sqrt{x}} \f$
  @details http://en.wikipedia.org/wiki/Fast_inverse_square_root
  @param[in] x independent variable
+ @return calculated result
 */
 A_PUBLIC a_f32_t a_sqrt_inv(a_f32_t x);
 

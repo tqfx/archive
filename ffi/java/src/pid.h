@@ -2,7 +2,7 @@
 #define __PID_H__
 
 #include "lib.h"
-#include "liba_a_pid.h"
+#include "liba_pid.h"
 #include "a/pid.h"
 
 typedef struct
@@ -16,8 +16,8 @@ typedef struct
     jfieldID outmin;
     jfieldID outmax;
     jfieldID summax;
-    jfieldID out;
     jfieldID sum;
+    jfieldID out;
     jfieldID fdb;
     jfieldID ec;
     jfieldID e;

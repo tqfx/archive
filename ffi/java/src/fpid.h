@@ -2,7 +2,7 @@
 #define __FPID_H__
 
 #include "pid.h"
-#include "liba_a_fpid.h"
+#include "liba_fpid.h"
 #include "a/fpid.h"
 
 typedef struct
