@@ -1,12 +1,26 @@
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 find_library(MATH_LIBRARY NAMES m)
+option(LUA_32BITS "lua 32bits" OFF)
 find_library(READLINE_LIBRARY NAMES readline)
 find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
 
 if(NOT MATH_LIBRARY AND ANDROID)
   set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
 endif()
+
+if(LUA_32BITS)
+  set(LUA_32BITS 1 CACHE BOOL "lua 32bits" FORCE)
+else()
+  set(LUA_32BITS 0 CACHE BOOL "lua 32bits" FORCE)
+endif()
+
+file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF)
+set(LUA_ROOT ${CMAKE_INSTALL_PREFIX} CACHE STRING "lua root")
+string(REGEX REPLACE "([^/\\]+)$" "\\1/" LUA_ROOT "${LUA_ROOT}")
+string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT}\"\n" LUACONF "${LUACONF}")
+string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" LUACONF "${LUACONF}")
+file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF}")
 
 if(ANDROID)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
