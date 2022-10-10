@@ -1,3 +1,8 @@
+/***
+ quintic polynomial trajectory
+ @module liba.polytrack5
+*/
+
 #include "polytrack5.h"
 
 int polytrack5_meta_(lua_State *L)

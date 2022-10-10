@@ -1,12 +1,29 @@
+/***
+ algorithm library version
+ @module liba.version
+*/
+
 #include "lua.h"
 #include "a/version.h"
 
+/***
+ algorithm library version string
+ @treturn string version string
+ @function version
+*/
 static int version(lua_State *L)
 {
     lua_pushstring(L, a_version());
     return 1;
 }
 
+/***
+ algorithm library version string
+ @field major algorithm library version major
+ @field minor algorithm library version minor
+ @field patch algorithm library version patch
+ @table version
+*/
 int luaopen_liba_version(lua_State *L)
 {
     const SEnum enums[] = {

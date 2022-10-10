@@ -1,3 +1,8 @@
+/***
+ proportional integral derivative controller
+ @module liba.pid
+*/
+
 #include "pid.h"
 
 int pid_meta_(lua_State *L)
@@ -255,6 +260,13 @@ static int pid_off(lua_State *L)
     return 0;
 }
 
+/***
+ instance for PID controller
+ @field OFF turn off PID controller
+ @field POS positional PID controller
+ @field INC incremental PID controller
+ @table pid
+*/
 int luaopen_liba_pid(lua_State *L)
 {
     const SEnum enums[] = {

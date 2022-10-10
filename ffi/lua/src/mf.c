@@ -1,3 +1,8 @@
+/***
+ membership function
+ @module liba.mf
+*/
+
 #include "mf.h"
 
 int mf_into_(lua_State *L, int idx, const lua_Number *ptr)
@@ -50,6 +55,14 @@ done:
     return 1;
 }
 
+/***
+ gaussian membership function
+ @tparam number x any element
+ @tparam number sigma sigma
+ @tparam number c c
+ @treturn number membership
+ @function gauss
+*/
 static int mf_gauss(lua_State *L)
 {
     if (lua_istable(L, 1))
@@ -63,6 +76,15 @@ static int mf_gauss(lua_State *L)
     return 1;
 }
 
+/***
+ generalized bell-shaped membership function
+ @tparam number x any element
+ @tparam number a a
+ @tparam number b b
+ @tparam number c c
+ @treturn number membership
+ @function gbell
+*/
 static int mf_gbell(lua_State *L)
 {
     if (lua_istable(L, 1))
@@ -77,6 +99,14 @@ static int mf_gbell(lua_State *L)
     return 1;
 }
 
+/***
+ sigmoidal membership function
+ @tparam number x any element
+ @tparam number a a
+ @tparam number c c
+ @treturn number membership
+ @function sig
+*/
 static int mf_sig(lua_State *L)
 {
     if (lua_istable(L, 1))
@@ -90,6 +120,16 @@ static int mf_sig(lua_State *L)
     return 1;
 }
 
+/***
+ trapezoidal membership function
+ @tparam number x any element
+ @tparam number a a
+ @tparam number b b
+ @tparam number c c
+ @tparam number d d
+ @treturn number membership
+ @function trap
+*/
 static int mf_trap(lua_State *L)
 {
     if (lua_istable(L, 1))
@@ -105,6 +145,15 @@ static int mf_trap(lua_State *L)
     return 1;
 }
 
+/***
+ triangular membership function
+ @tparam number x any element
+ @tparam number a a
+ @tparam number b b
+ @tparam number c c
+ @treturn number membership
+ @function tri
+*/
 static int mf_tri(lua_State *L)
 {
     if (lua_istable(L, 1))
@@ -119,6 +168,14 @@ static int mf_tri(lua_State *L)
     return 1;
 }
 
+/***
+ z-shaped membership function
+ @tparam number x any element
+ @tparam number a a
+ @tparam number b b
+ @treturn number membership
+ @function z
+*/
 static int mf_z(lua_State *L)
 {
     if (lua_istable(L, 1))
@@ -132,6 +189,14 @@ static int mf_z(lua_State *L)
     return 1;
 }
 
+/***
+ membership function
+ @tparam int e type for membership function
+ @tparam number x any element
+ @tparam number ... paramarrays
+ @treturn number membership
+ @function mf
+*/
 static int mf(lua_State *L)
 {
     while (lua_istable(L, 1))
@@ -160,6 +225,17 @@ static int mf(lua_State *L)
     }
 }
 
+/***
+ type for membership function
+ @field NUL none
+ @field GAUSS gaussian membership function
+ @field GBELL generalized bell-shaped membership function
+ @field SIG sigmoidal membership function
+ @field TRAP trapezoidal membership function
+ @field TRI triangular membership function
+ @field Z z-shaped membership function
+ @table mf
+*/
 int luaopen_liba_mf(lua_State *L)
 {
     const SEnum enums[] = {

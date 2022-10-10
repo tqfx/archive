@@ -1,4 +1,5 @@
 option(ENABLE_LUA "Enable ffi lua" OFF)
+option(ENABLE_LDOC "Enable ffi lua documentation" OFF)
 
 if(ENABLE_LUA)
   find_package(Lua 5.2)

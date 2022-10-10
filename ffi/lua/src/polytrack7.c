@@ -1,3 +1,8 @@
+/***
+ hepta polynomial trajectory
+ @module liba.polytrack7
+*/
+
 #include "polytrack7.h"
 
 int polytrack7_meta_(lua_State *L)

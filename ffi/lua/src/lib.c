@@ -1,6 +1,18 @@
+/***
+ algorithm library
+ @module liba
+*/
+
 #include "lua.h"
 #include "a/math.h"
 
+/***
+ fast inverse square-root
+ @tparam number x independent variable
+ @tparam number ... independent variables
+ @treturn number calculated result
+ @function sqrt_inv
+*/
 static int sqrt_inv(lua_State *L)
 {
     if (lua_istable(L, 1))

@@ -1,3 +1,8 @@
+/***
+ fuzzy proportional integral derivative controller
+ @module liba.fpid
+*/
+
 #include "fpid.h"
 
 int fpid_meta_(lua_State *L)
@@ -286,6 +291,13 @@ static int fpid_off(lua_State *L)
     return 0;
 }
 
+/***
+ instance for FPID controller
+ @field OFF turn off FPID controller
+ @field POS positional FPID controller
+ @field INC incremental FPID controller
+ @table fpid
+*/
 int luaopen_liba_fpid(lua_State *L)
 {
     const SEnum enums[] = {

@@ -1,3 +1,4 @@
+include(cmake/warnings.cmake)
 set(CMAKE_SHARED_LIBRARY_PREFIX lib)
 file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
 add_library(a-lua SHARED ${SOURCES} $<TARGET_PROPERTY:a,SOURCES>)
@@ -25,6 +26,25 @@ find_program(LUA_EXECUTABLE NAMES lua
   lua.${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
   HINTS ENV LUA_DIR
 )
+
+function(create_ldoc target)
+  # https://stevedonovan.github.io/ldoc/manual/doc.md.html
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.ld
+    ${CMAKE_CURRENT_BINARY_DIR}/LDoc.${target}
+    @ONLY
+  )
+  find_program(LDOC_EXECUTABLE NAMES ldoc)
+  add_custom_target(${target}
+    COMMAND ${LDOC_EXECUTABLE} -c ${CMAKE_CURRENT_BINARY_DIR}/LDoc.${target} ${ARGN}
+    COMMENT "Generate API documentation for ${target}"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  )
+endfunction()
+
+if(ENABLE_LDOC)
+  create_ldoc(a-ldoc ${CMAKE_CURRENT_SOURCE_DIR}/src)
+endif()
 
 if(NOT ENABLE_SANITIZE)
   include(test.cmake)

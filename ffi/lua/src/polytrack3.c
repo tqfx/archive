@@ -1,3 +1,8 @@
+/***
+ cubic polynomial trajectory
+ @module liba.polytrack3
+*/
+
 #include "polytrack3.h"
 
 int polytrack3_meta_(lua_State *L)
