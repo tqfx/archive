@@ -70,6 +70,7 @@ typedef struct
 extern "C" {
 #endif /* __cplusplus */
 
+uint32_t l_hashs(const void *s);
 void l_stack(lua_State *L, int line);
 void *l_malloc(lua_State *L, size_t size);
 void *l_calloc(lua_State *L, size_t size);

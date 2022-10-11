@@ -23,3 +23,5 @@ assert(ctx.proc(ctx, 1))
 assert(ctx.zero(ctx))
 assert(ctx:proc(1))
 assert(ctx:zero())
+ctx.num={1,2}
+ctx.den={3,4}

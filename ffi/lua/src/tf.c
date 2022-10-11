@@ -192,6 +192,39 @@ int tf_zero(lua_State *L)
     return 0;
 }
 
+static int tf_newindex(lua_State *L)
+{
+    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
+    switch (l_hashs(lua_tostring(L, 2)))
+    {
+    case 0x001D0A2A: /* num */
+    {
+        luaL_checktype(L, 3, LUA_TTABLE);
+        a_uint_t m = (a_uint_t)lua_rawlen(L, 3);
+        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * m * 2);
+        arraynum_get(L, 3, num, m);
+        ctx->u = num + m;
+        ctx->num = num;
+        ctx->m = m;
+    }
+    break;
+    case 0x001A63A1: /* den */
+    {
+        luaL_checktype(L, 3, LUA_TTABLE);
+        a_uint_t n = (a_uint_t)lua_rawlen(L, 3);
+        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * n * 2);
+        arraynum_get(L, 3, den, n);
+        ctx->v = den + n;
+        ctx->den = den;
+        ctx->n = n;
+    }
+    break;
+    default:
+        break;
+    }
+    return 0;
+}
+
 int luaopen_liba_tf(lua_State *L)
 {
     const SFunc funcs[] = {
@@ -213,7 +246,8 @@ int luaopen_liba_tf(lua_State *L)
     set_funcs(L, -1, metas);
     lua_setmetatable(L, -2);
 
-    lua_createtable(L, 0, 2);
+    lua_createtable(L, 0, 3);
+    set_func(L, -1, "__newindex", tf_newindex);
     set_func(L, -1, "__call", tf_proc);
     lua_pushstring(L, "__index");
     lua_pushvalue(L, -3);

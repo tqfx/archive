@@ -1,5 +1,15 @@
 #include "lua.h"
 
+uint32_t l_hashs(const void *s)
+{
+    uint32_t x = 0;
+    for (const unsigned char *p = (const unsigned char *)s; *p; ++p)
+    {
+        x = x * 131 + *p;
+    }
+    return x;
+}
+
 A_ATTRIBUTE(unused)
 void l_stack(lua_State *L, int line)
 {
