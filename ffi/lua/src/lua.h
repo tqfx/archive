@@ -12,6 +12,13 @@
 #endif /* diagnostic */
 #include <string.h>
 
+#if (LUA_VERSION_NUM <= 501)
+#define lua_rawsetp(L, idx, p) (lua_pushlightuserdata(L, p), lua_insert(L, -2), lua_rawset(L, idx))
+#define lua_rawgetp(L, idx, p) (lua_pushlightuserdata(L, p), lua_rawget(L, idx))
+#define lua_rawlen(L, i) lua_objlen(L, i)
+#define luaL_checkversion(L)
+#endif /* LUA_VERSION_NUM */
+
 #define Larray(A) (sizeof(A) / sizeof(*A))
 #define Lstack(L) lua_show(L, __LINE__)
 
