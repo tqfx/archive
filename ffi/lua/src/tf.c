@@ -62,7 +62,7 @@ int tf_into_(lua_State *L, a_tf_s *ctx)
 /***
  convert transfer function userdata from table
  @param[opt] ctx transfer function userdata
- @tparam table table transfer function field table
+ @tparam table tab transfer function table
  @treturn tf transfer function userdata
  @function from
 */
@@ -101,6 +101,35 @@ int tf_into(lua_State *L)
 }
 
 /***
+ constructor for transfer function
+ @tparam table num numerator table
+ @tparam table den denominator table
+ @treturn tf transfer function userdata
+ @function new
+*/
+int tf_new(lua_State *L)
+{
+    if (lua_gettop(L) > 1)
+    {
+        luaL_checktype(L, -1, LUA_TTABLE);
+        luaL_checktype(L, -2, LUA_TTABLE);
+        a_uint_t m = (a_uint_t)lua_rawlen(L, -1);
+        a_real_t *num = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * m * 2);
+        a_uint_t n = (a_uint_t)lua_rawlen(L, -2);
+        a_real_t *den = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * n * 2);
+        lua_pop(L, 2);
+        arraynum_get(L, -1, num, m);
+        arraynum_get(L, -2, den, n);
+        a_tf_s *ctx = (a_tf_s *)lua_newuserdata(L, sizeof(a_tf_s));
+        tf_meta_(L);
+        lua_setmetatable(L, -2);
+        a_tf_init(ctx, m, num, num + m, n, den, den + n);
+        return 1;
+    }
+    return 0;
+}
+
+/***
  initialize function for transfer function
  @param ctx transfer function userdata
  @tparam table num numerator table
@@ -125,35 +154,6 @@ int tf_init(lua_State *L)
         arraynum_get(L, -2, den, n);
         a_tf_init(ctx, m, num, num + m, n, den, den + n);
         lua_pop(L, 2);
-        return 1;
-    }
-    return 0;
-}
-
-/***
- constructor for transfer function
- @tparam table num numerator table
- @tparam table den denominator table
- @treturn tf transfer function userdata
- @function new
-*/
-int tf_new(lua_State *L)
-{
-    if (lua_gettop(L) > 1)
-    {
-        luaL_checktype(L, -1, LUA_TTABLE);
-        luaL_checktype(L, -2, LUA_TTABLE);
-        a_uint_t m = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *num = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * m * 2);
-        a_uint_t n = (a_uint_t)lua_rawlen(L, -2);
-        a_real_t *den = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * n * 2);
-        lua_pop(L, 2);
-        arraynum_get(L, -1, num, m);
-        arraynum_get(L, -2, den, n);
-        a_tf_s *ctx = (a_tf_s *)lua_newuserdata(L, sizeof(a_tf_s));
-        tf_meta_(L);
-        lua_setmetatable(L, -2);
-        a_tf_init(ctx, m, num, num + m, n, den, den + n);
         return 1;
     }
     return 0;

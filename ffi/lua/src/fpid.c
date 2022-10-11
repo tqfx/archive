@@ -95,7 +95,14 @@ int fpid_into_(lua_State *L, a_fpid_s *ctx)
     return 1;
 }
 
-static int fpid_from(lua_State *L)
+/***
+ convert fuzzy PID controller userdata from table
+ @param[opt] ctx fuzzy PID controller userdata
+ @tparam table tab fuzzy PID controller table
+ @treturn fpid fuzzy PID controller userdata
+ @function from
+*/
+int fpid_from(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -113,7 +120,13 @@ static int fpid_from(lua_State *L)
     return 1;
 }
 
-static int fpid_into(lua_State *L)
+/***
+ convert fuzzy PID controller userdata into table
+ @param ctx fuzzy PID controller userdata
+ @treturn table fuzzy PID controller table
+ @function into
+*/
+int fpid_into(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -138,11 +151,63 @@ static int fpid_init_(lua_State *L, a_fpid_s *ctx)
     a_real_t *mkd = tablenum_get(L, 6, 0);
     a_fpid_init(ctx, dt, num, mmp, mkp, mki, mkd, imin, imax, omin, omax);
     a_fpid_buf1(ctx, lua_newuserdata(L, A_FPID_BUF1(max)), max);
+    lua_type(L, 11) == LUA_TNUMBER
+        ? a_fpid_pos(ctx, lua_tonumber(L, 11))
+        : a_fpid_inc(ctx);
     lua_pop(L, 1);
     return 1;
 }
 
-static int fpid_init(lua_State *L)
+/***
+ constructor for fuzzy PID controller
+ @tparam int num maximum number triggered by the rule
+ @tparam number dt sampling time unit(s)
+ @tparam table mmp points to membership function parameter table, an array terminated by 0
+ @tparam table mkp points to Kp's rule base table, the rule base must be square
+ @tparam table mki points to Ki's rule base table, the rule base must be square
+ @tparam table mkd points to Kd's rule base table, the rule base must be square
+ @tparam number imin minimum input
+ @tparam number imax maximum input
+ @tparam number omin minimum output
+ @tparam number omax maximum output
+ @tparam[opt] number sum maximum intergral output
+ @treturn fpid fuzzy PID controller userdata
+ @function new
+*/
+int fpid_new(lua_State *L)
+{
+    if (lua_gettop(L) > 9)
+    {
+        while (lua_type(L, 1) == LUA_TTABLE)
+        {
+            lua_remove(L, 1);
+        }
+        a_fpid_s *ctx = (a_fpid_s *)lua_newuserdata(L, sizeof(a_fpid_s));
+        fpid_meta_(L);
+        lua_setmetatable(L, -2);
+        return fpid_init_(L, ctx);
+    }
+    return 0;
+}
+
+/***
+ initialize function for fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @tparam int num maximum number triggered by the rule
+ @tparam number dt sampling time unit(s)
+ @tparam table mmp points to membership function parameter table, an array terminated by 0
+ @tparam table mkp points to Kp's rule base table, the rule base must be square
+ @tparam table mki points to Ki's rule base table, the rule base must be square
+ @tparam table mkd points to Kd's rule base table, the rule base must be square
+ @tparam number imin minimum input
+ @tparam number imax maximum input
+ @tparam number omin minimum output
+ @tparam number omax maximum output
+ @tparam[opt] number sum maximum intergral output
+ @treturn fpid fuzzy PID controller userdata
+ @function init
+*/
+int fpid_init(lua_State *L)
 {
     if (lua_gettop(L) > 10)
     {
@@ -159,23 +224,15 @@ static int fpid_init(lua_State *L)
     return 0;
 }
 
-static int fpid_new(lua_State *L)
-{
-    if (lua_gettop(L) > 9)
-    {
-        while (lua_type(L, 1) == LUA_TTABLE)
-        {
-            lua_remove(L, 1);
-        }
-        a_fpid_s *ctx = (a_fpid_s *)lua_newuserdata(L, sizeof(a_fpid_s));
-        fpid_meta_(L);
-        lua_setmetatable(L, -2);
-        return fpid_init_(L, ctx);
-    }
-    return 0;
-}
-
-static int fpid_proc(lua_State *L)
+/***
+ calculate function for fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @tparam number set setpoint
+ @tparam number fdb feedback
+ @treturn number output
+ @function proc
+*/
+int fpid_proc(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -3);
     if (ctx)
@@ -189,7 +246,13 @@ static int fpid_proc(lua_State *L)
     return 0;
 }
 
-static int fpid_zero(lua_State *L)
+/***
+ zero function for fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @treturn fpid fuzzy PID controller userdata
+ @function zero
+*/
+int fpid_zero(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -200,7 +263,17 @@ static int fpid_zero(lua_State *L)
     return 0;
 }
 
-static int fpid_base(lua_State *L)
+/***
+ set rule base for fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @tparam table mmp points to membership function parameter table, an array terminated by 0
+ @tparam table mkp points to Kp's rule base table, the rule base must be square
+ @tparam table mki points to Ki's rule base table, the rule base must be square
+ @tparam table mkd points to Kd's rule base table, the rule base must be square
+ @treturn fpid fuzzy PID controller userdata
+ @function buff
+*/
+int fpid_base(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -5);
     if (ctx)
@@ -217,7 +290,14 @@ static int fpid_base(lua_State *L)
     return 0;
 }
 
-static int fpid_buff(lua_State *L)
+/***
+ set buffer for fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @tparam int num maximum number triggered by the rule
+ @treturn fpid fuzzy PID controller userdata
+ @function buff
+*/
+int fpid_buff(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -230,7 +310,16 @@ static int fpid_buff(lua_State *L)
     return 0;
 }
 
-static int fpid_kpid(lua_State *L)
+/***
+ set proportional integral derivative constant for fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @tparam number kp proportional constant
+ @tparam number ki integral constant
+ @tparam number kd derivative constant
+ @treturn fpid fuzzy PID controller userdata
+ @function kpid
+*/
+int fpid_kpid(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -4);
     if (ctx)
@@ -245,7 +334,14 @@ static int fpid_kpid(lua_State *L)
     return 0;
 }
 
-static int fpid_time(lua_State *L)
+/***
+ set sampling period for fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @tparam number dt sampling time unit(s)
+ @treturn fpid fuzzy PID controller userdata
+ @function time
+*/
+int fpid_time(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -257,7 +353,14 @@ static int fpid_time(lua_State *L)
     return 0;
 }
 
-static int fpid_pos(lua_State *L)
+/***
+ positional fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @tparam number max maximum intergral output
+ @treturn fpid fuzzy PID controller userdata
+ @function pos
+*/
+int fpid_pos(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -269,7 +372,13 @@ static int fpid_pos(lua_State *L)
     return 0;
 }
 
-static int fpid_inc(lua_State *L)
+/***
+ incremental fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @treturn fpid fuzzy PID controller userdata
+ @function inc
+*/
+int fpid_inc(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -280,7 +389,13 @@ static int fpid_inc(lua_State *L)
     return 0;
 }
 
-static int fpid_off(lua_State *L)
+/***
+ turn off fuzzy PID controller
+ @param ctx fuzzy PID controller userdata
+ @treturn fpid fuzzy PID controller userdata
+ @function off
+*/
+int fpid_off(lua_State *L)
 {
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -292,10 +407,10 @@ static int fpid_off(lua_State *L)
 }
 
 /***
- instance for FPID controller
- @field OFF turn off FPID controller
- @field POS positional FPID controller
- @field INC incremental FPID controller
+ instance for fuzzy PID controller
+ @field OFF turn off fuzzy PID controller
+ @field POS positional fuzzy PID controller
+ @field INC incremental fuzzy PID controller
  @table fpid
 */
 int luaopen_liba_fpid(lua_State *L)

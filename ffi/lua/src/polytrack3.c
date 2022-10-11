@@ -44,7 +44,13 @@ int polytrack3_into_(lua_State *L, a_polytrack3_s *ctx)
     return 1;
 }
 
-static int polytrack3_from(lua_State *L)
+/***
+ convert cubic polynomial trajectory userdata from table
+ @tparam table tab cubic polynomial trajectory table
+ @treturn polytrack3 cubic polynomial trajectory userdata
+ @function from
+*/
+int polytrack3_from(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -62,7 +68,13 @@ static int polytrack3_from(lua_State *L)
     return 1;
 }
 
-static int polytrack3_into(lua_State *L)
+/***
+ convert cubic polynomial trajectory userdata into table
+ @param ctx cubic polynomial trajectory userdata
+ @treturn table cubic polynomial trajectory table
+ @function into
+*/
+int polytrack3_into(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -103,7 +115,66 @@ static int polytrack3_init_(lua_State *L, a_polytrack3_s *ctx)
     return 1;
 }
 
-static int polytrack3_init(lua_State *L)
+/***
+ constructor for cubic polynomial trajectory
+ @tparam number t0 time for source
+ @tparam number t1 time for target
+ @tparam number q0 position for source
+ @tparam number q1 position for target
+ @tparam[opt] number v0 velocity for source
+ @tparam[opt] number v1 velocity for target
+ @tparam[opt] table source source for trajectory
+ @tparam[opt] table target target for trajectory
+ @treturn polytrack3 cubic polynomial trajectory userdata
+ @function new
+*/
+int polytrack3_new(lua_State *L)
+{
+    int top = lua_gettop(L);
+    int type = lua_type(L, -1);
+    if (top > 3 && type == LUA_TNUMBER)
+    {
+        while (lua_type(L, 1) == LUA_TTABLE)
+        {
+            lua_remove(L, 1);
+        }
+        a_polytrack3_s *ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
+        polytrack3_meta_(L);
+        lua_setmetatable(L, -2);
+        return polytrack3_init_(L, ctx);
+    }
+    if (top > 1 && type == LUA_TTABLE)
+    {
+        a_real_t target[3] = {0};
+        a_real_t source[3] = {0};
+        luaL_checktype(L, -1, LUA_TTABLE);
+        luaL_checktype(L, -2, LUA_TTABLE);
+        arraynum_get(L, -1, target, Larray(target));
+        arraynum_get(L, -2, source, Larray(source));
+        a_polytrack3_s *ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
+        polytrack3_meta_(L);
+        lua_setmetatable(L, -2);
+        a_polytrack3_init2(ctx, source, target);
+        return 1;
+    }
+    return 0;
+}
+
+/***
+ initialize function for cubic polynomial trajectory
+ @param ctx cubic polynomial trajectory userdata
+ @tparam number t0 time for source
+ @tparam number t1 time for target
+ @tparam number q0 position for source
+ @tparam number q1 position for target
+ @tparam[opt] number v0 velocity for source
+ @tparam[opt] number v1 velocity for target
+ @tparam[opt] table source source for trajectory
+ @tparam[opt] table target target for trajectory
+ @treturn polytrack3 cubic polynomial trajectory userdata
+ @function init
+*/
+int polytrack3_init(lua_State *L)
 {
     int top = lua_gettop(L);
     int type = lua_type(L, -1);
@@ -136,39 +207,14 @@ static int polytrack3_init(lua_State *L)
     return 0;
 }
 
-static int polytrack3_new(lua_State *L)
-{
-    int top = lua_gettop(L);
-    int type = lua_type(L, -1);
-    if (top > 3 && type == LUA_TNUMBER)
-    {
-        while (lua_type(L, 1) == LUA_TTABLE)
-        {
-            lua_remove(L, 1);
-        }
-        a_polytrack3_s *ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
-        polytrack3_meta_(L);
-        lua_setmetatable(L, -2);
-        return polytrack3_init_(L, ctx);
-    }
-    if (top > 1 && type == LUA_TTABLE)
-    {
-        a_real_t target[3] = {0};
-        a_real_t source[3] = {0};
-        luaL_checktype(L, -1, LUA_TTABLE);
-        luaL_checktype(L, -2, LUA_TTABLE);
-        arraynum_get(L, -1, target, Larray(target));
-        arraynum_get(L, -2, source, Larray(source));
-        a_polytrack3_s *ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
-        polytrack3_meta_(L);
-        lua_setmetatable(L, -2);
-        a_polytrack3_init2(ctx, source, target);
-        return 1;
-    }
-    return 0;
-}
-
-static int polytrack3_out(lua_State *L)
+/***
+ process function for cubic polynomial trajectory
+ @param ctx cubic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn table {position,velocity,acceleration}
+ @function out
+*/
+int polytrack3_out(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -183,7 +229,14 @@ static int polytrack3_out(lua_State *L)
     return 0;
 }
 
-static int polytrack3_pos(lua_State *L)
+/***
+ process function for cubic polynomial trajectory position
+ @param ctx cubic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn number position output
+ @function pos
+*/
+int polytrack3_pos(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -195,7 +248,14 @@ static int polytrack3_pos(lua_State *L)
     return 0;
 }
 
-static int polytrack3_vec(lua_State *L)
+/***
+ process function for cubic polynomial trajectory velocity
+ @param ctx cubic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn number velocity output
+ @function vec
+*/
+int polytrack3_vec(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -207,7 +267,14 @@ static int polytrack3_vec(lua_State *L)
     return 0;
 }
 
-static int polytrack3_acc(lua_State *L)
+/***
+ process function for cubic polynomial trajectory acceleration
+ @param ctx cubic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn number acceleration output
+ @function acc
+*/
+int polytrack3_acc(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -225,11 +292,11 @@ int luaopen_liba_polytrack3(lua_State *L)
         {"from", polytrack3_from},
         {"into", polytrack3_into},
         {"init", polytrack3_init},
-        {"new", polytrack3_new},
         {"out", polytrack3_out},
         {"pos", polytrack3_pos},
         {"vec", polytrack3_vec},
         {"acc", polytrack3_acc},
+        {"new", polytrack3_new},
         {NULL, NULL},
     };
     const SFunc metas[] = {

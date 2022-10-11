@@ -64,7 +64,14 @@ int pid_into_(lua_State *L, a_pid_s *ctx)
     return 1;
 }
 
-static int pid_from(lua_State *L)
+/***
+ convert PID controller userdata from table
+ @param[opt] ctx PID controller userdata
+ @tparam table tab PID controller table
+ @treturn pid PID controller userdata
+ @function from
+*/
+int pid_from(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -83,7 +90,13 @@ static int pid_from(lua_State *L)
     return 1;
 }
 
-static int pid_into(lua_State *L)
+/***
+ convert PID controller userdata into table
+ @param ctx PID controller userdata
+ @treturn table PID controller table
+ @function into
+*/
+int pid_into(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -140,24 +153,19 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
     return 1;
 }
 
-static int pid_init(lua_State *L)
-{
-    if (lua_gettop(L) > 3)
-    {
-        while (lua_type(L, 1) == LUA_TTABLE)
-        {
-            lua_remove(L, 1);
-        }
-        luaL_checktype(L, 1, LUA_TUSERDATA);
-        a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
-        lua_pushvalue(L, 1);
-        lua_remove(L, 1);
-        return pid_init_(L, ctx);
-    }
-    return 0;
-}
-
-static int pid_new(lua_State *L)
+/***
+ constructor for PID controller
+ @tparam number dt sampling time unit(s)
+ @tparam[opt] number kp proportional constant
+ @tparam[opt] number ki integral constant
+ @tparam[opt] number kd derivative constant
+ @tparam number min minimum output
+ @tparam number max maximum output
+ @tparam[opt] number sum maximum intergral output
+ @treturn pid PID controller userdata
+ @function new
+*/
+int pid_new(lua_State *L)
 {
     if (lua_gettop(L) > 2)
     {
@@ -174,7 +182,45 @@ static int pid_new(lua_State *L)
     return 0;
 }
 
-static int pid_proc(lua_State *L)
+/***
+ calculate function for PID controller
+ @param ctx PID controller userdata
+ @tparam number dt sampling time unit(s)
+ @tparam[opt] number kp proportional constant
+ @tparam[opt] number ki integral constant
+ @tparam[opt] number kd derivative constant
+ @tparam number min minimum output
+ @tparam number max maximum output
+ @tparam[opt] number sum maximum intergral output
+ @treturn pid PID controller userdata
+ @function init
+*/
+int pid_init(lua_State *L)
+{
+    if (lua_gettop(L) > 3)
+    {
+        while (lua_type(L, 1) == LUA_TTABLE)
+        {
+            lua_remove(L, 1);
+        }
+        luaL_checktype(L, 1, LUA_TUSERDATA);
+        a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
+        lua_pushvalue(L, 1);
+        lua_remove(L, 1);
+        return pid_init_(L, ctx);
+    }
+    return 0;
+}
+
+/***
+ calculate function for PID controller
+ @param ctx PID controller userdata
+ @tparam number set setpoint
+ @tparam number fdb feedback
+ @treturn number output
+ @function proc
+*/
+int pid_proc(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -3);
     if (ctx)
@@ -188,7 +234,13 @@ static int pid_proc(lua_State *L)
     return 0;
 }
 
-static int pid_zero(lua_State *L)
+/***
+ zero function for PID controller
+ @param ctx PID controller userdata
+ @treturn pid PID controller userdata
+ @function zero
+*/
+int pid_zero(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -199,7 +251,16 @@ static int pid_zero(lua_State *L)
     return 0;
 }
 
-static int pid_kpid(lua_State *L)
+/***
+ set proportional integral derivative constant for PID controller
+ @param ctx PID controller userdata
+ @tparam number kp proportional constant
+ @tparam number ki integral constant
+ @tparam number kd derivative constant
+ @treturn pid PID controller userdata
+ @function kpid
+*/
+int pid_kpid(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -4);
     if (ctx)
@@ -214,7 +275,14 @@ static int pid_kpid(lua_State *L)
     return 0;
 }
 
-static int pid_time(lua_State *L)
+/***
+ set sampling period for PID controller
+ @param ctx PID controller userdata
+ @tparam number dt sampling time unit(s)
+ @treturn pid PID controller userdata
+ @function time
+*/
+int pid_time(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -226,7 +294,14 @@ static int pid_time(lua_State *L)
     return 0;
 }
 
-static int pid_pos(lua_State *L)
+/***
+ positional PID controller
+ @param ctx PID controller userdata
+ @tparam number max maximum intergral output
+ @treturn pid PID controller userdata
+ @function pos
+*/
+int pid_pos(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -238,7 +313,13 @@ static int pid_pos(lua_State *L)
     return 0;
 }
 
-static int pid_inc(lua_State *L)
+/***
+ incremental PID controller
+ @param ctx PID controller userdata
+ @treturn pid PID controller userdata
+ @function inc
+*/
+int pid_inc(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -249,7 +330,13 @@ static int pid_inc(lua_State *L)
     return 0;
 }
 
-static int pid_off(lua_State *L)
+/***
+ turn off PID controller
+ @param ctx PID controller userdata
+ @treturn pid PID controller userdata
+ @function off
+*/
+int pid_off(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)

@@ -46,7 +46,14 @@ int polytrack5_into_(lua_State *L, a_polytrack5_s *ctx)
     return 1;
 }
 
-static int polytrack5_from(lua_State *L)
+/***
+ convert quintic polynomial trajectory userdata from table
+ @param[opt] ctx quintic polynomial trajectory userdata
+ @tparam table tab quintic polynomial trajectory table
+ @treturn polytrack5 quintic polynomial trajectory userdata
+ @function from
+*/
+int polytrack5_from(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -64,7 +71,13 @@ static int polytrack5_from(lua_State *L)
     return 1;
 }
 
-static int polytrack5_into(lua_State *L)
+/***
+ convert quintic polynomial trajectory userdata into table
+ @param ctx quintic polynomial trajectory userdata
+ @treturn table quintic polynomial trajectory table
+ @function into
+*/
+int polytrack5_into(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -115,7 +128,70 @@ static int polytrack5_init_(lua_State *L, a_polytrack5_s *ctx)
     return 1;
 }
 
-static int polytrack5_init(lua_State *L)
+/***
+ constructor for quintic polynomial trajectory
+ @tparam number t0 time for source
+ @tparam number t1 time for target
+ @tparam number q0 position for source
+ @tparam number q1 position for target
+ @tparam[opt] number v0 velocity for source
+ @tparam[opt] number v1 velocity for target
+ @tparam[opt] number a0 acceleration for source
+ @tparam[opt] number a1 acceleration for target
+ @tparam[opt] table source source for trajectory
+ @tparam[opt] table target target for trajectory
+ @treturn polytrack5 quintic polynomial trajectory userdata
+ @function new
+*/
+int polytrack5_new(lua_State *L)
+{
+    int top = lua_gettop(L);
+    int type = lua_type(L, -1);
+    if (top > 3 && type == LUA_TNUMBER)
+    {
+        while (lua_type(L, 1) == LUA_TTABLE)
+        {
+            lua_remove(L, 1);
+        }
+        a_polytrack5_s *ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
+        polytrack5_meta_(L);
+        lua_setmetatable(L, -2);
+        return polytrack5_init_(L, ctx);
+    }
+    if (top > 1 && type == LUA_TTABLE)
+    {
+        a_real_t target[4] = {0};
+        a_real_t source[4] = {0};
+        luaL_checktype(L, -1, LUA_TTABLE);
+        luaL_checktype(L, -2, LUA_TTABLE);
+        arraynum_get(L, -1, target, Larray(target));
+        arraynum_get(L, -2, source, Larray(source));
+        a_polytrack5_s *ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
+        polytrack5_meta_(L);
+        lua_setmetatable(L, -2);
+        a_polytrack5_init2(ctx, source, target);
+        return 1;
+    }
+    return 0;
+}
+
+/***
+ initialize function for quintic polynomial trajectory
+ @param ctx quintic polynomial trajectory userdata
+ @tparam number t0 time for source
+ @tparam number t1 time for target
+ @tparam number q0 position for source
+ @tparam number q1 position for target
+ @tparam[opt] number v0 velocity for source
+ @tparam[opt] number v1 velocity for target
+ @tparam[opt] number a0 acceleration for source
+ @tparam[opt] number a1 acceleration for target
+ @tparam[opt] table source source for trajectory
+ @tparam[opt] table target target for trajectory
+ @treturn polytrack5 quintic polynomial trajectory userdata
+ @function init
+*/
+int polytrack5_init(lua_State *L)
 {
     int top = lua_gettop(L);
     int type = lua_type(L, -1);
@@ -148,39 +224,14 @@ static int polytrack5_init(lua_State *L)
     return 0;
 }
 
-static int polytrack5_new(lua_State *L)
-{
-    int top = lua_gettop(L);
-    int type = lua_type(L, -1);
-    if (top > 3 && type == LUA_TNUMBER)
-    {
-        while (lua_type(L, 1) == LUA_TTABLE)
-        {
-            lua_remove(L, 1);
-        }
-        a_polytrack5_s *ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
-        polytrack5_meta_(L);
-        lua_setmetatable(L, -2);
-        return polytrack5_init_(L, ctx);
-    }
-    if (top > 1 && type == LUA_TTABLE)
-    {
-        a_real_t target[4] = {0};
-        a_real_t source[4] = {0};
-        luaL_checktype(L, -1, LUA_TTABLE);
-        luaL_checktype(L, -2, LUA_TTABLE);
-        arraynum_get(L, -1, target, Larray(target));
-        arraynum_get(L, -2, source, Larray(source));
-        a_polytrack5_s *ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
-        polytrack5_meta_(L);
-        lua_setmetatable(L, -2);
-        a_polytrack5_init2(ctx, source, target);
-        return 1;
-    }
-    return 0;
-}
-
-static int polytrack5_out(lua_State *L)
+/***
+ process function for quintic polynomial trajectory
+ @param ctx quintic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn table {position,velocity,acceleration}
+ @function out
+*/
+int polytrack5_out(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -195,7 +246,14 @@ static int polytrack5_out(lua_State *L)
     return 0;
 }
 
-static int polytrack5_pos(lua_State *L)
+/***
+ process function for quintic polynomial trajectory position
+ @param ctx quintic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn number position output
+ @function pos
+*/
+int polytrack5_pos(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -207,7 +265,14 @@ static int polytrack5_pos(lua_State *L)
     return 0;
 }
 
-static int polytrack5_vec(lua_State *L)
+/***
+ process function for quintic polynomial trajectory velocity
+ @param ctx quintic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn number velocity output
+ @function vec
+*/
+int polytrack5_vec(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -219,7 +284,14 @@ static int polytrack5_vec(lua_State *L)
     return 0;
 }
 
-static int polytrack5_acc(lua_State *L)
+/***
+ process function for quintic polynomial trajectory acceleration
+ @param ctx quintic polynomial trajectory userdata
+ @tparam number ts current time unit(s)
+ @treturn number acceleration output
+ @function acc
+*/
+int polytrack5_acc(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -237,11 +309,11 @@ int luaopen_liba_polytrack5(lua_State *L)
         {"from", polytrack5_from},
         {"into", polytrack5_into},
         {"init", polytrack5_init},
-        {"new", polytrack5_new},
         {"out", polytrack5_out},
         {"pos", polytrack5_pos},
         {"vec", polytrack5_vec},
         {"acc", polytrack5_acc},
+        {"new", polytrack5_new},
         {NULL, NULL},
     };
     const SFunc metas[] = {
