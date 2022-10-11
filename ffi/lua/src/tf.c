@@ -195,7 +195,8 @@ int tf_zero(lua_State *L)
 static int tf_newindex(lua_State *L)
 {
     a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
-    switch (l_hashs(lua_tostring(L, 2)))
+    const char *field = lua_tostring(L, 2);
+    switch (l_hashs(field))
     {
     case 0x001D0A2A: /* num */
     {
@@ -220,7 +221,7 @@ static int tf_newindex(lua_State *L)
     }
     break;
     default:
-        break;
+        return luaL_error(L, "field '%s' missing in date table", field);
     }
     return 0;
 }
