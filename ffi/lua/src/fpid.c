@@ -19,6 +19,8 @@ int fpid_func_(lua_State *L)
 
 int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx)
 {
+    a_vptr_t bufptr = 0;
+    a_uint_t bufsiz = 0;
     GFnum fpid[] = {
         {"sigma", &ctx->sigma},
         {"alpha", &ctx->alpha},
@@ -58,6 +60,20 @@ int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx)
         ctx->mkd = tablenum_get(L, -1, 0);
     }
     lua_pop(L, 1);
+    lua_pushstring(L, "bufptr");
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TUSERDATA)
+    {
+        bufptr = lua_touserdata(L, -1);
+    }
+    lua_pop(L, 1);
+    lua_pushstring(L, "bufsiz");
+    lua_rawget(L, idx);
+    if (lua_type(L, -1) == LUA_TNUMBER)
+    {
+        bufsiz = (a_uint_t)lua_tointeger(L, -1);
+    }
+    lua_pop(L, 1);
     lua_pushstring(L, "pid");
     lua_rawget(L, idx);
     if (lua_type(L, -1) == LUA_TTABLE)
@@ -65,12 +81,20 @@ int fpid_from_(lua_State *L, int idx, a_fpid_s *ctx)
         pid_from_(L, -1, ctx->pid);
     }
     lua_pop(L, 1);
+    if (bufsiz)
+    {
+        if (!bufptr)
+        {
+            bufptr = l_malloc(L, A_FPID_BUF1(bufsiz));
+        }
+        a_fpid_buf1(ctx, bufptr, bufsiz);
+    }
     return 0;
 }
 
 int fpid_into_(lua_State *L, a_fpid_s *ctx)
 {
-    a_uint_t num = ctx->pid->reg >> A_PID_REG;
+    a_uint_t num = ctx->pid->reg >> A_PID_REG_BITS;
     SFnum fpid[] = {
         {"sigma", ctx->sigma},
         {"alpha", ctx->alpha},
@@ -89,6 +113,12 @@ int fpid_into_(lua_State *L, a_fpid_s *ctx)
     tablenum_set(L, -2, ctx->mki, num * num, num);
     lua_pushstring(L, "mkd");
     tablenum_set(L, -2, ctx->mkd, num * num, num);
+    lua_pushstring(L, "bufptr");
+    lua_pushlightuserdata(L, a_fpid_bufptr(ctx));
+    lua_rawset(L, -3);
+    lua_pushstring(L, "bufsiz");
+    lua_pushinteger(L, a_fpid_bufsiz(ctx));
+    lua_rawset(L, -3);
     lua_pushstring(L, "pid");
     pid_into_(L, ctx->pid);
     lua_rawset(L, -3);
@@ -140,6 +170,10 @@ static int fpid_init_(lua_State *L, a_fpid_s *ctx)
 {
     a_uint_t max = (a_uint_t)luaL_checkinteger(L, 1);
     lua_Number dt = luaL_checknumber(L, 2);
+    luaL_checktype(L, 3, LUA_TTABLE);
+    luaL_checktype(L, 4, LUA_TTABLE);
+    luaL_checktype(L, 5, LUA_TTABLE);
+    luaL_checktype(L, 6, LUA_TTABLE);
     lua_Number imin = luaL_checknumber(L, 7);
     lua_Number imax = luaL_checknumber(L, 8);
     lua_Number omin = luaL_checknumber(L, 9);
@@ -150,11 +184,10 @@ static int fpid_init_(lua_State *L, a_fpid_s *ctx)
     a_real_t *mki = tablenum_get(L, 5, 0);
     a_real_t *mkd = tablenum_get(L, 6, 0);
     a_fpid_init(ctx, dt, num, mmp, mkp, mki, mkd, imin, imax, omin, omax);
-    a_fpid_buf1(ctx, lua_newuserdata(L, A_FPID_BUF1(max)), max);
+    a_fpid_buf1(ctx, l_malloc(L, A_FPID_BUF1(max)), max);
     lua_type(L, 11) == LUA_TNUMBER
         ? a_fpid_pos(ctx, lua_tonumber(L, 11))
         : a_fpid_inc(ctx);
-    lua_pop(L, 1);
     return 1;
 }
 
@@ -303,8 +336,8 @@ int fpid_buff(lua_State *L)
     if (ctx)
     {
         a_uint_t max = (a_uint_t)luaL_checkinteger(L, -1);
-        a_fpid_buf1(ctx, lua_newuserdata(L, A_FPID_BUF1(max)), max);
-        lua_pop(L, 2);
+        a_fpid_buf1(ctx, l_malloc(L, A_FPID_BUF1(max)), max);
+        lua_pop(L, 1);
         return 1;
     }
     return 0;

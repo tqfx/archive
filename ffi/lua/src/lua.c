@@ -1,7 +1,7 @@
 #include "lua.h"
 
 A_ATTRIBUTE(unused)
-void lua_show(lua_State *L, int line)
+void l_stack(lua_State *L, int line)
 {
     char map[] = {'0', 'B', 'P', 'N', 'S', 'T', 'F', 'U', 'M'};
     int n = lua_gettop(L);
@@ -11,6 +11,21 @@ void lua_show(lua_State *L, int line)
         putchar(map[lua_type(L, i) % (int)sizeof(map)]);
         putchar(i != n ? ' ' : '\n');
     }
+}
+
+void *l_malloc(lua_State *L, size_t size)
+{
+    void *ptr = lua_newuserdata(L, size);
+    lua_pop(L, 1);
+    return ptr;
+}
+
+void *l_calloc(lua_State *L, size_t size)
+{
+    void *ptr = lua_newuserdata(L, size);
+    memset(ptr, 0, size);
+    lua_pop(L, 1);
+    return ptr;
 }
 
 lua_Number get_fnum(lua_State *L, int idx, const char *name)
@@ -229,9 +244,8 @@ lua_Number *tablenum_get(lua_State *L, int idx, size_t *num)
         *num = tablenum_len(L, idx);
         if (*num)
         {
-            ptr = (lua_Number *)lua_newuserdata(L, sizeof(lua_Number) * (size_t)*num);
-            tablenum_num(L, idx - 1, ptr);
-            lua_pop(L, 1);
+            ptr = (lua_Number *)l_malloc(L, sizeof(lua_Number) * (size_t)*num);
+            tablenum_num(L, idx, ptr);
         }
     }
     return ptr;

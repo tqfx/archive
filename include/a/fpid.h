@@ -63,6 +63,12 @@ typedef struct a_fpid_s
 extern "C" {
 #endif /* __cplusplus */
 
+a_fpid_s *a_fpid_set_bufsiz(a_fpid_s *ctx, a_uint_t num);
+a_uint_t a_fpid_bufsiz(a_fpid_s *ctx);
+a_vptr_t a_fpid_bufptr(a_fpid_s *ctx);
+a_fpid_s *a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
+a_uint_t a_fpid_col(a_fpid_s *ctx);
+
 /*!
  @brief turn off fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
@@ -227,6 +233,12 @@ A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
+
+#define a_fpid_set_bufsiz(ctx, val) ((ctx)->pid->num &= A_PID_NUM_MASK, (ctx)->pid->num |= (val) << A_PID_NUM_BITS, ctx)
+#define a_fpid_bufsiz(ctx) ((ctx)->pid->num >> A_PID_NUM_BITS)
+#define a_fpid_bufptr(ctx) a_cast_s(a_vptr_t, (ctx)->idx)
+#define a_fpid_set_col(ctx, val) ((ctx)->pid->reg &= A_PID_REG_MASK, (ctx)->pid->reg |= (val) << A_PID_REG_BITS, ctx)
+#define a_fpid_col(ctx) ((ctx)->pid->reg >> A_PID_REG_BITS)
 
 /*! @} A_FPID */
 

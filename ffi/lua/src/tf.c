@@ -25,11 +25,10 @@ int tf_from_(lua_State *L, int idx, a_tf_s *ctx)
     if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->m = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *num = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * ctx->m * 2);
-        arraynum_get(L, -2, num, ctx->m);
+        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * ctx->m * 2);
+        arraynum_get(L, -1, num, ctx->m);
         ctx->u = num + ctx->m;
         ctx->num = num;
-        lua_pop(L, 1);
     }
     lua_pop(L, 1);
     lua_pushstring(L, "den");
@@ -37,11 +36,10 @@ int tf_from_(lua_State *L, int idx, a_tf_s *ctx)
     if (lua_type(L, -1) == LUA_TTABLE)
     {
         ctx->n = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *den = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * ctx->n * 2);
-        arraynum_get(L, -2, den, ctx->n);
+        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * ctx->n * 2);
+        arraynum_get(L, -1, den, ctx->n);
         ctx->v = den + ctx->n;
         ctx->den = den;
-        lua_pop(L, 1);
     }
     lua_pop(L, 1);
     return 0;
@@ -114,10 +112,9 @@ int tf_new(lua_State *L)
         luaL_checktype(L, -1, LUA_TTABLE);
         luaL_checktype(L, -2, LUA_TTABLE);
         a_uint_t m = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *num = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * m * 2);
+        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * m * 2);
         a_uint_t n = (a_uint_t)lua_rawlen(L, -2);
-        a_real_t *den = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * n * 2);
-        lua_pop(L, 2);
+        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * n * 2);
         arraynum_get(L, -1, num, m);
         arraynum_get(L, -2, den, n);
         a_tf_s *ctx = (a_tf_s *)lua_newuserdata(L, sizeof(a_tf_s));
@@ -146,10 +143,9 @@ int tf_init(lua_State *L)
         luaL_checktype(L, -3, LUA_TUSERDATA);
         a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -3);
         a_uint_t m = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *num = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * m * 2);
+        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * m * 2);
         a_uint_t n = (a_uint_t)lua_rawlen(L, -2);
-        a_real_t *den = (a_real_t *)lua_newuserdata(L, sizeof(a_real_t) * n * 2);
-        lua_pop(L, 2);
+        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * n * 2);
         arraynum_get(L, -1, num, m);
         arraynum_get(L, -2, den, n);
         a_tf_init(ctx, m, num, num + m, n, den, den + n);

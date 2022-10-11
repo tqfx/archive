@@ -114,7 +114,7 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
     case 7: /* dt, kp, ki, kd, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 7);
-        a_pid_mode(ctx, A_PID_POS);
+        a_pid_set_reg(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
     case 6: /* dt, kp, ki, kd, outmin, outmax */
@@ -125,25 +125,25 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
         a_real_t ki = luaL_checknumber(L, 3);
         a_real_t kp = luaL_checknumber(L, 2);
         a_pid_kpid(ctx, kp, ki, kd);
-        if ((ctx->reg & ((1U << A_PID_REG) - 1)) != A_PID_POS)
+        if (a_pid_reg(ctx) != A_PID_POS)
         {
-            a_pid_mode(ctx, A_PID_INC);
+            a_pid_set_reg(ctx, A_PID_INC);
         }
     }
     break;
     case 4: /* dt, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 4);
-        a_pid_mode(ctx, A_PID_POS);
+        a_pid_set_reg(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
     case 3: /* dt, outmin, outmax */
     {
         ctx->outmax = luaL_checknumber(L, 3);
         ctx->outmin = luaL_checknumber(L, 2);
-        if ((ctx->reg & ((1U << A_PID_REG) - 1)) != A_PID_POS)
+        if (a_pid_reg(ctx) != A_PID_POS)
         {
-            a_pid_mode(ctx, A_PID_INC);
+            a_pid_set_reg(ctx, A_PID_INC);
         }
     }
     break;

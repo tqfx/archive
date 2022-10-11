@@ -6,9 +6,9 @@
 
 #include "pid.h"
 
-a_pid_s *a_pid_off(a_pid_s *ctx) { return a_pid_mode(ctx, A_PID_OFF); }
+a_pid_s *a_pid_off(a_pid_s *ctx) { return a_pid_set_reg(ctx, A_PID_OFF); }
 
-a_pid_s *a_pid_inc(a_pid_s *ctx) { return a_pid_mode(ctx, A_PID_INC); }
+a_pid_s *a_pid_inc(a_pid_s *ctx) { return a_pid_set_reg(ctx, A_PID_INC); }
 
 a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
 {
@@ -17,12 +17,13 @@ a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
     {
         ctx->summax = ctx->outmax;
     }
-    return a_pid_mode(ctx, A_PID_POS);
+    return a_pid_set_reg(ctx, A_PID_POS);
 }
 
 a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t reg)
 {
-    ctx->reg = (~((1U << A_PID_REG) - 1) & ctx->reg) | reg;
+    ctx->reg &= ~A_PID_REG_MASK;
+    ctx->reg |= reg;
     return ctx;
 }
 
@@ -45,7 +46,7 @@ a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
 
 a_pid_s *a_pid_setv(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e)
 {
-    ctx->num = num;
+    a_pid_set_num(ctx, num);
     ctx->out.v = out;
     ctx->fdb.v = fdb;
     ctx->sum.v = sum;
@@ -72,7 +73,8 @@ a_pid_s *a_pid_exit(a_pid_s *ctx) { return a_pid_zero(ctx); }
 
 a_pid_s *a_pid_zero(a_pid_s *ctx)
 {
-    for (a_uint_t i = 0; i != ctx->num; ++i)
+    a_uint_t num = a_pid_num(ctx);
+    for (a_uint_t i = 0; i != num; ++i)
     {
         ctx->sum.v[i] = 0;
         ctx->out.v[i] = 0;
@@ -80,7 +82,7 @@ a_pid_s *a_pid_zero(a_pid_s *ctx)
         ctx->ec.v[i] = 0;
         ctx->e.v[i] = 0;
     }
-    if (ctx->num == 0)
+    if (num == 0)
     {
         ctx->out.x = 0;
         ctx->sum.x = 0;
@@ -195,18 +197,48 @@ a_real_t a_pid_cc_x(a_pid_s *ctx, a_real_t set, a_real_t fdb)
 {
     a_real_t e = set - fdb;
     a_real_t ec = e - ctx->e.x;
-    a_uint_t mode = ctx->reg & ((1U << A_PID_REG) - 1);
-    return a_pid_cc_x_(ctx, mode, set, fdb, ec, e);
+    return a_pid_cc_x_(ctx, a_pid_reg(ctx), set, fdb, ec, e);
 }
 
 a_real_t *a_pid_cc_v(a_pid_s *ctx, a_real_t *set, a_real_t *fdb)
 {
-    a_uint_t mode = ctx->reg & ((1U << A_PID_REG) - 1);
-    for (a_uint_t i = 0; i != ctx->num; ++i)
+    a_uint_t reg = a_pid_reg(ctx);
+    a_uint_t num = a_pid_num(ctx);
+    for (a_uint_t i = 0; i != num; ++i)
     {
         a_real_t e = set[i] - fdb[i];
         a_real_t ec = e - ctx->e.v[i];
-        a_pid_cc_v_(ctx, mode, set[i], fdb[i], ec, e, i);
+        a_pid_cc_v_(ctx, reg, set[i], fdb[i], ec, e, i);
     }
     return ctx->out.v;
+}
+
+#undef a_pid_set_num
+a_pid_s *a_pid_set_num(a_pid_s *ctx, a_uint_t num)
+{
+    ctx->num &= ~A_PID_NUM_MASK;
+    num &= A_PID_NUM_MASK;
+    ctx->num |= num;
+    return ctx;
+}
+
+#undef a_pid_num
+a_uint_t a_pid_num(a_pid_s *ctx)
+{
+    return ctx->num & A_PID_NUM_MASK;
+}
+
+#undef a_pid_set_reg
+a_pid_s *a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
+{
+    ctx->reg &= ~A_PID_REG_MASK;
+    reg &= A_PID_REG_MASK;
+    ctx->reg |= reg;
+    return ctx;
+}
+
+#undef a_pid_reg
+a_uint_t a_pid_reg(a_pid_s *ctx)
+{
+    return ctx->reg & A_PID_REG_MASK;
 }

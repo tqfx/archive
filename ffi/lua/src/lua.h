@@ -20,7 +20,7 @@
 #endif /* LUA_VERSION_NUM */
 
 #define Larray(A) (sizeof(A) / sizeof(*A))
-#define Lstack(L) lua_show(L, __LINE__)
+#define Lstack(L) l_stack(L, __LINE__)
 
 typedef struct
 {
@@ -70,7 +70,9 @@ typedef struct
 extern "C" {
 #endif /* __cplusplus */
 
-void lua_show(lua_State *L, int line);
+void l_stack(lua_State *L, int line);
+void *l_malloc(lua_State *L, size_t size);
+void *l_calloc(lua_State *L, size_t size);
 
 lua_Integer get_enum(lua_State *L, int idx, const char *name);
 void set_enum(lua_State *L, int idx, const char *name, lua_Integer data);
