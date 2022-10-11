@@ -296,11 +296,10 @@ a_real_t *a_fpid_cc_v(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb)
 }
 
 #undef a_fpid_set_bufsiz
-a_fpid_s *a_fpid_set_bufsiz(a_fpid_s *ctx, a_uint_t num)
+a_void_t a_fpid_set_bufsiz(a_fpid_s *ctx, a_uint_t num)
 {
     ctx->pid->num &= A_PID_NUM_MASK;
     ctx->pid->num |= num << A_PID_NUM_BITS;
-    return ctx;
 }
 
 #undef a_fpid_bufsiz
@@ -316,11 +315,10 @@ a_vptr_t a_fpid_bufptr(a_fpid_s *ctx)
 }
 
 #undef a_fpid_set_col
-a_fpid_s *a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
+a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
 {
     ctx->pid->reg &= A_PID_REG_MASK;
     ctx->pid->reg |= reg << A_PID_REG_BITS;
-    return ctx;
 }
 
 #undef a_fpid_col

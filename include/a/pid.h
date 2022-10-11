@@ -94,9 +94,9 @@ typedef struct a_pid_s
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC a_pid_s *a_pid_set_num(a_pid_s *ctx, a_uint_t num);
+A_PUBLIC a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
 A_PUBLIC a_uint_t a_pid_num(a_pid_s *ctx);
-A_PUBLIC a_pid_s *a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
+A_PUBLIC a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
 A_PUBLIC a_uint_t a_pid_reg(a_pid_s *ctx);
 
 /*!
@@ -201,9 +201,9 @@ A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#define a_pid_set_num(ctx, val) ((ctx)->num &= ~A_PID_NUM_MASK, (ctx)->num |= val & A_PID_NUM_MASK, ctx)
+#define a_pid_set_num(ctx, val) ((ctx)->num &= ~A_PID_NUM_MASK, (ctx)->num |= val & A_PID_NUM_MASK)
 #define a_pid_num(ctx) ((ctx)->num & A_PID_NUM_MASK)
-#define a_pid_set_reg(ctx, val) ((ctx)->reg &= ~A_PID_REG_MASK, (ctx)->reg |= val & A_PID_REG_MASK, ctx)
+#define a_pid_set_reg(ctx, val) ((ctx)->reg &= ~A_PID_REG_MASK, (ctx)->reg |= val & A_PID_REG_MASK)
 #define a_pid_reg(ctx) ((ctx)->reg & A_PID_REG_MASK)
 
 /*! @} A_PID */

@@ -6,9 +6,17 @@
 
 #include "pid.h"
 
-a_pid_s *a_pid_off(a_pid_s *ctx) { return a_pid_set_reg(ctx, A_PID_OFF); }
+a_pid_s *a_pid_off(a_pid_s *ctx)
+{
+    a_pid_set_reg(ctx, A_PID_OFF);
+    return ctx;
+}
 
-a_pid_s *a_pid_inc(a_pid_s *ctx) { return a_pid_set_reg(ctx, A_PID_INC); }
+a_pid_s *a_pid_inc(a_pid_s *ctx)
+{
+    a_pid_set_reg(ctx, A_PID_INC);
+    return ctx;
+}
 
 a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
 {
@@ -17,7 +25,8 @@ a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
     {
         ctx->summax = ctx->outmax;
     }
-    return a_pid_set_reg(ctx, A_PID_POS);
+    a_pid_set_reg(ctx, A_PID_POS);
+    return ctx;
 }
 
 a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t reg)
@@ -214,12 +223,10 @@ a_real_t *a_pid_cc_v(a_pid_s *ctx, a_real_t *set, a_real_t *fdb)
 }
 
 #undef a_pid_set_num
-a_pid_s *a_pid_set_num(a_pid_s *ctx, a_uint_t num)
+a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num)
 {
     ctx->num &= ~A_PID_NUM_MASK;
-    num &= A_PID_NUM_MASK;
-    ctx->num |= num;
-    return ctx;
+    ctx->num |= num & A_PID_NUM_MASK;
 }
 
 #undef a_pid_num
@@ -229,12 +236,10 @@ a_uint_t a_pid_num(a_pid_s *ctx)
 }
 
 #undef a_pid_set_reg
-a_pid_s *a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
+a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
 {
     ctx->reg &= ~A_PID_REG_MASK;
-    reg &= A_PID_REG_MASK;
-    ctx->reg |= reg;
-    return ctx;
+    ctx->reg |= reg & A_PID_REG_MASK;
 }
 
 #undef a_pid_reg
