@@ -2,8 +2,8 @@
 include(${CMAKE_CURRENT_LIST_DIR}/core.cmake)
 
 macro(sanitize_flag)
-  list_append(CFLAGS ${ARGN})
-  list_append(CXXFLAGS ${ARGN})
+  list_append(CFLAGS_SANITIZE ${ARGN})
+  list_append(CXXFLAGS_SANITIZE ${ARGN})
 endmacro()
 
 if(
@@ -15,19 +15,19 @@ if(
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
 )
   sanitize_flag(-fsanitize=address)
-  check_flag_cx(-fsanitize=undefined)
-  check_flag_cx(-fno-omit-frame-pointer)
-  check_flag_cx(-fsanitize-recover=address)
+  sanitize_flag_cx(-fsanitize=undefined)
+  sanitize_flag_cx(-fno-omit-frame-pointer)
+  sanitize_flag_cx(-fsanitize-recover=address)
 
   if(NOT(
     "${CMAKE_C_COMPILER_ID}" MATCHES "Apple[Cc]lang" OR
     "${CMAKE_CXX_COMPILER_ID}" MATCHES "Apple[Cc]lang"
     ))
-    check_flag_cx(-fsanitize=leak)
+    sanitize_flag_cx(-fsanitize=leak)
   endif()
 elseif(
   "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
 )
-  check_flag_cx(/fsanitize=address)
+  sanitize_flag_cx(/fsanitize=address)
 endif()

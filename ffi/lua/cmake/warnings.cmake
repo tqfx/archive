@@ -7,6 +7,6 @@ if(
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "(ARM|Apple)?[Cc]lang" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
 )
-  check_flag_cx(-Wno-documentation)
-  check_flag_cx(-Wno-documentation-unknown-command)
+  warnings_flag_cx(-Wno-documentation)
+  warnings_flag_cx(-Wno-documentation-unknown-command)
 endif()

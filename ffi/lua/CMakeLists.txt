@@ -45,10 +45,10 @@ function(create_ldoc target)
   )
 endfunction()
 
-if(ENABLE_LDOC)
+if(ENABLE_LDOC AND LDOC_EXECUTABLE)
   create_ldoc(a-ldoc -f markdown ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()
 
-if(NOT ENABLE_SANITIZE)
+if(NOT LUA_FOUND OR NOT ENABLE_SANITIZE)
   include(test.cmake)
 endif()

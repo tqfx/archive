@@ -1,8 +1,11 @@
-option(ENABLE_LUA "Enable ffi lua" OFF)
 option(ENABLE_LDOC "Enable ffi lua documentation" OFF)
+option(ENABLE_LUA "Enable ffi lua" OFF)
+option(WITH_LUA "Build with lua" OFF)
 
 if(ENABLE_LUA)
-  find_package(Lua 5.2)
+  if(NOT WITH_LUA)
+    find_package(Lua)
+  endif()
 
   if(LUA_FOUND)
     if(NOT LUA_MATH_LIBRARY AND ANDROID)
@@ -10,6 +13,8 @@ if(ENABLE_LUA)
     endif()
   else()
     add_subdirectory(lua/cmake)
+    target_compile_sanitize(PUBLIC lua-shared)
+    target_link_sanitize(PUBLIC lua-shared lua-static)
   endif()
 
   add_subdirectory(lua)

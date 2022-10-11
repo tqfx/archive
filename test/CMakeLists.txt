@@ -2,31 +2,20 @@ if(
   "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
 )
-  foreach(v /W4 /sdl)
-    string_append(CMAKE_C_FLAGS ${v})
-    string_append(CMAKE_CXX_FLAGS ${v})
-  endforeach()
+  string_append(CMAKE_C_FLAGS /W4 /sdl)
+  string_append(CMAKE_CXX_FLAGS /W4 /sdl)
 else()
-  foreach(v -Wall -Wextra -Wpedantic)
-    string_append(CMAKE_C_FLAGS ${v})
-    string_append(CMAKE_CXX_FLAGS ${v})
-  endforeach()
-
-  string_append(CMAKE_CXX_FLAGS -Weffc++)
+  string_append(CMAKE_C_FLAGS -Wall -Wextra -Wpedantic)
+  string_append(CMAKE_CXX_FLAGS -Wall -Wextra -Wpedantic -Weffc++)
 endif()
 
-foreach(v ${CFLAGS})
-  string_append(CMAKE_C_FLAGS ${v})
-endforeach()
+string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
+string_append(CMAKE_CXX_FLAGS ${CXXFLAGS_WARNINGS} ${CXXFLAGS_SANITIZE})
 
-foreach(v ${CXXFLAGS})
-  string_append(CMAKE_CXX_FLAGS ${v})
-endforeach()
-
-if(ANDROID)
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-else()
+if(NOT ANDROID)
   set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_PIC})
+else()
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 if(CMAKE_VERSION VERSION_GREATER 3.13)
