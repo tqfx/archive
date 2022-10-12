@@ -10,6 +10,8 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
+#include <inttypes.h>
+#include <stdlib.h>
 #include <string.h>
 
 #if (LUA_VERSION_NUM <= 501)
@@ -21,6 +23,11 @@
 
 #define Larray(A) (sizeof(A) / sizeof(*A))
 #define Lstack(L) l_stack(L, __LINE__)
+#define LNAME "__name"
+#define LNEW "__call"
+#define LDIE "__gc"
+#define LSET "__newindex"
+#define LGET "__index"
 
 typedef struct
 {
@@ -70,8 +77,13 @@ typedef struct
 extern "C" {
 #endif /* __cplusplus */
 
+void *l_cmalloc(size_t siz);
+void *l_realloc(const void *ptr, size_t siz);
+void l_dealloc(const void *var);
+
 uint32_t l_hashs(const void *s);
 void l_stack(lua_State *L, int line);
+int l_field(lua_State *L, const char *i, const char *s, uint32_t v);
 void *l_malloc(lua_State *L, size_t size);
 void *l_calloc(lua_State *L, size_t size);
 

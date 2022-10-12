@@ -17,83 +17,22 @@ int tf_func_(lua_State *L)
     return 1;
 }
 
-int tf_from_(lua_State *L, int idx, a_tf_s *ctx)
-{
-    idx = idx < 0 ? idx - 1 : idx;
-    lua_pushstring(L, "num");
-    lua_rawget(L, idx);
-    if (lua_type(L, -1) == LUA_TTABLE)
-    {
-        ctx->m = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * ctx->m * 2);
-        arraynum_get(L, -1, num, ctx->m);
-        ctx->u = num + ctx->m;
-        ctx->num = num;
-    }
-    lua_pop(L, 1);
-    lua_pushstring(L, "den");
-    lua_rawget(L, idx);
-    if (lua_type(L, -1) == LUA_TTABLE)
-    {
-        ctx->n = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * ctx->n * 2);
-        arraynum_get(L, -1, den, ctx->n);
-        ctx->v = den + ctx->n;
-        ctx->den = den;
-    }
-    lua_pop(L, 1);
-    return 0;
-}
-
-int tf_into_(lua_State *L, a_tf_s *ctx)
-{
-    SFnums tf[] = {
-        {"num", ctx->num, ctx->m},
-        {"den", ctx->den, ctx->n},
-        {NULL, NULL, 0},
-    };
-    lua_createtable(L, 0, Larray(tf) - 1);
-    arraynum_sets(L, -1, tf);
-    return 1;
-}
-
 /***
- convert transfer function userdata from table
- @param[opt] ctx transfer function userdata
- @tparam table tab transfer function table
- @treturn tf transfer function userdata
- @function from
-*/
-int tf_from(lua_State *L)
-{
-    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -2);
-    if (ctx)
-    {
-        lua_pushvalue(L, -2);
-        lua_remove(L, -3);
-    }
-    else
-    {
-        ctx = (a_tf_s *)lua_newuserdata(L, sizeof(a_tf_s));
-    }
-    tf_meta_(L);
-    lua_setmetatable(L, -2);
-    tf_from_(L, -2, ctx);
-    return 1;
-}
-
-/***
- convert transfer function userdata into table
+ destructor for transfer function
  @param ctx transfer function userdata
- @treturn table transfer function table
- @function into
+ @function die
 */
-int tf_into(lua_State *L)
+int tf_die(lua_State *L)
 {
-    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -1);
+    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
     if (ctx)
     {
-        return tf_into_(L, ctx);
+        l_dealloc(&ctx->num);
+        l_dealloc(&ctx->den);
+        ctx->u = 0;
+        ctx->m = 0;
+        ctx->v = 0;
+        ctx->n = 0;
     }
     return 0;
 }
@@ -112,9 +51,9 @@ int tf_new(lua_State *L)
         luaL_checktype(L, -1, LUA_TTABLE);
         luaL_checktype(L, -2, LUA_TTABLE);
         a_uint_t m = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * m * 2);
+        a_real_t *num = (a_real_t *)l_cmalloc(sizeof(a_real_t) * m * 2);
         a_uint_t n = (a_uint_t)lua_rawlen(L, -2);
-        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * n * 2);
+        a_real_t *den = (a_real_t *)l_cmalloc(sizeof(a_real_t) * n * 2);
         arraynum_get(L, -1, num, m);
         arraynum_get(L, -2, den, n);
         a_tf_s *ctx = (a_tf_s *)lua_newuserdata(L, sizeof(a_tf_s));
@@ -143,9 +82,9 @@ int tf_init(lua_State *L)
         luaL_checktype(L, -3, LUA_TUSERDATA);
         a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -3);
         a_uint_t m = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * m * 2);
+        a_real_t *num = (a_real_t *)l_cmalloc(sizeof(a_real_t) * m * 2);
         a_uint_t n = (a_uint_t)lua_rawlen(L, -2);
-        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * n * 2);
+        a_real_t *den = (a_real_t *)l_cmalloc(sizeof(a_real_t) * n * 2);
         arraynum_get(L, -1, num, m);
         arraynum_get(L, -2, den, n);
         a_tf_init(ctx, m, num, num + m, n, den, den + n);
@@ -169,7 +108,6 @@ int tf_proc(lua_State *L)
     {
         a_real_t x = luaL_checknumber(L, -1);
         lua_pushnumber(L, a_tf_proc(ctx, x));
-        lua_pop(L, 2);
         return 1;
     }
     return 0;
@@ -192,53 +130,85 @@ int tf_zero(lua_State *L)
     return 0;
 }
 
-static int tf_newindex(lua_State *L)
+static int tf_set(lua_State *L)
 {
     a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
-    switch (l_hashs(field))
+    uint32_t hash = l_hashs(field);
+    switch (hash)
     {
     case 0x001D0A2A: /* num */
-    {
         luaL_checktype(L, 3, LUA_TTABLE);
         a_uint_t m = (a_uint_t)lua_rawlen(L, 3);
-        a_real_t *num = (a_real_t *)l_malloc(L, sizeof(a_real_t) * m * 2);
+        a_real_t *num = (a_real_t *)l_realloc(ctx->num, sizeof(a_real_t) * m * 2);
         arraynum_get(L, 3, num, m);
         ctx->u = num + m;
         ctx->num = num;
         ctx->m = m;
-    }
-    break;
+        break;
     case 0x001A63A1: /* den */
-    {
         luaL_checktype(L, 3, LUA_TTABLE);
         a_uint_t n = (a_uint_t)lua_rawlen(L, 3);
-        a_real_t *den = (a_real_t *)l_malloc(L, sizeof(a_real_t) * n * 2);
+        a_real_t *den = (a_real_t *)l_realloc(ctx->den, sizeof(a_real_t) * n * 2);
         arraynum_get(L, 3, den, n);
         ctx->v = den + n;
         ctx->den = den;
         ctx->n = n;
-    }
-    break;
+        break;
     default:
-        return luaL_error(L, "field '%s' missing in date table", field);
+        return l_field(L, "setter", field, hash);
     }
     return 0;
+}
+
+static int tf_get(lua_State *L)
+{
+    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
+    const char *field = lua_tostring(L, 2);
+    uint32_t hash = l_hashs(field);
+    switch (hash)
+    {
+    case 0x001D0A2A: /* num */
+        lua_createtable(L, (int)ctx->m, 0);
+        arraynum_set(L, -1, ctx->num, ctx->m);
+        break;
+    case 0x001A63A1: /* den */
+        lua_createtable(L, (int)ctx->n, 0);
+        arraynum_set(L, -1, ctx->den, ctx->n);
+        break;
+    case 0x001D0204: /* new */
+        lua_pushcfunction(L, tf_new);
+        break;
+    case 0x001A65A4: /* die */
+        lua_pushcfunction(L, tf_die);
+        break;
+    case 0x0E2ED8A0: /* init */
+        lua_pushcfunction(L, tf_init);
+        break;
+    case 0x0F200702: /* proc */
+        lua_pushcfunction(L, tf_proc);
+        break;
+    case 0x1073A930: /* zero */
+        lua_pushcfunction(L, tf_zero);
+        break;
+    default:
+        return l_field(L, "getter", field, hash);
+    }
+    return 1;
 }
 
 int luaopen_liba_tf(lua_State *L)
 {
     const SFunc funcs[] = {
-        {"from", tf_from},
-        {"into", tf_into},
         {"init", tf_init},
         {"proc", tf_proc},
         {"zero", tf_zero},
         {"new", tf_new},
+        {"die", tf_die},
         {NULL, NULL},
     };
     const SFunc metas[] = {
-        {"__call", tf_new},
+        {LNEW, tf_new},
         {NULL, NULL},
     };
     lua_createtable(L, 0, Larray(funcs) - 1);
@@ -247,12 +217,11 @@ int luaopen_liba_tf(lua_State *L)
     set_funcs(L, -1, metas);
     lua_setmetatable(L, -2);
 
-    lua_createtable(L, 0, 3);
-    set_func(L, -1, "__newindex", tf_newindex);
-    set_func(L, -1, "__call", tf_proc);
-    lua_pushstring(L, "__index");
-    lua_pushvalue(L, -3);
-    lua_rawset(L, -3);
+    lua_createtable(L, 0, 4);
+    set_func(L, -1, LNEW, tf_proc);
+    set_func(L, -1, LDIE, tf_die);
+    set_func(L, -1, LSET, tf_set);
+    set_func(L, -1, LGET, tf_get);
 
     lua_rawsetp(L, LUA_REGISTRYINDEX, TF_META_);
     lua_rawsetp(L, LUA_REGISTRYINDEX, TF_FUNC_);

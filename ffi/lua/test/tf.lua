@@ -9,19 +9,17 @@ local num = {6.59492796e-05, 6.54019884e-05}
 local den = {-1.97530991, 0.97530991}
 
 ctx = a.tf.new(num, den)
-assert(a.tf.proc(ctx, 1))
-assert(a.tf:proc(ctx, 1))
-assert(a.tf.zero(ctx))
-assert(a.tf:zero(ctx))
-tab = a.tf.into(ctx)
-ctx = a.tf.from(tab)
-tab = a.tf:into(ctx)
-ctx = a.tf:from(tab)
 test:r(getmetatable(ctx))
+assert(type(a.tf.proc(ctx, 1)) == 'number')
+assert(type(a.tf:proc(ctx, 1)) == 'number')
+assert(type(a.tf.zero(ctx)) == 'userdata')
+assert(type(a.tf:zero(ctx)) == 'userdata')
 ctx = a:tf(num, den)
-assert(ctx.proc(ctx, 1))
-assert(ctx.zero(ctx))
-assert(ctx:proc(1))
-assert(ctx:zero())
-ctx.num={1,2}
-ctx.den={3,4}
+assert(type(ctx.proc(ctx, 1)) == 'number')
+assert(type(ctx.zero(ctx)) == 'userdata')
+assert(type(ctx:proc(1)) == 'number')
+assert(type(ctx:zero()) == 'userdata')
+ctx.num = {1, 2}
+assert(type(ctx.num) == 'table')
+ctx.den = {3, 4}
+assert(type(ctx.den) == 'table')

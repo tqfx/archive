@@ -10,6 +10,13 @@ uint32_t l_hashs(const void *s)
     return x;
 }
 
+int l_field(lua_State *L, const char *i, const char *s, uint32_t v)
+{
+    char h[11];
+    sprintf(h, "0x%08" PRIX32, v);
+    return luaL_error(L, "field(%s) '%s' missing in %s", h, s, i);
+}
+
 A_ATTRIBUTE(unused)
 void l_stack(lua_State *L, int line)
 {
@@ -36,6 +43,23 @@ void *l_calloc(lua_State *L, size_t size)
     memset(ptr, 0, size);
     lua_pop(L, 1);
     return ptr;
+}
+
+void *l_cmalloc(size_t siz)
+{
+    return calloc(sizeof(char), siz);
+}
+
+void *l_realloc(const void *ptr, size_t siz)
+{
+    return realloc((void *)(intptr_t)ptr, siz);
+}
+
+void l_dealloc(const void *var)
+{
+    void **ptr = (void **)(intptr_t)var;
+    free(*ptr);
+    *ptr = 0;
 }
 
 lua_Number get_fnum(lua_State *L, int idx, const char *name)

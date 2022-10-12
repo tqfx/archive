@@ -16,25 +16,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int tf_from_(lua_State *L, int idx, a_tf_s *ctx);
-int tf_into_(lua_State *L, a_tf_s *ctx);
 int tf_meta_(lua_State *L);
 int tf_func_(lua_State *L);
-
-/***
- convert transfer function userdata from table
- @tparam table tab transfer function table
- @treturn tf transfer function userdata
- @function from
-*/
-int tf_from(lua_State *L);
-
-/***
- convert transfer function userdata into table
- @treturn table transfer function table
- @function into
-*/
-int tf_into(lua_State *L);
 
 /***
  constructor for transfer function
@@ -44,6 +27,13 @@ int tf_into(lua_State *L);
  @function new
 */
 int tf_new(lua_State *L);
+
+/***
+ destructor for transfer function
+ @param ctx transfer function userdata
+ @function die
+*/
+int tf_die(lua_State *L);
 
 /***
  initialize function for transfer function
