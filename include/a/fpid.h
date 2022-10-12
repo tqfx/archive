@@ -63,11 +63,11 @@ typedef struct a_fpid_s
 extern "C" {
 #endif /* __cplusplus */
 
-a_void_t a_fpid_set_bufsiz(a_fpid_s *ctx, a_uint_t num);
-a_uint_t a_fpid_bufsiz(a_fpid_s *ctx);
-a_vptr_t a_fpid_bufptr(a_fpid_s *ctx);
+a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num);
+a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
+a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
 a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
-a_uint_t a_fpid_col(a_fpid_s *ctx);
+a_uint_t a_fpid_col(const a_fpid_s *ctx);
 
 /*!
  @brief turn off fuzzy PID controller
@@ -89,23 +89,6 @@ A_PUBLIC a_fpid_s *a_fpid_inc(a_fpid_s *ctx);
 A_PUBLIC a_fpid_s *a_fpid_pos(a_fpid_s *ctx, a_real_t max);
 
 /*!
- @brief set register for fuzzy PID controller directly
- @param[in,out] ctx points to an instance of fuzzy PID controller
- @param[in] reg enumeration for fuzzy PID controller register
-  @arg @ref A_PID_OFF turn off fuzzy PID controller
-  @arg @ref A_PID_POS positional fuzzy PID controller
-  @arg @ref A_PID_INC incremental fuzzy PID controller
-*/
-A_PUBLIC a_fpid_s *a_fpid_mode(a_fpid_s *ctx, a_uint_t reg);
-
-/*!
- @brief set sampling period for fuzzy PID controller
- @param[in,out] ctx points to an instance of fuzzy PID controller
- @param[in] dt sampling time unit(s)
-*/
-A_PUBLIC a_fpid_s *a_fpid_time(a_fpid_s *ctx, a_real_t dt);
-
-/*!
  @brief set input extreme value for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
  @param[in] min mininum input
@@ -121,7 +104,6 @@ A_PUBLIC a_fpid_s *a_fpid_ilim(a_fpid_s *ctx, a_real_t min, a_real_t max);
 */
 A_PUBLIC a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max);
 
-A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
 /*!
  @brief set one cache buffer for fuzzy PID controller
  @param[in,out] ctx points to an instance of fuzzy PID controller
@@ -129,6 +111,7 @@ A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
  @param[in] max the maximum number triggered by the rule
 */
 A_PUBLIC a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max);
+A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
 #define A_FPID_BUF1(N) (sizeof(a_uint_t) * 2 * (N) + sizeof(a_real_t) * (N) * ((N) + 2))
 
 /*!
@@ -234,9 +217,9 @@ A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#define a_fpid_set_bufsiz(ctx, val) ((ctx)->pid->num &= A_PID_NUM_MASK, (ctx)->pid->num |= (val) << A_PID_NUM_BITS)
-#define a_fpid_bufsiz(ctx) ((ctx)->pid->num >> A_PID_NUM_BITS)
-#define a_fpid_bufptr(ctx) a_cast_s(a_vptr_t, (ctx)->idx)
+#define a_fpid_set_bufnum(ctx, val) ((ctx)->pid->num &= A_PID_NUM_MASK, (ctx)->pid->num |= (val) << A_PID_NUM_BITS)
+#define a_fpid_bufnum(ctx) ((ctx)->pid->num >> A_PID_NUM_BITS)
+#define a_fpid_bufptr(ctx) ((ctx)->idx)
 #define a_fpid_set_col(ctx, val) ((ctx)->pid->reg &= A_PID_REG_MASK, (ctx)->pid->reg |= (val) << A_PID_REG_BITS)
 #define a_fpid_col(ctx) ((ctx)->pid->reg >> A_PID_REG_BITS)
 

@@ -73,12 +73,6 @@ done:
     return num;
 }
 
-#undef A_FPID_BUF1
-a_size_t A_FPID_BUF1(a_uint_t max)
-{
-    return sizeof(a_uint_t) * (max << 1) + sizeof(a_real_t) * (max + 2) * max;
-}
-
 a_fpid_s *a_fpid_off(a_fpid_s *ctx)
 {
     a_pid_off(ctx->pid);
@@ -97,18 +91,6 @@ a_fpid_s *a_fpid_pos(a_fpid_s *ctx, a_real_t max)
     return ctx;
 }
 
-a_fpid_s *a_fpid_mode(a_fpid_s *ctx, a_uint_t reg)
-{
-    a_pid_mode(ctx->pid, reg);
-    return ctx;
-}
-
-a_fpid_s *a_fpid_time(a_fpid_s *ctx, a_real_t dt)
-{
-    a_pid_time(ctx->pid, dt);
-    return ctx;
-}
-
 a_fpid_s *a_fpid_ilim(a_fpid_s *ctx, a_real_t min, a_real_t max)
 {
     a_real_t x = (a_real_t)(((ctx->pid->reg >> A_PID_REG_BITS) - 1) >> 1 << 1);
@@ -120,12 +102,14 @@ a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max)
 {
     a_real_t x = (a_real_t)(((ctx->pid->reg >> A_PID_REG_BITS) - 1) >> 1 << 1);
     ctx->alpha = (max - min) / x;
+    ctx->pid->outmax = max;
+    ctx->pid->outmin = min;
     return ctx;
 }
 
 a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max)
 {
-    a_fpid_set_bufsiz(ctx, (a_uint_t)max);
+    a_fpid_set_bufnum(ctx, (a_uint_t)max);
     max <<= 1;
     ctx->idx = (a_uint_t *)ptr;
     ptr = (a_byte_t *)ptr + sizeof(a_uint_t) * max;
@@ -295,21 +279,27 @@ a_real_t *a_fpid_cc_v(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb)
     return ctx->pid->out.v;
 }
 
-#undef a_fpid_set_bufsiz
-a_void_t a_fpid_set_bufsiz(a_fpid_s *ctx, a_uint_t num)
+#undef A_FPID_BUF1
+a_size_t A_FPID_BUF1(a_uint_t max)
+{
+    return sizeof(a_uint_t) * (max << 1) + sizeof(a_real_t) * (max + 2) * max;
+}
+
+#undef a_fpid_set_bufnum
+a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num)
 {
     ctx->pid->num &= A_PID_NUM_MASK;
     ctx->pid->num |= num << A_PID_NUM_BITS;
 }
 
-#undef a_fpid_bufsiz
-a_uint_t a_fpid_bufsiz(a_fpid_s *ctx)
+#undef a_fpid_bufnum
+a_uint_t a_fpid_bufnum(const a_fpid_s *ctx)
 {
     return ctx->pid->num >> A_PID_NUM_BITS;
 }
 
 #undef a_fpid_bufptr
-a_vptr_t a_fpid_bufptr(a_fpid_s *ctx)
+a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
 {
     return ctx->idx;
 }
@@ -322,7 +312,7 @@ a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
 }
 
 #undef a_fpid_col
-a_uint_t a_fpid_col(a_fpid_s *ctx)
+a_uint_t a_fpid_col(const a_fpid_s *ctx)
 {
     return ctx->pid->reg >> A_PID_REG_BITS;
 }

@@ -89,16 +89,6 @@ A_PUBLIC a_void_t a_polytrack3_init2(a_polytrack3_s *ctx, const a_real_t source[
 
 /*!
  @brief initialize function for cubic polynomial trajectory
- @f{aligned}{
-  \left\{\begin{array}{l}
-  t=t_{1}-t_{0}\\
-  q=q_{1}-q_{0}\\
-  k_{0}=q_{0}\\
-  k_{1}=v_{0}\\
-  k_{2}=\cfrac{\left(-2\,v_{0}-v_{1}\right)\,t+3\,q}{t^2}\\
-  k_{3}=\cfrac{\left(v_{0}+v_{1}\right)\,t-2\,q}{t^3}
-  \end{array}\right.
- @f}
  @param[in,out] ctx points to an instance of cubic polynomial trajectory
  @param[in] t0 time for source
  @param[in] t1 time for target
@@ -111,6 +101,22 @@ A_PUBLIC a_void_t a_polytrack3_init(a_polytrack3_s *ctx,
                                     a_real_t t0, a_real_t t1,
                                     a_real_t q0, a_real_t q1,
                                     a_real_t v0, a_real_t v1);
+
+/*!
+ @brief generation function for cubic polynomial trajectory
+ @f{aligned}{
+  \left\{\begin{array}{l}
+  t=t_{1}-t_{0}\\
+  q=q_{1}-q_{0}\\
+  k_{0}=q_{0}\\
+  k_{1}=v_{0}\\
+  k_{2}=\cfrac{\left(-2\,v_{0}-v_{1}\right)\,t+3\,q}{t^2}\\
+  k_{3}=\cfrac{\left(v_{0}+v_{1}\right)\,t-2\,q}{t^3}
+  \end{array}\right.
+ @f}
+ @param[in,out] ctx points to an instance of cubic polynomial trajectory
+*/
+A_PUBLIC a_void_t a_polytrack3_gen(a_polytrack3_s *ctx);
 
 /*!
  @brief process function for cubic polynomial trajectory
@@ -207,18 +213,6 @@ A_PUBLIC a_void_t a_polytrack5_init2(a_polytrack5_s *ctx, const a_real_t source[
 
 /*!
  @brief initialize function for quintic polynomial trajectory
- @f{aligned}{
-  \left\{\begin{array}{l}
-  t=t_{1}-t_{0}\\
-  q=q_{1}-q_{0}\\
-  k_{0}=q_{0}\\
-  k_{1}=v_{0}\\
-  k_{2}=\cfrac{a_{0}}{2}\\
-  k_{3}=\cfrac{\left(a_{1}-3\,a_{0}\right)\,t^2+\left(-12\,v_{0}-8\,v_{1}\right)\,t+20\,q}{2\,t^3}\\
-  k_{4}=\cfrac{\left(3\,a_{0}-2\,a_{1}\right)\,t^2+\left(16\,v_{0}+14\,v_{1}\right)\,t-30\,q}{2\,t^4}\\
-  k_{5}=\cfrac{\left(a_{1}-a_{0}\right)\,t^2+\left(-6\,v_{0}-6\,v_{1}\right)\,t+12\,q}{2\,t^5}
-  \end{array}\right.
- @f}
  @param[in,out] ctx points to an instance of quintic polynomial trajectory
  @param[in] t0 time for source
  @param[in] t1 time for target
@@ -234,6 +228,24 @@ A_PUBLIC a_void_t a_polytrack5_init(a_polytrack5_s *ctx,
                                     a_real_t q0, a_real_t q1,
                                     a_real_t v0, a_real_t v1,
                                     a_real_t a0, a_real_t a1);
+
+/*!
+ @brief generation function for quintic polynomial trajectory
+ @f{aligned}{
+  \left\{\begin{array}{l}
+  t=t_{1}-t_{0}\\
+  q=q_{1}-q_{0}\\
+  k_{0}=q_{0}\\
+  k_{1}=v_{0}\\
+  k_{2}=\cfrac{a_{0}}{2}\\
+  k_{3}=\cfrac{\left(a_{1}-3\,a_{0}\right)\,t^2+\left(-12\,v_{0}-8\,v_{1}\right)\,t+20\,q}{2\,t^3}\\
+  k_{4}=\cfrac{\left(3\,a_{0}-2\,a_{1}\right)\,t^2+\left(16\,v_{0}+14\,v_{1}\right)\,t-30\,q}{2\,t^4}\\
+  k_{5}=\cfrac{\left(a_{1}-a_{0}\right)\,t^2+\left(-6\,v_{0}-6\,v_{1}\right)\,t+12\,q}{2\,t^5}
+  \end{array}\right.
+ @f}
+ @param[in,out] ctx points to an instance of quintic polynomial trajectory
+*/
+A_PUBLIC a_void_t a_polytrack5_gen(a_polytrack5_s *ctx);
 
 /*!
  @brief process function for quintic polynomial trajectory
@@ -335,20 +347,6 @@ A_PUBLIC a_void_t a_polytrack7_init2(a_polytrack7_s *ctx, const a_real_t source[
 
 /*!
  @brief initialize function for hepta polynomial trajectory
- @f{aligned}{
-  \left\{\begin{array}{l}
-  t=t_{1}-t_{0}\\
-  q=q_{1}-q_{0}\\
-  k_{0}=q_{0}\\
-  k_{1}=v_{0}\\
-  k_{2}=\cfrac{a_{0}}{2}\\
-  k_{3}=\cfrac{j_{0}}{6}\\
-  k_{4}=\cfrac{\left(-4\,j_{0}-j_{1}\right)\,t^3+\left(15\,a_{1}-30\,a_{0}\right)\,t^2+\left(-120\,v_{0}-90\,v_{1}\right)\,t+210\,q}{6\,t^4}\\
-  k_{5}=\cfrac{\left(2\,j_{0}+j_{1}\right)\,t^3+\left(20\,a_{0}-14\,a_{1}\right)\,t^2+\left(90\,v_{0}+78\,v_{1}\right)\,t-168\,q}{2\,t^5}\\
-  k_{6}=\cfrac{\left(-4\,j_{0}-3\,j_{1}\right)\,t^3+\left(39\,a_{1}-45\,a_{0}\right)\,t^2+\left(-216\,v_{0}-204\,v_{1}\right)\,t+420\,q}{6\,t^6}\\
-  k_{7}=\cfrac{\left(j_{0}+j_{1}\right)\,t^3+\left(12\,a_{0}-12\,a_{1}\right)\,t^2+\left(60\,v_{0}+60\,v_{1}\right)\,t-120\,q}{6\,t^7}
-  \end{array}\right.
- @f}
  @param[in,out] ctx points to an instance of hepta polynomial trajectory
  @param[in] t0 time for source
  @param[in] t1 time for target
@@ -367,6 +365,26 @@ A_PUBLIC a_void_t a_polytrack7_init(a_polytrack7_s *ctx,
                                     a_real_t v0, a_real_t v1,
                                     a_real_t a0, a_real_t a1,
                                     a_real_t j0, a_real_t j1);
+
+/*!
+ @brief generation function for hepta polynomial trajectory
+ @f{aligned}{
+  \left\{\begin{array}{l}
+  t=t_{1}-t_{0}\\
+  q=q_{1}-q_{0}\\
+  k_{0}=q_{0}\\
+  k_{1}=v_{0}\\
+  k_{2}=\cfrac{a_{0}}{2}\\
+  k_{3}=\cfrac{j_{0}}{6}\\
+  k_{4}=\cfrac{\left(-4\,j_{0}-j_{1}\right)\,t^3+\left(15\,a_{1}-30\,a_{0}\right)\,t^2+\left(-120\,v_{0}-90\,v_{1}\right)\,t+210\,q}{6\,t^4}\\
+  k_{5}=\cfrac{\left(2\,j_{0}+j_{1}\right)\,t^3+\left(20\,a_{0}-14\,a_{1}\right)\,t^2+\left(90\,v_{0}+78\,v_{1}\right)\,t-168\,q}{2\,t^5}\\
+  k_{6}=\cfrac{\left(-4\,j_{0}-3\,j_{1}\right)\,t^3+\left(39\,a_{1}-45\,a_{0}\right)\,t^2+\left(-216\,v_{0}-204\,v_{1}\right)\,t+420\,q}{6\,t^6}\\
+  k_{7}=\cfrac{\left(j_{0}+j_{1}\right)\,t^3+\left(12\,a_{0}-12\,a_{1}\right)\,t^2+\left(60\,v_{0}+60\,v_{1}\right)\,t-120\,q}{6\,t^7}
+  \end{array}\right.
+ @f}
+ @param[in,out] ctx points to an instance of hepta polynomial trajectory
+*/
+A_PUBLIC a_void_t a_polytrack7_gen(a_polytrack7_s *ctx);
 
 /*!
  @brief process function for hepta polynomial trajectory

@@ -33,6 +33,24 @@ extern "C" {
 #endif /* __cplusplus */
 
 /*!
+ @brief set numerator for transfer function
+ @param[in,out] ctx points to an instance of transfer function
+ @param[in] m numerator number
+ @param[in] num numerator
+ @param[in] u input buffer
+*/
+A_PUBLIC a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_real_t *u);
+
+/*!
+ @brief set denominator for transfer function
+ @param[in,out] ctx points to an instance of transfer function
+ @param[in] n denominator number
+ @param[in] den denominator
+ @param[in] v output buffer
+*/
+A_PUBLIC a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_real_t *v);
+
+/*!
  @brief initialize function for transfer function
  @param[in,out] ctx points to an instance of transfer function
  @param[in] m numerator number

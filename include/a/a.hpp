@@ -68,6 +68,8 @@ typedef  a_str_t  str_t;
 typedef a_cstr_t cstr_t;
 typedef a_vptr_t vptr_t;
 typedef a_cptr_t cptr_t;
+typedef a_real_t real_t;
+typedef a_real_u real_u;
 
 typedef a_f32_t f32_t;
 typedef a_f64_t f64_t;

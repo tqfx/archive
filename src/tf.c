@@ -7,19 +7,6 @@
 #include "a/tf.h"
 #include <string.h>
 
-a_tf_s *a_tf_init(a_tf_s *ctx,
-                  a_uint_t m, const a_real_t *num, a_real_t *u,
-                  a_uint_t n, const a_real_t *den, a_real_t *v)
-{
-    ctx->num = num;
-    ctx->den = den;
-    ctx->u = u;
-    ctx->v = v;
-    ctx->m = m;
-    ctx->n = n;
-    return a_tf_zero(ctx);
-}
-
 A_STATIC void a_tf_roll(a_real_t *p, a_uint_t n, a_real_t x)
 {
     for (a_uint_t i = --n; i; n = i)
@@ -27,6 +14,31 @@ A_STATIC void a_tf_roll(a_real_t *p, a_uint_t n, a_real_t x)
         p[n] = p[--i];
     }
     *p = x;
+}
+
+a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_real_t *u)
+{
+    memset(u, 0, sizeof(a_real_t) * m);
+    ctx->num = num;
+    ctx->m = m;
+    ctx->u = u;
+}
+
+a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_real_t *v)
+{
+    memset(v, 0, sizeof(a_real_t) * n);
+    ctx->den = den;
+    ctx->n = n;
+    ctx->v = v;
+}
+
+a_tf_s *a_tf_init(a_tf_s *ctx,
+                  a_uint_t m, const a_real_t *num, a_real_t *u,
+                  a_uint_t n, const a_real_t *den, a_real_t *v)
+{
+    a_tf_set_num(ctx, m, num, u);
+    a_tf_set_den(ctx, n, den, v);
+    return ctx;
 }
 
 a_real_t a_tf_proc(a_tf_s *ctx, a_real_t x)

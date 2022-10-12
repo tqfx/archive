@@ -94,10 +94,18 @@ typedef struct a_pid_s
 extern "C" {
 #endif /* __cplusplus */
 
+A_PUBLIC a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt);
+A_PUBLIC a_real_t a_pid_dt(const a_pid_s *ctx);
+A_PUBLIC a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t ki);
+A_PUBLIC a_real_t a_pid_kp(const a_pid_s *ctx);
+A_PUBLIC a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki);
+A_PUBLIC a_real_t a_pid_ki(const a_pid_s *ctx);
+A_PUBLIC a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd);
+A_PUBLIC a_real_t a_pid_kd(const a_pid_s *ctx);
 A_PUBLIC a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
-A_PUBLIC a_uint_t a_pid_num(a_pid_s *ctx);
+A_PUBLIC a_uint_t a_pid_num(const a_pid_s *ctx);
 A_PUBLIC a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
-A_PUBLIC a_uint_t a_pid_reg(a_pid_s *ctx);
+A_PUBLIC a_uint_t a_pid_reg(const a_pid_s *ctx);
 
 /*!
  @brief turn off PID controller
@@ -117,23 +125,6 @@ A_PUBLIC a_pid_s *a_pid_inc(a_pid_s *ctx);
  @param[in] max maximum intergral output
 */
 A_PUBLIC a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max);
-
-/*!
- @brief set register for PID controller directly
- @param[in,out] ctx points to an instance of PID controller
- @param[in] reg enumeration for PID controller register
-  @arg @ref A_PID_OFF turn off PID controller
-  @arg @ref A_PID_POS positional PID controller
-  @arg @ref A_PID_INC incremental PID controller
-*/
-A_PUBLIC a_pid_s *a_pid_mode(a_pid_s *ctx, a_uint_t reg);
-
-/*!
- @brief set sampling period for PID controller
- @param[in,out] ctx points to an instance of PID controller
- @param[in] dt sampling time unit(s)
-*/
-A_PUBLIC a_pid_s *a_pid_time(a_pid_s *ctx, a_real_t dt);
 
 /*!
  @brief set proportional integral derivative constant for PID controller
@@ -201,9 +192,16 @@ A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#define a_pid_set_num(ctx, val) ((ctx)->num &= ~A_PID_NUM_MASK, (ctx)->num |= val & A_PID_NUM_MASK)
+#define a_pid_dt(ctx) ((ctx)->dt)
+#define a_pid_set_kp(ctx, val) ((ctx)->kp = (val))
+#define a_pid_kp(ctx) ((ctx)->kp)
+#define a_pid_set_ki(ctx, val) ((ctx)->ki = (val) * (ctx)->dt)
+#define a_pid_ki(ctx) ((ctx)->ki / (ctx)->dt)
+#define a_pid_set_kd(ctx, val) ((ctx)->kd = (val) / (ctx)->dt)
+#define a_pid_kd(ctx) ((ctx)->kd * (ctx)->dt)
+#define a_pid_set_num(ctx, val) ((ctx)->num &= ~A_PID_NUM_MASK, (ctx)->num |= (val)&A_PID_NUM_MASK)
 #define a_pid_num(ctx) ((ctx)->num & A_PID_NUM_MASK)
-#define a_pid_set_reg(ctx, val) ((ctx)->reg &= ~A_PID_REG_MASK, (ctx)->reg |= val & A_PID_REG_MASK)
+#define a_pid_set_reg(ctx, val) ((ctx)->reg &= ~A_PID_REG_MASK, (ctx)->reg |= (val)&A_PID_REG_MASK)
 #define a_pid_reg(ctx) ((ctx)->reg & A_PID_REG_MASK)
 
 /*! @} A_PID */

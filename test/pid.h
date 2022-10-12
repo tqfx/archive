@@ -39,10 +39,10 @@ static void test(void)
     a_pid_off(a_pid_inc(a_pid_pos(ctx + 1, 10)));
     a_pid_kpid(ctx + 0, 10, A_REAL_C(0.01), A_REAL_C(0.1));
     a_pid_kpid(ctx + 1, 10, A_REAL_C(0.01), A_REAL_C(0.1));
-    a_pid_time(ctx + 0, A_REAL_C(0.001));
-    a_pid_time(ctx + 1, A_REAL_C(0.001));
-    a_pid_mode(ctx + 0, A_PID_POS);
-    a_pid_mode(ctx + 1, A_PID_POS);
+    a_pid_set_dt(ctx + 0, A_REAL_C(0.001));
+    a_pid_set_dt(ctx + 1, A_REAL_C(0.001));
+    a_pid_set_reg(ctx + 0, A_PID_POS);
+    a_pid_set_reg(ctx + 1, A_PID_POS);
     a_real_t set[3] = {1, 1, 1};
     a_real_t out[3];
     a_real_t fdb[3];
