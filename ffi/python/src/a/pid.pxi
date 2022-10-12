@@ -8,8 +8,12 @@ cdef class pid:
     POS = A_PID_POS
     INC = A_PID_INC
     cdef a_pid_s ctx[1]
-    def __cinit__(self, a_real_t dt, a_real_t min, a_real_t max):
-        a_pid_mode(a_pid_init(self.ctx, dt, min, max), A_PID_INC)
+    def __cinit__(self, a_real_t dt, a_real_t min, a_real_t max, a_real_t sum = 0):
+        a_pid_init(self.ctx, dt, min, max)
+        if sum:
+            a_pid_pos(self.ctx, sum)
+        else:
+            a_pid_inc(self.ctx)
     def __call__(self, set: a_real_t, fdb: a_real_t) -> a_real_t:
         '''process function for PID controller'''
         return a_pid_cc_x(self.ctx, set, fdb)
@@ -24,14 +28,6 @@ cdef class pid:
         '''set proportional integral derivative constant for PID controller'''
         a_pid_kpid(self.ctx, kp, ki, kd)
         return self
-    def time(self, dt: a_real_t):
-        '''set sampling period for PID controller'''
-        a_pid_time(self.ctx, dt)
-        return self
-    def mode(self, reg: a_uint_t):
-        '''set register for PID controller directly'''
-        a_pid_mode(self.ctx, reg)
-        return self
     def pos(self, max: a_real_t):
         '''positional PID controller'''
         a_pid_pos(self.ctx, max)
@@ -44,3 +40,72 @@ cdef class pid:
         '''turn off PID controller'''
         a_pid_off(self.ctx)
         return self
+
+    @property
+    def outmin(self) -> a_real_t:
+        return self.ctx.outmin
+    @outmin.setter
+    def outmin(self, outmin: a_real_t):
+        self.ctx.outmin = outmin
+
+    @property
+    def outmax(self) -> a_real_t:
+        return self.ctx.outmax
+    @outmax.setter
+    def outmax(self, outmax: a_real_t):
+        self.ctx.outmax = outmax
+
+    @property
+    def summax(self) -> a_real_t:
+        return self.ctx.summax
+    @summax.setter
+    def summax(self, summax: a_real_t):
+        self.ctx.summax = summax
+
+    @property
+    def mode(self) -> a_uint_t:
+        return a_pid_reg(self.ctx)
+    @mode.setter
+    def mode(self, mode: a_uint_t):
+        a_pid_set_reg(self.ctx, mode)
+
+    @property
+    def dt(self) -> a_real_t:
+        return a_pid_dt(self.ctx)
+    @dt.setter
+    def dt(self, dt: a_real_t):
+        a_pid_set_dt(self.ctx, dt)
+
+    @property
+    def kp(self) -> a_real_t:
+        return a_pid_kp(self.ctx)
+    @kp.setter
+    def kp(self, kp: a_real_t):
+        a_pid_set_kp(self.ctx, kp)
+
+    @property
+    def ki(self) -> a_real_t:
+        return a_pid_ki(self.ctx)
+    @ki.setter
+    def ki(self, ki: a_real_t):
+        a_pid_set_ki(self.ctx, ki)
+
+    @property
+    def kd(self) -> a_real_t:
+        return a_pid_kd(self.ctx)
+    @kd.setter
+    def kd(self, kd: a_real_t):
+        a_pid_set_kd(self.ctx, kd)
+
+    @property
+    def out(self) -> a_real_t:
+        return self.ctx.out.x
+    @property
+    def fdb(self) -> a_real_t:
+        return self.ctx.fdb.x
+    @property
+    def ec(self) -> a_real_t:
+        return self.ctx.ec.x
+    @property
+    def e(self) -> a_real_t:
+        return self.ctx.e.x

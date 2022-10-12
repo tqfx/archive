@@ -45,6 +45,9 @@ cdef extern from "a/a.h":
     ctypedef       void *a_vptr_t
     ctypedef const void *a_cptr_t
 
-    ctypedef double a_real_t
-    ctypedef double a_f64_t
     ctypedef  float a_f32_t
+    ctypedef double a_f64_t
+    ctypedef double a_real_t
+    ctypedef union a_real_u:
+        a_real_t x
+        a_real_t *v

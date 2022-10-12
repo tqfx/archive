@@ -46,34 +46,79 @@ cdef class polytrack3:
                 out[i] = a_polytrack3_acc(self.ctx, it)
             return out
         return a_polytrack3_acc(self.ctx, ts)
-    def text(self):
-        '''formula text'''
-        text_p = 'p='
-        if self.ctx.k[0]:
-            text_p +=  '%g' % (self.ctx.k[0])
-        if self.ctx.k[1]:
-            text_p += '%+g%s' % (self.ctx.k[1], 't')
-        if self.ctx.k[2]:
-            text_p += '%+g%s' % (self.ctx.k[2], 't^2')
-        if self.ctx.k[3]:
-            text_p += '%+g%s' % (self.ctx.k[3], 't^3')
-        text_v = 'v='
-        if self.ctx.k[1]:
-            text_v += '%g' % (self.ctx.k[1])
-        if self.ctx.k[2]:
-            text_v += '%+g%s' % (self.ctx.k[2] * 2, 't')
-        if self.ctx.k[3]:
-            text_v += '%+g%s' % (self.ctx.k[3] * 3, 't^2')
-        text_a = 'a='
-        if self.ctx.k[2]:
-            text_a += '%g' % (self.ctx.k[2] * 2)
-        if self.ctx.k[3]:
-            text_a += '%+g%s' % (self.ctx.k[3] * 6, 't')
-        return (
-            text_p.replace('=+', '='),
-            text_v.replace('=+', '='),
-            text_a.replace('=+', '='),
-        )
+    def gen(self):
+        '''generation function'''
+        a_polytrack3_gen(self.ctx)
+
+    @property
+    def k(self):
+        return self.ctx.k
+
+    @property
+    def t(self):
+        return self.ctx.t
+    @t.setter
+    def t(self, val):
+        self.ctx.t[0] = val[0]
+        self.ctx.t[1] = val[1]
+
+    @property
+    def q(self):
+        return self.ctx.q
+    @q.setter
+    def q(self, val):
+        self.ctx.q[0] = val[0]
+        self.ctx.q[1] = val[1]
+
+    @property
+    def v(self):
+        return self.ctx.v
+    @v.setter
+    def v(self, val):
+        self.ctx.v[0] = val[0]
+        self.ctx.v[1] = val[1]
+
+    @property
+    def t0(self) -> a_real_t:
+        return self.ctx.t[0]
+    @t0.setter
+    def t0(self, val: a_real_t):
+        self.ctx.t[0] = val
+
+    @property
+    def q0(self) -> a_real_t:
+        return self.ctx.q[0]
+    @q0.setter
+    def q0(self, val: a_real_t):
+        self.ctx.q[0] = val
+
+    @property
+    def v0(self) -> a_real_t:
+        return self.ctx.v[0]
+    @v0.setter
+    def v0(self, val: a_real_t):
+        self.ctx.v[0] = val
+
+    @property
+    def t1(self) -> a_real_t:
+        return self.ctx.t[1]
+    @t1.setter
+    def t1(self, val: a_real_t):
+        self.ctx.t[1] = val
+
+    @property
+    def q1(self) -> a_real_t:
+        return self.ctx.q[1]
+    @q1.setter
+    def q1(self, val: a_real_t):
+        self.ctx.q[1] = val
+
+    @property
+    def v1(self) -> a_real_t:
+        return self.ctx.v[1]
+    @v1.setter
+    def v1(self, val: a_real_t):
+        self.ctx.v[1] = val
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
@@ -121,46 +166,101 @@ cdef class polytrack5:
                 out[i] = a_polytrack5_acc(self.ctx, it)
             return out
         return a_polytrack5_acc(self.ctx, ts)
-    def text(self):
-        '''formula text'''
-        text_p = 'p='
-        if self.ctx.k[0]:
-            text_p += '%g' % (self.ctx.k[0])
-        if self.ctx.k[1]:
-            text_p += '%+g%s' % (self.ctx.k[1], 't')
-        if self.ctx.k[2]:
-            text_p += '%+g%s' % (self.ctx.k[2], 't^2')
-        if self.ctx.k[3]:
-            text_p += '%+g%s' % (self.ctx.k[3], 't^3')
-        if self.ctx.k[4]:
-            text_p += '%+g%s' % (self.ctx.k[4], 't^4')
-        if self.ctx.k[5]:
-            text_p += '%+g%s' % (self.ctx.k[5], 't^5')
-        text_v = 'v='
-        if self.ctx.k[1]:
-            text_v += '%g' % (self.ctx.k[1])
-        if self.ctx.k[2]:
-            text_v += '%+g%s' % (self.ctx.k[2] * 2, 't')
-        if self.ctx.k[3]:
-            text_v += '%+g%s' % (self.ctx.k[3] * 3, 't^2')
-        if self.ctx.k[4]:
-            text_v += '%+g%s' % (self.ctx.k[4] * 4, 't^3')
-        if self.ctx.k[5]:
-            text_v += '%+g%s' % (self.ctx.k[5] * 5, 't^4')
-        text_a = 'a='
-        if self.ctx.k[2]:
-            text_a += '%g' % (self.ctx.k[2] * 2)
-        if self.ctx.k[3]:
-            text_a += '%+g%s' % (self.ctx.k[3] * 6, 't')
-        if self.ctx.k[4]:
-            text_a += '%+g%s' % (self.ctx.k[4] * 12, 't^2')
-        if self.ctx.k[5]:
-            text_a += '%+g%s' % (self.ctx.k[3] * 20, 't^3')
-        return (
-            text_p.replace('=+', '='),
-            text_v.replace('=+', '='),
-            text_a.replace('=+', '='),
-        )
+    def gen(self):
+        '''generation function'''
+        a_polytrack5_gen(self.ctx)
+
+    @property
+    def k(self):
+        return self.ctx.k
+
+    @property
+    def t(self):
+        return self.ctx.t
+    @t.setter
+    def t(self, val):
+        self.ctx.t[0] = val[0]
+        self.ctx.t[1] = val[1]
+
+    @property
+    def q(self):
+        return self.ctx.q
+    @q.setter
+    def q(self, val):
+        self.ctx.q[0] = val[0]
+        self.ctx.q[1] = val[1]
+
+    @property
+    def v(self):
+        return self.ctx.v
+    @v.setter
+    def v(self, val):
+        self.ctx.v[0] = val[0]
+        self.ctx.v[1] = val[1]
+
+    @property
+    def a(self):
+        return self.ctx.a
+    @a.setter
+    def a(self, val):
+        self.ctx.a[0] = val[0]
+        self.ctx.a[1] = val[1]
+
+    @property
+    def t0(self) -> a_real_t:
+        return self.ctx.t[0]
+    @t0.setter
+    def t0(self, val: a_real_t):
+        self.ctx.t[0] = val
+
+    @property
+    def q0(self) -> a_real_t:
+        return self.ctx.q[0]
+    @q0.setter
+    def q0(self, val: a_real_t):
+        self.ctx.q[0] = val
+
+    @property
+    def v0(self) -> a_real_t:
+        return self.ctx.v[0]
+    @v0.setter
+    def v0(self, val: a_real_t):
+        self.ctx.v[0] = val
+
+    @property
+    def a0(self) -> a_real_t:
+        return self.ctx.a[0]
+    @a0.setter
+    def a0(self, val: a_real_t):
+        self.ctx.a[0] = val
+
+    @property
+    def t1(self) -> a_real_t:
+        return self.ctx.t[1]
+    @t1.setter
+    def t1(self, val: a_real_t):
+        self.ctx.t[1] = val
+
+    @property
+    def q1(self) -> a_real_t:
+        return self.ctx.q[1]
+    @q1.setter
+    def q1(self, val: a_real_t):
+        self.ctx.q[1] = val
+
+    @property
+    def v1(self) -> a_real_t:
+        return self.ctx.v[1]
+    @v1.setter
+    def v1(self, val: a_real_t):
+        self.ctx.v[1] = val
+
+    @property
+    def a1(self) -> a_real_t:
+        return self.ctx.a[1]
+    @a1.setter
+    def a1(self, val: a_real_t):
+        self.ctx.a[1] = val
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
@@ -218,67 +318,120 @@ cdef class polytrack7:
                 out[i] = a_polytrack7_jer(self.ctx, it)
             return out
         return a_polytrack7_jer(self.ctx, ts)
-    def text(self):
-        '''formula text'''
-        text_p = 'p='
-        if self.ctx.k[0]:
-            text_p += '%g' % (self.ctx.k[0])
-        if self.ctx.k[1]:
-            text_p += '%+g%s' % (self.ctx.k[1], 't')
-        if self.ctx.k[2]:
-            text_p += '%+g%s' % (self.ctx.k[2], 't^2')
-        if self.ctx.k[3]:
-            text_p += '%+g%s' % (self.ctx.k[3], 't^3')
-        if self.ctx.k[4]:
-            text_p += '%+g%s' % (self.ctx.k[4], 't^4')
-        if self.ctx.k[5]:
-            text_p += '%+g%s' % (self.ctx.k[5], 't^5')
-        if self.ctx.k[6]:
-            text_p += '%+g%s' % (self.ctx.k[6], 't^6')
-        if self.ctx.k[7]:
-            text_p += '%+g%s' % (self.ctx.k[7], 't^7')
-        text_v = 'v='
-        if self.ctx.k[1]:
-            text_v += '%g' % (self.ctx.k[1])
-        if self.ctx.k[2]:
-            text_v += '%+g%s' % (self.ctx.k[2] * 2, 't')
-        if self.ctx.k[3]:
-            text_v += '%+g%s' % (self.ctx.k[3] * 3, 't^2')
-        if self.ctx.k[4]:
-            text_v += '%+g%s' % (self.ctx.k[4] * 4, 't^3')
-        if self.ctx.k[5]:
-            text_v += '%+g%s' % (self.ctx.k[5] * 5, 't^4')
-        if self.ctx.k[6]:
-            text_v += '%+g%s' % (self.ctx.k[6] * 6, 't^5')
-        if self.ctx.k[7]:
-            text_v += '%+g%s' % (self.ctx.k[7] * 7, 't^6')
-        text_a = 'a='
-        if self.ctx.k[2]:
-            text_a += '%g' % (self.ctx.k[2] * 2)
-        if self.ctx.k[3]:
-            text_a += '%+g%s' % (self.ctx.k[3] * 6, 't')
-        if self.ctx.k[4]:
-            text_a += '%+g%s' % (self.ctx.k[4] * 12, 't^2')
-        if self.ctx.k[5]:
-            text_a += '%+g%s' % (self.ctx.k[3] * 20, 't^3')
-        if self.ctx.k[6]:
-            text_a += '%+g%s' % (self.ctx.k[6] * 30, 't^4')
-        if self.ctx.k[7]:
-            text_a += '%+g%s' % (self.ctx.k[7] * 42, 't^5')
-        text_j = 'j='
-        if self.ctx.k[3]:
-            text_j += '%g' % (self.ctx.k[3] * 6)
-        if self.ctx.k[4]:
-            text_j += '%+g%s' % (self.ctx.k[4] * 12, 't')
-        if self.ctx.k[5]:
-            text_j += '%+g%s' % (self.ctx.k[3] * 60, 't^2')
-        if self.ctx.k[6]:
-            text_j += '%+g%s' % (self.ctx.k[6] * 120, 't^3')
-        if self.ctx.k[7]:
-            text_j += '%+g%s' % (self.ctx.k[7] * 210, 't^4')
-        return (
-            text_p.replace('=+', '='),
-            text_v.replace('=+', '='),
-            text_a.replace('=+', '='),
-            text_j.replace('=+', '='),
-        )
+    def gen(self):
+        '''generation function'''
+        a_polytrack7_gen(self.ctx)
+
+    @property
+    def k(self):
+        return self.ctx.k
+
+    @property
+    def t(self):
+        return self.ctx.t
+    @t.setter
+    def t(self, val):
+        self.ctx.t[0] = val[0]
+        self.ctx.t[1] = val[1]
+
+    @property
+    def q(self):
+        return self.ctx.q
+    @q.setter
+    def q(self, val):
+        self.ctx.q[0] = val[0]
+        self.ctx.q[1] = val[1]
+
+    @property
+    def v(self):
+        return self.ctx.v
+    @v.setter
+    def v(self, val):
+        self.ctx.v[0] = val[0]
+        self.ctx.v[1] = val[1]
+
+    @property
+    def a(self):
+        return self.ctx.a
+    @a.setter
+    def a(self, val):
+        self.ctx.a[0] = val[0]
+        self.ctx.a[1] = val[1]
+
+    @property
+    def j(self):
+        return self.ctx.j
+    @j.setter
+    def j(self, val):
+        self.ctx.j[0] = val[0]
+        self.ctx.j[1] = val[1]
+
+    @property
+    def t0(self) -> a_real_t:
+        return self.ctx.t[0]
+    @t0.setter
+    def t0(self, val: a_real_t):
+        self.ctx.t[0] = val
+
+    @property
+    def q0(self) -> a_real_t:
+        return self.ctx.q[0]
+    @q0.setter
+    def q0(self, val: a_real_t):
+        self.ctx.q[0] = val
+
+    @property
+    def v0(self) -> a_real_t:
+        return self.ctx.v[0]
+    @v0.setter
+    def v0(self, val: a_real_t):
+        self.ctx.v[0] = val
+
+    @property
+    def a0(self) -> a_real_t:
+        return self.ctx.a[0]
+    @a0.setter
+    def a0(self, val: a_real_t):
+        self.ctx.a[0] = val
+
+    @property
+    def j0(self) -> a_real_t:
+        return self.ctx.j[0]
+    @j0.setter
+    def j0(self, val: a_real_t):
+        self.ctx.j[0] = val
+
+    @property
+    def t1(self) -> a_real_t:
+        return self.ctx.t[1]
+    @t1.setter
+    def t1(self, val: a_real_t):
+        self.ctx.t[1] = val
+
+    @property
+    def q1(self) -> a_real_t:
+        return self.ctx.q[1]
+    @q1.setter
+    def q1(self, val: a_real_t):
+        self.ctx.q[1] = val
+
+    @property
+    def v1(self) -> a_real_t:
+        return self.ctx.v[1]
+    @v1.setter
+    def v1(self, val: a_real_t):
+        self.ctx.v[1] = val
+
+    @property
+    def a1(self) -> a_real_t:
+        return self.ctx.a[1]
+    @a1.setter
+    def a1(self, val: a_real_t):
+        self.ctx.a[1] = val
+
+    @property
+    def j1(self) -> a_real_t:
+        return self.ctx.j[1]
+    @j1.setter
+    def j1(self, val: a_real_t):
+        self.ctx.j[1] = val

@@ -2,15 +2,14 @@ from a.pid cimport *
 
 cdef extern from "a/fpid.h":
     ctypedef struct a_fpid_s:
+        a_pid_s pid[1]
         a_real_t kp
         a_real_t ki
         a_real_t kd
-    a_size_t A_FPID_BUF1(a_uint_t n)
+    a_size_t A_FPID_BUF1(a_uint_t max)
     a_fpid_s *a_fpid_off(a_fpid_s *ctx)
     a_fpid_s *a_fpid_inc(a_fpid_s *ctx)
     a_fpid_s *a_fpid_pos(a_fpid_s *ctx, a_real_t max)
-    a_fpid_s *a_fpid_mode(a_fpid_s *ctx, a_uint_t mode)
-    a_fpid_s *a_fpid_time(a_fpid_s *ctx, a_real_t dt)
     a_fpid_s *a_fpid_ilim(a_fpid_s *ctx, a_real_t min, a_real_t max)
     a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max)
     a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max)
@@ -25,3 +24,6 @@ cdef extern from "a/fpid.h":
     a_real_t a_fpid_cc_x(a_fpid_s *ctx, a_real_t set, a_real_t fdb)
     a_fpid_s *a_fpid_exit(a_fpid_s *ctx)
     a_fpid_s *a_fpid_zero(a_fpid_s *ctx)
+    a_uint_t a_fpid_bufnum(const a_fpid_s *ctx)
+    a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
+    a_uint_t a_fpid_col(const a_fpid_s *ctx)

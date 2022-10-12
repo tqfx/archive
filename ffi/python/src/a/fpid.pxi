@@ -10,18 +10,21 @@ cdef class fpid:
     cdef array mkp
     cdef array mki
     cdef array mkd
-    def __cinit__(self, a_uint_t num, a_real_t dt, mmp, mkp, mki, mkd, a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax):
+    def __cinit__(self, a_uint_t num, a_real_t dt, mmp, mkp, mki, mkd, a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax, a_real_t sum = 0):
         self.mmp = array('d', (i for j in mmp for i in j))
         self.mkp = array('d', (i for j in mkp for i in j))
         self.mki = array('d', (i for j in mki for i in j))
         self.mkd = array('d', (i for j in mkd for i in j))
-        cdef a_real_t *ma = self.mmp.data.as_doubles
+        cdef a_real_t *mp = self.mmp.data.as_doubles
         cdef a_real_t *kp = self.mkp.data.as_doubles
         cdef a_real_t *ki = self.mki.data.as_doubles
         cdef a_real_t *kd = self.mkd.data.as_doubles
-        a_fpid_init(self.ctx, dt, <a_uint_t>len(mkp), ma, kp, ki, kd, imin, imax, omin, omax)
-        self.ptr = PyMem_Malloc(A_FPID_BUF1(num))
-        a_fpid_buf1(self.ctx, self.ptr, num)
+        a_fpid_init(self.ctx, dt, <a_uint_t>len(mkp), mp, kp, ki, kd, imin, imax, omin, omax)
+        if sum:
+            a_fpid_pos(self.ctx, sum)
+        else:
+            a_fpid_inc(self.ctx)
+        self.buf = num
     def __call__(self, set: a_real_t, fdb: a_real_t) -> a_real_t:
         '''process function for fuzzy PID controller'''
         return a_fpid_cc_x(self.ctx, set, fdb)
@@ -33,22 +36,17 @@ cdef class fpid:
         '''zero function for fuzzy PID controller'''
         a_fpid_zero(self.ctx)
         return self
-    def buff(self, max: a_uint_t):
-        '''set buffer for fuzzy PID controller'''
-        self.ptr = PyMem_Realloc(self.ptr, A_FPID_BUF1(max))
-        a_fpid_buf1(self.ctx, self.ptr, max)
-        return self
     def base(self, mmp, mkp, mki, mkd):
         '''set rule base for fuzzy PID controller'''
         self.mmp = array('d', (i for j in mmp for i in j))
         self.mkp = array('d', (i for j in mkp for i in j))
         self.mki = array('d', (i for j in mki for i in j))
         self.mkd = array('d', (i for j in mkd for i in j))
-        cdef a_real_t *ma = self.mmp.data.as_doubles
+        cdef a_real_t *mp = self.mmp.data.as_doubles
         cdef a_real_t *kp = self.mkp.data.as_doubles
         cdef a_real_t *ki = self.mki.data.as_doubles
         cdef a_real_t *kd = self.mkd.data.as_doubles
-        a_fpid_base(self.ctx, <a_uint_t>len(mkp), ma, kp, ki, kd)
+        a_fpid_base(self.ctx, <a_uint_t>len(mkp), mp, kp, ki, kd)
         return self
     def kpid(self, kp: a_real_t, ki: a_real_t, kd: a_real_t):
         '''set proportional integral derivative constant for fuzzy PID controller'''
@@ -62,14 +60,6 @@ cdef class fpid:
         '''set input extreme value for fuzzy PID controller'''
         a_fpid_ilim(self.ctx, min, max)
         return self
-    def time(self, dt: a_real_t):
-        '''set sampling period for fuzzy PID controller'''
-        a_fpid_time(self.ctx, dt)
-        return self
-    def mode(self, reg: a_uint_t):
-        '''set mode for fuzzy PID controller directly'''
-        a_fpid_mode(self.ctx, reg)
-        return self
     def pos(self, max: a_real_t):
         '''positional fuzzy PID controller'''
         a_fpid_pos(self.ctx, max)
@@ -82,3 +72,83 @@ cdef class fpid:
         '''turn off fuzzy PID controller'''
         a_fpid_off(self.ctx)
         return self
+
+    @property
+    def outmin(self) -> a_real_t:
+        return self.ctx.pid.outmin
+    @outmin.setter
+    def outmin(self, outmin: a_real_t):
+        self.ctx.pid.outmin = outmin
+
+    @property
+    def outmax(self) -> a_real_t:
+        return self.ctx.pid.outmax
+    @outmax.setter
+    def outmax(self, outmax: a_real_t):
+        self.ctx.pid.outmax = outmax
+
+    @property
+    def summax(self) -> a_real_t:
+        return self.ctx.pid.summax
+    @summax.setter
+    def summax(self, summax: a_real_t):
+        self.ctx.pid.summax = summax
+
+    @property
+    def mode(self) -> a_uint_t:
+        return a_pid_reg(self.ctx.pid)
+    @mode.setter
+    def mode(self, mode: a_uint_t):
+        a_pid_set_reg(self.ctx.pid, mode)
+
+    @property
+    def dt(self) -> a_real_t:
+        return a_pid_dt(self.ctx.pid)
+    @dt.setter
+    def dt(self, dt: a_real_t):
+        a_pid_set_dt(self.ctx.pid, dt)
+
+    @property
+    def kp(self) -> a_real_t:
+        return self.ctx.kp
+    @kp.setter
+    def kp(self, kp: a_real_t):
+        self.ctx.kp = kp
+
+    @property
+    def ki(self) -> a_real_t:
+        return self.ctx.ki
+    @ki.setter
+    def ki(self, ki: a_real_t):
+        self.ctx.ki = ki
+
+    @property
+    def kd(self) -> a_real_t:
+        return self.ctx.kd
+    @kd.setter
+    def kd(self, kd: a_real_t):
+        self.ctx.kd = kd
+
+    @property
+    def buf(self) -> a_uint_t:
+        return a_fpid_bufnum(self.ctx)
+    @buf.setter
+    def buf(self, max: a_uint_t):
+        self.ptr = PyMem_Realloc(self.ptr, A_FPID_BUF1(max))
+        a_fpid_buf1(self.ctx, self.ptr, max)
+
+    @property
+    def col(self) -> a_uint_t:
+        return a_fpid_col(self.ctx)
+    @property
+    def out(self) -> a_real_t:
+        return self.ctx.pid.out.x
+    @property
+    def fdb(self) -> a_real_t:
+        return self.ctx.pid.fdb.x
+    @property
+    def ec(self) -> a_real_t:
+        return self.ctx.pid.ec.x
+    @property
+    def e(self) -> a_real_t:
+        return self.ctx.pid.e.x

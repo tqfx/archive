@@ -141,7 +141,7 @@ except Exception as e:
     exit()
 
 tf = a.tf(num, den[1:])
-fpid = a.fpid(1, Ts, mmp, mkp, mki, mkd, IMIN, IMAX, OMIN, OMAX).buff(2).inc()
+fpid = a.fpid(2, Ts, mmp, mkp, mki, mkd, IMIN, IMAX, OMIN, OMAX)
 
 r = 1.0
 setpoint = [r] * len(data)

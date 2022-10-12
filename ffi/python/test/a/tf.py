@@ -16,18 +16,34 @@ except Exception as e:
 
 class TF:
     def __init__(self, num, den) -> None:
-        self.num = np.array(num, dtype=float)
-        self.den = np.array(den, dtype=float)[1:]
-        self.u = np.array(len(self.num) * [0.0], dtype=float)
-        self.v = np.array(len(self.den) * [0.0], dtype=float)
+        self.num = num
+        self.den = den
 
     def __call__(self, u: float) -> float:
-        self.u = np.roll(self.u, 1)
-        self.u[0] = u
-        v = self.num @ self.u - self.den @ self.v  # type: ignore
-        self.v = np.roll(self.v, 1)
-        self.v[0] = v
+        self._u = np.roll(self._u, 1)
+        self._u[0] = u  # type: ignore
+        v = self._num @ self._u - self._den @ self._v  # type: ignore
+        self._v = np.roll(self._v, 1)
+        self._v[0] = v  # type: ignore
         return v
+
+    @property
+    def num(self):
+        return self._num
+
+    @num.setter
+    def num(self, num):
+        self._num = np.array(num, dtype=float)
+        self._u = np.array(len(self._num) * [0.0], dtype=float)
+
+    @property
+    def den(self):
+        return self._den
+
+    @den.setter
+    def den(self, den):
+        self._den = np.array(den, dtype=float)
+        self._v = np.array(len(self._den) * [0.0], dtype=float)
 
 
 Ts = 0.001
@@ -49,9 +65,11 @@ except Exception as e:
     exit()
 
 tf = a.tf(num, den[1:])
-tf_ = TF(num, den)
+tf_ = TF(num, den[1:])
 
 for t in data:
     t = t * 1000
     tf_(t)
     tf(t)
+print(tf_.num, tf_.den)
+print(tf.num, tf.den)
