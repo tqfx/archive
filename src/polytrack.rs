@@ -36,6 +36,7 @@ extern "C" {
     fn a_polytrack3_vec(ctx: *mut PolyTrack3, ts: Real) -> Real;
     fn a_polytrack3_acc(ctx: *mut PolyTrack3, ts: Real) -> Real;
     fn a_polytrack3_out(ctx: *mut PolyTrack3, ts: Real, out: *mut [Real; 3]);
+    fn a_polytrack3_gen(ctx: *mut PolyTrack3);
 }
 
 impl PolyTrack3 {
@@ -73,6 +74,12 @@ impl PolyTrack3 {
         };
         unsafe { a_polytrack3_init2(&mut ctx, &source, &target) };
         ctx
+    }
+
+    /// generation function for cubic polynomial trajectory
+    pub fn gen(&mut self) -> &mut Self {
+        unsafe { a_polytrack3_gen(self) };
+        self
     }
 
     /// process function for cubic polynomial trajectory
@@ -115,6 +122,10 @@ fn polytrack3() {
         let mut a = crate::PolyTrack3::new2([0.0, 0.0, 0.0], [1.0, 1.0, 1.0]);
         println!("[{}, {}, {}]", a.pos(ts), a.vec(ts), a.acc(ts));
         println!("{:?}", a.out(ts));
+        a.v = [0.0, 0.0];
+        println!("{:?}", a.k);
+        a.gen();
+        println!("{:?}", a.k);
     }
 }
 
@@ -157,6 +168,7 @@ extern "C" {
     fn a_polytrack5_vec(ctx: *mut PolyTrack5, ts: Real) -> Real;
     fn a_polytrack5_acc(ctx: *mut PolyTrack5, ts: Real) -> Real;
     fn a_polytrack5_out(ctx: *mut PolyTrack5, ts: Real, out: *mut [Real; 3]);
+    fn a_polytrack5_gen(ctx: *mut PolyTrack5);
 }
 
 impl PolyTrack5 {
@@ -208,6 +220,12 @@ impl PolyTrack5 {
         ctx
     }
 
+    /// generation function for quintic polynomial trajectory
+    pub fn gen(&mut self) -> &mut Self {
+        unsafe { a_polytrack5_gen(self) };
+        self
+    }
+
     /// process function for quintic polynomial trajectory
     pub fn out(&mut self, ts: Real) -> [Real; 3] {
         let mut out: [Real; 3] = [0.0; 3];
@@ -248,6 +266,11 @@ fn polytrack5() {
         let mut a = crate::PolyTrack5::new2([0.0, 0.0, 0.0, 0.0], [1.0, 1.0, 1.0, 1.0]);
         println!("[{}, {}, {}]", a.pos(ts), a.vec(ts), a.acc(ts));
         println!("{:?}", a.out(ts));
+        a.v = [0.0, 0.0];
+        a.a = [0.0, 0.0];
+        println!("{:?}", a.k);
+        a.gen();
+        println!("{:?}", a.k);
     }
 }
 
@@ -296,6 +319,7 @@ extern "C" {
     fn a_polytrack7_acc(ctx: *mut PolyTrack7, ts: Real) -> Real;
     fn a_polytrack7_jer(ctx: *mut PolyTrack7, ts: Real) -> Real;
     fn a_polytrack7_out(ctx: *mut PolyTrack7, ts: Real, out: *mut [Real; 4]);
+    fn a_polytrack7_gen(ctx: *mut PolyTrack7);
 }
 
 impl PolyTrack7 {
@@ -350,6 +374,12 @@ impl PolyTrack7 {
         };
         unsafe { a_polytrack7_init2(&mut ctx, &source, &target) };
         ctx
+    }
+
+    /// generation function for hepta polynomial trajectory
+    pub fn gen(&mut self) -> &mut Self {
+        unsafe { a_polytrack7_gen(self) };
+        self
     }
 
     /// process function for hepta polynomial trajectory
@@ -416,5 +446,11 @@ fn polytrack7() {
             a.acc(ts),
             a.jer(ts)
         );
+        a.v = [0.0, 0.0];
+        a.a = [0.0, 0.0];
+        a.j = [0.0, 0.0];
+        println!("{:?}", a.k);
+        a.gen();
+        println!("{:?}", a.k);
     }
 }

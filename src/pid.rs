@@ -14,13 +14,13 @@ pub const INC: Uint = 2;
 #[repr(C)]
 pub struct PID {
     /// sampling time unit(s)
-    pub dt: Real,
+    dt: Real,
     /// proportional constant
-    pub kp: Real,
+    kp: Real,
     /// integral constant
-    pub ki: Real,
+    ki: Real,
     /// derivative constant
-    pub kd: Real,
+    kd: Real,
     /// controller output
     pub out: Real,
     /// (integral) output item sum
@@ -45,11 +45,19 @@ extern "C" {
     fn a_pid_off(ctx: *mut PID) -> *mut PID;
     fn a_pid_inc(ctx: *mut PID) -> *mut PID;
     fn a_pid_pos(ctx: *mut PID, max: Real) -> *mut PID;
-    fn a_pid_mode(ctx: *mut PID, reg: Uint) -> *mut PID;
-    fn a_pid_time(ctx: *mut PID, dt: Real) -> *mut PID;
     fn a_pid_kpid(ctx: *mut PID, kp: Real, ki: Real, kd: Real) -> *mut PID;
     fn a_pid_cc_x(ctx: *mut PID, set: Real, fdb: Real) -> Real;
     fn a_pid_zero(ctx: *mut PID) -> *mut PID;
+    fn a_pid_set_dt(ctx: *mut PID, dt: Real);
+    fn a_pid_dt(ctx: *const PID) -> Real;
+    fn a_pid_set_kp(ctx: *mut PID, kp: Real);
+    fn a_pid_kp(ctx: *const PID) -> Real;
+    fn a_pid_set_ki(ctx: *mut PID, ki: Real);
+    fn a_pid_ki(ctx: *const PID) -> Real;
+    fn a_pid_set_kd(ctx: *mut PID, kd: Real);
+    fn a_pid_kd(ctx: *const PID) -> Real;
+    fn a_pid_set_reg(ctx: *mut PID, reg: Uint);
+    fn a_pid_reg(ctx: *const PID) -> Uint;
 }
 
 impl PID {
@@ -136,16 +144,6 @@ impl PID {
         unsafe { a_pid_pos(self, max).as_mut().unwrap_unchecked() }
     }
 
-    /// set register for PID controller directly
-    pub fn mode(&mut self, reg: u32) -> &mut Self {
-        unsafe { a_pid_mode(self, reg as Uint).as_mut().unwrap_unchecked() }
-    }
-
-    /// set sampling period for PID controller
-    pub fn time(&mut self, dt: Real) -> &mut Self {
-        unsafe { a_pid_time(self, dt).as_mut().unwrap_unchecked() }
-    }
-
     /// set proportional integral derivative constant for PID controller
     pub fn kpid(&mut self, kp: Real, ki: Real, kd: Real) -> &mut Self {
         unsafe { a_pid_kpid(self, kp, ki, kd).as_mut().unwrap_unchecked() }
@@ -160,6 +158,56 @@ impl PID {
     pub fn zero(&mut self) -> &mut Self {
         unsafe { a_pid_zero(self).as_mut().unwrap_unchecked() }
     }
+
+    /// get sampling time unit(s) for PID controller
+    pub fn dt(&self) -> Real {
+        unsafe { a_pid_dt(self) }
+    }
+    /// set sampling time unit(s) for PID controller
+    pub fn set_dt(&mut self, dt: Real) -> &mut Self {
+        unsafe { a_pid_set_dt(self, dt) };
+        self
+    }
+
+    /// get proportional constant for PID controller
+    pub fn kp(&self) -> Real {
+        unsafe { a_pid_kp(self) }
+    }
+    /// set proportional constant for PID controller
+    pub fn set_kp(&mut self, kp: Real) -> &mut Self {
+        unsafe { a_pid_set_kp(self, kp) };
+        self
+    }
+
+    /// get integral constant for PID controller
+    pub fn ki(&self) -> Real {
+        unsafe { a_pid_ki(self) }
+    }
+    /// set integral constant for PID controller
+    pub fn set_ki(&mut self, ki: Real) -> &mut Self {
+        unsafe { a_pid_set_ki(self, ki) };
+        self
+    }
+
+    /// get derivative constant for PID controller
+    pub fn kd(&self) -> Real {
+        unsafe { a_pid_kd(self) }
+    }
+    /// set derivative constant for PID controller
+    pub fn set_kd(&mut self, kd: Real) -> &mut Self {
+        unsafe { a_pid_set_kd(self, kd) };
+        self
+    }
+
+    /// get mode for PID controller
+    pub fn mode(&self) -> Uint {
+        unsafe { a_pid_reg(self) }
+    }
+    /// set mode for PID controller
+    pub fn set_mode(&mut self, reg: Uint) -> &mut Self {
+        unsafe { a_pid_set_reg(self, reg) };
+        self
+    }
 }
 
 #[test]
@@ -173,14 +221,9 @@ fn pid() {
         println!("{}", a.proc(1.0, 0.0));
     }
     let mut a = crate::PID::new(1.0, -10.0, 10.0);
-    a.mode(crate::pid::OFF);
-    a.mode(crate::pid::POS);
-    a.mode(crate::pid::INC);
     a.kpid(10.0, 0.1, 1.0);
-    a.time(0.1);
-    a.pos(10.0);
-    a.off();
-    a.inc();
+    a.pos(10.0).off().inc().set_dt(0.1);
+    assert!(a.mode() == crate::pid::INC);
     println!("{}", a.proc(1.0, 0.0));
     a.zero();
 }

@@ -17,7 +17,7 @@ pub struct FPID {
     mms: *mut Real,
     mat: *mut Real,
     /// fuzzy relational operator
-    pub op: Option<extern "C" fn(Real, Real) -> Real>,
+    op: Option<extern "C" fn(Real, Real) -> Real>,
     sigma: Real,
     alpha: Real,
     /// base proportional constant
@@ -32,8 +32,6 @@ extern "C" {
     fn a_fpid_off(ctx: *mut FPID) -> *mut FPID;
     fn a_fpid_inc(ctx: *mut FPID) -> *mut FPID;
     fn a_fpid_pos(ctx: *mut FPID, max: Real) -> *mut FPID;
-    fn a_fpid_mode(ctx: *mut FPID, reg: Uint) -> *mut FPID;
-    fn a_fpid_time(ctx: *mut FPID, dt: Real) -> *mut FPID;
     fn a_fpid_ilim(ctx: *mut FPID, min: Real, max: Real) -> *mut FPID;
     fn a_fpid_olim(ctx: *mut FPID, min: Real, max: Real) -> *mut FPID;
     fn a_fpid_kpid(ctx: *mut FPID, kp: Real, ki: Real, kd: Real) -> *mut FPID;
@@ -126,16 +124,6 @@ impl FPID {
         unsafe { a_fpid_pos(self, max).as_mut().unwrap_unchecked() }
     }
 
-    /// set register for fuzzy PID controller directly
-    pub fn mode(&mut self, reg: u32) -> &mut Self {
-        unsafe { a_fpid_mode(self, reg as Uint).as_mut().unwrap_unchecked() }
-    }
-
-    /// set sampling period for fuzzy PID controller
-    pub fn time(&mut self, dt: Real) -> &mut Self {
-        unsafe { a_fpid_time(self, dt).as_mut().unwrap_unchecked() }
-    }
-
     /// set input extreme value for fuzzy PID controller
     pub fn ilim(&mut self, min: Real, max: Real) -> &mut Self {
         unsafe { a_fpid_ilim(self, min, max).as_mut().unwrap_unchecked() }
@@ -191,6 +179,26 @@ impl FPID {
     /// zero function for fuzzy PID controller
     pub fn zero(&mut self) -> &mut Self {
         unsafe { a_fpid_zero(self).as_mut().unwrap_unchecked() }
+    }
+
+    /// get sampling time unit(s) for fuzzy PID controller
+    pub fn dt(&self) -> Uint {
+        self.pid.mode()
+    }
+    /// set sampling time unit(s) for fuzzy PID controller
+    pub fn set_dt(&mut self, dt: Real) -> &mut Self {
+        self.pid.set_dt(dt);
+        self
+    }
+
+    /// get mode for fuzzy PID controller
+    pub fn mode(&self) -> Uint {
+        self.pid.mode()
+    }
+    /// set mode for PID controller
+    pub fn set_mode(&mut self, reg: Uint) -> &mut Self {
+        self.pid.set_mode(reg);
+        self
     }
 }
 
@@ -279,8 +287,8 @@ fn fpid() {
     let mut mms = [0.0; 4];
     let mut mat = [0.0; 4];
     a.buff(&mut idx, &mut mms, &mut mat);
-    a.time(0.1).pos(10.0);
-    a.off().inc();
+    a.pos(10.0).off().inc().set_dt(0.1);
+    assert!(a.mode() == crate::pid::INC);
     println!("{}", a.proc(1.0, 0.0));
     a.zero();
 }
