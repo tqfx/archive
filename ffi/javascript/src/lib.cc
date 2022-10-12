@@ -46,7 +46,7 @@ public:
     {
         a_pid_kpid(this->ctx, jkp, jki, jkd);
     }
-    void time(a_real_t jdt) { a_pid_time(this->ctx, jdt); }
+    void time(a_real_t jdt) { a_pid_set_dt(this->ctx, jdt); }
     void pos(a_real_t jmax) { a_pid_pos(this->ctx, jmax); }
     void inc() { a_pid_inc(this->ctx); }
     void off() { a_pid_off(this->ctx); }
@@ -131,7 +131,7 @@ public:
     {
         a_fpid_kpid(this->ctx, jkp, jki, jkd);
     }
-    void time(a_real_t jdt) { a_fpid_time(this->ctx, jdt); }
+    void time(a_real_t jdt) { a_pid_set_dt(this->ctx->pid, jdt); }
     void pos(a_real_t jmax) { a_fpid_pos(this->ctx, jmax); }
     void inc() { a_fpid_inc(this->ctx); }
     void off() { a_fpid_off(this->ctx); }

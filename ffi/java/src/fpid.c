@@ -158,7 +158,7 @@ JNIEXPORT jobject JNICALL JPACKAGE(fpid_mode)(JNIEnv *jenv, jobject jobj, jint j
     a_fpid_s ctx[1];
     j_fpid_s jctx[1];
     j_fpid_get(j_fpid_new(jenv, jobj, jctx), ctx);
-    a_fpid_mode(ctx, (a_uint_t)jreg);
+    a_pid_set_reg(ctx->pid, (a_uint_t)jreg);
     return j_fpid_set(jctx, ctx);
 }
 
@@ -167,7 +167,7 @@ JNIEXPORT jobject JNICALL JPACKAGE(fpid_time)(JNIEnv *jenv, jobject jobj, jdoubl
     a_fpid_s ctx[1];
     j_fpid_s jctx[1];
     j_fpid_get(j_fpid_new(jenv, jobj, jctx), ctx);
-    a_fpid_time(ctx, jdt);
+    a_pid_set_dt(ctx->pid, jdt);
     return j_fpid_set(jctx, ctx);
 }
 

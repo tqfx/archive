@@ -189,5 +189,4 @@ public final class fpid {
      * @return {@link fpid}
      */
     public final native fpid zero();
-
 }
