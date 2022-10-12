@@ -81,11 +81,10 @@ void *l_cmalloc(size_t siz);
 void *l_realloc(const void *ptr, size_t siz);
 void l_dealloc(const void *var);
 
+int l_setter(lua_State *L);
 uint32_t l_hashs(const void *s);
 void l_stack(lua_State *L, int line);
 int l_field(lua_State *L, const char *i, const char *s, uint32_t v);
-void *l_malloc(lua_State *L, size_t size);
-void *l_calloc(lua_State *L, size_t size);
 
 lua_Integer get_enum(lua_State *L, int idx, const char *name);
 void set_enum(lua_State *L, int idx, const char *name, lua_Integer data);
@@ -104,7 +103,7 @@ void arraynum_sets(lua_State *L, int idx, const SFnums *tab);
 
 size_t tablenum_len(lua_State *L, int idx);
 lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr);
-lua_Number *tablenum_get(lua_State *L, int idx, size_t *num);
+lua_Number *tablenum_get(lua_State *L, int idx, const lua_Number *ptr, size_t *num);
 void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, size_t num, unsigned int col);
 
 int luaopen_liba_mf(lua_State *L);

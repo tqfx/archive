@@ -3,6 +3,24 @@
  @classmod polytrack5
 */
 
+/***
+ quintic polynomial trajectory
+ @field k quantity table
+ @field t time table
+ @field p position table
+ @field v velocity table
+ @field a acceleration table
+ @field t0 time for source
+ @field t1 time for target
+ @field q0 position for source
+ @field q1 position for target
+ @field v0 velocity for source
+ @field v1 velocity for target
+ @field a0 acceleration for source
+ @field a1 acceleration for target
+ @table polytrack5
+*/
+
 #ifndef __POLYTRACK5_H__
 #define __POLYTRACK5_H__
 
@@ -16,26 +34,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int polytrack5_from_(lua_State *L, int idx, a_polytrack5_s *ctx);
-int polytrack5_into_(lua_State *L, a_polytrack5_s *ctx);
 int polytrack5_meta_(lua_State *L);
 int polytrack5_func_(lua_State *L);
-
-/***
- convert quintic polynomial trajectory userdata from table
- @tparam table tab quintic polynomial trajectory table
- @treturn polytrack5 quintic polynomial trajectory userdata
- @function from
-*/
-int polytrack5_from(lua_State *L);
-
-/***
- convert quintic polynomial trajectory userdata into table
- @param ctx quintic polynomial trajectory userdata
- @treturn table quintic polynomial trajectory table
- @function into
-*/
-int polytrack5_into(lua_State *L);
 
 /***
  constructor for quintic polynomial trajectory
@@ -70,6 +70,13 @@ int polytrack5_new(lua_State *L);
  @function init
 */
 int polytrack5_init(lua_State *L);
+
+/***
+ generation function for quintic polynomial trajectory
+ @treturn polytrack5 quintic polynomial trajectory userdata
+ @function gen
+*/
+int polytrack5_gen(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory

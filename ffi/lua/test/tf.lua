@@ -19,6 +19,8 @@ assert(type(ctx.proc(ctx, 1)) == 'number')
 assert(type(ctx.zero(ctx)) == 'userdata')
 assert(type(ctx:proc(1)) == 'number')
 assert(type(ctx:zero()) == 'userdata')
+test:r(ctx.num)
+test:r(ctx.den)
 ctx.num = {1, 2}
 assert(type(ctx.num) == 'table')
 ctx.den = {3, 4}

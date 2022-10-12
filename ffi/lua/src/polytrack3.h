@@ -3,6 +3,21 @@
  @classmod polytrack3
 */
 
+/***
+ cubic polynomial trajectory
+ @field k quantity table
+ @field t time table
+ @field p position table
+ @field v velocity table
+ @field t0 time for source
+ @field t1 time for target
+ @field q0 position for source
+ @field q1 position for target
+ @field v0 velocity for source
+ @field v1 velocity for target
+ @table polytrack3
+*/
+
 #ifndef __POLYTRACK3_H__
 #define __POLYTRACK3_H__
 
@@ -16,26 +31,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int polytrack3_from_(lua_State *L, int idx, a_polytrack3_s *ctx);
-int polytrack3_into_(lua_State *L, a_polytrack3_s *ctx);
 int polytrack3_meta_(lua_State *L);
 int polytrack3_func_(lua_State *L);
-
-/***
- convert cubic polynomial trajectory userdata from table
- @tparam table tab cubic polynomial trajectory table
- @treturn polytrack3 cubic polynomial trajectory userdata
- @function from
-*/
-int polytrack3_from(lua_State *L);
-
-/***
- convert cubic polynomial trajectory userdata into table
- @param ctx cubic polynomial trajectory userdata
- @treturn table cubic polynomial trajectory table
- @function into
-*/
-int polytrack3_into(lua_State *L);
 
 /***
  constructor for cubic polynomial trajectory
@@ -66,6 +63,13 @@ int polytrack3_new(lua_State *L);
  @function init
 */
 int polytrack3_init(lua_State *L);
+
+/***
+ generation function for cubic polynomial trajectory
+ @treturn polytrack3 cubic polynomial trajectory userdata
+ @function gen
+*/
+int polytrack3_gen(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory

@@ -3,6 +3,23 @@
  @classmod pid
 */
 
+/***
+ proportional integral derivative controller
+ @field dt sampling time unit(s)
+ @field kp proportional constant
+ @field ki integral constant
+ @field kd derivative constant
+ @field mode controller mode
+ @field outmin minimum final output
+ @field outmax maximum final output
+ @field summax maximum integral output
+ @field out controller output
+ @field fdb cache feedback
+ @field ec error change
+ @field e error input
+ @table pid
+*/
+
 #ifndef __PID_H__
 #define __PID_H__
 
@@ -16,26 +33,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int pid_from_(lua_State *L, int idx, a_pid_s *ctx);
-int pid_into_(lua_State *L, a_pid_s *ctx);
 int pid_meta_(lua_State *L);
 int pid_func_(lua_State *L);
-
-/***
- convert PID controller userdata from table
- @tparam table tab PID controller table
- @treturn pid PID controller userdata
- @function from
-*/
-int pid_from(lua_State *L);
-
-/***
- convert PID controller userdata into table
- @param ctx PID controller userdata
- @treturn table PID controller table
- @function into
-*/
-int pid_into(lua_State *L);
 
 /***
  constructor for PID controller
@@ -90,14 +89,6 @@ int pid_zero(lua_State *L);
  @function kpid
 */
 int pid_kpid(lua_State *L);
-
-/***
- set sampling period for PID controller
- @tparam number dt sampling time unit(s)
- @treturn pid PID controller userdata
- @function time
-*/
-int pid_time(lua_State *L);
 
 /***
  positional PID controller

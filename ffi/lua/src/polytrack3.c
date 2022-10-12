@@ -17,73 +17,6 @@ int polytrack3_func_(lua_State *L)
     return 1;
 }
 
-int polytrack3_from_(lua_State *L, int idx, a_polytrack3_s *ctx)
-{
-    GFnums polytrack3[] = {
-        {"k", ctx->k, 4},
-        {"t", ctx->t, 2},
-        {"q", ctx->q, 2},
-        {"v", ctx->v, 2},
-        {NULL, NULL, 0},
-    };
-    arraynum_gets(L, idx, polytrack3);
-    return 0;
-}
-
-int polytrack3_into_(lua_State *L, a_polytrack3_s *ctx)
-{
-    SFnums polytrack3[] = {
-        {"k", ctx->k, 4},
-        {"t", ctx->t, 2},
-        {"q", ctx->q, 2},
-        {"v", ctx->v, 2},
-        {NULL, NULL, 0},
-    };
-    lua_createtable(L, 0, Larray(polytrack3) - 1);
-    arraynum_sets(L, -1, polytrack3);
-    return 1;
-}
-
-/***
- convert cubic polynomial trajectory userdata from table
- @tparam table tab cubic polynomial trajectory table
- @treturn polytrack3 cubic polynomial trajectory userdata
- @function from
-*/
-int polytrack3_from(lua_State *L)
-{
-    a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -2);
-    if (ctx)
-    {
-        lua_pushvalue(L, -2);
-        lua_remove(L, -3);
-    }
-    else
-    {
-        ctx = (a_polytrack3_s *)lua_newuserdata(L, sizeof(a_polytrack3_s));
-    }
-    polytrack3_meta_(L);
-    lua_setmetatable(L, -2);
-    polytrack3_from_(L, -2, ctx);
-    return 1;
-}
-
-/***
- convert cubic polynomial trajectory userdata into table
- @param ctx cubic polynomial trajectory userdata
- @treturn table cubic polynomial trajectory table
- @function into
-*/
-int polytrack3_into(lua_State *L)
-{
-    a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -1);
-    if (ctx)
-    {
-        return polytrack3_into_(L, ctx);
-    }
-    return 0;
-}
-
 static int polytrack3_init_(lua_State *L, a_polytrack3_s *ctx)
 {
     a_real_t t0 = 0, q0 = 0, v0 = 0;
@@ -208,6 +141,23 @@ int polytrack3_init(lua_State *L)
 }
 
 /***
+ generation function for cubic polynomial trajectory
+ @param ctx cubic polynomial trajectory userdata
+ @treturn polytrack3 cubic polynomial trajectory userdata
+ @function gen
+*/
+int polytrack3_gen(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, -1);
+    if (ctx)
+    {
+        a_polytrack3_gen(ctx);
+        return 1;
+    }
+    return 0;
+}
+
+/***
  process function for cubic polynomial trajectory
  @param ctx cubic polynomial trajectory userdata
  @tparam number ts current time unit(s)
@@ -286,12 +236,126 @@ int polytrack3_acc(lua_State *L)
     return 0;
 }
 
+static int polytrack3_set(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, 1);
+    const char *field = lua_tostring(L, 2);
+    uint32_t hash = l_hashs(field);
+    switch (hash)
+    {
+    case 0x00000074: // t
+        luaL_checktype(L, 3, LUA_TTABLE);
+        lua_createtable(L, Larray(ctx->t), 0);
+        arraynum_get(L, 3, ctx->t, Larray(ctx->t));
+        break;
+    case 0x00000071: // q
+        luaL_checktype(L, 3, LUA_TTABLE);
+        lua_createtable(L, Larray(ctx->q), 0);
+        arraynum_get(L, 3, ctx->q, Larray(ctx->q));
+        break;
+    case 0x00000076: // v
+        luaL_checktype(L, 3, LUA_TTABLE);
+        lua_createtable(L, Larray(ctx->v), 0);
+        arraynum_get(L, 3, ctx->v, Larray(ctx->v));
+        break;
+    case 0x00003B8C: // t0
+        ctx->t[0] = luaL_checknumber(L, 3);
+        break;
+    case 0x00003A03: // q0
+        ctx->q[0] = luaL_checknumber(L, 3);
+        break;
+    case 0x00003C92: // v0
+        ctx->v[0] = luaL_checknumber(L, 3);
+        break;
+    case 0x00003B8D: // t1
+        ctx->t[1] = luaL_checknumber(L, 3);
+        break;
+    case 0x00003A04: // q1
+        ctx->q[1] = luaL_checknumber(L, 3);
+        break;
+    case 0x00003C93: // v1
+        ctx->v[1] = luaL_checknumber(L, 3);
+        break;
+    default:
+        return l_field(L, "setter", field, hash);
+    }
+    a_polytrack3_gen(ctx);
+    return 0;
+}
+
+static int polytrack3_get(lua_State *L)
+{
+    a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, 1);
+    const char *field = lua_tostring(L, 2);
+    uint32_t hash = l_hashs(field);
+    switch (hash)
+    {
+    case 0x0000006B: // k
+        lua_createtable(L, Larray(ctx->k), 0);
+        arraynum_set(L, -1, ctx->k, Larray(ctx->k));
+        break;
+    case 0x00000074: // t
+        lua_createtable(L, Larray(ctx->t), 0);
+        arraynum_set(L, -1, ctx->t, Larray(ctx->t));
+        break;
+    case 0x00000071: // q
+        lua_createtable(L, Larray(ctx->q), 0);
+        arraynum_set(L, -1, ctx->q, Larray(ctx->q));
+        break;
+    case 0x00000076: // v
+        lua_createtable(L, Larray(ctx->v), 0);
+        arraynum_set(L, -1, ctx->v, Larray(ctx->v));
+        break;
+    case 0x00003B8C: // t0
+        lua_pushnumber(L, ctx->t[0]);
+        break;
+    case 0x00003A03: // q0
+        lua_pushnumber(L, ctx->q[0]);
+        break;
+    case 0x00003C92: // v0
+        lua_pushnumber(L, ctx->v[0]);
+        break;
+    case 0x00003B8D: // t1
+        lua_pushnumber(L, ctx->t[1]);
+        break;
+    case 0x00003A04: // q1
+        lua_pushnumber(L, ctx->q[1]);
+        break;
+    case 0x00003C93: // v1
+        lua_pushnumber(L, ctx->v[1]);
+        break;
+    case 0x001D0204: // new
+        lua_pushcfunction(L, polytrack3_new);
+        break;
+    case 0x0E2ED8A0: // init
+        lua_pushcfunction(L, polytrack3_init);
+        break;
+    case 0x001B2CBC: // gen
+        lua_pushcfunction(L, polytrack3_gen);
+        break;
+    case 0x001D4D3A: // out
+        lua_pushcfunction(L, polytrack3_out);
+        break;
+    case 0x001D8D30: // pos
+        lua_pushcfunction(L, polytrack3_pos);
+        break;
+    case 0x001F1A38: // vec
+        lua_pushcfunction(L, polytrack3_vec);
+        break;
+    case 0x00199975: // acc
+        lua_pushcfunction(L, polytrack3_acc);
+        break;
+    default:
+        return l_field(L, "getter", field, hash);
+    }
+    return 1;
+}
+
 int luaopen_liba_polytrack3(lua_State *L)
 {
     const SFunc funcs[] = {
-        {"from", polytrack3_from},
-        {"into", polytrack3_into},
         {"init", polytrack3_init},
+        {"gen", polytrack3_gen},
         {"out", polytrack3_out},
         {"pos", polytrack3_pos},
         {"vec", polytrack3_vec},
@@ -299,21 +363,21 @@ int luaopen_liba_polytrack3(lua_State *L)
         {"new", polytrack3_new},
         {NULL, NULL},
     };
-    const SFunc metas[] = {
-        {"__call", polytrack3_new},
-        {NULL, NULL},
-    };
     lua_createtable(L, 0, Larray(funcs) - 1);
     set_funcs(L, -1, funcs);
-    lua_createtable(L, 0, Larray(metas) - 1);
-    set_funcs(L, -1, metas);
+    lua_createtable(L, 0, 2);
+    set_func(L, -1, LSET, l_setter);
+    set_func(L, -1, LNEW, polytrack3_new);
     lua_setmetatable(L, -2);
 
-    lua_createtable(L, 0, 2);
-    set_func(L, -1, "__call", polytrack3_out);
-    lua_pushstring(L, "__index");
-    lua_pushvalue(L, -3);
-    lua_rawset(L, -3);
+    const SFunc metas[] = {
+        {LNEW, polytrack3_out},
+        {LSET, polytrack3_set},
+        {LGET, polytrack3_get},
+        {NULL, NULL},
+    };
+    lua_createtable(L, 0, Larray(metas) - 1);
+    set_funcs(L, -1, metas);
 
     lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK3_META_);
     lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK3_FUNC_);

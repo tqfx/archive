@@ -3,6 +3,27 @@
  @classmod polytrack7
 */
 
+/***
+ hepta polynomial trajectory
+ @field k quantity table
+ @field t time table
+ @field p position table
+ @field v velocity table
+ @field a acceleration table
+ @field j jerk table
+ @field t0 time for source
+ @field t1 time for target
+ @field q0 position for source
+ @field q1 position for target
+ @field v0 velocity for source
+ @field v1 velocity for target
+ @field a0 acceleration for source
+ @field a1 acceleration for target
+ @field j0 jerk for source
+ @field j1 jerk for target
+ @table polytrack7
+*/
+
 #ifndef __POLYTRACK7_H__
 #define __POLYTRACK7_H__
 
@@ -16,26 +37,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int polytrack7_from_(lua_State *L, int idx, a_polytrack7_s *ctx);
-int polytrack7_into_(lua_State *L, a_polytrack7_s *ctx);
 int polytrack7_meta_(lua_State *L);
 int polytrack7_func_(lua_State *L);
-
-/***
- convert hepta polynomial trajectory userdata from table
- @tparam table tab hepta polynomial trajectory table
- @treturn polytrack7 hepta polynomial trajectory userdata
- @function from
-*/
-int polytrack7_from(lua_State *L);
-
-/***
- convert hepta polynomial trajectory userdata into table
- @param ctx hepta polynomial trajectory userdata
- @treturn table hepta polynomial trajectory table
- @function into
-*/
-int polytrack7_into(lua_State *L);
 
 /***
  constructor for hepta polynomial trajectory
@@ -74,6 +77,13 @@ int polytrack7_new(lua_State *L);
  @function init
 */
 int polytrack7_init(lua_State *L);
+
+/***
+ generation function for hepta polynomial trajectory
+ @treturn polytrack7 hepta polynomial trajectory userdata
+ @function gen
+*/
+int polytrack7_gen(lua_State *L);
 
 /***
  process function for hepta polynomial trajectory

@@ -3,6 +3,13 @@
  @classmod tf
 */
 
+/***
+ transfer function
+ @field num numerator table
+ @field den denominator table
+ @table tf
+*/
+
 #ifndef __TF_H__
 #define __TF_H__
 
@@ -20,6 +27,12 @@ int tf_meta_(lua_State *L);
 int tf_func_(lua_State *L);
 
 /***
+ destructor for transfer function
+ @function die
+*/
+int tf_die(lua_State *L);
+
+/***
  constructor for transfer function
  @tparam table num numerator table
  @tparam table den denominator table
@@ -27,13 +40,6 @@ int tf_func_(lua_State *L);
  @function new
 */
 int tf_new(lua_State *L);
-
-/***
- destructor for transfer function
- @param ctx transfer function userdata
- @function die
-*/
-int tf_die(lua_State *L);
 
 /***
  initialize function for transfer function

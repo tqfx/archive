@@ -1,5 +1,17 @@
 #include "lua.h"
 
+int l_setter(lua_State *L)
+{
+    const char *field = lua_tostring(L, 2);
+    uint32_t hash = l_hashs(field);
+    switch (hash)
+    {
+    default:
+        return l_field(L, "setter", field, hash);
+    }
+    return 0;
+}
+
 uint32_t l_hashs(const void *s)
 {
     uint32_t x = 0;
@@ -28,21 +40,6 @@ void l_stack(lua_State *L, int line)
         putchar(map[lua_type(L, i) % (int)sizeof(map)]);
         putchar(i != n ? ' ' : '\n');
     }
-}
-
-void *l_malloc(lua_State *L, size_t size)
-{
-    void *ptr = lua_newuserdata(L, size);
-    lua_pop(L, 1);
-    return ptr;
-}
-
-void *l_calloc(lua_State *L, size_t size)
-{
-    void *ptr = lua_newuserdata(L, size);
-    memset(ptr, 0, size);
-    lua_pop(L, 1);
-    return ptr;
 }
 
 void *l_cmalloc(size_t siz)
@@ -268,9 +265,8 @@ lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr)
     return ptr;
 }
 
-lua_Number *tablenum_get(lua_State *L, int idx, size_t *num)
+lua_Number *tablenum_get(lua_State *L, int idx, const lua_Number *ptr, size_t *num)
 {
-    lua_Number *ptr = NULL;
     if (lua_type(L, idx) == LUA_TTABLE)
     {
         size_t buf = 0;
@@ -278,11 +274,11 @@ lua_Number *tablenum_get(lua_State *L, int idx, size_t *num)
         *num = tablenum_len(L, idx);
         if (*num)
         {
-            ptr = (lua_Number *)l_malloc(L, sizeof(lua_Number) * (size_t)*num);
-            tablenum_num(L, idx, ptr);
+            ptr = (lua_Number *)l_realloc(ptr, sizeof(lua_Number) * *num);
+            tablenum_num(L, idx, (lua_Number *)(intptr_t)ptr);
         }
     }
-    return ptr;
+    return (lua_Number *)(intptr_t)ptr;
 }
 
 void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, size_t num, unsigned int col)
