@@ -1,15 +1,26 @@
 #ifndef __LUA_H__
 #define __LUA_H__
 
+#if defined(_MSC_VER)
+#define _CRT_SECURE_NO_WARNINGS
+#endif /* _MSC_VER */
+
 #include "a/a.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4820)
+#endif /* _MSC_VER */
 #include "lauxlib.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif /* _MSC_VER */
 #include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
@@ -118,6 +129,6 @@ int luaopen_liba_version(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-A_PUBLIC LUA_API int luaopen_liba(lua_State *L);
+A_PUBLIC int luaopen_liba(lua_State *L);
 
 #endif /* __LUA_H__ */
