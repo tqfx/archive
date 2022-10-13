@@ -386,16 +386,16 @@ static int fpid_get(lua_State *L)
         lua_pushnumber(L, ctx->pid->summax);
         break;
     case 0x001D4D3A: // out
-        lua_pushnumber(L, ctx->pid->out.x);
+        lua_pushnumber(L, ctx->pid->out.v);
         break;
     case 0x001AE924: // fdb
-        lua_pushnumber(L, ctx->pid->fdb.x);
+        lua_pushnumber(L, ctx->pid->fdb.v);
         break;
     case 0x00003412: // ec
-        lua_pushnumber(L, ctx->pid->ec.x);
+        lua_pushnumber(L, ctx->pid->ec.v);
         break;
     case 0x00000065: // e
-        lua_pushnumber(L, ctx->pid->e.x);
+        lua_pushnumber(L, ctx->pid->e.v);
         break;
     case 0x001A25B4: // col
         lua_pushinteger(L, a_fpid_col(ctx));

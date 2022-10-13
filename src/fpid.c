@@ -257,7 +257,7 @@ skip_kd:
 a_real_t a_fpid_cc_x(a_fpid_s *ctx, a_real_t set, a_real_t fdb)
 {
     a_real_t e = set - fdb;
-    a_real_t ec = e - ctx->pid->e.x;
+    a_real_t ec = e - ctx->pid->e.v;
     a_real_t ev[2] = {e, ec};
     a_fpid_cc_(ctx, ev, ctx->pid->reg >> A_PID_REG_BITS);
     return a_pid_cc_x_(ctx->pid, ctx->pid->reg & A_PID_REG_MASK, set, fdb, ec, e);
@@ -271,12 +271,12 @@ a_real_t *a_fpid_cc_v(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb)
     for (a_uint_t i = 0; i != num; ++i)
     {
         a_real_t e = set[i] - fdb[i];
-        a_real_t ec = e - ctx->pid->e.v[i];
+        a_real_t ec = e - ctx->pid->e.p[i];
         a_real_t ev[2] = {e, ec};
         a_fpid_cc_(ctx, ev, col);
         a_pid_cc_v_(ctx->pid, reg, set[i], fdb[i], ec, e, i);
     }
-    return ctx->pid->out.v;
+    return ctx->pid->out.p;
 }
 
 #undef A_FPID_BUF1

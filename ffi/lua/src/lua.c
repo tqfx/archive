@@ -4,12 +4,7 @@ int l_setter(lua_State *L)
 {
     const char *field = lua_tostring(L, 2);
     uint32_t hash = l_hashs(field);
-    switch (hash)
-    {
-    default:
-        return l_field(L, "setter", field, hash);
-    }
-    return 0;
+    return l_field(L, "setter", field, hash);
 }
 
 uint32_t l_hashs(const void *s)

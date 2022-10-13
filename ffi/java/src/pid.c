@@ -35,11 +35,11 @@ jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
     ctx->outmin = (*jenv)->GetDoubleField(jenv, jobj, jctx->outmin);
     ctx->outmax = (*jenv)->GetDoubleField(jenv, jobj, jctx->outmax);
     ctx->summax = (*jenv)->GetDoubleField(jenv, jobj, jctx->summax);
-    ctx->sum.x = (*jenv)->GetDoubleField(jenv, jobj, jctx->sum);
-    ctx->out.x = (*jenv)->GetDoubleField(jenv, jobj, jctx->out);
-    ctx->fdb.x = (*jenv)->GetDoubleField(jenv, jobj, jctx->fdb);
-    ctx->ec.x = (*jenv)->GetDoubleField(jenv, jobj, jctx->ec);
-    ctx->e.x = (*jenv)->GetDoubleField(jenv, jobj, jctx->e);
+    ctx->sum.v = (*jenv)->GetDoubleField(jenv, jobj, jctx->sum);
+    ctx->out.v = (*jenv)->GetDoubleField(jenv, jobj, jctx->out);
+    ctx->fdb.v = (*jenv)->GetDoubleField(jenv, jobj, jctx->fdb);
+    ctx->ec.v = (*jenv)->GetDoubleField(jenv, jobj, jctx->ec);
+    ctx->e.v = (*jenv)->GetDoubleField(jenv, jobj, jctx->e);
     return jctx->jobj;
 }
 
@@ -56,11 +56,11 @@ jobject j_pid_set(const j_pid_s *jctx, const a_pid_s *ctx)
     (*jenv)->SetDoubleField(jenv, jobj, jctx->outmin, ctx->outmin);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->outmax, ctx->outmax);
     (*jenv)->SetDoubleField(jenv, jobj, jctx->summax, ctx->summax);
-    (*jenv)->SetDoubleField(jenv, jobj, jctx->sum, ctx->sum.x);
-    (*jenv)->SetDoubleField(jenv, jobj, jctx->out, ctx->out.x);
-    (*jenv)->SetDoubleField(jenv, jobj, jctx->fdb, ctx->fdb.x);
-    (*jenv)->SetDoubleField(jenv, jobj, jctx->ec, ctx->ec.x);
-    (*jenv)->SetDoubleField(jenv, jobj, jctx->e, ctx->e.x);
+    (*jenv)->SetDoubleField(jenv, jobj, jctx->sum, ctx->sum.v);
+    (*jenv)->SetDoubleField(jenv, jobj, jctx->out, ctx->out.v);
+    (*jenv)->SetDoubleField(jenv, jobj, jctx->fdb, ctx->fdb.v);
+    (*jenv)->SetDoubleField(jenv, jobj, jctx->ec, ctx->ec.v);
+    (*jenv)->SetDoubleField(jenv, jobj, jctx->e, ctx->e.v);
     return jctx->jobj;
 }
 

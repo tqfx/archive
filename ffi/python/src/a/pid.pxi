@@ -99,13 +99,13 @@ cdef class pid:
 
     @property
     def out(self) -> a_real_t:
-        return self.ctx.out.x
+        return self.ctx.out.v
     @property
     def fdb(self) -> a_real_t:
-        return self.ctx.fdb.x
+        return self.ctx.fdb.v
     @property
     def ec(self) -> a_real_t:
-        return self.ctx.ec.x
+        return self.ctx.ec.v
     @property
     def e(self) -> a_real_t:
-        return self.ctx.e.x
+        return self.ctx.e.v

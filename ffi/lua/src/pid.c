@@ -305,16 +305,16 @@ static int pid_get(lua_State *L)
         lua_pushnumber(L, ctx->summax);
         break;
     case 0x001D4D3A: // out
-        lua_pushnumber(L, ctx->out.x);
+        lua_pushnumber(L, ctx->out.v);
         break;
     case 0x001AE924: // fdb
-        lua_pushnumber(L, ctx->fdb.x);
+        lua_pushnumber(L, ctx->fdb.v);
         break;
     case 0x00003412: // ec
-        lua_pushnumber(L, ctx->ec.x);
+        lua_pushnumber(L, ctx->ec.v);
         break;
     case 0x00000065: // e
-        lua_pushnumber(L, ctx->e.x);
+        lua_pushnumber(L, ctx->e.v);
         break;
     case 0x0EB84F77: // mode
         lua_pushinteger(L, a_pid_reg(ctx));

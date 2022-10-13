@@ -142,13 +142,13 @@ cdef class fpid:
         return a_fpid_col(self.ctx)
     @property
     def out(self) -> a_real_t:
-        return self.ctx.pid.out.x
+        return self.ctx.pid.out.v
     @property
     def fdb(self) -> a_real_t:
-        return self.ctx.pid.fdb.x
+        return self.ctx.pid.fdb.v
     @property
     def ec(self) -> a_real_t:
-        return self.ctx.pid.ec.x
+        return self.ctx.pid.ec.v
     @property
     def e(self) -> a_real_t:
-        return self.ctx.pid.e.x
+        return self.ctx.pid.e.v
