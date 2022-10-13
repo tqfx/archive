@@ -40,9 +40,10 @@ class Build(build_ext):
 
 source_c, source_cc = [], []
 header_h, header_hh = [], []
-define_macros = [("A_EXPORTS", None)]
 suffix_c, suffix_cc = (".c",), (".cc", ".cpp", ".cxx")
 suffix_h, suffix_hh = (".h",), (".hh", ".hpp", ".hxx")
+define_macros = [("A_CONFIG", None), ("A_EXPORTS", None)]
+include_dirs = ["build", "include"]
 try:
     USE_CYTHON = True
     from Cython.Build import cythonize
@@ -53,6 +54,8 @@ if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
 elif os.path.exists("ffi/python/src/lib.c"):
     source_c = ["ffi/python/src/lib.c"]
 
+if not os.path.exists("build"):
+    os.mkdir("build")
 with open("setup.cfg", "r") as f:
     version = re.findall(r"version = (.+)", f.read())[0]
 major, minor, patch = re.findall(r"(\d+).(\d+).(\d+)", version)[0]
@@ -64,22 +67,20 @@ text = '''/*!
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_CONFIG_H__
-#define __A_CONFIG_H__
+#ifndef __LIBA_CONFIG_H__
+#define __LIBA_CONFIG_H__
 
+#define A_VERSION "{}"
 #define A_VERSION_MAJOR {}
 #define A_VERSION_MINOR {}
 #define A_VERSION_PATCH {}
 #define A_VERSION_TWEAK {}
 
-/*! algorithm library version string */
-#define A_VERSION "{}"
-
-#endif /* __A_CONFIG_H__ */
+#endif /* __LIBA_CONFIG_H__ */
 '''.format(
-    major, minor, patch, tweak, version
+    version, major, minor, patch, tweak
 )
-with open("include/a.config.h", "wb") as f:
+with open("build/a.config.h", "wb") as f:
     f.write(text.encode("UTF-8"))
 
 for source in glob("src/**"):
@@ -104,7 +105,7 @@ ext_modules = [
         name="liba",
         language="c",
         sources=source_c,
-        include_dirs=["include"],
+        include_dirs=include_dirs,
         define_macros=define_macros,
     )
 ]

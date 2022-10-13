@@ -92,11 +92,6 @@ if(NOT MATH_LIBRARY AND ANDROID)
   set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
 endif()
 
-configure_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
-  ${CMAKE_CURRENT_LIST_DIR}/include/a.config.h
-)
-
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
@@ -104,10 +99,11 @@ function(target_library_setting target)
     VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS
   )
-  target_compile_definitions(${target}
+  target_compile_definitions(${target} PUBLIC A_CONFIG
     INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
   )
   target_include_directories(${target} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
     $<INSTALL_INTERFACE:include>
   )
@@ -116,6 +112,11 @@ function(target_library_setting target)
   )
   target_library_options(${target})
 endfunction()
+
+configure_file(
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
+  ${CMAKE_CURRENT_BINARY_DIR}/a.config.h
+)
 
 file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 add_library(ac ${SOURCES})
@@ -133,6 +134,7 @@ set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
 set(PROJECT_LIBRARIES -la)
 unset(prop)
 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/a.config.h DESTINATION include)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"

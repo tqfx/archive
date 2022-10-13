@@ -5,19 +5,15 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_CONFIG_H__
-#define __A_CONFIG_H__
+#ifndef __LIBA_CONFIG_H__
+#define __LIBA_CONFIG_H__
 
-// clang-format off
-
+/* clang-format off */
+#define A_VERSION "${VERSION}"
 #define A_VERSION_MAJOR ${VERSION_MAJOR}
 #define A_VERSION_MINOR ${VERSION_MINOR}
 #define A_VERSION_PATCH ${VERSION_ALTER}
-#define A_VERSION_TWEAK ${VERSION_BUILD}
+#define A_VERSION_TWEAK A_U64_C(${VERSION_BUILD})
+/* clang-format on */
 
-// clang-format on
-
-/*! algorithm library version string */
-#define A_VERSION "${VERSION}"
-
-#endif /* __A_CONFIG_H__ */
+#endif /* __LIBA_CONFIG_H__ */

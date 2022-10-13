@@ -7,35 +7,9 @@
 #ifndef __A_A_H__
 #define __A_A_H__
 
-#include "a.config.h"
-
-/* extern "C" */
-#if !defined __cplusplus
-#define A_EXTERN_C
-#define A_EXTERN_C_ENTER
-#define A_EXTERN_C_LEAVE
-#else /* !__cplusplus */
-#define A_EXTERN_C extern "C"
-#define A_EXTERN_C_ENTER extern "C" {
-#define A_EXTERN_C_LEAVE }
-#endif /* __cplusplus */
+#include "config.h"
 
 /*! @cond */
-
-#if defined(__MINGW32__)
-#undef __USE_MINGW_ANSI_STDIO
-#define __USE_MINGW_ANSI_STDIO 1
-#endif /* __MINGW32__ */
-
-#if !defined A_SIZEOF_P
-#if defined(__SIZEOF_POINTER__)
-#define A_SIZEOF_P __SIZEOF_POINTER__
-#elif defined(_WIN64)
-#define A_SIZEOF_P 8
-#elif defined(_WIN32)
-#define A_SIZEOF_P 4
-#endif /* __SIZEOF_POINTER__ */
-#endif /* A_SIZEOF_P */
 
 #if !defined __has_attribute
 #define __has_attribute(...) 0
@@ -148,6 +122,16 @@
 #else /* !A_PUBLIC */
 #define A_PUBLIC
 #endif /* A_PUBLIC */
+
+#if !defined __cplusplus
+#define A_EXTERN_C
+#define A_EXTERN_C_ENTER
+#define A_EXTERN_C_LEAVE
+#else /* !__cplusplus */
+#define A_EXTERN_C extern "C"
+#define A_EXTERN_C_ENTER extern "C" {
+#define A_EXTERN_C_LEAVE }
+#endif /* __cplusplus */
 
 #if !defined NDEBUG && defined(__GNUC__)
 #define A_ASSERT(E) assert(E)
@@ -387,9 +371,6 @@ typedef union a_cast_u
  @{
 */
 
-#ifndef A_REAL_BITS
-#define A_REAL_BITS 64
-#endif // real bits
 #if A_REAL_BITS == 32
 
 /*! @brief real number stored using `float` */

@@ -62,7 +62,6 @@ dist/
 .cache
 
 # CMake
-include/a.*.h*
 install[_-]*
 build[_-]*
 

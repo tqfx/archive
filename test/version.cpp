@@ -17,7 +17,7 @@ A_STATIC a_int_t version_c(void)
     printf("major %u\n", a_version_major());
     printf("minor %u\n", a_version_minor());
     printf("patch %u\n", a_version_patch());
-    printf("tweak %" PRIi64 "\n", A_VERSION_TWEAK);
+    printf("tweak %" PRIu64 "\n", A_VERSION_TWEAK);
     return A_SUCCESS;
 }
 

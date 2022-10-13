@@ -55,17 +55,19 @@ target("ac.objs")
     end)
     -- set the auto-generated a.config.h
     add_configfiles("xmake/config.h", {filename = "a.config.h"})
-    set_configdir("$(curdir)/include")
     -- set shared library symbols
     if is_kind("shared") then
-        -- export symbols
-        add_defines("A_EXPORTS")
         -- import symbols
         add_defines("A_SHARED", {interface = true})
+        -- export symbols
+        add_defines("A_EXPORTS")
     end
     -- add include directories
+    add_includedirs("$(buildir)", {public = true})
     add_includedirs("include", {public = true})
+    add_defines("A_CONFIG", {public = true})
     -- add the header files for installing
+    add_headerfiles("$(buildir)/a.config.h")
     add_headerfiles("include/(**.h)")
     -- add the common source files
     add_files("src/**.c")
@@ -88,13 +90,15 @@ target("ax.objs")
     set_kind("object")
     -- set shared library symbols
     if is_kind("shared") then
-        -- export symbols
-        add_defines("A_EXPORTS")
         -- import symbols
         add_defines("A_SHARED", {interface = true})
+        -- export symbols
+        add_defines("A_EXPORTS")
     end
     -- add include directories
+    add_includedirs("$(buildir)", {public = true})
     add_includedirs("include", {public = true})
+    add_defines("A_CONFIG", {public = true})
     -- add the header files for installing
     add_headerfiles("include/(**.hpp)")
     -- add the common source files

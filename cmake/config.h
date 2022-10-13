@@ -5,34 +5,16 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_CONFIG_H__
-#define __A_CONFIG_H__
+#ifndef __LIBA_CONFIG_H__
+#define __LIBA_CONFIG_H__
 
-// clang-format off
-
+/* clang-format off */
+#cmakedefine A_SIZEOF_P @A_SIZEOF_P@
+#cmakedefine A_VERSION "@A_VERSION@"
 #cmakedefine A_VERSION_MAJOR @A_VERSION_MAJOR@
 #cmakedefine A_VERSION_MINOR @A_VERSION_MINOR@
 #cmakedefine A_VERSION_PATCH @A_VERSION_PATCH@
-#cmakedefine A_VERSION_TWEAK @A_VERSION_TWEAK@
+#cmakedefine A_VERSION_TWEAK A_U64_C(@A_VERSION_TWEAK@)
+/* clang-format on */
 
-#cmakedefine A_SIZEOF_P @A_SIZEOF_P@
-
-// clang-format on
-
-/*! algorithm library version string */
-#cmakedefine A_VERSION "@A_VERSION@"
-
-#ifndef A_VERSION_MAJOR
-#define A_VERSION_MAJOR 0
-#endif /* A_VERSION_MAJOR */
-#ifndef A_VERSION_MINOR
-#define A_VERSION_MINOR 0
-#endif /* A_VERSION_MINOR */
-#ifndef A_VERSION_PATCH
-#define A_VERSION_PATCH 0
-#endif /* A_VERSION_PATCH */
-#ifndef A_VERSION_TWEAK
-#define A_VERSION_TWEAK 0
-#endif /* A_VERSION_TWEAK */
-
-#endif /* __A_CONFIG_H__ */
+#endif /* __LIBA_CONFIG_H__ */
