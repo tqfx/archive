@@ -574,6 +574,15 @@ A_PUBLIC a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
 A_PUBLIC a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
 A_PUBLIC a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
 
+/*!
+ @brief Brian Kernighan and Dennis Ritchie
+ @param[in] str string to be processed
+ @param[in] val initial value
+ @return hash value
+*/
+A_PUBLIC a_size_t a_hash_bkdr(a_cptr_t str, a_size_t val);
+A_PUBLIC a_size_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_size_t val);
+
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */

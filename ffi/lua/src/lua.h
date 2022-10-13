@@ -82,7 +82,6 @@ void *l_realloc(const void *ptr, size_t siz);
 void l_dealloc(const void *var);
 
 int l_setter(lua_State *L);
-uint32_t l_hashs(const void *s);
 void l_stack(lua_State *L, int line);
 int l_field(lua_State *L, const char *i, const char *s, uint32_t v);
 

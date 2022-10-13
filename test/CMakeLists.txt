@@ -46,6 +46,7 @@ unittest(for SOURCE for.c for.cpp)
 
 unittest(version SOURCE version.cpp)
 
+unittest(bkdr SOURCE bkdr.c)
 unittest(real SOURCE real.c)
 unittest(math SOURCE math.c)
 

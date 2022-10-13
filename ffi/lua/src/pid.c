@@ -243,7 +243,7 @@ static int pid_set(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
-    uint32_t hash = l_hashs(field);
+    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x000033A0: // dt
@@ -280,7 +280,7 @@ static int pid_get(lua_State *L)
 {
     a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
-    uint32_t hash = l_hashs(field);
+    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x000033A0: // dt

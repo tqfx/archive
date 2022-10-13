@@ -36,29 +36,11 @@ static int sqrt_inv(lua_State *L)
     return n;
 }
 
-static int hashs(lua_State *L)
-{
-    char h[11];
-    if (lua_istable(L, 1))
-    {
-        lua_remove(L, 1);
-    }
-    int n = lua_gettop(L);
-    for (int i = 0; i++ != n;)
-    {
-        const char *s = luaL_checkstring(L, i);
-        sprintf(h, "0x%08" PRIX32, l_hashs(s));
-        lua_pushstring(L, h);
-    }
-    return n;
-}
-
 int luaopen_liba(lua_State *L)
 {
     luaL_checkversion(L);
 
     const SFunc funcs[] = {
-        {"hashs", hashs},
         {"sqrt_inv", sqrt_inv},
         {NULL, NULL},
     };

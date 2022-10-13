@@ -3,18 +3,8 @@
 int l_setter(lua_State *L)
 {
     const char *field = lua_tostring(L, 2);
-    uint32_t hash = l_hashs(field);
+    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     return l_field(L, "setter", field, hash);
-}
-
-uint32_t l_hashs(const void *s)
-{
-    uint32_t x = 0;
-    for (const unsigned char *p = (const unsigned char *)s; *p; ++p)
-    {
-        x = x * 131 + *p;
-    }
-    return x;
 }
 
 int l_field(lua_State *L, const char *i, const char *s, uint32_t v)

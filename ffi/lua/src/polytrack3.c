@@ -240,7 +240,7 @@ static int polytrack3_set(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
-    uint32_t hash = l_hashs(field);
+    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x00000074: // t
@@ -287,7 +287,7 @@ static int polytrack3_get(lua_State *L)
 {
     a_polytrack3_s *ctx = (a_polytrack3_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
-    uint32_t hash = l_hashs(field);
+    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x0000006B: // k
