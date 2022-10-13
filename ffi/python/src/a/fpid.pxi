@@ -27,7 +27,7 @@ cdef class fpid:
         self.buf = num
     def __call__(self, set: a_real_t, fdb: a_real_t) -> a_real_t:
         '''process function for fuzzy PID controller'''
-        return a_fpid_cc_x(self.ctx, set, fdb)
+        return a_fpid_outv(self.ctx, set, fdb)
     def __dealloc__(self):
         '''terminate function for fuzzy PID controller'''
         a_fpid_exit(self.ctx)
@@ -96,10 +96,10 @@ cdef class fpid:
 
     @property
     def mode(self) -> a_uint_t:
-        return a_pid_reg(self.ctx.pid)
+        return a_pid_mode(self.ctx.pid)
     @mode.setter
     def mode(self, mode: a_uint_t):
-        a_pid_set_reg(self.ctx.pid, mode)
+        a_pid_set_mode(self.ctx.pid, mode)
 
     @property
     def dt(self) -> a_real_t:

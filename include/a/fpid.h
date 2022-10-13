@@ -9,12 +9,34 @@
 
 #include "mf.h"
 #include "pid.h"
+#include "fuzzy.h"
 
 /*!
  @ingroup A
  @addtogroup A_FPID fuzzy proportional integral derivative controller
  @{
 */
+
+#define A_FPID_FUZZY_BITS 4
+#define A_FPID_FUZZY_BITL A_PID_MODE_BITS
+#define A_FPID_FUZZY_BITH (A_FPID_FUZZY_BITS + A_FPID_FUZZY_BITL)
+#define A_FPID_FUZZY_MASK (~((1U << A_FPID_FUZZY_BITL) - 1U) & ((1U << A_FPID_FUZZY_BITH) - 1U))
+
+/*!
+ @brief instance enumeration for fuzzy PID controller operator
+*/
+typedef enum a_fpid_e
+{
+    A_FPID_EQU,
+    A_FPID_AND = (1 << (A_FPID_FUZZY_BITL + 2)),
+    A_FPID_AND_DEFAULT = A_FPID_AND + (A_FUZZY_DEFAULT << A_FPID_FUZZY_BITL),
+    A_FPID_AND_ALGEBRA = A_FPID_AND + (A_FUZZY_ALGEBRA << A_FPID_FUZZY_BITL),
+    A_FPID_AND_BOUNDED = A_FPID_AND + (A_FUZZY_BOUNDED << A_FPID_FUZZY_BITL),
+    A_FPID_OR = (1 << (A_FPID_FUZZY_BITL + 3)),
+    A_FPID_OR_DEFAULT = A_FPID_OR + (A_FUZZY_DEFAULT << A_FPID_FUZZY_BITL),
+    A_FPID_OR_ALGEBRA = A_FPID_OR + (A_FUZZY_ALGEBRA << A_FPID_FUZZY_BITL),
+    A_FPID_OR_BOUNDED = A_FPID_OR + (A_FUZZY_BOUNDED << A_FPID_FUZZY_BITL),
+} a_fpid_e;
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -63,11 +85,13 @@ typedef struct a_fpid_s
 extern "C" {
 #endif /* __cplusplus */
 
-a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num);
-a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
-a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
-a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
-a_uint_t a_fpid_col(const a_fpid_s *ctx);
+A_PUBLIC a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num);
+A_PUBLIC a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
+A_PUBLIC a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
+A_PUBLIC a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
+A_PUBLIC a_uint_t a_fpid_col(const a_fpid_s *ctx);
+A_PUBLIC a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op);
+A_PUBLIC a_uint_t a_fpid_op(const a_fpid_s *ctx);
 
 /*!
  @brief turn off fuzzy PID controller
@@ -150,7 +174,7 @@ A_PUBLIC a_fpid_s *a_fpid_buff(a_fpid_s *ctx, a_uint_t *idx, a_real_t *mms, a_re
  @param[in] ec points to error change buffer
  @param[in] e points to error input buffer
 */
-A_PUBLIC a_fpid_s *a_fpid_setv(a_fpid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
+A_PUBLIC a_fpid_s *a_fpid_setp(a_fpid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
 
 /*!
  @brief set rule base for fuzzy PID controller
@@ -189,7 +213,7 @@ A_PUBLIC a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a
  @return output
   @retval set when fuzzy PID controller is off
 */
-A_PUBLIC a_real_t a_fpid_cc_x(a_fpid_s *ctx, a_real_t set, a_real_t fdb);
+A_PUBLIC a_real_t a_fpid_outv(a_fpid_s *ctx, a_real_t set, a_real_t fdb);
 
 /*!
  @brief calculate function for fuzzy PID controller
@@ -199,7 +223,7 @@ A_PUBLIC a_real_t a_fpid_cc_x(a_fpid_s *ctx, a_real_t set, a_real_t fdb);
  @return points to output
   @retval set when fuzzy PID controller is off
 */
-A_PUBLIC a_real_t *a_fpid_cc_v(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb);
+A_PUBLIC a_real_t *a_fpid_outp(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb);
 
 /*!
  @brief terminate function for fuzzy PID controller
@@ -222,6 +246,7 @@ A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 #define a_fpid_bufptr(ctx) ((ctx)->idx)
 #define a_fpid_set_col(ctx, val) ((ctx)->pid->reg &= A_PID_REG_MASK, (ctx)->pid->reg |= (val) << A_PID_REG_BITS)
 #define a_fpid_col(ctx) ((ctx)->pid->reg >> A_PID_REG_BITS)
+#define a_fpid_op(ctx) ((ctx)->pid->reg & A_FPID_FUZZY_MASK)
 
 /*! @} A_FPID */
 

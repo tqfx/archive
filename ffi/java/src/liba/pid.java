@@ -112,10 +112,10 @@ public final class pid {
     /**
      * set register for PID controller directly
      *
-     * @param reg enumeration for PID controller register
+     * @param mode enumeration for PID controller register
      * @return {@link pid}
      */
-    public final native pid mode(int reg);
+    public final native pid mode(int mode);
 
     /**
      * set sampling period for PID controller

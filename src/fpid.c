@@ -8,9 +8,60 @@
 #include "fpid.h"
 #include <math.h>
 
-a_real_t a_fpid_op(a_real_t a, a_real_t b)
+a_real_t a_fpid_op_or(a_real_t l, a_real_t r) { return l + r - l * r; }
+
+a_real_t a_fpid_op_and(a_real_t l, a_real_t r) { return l * r; }
+
+a_real_t a_fpid_op_equ(a_real_t l, a_real_t r)
 {
-    return A_REAL_F(sqrt, a * b) * A_REAL_F(sqrt, 1 - (1 - a) * (1 - b));
+    return A_REAL_F(sqrt, l * r) * A_REAL_F(sqrt, 1 - (1 - l) * (1 - r));
+}
+
+a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
+{
+    ctx->pid->reg &= ~A_FPID_FUZZY_MASK;
+    op &= A_FPID_FUZZY_MASK;
+    ctx->pid->reg |= op;
+    switch (op)
+    {
+    case A_FPID_OR_ALGEBRA:
+    {
+        ctx->op = a_fpid_op_or;
+        break;
+    }
+    case A_FPID_OR_BOUNDED:
+    case A_FPID_AND:
+    {
+#if A_REAL_BITS > 64
+        ctx->op = fminl;
+#elif A_REAL_BITS == 64
+        ctx->op = fmin;
+#elif A_REAL_BITS == 32
+        ctx->op = fminf;
+#endif /* A_REAL_BITS */
+        break;
+    }
+    case A_FPID_AND_ALGEBRA:
+    {
+        ctx->op = a_fpid_op_and;
+        break;
+    }
+    case A_FPID_AND_BOUNDED:
+    case A_FPID_OR:
+    {
+#if A_REAL_BITS > 64
+        ctx->op = fmaxl;
+#elif A_REAL_BITS == 64
+        ctx->op = fmax;
+#elif A_REAL_BITS == 32
+        ctx->op = fmaxf;
+#endif /* A_REAL_BITS */
+        break;
+    }
+    case A_FPID_EQU:
+    default:
+        ctx->op = a_fpid_op_equ;
+    }
 }
 
 a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real_t *mms)
@@ -26,38 +77,38 @@ a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real_t *mms)
         {
             y = a_mf_gauss(x, a[0], a[1]);
             a += 2;
+            break;
         }
-        break;
         case A_MF_GBELL:
         {
             y = a_mf_gbell(x, a[0], a[1], a[2]);
             a += 3;
+            break;
         }
-        break;
         case A_MF_SIG:
         {
             y = a_mf_sig(x, a[0], a[1]);
             a += 2;
+            break;
         }
-        break;
         case A_MF_TRAP:
         {
             y = a_mf_trap(x, a[0], a[1], a[2], a[3]);
             a += 4;
+            break;
         }
-        break;
         case A_MF_TRI:
         {
             y = a_mf_tri(x, a[0], a[1], a[2]);
             a += 3;
+            break;
         }
-        break;
         case A_MF_Z:
         {
             y = a_mf_z(x, a[0], a[1]);
             a += 2;
+            break;
         }
-        break;
         case A_MF_NUL:
         default:
             goto done;
@@ -93,17 +144,17 @@ a_fpid_s *a_fpid_pos(a_fpid_s *ctx, a_real_t max)
 
 a_fpid_s *a_fpid_ilim(a_fpid_s *ctx, a_real_t min, a_real_t max)
 {
-    a_real_t x = (a_real_t)(((ctx->pid->reg >> A_PID_REG_BITS) - 1) >> 1 << 1);
+    a_real_t x = (a_real_t)((a_fpid_col(ctx) - 1) >> 1 << 1);
     ctx->sigma = x / (max - min);
     return ctx;
 }
 
 a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max)
 {
-    a_real_t x = (a_real_t)(((ctx->pid->reg >> A_PID_REG_BITS) - 1) >> 1 << 1);
+    a_real_t x = (a_real_t)((a_fpid_col(ctx) - 1) >> 1 << 1);
     ctx->alpha = (max - min) / x;
-    ctx->pid->outmax = max;
     ctx->pid->outmin = min;
+    ctx->pid->outmax = max;
     return ctx;
 }
 
@@ -136,9 +187,9 @@ a_fpid_s *a_fpid_buff(a_fpid_s *ctx, a_uint_t *idx, a_real_t *mms, a_real_t *mat
     return ctx;
 }
 
-a_fpid_s *a_fpid_setv(a_fpid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e)
+a_fpid_s *a_fpid_setp(a_fpid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e)
 {
-    a_pid_setv(ctx->pid, num, out, fdb, sum, ec, e);
+    a_pid_setp(ctx->pid, num, out, fdb, sum, ec, e);
     return ctx;
 }
 
@@ -161,10 +212,10 @@ a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *
     a_fpid_base(ctx, num, mmp, mkp, mki, mkd);
     ctx->sigma = x / (imax - imin);
     ctx->alpha = (omax - omin) / x;
+    ctx->op = a_fpid_op_equ;
     ctx->idx = 0;
     ctx->mms = 0;
     ctx->mat = 0;
-    ctx->op = a_fpid_op;
     ctx->kp = 0;
     ctx->ki = 0;
     ctx->kd = 0;
@@ -179,7 +230,7 @@ a_fpid_s *a_fpid_zero(a_fpid_s *ctx)
     return ctx;
 }
 
-A_STATIC void a_fpid_cc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
+A_STATIC void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
 {
     /* quantize input */
     ev[0] = ctx->sigma * ev[0] / (1 << 0);
@@ -254,27 +305,27 @@ skip_kd:
     a_pid_kpid(ctx->pid, qv[0] + ctx->kp, qv[1] + ctx->ki, qv[2] + ctx->kd);
 }
 
-a_real_t a_fpid_cc_x(a_fpid_s *ctx, a_real_t set, a_real_t fdb)
+a_real_t a_fpid_outv(a_fpid_s *ctx, a_real_t set, a_real_t fdb)
 {
     a_real_t e = set - fdb;
     a_real_t ec = e - ctx->pid->e.v;
     a_real_t ev[2] = {e, ec};
-    a_fpid_cc_(ctx, ev, ctx->pid->reg >> A_PID_REG_BITS);
-    return a_pid_cc_x_(ctx->pid, ctx->pid->reg & A_PID_REG_MASK, set, fdb, ec, e);
+    a_fpid_proc_(ctx, ev, a_fpid_col(ctx));
+    return a_pid_outv_(ctx->pid, a_pid_mode(ctx->pid), set, fdb, ec, e);
 }
 
-a_real_t *a_fpid_cc_v(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb)
+a_real_t *a_fpid_outp(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb)
 {
     a_uint_t col = a_fpid_col(ctx);
-    a_uint_t reg = a_pid_reg(ctx->pid);
     a_uint_t num = a_pid_num(ctx->pid);
+    a_uint_t reg = a_pid_mode(ctx->pid);
     for (a_uint_t i = 0; i != num; ++i)
     {
         a_real_t e = set[i] - fdb[i];
         a_real_t ec = e - ctx->pid->e.p[i];
         a_real_t ev[2] = {e, ec};
-        a_fpid_cc_(ctx, ev, col);
-        a_pid_cc_v_(ctx->pid, reg, set[i], fdb[i], ec, e, i);
+        a_fpid_proc_(ctx, ev, col);
+        a_pid_outp_(ctx->pid, reg, set[i], fdb[i], ec, e, i);
     }
     return ctx->pid->out.p;
 }
@@ -315,4 +366,10 @@ a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
 a_uint_t a_fpid_col(const a_fpid_s *ctx)
 {
     return ctx->pid->reg >> A_PID_REG_BITS;
+}
+
+#undef a_fpid_op
+a_uint_t a_fpid_op(const a_fpid_s *ctx)
+{
+    return ctx->pid->reg & A_FPID_FUZZY_MASK;
 }

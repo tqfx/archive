@@ -93,10 +93,10 @@ public final class fpid {
     /**
      * set register for fuzzy PID controller directly
      *
-     * @param reg enumeration for fuzzy PID controller register
+     * @param mode enumeration for fuzzy PID controller register
      * @return {@link fpid}
      */
-    public final native fpid mode(int reg);
+    public final native fpid mode(int mode);
 
     /**
      * set sampling period for fuzzy PID controller

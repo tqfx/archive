@@ -42,9 +42,11 @@
 #define A_PID_NUM_MASK ((1U << A_PID_NUM_BITS) - 1U)
 #define A_PID_REG_BITS 8
 #define A_PID_REG_MASK ((1U << A_PID_REG_BITS) - 1U)
+#define A_PID_MODE_BITS 2
+#define A_PID_MODE_MASK ((1U << A_PID_MODE_BITS) - 1U)
 
 /*!
- @brief instance enumeration for PID controller register
+ @brief instance enumeration for PID controller mode
 */
 typedef enum a_pid_e
 {
@@ -106,6 +108,8 @@ A_PUBLIC a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
 A_PUBLIC a_uint_t a_pid_num(const a_pid_s *ctx);
 A_PUBLIC a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
 A_PUBLIC a_uint_t a_pid_reg(const a_pid_s *ctx);
+A_PUBLIC a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode);
+A_PUBLIC a_uint_t a_pid_mode(const a_pid_s *mode);
 
 /*!
  @brief turn off PID controller
@@ -145,7 +149,7 @@ A_PUBLIC a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd
  @param[in] ec points to error change buffer
  @param[in] e points to error input buffer
 */
-A_PUBLIC a_pid_s *a_pid_setv(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
+A_PUBLIC a_pid_s *a_pid_setp(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
 
 /*!
  @brief initialize function for PID controller, default is turn off
@@ -164,7 +168,7 @@ A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t m
  @return output
   @retval set when PID controller is off
 */
-A_PUBLIC a_real_t a_pid_cc_x(a_pid_s *ctx, a_real_t set, a_real_t fdb);
+A_PUBLIC a_real_t a_pid_outv(a_pid_s *ctx, a_real_t set, a_real_t fdb);
 
 /*!
  @brief calculate function for PID controller
@@ -174,7 +178,7 @@ A_PUBLIC a_real_t a_pid_cc_x(a_pid_s *ctx, a_real_t set, a_real_t fdb);
  @return points to output
   @retval set when PID controller is off
 */
-A_PUBLIC a_real_t *a_pid_cc_v(a_pid_s *ctx, a_real_t *set, a_real_t *fdb);
+A_PUBLIC a_real_t *a_pid_outp(a_pid_s *ctx, a_real_t *set, a_real_t *fdb);
 
 /*!
  @brief terminate function for PID controller
@@ -203,6 +207,8 @@ A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 #define a_pid_num(ctx) ((ctx)->num & A_PID_NUM_MASK)
 #define a_pid_set_reg(ctx, val) ((ctx)->reg &= ~A_PID_REG_MASK, (ctx)->reg |= (val)&A_PID_REG_MASK)
 #define a_pid_reg(ctx) ((ctx)->reg & A_PID_REG_MASK)
+#define a_pid_set_mode(ctx, val) ((ctx)->reg &= ~A_PID_MODE_MASK, (ctx)->reg |= (val)&A_PID_MODE_MASK)
+#define a_pid_mode(ctx) ((ctx)->reg & A_PID_MODE_MASK)
 
 /*! @} A_PID */
 

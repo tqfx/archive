@@ -147,7 +147,7 @@ int fpid_proc(lua_State *L)
     {
         a_real_t set = luaL_checknumber(L, -2);
         a_real_t fdb = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_fpid_cc_x(ctx, set, fdb));
+        lua_pushnumber(L, a_fpid_outv(ctx, set, fdb));
         lua_pop(L, 2);
         return 1;
     }
@@ -349,7 +349,7 @@ static int fpid_set(lua_State *L)
         ctx->pid->summax = luaL_checknumber(L, 3);
         break;
     case 0x0EB84F77: // mode
-        a_pid_set_reg(ctx->pid, (a_uint_t)luaL_checkinteger(L, 3));
+        a_pid_set_mode(ctx->pid, (a_uint_t)luaL_checkinteger(L, 3));
         break;
     default:
         return l_field(L, "setter", field, hash);
@@ -404,7 +404,7 @@ static int fpid_get(lua_State *L)
         lua_pushinteger(L, a_fpid_bufnum(ctx));
         break;
     case 0x0EB84F77: // mode
-        lua_pushinteger(L, a_pid_reg(ctx->pid));
+        lua_pushinteger(L, a_pid_mode(ctx->pid));
         break;
     case 0x001D0204: // new
         lua_pushcfunction(L, fpid_new);

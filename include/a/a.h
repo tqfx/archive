@@ -371,28 +371,28 @@ typedef union a_cast_u
  @{
 */
 
-#if A_REAL_BITS == 32
+#if A_REAL_BITS > 64
 
-/*! @brief real number stored using `float` */
-typedef float a_real_t;
+/*! @brief real number stored using `long double` */
+typedef long double a_real_t;
 
 /*!
  @brief expands to a floating-point constant expression
  having the value specified by its argument and the type @ref a_real_t
 */
-#define A_REAL_C(X) X##F
+#define A_REAL_C(X) X##L
 /*!
  @brief expands to a floating-point function expression
  having the value specified by its argument and the type @ref a_real_t
 */
-#define A_REAL_F(F, ...) F##f(__VA_ARGS__)
+#define A_REAL_F(F, ...) F##l(__VA_ARGS__)
 
 /*! @brief Format constants for the fprintf family of functions */
-#define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
+#define A_REAL_PRI(_, ...) "%" _ "L" __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
-#define A_REAL_SCN(_, ...) "%" _ __VA_ARGS__
-#define A_REAL_MIN FLT_MIN
-#define A_REAL_MAX FLT_MAX
+#define A_REAL_SCN(_, ...) "%" _ "L" __VA_ARGS__
+#define A_REAL_MIN LDBL_MIN
+#define A_REAL_MAX LDBL_MAX
 
 #elif A_REAL_BITS == 64
 
@@ -417,28 +417,28 @@ typedef double a_real_t;
 #define A_REAL_MIN DBL_MIN
 #define A_REAL_MAX DBL_MAX
 
-#elif A_REAL_BITS > 64
+#elif A_REAL_BITS == 32
 
-/*! @brief real number stored using `long double` */
-typedef long double a_real_t;
+/*! @brief real number stored using `float` */
+typedef float a_real_t;
 
 /*!
  @brief expands to a floating-point constant expression
  having the value specified by its argument and the type @ref a_real_t
 */
-#define A_REAL_C(X) X##L
+#define A_REAL_C(X) X##F
 /*!
  @brief expands to a floating-point function expression
  having the value specified by its argument and the type @ref a_real_t
 */
-#define A_REAL_F(F, ...) F##l(__VA_ARGS__)
+#define A_REAL_F(F, ...) F##f(__VA_ARGS__)
 
 /*! @brief Format constants for the fprintf family of functions */
-#define A_REAL_PRI(_, ...) "%" _ "L" __VA_ARGS__
+#define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
 /*! @brief Format constants for the fscanf family of functions */
-#define A_REAL_SCN(_, ...) "%" _ "L" __VA_ARGS__
-#define A_REAL_MIN LDBL_MIN
-#define A_REAL_MAX LDBL_MAX
+#define A_REAL_SCN(_, ...) "%" _ __VA_ARGS__
+#define A_REAL_MIN FLT_MIN
+#define A_REAL_MAX FLT_MAX
 
 #endif /* A_REAL_BITS */
 

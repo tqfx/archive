@@ -16,7 +16,7 @@ cdef class pid:
             a_pid_inc(self.ctx)
     def __call__(self, set: a_real_t, fdb: a_real_t) -> a_real_t:
         '''process function for PID controller'''
-        return a_pid_cc_x(self.ctx, set, fdb)
+        return a_pid_outv(self.ctx, set, fdb)
     def __dealloc__(self):
         '''terminate function for PID controller'''
         a_pid_exit(self.ctx)
@@ -64,10 +64,10 @@ cdef class pid:
 
     @property
     def mode(self) -> a_uint_t:
-        return a_pid_reg(self.ctx)
+        return a_pid_mode(self.ctx)
     @mode.setter
     def mode(self, mode: a_uint_t):
-        a_pid_set_reg(self.ctx, mode)
+        a_pid_set_mode(self.ctx, mode)
 
     @property
     def dt(self) -> a_real_t:

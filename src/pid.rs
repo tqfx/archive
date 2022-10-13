@@ -46,7 +46,7 @@ extern "C" {
     fn a_pid_inc(ctx: *mut PID) -> *mut PID;
     fn a_pid_pos(ctx: *mut PID, max: Real) -> *mut PID;
     fn a_pid_kpid(ctx: *mut PID, kp: Real, ki: Real, kd: Real) -> *mut PID;
-    fn a_pid_cc_x(ctx: *mut PID, set: Real, fdb: Real) -> Real;
+    fn a_pid_outv(ctx: *mut PID, set: Real, fdb: Real) -> Real;
     fn a_pid_zero(ctx: *mut PID) -> *mut PID;
     fn a_pid_set_dt(ctx: *mut PID, dt: Real);
     fn a_pid_dt(ctx: *const PID) -> Real;
@@ -56,8 +56,8 @@ extern "C" {
     fn a_pid_ki(ctx: *const PID) -> Real;
     fn a_pid_set_kd(ctx: *mut PID, kd: Real);
     fn a_pid_kd(ctx: *const PID) -> Real;
-    fn a_pid_set_reg(ctx: *mut PID, reg: Uint);
-    fn a_pid_reg(ctx: *const PID) -> Uint;
+    fn a_pid_set_mode(ctx: *mut PID, mode: Uint);
+    fn a_pid_mode(ctx: *const PID) -> Uint;
 }
 
 impl PID {
@@ -151,7 +151,7 @@ impl PID {
 
     /// process function for PID controller
     pub fn proc(&mut self, set: Real, fdb: Real) -> Real {
-        unsafe { a_pid_cc_x(self, set, fdb) }
+        unsafe { a_pid_outv(self, set, fdb) }
     }
 
     /// zero function for PID controller
@@ -201,11 +201,11 @@ impl PID {
 
     /// get mode for PID controller
     pub fn mode(&self) -> Uint {
-        unsafe { a_pid_reg(self) }
+        unsafe { a_pid_mode(self) }
     }
     /// set mode for PID controller
-    pub fn set_mode(&mut self, reg: Uint) -> &mut Self {
-        unsafe { a_pid_set_reg(self, reg) };
+    pub fn set_mode(&mut self, mode: Uint) -> &mut Self {
+        unsafe { a_pid_set_mode(self, mode) };
         self
     }
 }

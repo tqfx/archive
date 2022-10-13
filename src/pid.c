@@ -8,13 +8,13 @@
 
 a_pid_s *a_pid_off(a_pid_s *ctx)
 {
-    a_pid_set_reg(ctx, A_PID_OFF);
+    a_pid_set_mode(ctx, A_PID_OFF);
     return ctx;
 }
 
 a_pid_s *a_pid_inc(a_pid_s *ctx)
 {
-    a_pid_set_reg(ctx, A_PID_INC);
+    a_pid_set_mode(ctx, A_PID_INC);
     return ctx;
 }
 
@@ -25,7 +25,7 @@ a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
     {
         ctx->summax = ctx->outmax;
     }
-    a_pid_set_reg(ctx, A_PID_POS);
+    a_pid_set_mode(ctx, A_PID_POS);
     return ctx;
 }
 
@@ -37,7 +37,7 @@ a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
     return ctx;
 }
 
-a_pid_s *a_pid_setv(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e)
+a_pid_s *a_pid_setp(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e)
 {
     a_pid_set_num(ctx, num);
     ctx->out.p = out;
@@ -86,11 +86,18 @@ a_pid_s *a_pid_zero(a_pid_s *ctx)
     return ctx;
 }
 
-a_real_t a_pid_cc_x_(a_pid_s *ctx, a_uint_t reg, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e)
+a_real_t a_pid_outv_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e)
 {
     /* calculation */
-    switch (reg)
+    switch (mode)
     {
+    case A_PID_INC:
+    {
+        /* K_p[e(k)-e(k-1)]+K_i e(k)+K_d[ec(k)-ec(k-1)] */
+        ctx->sum.v += ctx->kp * ec + ctx->ki * e + ctx->kd * (ec - ctx->ec.v);
+        ctx->out.v = ctx->sum.v;
+        break;
+    }
     case A_PID_POS:
     {
         a_real_t sum = ctx->ki * e;
@@ -104,21 +111,11 @@ a_real_t a_pid_cc_x_(a_pid_s *ctx, a_uint_t reg, a_real_t set, a_real_t fdb, a_r
         /* avoid derivative kick, fdb[k-1]-fdb[k] */
         /* out = K_p e(k) + sum + K_d [fdb(k-1)-fdb(k)] */
         ctx->out.v = ctx->kp * e + ctx->sum.v + ctx->kd * (ctx->fdb.v - fdb);
+        break;
     }
-    break;
-    case A_PID_INC:
-    {
-        /* K_p[e(k)-e(k-1)]+K_i e(k)+K_d[ec(k)-ec(k-1)] */
-        ctx->sum.v += ctx->kp * ec + ctx->ki * e + ctx->kd * (ec - ctx->ec.v);
-        ctx->out.v = ctx->sum.v;
-    }
-    break;
     case A_PID_OFF:
     default:
-    {
         ctx->out.v = ctx->sum.v = set;
-    }
-    break;
     }
     /* output limiter */
     if (ctx->outmax < ctx->out.v)
@@ -136,11 +133,18 @@ a_real_t a_pid_cc_x_(a_pid_s *ctx, a_uint_t reg, a_real_t set, a_real_t fdb, a_r
     return ctx->out.v;
 }
 
-a_real_t a_pid_cc_v_(a_pid_s *ctx, a_uint_t reg, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e, a_uint_t i)
+a_real_t a_pid_outp_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e, a_uint_t i)
 {
     /* calculation */
-    switch (reg)
+    switch (mode)
     {
+    case A_PID_INC:
+    {
+        /* K_p[e(k)-e(k-1)]+K_i e(k)+K_d[ec(k)-ec(k-1)] */
+        ctx->sum.p[i] += ctx->kp * ec + ctx->ki * e + ctx->kd * (ec - ctx->ec.p[i]);
+        ctx->out.p[i] = ctx->sum.p[i];
+        break;
+    }
     case A_PID_POS:
     {
         a_real_t sum = ctx->ki * e;
@@ -154,21 +158,11 @@ a_real_t a_pid_cc_v_(a_pid_s *ctx, a_uint_t reg, a_real_t set, a_real_t fdb, a_r
         /* avoid derivative kick, fdb[k-1]-fdb[k] */
         /* out = K_p e(k) + sum + K_d [fdb(k-1)-fdb(k)] */
         ctx->out.p[i] = ctx->kp * e + ctx->sum.p[i] + ctx->kd * (ctx->fdb.p[i] - fdb);
+        break;
     }
-    break;
-    case A_PID_INC:
-    {
-        /* K_p[e(k)-e(k-1)]+K_i e(k)+K_d[ec(k)-ec(k-1)] */
-        ctx->sum.p[i] += ctx->kp * ec + ctx->ki * e + ctx->kd * (ec - ctx->ec.p[i]);
-        ctx->out.p[i] = ctx->sum.p[i];
-    }
-    break;
     case A_PID_OFF:
     default:
-    {
         ctx->out.p[i] = ctx->sum.p[i] = set;
-    }
-    break;
     }
     /* output limiter */
     if (ctx->outmax < ctx->out.p[i])
@@ -186,22 +180,22 @@ a_real_t a_pid_cc_v_(a_pid_s *ctx, a_uint_t reg, a_real_t set, a_real_t fdb, a_r
     return ctx->out.p[i];
 }
 
-a_real_t a_pid_cc_x(a_pid_s *ctx, a_real_t set, a_real_t fdb)
+a_real_t a_pid_outv(a_pid_s *ctx, a_real_t set, a_real_t fdb)
 {
     a_real_t e = set - fdb;
     a_real_t ec = e - ctx->e.v;
-    return a_pid_cc_x_(ctx, a_pid_reg(ctx), set, fdb, ec, e);
+    return a_pid_outv_(ctx, a_pid_mode(ctx), set, fdb, ec, e);
 }
 
-a_real_t *a_pid_cc_v(a_pid_s *ctx, a_real_t *set, a_real_t *fdb)
+a_real_t *a_pid_outp(a_pid_s *ctx, a_real_t *set, a_real_t *fdb)
 {
-    a_uint_t reg = a_pid_reg(ctx);
     a_uint_t num = a_pid_num(ctx);
+    a_uint_t reg = a_pid_mode(ctx);
     for (a_uint_t i = 0; i != num; ++i)
     {
         a_real_t e = set[i] - fdb[i];
         a_real_t ec = e - ctx->e.p[i];
-        a_pid_cc_v_(ctx, reg, set[i], fdb[i], ec, e, i);
+        a_pid_outp_(ctx, reg, set[i], fdb[i], ec, e, i);
     }
     return ctx->out.p;
 }
@@ -281,4 +275,17 @@ a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
 a_uint_t a_pid_reg(const a_pid_s *ctx)
 {
     return ctx->reg & A_PID_REG_MASK;
+}
+
+#undef a_pid_set_mode
+a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode)
+{
+    ctx->reg &= ~A_PID_MODE_MASK;
+    ctx->reg |= mode & A_PID_MODE_MASK;
+}
+
+#undef a_pid_mode
+a_uint_t a_pid_mode(const a_pid_s *mode)
+{
+    return mode->reg & A_PID_MODE_MASK;
 }

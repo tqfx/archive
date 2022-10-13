@@ -39,7 +39,7 @@ public:
     ~pid() { a_pid_exit(this->ctx); }
     a_real_t proc(a_real_t jset, a_real_t jfdb)
     {
-        return a_pid_cc_x(this->ctx, jset, jfdb);
+        return a_pid_outv(this->ctx, jset, jfdb);
     }
     void zero() { a_pid_zero(this->ctx); }
     void kpid(a_real_t jkp, a_real_t jki, a_real_t jkd)
@@ -124,7 +124,7 @@ public:
     }
     a_real_t proc(a_real_t jset, a_real_t jfdb)
     {
-        return a_fpid_cc_x(this->ctx, jset, jfdb);
+        return a_fpid_outv(this->ctx, jset, jfdb);
     }
     void zero() { a_fpid_zero(this->ctx); }
     void kpid(a_real_t jkp, a_real_t jki, a_real_t jkd)

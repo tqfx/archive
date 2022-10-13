@@ -91,12 +91,12 @@ JNIEXPORT jobject JNICALL JPACKAGE(pid_pos)(JNIEnv *jenv, jobject jobj, jdouble 
     return j_pid_set(jctx, ctx);
 }
 
-JNIEXPORT jobject JNICALL JPACKAGE(pid_mode)(JNIEnv *jenv, jobject jobj, jint jreg)
+JNIEXPORT jobject JNICALL JPACKAGE(pid_mode)(JNIEnv *jenv, jobject jobj, jint jmode)
 {
     a_pid_s ctx[1];
     j_pid_s jctx[1];
     j_pid_get(j_pid_new(jenv, jobj, jctx), ctx);
-    a_pid_set_reg(ctx, (a_uint_t)jreg);
+    a_pid_set_mode(ctx, (a_uint_t)jmode);
     return j_pid_set(jctx, ctx);
 }
 
@@ -132,7 +132,7 @@ JNIEXPORT jdouble JNICALL JPACKAGE(pid_proc)(JNIEnv *jenv, jobject jobj, jdouble
     a_pid_s ctx[1];
     j_pid_s jctx[1];
     j_pid_get(j_pid_new(jenv, jobj, jctx), ctx);
-    jdouble jresult = a_pid_cc_x(ctx, jset, jfdb);
+    jdouble jresult = a_pid_outv(ctx, jset, jfdb);
     j_pid_set(jctx, ctx);
     return jresult;
 }

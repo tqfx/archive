@@ -25,7 +25,7 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
     case 7: /* dt, kp, ki, kd, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 7);
-        a_pid_set_reg(ctx, A_PID_POS);
+        a_pid_set_mode(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
     case 6: /* dt, kp, ki, kd, outmin, outmax */
@@ -36,25 +36,25 @@ static int pid_init_(lua_State *L, a_pid_s *ctx)
         a_real_t ki = luaL_checknumber(L, 3);
         a_real_t kp = luaL_checknumber(L, 2);
         a_pid_kpid(ctx, kp, ki, kd);
-        if (a_pid_reg(ctx) != A_PID_POS)
+        if (a_pid_mode(ctx) != A_PID_POS)
         {
-            a_pid_set_reg(ctx, A_PID_INC);
+            a_pid_set_mode(ctx, A_PID_INC);
         }
     }
     break;
     case 4: /* dt, outmin, outmax, summax */
     {
         ctx->summax = luaL_checknumber(L, 4);
-        a_pid_set_reg(ctx, A_PID_POS);
+        a_pid_set_mode(ctx, A_PID_POS);
         A_FALLTHROUGH;
     }
     case 3: /* dt, outmin, outmax */
     {
         ctx->outmax = luaL_checknumber(L, 3);
         ctx->outmin = luaL_checknumber(L, 2);
-        if (a_pid_reg(ctx) != A_PID_POS)
+        if (a_pid_mode(ctx) != A_PID_POS)
         {
-            a_pid_set_reg(ctx, A_PID_INC);
+            a_pid_set_mode(ctx, A_PID_INC);
         }
     }
     break;
@@ -138,7 +138,7 @@ int pid_proc(lua_State *L)
     {
         a_real_t set = luaL_checknumber(L, -2);
         a_real_t fdb = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_pid_cc_x(ctx, set, fdb));
+        lua_pushnumber(L, a_pid_outv(ctx, set, fdb));
         lua_pop(L, 2);
         return 1;
     }
@@ -268,7 +268,7 @@ static int pid_set(lua_State *L)
         ctx->summax = luaL_checknumber(L, 3);
         break;
     case 0x0EB84F77: // mode
-        a_pid_set_reg(ctx, (a_uint_t)luaL_checkinteger(L, 3));
+        a_pid_set_mode(ctx, (a_uint_t)luaL_checkinteger(L, 3));
         break;
     default:
         return l_field(L, "setter", field, hash);
@@ -317,7 +317,7 @@ static int pid_get(lua_State *L)
         lua_pushnumber(L, ctx->e.v);
         break;
     case 0x0EB84F77: // mode
-        lua_pushinteger(L, a_pid_reg(ctx));
+        lua_pushinteger(L, a_pid_mode(ctx));
         break;
     case 0x001D0204: // new
         lua_pushcfunction(L, pid_new);

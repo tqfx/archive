@@ -9,6 +9,7 @@
 
 #include "a/tf.h"
 #include "a/fpid.h"
+#include <assert.h>
 #include <stdio.h>
 
 #define NB -3
@@ -98,16 +99,16 @@ static void test(void)
     a_real_t sum[3];
     a_real_t ec[3];
     a_real_t e[3];
-    a_fpid_setv(ctx + 1, 3, out, fdb, sum, ec, e);
+    a_fpid_setp(ctx + 1, 3, out, fdb, sum, ec, e);
     for (a_real_t t = 0; t < A_REAL_C(0.2); t += A_REAL_C(0.001))
     {
         a_real_t buf[3] = {v0[0], v1[0], v2[0]};
-        a_real_t *ptr = a_fpid_cc_v(ctx + 1, set, buf);
+        a_real_t *ptr = a_fpid_outp(ctx + 1, set, buf);
         for (a_uint_t i = 0; i != 3; ++i)
         {
             a_tf_proc(tf + 1 + i, ptr[i]);
         }
-        a_tf_proc(tf, a_fpid_cc_x(ctx + 0, 1, v[0]));
+        a_tf_proc(tf, a_fpid_outv(ctx + 0, 1, v[0]));
 #if defined(__cplusplus)
         printf(A_REAL_PRI(".3", "f ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"),
                t, A_REAL_C(1.0), v[0], v0[0], v1[0], v2[0]);
@@ -119,9 +120,22 @@ static void test(void)
     a_fpid_buf1(ctx, buff, 2);
     for (a_real_t t = 0; t < A_REAL_C(0.2); t += A_REAL_C(0.001))
     {
-        u[0] = a_fpid_cc_x(ctx, 1, v[0]);
+        u[0] = a_fpid_outv(ctx, 1, v[0]);
         v[0] = a_tf_proc(tf, u[0]);
     }
+    assert(a_fpid_op(ctx) == A_FPID_EQU);
+    a_fpid_set_op(ctx, A_FPID_OR_DEFAULT);
+    assert(a_fpid_op(ctx) == A_FPID_OR_DEFAULT);
+    a_fpid_set_op(ctx, A_FPID_OR_ALGEBRA);
+    assert(a_fpid_op(ctx) == A_FPID_OR_ALGEBRA);
+    a_fpid_set_op(ctx, A_FPID_OR_BOUNDED);
+    assert(a_fpid_op(ctx) == A_FPID_OR_BOUNDED);
+    a_fpid_set_op(ctx, A_FPID_AND_DEFAULT);
+    assert(a_fpid_op(ctx) == A_FPID_AND_DEFAULT);
+    a_fpid_set_op(ctx, A_FPID_AND_ALGEBRA);
+    assert(a_fpid_op(ctx) == A_FPID_AND_ALGEBRA);
+    a_fpid_set_op(ctx, A_FPID_AND_BOUNDED);
+    assert(a_fpid_op(ctx) == A_FPID_AND_BOUNDED);
     a_fpid_exit(ctx);
 }
 

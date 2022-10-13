@@ -57,7 +57,7 @@ extern "C" {
         omin: Real,
         omax: Real,
     ) -> *mut FPID;
-    fn a_fpid_cc_x(ctx: *mut FPID, set: Real, fdb: Real) -> Real;
+    fn a_fpid_outv(ctx: *mut FPID, set: Real, fdb: Real) -> Real;
     fn a_fpid_zero(ctx: *mut FPID) -> *mut FPID;
 }
 
@@ -173,7 +173,7 @@ impl FPID {
 
     /// process function for fuzzy PID controller
     pub fn proc(&mut self, set: Real, fdb: Real) -> Real {
-        unsafe { a_fpid_cc_x(self, set, fdb) }
+        unsafe { a_fpid_outv(self, set, fdb) }
     }
 
     /// zero function for fuzzy PID controller
