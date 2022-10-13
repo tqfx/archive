@@ -1,9 +1,3 @@
-/*!
- @file version.cpp
- @brief Test algorithm library version
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/a.h"
 
 #include <stdio.h>

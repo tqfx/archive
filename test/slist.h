@@ -1,9 +1,3 @@
-/*!
- @file slist.h
- @brief Test circular singly linked list.
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef __TEST_SLIST_H__
 #define __TEST_SLIST_H__
 

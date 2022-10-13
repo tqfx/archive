@@ -1,9 +1,3 @@
-/*!
- @file notefreqs.c
- @brief Test note frequency
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/a.h"
 #define A_NOTEFREQ_FREQ ((180000000 >> 1) / 200)
 #define A_NOTEFREQ_TYPE a_real_t

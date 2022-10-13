@@ -1,9 +1,3 @@
-/*!
- @file pid.h
- @brief Test proportional integral derivative controller
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef __TEST_PID_H__
 #define __TEST_PID_H__
 

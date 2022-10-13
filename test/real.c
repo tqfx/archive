@@ -1,9 +1,3 @@
-/*!
- @file real.c
- @brief Test real number
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/a.h"
 #include <string.h>
 #include <stdlib.h>

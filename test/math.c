@@ -1,9 +1,3 @@
-/*!
- @file math.c
- @brief Test mathematical algorithm library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/math.h"
 #include "test.h"
 #include <math.h>

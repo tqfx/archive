@@ -1,9 +1,3 @@
-/*!
- @file crc.cpp
- @brief Test Cyclic Redundancy Check
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/crc.h"
 #include <stdio.h>
 #include <stdlib.h>

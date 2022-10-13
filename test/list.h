@@ -1,9 +1,3 @@
-/*!
- @file list.h
- @brief Test circular doubly linked list.
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef __TEST_LIST_H__
 #define __TEST_LIST_H__
 

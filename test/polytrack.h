@@ -1,9 +1,3 @@
-/*!
- @file polytrack.h
- @brief Test polynomial trajectory
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef __TEST_POLYTRACK_H__
 #define __TEST_POLYTRACK_H__
 

@@ -1,9 +1,3 @@
-/*!
- @file test.h
- @brief Test algorithm library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef __TEST_TEST_H__
 #define __TEST_TEST_H__
 

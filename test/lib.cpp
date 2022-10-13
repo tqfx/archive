@@ -1,9 +1,3 @@
-/*!
- @file lib.cpp
- @brief Test algorithm library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/a.h"
 #include "test.h"
 #include <inttypes.h>

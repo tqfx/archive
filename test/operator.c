@@ -1,9 +1,3 @@
-/*!
- @file operator.c
- @brief Test algorithm library operator
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/a.h"
 #include "a/operator.h"
 #include "../src/operator.h"

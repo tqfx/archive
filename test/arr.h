@@ -1,9 +1,3 @@
-/*!
- @file arr.h
- @brief Test basic array library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef __TEST_ARR_H__
 #define __TEST_ARR_H__
 

@@ -1,9 +1,3 @@
-/*!
- @file poly.h
- @brief Test polynomial
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef __TEST_POLY_H__
 #define __TEST_POLY_H__
 
