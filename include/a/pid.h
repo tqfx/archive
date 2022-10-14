@@ -203,11 +203,11 @@ A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 #define a_pid_ki(ctx) ((ctx)->ki / (ctx)->dt)
 #define a_pid_set_kd(ctx, val) ((ctx)->kd = (val) / (ctx)->dt)
 #define a_pid_kd(ctx) ((ctx)->kd * (ctx)->dt)
-#define a_pid_set_num(ctx, val) ((ctx)->num &= ~A_PID_NUM_MASK, (ctx)->num |= (val)&A_PID_NUM_MASK)
+#define a_pid_set_num(ctx, val) ((void)((ctx)->num &= ~A_PID_NUM_MASK), (ctx)->num |= (val)&A_PID_NUM_MASK)
 #define a_pid_num(ctx) ((ctx)->num & A_PID_NUM_MASK)
-#define a_pid_set_reg(ctx, val) ((ctx)->reg &= ~A_PID_REG_MASK, (ctx)->reg |= (val)&A_PID_REG_MASK)
+#define a_pid_set_reg(ctx, val) ((void)((ctx)->reg &= ~A_PID_REG_MASK), (ctx)->reg |= (val)&A_PID_REG_MASK)
 #define a_pid_reg(ctx) ((ctx)->reg & A_PID_REG_MASK)
-#define a_pid_set_mode(ctx, val) ((ctx)->reg &= ~A_PID_MODE_MASK, (ctx)->reg |= (val)&A_PID_MODE_MASK)
+#define a_pid_set_mode(ctx, val) ((void)((ctx)->reg &= ~A_PID_MODE_MASK), (ctx)->reg |= (val)&A_PID_MODE_MASK)
 #define a_pid_mode(ctx) ((ctx)->reg & A_PID_MODE_MASK)
 
 /*! @} A_PID */
