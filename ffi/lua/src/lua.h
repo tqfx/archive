@@ -88,13 +88,13 @@ typedef struct
 extern "C" {
 #endif /* __cplusplus */
 
+int l_setter(lua_State *L);
+int l_field(lua_State *L, const char *i, const char *s, uint32_t v);
+void l_stack(lua_State *L, int line);
+
 void *l_cmalloc(size_t siz);
 void *l_realloc(const void *ptr, size_t siz);
 void l_dealloc(const void *var);
-
-int l_setter(lua_State *L);
-void l_stack(lua_State *L, int line);
-int l_field(lua_State *L, const char *i, const char *s, uint32_t v);
 
 lua_Integer get_enum(lua_State *L, int idx, const char *name);
 void set_enum(lua_State *L, int idx, const char *name, lua_Integer data);

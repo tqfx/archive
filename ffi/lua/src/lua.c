@@ -14,7 +14,6 @@ int l_field(lua_State *L, const char *i, const char *s, uint32_t v)
     return luaL_error(L, "field(%s) '%s' missing in %s", h, s, i);
 }
 
-A_ATTRIBUTE(unused)
 void l_stack(lua_State *L, int line)
 {
     char map[] = {'0', 'B', 'P', 'N', 'S', 'T', 'F', 'U', 'M'};
