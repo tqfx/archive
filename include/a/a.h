@@ -299,8 +299,8 @@ typedef float a_f32_t;
 #define A_F32_F(F, ...) F##f(__VA_ARGS__)
 #define A_F32_MIN FLT_MIN
 #define A_F32_MAX FLT_MAX
-#define A_F32_NAN (0.0F / 0.0F)
-#define A_F32_INF (1.0F / 0.0F)
+#define A_F32_INF ((a_f32_t)(DBL_MAX * DBL_MAX))
+#define A_F32_NAN (A_F32_C(0.0) * A_F32_INF)
 #define A_F32_NNAN A_U32_C(0xFFC00000)
 #define A_F32_PNAN A_U32_C(0x7FC00000)
 #define A_F32_NINF A_U32_C(0xFF800000)
@@ -311,8 +311,8 @@ typedef double a_f64_t;
 #define A_F64_F(F, ...) F(__VA_ARGS__)
 #define A_F64_MIN DBL_MIN
 #define A_F64_MAX DBL_MAX
-#define A_F64_NAN (0.0 / 0.0)
-#define A_F64_INF (1.0 / 0.0)
+#define A_F64_INF ((a_f64_t)(DBL_MAX * DBL_MAX))
+#define A_F64_NAN (A_F64_C(0.0) * A_F64_INF)
 #define A_F64_NNAN A_U64_C(0xFFF8000000000000)
 #define A_F64_PNAN A_U64_C(0x7FF8000000000000)
 #define A_F64_NINF A_U64_C(0xFFF0000000000000)
@@ -442,8 +442,8 @@ typedef float a_real_t;
 
 #endif /* A_REAL_BITS */
 
-#define A_REAL_NAN (A_REAL_C(0.0) / A_REAL_C(0.0))
-#define A_REAL_INF (A_REAL_C(1.0) / A_REAL_C(0.0))
+#define A_REAL_INF ((a_real_t)(DBL_MAX * DBL_MAX))
+#define A_REAL_NAN (A_REAL_C(0.0) * A_REAL_INF)
 
 typedef union a_real_u
 {
