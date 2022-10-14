@@ -229,7 +229,7 @@ void arraynum_sets(lua_State *L, int idx, const SFnums *tab)
     }
 }
 
-size_t tablenum_len(lua_State *L, int idx)
+size_t tablenum_len(lua_State *L, int idx) // NOLINT(misc-no-recursion)
 {
     size_t num = 0;
     size_t n = (size_t)lua_rawlen(L, idx);
@@ -250,7 +250,7 @@ size_t tablenum_len(lua_State *L, int idx)
     return num;
 }
 
-lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr)
+lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr) // NOLINT(misc-no-recursion)
 {
     size_t n = (size_t)lua_rawlen(L, idx);
     for (unsigned int i = 0; i++ != n;)
