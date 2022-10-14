@@ -26,43 +26,43 @@ typedef struct a_vector_s
 {
     a_void_t (*ctor)(a_vptr_t); /*!< element constructor */
     a_void_t (*dtor)(a_vptr_t); /*!< element destructor */
-    a_vptr_t __head; /*!< head address */
-    a_vptr_t __tail; /*!< tail address */
-    a_vptr_t __last; /*!< last address */
-    a_size_t __size; /*!< size element */
-    a_size_t __num; /*!< count number */
-    a_size_t __mem; /*!< count memory */
+    a_vptr_t _head; /*!< head address */
+    a_vptr_t _tail; /*!< tail address */
+    a_vptr_t _last; /*!< last address */
+    a_size_t _size; /*!< size element */
+    a_size_t _num; /*!< count number */
+    a_size_t _mem; /*!< count memory */
 } a_vector_s;
 
 /*!
  @brief access vector head pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_vptr_t a_vector_ptr(const a_vector_s *ctx) { return ctx->__head; }
+A_INTERN a_vptr_t a_vector_ptr(const a_vector_s *ctx) { return ctx->_head; }
 
 /*!
  @brief access vector tail pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->__tail; }
+A_INTERN a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->_tail; }
 
 /*!
  @brief access size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->__size; }
+A_INTERN a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->_size; }
 
 /*!
  @brief access number of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_num(const a_vector_s *ctx) { return ctx->__num; }
+A_INTERN a_size_t a_vector_num(const a_vector_s *ctx) { return ctx->_num; }
 
 /*!
  @brief access capacity of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->__mem; }
+A_INTERN a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->_mem; }
 
 /*!
  @brief access specified element for a pointer to vector structure
@@ -73,7 +73,7 @@ A_INTERN a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->__mem; }
 */
 A_INTERN a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 {
-    return a_cast_s(a_byte_t *, ctx->__head) + ctx->__size * idx;
+    return a_cast_s(a_byte_t *, ctx->_head) + ctx->_size * idx;
 }
 
 /*!
@@ -85,7 +85,7 @@ A_INTERN a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 */
 A_INTERN a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 {
-    return a_likely(idx < ctx->__mem) ? a_vector_at_(ctx, idx) : A_NULL;
+    return a_likely(idx < ctx->_mem) ? a_vector_at_(ctx, idx) : A_NULL;
 }
 
 /*!
@@ -96,7 +96,7 @@ A_INTERN a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 */
 A_INTERN a_vptr_t a_vector_top_(const a_vector_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->__tail) - ctx->__size;
+    return a_cast_s(a_byte_t *, ctx->_tail) - ctx->_size;
 }
 
 /*!
@@ -107,7 +107,7 @@ A_INTERN a_vptr_t a_vector_top_(const a_vector_s *ctx)
 */
 A_INTERN a_vptr_t a_vector_top(const a_vector_s *ctx)
 {
-    return a_likely(ctx->__num) ? a_vector_top_(ctx) : A_NULL;
+    return a_likely(ctx->_num) ? a_vector_top_(ctx) : A_NULL;
 }
 
 #if defined(__cplusplus)
@@ -348,7 +348,7 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vector_forenum(i, ctx) a_forenum(a_size_t, i, (ctx)->__num)
+#define a_vector_forenum(i, ctx) a_forenum(a_size_t, i, (ctx)->_num)
 
 /*!
  @brief iterate over a vector in reverse
@@ -362,7 +362,7 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param i index of elements in the vector
  @param ctx points to an instance of vector structure
 */
-#define a_vector_forenum_reverse(i, ctx) a_forenum_reverse(a_size_t, i, (ctx)->__num)
+#define a_vector_forenum_reverse(i, ctx) a_forenum_reverse(a_size_t, i, (ctx)->_num)
 
 /*!
  @brief iterate over a vector
@@ -376,7 +376,7 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param it the &a_vector_s to use as a loop counter
  @param ctx points to an instance of vector structure
 */
-#define a_vector_foreach(T, it, ctx) a_iterate(T, it, (ctx)->__head, (ctx)->__tail)
+#define a_vector_foreach(T, it, ctx) a_iterate(T, it, (ctx)->_head, (ctx)->_tail)
 
 /*!
  @brief iterate over a vector in reverse
@@ -390,7 +390,7 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
  @param it the &a_vector_s to use as a loop counter
  @param ctx points to an instance of vector structure
 */
-#define a_vector_foreach_reverse(T, it, ctx) a_iterate_reverse(T, it, (ctx)->__head, (ctx)->__tail)
+#define a_vector_foreach_reverse(T, it, ctx) a_iterate_reverse(T, it, (ctx)->_head, (ctx)->_tail)
 
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wdisabled-macro-expansion"

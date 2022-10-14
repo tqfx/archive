@@ -39,7 +39,7 @@ static a_void_t create_table(a_cstr_t name)
 
     if (name)
     {
-        out = fopen(name, "wbe");
+        out = fopen(name, "wb");
         if (!out)
         {
             perror(name);

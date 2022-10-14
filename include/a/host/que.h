@@ -24,8 +24,8 @@
 */
 typedef struct a_que_node_s
 {
-    a_list_s __node[1]; /*!< element node */
-    a_vptr_t __vptr; /*!< element data */
+    a_list_s _node[1]; /*!< element node */
+    a_vptr_t _vptr; /*!< element data */
 } a_que_node_s;
 
 /*!
@@ -40,25 +40,25 @@ A_INTERN a_que_node_s *a_que_from(a_vptr_t obj) { return a_cast_s(a_que_node_s *
 */
 typedef struct a_que_s
 {
-    a_que_node_s **__ptr; /*!< mempool block */
-    a_list_s __head[1]; /*!< element head */
-    a_size_t __size; /*!< element sizeof */
-    a_size_t __num; /*!< element number */
-    a_size_t __cur; /*!< mempool cursor */
-    a_size_t __mem; /*!< mempool memory */
+    a_que_node_s **_ptr; /*!< mempool block */
+    a_list_s _head[1]; /*!< element head */
+    a_size_t _size; /*!< element sizeof */
+    a_size_t _num; /*!< element number */
+    a_size_t _cur; /*!< mempool cursor */
+    a_size_t _mem; /*!< mempool memory */
 } a_que_s;
 
 /*!
  @brief access size of a element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
 */
-A_INTERN a_size_t a_que_get(const a_que_s *ctx) { return ctx->__size; }
+A_INTERN a_size_t a_que_get(const a_que_s *ctx) { return ctx->_size; }
 
 /*!
  @brief access number of element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
 */
-A_INTERN a_size_t a_que_num(const a_que_s *ctx) { return ctx->__num; }
+A_INTERN a_size_t a_que_num(const a_que_s *ctx) { return ctx->_num; }
 
 /*!
  @brief access foremost element for a pointer to queue structure
@@ -68,7 +68,7 @@ A_INTERN a_size_t a_que_num(const a_que_s *ctx) { return ctx->__num; }
 */
 A_INTERN a_vptr_t a_que_fore_(const a_que_s *ctx)
 {
-    return a_que_from(ctx->__head->next)->__vptr;
+    return a_que_from(ctx->_head->next)->_vptr;
 }
 
 /*!
@@ -79,7 +79,7 @@ A_INTERN a_vptr_t a_que_fore_(const a_que_s *ctx)
 */
 A_INTERN a_vptr_t a_que_back_(const a_que_s *ctx)
 {
-    return a_que_from(ctx->__head->prev)->__vptr;
+    return a_que_from(ctx->_head->prev)->_vptr;
 }
 
 /*!
@@ -90,7 +90,7 @@ A_INTERN a_vptr_t a_que_back_(const a_que_s *ctx)
 */
 A_INTERN a_vptr_t a_que_fore(const a_que_s *ctx)
 {
-    return a_likely(a_list_used(ctx->__head)) ? a_que_fore_(ctx) : A_NULL;
+    return a_likely(a_list_used(ctx->_head)) ? a_que_fore_(ctx) : A_NULL;
 }
 
 /*!
@@ -101,7 +101,7 @@ A_INTERN a_vptr_t a_que_fore(const a_que_s *ctx)
 */
 A_INTERN a_vptr_t a_que_back(const a_que_s *ctx)
 {
-    return a_likely(a_list_used(ctx->__head)) ? a_que_back_(ctx) : A_NULL;
+    return a_likely(a_list_used(ctx->_head)) ? a_que_back_(ctx) : A_NULL;
 }
 
 #if defined(__cplusplus)
@@ -293,12 +293,12 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
  @param it the &a_que_s to use as a loop counter
  @param ctx points to an instance of queue structure
 */
-#define a_que_foreach(T, it, ctx)                                      \
-    for (T *it = a_cast_r(T *, (ctx)->__head->next),                   \
-           *it##_ = a_cast_r(T *, a_list_from(it)->next);              \
-         a_list_from(it) != (ctx)->__head                              \
-             ? ((void)(it = a_cast_s(T *, a_que_from(it)->__vptr)), 1) \
-             : (0);                                                    \
+#define a_que_foreach(T, it, ctx)                                     \
+    for (T *it = a_cast_r(T *, (ctx)->_head->next),                   \
+           *it##_ = a_cast_r(T *, a_list_from(it)->next);             \
+         a_list_from(it) != (ctx)->_head                              \
+             ? ((void)(it = a_cast_s(T *, a_que_from(it)->_vptr)), 1) \
+             : (0);                                                   \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->next))
 
 /*!
@@ -313,12 +313,12 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
  @param it the &a_que_s to use as a loop counter
  @param ctx points to an instance of queue structure
 */
-#define a_que_foreach_reverse(T, it, ctx)                              \
-    for (T *it = a_cast_r(T *, (ctx)->__head->prev),                   \
-           *it##_ = a_cast_r(T *, a_list_from(it)->prev);              \
-         a_list_from(it) != (ctx)->__head                              \
-             ? ((void)(it = a_cast_s(T *, a_que_from(it)->__vptr)), 1) \
-             : (0);                                                    \
+#define a_que_foreach_reverse(T, it, ctx)                             \
+    for (T *it = a_cast_r(T *, (ctx)->_head->prev),                   \
+           *it##_ = a_cast_r(T *, a_list_from(it)->prev);             \
+         a_list_from(it) != (ctx)->_head                              \
+             ? ((void)(it = a_cast_s(T *, a_que_from(it)->_vptr)), 1) \
+             : (0);                                                   \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->prev))
 
 #if defined(__clang__)

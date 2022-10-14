@@ -20,35 +20,35 @@
 */
 typedef struct a_arr_s
 {
-    a_vptr_t __ptr; /*!< address of memory */
-    a_size_t __num; /*!< number of element */
-    a_size_t __mem; /*!< memory of element */
-    a_size_t __siz; /*!< size of a element */
+    a_vptr_t _ptr; /*!< address of memory */
+    a_size_t _num; /*!< number of element */
+    a_size_t _mem; /*!< memory of element */
+    a_size_t _siz; /*!< size of a element */
 } a_arr_s;
 
 /*!
  @brief access address of array for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_vptr_t a_arr_ptr(const a_arr_s *ctx) { return ctx->__ptr; }
+A_INTERN a_vptr_t a_arr_ptr(const a_arr_s *ctx) { return ctx->_ptr; }
 
 /*!
  @brief access number of element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_size_t a_arr_num(const a_arr_s *ctx) { return ctx->__num; }
+A_INTERN a_size_t a_arr_num(const a_arr_s *ctx) { return ctx->_num; }
 
 /*!
  @brief access memory of element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_size_t a_arr_mem(const a_arr_s *ctx) { return ctx->__mem; }
+A_INTERN a_size_t a_arr_mem(const a_arr_s *ctx) { return ctx->_mem; }
 
 /*!
  @brief access size of a element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_size_t a_arr_get(const a_arr_s *ctx) { return ctx->__siz; }
+A_INTERN a_size_t a_arr_get(const a_arr_s *ctx) { return ctx->_siz; }
 
 /*!
  @brief access specified element for a pointer to array structure
@@ -59,7 +59,7 @@ A_INTERN a_size_t a_arr_get(const a_arr_s *ctx) { return ctx->__siz; }
 */
 A_INTERN a_vptr_t a_arr_at_(const a_arr_s *ctx, a_size_t idx)
 {
-    return a_cast_s(a_byte_t *, ctx->__ptr) + ctx->__siz * idx;
+    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * idx;
 }
 
 /*!
@@ -71,7 +71,7 @@ A_INTERN a_vptr_t a_arr_at_(const a_arr_s *ctx, a_size_t idx)
 */
 A_INTERN a_vptr_t a_arr_at(const a_arr_s *ctx, a_size_t idx)
 {
-    return a_likely(idx < ctx->__mem) ? a_arr_at_(ctx, idx) : A_NULL;
+    return a_likely(idx < ctx->_mem) ? a_arr_at_(ctx, idx) : A_NULL;
 }
 
 /*!
@@ -82,7 +82,7 @@ A_INTERN a_vptr_t a_arr_at(const a_arr_s *ctx, a_size_t idx)
 */
 A_INTERN a_vptr_t a_arr_top_(const a_arr_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->__ptr) + ctx->__siz * (ctx->__num - 1);
+    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * (ctx->_num - 1);
 }
 
 /*!
@@ -93,7 +93,7 @@ A_INTERN a_vptr_t a_arr_top_(const a_arr_s *ctx)
 */
 A_INTERN a_vptr_t a_arr_top(const a_arr_s *ctx)
 {
-    return a_likely(ctx->__num) ? a_arr_top_(ctx) : A_NULL;
+    return a_likely(ctx->_num) ? a_arr_top_(ctx) : A_NULL;
 }
 
 /*!
@@ -102,7 +102,7 @@ A_INTERN a_vptr_t a_arr_top(const a_arr_s *ctx)
 */
 A_INTERN a_vptr_t a_arr_end(const a_arr_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->__ptr) + ctx->__siz * ctx->__num;
+    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * ctx->_num;
 }
 
 #if defined(__cplusplus)
@@ -294,7 +294,7 @@ A_INTERN a_vptr_t a_arr_pull(a_arr_s *ctx) { return a_arr_pull_back(ctx); }
  @param i index of elements in the array
  @param ctx points to an instance of array structure
 */
-#define a_arr_forenum(i, ctx) a_forenum(a_size_t, i, (ctx)->__num)
+#define a_arr_forenum(i, ctx) a_forenum(a_size_t, i, (ctx)->_num)
 
 /*!
  @brief iterate over a array in reverse
@@ -308,7 +308,7 @@ A_INTERN a_vptr_t a_arr_pull(a_arr_s *ctx) { return a_arr_pull_back(ctx); }
  @param i index of elements in the array
  @param ctx points to an instance of array structure
 */
-#define a_arr_forenum_reverse(i, ctx) a_forenum_reverse(a_size_t, i, (ctx)->__num)
+#define a_arr_forenum_reverse(i, ctx) a_forenum_reverse(a_size_t, i, (ctx)->_num)
 
 /*!
  @brief iterate over a array
@@ -322,7 +322,7 @@ A_INTERN a_vptr_t a_arr_pull(a_arr_s *ctx) { return a_arr_pull_back(ctx); }
  @param it the &a_arr_s to use as a loop counter
  @param ctx points to an instance of array structure
 */
-#define a_arr_foreach(T, it, ctx) a_foreach(T, it, (ctx)->__ptr, (ctx)->__num)
+#define a_arr_foreach(T, it, ctx) a_foreach(T, it, (ctx)->_ptr, (ctx)->_num)
 
 /*!
  @brief iterate over a array in reverse
@@ -336,7 +336,7 @@ A_INTERN a_vptr_t a_arr_pull(a_arr_s *ctx) { return a_arr_pull_back(ctx); }
  @param it the &a_arr_s to use as a loop counter
  @param ctx points to an instance of array structure
 */
-#define a_arr_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->__ptr, (ctx)->__num)
+#define a_arr_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->_ptr, (ctx)->_num)
 
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wdisabled-macro-expansion"

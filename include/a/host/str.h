@@ -32,9 +32,9 @@
 */
 typedef struct a_str_s
 {
-    a_str_t __str; /*!< string */
-    a_size_t __num; /*!< length */
-    a_size_t __mem; /*!< memory */
+    a_str_t _str; /*!< string */
+    a_size_t _num; /*!< length */
+    a_size_t _mem; /*!< memory */
 } a_str_s;
 
 /*!
@@ -42,21 +42,21 @@ typedef struct a_str_s
  @param[in] ctx points to an instance of string structure
  @return string
 */
-A_INTERN a_str_t a_str_val(const a_str_s *ctx) { return ctx->__str; }
+A_INTERN a_str_t a_str_val(const a_str_s *ctx) { return ctx->_str; }
 
 /*!
  @brief length for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @return size of length
 */
-A_INTERN a_size_t a_str_len(const a_str_s *ctx) { return ctx->__num; }
+A_INTERN a_size_t a_str_len(const a_str_s *ctx) { return ctx->_num; }
 
 /*!
  @brief memory for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @return size of memory
 */
-A_INTERN a_size_t a_str_mem(const a_str_s *ctx) { return ctx->__mem; }
+A_INTERN a_size_t a_str_mem(const a_str_s *ctx) { return ctx->_mem; }
 
 #if defined(__cplusplus)
 extern "C" {
