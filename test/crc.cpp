@@ -11,13 +11,13 @@
     {                                                                                        \
         fprintf(out, "const uint%i_t %s[0x%X] = {\n", bit, label, A_CRC_SIZ);                \
         fprintf(out, "    /* clang-format off */\n");                                        \
-        for (a_size_t i = 0; i != A_CRC_SIZ / row; ++i)                                      \
+        for (a_size_t i = 0; i != A_CRC_SIZ / (row); ++i)                                    \
         {                                                                                    \
             fprintf(out, "    ");                                                            \
-            for (a_size_t j = 0; j != row; ++j)                                              \
+            for (a_size_t j = 0; j != (row); ++j)                                            \
             {                                                                                \
-                fprintf(out, "0x%0" #fmt PRIX##bit ",", ctx[row * i + j]);                   \
-                if (j != row - 1)                                                            \
+                fprintf(out, "0x%0" #fmt PRIX##bit ",", ctx[(row)*i + j]);                   \
+                if (j != (row)-1)                                                            \
                 {                                                                            \
                     fputc(' ', out);                                                         \
                 }                                                                            \

@@ -33,34 +33,34 @@ A_STATIC a_void_t real_add1(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rh
 }
 
 // https://www.lysator.liu.se/c/duffs-device.html
-#define DUFF_DEVICE_8(count, action)       \
-    do                                     \
-    {                                      \
-        size_t times__ = (count + 7) >> 3; \
-        switch (count & 7)                 \
-        {                                  \
-        case 0:                            \
-            do                             \
-            {                              \
-                action;                    \
-            case 7:                        \
-                action;                    \
-            case 6:                        \
-                action;                    \
-            case 5:                        \
-                action;                    \
-            case 4:                        \
-                action;                    \
-            case 3:                        \
-                action;                    \
-            case 2:                        \
-                action;                    \
-            case 1:                        \
-                action;                    \
-            } while (--times__);           \
-        default:                           \
-            break;                         \
-        }                                  \
+#define DUFF_DEVICE_8(count, action)         \
+    do                                       \
+    {                                        \
+        size_t times__ = ((count) + 7) >> 3; \
+        switch ((count)&7)                   \
+        {                                    \
+        case 0:                              \
+            do                               \
+            {                                \
+                action;                      \
+            case 7:                          \
+                (action);                    \
+            case 6:                          \
+                (action);                    \
+            case 5:                          \
+                (action);                    \
+            case 4:                          \
+                (action);                    \
+            case 3:                          \
+                (action);                    \
+            case 2:                          \
+                (action);                    \
+            case 1:                          \
+                (action);                    \
+            } while (--times__);             \
+        default:                             \
+            break;                           \
+        }                                    \
     } while (0)
 
 A_STATIC a_void_t real_add2(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
