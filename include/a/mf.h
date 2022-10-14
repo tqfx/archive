@@ -122,17 +122,17 @@ A_PUBLIC a_real_t a_mf_z(a_real_t x, a_real_t a, a_real_t b);
 /*!
  @brief membership function
  @param[in] e type for membership function
-  @arg @ref A_MF_GAUSS a_mf_gauss(x, sigma, c)
-  @arg @ref A_MF_GBELL a_mf_gbell(x, a, b, c)
-  @arg @ref A_MF_SIG   a_mf_sig(x, a, c)
-  @arg @ref A_MF_TRAP  a_mf_trap(x, a, b, c, d)
-  @arg @ref A_MF_TRI   a_mf_tri(x, a, b, c)
-  @arg @ref A_MF_Z     a_mf_z(x, a, b)
+  @arg \ref A_MF_GAUSS a_mf_gauss(x, sigma, c)
+  @arg \ref A_MF_GBELL a_mf_gbell(x, a, b, c)
+  @arg \ref A_MF_SIG   a_mf_sig(x, a, c)
+  @arg \ref A_MF_TRAP  a_mf_trap(x, a, b, c, d)
+  @arg \ref A_MF_TRI   a_mf_tri(x, a, b, c)
+  @arg \ref A_MF_Z     a_mf_z(x, a, b)
  @param[in] x any element
  @param[in] a paramarrays
-  @arg a[2] @ref a_mf_gauss @ref a_mf_sig @ref a_mf_z
-  @arg a[3] @ref a_mf_gbell @ref a_mf_tri
-  @arg a[4] @ref a_mf_trap
+  @arg a[2] \ref a_mf_gauss \ref a_mf_sig \ref a_mf_z
+  @arg a[3] \ref a_mf_gbell \ref a_mf_tri
+  @arg a[4] \ref a_mf_trap
 */
 A_PUBLIC a_real_t a_mf(a_uint_t e, a_real_t x, a_real_t *a);
 

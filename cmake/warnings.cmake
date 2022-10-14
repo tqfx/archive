@@ -5,6 +5,8 @@ if(
   "${CMAKE_C_COMPILER_ID}" MATCHES "GNU" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU"
 )
+  # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+  # https://gcc.gnu.org/onlinedocs/gcc-4.9.4/gcc/Warning-Options.html
   warnings_flag_cc(-Winit-self)
   warnings_flag_cc(-Wc++-compat)
   warnings_flag_cc(-Wbad-function-cast)
@@ -53,14 +55,19 @@ elseif(
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "(ARM|Apple)?[Cc]lang" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
 )
+  # https://clang.llvm.org/docs/DiagnosticsReference.html
+  # https://releases.llvm.org/4.0.1/tools/clang/docs/DiagnosticsReference.html
   warnings_flag_cx(-Weverything)
+  warnings_flag_cx(-Wno-documentation)
   warnings_flag_cx(-Wno-used-but-marked-unused)
+  warnings_flag_cx(-Wno-documentation-unknown-command)
   warnings_flag_cc(-Wno-declaration-after-statement)
   warnings_flag_xx(-Wno-c++98-compat-pedantic)
 elseif(
   "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
 )
+  # https://learn.microsoft.com/en-us/cpp/error-messages
   warnings_flag_cx(/Wall)
   warnings_flag_cx(/wd4464)
   warnings_flag_cx(/wd4514)
