@@ -223,7 +223,7 @@ static jobject concat(const j_fpid_s *jctx, jobjectArray jmat)
     }
     jobject obj = (*jenv)->NewDoubleArray(jenv, length);
     jdouble *mat = (*jenv)->GetDoubleArrayElements(jenv, obj, NULL), *jptr = mat;
-    for (jsize idx = 0, jnum; idx != num; ++idx, jptr += jnum)
+    for (jsize idx = 0, jnum = 0; idx != num; ++idx, jptr += jnum)
     {
         jobject jobj = (*jenv)->GetObjectArrayElement(jenv, jmat, idx);
         jnum = (*jenv)->GetArrayLength(jenv, jobj);

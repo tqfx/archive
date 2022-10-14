@@ -120,7 +120,7 @@ A_STATIC a_void_t test_diff(a_size_t n)
 
     a_real_t *p = (a_real_t *)malloc(sizeof(a_real_t) * n);
 
-    clock_t t1;
+    clock_t t1 = 0;
     {
         a_real_t *lhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
         a_real_t *rhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
@@ -135,7 +135,7 @@ A_STATIC a_void_t test_diff(a_size_t n)
         free(rhs);
     }
 
-    clock_t t2;
+    clock_t t2 = 0;
     {
         a_real_t *lhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
         a_real_t *rhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
@@ -150,7 +150,7 @@ A_STATIC a_void_t test_diff(a_size_t n)
         free(rhs);
     }
 
-    clock_t t3;
+    clock_t t3 = 0;
     {
         a_real_t *lhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
         a_real_t *rhs = (a_real_t *)malloc(sizeof(a_real_t) * n);
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 
     if (argc > 1)
     {
-        a_str_t endptr;
+        a_str_t endptr = NULL;
         unsigned long long n = strtoull(argv[argc - 1], &endptr, 0);
         test_diff(a_cast_s(a_size_t, n));
     }
