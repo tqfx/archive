@@ -10,7 +10,7 @@ int l_setter(lua_State *L)
 int l_field(lua_State *L, const char *i, const char *s, uint32_t v)
 {
     char h[11];
-    sprintf(h, "0x%08" PRIX32, v);
+    (void)sprintf(h, "0x%08" PRIX32, v);
     return luaL_error(L, "field(%s) '%s' missing in %s", h, s, i);
 }
 

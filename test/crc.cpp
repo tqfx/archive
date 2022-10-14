@@ -9,23 +9,23 @@
 #define WRITE_TABLE(bit, row, fmt)                                                           \
     static a_void_t write_table##bit(FILE *out, a_u##bit##_t ctx[A_CRC_SIZ], a_cstr_t label) \
     {                                                                                        \
-        fprintf(out, "const uint%i_t %s[0x%X] = {\n", bit, label, A_CRC_SIZ);                \
-        fprintf(out, "    /* clang-format off */\n");                                        \
+        (void)fprintf(out, "const uint%i_t %s[0x%X] = {\n", bit, label, A_CRC_SIZ);          \
+        (void)fprintf(out, "    /* clang-format off */\n");                                  \
         for (a_size_t i = 0; i != A_CRC_SIZ / (row); ++i)                                    \
         {                                                                                    \
-            fprintf(out, "    ");                                                            \
+            (void)fprintf(out, "    ");                                                      \
             for (a_size_t j = 0; j != (row); ++j)                                            \
             {                                                                                \
-                fprintf(out, "0x%0" #fmt PRIX##bit ",", ctx[(row)*i + j]);                   \
+                (void)fprintf(out, "0x%0" #fmt PRIX##bit ",", ctx[(row)*i + j]);             \
                 if (j != (row)-1)                                                            \
                 {                                                                            \
-                    fputc(' ', out);                                                         \
+                    (void)fputc(' ', out);                                                   \
                 }                                                                            \
             }                                                                                \
-            fputc('\n', out);                                                                \
+            (void)fputc('\n', out);                                                          \
         }                                                                                    \
-        fprintf(out, "    /* clang-format on */\n");                                         \
-        fprintf(out, "};\n");                                                                \
+        (void)fprintf(out, "    /* clang-format on */\n");                                   \
+        (void)fprintf(out, "};\n");                                                          \
     }
 WRITE_TABLE(8, 8, 2)
 WRITE_TABLE(16, 8, 4)
@@ -47,7 +47,7 @@ static a_void_t create_table(a_cstr_t name)
         }
     }
 
-    fprintf(out, "#include <stdint.h>\n");
+    (void)fprintf(out, "#include <stdint.h>\n");
 
     a_u8_t table8[A_CRC_SIZ];
     a_crc8l_init(table8, A_CRC8_POLY);
@@ -73,7 +73,11 @@ static a_void_t create_table(a_cstr_t name)
     a_crc64h_init(table64, A_CRC64_POLY);
     write_table64(out, table64, "CRC64H");
 
-    fclose(out);
+    if (fclose(out) == EOF)
+    {
+        perror(name);
+        clearerr(out);
+    }
 }
 
 static void test(void)
