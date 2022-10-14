@@ -1,5 +1,5 @@
-#ifndef __TEST_SLIST_H__
-#define __TEST_SLIST_H__
+#ifndef TEST_SLIST_H
+#define TEST_SLIST_H
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Winline"
@@ -146,4 +146,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_SLIST_H__ */
+#endif /* TEST_SLIST_H */

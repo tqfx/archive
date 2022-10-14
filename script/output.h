@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_OUTPUT_H__
-#define __A_OUTPUT_H__
+#ifndef A_OUTPUT_H
+#define A_OUTPUT_H
 
 #if defined(__MINGW32__)
 #undef __USE_MINGW_ANSI_STDIO
@@ -72,4 +72,4 @@ enum
     INVALID,
 };
 
-#endif /* __A_OUTPUT_H__ */
+#endif /* A_OUTPUT_H */

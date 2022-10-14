@@ -1,5 +1,5 @@
-#ifndef __TEST_PID_H__
-#define __TEST_PID_H__
+#ifndef TEST_PID_H
+#define TEST_PID_H
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
@@ -83,4 +83,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_PID_H__ */
+#endif /* TEST_PID_H */

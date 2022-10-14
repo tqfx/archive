@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __OPERATOR_H__
-#define __OPERATOR_H__
+#ifndef OPERATOR_H
+#define OPERATOR_H
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -112,4 +112,4 @@
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
 
-#endif /* __OPERATOR_H__ */
+#endif /* OPERATOR_H */

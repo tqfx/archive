@@ -5,8 +5,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __LIBA_CONFIG_H__
-#define __LIBA_CONFIG_H__
+#ifndef LIBA_CONFIG_H
+#define LIBA_CONFIG_H
 
 /* clang-format off */
 #cmakedefine A_SIZEOF_P @A_SIZEOF_P@
@@ -17,4 +17,4 @@
 #cmakedefine A_VERSION_TWEAK A_U64_C(@A_VERSION_TWEAK@)
 /* clang-format on */
 
-#endif /* __LIBA_CONFIG_H__ */
+#endif /* LIBA_CONFIG_H */

@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_HOST_STR_H__
-#define __A_HOST_STR_H__
+#ifndef A_HOST_STR_H
+#define A_HOST_STR_H
 
 #include "../a.h"
 #include <string.h>
@@ -227,4 +227,4 @@ A_INTERN a_void_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx
 
 #endif /* __STDC_HOSTED__ */
 
-#endif /* __A_HOST_STR_H__ */
+#endif /* A_HOST_STR_H */

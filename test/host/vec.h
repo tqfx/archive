@@ -1,5 +1,5 @@
-#ifndef __TEST_HOST_VEC_H__
-#define __TEST_HOST_VEC_H__
+#ifndef TEST_HOST_VEC_H
+#define TEST_HOST_VEC_H
 
 #include "a/host/vec.h"
 #include "../test.h"
@@ -318,4 +318,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_HOST_VEC_H__ */
+#endif /* TEST_HOST_VEC_H */

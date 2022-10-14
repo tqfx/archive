@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_HOST_VECTOR_H__
-#define __A_HOST_VECTOR_H__
+#ifndef A_HOST_VECTOR_H
+#define A_HOST_VECTOR_H
 
 #include "../a.h"
 
@@ -416,4 +416,4 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
 
 #endif /* __STDC_HOSTED__ */
 
-#endif /* __A_HOST_VECTOR_H__ */
+#endif /* A_HOST_VECTOR_H */

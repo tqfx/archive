@@ -1,5 +1,5 @@
-#ifndef __TEST_POLY_H__
-#define __TEST_POLY_H__
+#ifndef TEST_POLY_H
+#define TEST_POLY_H
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
@@ -61,4 +61,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_POLY_H__ */
+#endif /* TEST_POLY_H */

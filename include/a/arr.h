@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_ARR_H__
-#define __A_ARR_H__
+#ifndef A_ARR_H
+#define A_ARR_H
 
 #include "a.h"
 
@@ -360,4 +360,4 @@ A_INTERN a_vptr_t a_arr_pull(a_arr_s *ctx) { return a_arr_pull_back(ctx); }
 
 /*! @} A_ARR */
 
-#endif /* __A_ARR_H__ */
+#endif /* A_ARR_H */

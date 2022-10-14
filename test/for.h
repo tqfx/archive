@@ -1,5 +1,5 @@
-#ifndef __TEST_FOR_H__
-#define __TEST_FOR_H__
+#ifndef TEST_FOR_H
+#define TEST_FOR_H
 
 #include "a/a.h"
 #include <stdio.h>
@@ -71,4 +71,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_FOR_H__ */
+#endif /* TEST_FOR_H */

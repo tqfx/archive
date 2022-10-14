@@ -1,8 +1,7 @@
-#ifndef __FPID_H__
-#define __FPID_H__
+#ifndef FFI_FPID_H
+#define FFI_FPID_H
 
 #include "pid.h"
-#include "liba_fpid.h"
 #include "a/fpid.h"
 
 typedef struct
@@ -44,4 +43,4 @@ jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __FPID_H__ */
+#endif /* FFI_FPID_H */

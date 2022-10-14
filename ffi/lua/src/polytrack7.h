@@ -24,8 +24,8 @@
  @table polytrack7
 */
 
-#ifndef __POLYTRACK7_H__
-#define __POLYTRACK7_H__
+#ifndef FFI_POLYTRACK7_H
+#define FFI_POLYTRACK7_H
 
 #include "lua.h"
 #include "a/polytrack.h"
@@ -129,4 +129,4 @@ int polytrack7_jer(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __POLYTRACK7_H__ */
+#endif /* FFI_POLYTRACK7_H */

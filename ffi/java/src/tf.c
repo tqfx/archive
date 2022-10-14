@@ -1,4 +1,12 @@
 #include "tf.h"
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-identifier"
+#endif /* __clang__ */
+#include "liba_tf.h"
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif /* __clang__ */
 
 j_tf_s *j_tf_new(JNIEnv *jenv, jobject jobj, j_tf_s *jctx)
 {

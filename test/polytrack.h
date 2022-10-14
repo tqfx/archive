@@ -1,5 +1,5 @@
-#ifndef __TEST_POLYTRACK_H__
-#define __TEST_POLYTRACK_H__
+#ifndef TEST_POLYTRACK_H
+#define TEST_POLYTRACK_H
 
 #include "a/polytrack.h"
 
@@ -63,4 +63,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_POLYTRACK_H__ */
+#endif /* TEST_POLYTRACK_H */

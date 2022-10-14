@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_VERSION_HPP__
-#define __A_VERSION_HPP__
+#ifndef A_VERSION_HPP
+#define A_VERSION_HPP
 
 #include "a.hpp"
 
@@ -48,4 +48,4 @@ A_PUBLIC uint_t version_patch(void);
 /*! @} AA_VERSION */
 } // namespace a
 
-#endif /* __A_VERSION_HPP__ */
+#endif /* A_VERSION_HPP */

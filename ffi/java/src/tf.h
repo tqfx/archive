@@ -1,8 +1,7 @@
-#ifndef __TF_H__
-#define __TF_H__
+#ifndef FFI_TF_H
+#define FFI_TF_H
 
 #include "lib.h"
-#include "liba_tf.h"
 #include "a/tf.h"
 
 typedef struct
@@ -31,4 +30,4 @@ jobject j_tf_get(const j_tf_s *jctx, a_tf_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __TF_H__ */
+#endif /* FFI_TF_H */

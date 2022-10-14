@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_OPERATOR_H__
-#define __A_OPERATOR_H__
+#ifndef A_OPERATOR_H
+#define A_OPERATOR_H
 
 /*!
  @ingroup A
@@ -65,4 +65,4 @@
 
 /*! @} A_OPERATOR */
 
-#endif /* __A_OPERATOR_H__ */
+#endif /* A_OPERATOR_H */

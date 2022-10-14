@@ -27,8 +27,8 @@ if has_config("warnings") then
     if is_plat("windows") then
         add_cxflags("/wd4514", "/wd4710", "/wd4711", "/wd5039", "/wd5045")
     end
-    add_cxflags("-Wno-reserved-identifier", "-Wno-used-but-marked-unused")
     add_cflags("-Wno-declaration-after-statement")
+    add_cxflags("-Wno-used-but-marked-unused")
     add_cxxflags("-Wno-c++98-compat-pedantic")
 end
 

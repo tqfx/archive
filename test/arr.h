@@ -1,5 +1,5 @@
-#ifndef __TEST_ARR_H__
-#define __TEST_ARR_H__
+#ifndef TEST_ARR_H
+#define TEST_ARR_H
 
 #include "a/arr.h"
 #include <stdio.h>
@@ -218,4 +218,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_ARR_H__ */
+#endif /* TEST_ARR_H */

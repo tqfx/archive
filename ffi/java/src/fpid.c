@@ -1,4 +1,12 @@
 #include "fpid.h"
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-identifier"
+#endif /* __clang__ */
+#include "liba_fpid.h"
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif /* __clang__ */
 
 j_fpid_s *j_fpid_new(JNIEnv *jenv, jobject jobj, j_fpid_s *jctx)
 {

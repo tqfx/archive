@@ -21,8 +21,8 @@
  @table polytrack5
 */
 
-#ifndef __POLYTRACK5_H__
-#define __POLYTRACK5_H__
+#ifndef FFI_POLYTRACK5_H
+#define FFI_POLYTRACK5_H
 
 #include "lua.h"
 #include "a/polytrack.h"
@@ -114,4 +114,4 @@ int polytrack5_acc(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __POLYTRACK5_H__ */
+#endif /* FFI_POLYTRACK5_H */

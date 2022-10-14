@@ -1,5 +1,5 @@
-#ifndef __TEST_TEST_H__
-#define __TEST_TEST_H__
+#ifndef TEST_TEST_H
+#define TEST_TEST_H
 
 #include <stdio.h>
 
@@ -25,4 +25,4 @@
 
 #define TEST_BUG(expression) TEST_IS_TRUE(expression, "bug")
 
-#endif /* __TEST_TEST_H__ */
+#endif /* TEST_TEST_H */

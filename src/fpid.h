@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __FPID_H__
-#define __FPID_H__
+#ifndef FPID_H
+#define FPID_H
 
 #include "a/fpid.h"
 
@@ -22,4 +22,4 @@ A_HIDDEN a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __FPID_H__ */
+#endif /* FPID_H */

@@ -1,5 +1,5 @@
-#ifndef __TEST_HOST_QUE_H__
-#define __TEST_HOST_QUE_H__
+#ifndef TEST_HOST_QUE_H
+#define TEST_HOST_QUE_H
 
 #include "a/host/que.h"
 #include "../test.h"
@@ -190,4 +190,4 @@ a_int_t func(void)
     return A_SUCCESS;
 }
 
-#endif /* __TEST_HOST_QUE_H__ */
+#endif /* TEST_HOST_QUE_H */

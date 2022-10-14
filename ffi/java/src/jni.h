@@ -1,12 +1,13 @@
-#ifndef __JNI_H__
-#define __JNI_H__
+#ifndef FFI_JNI_H
+#define FFI_JNI_H
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
 #pragma GCC diagnostic ignored "-Wignored-attributes"
 #endif /* diagnostic */
 #if defined(__clang__)
-#pragma GCC diagnostic ignored "-Wlanguage-extension-token"
+#pragma clang diagnostic ignored "-Wlanguage-extension-token"
+#pragma clang diagnostic ignored "-Wreserved-identifier"
 #endif /* __clang__ */
 #if defined(_MSC_VER)
 #pragma warning(push)
@@ -19,4 +20,4 @@
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif /* _MSC_VER */
-#endif /* __JNI_H__ */
+#endif /* FFI_JNI_H */

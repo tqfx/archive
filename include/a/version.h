@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_VERSION_H__
-#define __A_VERSION_H__
+#ifndef A_VERSION_H
+#define A_VERSION_H
 
 #include "a.h"
 
@@ -43,4 +43,4 @@ A_PUBLIC a_uint_t a_version_patch(void);
 
 /*! @} A_VERSION */
 
-#endif /* __A_VERSION_H__ */
+#endif /* A_VERSION_H */

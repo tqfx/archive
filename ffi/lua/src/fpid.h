@@ -22,8 +22,8 @@
  @table fpid
 */
 
-#ifndef __FPID_H__
-#define __FPID_H__
+#ifndef FFI_FPID_H
+#define FFI_FPID_H
 
 #include "pid.h"
 #include "a/fpid.h"
@@ -161,4 +161,4 @@ int fpid_off(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __FPID_H__ */
+#endif /* FFI_FPID_H */

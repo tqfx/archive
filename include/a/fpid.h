@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_FPID_H__
-#define __A_FPID_H__
+#ifndef A_FPID_H
+#define A_FPID_H
 
 #include "mf.h"
 #include "pid.h"
@@ -250,4 +250,4 @@ A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 
 /*! @} A_FPID */
 
-#endif /* __A_FPID_H__ */
+#endif /* A_FPID_H */

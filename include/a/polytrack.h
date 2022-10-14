@@ -5,8 +5,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_POLYTRACK_H__
-#define __A_POLYTRACK_H__
+#ifndef A_POLYTRACK_H
+#define A_POLYTRACK_H
 
 #include "a.h"
 
@@ -464,4 +464,4 @@ A_PUBLIC a_real_t a_polytrack7_jer(const a_polytrack7_s *ctx, a_real_t ts);
 
 /*! @} A_POLYTRACK */
 
-#endif /* __A_POLYTRACK_H__ */
+#endif /* A_POLYTRACK_H */

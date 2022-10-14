@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_MATH_H__
-#define __A_MATH_H__
+#ifndef A_MATH_H
+#define A_MATH_H
 
 #include "a.h"
 
@@ -107,4 +107,4 @@ A_PUBLIC a_f32_t a_sqrt_inv(a_f32_t x);
 
 /*! @} A_MATH */
 
-#endif /* __A_MATH_H__ */
+#endif /* A_MATH_H */

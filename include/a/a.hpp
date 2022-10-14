@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_A_HPP__
-#define __A_A_HPP__
+#ifndef A_A_HPP
+#define A_A_HPP
 
 #include "a.h"
 
@@ -79,4 +79,4 @@ typedef a_f64_t f64_t;
 /*! @} AA */
 } // namespace a
 
-#endif /* __A_A_HPP__ */
+#endif /* A_A_HPP */

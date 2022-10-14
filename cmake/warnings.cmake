@@ -54,8 +54,6 @@ elseif(
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
 )
   warnings_flag_cx(-Weverything)
-  warnings_flag_cx(-Wno-reserved-id-macro)
-  warnings_flag_cx(-Wno-reserved-identifier)
   warnings_flag_cx(-Wno-used-but-marked-unused)
   warnings_flag_cc(-Wno-declaration-after-statement)
   warnings_flag_xx(-Wno-c++98-compat-pedantic)

@@ -20,8 +20,8 @@
  @table pid
 */
 
-#ifndef __PID_H__
-#define __PID_H__
+#ifndef FFI_PID_H
+#define FFI_PID_H
 
 #include "lua.h"
 #include "a/pid.h"
@@ -116,4 +116,4 @@ int pid_off(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __PID_H__ */
+#endif /* FFI_PID_H */

@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_LIST_H__
-#define __A_LIST_H__
+#ifndef A_LIST_H
+#define A_LIST_H
 
 #include "a.h"
 
@@ -504,4 +504,4 @@ A_INTERN a_void_t a_list_dtor_(a_vptr_t ctx) { a_list_dtor(a_cast_s(a_list_s *, 
 
 /*! @} A_LIST */
 
-#endif /* __A_LIST_H__ */
+#endif /* A_LIST_H */

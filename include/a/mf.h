@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_MF_H__
-#define __A_MF_H__
+#ifndef A_MF_H
+#define A_MF_H
 
 #include "a.h"
 
@@ -142,4 +142,4 @@ A_PUBLIC a_real_t a_mf(a_uint_t e, a_real_t x, a_real_t *a);
 
 /*! @} A_MF */
 
-#endif /* __A_MF_H__ */
+#endif /* A_MF_H */

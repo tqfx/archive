@@ -1,4 +1,12 @@
 #include "polytrack7.h"
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-identifier"
+#endif /* __clang__ */
+#include "liba_polytrack7.h"
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif /* __clang__ */
 
 j_polytrack7_s *j_polytrack7_new(JNIEnv *jenv, jobject jobj, j_polytrack7_s *jctx)
 {

@@ -1,5 +1,5 @@
-#ifndef __LIB_H__
-#define __LIB_H__
+#ifndef FFI_LIB_H
+#define FFI_LIB_H
 #include "a/a.h"
 #if !defined __EMSCRIPTEN__
 #define __EMSCRIPTEN__
@@ -25,4 +25,4 @@
 #endif /* __cplusplus */
 #endif /* __EMSCRIPTEN__ */
 #endif /* EM_PORT_API */
-#endif /* __LIB_H__ */
+#endif /* FFI_LIB_H */

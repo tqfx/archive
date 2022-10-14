@@ -5,8 +5,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_CRC_H__
-#define __A_CRC_H__
+#ifndef A_CRC_H
+#define A_CRC_H
 
 #include "a.h"
 
@@ -51,4 +51,4 @@ A_PUBLIC a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __A_CRC_H__ */
+#endif /* A_CRC_H */

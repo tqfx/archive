@@ -1,4 +1,12 @@
 #include "pid.h"
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-identifier"
+#endif /* __clang__ */
+#include "liba_pid.h"
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif /* __clang__ */
 
 j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
 {

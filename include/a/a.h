@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_A_H__
-#define __A_A_H__
+#ifndef A_A_H
+#define A_A_H
 
 #include "config.h"
 
@@ -589,4 +589,4 @@ A_PUBLIC a_size_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_size_t val);
 
 /*! @} A */
 
-#endif /* __A_A_H__ */
+#endif /* A_A_H */

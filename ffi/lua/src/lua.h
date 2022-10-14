@@ -1,5 +1,5 @@
-#ifndef __LUA_H__
-#define __LUA_H__
+#ifndef FFI_LUA_H
+#define FFI_LUA_H
 
 #if defined(_MSC_VER)
 #define _CRT_SECURE_NO_WARNINGS
@@ -133,4 +133,4 @@ int luaopen_liba_version(lua_State *L);
 
 A_PUBLIC int luaopen_liba(lua_State *L);
 
-#endif /* __LUA_H__ */
+#endif /* FFI_LUA_H */

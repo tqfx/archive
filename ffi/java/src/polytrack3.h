@@ -1,8 +1,7 @@
-#ifndef __POLYTRACK3_H__
-#define __POLYTRACK3_H__
+#ifndef FFI_POLYTRACK3_H
+#define FFI_POLYTRACK3_H
 
 #include "lib.h"
-#include "liba_polytrack3.h"
 #include "a/polytrack.h"
 
 typedef struct
@@ -31,4 +30,4 @@ jobject j_polytrack3_get(const j_polytrack3_s *jctx, a_polytrack3_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __POLYTRACK3_H__ */
+#endif /* FFI_POLYTRACK3_H */

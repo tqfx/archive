@@ -26,8 +26,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_NOTEFREQS_H__
-#define __A_NOTEFREQS_H__
+#ifndef A_NOTEFREQS_H
+#define A_NOTEFREQS_H
 
 /*!
  @ingroup A
@@ -1473,4 +1473,4 @@
 
 /*! @} A_NOTEFREQ */
 
-#endif /* __A_NOTEFREQS_H__ */
+#endif /* A_NOTEFREQS_H */

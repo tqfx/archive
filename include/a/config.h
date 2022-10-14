@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_CONFIG_H__
-#define __A_CONFIG_H__
+#ifndef A_CONFIG_H
+#define A_CONFIG_H
 
 /*! @cond */
 #if defined(__STDC_LIB_EXT1__)
@@ -64,4 +64,4 @@
 #define A_REAL_BITS 64
 #endif // real bits
 
-#endif /* __A_CONFIG_H__ */
+#endif /* A_CONFIG_H */

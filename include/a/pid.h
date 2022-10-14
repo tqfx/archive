@@ -27,8 +27,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __A_PID_H__
-#define __A_PID_H__
+#ifndef A_PID_H
+#define A_PID_H
 
 #include "a.h"
 
@@ -212,4 +212,4 @@ A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 
 /*! @} A_PID */
 
-#endif /* __A_PID_H__ */
+#endif /* A_PID_H */

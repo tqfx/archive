@@ -67,8 +67,8 @@ text = '''/*!
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef __LIBA_CONFIG_H__
-#define __LIBA_CONFIG_H__
+#ifndef LIBA_CONFIG_H
+#define LIBA_CONFIG_H
 
 #define A_VERSION "{}"
 #define A_VERSION_MAJOR {}
@@ -76,7 +76,7 @@ text = '''/*!
 #define A_VERSION_PATCH {}
 #define A_VERSION_TWEAK {}
 
-#endif /* __LIBA_CONFIG_H__ */
+#endif /* LIBA_CONFIG_H */
 '''.format(
     version, major, minor, patch, tweak
 )
