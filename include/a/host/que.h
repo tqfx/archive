@@ -25,7 +25,7 @@
 typedef struct a_que_node_s
 {
     a_list_s _node[1]; /*!< element node */
-    a_vptr_t _vptr; /*!< element data */
+    a_vptr_t _data; /*!< element data */
 } a_que_node_s;
 
 /*!
@@ -68,7 +68,7 @@ A_INTERN a_size_t a_que_num(const a_que_s *ctx) { return ctx->_num; }
 */
 A_INTERN a_vptr_t a_que_fore_(const a_que_s *ctx)
 {
-    return a_que_from(ctx->_head->next)->_vptr;
+    return a_que_from(ctx->_head->next)->_data;
 }
 
 /*!
@@ -79,7 +79,7 @@ A_INTERN a_vptr_t a_que_fore_(const a_que_s *ctx)
 */
 A_INTERN a_vptr_t a_que_back_(const a_que_s *ctx)
 {
-    return a_que_from(ctx->_head->prev)->_vptr;
+    return a_que_from(ctx->_head->prev)->_data;
 }
 
 /*!
@@ -297,7 +297,7 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
     for (T *it = a_cast_r(T *, (ctx)->_head->next),                   \
            *it##_ = a_cast_r(T *, a_list_from(it)->next);             \
          a_list_from(it) != (ctx)->_head                              \
-             ? ((void)(it = a_cast_s(T *, a_que_from(it)->_vptr)), 1) \
+             ? ((void)(it = a_cast_s(T *, a_que_from(it)->_data)), 1) \
              : (0);                                                   \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->next))
 
@@ -317,7 +317,7 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
     for (T *it = a_cast_r(T *, (ctx)->_head->prev),                   \
            *it##_ = a_cast_r(T *, a_list_from(it)->prev);             \
          a_list_from(it) != (ctx)->_head                              \
-             ? ((void)(it = a_cast_s(T *, a_que_from(it)->_vptr)), 1) \
+             ? ((void)(it = a_cast_s(T *, a_que_from(it)->_data)), 1) \
              : (0);                                                   \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->prev))
 
