@@ -154,21 +154,20 @@ a_int_t a_str_alloc(a_str_s *ctx, a_size_t mem)
 
 a_int_t a_str_getc_(a_str_s *ctx)
 {
-    int c = EOF;
+    a_int_t c = EOF;
     if (ctx->__num)
     {
-        c = ctx->__str[--ctx->__num];
+        c = (a_u8_t)ctx->__str[--ctx->__num];
     }
     return c;
 }
 
 a_int_t a_str_getc(a_str_s *ctx)
 {
-    int c = EOF;
+    a_int_t c = EOF;
     if (ctx->__num)
     {
-        --ctx->__num;
-        c = ctx->__str[ctx->__num];
+        c = (a_u8_t)ctx->__str[--ctx->__num];
         ctx->__str[ctx->__num] = 0;
     }
     return c;
