@@ -33,7 +33,7 @@ a_real_t *a_poly_evaln(const a_real_t *a, a_size_t n, const a_real_t *ptr, a_siz
     A_ASSERT(out);
     A_ASSERT(!n || a);
     A_ASSERT(!num || ptr);
-    a_real_t x = A_REAL_NAN; /* when ptr == out, cache it */
+    a_real_t x; /* when ptr == out, cache it */
     for (const a_real_t *p = --a + n; num--; ++ptr, ++out)
     {
         x = *ptr;
@@ -62,7 +62,7 @@ a_real_t *a_poly_evarn(const a_real_t *a, a_size_t n, const a_real_t *ptr, a_siz
     A_ASSERT(out);
     A_ASSERT(!n || a);
     A_ASSERT(!num || ptr);
-    a_real_t x = A_REAL_NAN; /* when ptr == out, cache it */
+    a_real_t x; /* when ptr == out, cache it */
     for (const a_real_t *q = a + n; num--; ++ptr, ++out)
     {
         x = *ptr;
