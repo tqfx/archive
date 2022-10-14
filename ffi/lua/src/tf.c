@@ -217,7 +217,8 @@ int luaopen_liba_tf(lua_State *L)
         {LGET, tf_get},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, Larray(metas) - 1);
+    lua_createtable(L, 0, Larray(metas));
+    set_name(L, -1, LNAME, "tf");
     set_funcs(L, -1, metas);
 
     lua_rawsetp(L, LUA_REGISTRYINDEX, TF_META_);

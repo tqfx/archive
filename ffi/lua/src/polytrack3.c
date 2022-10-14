@@ -376,7 +376,8 @@ int luaopen_liba_polytrack3(lua_State *L)
         {LGET, polytrack3_get},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, Larray(metas) - 1);
+    lua_createtable(L, 0, Larray(metas));
+    set_name(L, -1, LNAME, "polytrack3");
     set_funcs(L, -1, metas);
 
     lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK3_META_);

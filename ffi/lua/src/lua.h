@@ -105,6 +105,8 @@ void set_fnums(lua_State *L, int idx, const SFnum *tab);
 void get_fnums(lua_State *L, int idx, const GFnum *tab);
 void set_func(lua_State *L, int idx, const char *name, lua_CFunction func);
 void set_funcs(lua_State *L, int idx, const SFunc *tab);
+const char *get_name(lua_State *L, int idx, const char *name);
+void set_name(lua_State *L, int idx, const char *name, const char *data);
 
 void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num);
 void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num);

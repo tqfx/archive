@@ -389,7 +389,8 @@ int luaopen_liba_pid(lua_State *L)
         {LGET, pid_get},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, Larray(metas) - 1);
+    lua_createtable(L, 0, Larray(metas));
+    set_name(L, -1, LNAME, "pid");
     set_funcs(L, -1, metas);
 
     lua_rawsetp(L, LUA_REGISTRYINDEX, PID_META_);

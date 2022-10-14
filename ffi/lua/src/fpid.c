@@ -489,7 +489,8 @@ int luaopen_liba_fpid(lua_State *L)
         {LGET, fpid_get},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, Larray(metas) - 1);
+    lua_createtable(L, 0, Larray(metas));
+    set_name(L, -1, LNAME, "fpid");
     set_funcs(L, -1, metas);
 
     lua_rawsetp(L, LUA_REGISTRYINDEX, FPID_META_);

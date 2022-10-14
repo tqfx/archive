@@ -152,6 +152,27 @@ void set_funcs(lua_State *L, int idx, const SFunc *tab)
     }
 }
 
+const char *get_name(lua_State *L, int idx, const char *name)
+{
+    const char *data = 0;
+    /* data=table[name] */
+    lua_pushstring(L, name);
+    lua_rawget(L, idx < 0 ? idx - 1 : idx);
+    if (lua_type(L, -1) == LUA_TSTRING)
+    {
+        data = lua_tostring(L, -1);
+    }
+    return data;
+}
+
+void set_name(lua_State *L, int idx, const char *name, const char *data)
+{
+    /* table[name]=data */
+    lua_pushstring(L, name);
+    lua_pushstring(L, data);
+    lua_rawset(L, idx < 0 ? idx - 2 : idx);
+}
+
 void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
 {
     size_t len = lua_rawlen(L, idx);

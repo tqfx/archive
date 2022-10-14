@@ -411,7 +411,8 @@ int luaopen_liba_polytrack5(lua_State *L)
         {LGET, polytrack5_get},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, Larray(metas) - 1);
+    lua_createtable(L, 0, Larray(metas));
+    set_name(L, -1, LNAME, "polytrack5");
     set_funcs(L, -1, metas);
 
     lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK5_META_);
