@@ -55,18 +55,24 @@ a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
 
 a_size_t a_hash_bkdr(a_cptr_t str, a_size_t val)
 {
-    for (const a_u8_t *p = (const a_u8_t *)str; *p; ++p)
+    if (str)
     {
-        val = val * 131 + *p;
+        for (const a_u8_t *p = (const a_u8_t *)str; *p; ++p)
+        {
+            val = val * 131 + *p;
+        }
     }
     return val;
 }
 
 a_size_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_size_t val)
 {
-    for (const a_u8_t *p = (const a_u8_t *)ptr; siz--; ++p)
+    if (ptr && siz)
     {
-        val = val * 131 + *p;
+        for (const a_u8_t *p = (const a_u8_t *)ptr; siz--; ++p)
+        {
+            val = val * 131 + *p;
+        }
     }
     return val;
 }
