@@ -1,7 +1,10 @@
 #include "pid.h"
 #if defined(__clang__)
 #pragma clang diagnostic push
+#if __has_warning("-Wreserved-identifier")
 #pragma clang diagnostic ignored "-Wreserved-identifier"
+#endif /* -Wreserved-identifier */
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
 #endif /* __clang__ */
 #include "liba_pid.h"
 #if defined(__clang__)

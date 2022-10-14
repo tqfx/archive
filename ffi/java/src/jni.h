@@ -1,13 +1,19 @@
 #ifndef FFI_JNI_H
 #define FFI_JNI_H
+#include "a/a.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
+#if a_prereq_gnuc(6, 0) || __has_warning("-Wignored-attributes")
 #pragma GCC diagnostic ignored "-Wignored-attributes"
+#endif /* -Wignored-attributes */
+#pragma GCC diagnostic ignored "-Wpadded"
 #endif /* diagnostic */
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wlanguage-extension-token"
+#if __has_warning("-Wreserved-identifier")
 #pragma clang diagnostic ignored "-Wreserved-identifier"
+#endif /* -Wreserved-identifier */
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
 #endif /* __clang__ */
 #if defined(_MSC_VER)
 #pragma warning(push)

@@ -2,7 +2,6 @@
 #define FFI_LIB_H
 
 #include "jni.h"
-#include "a/a.h"
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof(*A))
 #define JPACKAGE(F) Java_liba_##F
