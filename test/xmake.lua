@@ -74,7 +74,7 @@ target("test.crc")
     set_group("test")
     set_default(false)
     set_kind("binary")
-    add_files("crc.c")
+    add_files("crc.cpp")
     add_deps("a")
 target_end()
 
