@@ -258,7 +258,8 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
     str = ctx->__str ? ctx->__str + ctx->__num : 0;
     num = vsnprintf(str, mem, fmt, ap);
     va_end(ap);
-    if ((void)(siz = (a_size_t)num + 1), siz > mem)
+    siz = (a_size_t)num + 1;
+    if (siz > mem)
     {
         if (a_unlikely(a_str_alloc_(ctx, ctx->__num + siz)))
         {
