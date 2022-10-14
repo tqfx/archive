@@ -1,4 +1,4 @@
 ---
-Checks: '-*,clang-diagnostic-*,llvm-*,misc-*,-llvm-include-order'
+Checks: '-*,android-*,bugprone-*,-bugprone-easily-swappable-parameters,cert-*,clang-diagnostic-*,misc-*,performance-*,portability-*'
 FormatStyle: file
 ...
