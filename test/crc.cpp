@@ -82,7 +82,7 @@ static a_void_t create_table(a_cstr_t name)
 static void test(void)
 {
     a_cstr_t text = "123456789";
-    a_uint_t size = sizeof("123456789") - 1;
+    const a_uint_t size = sizeof("123456789") - 1;
 
     a_u8_t table8[A_CRC_SIZ];
     printf("POLY: 0x%02u\n", A_CRC8_POLY);
