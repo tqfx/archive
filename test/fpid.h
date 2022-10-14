@@ -1,6 +1,10 @@
 #ifndef __TEST_FPID_H__
 #define __TEST_FPID_H__
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* diagnostic */
+
 #include "a/tf.h"
 #include "a/fpid.h"
 #include <assert.h>

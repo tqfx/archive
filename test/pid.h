@@ -1,6 +1,10 @@
 #ifndef __TEST_PID_H__
 #define __TEST_PID_H__
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* diagnostic */
+
 #include "a/tf.h"
 #include "a/pid.h"
 #include <stdio.h>

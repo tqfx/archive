@@ -3,6 +3,7 @@
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Winline"
+#pragma GCC diagnostic ignored "-Wpadded"
 #endif /* diagnostic */
 
 #include "a/slist.h"

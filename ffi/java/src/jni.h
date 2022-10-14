@@ -3,6 +3,7 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpadded"
+#pragma GCC diagnostic ignored "-Wignored-attributes"
 #endif /* diagnostic */
 #if defined(__clang__)
 #pragma GCC diagnostic ignored "-Wlanguage-extension-token"
