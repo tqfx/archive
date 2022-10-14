@@ -24,46 +24,58 @@ a_real_t a_mf_sig(a_real_t x, a_real_t a, a_real_t c)
 
 a_real_t a_mf_trap(a_real_t x, a_real_t a, a_real_t b, a_real_t c, a_real_t d)
 {
-    if (x < a)
+    if (x < b)
     {
-        x = 0;
+        if (x > a) // a < x <= b
+        {
+            x = (x - a) / (b - a);
+        }
+        else // x <= a
+        {
+            x = 0;
+        }
     }
-    else if (x < b)
+    else if (x > c)
     {
-        x = (x - a) / (b - a);
+        if (x < d) // c <= x < d
+        {
+            x = (d - x) / (d - c);
+        }
+        else // d <= x
+        {
+            x = 0;
+        }
     }
-    else if (x < c)
+    else // b <= x <= c
     {
         x = 1;
-    }
-    else if (x < d)
-    {
-        x = (d - x) / (d - c);
-    }
-    else
-    {
-        x = 0;
     }
     return x;
 }
 
 a_real_t a_mf_tri(a_real_t x, a_real_t a, a_real_t b, a_real_t c)
 {
-    if (x < a)
+    if (x < b)
     {
-        x = 0;
-    }
-    else if (x < b)
-    {
-        x = (x - a) / (b - a);
-    }
-    else if (x < c)
-    {
-        x = (c - x) / (c - b);
+        if (x > a) // a < x <= b
+        {
+            x = (x - a) / (b - a);
+        }
+        else // x <= a
+        {
+            x = 0;
+        }
     }
     else
     {
-        x = 0;
+        if (x < c) // b <= x < c
+        {
+            x = (c - x) / (c - b);
+        }
+        else // c <= x
+        {
+            x = 0;
+        }
     }
     return x;
 }
