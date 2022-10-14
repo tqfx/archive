@@ -24,15 +24,15 @@
 #include "lua.h"
 #include "a/polytrack.h"
 
-#define POLYTRACK3_META_ (void *)(intptr_t)polytrack3_meta_
-#define POLYTRACK3_FUNC_ (void *)(intptr_t)polytrack3_func_
+#define POLYTRACK3_FUNC_ (void *)(intptr_t)polytrack3_func_ // NOLINT(performance-no-int-to-ptr)
+#define POLYTRACK3_META_ (void *)(intptr_t)polytrack3_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int polytrack3_meta_(lua_State *L);
 int polytrack3_func_(lua_State *L);
+int polytrack3_meta_(lua_State *L);
 
 /***
  constructor for cubic polynomial trajectory

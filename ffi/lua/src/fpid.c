@@ -5,18 +5,6 @@
 
 #include "fpid.h"
 
-int fpid_meta_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, FPID_META_);
-    return 1;
-}
-
-int fpid_func_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, FPID_FUNC_);
-    return 1;
-}
-
 static int fpid_init_(lua_State *L, a_fpid_s *ctx)
 {
     a_vptr_t buf = a_fpid_bufptr(ctx);
@@ -493,9 +481,20 @@ int luaopen_liba_fpid(lua_State *L)
     set_name(L, -1, LNAME, "fpid");
     set_funcs(L, -1, metas);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, FPID_META_);
-    lua_rawsetp(L, LUA_REGISTRYINDEX, FPID_FUNC_);
-    lua_rawgetp(L, LUA_REGISTRYINDEX, FPID_FUNC_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, FPID_META_); // NOLINT(performance-no-int-to-ptr)
+    lua_rawsetp(L, LUA_REGISTRYINDEX, FPID_FUNC_); // NOLINT(performance-no-int-to-ptr)
 
+    return fpid_func_(L);
+}
+
+int fpid_func_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, FPID_FUNC_); // NOLINT(performance-no-int-to-ptr)
+    return 1;
+}
+
+int fpid_meta_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, FPID_META_); // NOLINT(performance-no-int-to-ptr)
     return 1;
 }

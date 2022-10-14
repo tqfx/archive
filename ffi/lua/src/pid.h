@@ -26,15 +26,15 @@
 #include "lua.h"
 #include "a/pid.h"
 
-#define PID_META_ (void *)(intptr_t)pid_meta_
-#define PID_FUNC_ (void *)(intptr_t)pid_func_
+#define PID_FUNC_ (void *)(intptr_t)pid_func_ // NOLINT(performance-no-int-to-ptr)
+#define PID_META_ (void *)(intptr_t)pid_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int pid_meta_(lua_State *L);
 int pid_func_(lua_State *L);
+int pid_meta_(lua_State *L);
 
 /***
  constructor for PID controller

@@ -16,15 +16,15 @@
 #include "lua.h"
 #include "a/tf.h"
 
-#define TF_META_ (void *)(intptr_t)tf_meta_
-#define TF_FUNC_ (void *)(intptr_t)tf_func_
+#define TF_FUNC_ (void *)(intptr_t)tf_func_ // NOLINT(performance-no-int-to-ptr)
+#define TF_META_ (void *)(intptr_t)tf_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int tf_meta_(lua_State *L);
 int tf_func_(lua_State *L);
+int tf_meta_(lua_State *L);
 
 /***
  destructor for transfer function

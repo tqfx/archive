@@ -5,18 +5,6 @@
 
 #include "polytrack7.h"
 
-int polytrack7_meta_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK7_META_);
-    return 1;
-}
-
-int polytrack7_func_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK7_FUNC_);
-    return 1;
-}
-
 static int polytrack7_init_(lua_State *L, a_polytrack7_s *ctx)
 {
     a_real_t t0 = 0, q0 = 0, v0 = 0, a0 = 0, j0 = 0;
@@ -473,9 +461,20 @@ int luaopen_liba_polytrack7(lua_State *L)
     set_name(L, -1, LNAME, "polytrack7");
     set_funcs(L, -1, metas);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK7_META_);
-    lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK7_FUNC_);
-    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK7_FUNC_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK7_META_); // NOLINT(performance-no-int-to-ptr)
+    lua_rawsetp(L, LUA_REGISTRYINDEX, POLYTRACK7_FUNC_); // NOLINT(performance-no-int-to-ptr)
 
+    return polytrack7_func_(L);
+}
+
+int polytrack7_func_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK7_FUNC_); // NOLINT(performance-no-int-to-ptr)
+    return 1;
+}
+
+int polytrack7_meta_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, POLYTRACK7_META_); // NOLINT(performance-no-int-to-ptr)
     return 1;
 }

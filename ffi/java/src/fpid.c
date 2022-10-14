@@ -76,7 +76,7 @@ jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx)
     ctx->ki = (*jenv)->GetDoubleField(jenv, jobj, jctx->ki);
     ctx->kd = (*jenv)->GetDoubleField(jenv, jobj, jctx->kd);
     jlong op = (*jenv)->GetLongField(jenv, jobj, jctx->op);
-    ctx->op = (a_real_t(*)(a_real_t, a_real_t))(intptr_t)op;
+    ctx->op = (a_real_t(*)(a_real_t, a_real_t))(intptr_t)op; // NOLINT(performance-no-int-to-ptr)
     return jctx->jobj;
 }
 
@@ -87,21 +87,25 @@ jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
     j_pid_set(jctx->pid, ctx->pid);
     if (ctx->mmp)
     {
+        // NOLINTNEXTLINE(performance-no-int-to-ptr)
         jdouble *mmp = (jdouble *)(intptr_t)ctx->mmp;
         (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmmp, mmp, JNI_ABORT);
     }
     if (ctx->mkp)
     {
+        // NOLINTNEXTLINE(performance-no-int-to-ptr)
         jdouble *mkp = (jdouble *)(intptr_t)ctx->mkp;
         (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmkp, mkp, JNI_ABORT);
     }
     if (ctx->mki)
     {
+        // NOLINTNEXTLINE(performance-no-int-to-ptr)
         jdouble *mki = (jdouble *)(intptr_t)ctx->mki;
         (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmki, mki, JNI_ABORT);
     }
     if (ctx->mkd)
     {
+        // NOLINTNEXTLINE(performance-no-int-to-ptr)
         jdouble *mkd = (jdouble *)(intptr_t)ctx->mkd;
         (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jmkd, mkd, JNI_ABORT);
     }

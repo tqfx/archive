@@ -27,15 +27,15 @@
 #include "lua.h"
 #include "a/polytrack.h"
 
-#define POLYTRACK5_META_ (void *)(intptr_t)polytrack5_meta_
-#define POLYTRACK5_FUNC_ (void *)(intptr_t)polytrack5_func_
+#define POLYTRACK5_FUNC_ (void *)(intptr_t)polytrack5_func_ // NOLINT(performance-no-int-to-ptr)
+#define POLYTRACK5_META_ (void *)(intptr_t)polytrack5_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int polytrack5_meta_(lua_State *L);
 int polytrack5_func_(lua_State *L);
+int polytrack5_meta_(lua_State *L);
 
 /***
  constructor for quintic polynomial trajectory

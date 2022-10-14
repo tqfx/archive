@@ -30,15 +30,15 @@
 #include "lua.h"
 #include "a/polytrack.h"
 
-#define POLYTRACK7_META_ (void *)(intptr_t)polytrack7_meta_
-#define POLYTRACK7_FUNC_ (void *)(intptr_t)polytrack7_func_
+#define POLYTRACK7_FUNC_ (void *)(intptr_t)polytrack7_func_ // NOLINT(performance-no-int-to-ptr)
+#define POLYTRACK7_META_ (void *)(intptr_t)polytrack7_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int polytrack7_meta_(lua_State *L);
 int polytrack7_func_(lua_State *L);
+int polytrack7_meta_(lua_State *L);
 
 /***
  constructor for hepta polynomial trajectory

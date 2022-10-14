@@ -5,18 +5,6 @@
 
 #include "tf.h"
 
-int tf_meta_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, TF_META_);
-    return 1;
-}
-
-int tf_func_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, TF_FUNC_);
-    return 1;
-}
-
 /***
  destructor for transfer function
  @param ctx transfer function userdata
@@ -221,9 +209,20 @@ int luaopen_liba_tf(lua_State *L)
     set_name(L, -1, LNAME, "tf");
     set_funcs(L, -1, metas);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, TF_META_);
-    lua_rawsetp(L, LUA_REGISTRYINDEX, TF_FUNC_);
-    lua_rawgetp(L, LUA_REGISTRYINDEX, TF_FUNC_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, TF_META_); // NOLINT(performance-no-int-to-ptr)
+    lua_rawsetp(L, LUA_REGISTRYINDEX, TF_FUNC_); // NOLINT(performance-no-int-to-ptr)
 
+    return tf_func_(L);
+}
+
+int tf_func_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, TF_FUNC_); // NOLINT(performance-no-int-to-ptr)
+    return 1;
+}
+
+int tf_meta_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, TF_META_); // NOLINT(performance-no-int-to-ptr)
     return 1;
 }

@@ -33,12 +33,12 @@ void *l_cmalloc(size_t siz)
 
 void *l_realloc(const void *ptr, size_t siz)
 {
-    return realloc((void *)(intptr_t)ptr, siz);
+    return realloc((void *)(intptr_t)ptr, siz); // NOLINT(performance-no-int-to-ptr)
 }
 
 void l_dealloc(const void *var)
 {
-    void **ptr = (void **)(intptr_t)var;
+    void **ptr = (void **)(intptr_t)var; // NOLINT(performance-no-int-to-ptr)
     free(*ptr);
     *ptr = 0;
 }
@@ -280,10 +280,10 @@ lua_Number *tablenum_get(lua_State *L, int idx, const lua_Number *ptr, size_t *n
         if (*num)
         {
             ptr = (lua_Number *)l_realloc(ptr, sizeof(lua_Number) * *num);
-            tablenum_num(L, idx, (lua_Number *)(intptr_t)ptr);
+            tablenum_num(L, idx, (lua_Number *)(intptr_t)ptr); // NOLINT(performance-no-int-to-ptr)
         }
     }
-    return (lua_Number *)(intptr_t)ptr;
+    return (lua_Number *)(intptr_t)ptr; // NOLINT(performance-no-int-to-ptr)
 }
 
 void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, size_t num, unsigned int col)

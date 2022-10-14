@@ -5,18 +5,6 @@
 
 #include "pid.h"
 
-int pid_meta_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_META_);
-    return 1;
-}
-
-int pid_func_(lua_State *L)
-{
-    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_FUNC_);
-    return 1;
-}
-
 static int pid_init_(lua_State *L, a_pid_s *ctx)
 {
     ctx->dt = luaL_checknumber(L, 1);
@@ -393,9 +381,20 @@ int luaopen_liba_pid(lua_State *L)
     set_name(L, -1, LNAME, "pid");
     set_funcs(L, -1, metas);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, PID_META_);
-    lua_rawsetp(L, LUA_REGISTRYINDEX, PID_FUNC_);
-    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_FUNC_);
+    lua_rawsetp(L, LUA_REGISTRYINDEX, PID_META_); // NOLINT(performance-no-int-to-ptr)
+    lua_rawsetp(L, LUA_REGISTRYINDEX, PID_FUNC_); // NOLINT(performance-no-int-to-ptr)
 
+    return pid_func_(L);
+}
+
+int pid_func_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_FUNC_); // NOLINT(performance-no-int-to-ptr)
+    return 1;
+}
+
+int pid_meta_(lua_State *L)
+{
+    lua_rawgetp(L, LUA_REGISTRYINDEX, PID_META_); // NOLINT(performance-no-int-to-ptr)
     return 1;
 }

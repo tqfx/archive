@@ -28,15 +28,15 @@
 #include "pid.h"
 #include "a/fpid.h"
 
-#define FPID_META_ (void *)(intptr_t)fpid_meta_
-#define FPID_FUNC_ (void *)(intptr_t)fpid_func_
+#define FPID_FUNC_ (void *)(intptr_t)fpid_func_ // NOLINT(performance-no-int-to-ptr)
+#define FPID_META_ (void *)(intptr_t)fpid_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int fpid_meta_(lua_State *L);
 int fpid_func_(lua_State *L);
+int fpid_meta_(lua_State *L);
 
 /***
  destructor for fuzzy PID controller

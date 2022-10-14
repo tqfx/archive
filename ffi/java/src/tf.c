@@ -53,11 +53,13 @@ jobject j_tf_set(const j_tf_s *jctx, const a_tf_s *ctx)
     }
     if (ctx->num)
     {
+        // NOLINTNEXTLINE(performance-no-int-to-ptr)
         jdouble *num = (jdouble *)(intptr_t)ctx->num;
         (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jnum, num, 0);
     }
     if (ctx->den)
     {
+        // NOLINTNEXTLINE(performance-no-int-to-ptr)
         jdouble *den = (jdouble *)(intptr_t)ctx->den;
         (*jenv)->ReleaseDoubleArrayElements(jenv, jctx->jden, den, 0);
     }
