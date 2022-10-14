@@ -4,7 +4,7 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
-#if a_prereq_clang(10, 0)
+#if __has_warning("-Wimplicit-float-conversion")
 #pragma clang diagnostic ignored "-Wimplicit-float-conversion"
 #endif /* clang 10.0+ */
 #endif /* diagnostic */
