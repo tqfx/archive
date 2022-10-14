@@ -289,17 +289,17 @@ lua_Number *tablenum_get(lua_State *L, int idx, const lua_Number *ptr, size_t *n
 void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, size_t num, unsigned int col)
 {
     size_t n = num / col;
-    lua_createtable(L, 0, 0);
+    lua_createtable(L, (int)n, 0);
     for (unsigned int i = 0; i++ != n;)
     {
-        lua_createtable(L, 0, 0);
+        lua_createtable(L, (int)col, 0);
         arraynum_set(L, -1, ptr, col);
         lua_rawseti(L, -2, (int)i);
     }
     num %= col;
     if (num)
     {
-        lua_createtable(L, 0, 0);
+        lua_createtable(L, (int)num, 0);
         arraynum_set(L, -1, ptr, (unsigned int)num);
         lua_rawseti(L, -2, (int)n + 1);
     }

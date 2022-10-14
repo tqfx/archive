@@ -76,7 +76,6 @@ static a_void_t create_table(a_cstr_t name)
     if (fclose(out) == EOF)
     {
         perror(name);
-        clearerr(out);
     }
 }
 
