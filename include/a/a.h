@@ -183,6 +183,8 @@ typedef int a_bool_t;
 #define A_FALSE false
 #define A_TRUE true
 #endif /* __cplusplus */
+/*! @brief static cast to \ref a_bool_t */
+#define a_bool_c(x) (!!(x))
 
 typedef void a_void_t;
 #if !defined __cplusplus
@@ -191,9 +193,13 @@ typedef void a_void_t;
 #define A_NULL nullptr
 #endif /* __cplusplus */
 #define A_INIT 0
+/*! @brief static cast to \ref a_void_t */
+#define a_void_c(x) a_cast_s(a_void_t, x)
 
 typedef size_t a_size_t;
 #define A_SIZE_MAX SIZE_MAX
+/*! @brief static cast to \ref a_size_t */
+#define a_size_c(x) a_cast_s(a_size_t, x)
 
 // clang-format off
 
@@ -204,6 +210,10 @@ typedef uint8_t a_u8_t;
 #define A_I8_MIN   INT8_MIN
 #define A_I8_MAX   INT8_MAX
 #define A_U8_MAX  UINT8_MAX
+/*! @brief static cast to \ref a_i8_t */
+#define a_i8_c(x) a_cast_s(a_i8_t, x)
+/*! @brief static cast to \ref a_u8_t */
+#define a_u8_c(x) a_cast_s(a_u8_t, x)
 
 typedef  int16_t a_i16_t;
 typedef uint16_t a_u16_t;
@@ -212,6 +222,10 @@ typedef uint16_t a_u16_t;
 #define A_I16_MIN   INT16_MIN
 #define A_I16_MAX   INT16_MAX
 #define A_U16_MAX  UINT16_MAX
+/*! @brief static cast to \ref a_i16_t */
+#define a_i16_c(x) a_cast_s(a_i16_t, x)
+/*! @brief static cast to \ref a_u16_t */
+#define a_u16_c(x) a_cast_s(a_u16_t, x)
 
 typedef  int32_t a_i32_t;
 typedef uint32_t a_u32_t;
@@ -220,6 +234,10 @@ typedef uint32_t a_u32_t;
 #define A_I32_MIN   INT32_MIN
 #define A_I32_MAX   INT32_MAX
 #define A_U32_MAX  UINT32_MAX
+/*! @brief static cast to \ref a_i32_t */
+#define a_i32_c(x) a_cast_s(a_i32_t, x)
+/*! @brief static cast to \ref a_u32_t */
+#define a_u32_c(x) a_cast_s(a_u32_t, x)
 
 typedef  int64_t a_i64_t;
 typedef uint64_t a_u64_t;
@@ -228,6 +246,10 @@ typedef uint64_t a_u64_t;
 #define A_I64_MIN   INT64_MIN
 #define A_I64_MAX   INT64_MAX
 #define A_U64_MAX  UINT64_MAX
+/*! @brief static cast to \ref a_i64_t */
+#define a_i64_c(x) a_cast_s(a_i64_t, x)
+/*! @brief static cast to \ref a_u64_t */
+#define a_u64_c(x) a_cast_s(a_u64_t, x)
 
 typedef  intmax_t a_imax_t;
 typedef uintmax_t a_umax_t;
@@ -236,6 +258,10 @@ typedef uintmax_t a_umax_t;
 #define A_IMAX_MIN   INTMAX_MIN
 #define A_IMAX_MAX   INTMAX_MAX
 #define A_UMAX_MAX  UINTMAX_MAX
+/*! @brief static cast to \ref a_imax_t */
+#define a_imax_c(x) a_cast_s(a_imax_t, x)
+/*! @brief static cast to \ref a_umax_t */
+#define a_umax_c(x) a_cast_s(a_umax_t, x)
 
 typedef  intptr_t a_iptr_t;
 typedef uintptr_t a_uptr_t;
@@ -244,34 +270,56 @@ typedef uintptr_t a_uptr_t;
 #define A_IPTR_MIN   INTPTR_MIN
 #define A_IPTR_PTR   INTPTR_PTR
 #define A_UPTR_PTR  UINTPTR_PTR
+/*! @brief static cast to \ref a_iptr_t */
+#define a_iptr_c(x) a_cast_s(a_iptr_t, x)
+/*! @brief static cast to \ref a_uptr_t */
+#define a_uptr_c(x) a_cast_s(a_uptr_t, x)
 
 typedef ptrdiff_t a_diff_t;
 #define A_DIFF_MIN PTRDIFF_MIN
 #define A_DIFF_MAX PTRDIFF_MAX
+/*! @brief static cast to \ref a_diff_t */
+#define a_diff_c(x) a_cast_s(a_diff_t, x)
 
 typedef   signed int a_i_t;
 typedef unsigned int a_u_t;
 #define A_I_MIN  INT_MIN
 #define A_I_MAX  INT_MAX
 #define A_U_MIN UINT_MAX
+/*! @brief static cast to \ref a_i_t */
+#define a_i_c(x) a_cast_s(a_i_t, x)
+/*! @brief static cast to \ref a_u_t */
+#define a_u_c(x) a_cast_s(a_u_t, x)
 
 typedef   signed long a_il_t;
 typedef unsigned long a_ul_t;
 #define A_IL_MIN  LONG_MIN
 #define A_IL_MAX  LONG_MAX
 #define A_UL_MIN ULONG_MAX
+/*! @brief static cast to \ref a_il_t */
+#define a_il_c(x) a_cast_s(a_il_t, x)
+/*! @brief static cast to \ref a_ul_t */
+#define a_ul_c(x) a_cast_s(a_ul_t, x)
 
 typedef   signed short a_is_t;
 typedef unsigned short a_us_t;
 #define A_IS_MIN  SHRT_MIN
 #define A_IS_MAX  SHRT_MAX
 #define A_US_MIN USHRT_MAX
+/*! @brief static cast to \ref a_is_t */
+#define a_is_c(x) a_cast_s(a_is_t, x)
+/*! @brief static cast to \ref a_us_t */
+#define a_us_c(x) a_cast_s(a_us_t, x)
 
 typedef   signed long long a_ill_t;
 typedef unsigned long long a_ull_t;
 #define A_ILL_MIN  LLONG_MIN
 #define A_ILL_MAX  LLONG_MAX
 #define A_ULL_MIN ULLONG_MAX
+/*! @brief static cast to \ref a_ill_t */
+#define a_ill_c(x) a_cast_s(a_ill_t, x)
+/*! @brief static cast to \ref a_ull_t */
+#define a_ull_c(x) a_cast_s(a_ull_t, x)
 
 typedef          int  a_int_t;
 typedef   signed int a_sint_t;
@@ -299,24 +347,28 @@ typedef float a_f32_t;
 #define A_F32_F(F, ...) F##f(__VA_ARGS__)
 #define A_F32_MIN FLT_MIN
 #define A_F32_MAX FLT_MAX
-#define A_F32_INF ((a_f32_t)(DBL_MAX * DBL_MAX))
+#define A_F32_INF a_f32_c(DBL_MAX *DBL_MAX)
 #define A_F32_NAN (A_F32_C(0.0) * A_F32_INF)
 #define A_F32_NNAN A_U32_C(0xFFC00000)
 #define A_F32_PNAN A_U32_C(0x7FC00000)
 #define A_F32_NINF A_U32_C(0xFF800000)
 #define A_F32_PINF A_U32_C(0x7F800000)
+/*! @brief static cast to \ref a_f32_t */
+#define a_f32_c(x) a_cast_s(a_f32_t, x)
 
 typedef double a_f64_t;
 #define A_F64_C(X) (X)
 #define A_F64_F(F, ...) F(__VA_ARGS__)
 #define A_F64_MIN DBL_MIN
 #define A_F64_MAX DBL_MAX
-#define A_F64_INF ((a_f64_t)(DBL_MAX * DBL_MAX))
+#define A_F64_INF a_f64_c(DBL_MAX *DBL_MAX)
 #define A_F64_NAN (A_F64_C(0.0) * A_F64_INF)
 #define A_F64_NNAN A_U64_C(0xFFF8000000000000)
 #define A_F64_PNAN A_U64_C(0x7FF8000000000000)
 #define A_F64_NINF A_U64_C(0xFFF0000000000000)
 #define A_F64_PINF A_U64_C(0x7FF0000000000000)
+/*! @brief static cast to \ref a_f64_t */
+#define a_f64_c(x) a_cast_s(a_f64_t, x)
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -378,12 +430,12 @@ typedef long double a_real_t;
 
 /*!
  @brief expands to a floating-point constant expression
- having the value specified by its argument and the type @ref a_real_t
+ having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_C(X) X##L
 /*!
  @brief expands to a floating-point function expression
- having the value specified by its argument and the type @ref a_real_t
+ having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_F(F, ...) F##l(__VA_ARGS__)
 
@@ -401,12 +453,12 @@ typedef double a_real_t;
 
 /*!
  @brief expands to a floating-point constant expression
- having the value specified by its argument and the type @ref a_real_t
+ having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_C(X) X
 /*!
  @brief expands to a floating-point function expression
- having the value specified by its argument and the type @ref a_real_t
+ having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_F(F, ...) F(__VA_ARGS__)
 
@@ -424,12 +476,12 @@ typedef float a_real_t;
 
 /*!
  @brief expands to a floating-point constant expression
- having the value specified by its argument and the type @ref a_real_t
+ having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_C(X) X##F
 /*!
  @brief expands to a floating-point function expression
- having the value specified by its argument and the type @ref a_real_t
+ having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_F(F, ...) F##f(__VA_ARGS__)
 
@@ -442,8 +494,11 @@ typedef float a_real_t;
 
 #endif /* A_REAL_BITS */
 
-#define A_REAL_INF ((a_real_t)(DBL_MAX * DBL_MAX))
+#define A_REAL_INF a_cast_s(a_real_t, DBL_MAX *DBL_MAX)
 #define A_REAL_NAN (A_REAL_C(0.0) * A_REAL_INF)
+
+/*! @brief static cast to \ref a_real_t */
+#define a_real_c(x) a_cast_s(a_real_t, x)
 
 typedef union a_real_u
 {
