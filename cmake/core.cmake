@@ -1,3 +1,14 @@
+get_cmake_property(TARGET_SUPPORTS_SHARED_LIBS TARGET_SUPPORTS_SHARED_LIBS)
+get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
+
+if(CMAKE_VERSION VERSION_LESS 3.21)
+  if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    set(PROJECT_IS_TOP_LEVEL ON)
+  else()
+    set(PROJECT_IS_TOP_LEVEL NO)
+  endif()
+endif()
+
 function(string_prefix variable)
   foreach(v ${ARGN})
     string(FIND "${${variable}}" "${v}" r)
@@ -54,8 +65,6 @@ endfunction()
 # include modules
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
-
-get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
 
 macro(check_flag_cc VAR)
   foreach(v ${ARGN})
