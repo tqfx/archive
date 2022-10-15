@@ -5,23 +5,40 @@ find_library(MATH_LIBRARY NAMES m)
 option(LUA_32BITS "lua 32bits" OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+find_library(READLINE_LIBRARY NAMES readline)
+find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
+
 if(LUA_32BITS)
   set(LUA_32BITS 1 CACHE BOOL "lua 32bits" FORCE)
 else()
   set(LUA_32BITS 0 CACHE BOOL "lua 32bits" FORCE)
 endif()
 
-if(UNIX)
-  find_library(READLINE_LIBRARY NAMES readline)
-  find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
+if(READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
+  set(READLINE_FOUND TRUE)
+else()
+  set(READLINE_FOUND 0)
 endif()
 
-file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF_H)
-set(LUA_ROOT ${CMAKE_INSTALL_PREFIX} CACHE STRING "lua root")
-string(REGEX REPLACE "([^/\\]+)$" "\\1/" LUA_ROOT2 "${LUA_ROOT}")
-string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT2}\"\n" LUACONF_H "${LUACONF_H}")
-string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" LUACONF_H "${LUACONF_H}")
-file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF_H}")
+if(NOT WIN32)
+  file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF_H)
+  set(LUA_ROOT ${CMAKE_INSTALL_PREFIX} CACHE STRING "lua root")
+  string(REGEX REPLACE "([^/\\]+)$" "\\1/" LUA_ROOT2 "${LUA_ROOT}")
+  string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT2}\"\n" LUACONF_H "${LUACONF_H}")
+  string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" LUACONF_H "${LUACONF_H}")
+
+  if(APPLE)
+    if(LUA_VERSION VERSION_GREATER 5.1.5)
+      set(LUA_CPATH_DEFAULT ".so;\" \\\\\n\tLUA_CDIR\"?.dylib;\" LUA_CDIR\"loadall.dylib;\" \"./?.dylib\"\n")
+    else()
+      set(LUA_CPATH_DEFAULT ".so;\" \\\\\n\t\"./?.dylib;\" LUA_CDIR\"?.dylib;\" LUA_CDIR\"loadall.dylib\"\n")
+    endif()
+
+    string(REGEX REPLACE "\.so\"\n" "${LUA_CPATH_DEFAULT}" LUACONF_H "${LUACONF_H}")
+  endif()
+
+  file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF_H}")
+endif()
 
 if(UNIX AND ANDROID)
   string(REGEX REPLACE "([^/\\]+)([/\\]*)$" "\\1/tmp/lua_XXXXXX" LUA_ROOT2 "${LUA_ROOT}")
@@ -62,11 +79,11 @@ endif()
 
 function(lua_library target)
   target_compile_definitions(${target} PUBLIC
-    $<$<AND:$<BOOL:${READLINE_INCLUDE_DIR}>,$<VERSION_GREATER:${LUA_VERSION},5.3.6>>:LUA_USE_READLINE>
+    $<$<AND:$<BOOL:${READLINE_FOUND}>,$<VERSION_GREATER:${LUA_VERSION},5.3.6>>:LUA_USE_READLINE>
     $<$<BOOL:${LUA_PLATFORM}>:${LUA_PLATFORM}>
   )
   target_include_directories(${target} PUBLIC
-    $<$<BOOL:${READLINE_INCLUDE_DIR}>:${READLINE_INCLUDE_DIR}>
+    $<$<BOOL:${READLINE_FOUND}>:${READLINE_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>
   )
   target_link_libraries(${target} INTERFACE
@@ -89,7 +106,7 @@ lua_library(lua-shared)
 add_library(lua-static STATIC $<TARGET_OBJECTS:lua-shared>)
 lua_library(lua-static)
 target_link_libraries(lua-shared INTERFACE ${CMAKE_DL_LIBS}
-  $<$<BOOL:${READLINE_LIBRARY}>:${READLINE_LIBRARY}>
+  $<$<BOOL:${READLINE_FOUND}>:${READLINE_LIBRARY}>
 )
 
 add_executable(lua src/lua.c)

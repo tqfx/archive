@@ -14,9 +14,6 @@ jobs:
         ]
     runs-on: macos-latest
     steps:
-      - uses: leafo/gh-actions-lua@v9
-        with:
-          luaCompileFlags: LUA_CFLAGS="-fsanitize=undefined -fsanitize=address -fno-omit-frame-pointer -fsanitize-recover=address"
       - uses: actions/checkout@v2
         with:
           lfs: true
@@ -25,7 +22,6 @@ jobs:
         env:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx }}
-          LUA_DIR: ${{ env.GITHUB_WORKSPACE }}/.lua
         run: |
           set -x
           cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.type }} \
