@@ -146,6 +146,8 @@ if(TARGET_SUPPORTS_SHARED_LIBS)
       OUTPUT_NAME ${PROJECT_NAME}
     )
   endif()
+
+  target_link_sanitize(${A_SHARED_LIBS})
 endif()
 
 set(prop "$<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>")
