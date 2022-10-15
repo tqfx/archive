@@ -66,49 +66,49 @@ extern "C" {
  @param theta an angle from a reference direction
  @return complex number
 */
-a_complex_s a_complex_polar(a_real_t r, a_real_t theta);
+A_PUBLIC a_complex_s a_complex_polar(a_real_t r, a_real_t theta);
 
 /*!
  @brief = \f[ (-a-b i) \f]
  @param z complex number
  @return negative value
 */
-a_complex_s a_complex_neg(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_neg(a_complex_s z);
 
 /*!
  @brief = \f[ (a-b i) \f]
  @param z complex number
  @return conjugate value
 */
-a_complex_s a_complex_conj(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_conj(a_complex_s z);
 
 /*!
  @brief = \f[ a^2+b^2 \f]
  @param z complex number
  @return squared magnitude
 */
-a_real_t a_complex_abs2(a_complex_s z);
+A_PUBLIC a_real_t a_complex_abs2(a_complex_s z);
 
 /*!
  @brief = \f[ \sqrt{a^2+b^2} \f]
  @param z complex number
  @return absolute value
 */
-a_real_t a_complex_abs(a_complex_s z);
+A_PUBLIC a_real_t a_complex_abs(a_complex_s z);
 
 /*!
  @brief = \f[ \arctan\frac{b}{a} \f]
  @param z complex number
  @return argument value
 */
-a_real_t a_complex_arg(a_complex_s z);
+A_PUBLIC a_real_t a_complex_arg(a_complex_s z);
 
 /*!
  @brief = \f[ \frac{a-bi}{a^2+b^2}=\left(\frac{a}{a^2+b^2}\right)-\left(\frac{b}{a^2+b^2}\right)i \f]
  @param z complex number
  @return inverse or reciprocal
 */
-a_complex_s a_complex_inv(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_inv(a_complex_s z);
 
 /*!
  @brief = \f[ (a+b i)+(c+d i)=(a+c)+(b+d)i \f]
