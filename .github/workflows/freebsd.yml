@@ -11,6 +11,8 @@ jobs:
           { type: RelWithDebInfo },
         ]
     runs-on: macos-12
+    env:
+      CTEST_OUTPUT_ON_FAILURE: 1
     steps:
       - uses: actions/checkout@v2
         with:
@@ -18,6 +20,7 @@ jobs:
           submodules: true
       - uses: vmactions/freebsd-vm@v0
         with:
+          envs: 'CTEST_OUTPUT_ON_FAILURE'
           copyback: false
           mem: 2048
           prepare: |

@@ -46,8 +46,7 @@ jobs:
           vcpkg install liba
       - name: Run ctest
         env:
-          CC: ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
+          CTEST_OUTPUT_ON_FAILURE: 1
         run: |
           set -x
           cmake --build build --target test
