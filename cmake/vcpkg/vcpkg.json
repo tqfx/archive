@@ -7,6 +7,9 @@
   "features": {
     "ipo": {
       "description": "Enable interprocedural optimization"
+    },
+    "pkgconfig": {
+      "description": "Enable pkgconfig configuration"
     }
   }
 }

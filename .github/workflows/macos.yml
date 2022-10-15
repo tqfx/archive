@@ -46,7 +46,7 @@ jobs:
         run: |
           set -x
           cp -r build/vcpkg/* $VCPKG_INSTALLATION_ROOT
-          vcpkg install liba
+          vcpkg install liba[ipo,pkgconfig]
       - name: Run ctest
         env:
           CTEST_OUTPUT_ON_FAILURE: 1

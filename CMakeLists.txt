@@ -42,6 +42,7 @@ option(ENABLE_DOXYGEN "Enable doxygen" OFF)
 option(ENABLE_WARNINGS "Enable warnings" OFF)
 option(ENABLE_SANITIZE "Enable sanitize" OFF)
 option(ENABLE_CPPCHECK "Enable cppcheck" OFF)
+option(ENABLE_PKGCONFIG "Enable pkgconfig" OFF)
 option(ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
 option(ENABLE_IYWU "Enable include-what-you-use" OFF)
 option(ENABLE_PIC "Enable position independent code" OFF)
@@ -180,19 +181,22 @@ configure_package_config_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
-file(GENERATE
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  INPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-)
-install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-)
-configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  @ONLY
-)
+
+if(ENABLE_PKGCONFIG)
+  file(GENERATE
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+    INPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  )
+  install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+  )
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+    @ONLY
+  )
+endif()
 
 if(ENABLE_VCPKG AND GIT_COMMIT)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg DESTINATION ${CMAKE_INSTALL_DATADIR})

@@ -36,7 +36,7 @@ jobs:
         run: |
           Set-PSDebug -Trace 1
           cp -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
-          vcpkg install liba:${{ matrix.triple }}-windows-static
+          vcpkg install liba[ipo,pkgconfig]:${{ matrix.triple }}-windows-static
       - name: Run ctest
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
