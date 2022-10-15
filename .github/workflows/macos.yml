@@ -14,6 +14,9 @@ jobs:
         ]
     runs-on: macos-latest
     steps:
+      - uses: leafo/gh-actions-lua@v9
+        with:
+          luaCompileFlags: LUA_CFLAGS="-fsanitize=undefined -fsanitize=address -fno-omit-frame-pointer -fsanitize-recover=address"
       - uses: actions/checkout@v2
         with:
           lfs: true
