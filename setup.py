@@ -74,14 +74,15 @@ text = '''/*!
 #define A_VERSION_MAJOR {}
 #define A_VERSION_MINOR {}
 #define A_VERSION_PATCH {}
-#define A_VERSION_TWEAK {}
+#define A_VERSION_TWEAK A_U64_C({})
 
 #endif /* LIBA_CONFIG_H */
 '''.format(
     version, major, minor, patch, tweak
 )
-with open("build/a.config.h", "wb") as f:
-    f.write(text.encode("UTF-8"))
+if not os.path.exists("build/a.config.h"):
+    with open("build/a.config.h", "wb") as f:
+        f.write(text.encode("UTF-8"))
 
 for source in glob("src/**"):
     if not os.path.isfile(source):
