@@ -34,7 +34,6 @@ jobs:
             -DBUILD_TESTING=ON
           cmake --build build --target a-py-setup
           cmake --build build --config ${{ matrix.type }}
-          cp -r build/vcpkg/* $VCPKG_INSTALLATION_ROOT
       - name: Run vcpkg
         if: ${{ matrix.type == 'Debug' }}
         env:
@@ -42,6 +41,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: |
           set -x
+          cp -r build/vcpkg/* $VCPKG_INSTALLATION_ROOT
           vcpkg install liba
       - name: Run ctest
         env:

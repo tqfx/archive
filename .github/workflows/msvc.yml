@@ -31,11 +31,11 @@ jobs:
             -DBUILD_TESTING=ON
           cmake --build build --target a-py-setup
           cmake --build build --config ${{ matrix.type }}
-          cp -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
       - name: Run vcpkg
         if: ${{ matrix.type == 'Debug' }}
         run: |
           Set-PSDebug -Trace 1
+          cp -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
           vcpkg install liba:${{ matrix.triple }}-windows-static
       - name: Run ctest
         run: |
