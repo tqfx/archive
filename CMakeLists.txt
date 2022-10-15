@@ -95,7 +95,7 @@ endif()
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
-  set_target_properties(${target} PROPERTIES
+  set_target_properties(${target} PROPERTIES OUTPUT_NAME a
     VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS
   )
@@ -110,6 +110,7 @@ function(target_library_setting target)
   target_link_libraries(${target} PUBLIC
     $<$<BOOL:${MATH_LIBRARY}>:${MATH_LIBRARY}>
   )
+  set(A_SHARED ${A_SHARED} PARENT_SCOPE)
   target_library_options(${target})
 endfunction()
 
@@ -118,16 +119,31 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/a.config.h
 )
 
-file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
-add_library(ac ${SOURCES})
-target_library_setting(ac)
-
-file(GLOB_RECURSE SOURCES include/*.hpp src/*.[chm]pp)
-add_library(ax ${SOURCES})
-target_library_setting(ax)
-
-add_library(a $<TARGET_OBJECTS:ac> $<TARGET_OBJECTS:ax>)
+file(GLOB_RECURSE SOURCES include/*.h* src/*.[chm]*)
+add_library(a ${SOURCES})
 target_library_setting(a)
+unset(SOURCES)
+
+if(A_SHARED)
+  set(SHARED_LIBS a)
+  set(A_LIBRARIES a a-static)
+  add_library(a-shared ALIAS a)
+  add_library(a-static STATIC $<TARGET_OBJECTS:a>)
+  target_library_setting(a-static)
+else()
+  set(SHARED_LIBS a-shared)
+  set(A_LIBRARIES a a-shared)
+  add_library(a-static ALIAS a)
+  add_library(a-shared SHARED $<TARGET_OBJECTS:a>)
+  target_library_setting(a-shared)
+endif()
+
+if("${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
+  set_target_properties(${SHARED_LIBS} PROPERTIES
+    OUTPUT_NAME ${PROJECT_NAME}
+  )
+  unset(SHARED_LIBS)
+endif()
 
 set(prop "$<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>")
 set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
@@ -139,7 +155,7 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING
   REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
 )
-install(TARGETS a ac ax EXPORT ${PROJECT_NAME}-targets
+install(TARGETS ${A_LIBRARIES} EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -210,16 +226,17 @@ if(CLANG_FORMAT)
     ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
     COMMENT "Formatting code using ClangFormat"
   )
+  unset(SOURCES)
 endif()
 
 if(PYTHONINTERP_FOUND)
-  file(GLOB BYPRODUCTS "${PROJECT_NAME}.*py*" "${PROJECT_NAME}.egg-info")
+  file(GLOB BYPRODUCT ${PROJECT_NAME}.*py*)
+  file(GLOB_RECURSE SOURCES ffi/python/src/*.[ch]*)
   add_custom_target(a-py-build ALL # https://cython.readthedocs.io/en/stable
     ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
     COMMENT "setup.py build_ext --inplace"
-    BYPRODUCTS ${BYPRODUCTS}
+    BYPRODUCTS ${BYPRODUCT} ${SOURCES}
   )
-  unset(BYPRODUCTS)
   add_custom_target(a-py-setup # https://pip.readthedocs.io/en/stable
     ${PYTHON_EXECUTABLE} -m pip install -r ${CMAKE_CURRENT_LIST_DIR}/requirements.txt
     COMMENT "pip install -r requirements.txt"
@@ -228,6 +245,8 @@ if(PYTHONINTERP_FOUND)
     ${PYTHON_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
     COMMENT "Formatting code using black"
   )
+  unset(BYPRODUCT)
+  unset(SOURCES)
 endif()
 
 if(DOXYGEN_FOUND)

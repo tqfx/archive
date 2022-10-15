@@ -11,8 +11,8 @@ if has_config("with-lua") then
     end
     add_requires("lua")
     target("a.lua")
+        add_deps("a")
         set_basename("a")
-        add_deps("a.objs")
         add_packages("lua")
         add_rules("swig.c", {moduletype = "lua"})
         add_files("src/**.c", {swigflags = "-no-old-metatable-bindings"})

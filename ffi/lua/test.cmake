@@ -1,36 +1,13 @@
-get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+function(unittest target)
+  add_test(NAME lua-${target} WORKING_DIRECTORY $<TARGET_FILE_DIR:a-lua>
+    COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/${target}.lua
+  )
+endfunction()
 
-add_test(NAME lua-a WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/lib.lua
-)
-
-add_test(NAME lua-a-mf WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/mf.lua
-)
-
-add_test(NAME lua-a-tf WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/tf.lua
-)
-
-add_test(NAME lua-a-pid WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/pid.lua
-)
-
-add_test(NAME lua-a-fpid WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/fpid.lua
-)
-
-add_test(NAME lua-a-polytrack WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/polytrack.lua
-)
-
-add_test(NAME lua-a-version WORKING_DIRECTORY
-  ${CMAKE_CURRENT_BINARY_DIR}/$<${IS_MULTI_CONFIG}:$<CONFIG>>
-  COMMAND ${LUA_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/test/version.lua
-)
+unittest(lib)
+unittest(mf)
+unittest(tf)
+unittest(pid)
+unittest(fpid)
+unittest(polytrack)
+unittest(version)

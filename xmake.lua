@@ -45,9 +45,9 @@ if is_mode("check") and not is_plat("mingw") then
     add_ldflags(flags)
 end
 
-target("ac.objs")
-    -- make as a collection of objects
-    set_kind("object")
+target("a")
+    -- make as a static/shared library
+    set_kind("$(kind)")
     -- get xmake version
     on_load(function (target)
         import("lib.detect.find_programver")
@@ -68,67 +68,15 @@ target("ac.objs")
     add_defines("A_CONFIG", {public = true})
     -- add the header files for installing
     add_headerfiles("$(buildir)/a.config.h")
+    add_headerfiles("include/(**.hpp)")
     add_headerfiles("include/(**.h)")
     -- add the common source files
-    add_files("src/**.c")
+    add_files("src/**.c","src/**.cpp")
     -- add the platform options
     if not is_plat("windows", "mingw") then
         add_cxflags("-fPIC")
         add_syslinks("m")
     end
-target_end()
-
-target("ac")
-    -- make as a static/shared library
-    set_kind("$(kind)")
-    -- add the dependent target
-    add_deps("ac.objs")
-target_end()
-
-target("ax.objs")
-    -- make as a a collection of objects
-    set_kind("object")
-    -- set shared library symbols
-    if is_kind("shared") then
-        -- import symbols
-        add_defines("A_SHARED", {interface = true})
-        -- export symbols
-        add_defines("A_EXPORTS")
-    end
-    -- add include directories
-    add_includedirs("$(buildir)", {public = true})
-    add_includedirs("include", {public = true})
-    add_defines("A_CONFIG", {public = true})
-    -- add the header files for installing
-    add_headerfiles("include/(**.hpp)")
-    -- add the common source files
-    add_files("src/**.cpp")
-    -- add the platform options
-    if not is_plat("windows", "mingw") then
-        add_cxflags("-fPIC")
-        add_syslinks("m")
-    end
-target_end()
-
-target("ax")
-    -- make as a static/shared library
-    set_kind("$(kind)")
-    -- add the dependent target
-    add_deps("ax.objs")
-target_end()
-
-target("a.objs")
-    -- make as a a collection of objects
-    set_kind("object")
-    -- add the dependent target
-    add_deps("ac.objs", "ax.objs")
-target_end()
-
-target("a")
-    -- make as a static/shared library
-    set_kind("$(kind)")
-    -- add the dependent target
-    add_deps("a.objs")
 target_end()
 
 -- include ffi sources
@@ -144,9 +92,9 @@ option_end()
 if has_config("with-rust") then
     add_requires("cargo::liba", {configs = {cargo_toml = path.join(os.projectdir(), "Cargo.toml")}})
     target("a.rust")
+        add_deps("a")
         set_basename("a")
         set_kind("static")
-        add_deps("a.objs")
         add_files("src/lib.rs")
         add_packages("cargo::liba")
     target_end()

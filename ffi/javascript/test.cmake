@@ -4,7 +4,7 @@ add_custom_command(TARGET a-js POST_BUILD
 )
 
 function(unittest target)
-  add_test(NAME js-${target} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  add_test(NAME js-${target} WORKING_DIRECTORY $<TARGET_FILE_DIR:a-js>
     COMMAND ${NODE_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/${target}.js ${ARGN}
   )
 endfunction()

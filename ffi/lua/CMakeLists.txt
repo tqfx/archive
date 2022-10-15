@@ -17,7 +17,7 @@ if(LUA_VERSION_MAJOR AND LUA_VERSION_MINOR)
 endif()
 
 file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
-add_library(a-lua SHARED ${SOURCES} $<TARGET_PROPERTY:a,SOURCES>)
+add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_compile_definitions(a-lua PRIVATE $<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>)
 target_include_directories(a-lua PRIVATE $<TARGET_PROPERTY:a,INTERFACE_INCLUDE_DIRECTORIES>)

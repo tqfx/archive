@@ -20,7 +20,7 @@ if(ENABLE_JAVADOC)
 endif()
 
 file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
-add_library(a-jni SHARED ${SOURCES} $<TARGET_PROPERTY:a,SOURCES>)
+add_library(a-jni SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-jni PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_compile_definitions(a-jni PRIVATE $<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>)
 target_include_directories(a-jni PRIVATE $<TARGET_PROPERTY:a,INTERFACE_INCLUDE_DIRECTORIES>)
@@ -38,6 +38,6 @@ install_jar_exports(TARGETS a-jni
   NAMESPACE ${PROJECT_NAME}::
 )
 
-if(NOT ENABLE_SANITIZE)
+if(NOT ENABLE_SANITIZE AND BUILD_TESTING)
   include(test.cmake)
 endif()

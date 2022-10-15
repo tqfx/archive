@@ -30,7 +30,6 @@ jobs:
             -DENABLE_LUA=ON `
             -DBUILD_TESTING=ON
           cmake --build build --target a-py-setup
-          cmake --build build --target a-py-build
           cmake --build build --config ${{ matrix.type }}
           cp -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
       - name: Run vcpkg

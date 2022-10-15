@@ -1,3 +1,5 @@
+get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
 if(
   "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
@@ -36,7 +38,10 @@ function(unittest target)
   add_executable(${TARGET} ${TEST_SOURCE})
   target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::a)
   set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
-  add_test(NAME ${target} COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND})
+  add_test(NAME ${target} WORKING_DIRECTORY
+    $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:a>,${CMAKE_CURRENT_BINARY_DIR}>
+    COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND}
+  )
   target_executable_options(${TARGET})
 endfunction()
 
