@@ -4,13 +4,16 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 find_library(MATH_LIBRARY NAMES m)
 option(LUA_32BITS "lua 32bits" OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-find_library(READLINE_LIBRARY NAMES readline)
-find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
 
 if(LUA_32BITS)
   set(LUA_32BITS 1 CACHE BOOL "lua 32bits" FORCE)
 else()
   set(LUA_32BITS 0 CACHE BOOL "lua 32bits" FORCE)
+endif()
+
+if(UNIX)
+  find_library(READLINE_LIBRARY NAMES readline)
+  find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
 endif()
 
 file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF_H)

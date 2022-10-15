@@ -14,7 +14,6 @@ jobs:
         ]
     runs-on: macos-latest
     steps:
-      - uses: leafo/gh-actions-lua@v9
       - uses: actions/checkout@v2
         with:
           lfs: true
