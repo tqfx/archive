@@ -2,7 +2,12 @@ if(ENABLE_WARNINGS)
   include(cmake/warnings.cmake)
 endif()
 
-set(CMAKE_SHARED_LIBRARY_PREFIX lib)
+if(WIN32)
+  set(CMAKE_SHARED_LIBRARY_PREFIX lib)
+else()
+  set(CMAKE_SHARED_LIBRARY_SUFFIX .so)
+endif()
+
 find_program(LDOC_EXECUTABLE NAMES ldoc)
 find_program(LUA_EXECUTABLE NAMES lua
   lua${LUA_VERSION_MAJOR}${LUA_VERSION_MINOR}
