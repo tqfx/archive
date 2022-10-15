@@ -203,29 +203,30 @@ endif()
 package_cpack(${CMAKE_CURRENT_LIST_DIR})
 
 if(CLANG_FORMAT)
-  file(GLOB_RECURSE SOURCES include/*.h* src/*.[chm]* test/*.[chm]*)
+  file(GLOB_RECURSE SOURCES ffi/*.[chm]* include/*.h* src/*.[chm]* test/*.[chm]*)
+  list(FILTER SOURCES INCLUDE REGEX ".+(c|h|cc|hh|cxx|hxx|cpp|hpp|mpp)$")
+  list(FILTER SOURCES EXCLUDE REGEX ".+python.+")
   add_custom_target(a-format # https://clang.llvm.org/docs/ClangFormat.html
-    COMMAND ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
+    ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
     COMMENT "Formatting code using ClangFormat"
   )
 endif()
 
 if(PYTHONINTERP_FOUND)
-  add_custom_target(a-black # https://black.readthedocs.io/en/stable
-    COMMAND ${PYTHON_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
-    COMMENT "Formatting code using black"
-  )
-  add_custom_target(a-py-build # https://cython.readthedocs.io/en/stable
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
+  file(GLOB BYPRODUCTS "${PROJECT_NAME}.*py*" "${PROJECT_NAME}.egg-info")
+  add_custom_target(a-py-build ALL # https://cython.readthedocs.io/en/stable
+    ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
     COMMENT "setup.py build_ext --inplace"
+    BYPRODUCTS ${BYPRODUCTS}
   )
-  add_custom_target(a-py-bdist # https://setuptools.readthedocs.io/en/stable
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py bdist_wheel --universal
-    COMMENT "setup.py bdist_wheel --universal"
-  )
+  unset(BYPRODUCTS)
   add_custom_target(a-py-setup # https://pip.readthedocs.io/en/stable
-    COMMAND ${PYTHON_EXECUTABLE} -m pip install -r ${CMAKE_CURRENT_LIST_DIR}/requirements.txt
+    ${PYTHON_EXECUTABLE} -m pip install -r ${CMAKE_CURRENT_LIST_DIR}/requirements.txt
     COMMENT "pip install -r requirements.txt"
+  )
+  add_custom_target(a-black # https://black.readthedocs.io/en/stable
+    ${PYTHON_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
+    COMMENT "Formatting code using black"
   )
 endif()
 
