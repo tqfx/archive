@@ -29,8 +29,8 @@ jobs:
             -DENABLE_JAVA=ON `
             -DENABLE_LUA=ON `
             -DBUILD_TESTING=ON
-          cmake --build build --target a-py-setup
-          cmake --build build --config ${{ matrix.type }}
+          cmake --build build --target a-py-setup -- -noLogo
+          cmake --build build --config ${{ matrix.type }} -- -noLogo
       - name: Run vcpkg
         if: ${{ matrix.type == 'Debug' }}
         run: |
@@ -42,4 +42,4 @@ jobs:
           CTEST_OUTPUT_ON_FAILURE: 1
         run: |
           Set-PSDebug -Trace 1
-          cmake --build build --config ${{ matrix.type }} --target run_tests
+          cmake --build build --config ${{ matrix.type }} --target run_tests -- -noLogo

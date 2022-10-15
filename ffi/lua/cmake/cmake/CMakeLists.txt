@@ -101,25 +101,25 @@ aux_source_directory(src SOURCES)
 list(REMOVE_ITEM SOURCES src/lua.c)
 list(REMOVE_ITEM SOURCES src/luac.c)
 
-add_library(lua-shared SHARED ${SOURCES})
-lua_library(lua-shared)
-add_library(lua-static STATIC $<TARGET_OBJECTS:lua-shared>)
-lua_library(lua-static)
-target_link_libraries(lua-shared INTERFACE ${CMAKE_DL_LIBS}
+add_library(liblua SHARED ${SOURCES})
+lua_library(liblua)
+add_library(lualib STATIC $<TARGET_OBJECTS:liblua>)
+lua_library(lualib)
+
+add_executable(lua src/lua.c)
+target_link_libraries(lua PRIVATE liblua)
+add_executable(luac src/luac.c)
+target_link_libraries(luac PRIVATE lualib)
+target_link_libraries(liblua INTERFACE ${CMAKE_DL_LIBS}
   $<$<BOOL:${READLINE_FOUND}>:${READLINE_LIBRARY}>
 )
 
-add_executable(lua src/lua.c)
-target_link_libraries(lua PRIVATE lua-shared)
-add_executable(luac src/luac.c)
-target_link_libraries(luac PRIVATE lua-static)
-
 if(NOT WIN32)
-  set_target_properties(lua-shared PROPERTIES
+  set_target_properties(liblua PROPERTIES
     OUTPUT_NAME lua${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
   )
 else()
-  set_target_properties(lua-shared PROPERTIES
+  set_target_properties(liblua PROPERTIES
     OUTPUT_NAME lua${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR}
   )
 endif()
@@ -127,7 +127,7 @@ endif()
 install(FILES src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
-install(TARGETS lua luac lua-static lua-shared EXPORT ${PROJECT_NAME}-targets
+install(TARGETS lualib liblua lua luac EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
