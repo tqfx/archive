@@ -171,18 +171,6 @@
 #define a_cast_r(T, ...) reinterpret_cast<T>(__VA_ARGS__)
 #endif /* __cplusplus */
 
-/*! type, capable of holding one of the two values: 1 and 0 */
-#define a_bool_t int
-#if !defined __cplusplus
-#define A_FALSE 0
-#define A_TRUE !A_FALSE
-#else /* !__cplusplus */
-#define A_FALSE false
-#define A_TRUE true
-#endif /* __cplusplus */
-/*! static cast to \ref a_bool_t */
-#define a_bool_c(x) (!!(x))
-
 /*! as the declaration of the incomplete type */
 #define a_void_t void
 #if !defined __cplusplus
@@ -193,6 +181,18 @@
 #define A_INIT 0
 /*! static cast to \ref a_void_t */
 #define a_void_c(x) a_cast_s(a_void_t, x)
+
+/*! type, capable of holding one of the two values: 1 and 0 */
+typedef int a_bool_t;
+#if !defined __cplusplus
+#define A_FALSE 0
+#define A_TRUE !A_FALSE
+#else /* !__cplusplus */
+#define A_FALSE false
+#define A_TRUE true
+#endif /* __cplusplus */
+/*! static cast to \ref a_bool_t */
+#define a_bool_c(x) (!!(x))
 
 // clang-format off
 
