@@ -21,7 +21,6 @@ cdef extern from "a/a.h":
     ctypedef uintptr_t a_uptr_t
     ctypedef ptrdiff_t a_diff_t
 
-    ctypedef         char a_c_t
     ctypedef   signed int a_i_t
     ctypedef unsigned int a_u_t
     ctypedef   signed long a_il_t

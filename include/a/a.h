@@ -171,13 +171,8 @@
 #define a_cast_r(T, ...) reinterpret_cast<T>(__VA_ARGS__)
 #endif /* __cplusplus */
 
-/*! type for character representation */
-typedef char a_c_t;
-#define A_C_MIN CHAR_MIN
-#define A_C_MAX CHAR_MAX
-
 /*! type, capable of holding one of the two values: 1 and 0 */
-typedef int a_bool_t;
+#define a_bool_t int
 #if !defined __cplusplus
 #define A_FALSE 0
 #define A_TRUE !A_FALSE
@@ -189,7 +184,7 @@ typedef int a_bool_t;
 #define a_bool_c(x) (!!(x))
 
 /*! as the declaration of the incomplete type */
-typedef void a_void_t;
+#define a_void_t void
 #if !defined __cplusplus
 #define A_NULL NULL
 #else /* !__cplusplus */
@@ -198,12 +193,6 @@ typedef void a_void_t;
 #define A_INIT 0
 /*! static cast to \ref a_void_t */
 #define a_void_c(x) a_cast_s(a_void_t, x)
-
-/*! unsigned integer type returned by the sizeof operator */
-typedef size_t a_size_t;
-#define A_SIZE_MAX SIZE_MAX
-/*! static cast to \ref a_size_t */
-#define a_size_c(x) a_cast_s(a_size_t, x)
 
 // clang-format off
 
@@ -284,8 +273,8 @@ typedef uintptr_t a_uptr_t;
 #define A_IPTR_C(X)  INTPTR_C(X)
 #define A_UPTR_C(X) UINTPTR_C(X)
 #define A_IPTR_MIN   INTPTR_MIN
-#define A_IPTR_PTR   INTPTR_PTR
-#define A_UPTR_PTR  UINTPTR_PTR
+#define A_IPTR_MAX   INTPTR_MAX
+#define A_UPTR_MAX  UINTPTR_MAX
 /*! static cast to \ref a_iptr_t */
 #define a_iptr_c(x) a_cast_s(a_iptr_t, x)
 /*! static cast to \ref a_uptr_t */
@@ -298,13 +287,19 @@ typedef ptrdiff_t a_diff_t;
 /*! static cast to \ref a_diff_t */
 #define a_diff_c(x) a_cast_s(a_diff_t, x)
 
+/*! unsigned integer type returned by the sizeof operator */
+typedef size_t a_size_t;
+#define A_SIZE_MAX SIZE_MAX
+/*! static cast to \ref a_size_t */
+#define a_size_c(x) a_cast_s(a_size_t, x)
+
 /*! signed integer type is guaranteed to be at least 16 bits */
 typedef   signed int a_i_t;
 /*! unsigned integer type is guaranteed to be at least 16 bits */
 typedef unsigned int a_u_t;
 #define A_I_MIN  INT_MIN
 #define A_I_MAX  INT_MAX
-#define A_U_MIN UINT_MAX
+#define A_U_MAX UINT_MAX
 /*! static cast to \ref a_i_t */
 #define a_i_c(x) a_cast_s(a_i_t, x)
 /*! static cast to \ref a_u_t */
@@ -316,7 +311,7 @@ typedef   signed long a_il_t;
 typedef unsigned long a_ul_t;
 #define A_IL_MIN  LONG_MIN
 #define A_IL_MAX  LONG_MAX
-#define A_UL_MIN ULONG_MAX
+#define A_UL_MAX ULONG_MAX
 /*! static cast to \ref a_il_t */
 #define a_il_c(x) a_cast_s(a_il_t, x)
 /*! static cast to \ref a_ul_t */
@@ -328,7 +323,7 @@ typedef   signed short a_is_t;
 typedef unsigned short a_us_t;
 #define A_IS_MIN  SHRT_MIN
 #define A_IS_MAX  SHRT_MAX
-#define A_US_MIN USHRT_MAX
+#define A_US_MAX USHRT_MAX
 /*! static cast to \ref a_is_t */
 #define a_is_c(x) a_cast_s(a_is_t, x)
 /*! static cast to \ref a_us_t */
@@ -340,7 +335,7 @@ typedef   signed long long a_ill_t;
 typedef unsigned long long a_ull_t;
 #define A_ILL_MIN  LLONG_MIN
 #define A_ILL_MAX  LLONG_MAX
-#define A_ULL_MIN ULLONG_MAX
+#define A_ULL_MAX ULLONG_MAX
 /*! static cast to \ref a_ill_t */
 #define a_ill_c(x) a_cast_s(a_ill_t, x)
 /*! static cast to \ref a_ull_t */
@@ -415,7 +410,6 @@ A_INTERN a_u64_t a_f64_into(a_f64_t x) { return *a_cast_s(a_u64_t *, a_cast_s(a_
 
 typedef union a_cast_u
 {
-    a_c_t c;
     a_i_t i;
     a_u_t u;
     a_is_t is;
@@ -435,15 +429,16 @@ typedef union a_cast_u
     a_f32_t f32;
     a_f64_t f64;
     a_diff_t diff;
+    a_size_t size;
     a_imax_t imax;
     a_umax_t umax;
     a_iptr_t iptr;
     a_uptr_t uptr;
-    a_size_t size;
     a_cptr_t cptr;
     a_vptr_t vptr;
     a_cstr_t cstr;
     a_str_t str;
+    a_char_t c;
 } a_cast_u;
 
 /*!

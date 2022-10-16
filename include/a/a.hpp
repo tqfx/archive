@@ -18,7 +18,6 @@ namespace a
 
 typedef a_bool_t bool_t;
 typedef a_void_t void_t;
-typedef a_size_t size_t;
 
 typedef a_i8_t i8_t;
 typedef a_u8_t u8_t;
@@ -39,8 +38,8 @@ typedef a_iptr_t iptr_t;
 typedef a_uptr_t uptr_t;
 
 typedef a_diff_t diff_t;
+typedef a_size_t size_t;
 
-typedef a_c_t c_t;
 typedef a_i_t i_t;
 typedef a_u_t u_t;
 
