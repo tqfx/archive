@@ -2,6 +2,7 @@
 PROJECT_NAME           = @PROJECT_NAME@
 PROJECT_NUMBER         = @PROJECT_VERSION@
 PROJECT_BRIEF          = @PROJECT_DESCRIPTION@
+OUTPUT_DIRECTORY       = @DOXYGEN_OUTPUT_DIRECTORY@
 OPTIMIZE_OUTPUT_FOR_C  = YES
 # Build related configuration options
 # Configuration options related to warning and progress messages

@@ -20,7 +20,8 @@ else()
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
-if(CMAKE_VERSION VERSION_GREATER 3.13)
+# https://cmake.org/cmake/help/latest/module/CheckPIESupported.html
+if(CMAKE_VERSION VERSION_GREATER 3.14)
   cmake_policy(SET CMP0083 NEW)
   include(CheckPIESupported)
   check_pie_supported()

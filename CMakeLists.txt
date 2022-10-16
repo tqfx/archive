@@ -25,7 +25,6 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
-include(TestBigEndian)
 include(GNUInstallDirs)
 include(cmake/core.cmake)
 include(cmake/target.cmake)
@@ -58,7 +57,8 @@ endif()
 
 include(cmake/git.cmake)
 
-if(ENABLE_PYTHON AND CMAKE_VERSION VERSION_GREATER 3.11)
+# https://cmake.org/cmake/help/latest/module/FindPython.html
+if(ENABLE_PYTHON AND CMAKE_VERSION VERSION_GREATER 3.12)
   find_package(Python COMPONENTS Interpreter)
   set(PYTHONINTERP_FOUND ${Python_Interpreter_FOUND})
   set(PYTHON_EXECUTABLE ${Python_EXECUTABLE})
@@ -66,13 +66,15 @@ elseif(ENABLE_PYTHON) # cmake < 3.12
   find_package(PythonInterp)
 endif()
 
-if(ENABLE_DOXYGEN AND CMAKE_VERSION VERSION_GREATER 3.8)
+# https://cmake.org/cmake/help/latest/module/FindDoxygen.html
+if(ENABLE_DOXYGEN AND CMAKE_VERSION VERSION_GREATER 3.9)
   find_package(Doxygen OPTIONAL_COMPONENTS dot mscgen dia)
 elseif(ENABLE_DOXYGEN) # cmake < 3.9
   find_package(Doxygen)
 endif()
 
-if(ENABLE_IPO AND CMAKE_VERSION VERSION_GREATER 3.8)
+# https://cmake.org/cmake/help/latest/module/CheckIPOSupported.html
+if(ENABLE_IPO AND CMAKE_VERSION VERSION_GREATER 3.9)
   cmake_policy(SET CMP0069 NEW)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT ENABLE_IPO)
@@ -87,7 +89,6 @@ set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 set(A_SIZEOF_P ${CMAKE_SIZEOF_VOID_P})
 find_library(MATH_LIBRARY NAMES m)
-test_big_endian(A_BIG_ENDIAN)
 
 if(NOT MATH_LIBRARY AND ANDROID)
   set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
@@ -257,7 +258,7 @@ if(PYTHONINTERP_FOUND)
   unset(SOURCES)
 endif()
 
-if(DOXYGEN_FOUND)
+if(DOXYGEN_FOUND AND CMAKE_VERSION VERSION_GREATER 3.9)
   # Project related configuration options
   set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
 
@@ -307,14 +308,10 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_DOT_IMAGE_FORMAT svg)
   endif()
 
-  if(CMAKE_VERSION VERSION_LESS 3.9)
-    include(cmake/doxygen.cmake)
-  endif()
-
   # https://www.doxygen.nl/manual/config.html
-  doxygen_add_docs(a-doxygen
+  doxygen_add_docs(a-doxygen WORKING_DIRECTORY
+    ${CMAKE_CURRENT_LIST_DIR}/include/a
+    ${CMAKE_CURRENT_LIST_DIR}/include/a
     ${CMAKE_CURRENT_LIST_DIR}/README.md
-    ${CMAKE_CURRENT_LIST_DIR}/include
-    ${CMAKE_CURRENT_LIST_DIR}/src
   )
 endif()
