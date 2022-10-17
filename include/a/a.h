@@ -398,21 +398,6 @@ typedef double a_f64_t;
 /*! static cast to \ref a_f64_t */
 #define a_f64_c(x) a_cast_s(a_f64_t, x)
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-#endif /* diagnostic */
-
-/* from/into */
-A_INTERN a_f32_t a_f32_from(a_u32_t x) { return *a_cast_s(a_f32_t *, a_cast_s(a_vptr_t, &x)); }
-A_INTERN a_u32_t a_f32_into(a_f32_t x) { return *a_cast_s(a_u32_t *, a_cast_s(a_vptr_t, &x)); }
-A_INTERN a_f64_t a_f64_from(a_u64_t x) { return *a_cast_s(a_f64_t *, a_cast_s(a_vptr_t, &x)); }
-A_INTERN a_u64_t a_f64_into(a_f64_t x) { return *a_cast_s(a_u64_t *, a_cast_s(a_vptr_t, &x)); }
-
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* diagnostic */
-
 typedef union a_cast_u
 {
     a_i_t i;
@@ -637,6 +622,52 @@ enum
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif /* diagnostic */
+
+#if !defined A_INLINE || defined(A_A_I)
+A_PUBLIC a_f32_t a_f32_from(a_u32_t x);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_A_I)
+A_INLINE a_f32_t a_f32_from(a_u32_t x)
+{
+    return *a_cast_s(a_f32_t *, a_cast_s(a_vptr_t, &x));
+}
+#endif /* A_INLINE */
+#if !defined A_INLINE || defined(A_A_I)
+A_PUBLIC a_u32_t a_f32_into(a_f32_t x);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_A_I)
+A_INLINE a_u32_t a_f32_into(a_f32_t x)
+{
+    return *a_cast_s(a_u32_t *, a_cast_s(a_vptr_t, &x));
+}
+#endif /* A_INLINE */
+#if !defined A_INLINE || defined(A_A_I)
+A_PUBLIC a_f64_t a_f64_from(a_u64_t x);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_A_I)
+A_INLINE a_f64_t a_f64_from(a_u64_t x)
+{
+    return *a_cast_s(a_f64_t *, a_cast_s(a_vptr_t, &x));
+}
+#endif /* A_INLINE */
+#if !defined A_INLINE || defined(A_A_I)
+A_PUBLIC a_u64_t a_f64_into(a_f64_t x);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_A_I)
+A_INLINE a_u64_t a_f64_into(a_f64_t x)
+{
+    return *a_cast_s(a_u64_t *, a_cast_s(a_vptr_t, &x));
+}
+#endif /* A_INLINE */
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* diagnostic */
 
 /*!
  @brief swap two different memory blocks of the same size

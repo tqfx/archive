@@ -1,3 +1,6 @@
+#undef A_INLINE
+#define A_INLINE
+#define A_A_I
 #include "a/a.h"
 
 a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)
