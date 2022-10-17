@@ -173,16 +173,16 @@ a_void_t a_polytrack5_gen(a_polytrack5_s *ctx)
     a_real_t inv_t5 = inv_t2 * inv_t3;
     ctx->k[0] = ctx->q[0];
     ctx->k[1] = ctx->v[0];
-    ctx->k[2] = ctx->a[0] * (a_real_t)(1 / 2.0);
-    ctx->k[3] = (a_real_t)(1 / 2.0) *
+    ctx->k[2] = ctx->a[0] * a_real_c(1 / 2.0);
+    ctx->k[3] = a_real_c(1 / 2.0) *
                 (inv_t1 * (ctx->a[1] - 3 * ctx->a[0]) -
                  inv_t2 * (12 * ctx->v[0] + 8 * ctx->v[1]) +
                  inv_t3 * q * 20);
-    ctx->k[4] = (a_real_t)(1 / 2.0) *
+    ctx->k[4] = a_real_c(1 / 2.0) *
                 (inv_t2 * (3 * ctx->a[0] - 2 * ctx->a[1]) +
                  inv_t3 * (16 * ctx->v[0] + 14 * ctx->v[1]) -
                  inv_t4 * q * 30);
-    ctx->k[5] = (a_real_t)(1 / 2.0) *
+    ctx->k[5] = a_real_c(1 / 2.0) *
                 (inv_t3 * (ctx->a[1] - ctx->a[0]) -
                  inv_t4 * (ctx->v[0] + ctx->v[1]) * 6 +
                  inv_t5 * q * 12);
@@ -321,24 +321,24 @@ a_void_t a_polytrack7_gen(a_polytrack7_s *ctx)
     a_real_t inv_t7 = inv_t3 * inv_t4;
     ctx->k[0] = ctx->q[0];
     ctx->k[1] = ctx->v[0];
-    ctx->k[2] = ctx->a[0] * (a_real_t)(1 / 2.0);
-    ctx->k[3] = ctx->j[0] * (a_real_t)(1 / 6.0);
-    ctx->k[4] = (a_real_t)(1 / 6.0) *
+    ctx->k[2] = ctx->a[0] * a_real_c(1 / 2.0);
+    ctx->k[3] = ctx->j[0] * a_real_c(1 / 6.0);
+    ctx->k[4] = a_real_c(1 / 6.0) *
                 (inv_t1 * (-4 * ctx->j[0] - ctx->j[1]) +
                  inv_t2 * (15 * ctx->a[1] - 30 * ctx->a[0]) -
                  inv_t3 * (120 * ctx->v[0] + 90 * ctx->v[1]) +
                  inv_t4 * q * 210);
-    ctx->k[5] = (a_real_t)(1 / 2.0) *
+    ctx->k[5] = a_real_c(1 / 2.0) *
                 (inv_t2 * (2 * ctx->j[0] + ctx->j[1]) +
                  inv_t3 * (20 * ctx->a[0] - 14 * ctx->a[1]) +
                  inv_t4 * (90 * ctx->v[0] + 78 * ctx->v[1]) -
                  inv_t5 * q * 168);
-    ctx->k[6] = (a_real_t)(1 / 6.0) *
+    ctx->k[6] = a_real_c(1 / 6.0) *
                 (inv_t3 * (-4 * ctx->j[0] - 3 * ctx->j[1]) +
                  inv_t4 * (39 * ctx->a[1] - 45 * ctx->a[0]) -
                  inv_t5 * (216 * ctx->v[0] + 204 * ctx->v[1]) +
                  inv_t6 * q * 420);
-    ctx->k[7] = (a_real_t)(1 / 6.0) *
+    ctx->k[7] = a_real_c(1 / 6.0) *
                 (inv_t4 * (ctx->j[0] + ctx->j[1]) +
                  inv_t5 * (ctx->a[0] - ctx->a[1]) * 12 +
                  inv_t6 * (ctx->v[0] + ctx->v[1]) * 60 -
