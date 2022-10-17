@@ -1,9 +1,3 @@
-/*!
- @file poly.c
- @brief polynomial
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/poly.h"
 #include <assert.h>
 

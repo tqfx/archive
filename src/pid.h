@@ -1,9 +1,3 @@
-/*!
- @file pid.h
- @brief internal proportional integral derivative controller
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef PID_H
 #define PID_H
 

@@ -1,9 +1,3 @@
-/*!
- @file que.c
- @brief basic queue library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #if __STDC_HOSTED__
 
 #include "a/host/que.h"

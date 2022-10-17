@@ -1,9 +1,3 @@
-/*!
- @file operator.h
- @brief algorithm library internal operators
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef OPERATOR_H
 #define OPERATOR_H
 

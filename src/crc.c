@@ -1,10 +1,3 @@
-/*!
- @file crc.c
- @brief Cyclic Redundancy Check
- @details https://en.wikipedia.org/wiki/Cyclic_redundancy_check
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/crc.h"
 
 a_void_t a_crc8l_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly)

@@ -1,9 +1,3 @@
-/*!
- @file polytrack.c
- @brief polynomial trajectory
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/polytrack.h"
 #include "a/poly.h"
 #include <assert.h>

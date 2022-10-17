@@ -1,9 +1,3 @@
-/*!
- @file lib.c
- @brief algorithm library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/a.h"
 
 a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)

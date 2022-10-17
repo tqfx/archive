@@ -1,9 +1,3 @@
-/*!
- @file tf.h
- @brief transfer function
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/tf.h"
 #include <string.h>
 

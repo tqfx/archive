@@ -1,9 +1,3 @@
-/*!
- @file mf.c
- @brief membership function
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/mf.h"
 #include <math.h>
 

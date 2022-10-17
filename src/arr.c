@@ -1,9 +1,3 @@
-/*!
- @file arr.c
- @brief basic array library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/arr.h"
 #include <assert.h>
 #include <string.h>

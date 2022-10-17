@@ -1,9 +1,3 @@
-/*!
- @file fpid.h
- @brief internal fuzzy proportional integral derivative controller
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #ifndef FPID_H
 #define FPID_H
 

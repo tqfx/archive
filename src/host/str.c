@@ -1,9 +1,3 @@
-/*!
- @file str.c
- @brief basic string library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #if __STDC_HOSTED__
 
 #include "a/host/str.h"

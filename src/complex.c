@@ -1,9 +1,3 @@
-/*!
- @file complex.c
- @brief complex number
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
-*/
-
 #include "a/complex.h"
 #include <math.h>
 
