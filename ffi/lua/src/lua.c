@@ -45,14 +45,10 @@ void l_dealloc(const void *var)
 
 lua_Number get_fnum(lua_State *L, int idx, const char *name)
 {
-    lua_Number x = 0;
     /* data=table[name] */
     lua_pushstring(L, name);
     lua_rawget(L, idx < 0 ? idx - 1 : idx);
-    if (lua_type(L, -1) == LUA_TNUMBER)
-    {
-        x = lua_tonumber(L, -1);
-    }
+    lua_Number x = lua_tonumber(L, -1);
     lua_pop(L, 1);
     return x;
 }
@@ -80,16 +76,12 @@ void set_enums(lua_State *L, int idx, const SEnum *tab)
 
 lua_Integer get_enum(lua_State *L, int idx, const char *name)
 {
-    lua_Number x = 0;
     /* data=table[name] */
     lua_pushstring(L, name);
     lua_rawget(L, idx < 0 ? idx - 1 : idx);
-    if (lua_type(L, -1) == LUA_TNUMBER)
-    {
-        x = lua_tonumber(L, -1);
-    }
+    lua_Integer x = lua_tointeger(L, -1);
     lua_pop(L, 1);
-    return (lua_Integer)x;
+    return x;
 }
 
 void set_fnum(lua_State *L, int idx, const char *name, lua_Number data)
@@ -121,10 +113,7 @@ void get_fnums(lua_State *L, int idx, const GFnum *tab)
         /* data=table[name] */
         lua_pushstring(L, tab->name);
         lua_rawget(L, idx);
-        if (lua_type(L, -1) == LUA_TNUMBER)
-        {
-            *tab->data = lua_tonumber(L, -1);
-        }
+        *tab->data = lua_tonumber(L, -1);
         lua_pop(L, 1);
         ++tab;
     }
@@ -153,14 +142,11 @@ void set_funcs(lua_State *L, int idx, const SFunc *tab)
 
 const char *get_name(lua_State *L, int idx, const char *name)
 {
-    const char *data = 0;
     /* data=table[name] */
     lua_pushstring(L, name);
     lua_rawget(L, idx < 0 ? idx - 1 : idx);
-    if (lua_type(L, -1) == LUA_TSTRING)
-    {
-        data = lua_tostring(L, -1);
-    }
+    const char *data = lua_tostring(L, -1);
+    lua_pop(L, 1);
     return data;
 }
 
@@ -182,10 +168,7 @@ void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
     for (unsigned int i = num; i--; num = i)
     {
         lua_rawgeti(L, idx, (int)num);
-        if (lua_type(L, -1) == LUA_TNUMBER)
-        {
-            ptr[i] = lua_tonumber(L, -1);
-        }
+        ptr[i] = lua_tonumber(L, -1);
         lua_pop(L, 1);
     }
 }

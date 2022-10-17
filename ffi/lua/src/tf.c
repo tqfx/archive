@@ -139,8 +139,14 @@ static int tf_set(lua_State *L)
         arraynum_get(L, 3, den, n);
         a_tf_set_den(ctx, n, den, den + n);
         break;
+    case 0xE8859EEB: // __name
+    case 0xA65758B2: // __index
+    case 0xAEB551C6: // __newindex
+        break;
     default:
-        return l_field(L, "setter", field, hash);
+        lua_getmetatable(L, 1);
+        lua_pushvalue(L, 3);
+        lua_setfield(L, 4, field);
     }
     return 0;
 }
@@ -176,7 +182,8 @@ static int tf_get(lua_State *L)
         lua_pushcfunction(L, tf_zero);
         break;
     default:
-        return l_field(L, "getter", field, hash);
+        lua_getmetatable(L, 1);
+        lua_getfield(L, 3, field);
     }
     return 1;
 }

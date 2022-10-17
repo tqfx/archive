@@ -258,8 +258,14 @@ static int pid_set(lua_State *L)
     case 0x0EB84F77: // mode
         a_pid_set_mode(ctx, (a_uint_t)luaL_checkinteger(L, 3));
         break;
+    case 0xE8859EEB: // __name
+    case 0xA65758B2: // __index
+    case 0xAEB551C6: // __newindex
+        break;
     default:
-        return l_field(L, "setter", field, hash);
+        lua_getmetatable(L, 1);
+        lua_pushvalue(L, 3);
+        lua_setfield(L, 4, field);
     }
     return 0;
 }
@@ -332,7 +338,8 @@ static int pid_get(lua_State *L)
         lua_pushcfunction(L, pid_off);
         break;
     default:
-        return l_field(L, "getter", field, hash);
+        lua_getmetatable(L, 1);
+        lua_getfield(L, 3, field);
     }
     return 1;
 }

@@ -63,6 +63,10 @@ int luaopen_liba(lua_State *L)
     luaopen_liba_fpid(L);
     lua_rawset(L, -3);
 
+    lua_pushstring(L, "complex");
+    luaopen_liba_complex(L);
+    lua_rawset(L, -3);
+
     lua_pushstring(L, "polytrack3");
     luaopen_liba_polytrack3(L);
     lua_rawset(L, -3);

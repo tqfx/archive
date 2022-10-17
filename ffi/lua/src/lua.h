@@ -37,8 +37,14 @@
 #define LNAME "__name"
 #define LNEW "__call"
 #define LDIE "__gc"
-#define LSET "__newindex"
 #define LGET "__index"
+#define LSET "__newindex"
+#define LPRI "__tostring"
+#define LADD "__add"
+#define LSUB "__sub"
+#define LMUL "__mul"
+#define LDIV "__div"
+#define LUNM "__unm"
 
 typedef struct
 {
@@ -122,6 +128,7 @@ int luaopen_liba_mf(lua_State *L);
 int luaopen_liba_tf(lua_State *L);
 int luaopen_liba_pid(lua_State *L);
 int luaopen_liba_fpid(lua_State *L);
+int luaopen_liba_complex(lua_State *L);
 int luaopen_liba_polytrack3(lua_State *L);
 int luaopen_liba_polytrack5(lua_State *L);
 int luaopen_liba_polytrack7(lua_State *L);
