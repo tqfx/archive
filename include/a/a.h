@@ -99,6 +99,11 @@
 #else /* !_MSC_VER */
 #define A_INTERN static __inline
 #endif /* _MSC_VER */
+#if defined(A_HAVE_INLINE)
+#if !defined A_INLINE
+#define A_INLINE A_INTERN
+#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 #define A_STATIC static
 
 /* attribute visibility */

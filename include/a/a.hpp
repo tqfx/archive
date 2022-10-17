@@ -16,8 +16,8 @@ namespace a
  @{
 */
 
-typedef a_bool_t bool_t;
 typedef a_void_t void_t;
+typedef a_bool_t bool_t;
 
 typedef a_i8_t i8_t;
 typedef a_u8_t u8_t;
