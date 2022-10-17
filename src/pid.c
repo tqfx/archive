@@ -1,5 +1,13 @@
 #include "pid.h"
 
+a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt)
+{
+    a_real_t t = dt / ctx->dt;
+    ctx->ki *= t;
+    ctx->kd /= t;
+    ctx->dt = dt;
+}
+
 a_pid_s *a_pid_off(a_pid_s *ctx)
 {
     a_pid_set_mode(ctx, A_PID_OFF);
@@ -192,94 +200,4 @@ a_real_t *a_pid_outp(a_pid_s *ctx, a_real_t *set, a_real_t *fdb)
         a_pid_outp_(ctx, reg, set[i], fdb[i], ec, e, i);
     }
     return ctx->out.p;
-}
-
-#undef a_pid_set_dt
-a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt)
-{
-    a_real_t t = dt / ctx->dt;
-    ctx->ki *= t;
-    ctx->kd /= t;
-    ctx->dt = dt;
-}
-
-#undef a_pid_dt
-a_real_t a_pid_dt(const a_pid_s *ctx)
-{
-    return ctx->dt;
-}
-
-#undef a_pid_set_kp
-a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp)
-{
-    ctx->kp = kp;
-}
-
-#undef a_pid_kp
-a_real_t a_pid_kp(const a_pid_s *ctx)
-{
-    return ctx->kp;
-}
-
-#undef a_pid_set_ki
-a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki)
-{
-    ctx->ki = ki * ctx->dt;
-}
-
-#undef a_pid_ki
-a_real_t a_pid_ki(const a_pid_s *ctx)
-{
-    return ctx->ki / ctx->dt;
-}
-
-#undef a_pid_set_kd
-a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd)
-{
-    ctx->kd = kd / ctx->dt;
-}
-
-#undef a_pid_kd
-a_real_t a_pid_kd(const a_pid_s *ctx)
-{
-    return ctx->kd * ctx->dt;
-}
-
-#undef a_pid_set_num
-a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num)
-{
-    ctx->num &= ~A_PID_NUM_MASK;
-    ctx->num |= num & A_PID_NUM_MASK;
-}
-
-#undef a_pid_num
-a_uint_t a_pid_num(const a_pid_s *ctx)
-{
-    return ctx->num & A_PID_NUM_MASK;
-}
-
-#undef a_pid_set_reg
-a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
-{
-    ctx->reg &= ~A_PID_REG_MASK;
-    ctx->reg |= reg & A_PID_REG_MASK;
-}
-
-#undef a_pid_reg
-a_uint_t a_pid_reg(const a_pid_s *ctx)
-{
-    return ctx->reg & A_PID_REG_MASK;
-}
-
-#undef a_pid_set_mode
-a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode)
-{
-    ctx->reg &= ~A_PID_MODE_MASK;
-    ctx->reg |= mode & A_PID_MODE_MASK;
-}
-
-#undef a_pid_mode
-a_uint_t a_pid_mode(const a_pid_s *mode)
-{
-    return mode->reg & A_PID_MODE_MASK;
 }

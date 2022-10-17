@@ -96,20 +96,140 @@ typedef struct a_pid_s
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt);
+#if !defined A_INLINE || defined(A_PID_I)
 A_PUBLIC a_real_t a_pid_dt(const a_pid_s *ctx);
-A_PUBLIC a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t ki);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_real_t a_pid_dt(const a_pid_s *ctx)
+{
+    return ctx->dt;
+}
+#endif /* A_INLINE */
+
+A_PUBLIC a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt);
+
+#if !defined A_INLINE || defined(A_PID_I)
 A_PUBLIC a_real_t a_pid_kp(const a_pid_s *ctx);
-A_PUBLIC a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_real_t a_pid_kp(const a_pid_s *ctx)
+{
+    return ctx->kp;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
+A_PUBLIC a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp)
+{
+    ctx->kp = kp;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
 A_PUBLIC a_real_t a_pid_ki(const a_pid_s *ctx);
-A_PUBLIC a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_real_t a_pid_ki(const a_pid_s *ctx)
+{
+    return ctx->ki / ctx->dt;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
+A_PUBLIC a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki)
+{
+    ctx->ki = ki * ctx->dt;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
 A_PUBLIC a_real_t a_pid_kd(const a_pid_s *ctx);
-A_PUBLIC a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_real_t a_pid_kd(const a_pid_s *ctx)
+{
+    return ctx->kd * ctx->dt;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
+A_PUBLIC a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd)
+{
+    ctx->kd = kd / ctx->dt;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
 A_PUBLIC a_uint_t a_pid_num(const a_pid_s *ctx);
-A_PUBLIC a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_uint_t a_pid_num(const a_pid_s *ctx)
+{
+    return ctx->num & A_PID_NUM_MASK;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
+A_PUBLIC a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num)
+{
+    ctx->num &= ~A_PID_NUM_MASK;
+    ctx->num |= num & A_PID_NUM_MASK;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
 A_PUBLIC a_uint_t a_pid_reg(const a_pid_s *ctx);
-A_PUBLIC a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_uint_t a_pid_reg(const a_pid_s *ctx)
+{
+    return ctx->reg & A_PID_REG_MASK;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
+A_PUBLIC a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
+{
+    ctx->reg &= ~A_PID_REG_MASK;
+    ctx->reg |= reg & A_PID_REG_MASK;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
 A_PUBLIC a_uint_t a_pid_mode(const a_pid_s *mode);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_uint_t a_pid_mode(const a_pid_s *ctx)
+{
+    return ctx->reg & A_PID_MODE_MASK;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_PID_I)
+A_PUBLIC a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_PID_I)
+A_INLINE a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode)
+{
+    ctx->reg &= ~A_PID_MODE_MASK;
+    ctx->reg |= mode & A_PID_MODE_MASK;
+}
+#endif /* A_INLINE */
 
 /*!
  @brief turn off PID controller
@@ -195,20 +315,6 @@ A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
-
-#define a_pid_dt(ctx) ((ctx)->dt)
-#define a_pid_set_kp(ctx, val) ((ctx)->kp = (val))
-#define a_pid_kp(ctx) ((ctx)->kp)
-#define a_pid_set_ki(ctx, val) ((ctx)->ki = (val) * (ctx)->dt)
-#define a_pid_ki(ctx) ((ctx)->ki / (ctx)->dt)
-#define a_pid_set_kd(ctx, val) ((ctx)->kd = (val) / (ctx)->dt)
-#define a_pid_kd(ctx) ((ctx)->kd * (ctx)->dt)
-#define a_pid_set_num(ctx, val) ((void)((ctx)->num &= ~A_PID_NUM_MASK), (ctx)->num |= (val)&A_PID_NUM_MASK)
-#define a_pid_num(ctx) ((ctx)->num & A_PID_NUM_MASK)
-#define a_pid_set_reg(ctx, val) ((void)((ctx)->reg &= ~A_PID_REG_MASK), (ctx)->reg |= (val)&A_PID_REG_MASK)
-#define a_pid_reg(ctx) ((ctx)->reg & A_PID_REG_MASK)
-#define a_pid_set_mode(ctx, val) ((void)((ctx)->reg &= ~A_PID_MODE_MASK), (ctx)->reg |= (val)&A_PID_MODE_MASK)
-#define a_pid_mode(ctx) ((ctx)->reg & A_PID_MODE_MASK)
 
 /*! @} A_PID */
 
