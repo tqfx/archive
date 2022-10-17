@@ -24,31 +24,6 @@
 #include "a.config.h"
 #endif /* A_CONFIG */
 
-/*! algorithm library version major */
-#ifndef A_VERSION_MAJOR
-#define A_VERSION_MAJOR 0
-#endif /* A_VERSION_MAJOR */
-
-/*! algorithm library version minor */
-#ifndef A_VERSION_MINOR
-#define A_VERSION_MINOR 0
-#endif /* A_VERSION_MINOR */
-
-/*! algorithm library version patch */
-#ifndef A_VERSION_PATCH
-#define A_VERSION_PATCH 0
-#endif /* A_VERSION_PATCH */
-
-/*! algorithm library version tweak */
-#ifndef A_VERSION_TWEAK
-#define A_VERSION_TWEAK A_U64_C(0)
-#endif /* A_VERSION_TWEAK */
-
-/*! algorithm library version string */
-#ifndef A_VERSION
-#define A_VERSION ""
-#endif /* A_VERSION */
-
 /*! sizeof pointer */
 #if !defined A_SIZEOF_P
 #if defined(__SIZEOF_POINTER__)

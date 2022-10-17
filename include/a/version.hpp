@@ -8,6 +8,7 @@
 #define A_VERSION_HPP
 
 #include "a.hpp"
+#include "a/version.h"
 
 namespace a
 {
