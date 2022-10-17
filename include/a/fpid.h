@@ -85,13 +85,81 @@ typedef struct a_fpid_s
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num);
-A_PUBLIC a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
+#if !defined A_INLINE || defined(A_FPID_I)
+A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_FPID_I)
+A_INLINE a_size_t A_FPID_BUF1(a_uint_t max)
+{
+#define A_FPID_BUF1(N) ((sizeof(a_uint_t) << 1) * (N) + sizeof(a_real_t) * ((N) + 2) * (N))
+    return A_FPID_BUF1(max);
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_FPID_I)
 A_PUBLIC a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
-A_PUBLIC a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_FPID_I)
+A_INLINE a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
+{
+#define a_fpid_bufptr(ctx) (ctx)->idx
+    return a_fpid_bufptr(ctx);
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_FPID_I)
+A_PUBLIC a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_FPID_I)
+A_INLINE a_uint_t a_fpid_bufnum(const a_fpid_s *ctx)
+{
+    return ctx->pid->num >> A_PID_NUM_BITS;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_FPID_I)
+A_PUBLIC a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_FPID_I)
+A_INLINE a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num)
+{
+    ctx->pid->num &= A_PID_NUM_MASK;
+    ctx->pid->num |= num << A_PID_NUM_BITS;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_FPID_I)
 A_PUBLIC a_uint_t a_fpid_col(const a_fpid_s *ctx);
-A_PUBLIC a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_FPID_I)
+A_INLINE a_uint_t a_fpid_col(const a_fpid_s *ctx)
+{
+    return ctx->pid->reg >> A_PID_REG_BITS;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_FPID_I)
+A_PUBLIC a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_FPID_I)
+A_INLINE a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
+{
+    ctx->pid->reg &= A_PID_REG_MASK;
+    ctx->pid->reg |= reg << A_PID_REG_BITS;
+}
+#endif /* A_INLINE */
+
+#if !defined A_INLINE || defined(A_FPID_I)
 A_PUBLIC a_uint_t a_fpid_op(const a_fpid_s *ctx);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_FPID_I)
+A_INLINE a_uint_t a_fpid_op(const a_fpid_s *ctx)
+{
+    return ctx->pid->reg & A_FPID_FUZZY_MASK;
+}
+#endif /* A_INLINE */
+
+A_PUBLIC a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op);
 
 /*!
  @brief turn off fuzzy PID controller
@@ -135,8 +203,6 @@ A_PUBLIC a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max);
  @param[in] max the maximum number triggered by the rule
 */
 A_PUBLIC a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max);
-A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
-#define A_FPID_BUF1(N) (sizeof(a_uint_t) * 2 * (N) + sizeof(a_real_t) * (N) * ((N) + 2))
 
 /*!
  @brief set proportional integral derivative constant for fuzzy PID controller
@@ -240,13 +306,6 @@ A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
-
-#define a_fpid_set_bufnum(ctx, val) ((void)((ctx)->pid->num &= A_PID_NUM_MASK), (ctx)->pid->num |= (val) << A_PID_NUM_BITS)
-#define a_fpid_bufnum(ctx) ((ctx)->pid->num >> A_PID_NUM_BITS)
-#define a_fpid_bufptr(ctx) ((ctx)->idx)
-#define a_fpid_set_col(ctx, val) ((void)((ctx)->pid->reg &= A_PID_REG_MASK), (ctx)->pid->reg |= (val) << A_PID_REG_BITS)
-#define a_fpid_col(ctx) ((ctx)->pid->reg >> A_PID_REG_BITS)
-#define a_fpid_op(ctx) ((ctx)->pid->reg & A_FPID_FUZZY_MASK)
 
 /*! @} A_FPID */
 
