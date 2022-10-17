@@ -2,6 +2,7 @@
 #define TEST_COMPLEX_H
 
 #if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* __GNUC__ || __clang__ */
 
@@ -13,7 +14,7 @@ A_STATIC a_void_t test(a_void_t)
 {
     a_complex_s a = A_COMPLEX_C(1.0, 2.0);
     a_complex_s b = a_complex_c(2.0, 1.0);
-    a_complex_s c = a_complex_polar(1.0, a_real_c(A_PI_2));
+    a_complex_s c = a_complex_polar(A_REAL_C(1.0), a_real_c(A_PI_2));
     a_real_t x = 0;
 
     x = a_complex_abs(a);

@@ -374,7 +374,7 @@ typedef float a_f32_t;
 #define A_F32_F(F, ...) F##f(__VA_ARGS__)
 #define A_F32_MIN FLT_MIN
 #define A_F32_MAX FLT_MAX
-#define A_F32_INF a_f32_c(DBL_MAX *DBL_MAX)
+#define A_F32_INF a_f32_c(A_F64_INF)
 #define A_F32_NAN (A_F32_C(0.0) * A_F32_INF)
 #define A_F32_NNAN A_U32_C(0xFFC00000)
 #define A_F32_PNAN A_U32_C(0x7FC00000)
@@ -389,7 +389,7 @@ typedef double a_f64_t;
 #define A_F64_F(F, ...) F(__VA_ARGS__)
 #define A_F64_MIN DBL_MIN
 #define A_F64_MAX DBL_MAX
-#define A_F64_INF a_f64_c(DBL_MAX *DBL_MAX)
+#define A_F64_INF (DBL_MAX * DBL_MAX)
 #define A_F64_NAN (A_F64_C(0.0) * A_F64_INF)
 #define A_F64_NNAN A_U64_C(0xFFF8000000000000)
 #define A_F64_PNAN A_U64_C(0x7FF8000000000000)
@@ -516,7 +516,7 @@ typedef float a_real_t;
 
 #endif /* A_REAL_BITS */
 
-#define A_REAL_INF a_cast_s(a_real_t, DBL_MAX *DBL_MAX)
+#define A_REAL_INF a_cast_s(a_real_t, A_F64_INF)
 #define A_REAL_NAN (A_REAL_C(0.0) * A_REAL_INF)
 
 /*! static cast to \ref a_real_t */

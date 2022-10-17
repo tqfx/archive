@@ -191,8 +191,14 @@ int main(int argc, char *argv[])
         printf("32 min = %-12g max = %g\n", (a_f64_t)min, (a_f64_t)max);
         printf("32 inf = %-12g nan = %g\n", (a_f64_t)inf, (a_f64_t)nan);
     }
-    printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI(, "g\n"), A_REAL_MIN, A_REAL_MAX);
-    printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI(, "g\n"), A_REAL_INF, A_REAL_NAN);
+    {
+        a_real_t min = A_REAL_MIN;
+        a_real_t max = A_REAL_MAX;
+        a_real_t inf = A_REAL_INF;
+        a_real_t nan = A_REAL_NAN;
+        printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI(, "g\n"), min, max);
+        printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI(, "g\n"), inf, nan);
+    }
     if (argc > 1)
     {
         a_str_t endptr = NULL;
