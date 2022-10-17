@@ -11,19 +11,6 @@ a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
     return z;
 }
 
-a_complex_s a_complex_neg(a_complex_s z)
-{
-    z.real = -z.real;
-    z.imag = -z.imag;
-    return z;
-}
-
-a_complex_s a_complex_conj(a_complex_s z)
-{
-    z.imag = -z.imag;
-    return z;
-}
-
 a_real_t a_complex_abs2(a_complex_s z)
 {
     return z.real * z.real + z.imag * z.imag;

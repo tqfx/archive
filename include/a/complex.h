@@ -44,7 +44,9 @@
     }
 #endif /* __cplusplus */
 
+/*! real part of complex number */
 #define a_complex_real(z) (z).real
+/*! imaginary part of complex number */
 #define a_complex_imag(z) (z).imag
 
 /*!
@@ -52,8 +54,8 @@
 */
 typedef struct a_complex_s
 {
-    a_real_t real;
-    a_real_t imag;
+    a_real_t real; //!< real part of complex number
+    a_real_t imag; //!< imaginary part of complex number
 } a_complex_s;
 
 #if defined(__cplusplus)
@@ -69,18 +71,37 @@ extern "C" {
 A_PUBLIC a_complex_s a_complex_polar(a_real_t r, a_real_t theta);
 
 /*!
- @brief = \f[ (-a-b i) \f]
- @param z complex number
- @return negative value
-*/
-A_PUBLIC a_complex_s a_complex_neg(a_complex_s z);
-
-/*!
  @brief = \f[ (a-b i) \f]
  @param z complex number
  @return conjugate value
 */
+#if !defined A_INLINE || defined(A_COMPLEX_I)
 A_PUBLIC a_complex_s a_complex_conj(a_complex_s z);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_COMPLEX_I)
+A_INLINE a_complex_s a_complex_conj(a_complex_s z)
+{
+    z.imag = -z.imag;
+    return z;
+}
+#endif /* A_INLINE */
+
+/*!
+ @brief = \f[ (-a-b i) \f]
+ @param z complex number
+ @return negative value
+*/
+#if !defined A_INLINE || defined(A_COMPLEX_I)
+A_PUBLIC a_complex_s a_complex_neg(a_complex_s z);
+#endif /* A_INLINE */
+#if defined(A_INLINE) || defined(A_COMPLEX_I)
+A_INLINE a_complex_s a_complex_neg(a_complex_s z)
+{
+    z.real = -z.real;
+    z.imag = -z.imag;
+    return z;
+}
+#endif /* A_INLINE */
 
 /*!
  @brief = \f[ a^2+b^2 \f]
