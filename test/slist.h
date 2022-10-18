@@ -87,6 +87,7 @@ A_STATIC a_void_t test(void)
         a_data_s *node = a_slist_entry(it, a_data_s, list);
         a_slist_del(list1, at);
         free(node);
+        it = A_NULL;
     }
     if (a_slist_none(list1) && a_slist_none(list2) && a_slist_none(list3))
     {
