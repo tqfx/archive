@@ -1,5 +1,9 @@
+#define A_FPID_I
 #include "pid.h"
+#undef A_INTERN
+#define A_INTERN A_INLINE
 #include "fpid.h"
+#undef A_INTERN
 #include <math.h>
 
 a_real_t a_fpid_op_or(a_real_t l, a_real_t r) { return l + r - l * r; }

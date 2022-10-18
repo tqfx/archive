@@ -85,79 +85,79 @@ typedef struct a_fpid_s
 extern "C" {
 #endif /* __cplusplus */
 
-#if !defined A_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_FPID_I)
-A_INLINE a_size_t A_FPID_BUF1(a_uint_t max)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+A_INTERN a_size_t A_FPID_BUF1(a_uint_t max)
 {
 #define A_FPID_BUF1(N) ((sizeof(a_uint_t) << 1) * (N) + sizeof(a_real_t) * ((N) + 2) * (N))
     return A_FPID_BUF1(max);
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
-#if !defined A_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_FPID_I)
-A_INLINE a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+A_INTERN a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
 {
 #define a_fpid_bufptr(ctx) (ctx)->idx
     return a_fpid_bufptr(ctx);
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
-#if !defined A_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_FPID_I)
-A_INLINE a_uint_t a_fpid_bufnum(const a_fpid_s *ctx)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+A_INTERN a_uint_t a_fpid_bufnum(const a_fpid_s *ctx)
 {
     return ctx->pid->num >> A_PID_NUM_BITS;
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
-#if !defined A_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_FPID_I)
-A_INLINE a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+A_INTERN a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num)
 {
     ctx->pid->num &= A_PID_NUM_MASK;
     ctx->pid->num |= num << A_PID_NUM_BITS;
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
-#if !defined A_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_uint_t a_fpid_col(const a_fpid_s *ctx);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_FPID_I)
-A_INLINE a_uint_t a_fpid_col(const a_fpid_s *ctx)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+A_INTERN a_uint_t a_fpid_col(const a_fpid_s *ctx)
 {
     return ctx->pid->reg >> A_PID_REG_BITS;
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
-#if !defined A_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_FPID_I)
-A_INLINE a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+A_INTERN a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
 {
     ctx->pid->reg &= A_PID_REG_MASK;
     ctx->pid->reg |= reg << A_PID_REG_BITS;
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
-#if !defined A_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_uint_t a_fpid_op(const a_fpid_s *ctx);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_FPID_I)
-A_INLINE a_uint_t a_fpid_op(const a_fpid_s *ctx)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+A_INTERN a_uint_t a_fpid_op(const a_fpid_s *ctx)
 {
     return ctx->pid->reg & A_FPID_FUZZY_MASK;
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
 A_PUBLIC a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op);
 

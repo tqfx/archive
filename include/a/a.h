@@ -93,17 +93,15 @@
 
 /* attribute always inline */
 #if a_prereq_gnuc(3, 2) || __has_attribute(always_inline)
-#define A_INTERN static __inline __attribute__((always_inline))
+#define A_INLINE __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
-#define A_INTERN static __forceinline
+#define A_INLINE __inline __forceinline
 #else /* !_MSC_VER */
-#define A_INTERN static __inline
+#define A_INLINE __inline
 #endif /* _MSC_VER */
-#if defined(A_HAVE_INLINE)
-#if !defined A_INLINE
-#define A_INLINE A_INTERN
-#endif /* A_INLINE */
-#endif /* A_HAVE_INLINE */
+#if !defined A_INTERN
+#define A_INTERN A_STATIC A_INLINE
+#endif /* A_INTERN */
 #define A_STATIC static
 
 /* attribute visibility */
@@ -628,42 +626,42 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif /* diagnostic */
 
-#if !defined A_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(A_A_I)
 A_PUBLIC a_f32_t a_f32_from(a_u32_t x);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_A_I)
-A_INLINE a_f32_t a_f32_from(a_u32_t x)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_A_I)
+A_INTERN a_f32_t a_f32_from(a_u32_t x)
 {
     return *a_cast_s(a_f32_t *, a_cast_s(a_vptr_t, &x));
 }
-#endif /* A_INLINE */
-#if !defined A_INLINE || defined(A_A_I)
+#endif /* A_HAVE_INLINE */
+#if !defined A_HAVE_INLINE || defined(A_A_I)
 A_PUBLIC a_u32_t a_f32_into(a_f32_t x);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_A_I)
-A_INLINE a_u32_t a_f32_into(a_f32_t x)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_A_I)
+A_INTERN a_u32_t a_f32_into(a_f32_t x)
 {
     return *a_cast_s(a_u32_t *, a_cast_s(a_vptr_t, &x));
 }
-#endif /* A_INLINE */
-#if !defined A_INLINE || defined(A_A_I)
+#endif /* A_HAVE_INLINE */
+#if !defined A_HAVE_INLINE || defined(A_A_I)
 A_PUBLIC a_f64_t a_f64_from(a_u64_t x);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_A_I)
-A_INLINE a_f64_t a_f64_from(a_u64_t x)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_A_I)
+A_INTERN a_f64_t a_f64_from(a_u64_t x)
 {
     return *a_cast_s(a_f64_t *, a_cast_s(a_vptr_t, &x));
 }
-#endif /* A_INLINE */
-#if !defined A_INLINE || defined(A_A_I)
+#endif /* A_HAVE_INLINE */
+#if !defined A_HAVE_INLINE || defined(A_A_I)
 A_PUBLIC a_u64_t a_f64_into(a_f64_t x);
-#endif /* A_INLINE */
-#if defined(A_INLINE) || defined(A_A_I)
-A_INLINE a_u64_t a_f64_into(a_f64_t x)
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_A_I)
+A_INTERN a_u64_t a_f64_into(a_f64_t x)
 {
     return *a_cast_s(a_u64_t *, a_cast_s(a_vptr_t, &x));
 }
-#endif /* A_INLINE */
+#endif /* A_HAVE_INLINE */
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
