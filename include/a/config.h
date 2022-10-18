@@ -8,16 +8,30 @@
 #define A_CONFIG_H
 
 /*! @cond */
+#if defined(__clang__)
+#pragma clang diagnostic push
+#if __has_warning("-Wreserved-identifier")
+#pragma clang diagnostic ignored "-Wreserved-identifier"
+#endif /* -Wreserved-identifier */
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#endif /* __clang__ */
+
 #if defined(__STDC_LIB_EXT1__)
 #if !defined __STDC_WANT_LIB_EXT1__
 #define __STDC_WANT_LIB_EXT1__ 1
 #endif /* __STDC_WANT_LIB_EXT1__ */
 #endif /* __STDC_LIB_EXT1__ */
+
 #if defined(__MINGW32__)
 #undef __USE_MINGW_ANSI_STDIO
 #define __USE_MINGW_ANSI_STDIO 1
 #endif /* __MINGW32__ */
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif /* __clang__ */
+
 #define A_HAVE_INLINE
+
 /*! @endcond */
 
 #if defined(A_CONFIG)
