@@ -100,7 +100,7 @@
 #define A_INLINE __inline
 #endif /* _MSC_VER */
 #if !defined A_INTERN
-#define A_INTERN A_STATIC A_INLINE
+#define A_INTERN static A_INLINE
 #endif /* A_INTERN */
 #define A_STATIC static
 
@@ -119,12 +119,13 @@
 #define A_HIDDEN
 #endif /* visibility */
 #if defined(A_EXPORTS)
-#define A_PUBLIC A_EXPORT
+#define A_PUBLIC extern A_EXPORT
 #elif defined(A_SHARED)
-#define A_PUBLIC A_IMPORT
+#define A_PUBLIC extern A_IMPORT
 #else /* !A_PUBLIC */
-#define A_PUBLIC
+#define A_PUBLIC extern
 #endif /* A_PUBLIC */
+#define A_EXTERN extern
 
 #if !defined __cplusplus
 #define A_EXTERN_C
