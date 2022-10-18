@@ -49,14 +49,12 @@ int complex_polar(lua_State *L);
  @treturn complex complex number userdata
  @function conj
 */
-int complex_conj(lua_State *L);
 
 /***
  - complex unary – operator
  @treturn complex complex number userdata
  @function unm
 */
-int complex_unm(lua_State *L);
 
 /***
  + complex addition operator
@@ -64,7 +62,6 @@ int complex_unm(lua_State *L);
  @treturn complex complex number userdata
  @function add
 */
-int complex_add(lua_State *L);
 
 /***
  - complex subtraction operator
@@ -72,7 +69,6 @@ int complex_add(lua_State *L);
  @treturn complex complex number userdata
  @function sub
 */
-int complex_sub(lua_State *L);
 
 /***
  * complex multiplication operator
@@ -80,7 +76,6 @@ int complex_sub(lua_State *L);
  @treturn complex complex number userdata
  @function mul
 */
-int complex_mul(lua_State *L);
 
 /***
  / complex division operator
@@ -88,7 +83,6 @@ int complex_mul(lua_State *L);
  @treturn complex complex number userdata
  @function div
 */
-int complex_div(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */

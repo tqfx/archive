@@ -37,6 +37,7 @@
 #define LNAME "__name"
 #define LNEW "__call"
 #define LDIE "__gc"
+#define LLEN "__len"
 #define LGET "__index"
 #define LSET "__newindex"
 #define LPRI "__tostring"
@@ -45,6 +46,7 @@
 #define LMUL "__mul"
 #define LDIV "__div"
 #define LUNM "__unm"
+#define LPOW "__pow"
 
 typedef struct
 {
