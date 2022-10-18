@@ -1,6 +1,6 @@
 #include "complex.h"
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    return complex_c() + complex_cpp();
+    return complex_c(argc, argv) + complex_cpp(argc, argv);
 }

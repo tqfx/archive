@@ -60,7 +60,7 @@ unittest(arr SOURCE arr.c arr.cpp)
 unittest(list SOURCE list.c list.cpp)
 unittest(slist SOURCE slist.c slist.cpp)
 unittest(crc SOURCE crc.cpp COMMAND crc.c)
-unittest(complex SOURCE complex.c complex.cpp)
+unittest(complex SOURCE complex.c complex.cpp COMMAND -4,3 -2,1)
 
 unittest(pid SOURCE pid.c pid.cpp)
 unittest(fpid SOURCE fpid.c fpid.cpp)
