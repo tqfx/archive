@@ -22,9 +22,7 @@ static int complex_tostring(lua_State *L)
     a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
     if (ctx)
     {
-        char buffer[32];
-        (void)snprintf(buffer, 32, "%g%+gi", (double)ctx->real, (double)ctx->imag);
-        lua_pushstring(L, buffer);
+        lua_pushfstring(L, "(%f,%f)", (lua_Number)ctx->real, (lua_Number)ctx->imag);
         return 1;
     }
     return 0;
