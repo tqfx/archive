@@ -9,11 +9,15 @@
 #endif /* __GNUC__ || __clang__ */
 #include "a/complex.h"
 #undef A_INTERN
+#define A_INTERN A_STATIC A_INLINE
 #include <complex.h>
 #include <math.h>
 
-#define a_complex_from(z) (*(a_complex_s *)&(z))
-#define a_complex_into(z) (*(a_complex_t *)&(z))
+A_INTERN a_complex_s a_complex_from_(a_complex_t z) { return *(a_complex_s *)&z; }
+A_INTERN a_complex_t a_complex_into_(a_complex_s z) { return *(a_complex_t *)&z; }
+
+#define a_complex_from(z) a_complex_from_(z)
+#define a_complex_into(z) a_complex_into_(z)
 
 a_real_t a_complex_logabs(a_complex_s z)
 {
