@@ -13,30 +13,30 @@ static int polytrack5_init_(lua_State *L, a_polytrack5_s *ctx)
     {
     case 8:
     {
-        a1 = luaL_checknumber(L, 8);
+        a1 = (a_real_t)luaL_checknumber(L, 8);
         A_FALLTHROUGH;
     }
     case 7:
     {
-        a0 = luaL_checknumber(L, 7);
+        a0 = (a_real_t)luaL_checknumber(L, 7);
         A_FALLTHROUGH;
     }
     case 6:
     {
-        v1 = luaL_checknumber(L, 6);
+        v1 = (a_real_t)luaL_checknumber(L, 6);
         A_FALLTHROUGH;
     }
     case 5:
     {
-        v0 = luaL_checknumber(L, 5);
+        v0 = (a_real_t)luaL_checknumber(L, 5);
         A_FALLTHROUGH;
     }
     case 4:
     {
-        q1 = luaL_checknumber(L, 4);
-        q0 = luaL_checknumber(L, 3);
-        t1 = luaL_checknumber(L, 2);
-        t0 = luaL_checknumber(L, 1);
+        q1 = (a_real_t)luaL_checknumber(L, 4);
+        q0 = (a_real_t)luaL_checknumber(L, 3);
+        t1 = (a_real_t)luaL_checknumber(L, 2);
+        t0 = (a_real_t)luaL_checknumber(L, 1);
     }
     break;
     default:
@@ -172,7 +172,7 @@ int polytrack5_out(lua_State *L)
     if (ctx)
     {
         a_real_t out[3];
-        a_real_t ts = luaL_checknumber(L, -1);
+        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
         a_polytrack5_out(ctx, ts, out);
         lua_createtable(L, 3, 0);
         arraynum_set(L, -1, out, 3);
@@ -193,8 +193,8 @@ int polytrack5_pos(lua_State *L)
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t ts = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_polytrack5_pos(ctx, ts));
+        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        lua_pushnumber(L, (lua_Number)a_polytrack5_pos(ctx, ts));
         return 1;
     }
     return 0;
@@ -212,8 +212,8 @@ int polytrack5_vec(lua_State *L)
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t ts = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_polytrack5_vec(ctx, ts));
+        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        lua_pushnumber(L, (lua_Number)a_polytrack5_vec(ctx, ts));
         return 1;
     }
     return 0;
@@ -231,8 +231,8 @@ int polytrack5_acc(lua_State *L)
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t ts = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_polytrack5_acc(ctx, ts));
+        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        lua_pushnumber(L, (lua_Number)a_polytrack5_acc(ctx, ts));
         return 1;
     }
     return 0;
@@ -266,28 +266,28 @@ static int polytrack5_set(lua_State *L)
         arraynum_get(L, 3, ctx->a, Larray(ctx->a));
         break;
     case 0x00003B8C: // t0
-        ctx->t[0] = luaL_checknumber(L, 3);
+        ctx->t[0] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x00003A03: // q0
-        ctx->q[0] = luaL_checknumber(L, 3);
+        ctx->q[0] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x00003C92: // v0
-        ctx->v[0] = luaL_checknumber(L, 3);
+        ctx->v[0] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x000031D3: // a0
-        ctx->a[0] = luaL_checknumber(L, 3);
+        ctx->a[0] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x00003B8D: // t1
-        ctx->t[1] = luaL_checknumber(L, 3);
+        ctx->t[1] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x00003A04: // q1
-        ctx->q[1] = luaL_checknumber(L, 3);
+        ctx->q[1] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x00003C93: // v1
-        ctx->v[1] = luaL_checknumber(L, 3);
+        ctx->v[1] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x000031D4: // a1
-        ctx->a[1] = luaL_checknumber(L, 3);
+        ctx->a[1] = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0xE8859EEB: // __name
     case 0xA65758B2: // __index
@@ -331,28 +331,28 @@ static int polytrack5_get(lua_State *L)
         arraynum_set(L, -1, ctx->a, Larray(ctx->a));
         break;
     case 0x00003B8C: // t0
-        lua_pushnumber(L, ctx->t[0]);
+        lua_pushnumber(L, (lua_Number)ctx->t[0]);
         break;
     case 0x00003A03: // q0
-        lua_pushnumber(L, ctx->q[0]);
+        lua_pushnumber(L, (lua_Number)ctx->q[0]);
         break;
     case 0x00003C92: // v0
-        lua_pushnumber(L, ctx->v[0]);
+        lua_pushnumber(L, (lua_Number)ctx->v[0]);
         break;
     case 0x000031D3: // a0
-        lua_pushnumber(L, ctx->a[0]);
+        lua_pushnumber(L, (lua_Number)ctx->a[0]);
         break;
     case 0x00003B8D: // t1
-        lua_pushnumber(L, ctx->t[1]);
+        lua_pushnumber(L, (lua_Number)ctx->t[1]);
         break;
     case 0x00003A04: // q1
-        lua_pushnumber(L, ctx->q[1]);
+        lua_pushnumber(L, (lua_Number)ctx->q[1]);
         break;
     case 0x00003C93: // v1
-        lua_pushnumber(L, ctx->v[1]);
+        lua_pushnumber(L, (lua_Number)ctx->v[1]);
         break;
     case 0x000031D4: // a1
-        lua_pushnumber(L, ctx->a[1]);
+        lua_pushnumber(L, (lua_Number)ctx->a[1]);
         break;
     case 0x001D0204: // new
         lua_pushcfunction(L, polytrack5_new);

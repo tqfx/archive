@@ -94,8 +94,8 @@ int tf_proc(lua_State *L)
     a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t x = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_tf_proc(ctx, x));
+        a_real_t x = (a_real_t)luaL_checknumber(L, -1);
+        lua_pushnumber(L, (lua_Number)a_tf_proc(ctx, x));
         return 1;
     }
     return 0;

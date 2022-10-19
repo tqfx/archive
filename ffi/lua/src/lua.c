@@ -43,22 +43,22 @@ void l_dealloc(const void *var)
     *ptr = 0;
 }
 
-lua_Number get_fnum(lua_State *L, int idx, const char *name)
-{
-    /* data=table[name] */
-    lua_pushstring(L, name);
-    lua_rawget(L, idx < 0 ? idx - 1 : idx);
-    lua_Number x = lua_tonumber(L, -1);
-    lua_pop(L, 1);
-    return x;
-}
-
 void set_enum(lua_State *L, int idx, const char *name, lua_Integer data)
 {
     /* table[name]=data */
     lua_pushstring(L, name);
     lua_pushinteger(L, data);
     lua_rawset(L, idx < 0 ? idx - 2 : idx);
+}
+
+lua_Integer get_enum(lua_State *L, int idx, const char *name)
+{
+    /* data=table[name] */
+    lua_pushstring(L, name);
+    lua_rawget(L, idx < 0 ? idx - 1 : idx);
+    lua_Integer x = lua_tointeger(L, -1);
+    lua_pop(L, 1);
+    return x;
 }
 
 void set_enums(lua_State *L, int idx, const SEnum *tab)
@@ -74,22 +74,22 @@ void set_enums(lua_State *L, int idx, const SEnum *tab)
     }
 }
 
-lua_Integer get_enum(lua_State *L, int idx, const char *name)
+void set_fnum(lua_State *L, int idx, const char *name, a_real_t data)
+{
+    /* table[name]=data */
+    lua_pushstring(L, name);
+    lua_pushnumber(L, (lua_Number)data);
+    lua_rawset(L, idx < 0 ? idx - 2 : idx);
+}
+
+a_real_t get_fnum(lua_State *L, int idx, const char *name)
 {
     /* data=table[name] */
     lua_pushstring(L, name);
     lua_rawget(L, idx < 0 ? idx - 1 : idx);
-    lua_Integer x = lua_tointeger(L, -1);
+    a_real_t x = (a_real_t)lua_tonumber(L, -1);
     lua_pop(L, 1);
     return x;
-}
-
-void set_fnum(lua_State *L, int idx, const char *name, lua_Number data)
-{
-    /* table[name]=data */
-    lua_pushstring(L, name);
-    lua_pushnumber(L, data);
-    lua_rawset(L, idx < 0 ? idx - 2 : idx);
 }
 
 void set_fnums(lua_State *L, int idx, const SFnum *tab)
@@ -99,7 +99,7 @@ void set_fnums(lua_State *L, int idx, const SFnum *tab)
     {
         /* table[name]=data */
         lua_pushstring(L, tab->name);
-        lua_pushnumber(L, tab->data);
+        lua_pushnumber(L, (lua_Number)tab->data);
         lua_rawset(L, idx);
         ++tab;
     }
@@ -113,7 +113,7 @@ void get_fnums(lua_State *L, int idx, const GFnum *tab)
         /* data=table[name] */
         lua_pushstring(L, tab->name);
         lua_rawget(L, idx);
-        *tab->data = lua_tonumber(L, -1);
+        *tab->data = (a_real_t)lua_tonumber(L, -1);
         lua_pop(L, 1);
         ++tab;
     }
@@ -158,7 +158,7 @@ void set_name(lua_State *L, int idx, const char *name, const char *data)
     lua_rawset(L, idx < 0 ? idx - 2 : idx);
 }
 
-void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
+void arraynum_get(lua_State *L, int idx, a_real_t *ptr, unsigned int num)
 {
     size_t len = (size_t)lua_rawlen(L, idx);
     if (num > len)
@@ -168,54 +168,26 @@ void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num)
     for (unsigned int i = num; i--; num = i)
     {
         lua_rawgeti(L, idx, (int)num);
-        ptr[i] = lua_tonumber(L, -1);
+        ptr[i] = (a_real_t)lua_tonumber(L, -1);
         lua_pop(L, 1);
     }
 }
 
-void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num)
+void arraynum_set(lua_State *L, int idx, const a_real_t *ptr, unsigned int num)
 {
     idx = idx < 0 ? idx - 1 : idx;
     for (unsigned int i = num; i--; num = i)
     {
-        lua_pushnumber(L, ptr[i]);
+        lua_pushnumber(L, (lua_Number)ptr[i]);
         lua_rawseti(L, idx, (int)num);
     }
 }
 
-void arraynum_gets(lua_State *L, int idx, const GFnums *tab)
+a_size_t tablenum_len(lua_State *L, int idx);
+a_size_t tablenum_len(lua_State *L, int idx) // NOLINT(misc-no-recursion)
 {
-    idx = idx < 0 ? idx - 1 : idx;
-    while (tab->name)
-    {
-        lua_pushstring(L, tab->name);
-        lua_rawget(L, idx);
-        if (lua_type(L, -1) == LUA_TTABLE)
-        {
-            arraynum_get(L, -1, tab->ptr, (unsigned int)tab->num);
-        }
-        lua_pop(L, 1);
-        ++tab;
-    }
-}
-
-void arraynum_sets(lua_State *L, int idx, const SFnums *tab)
-{
-    idx = idx < 0 ? idx - 2 : idx;
-    while (tab->name)
-    {
-        lua_pushstring(L, tab->name);
-        lua_createtable(L, (int)tab->num, 0);
-        arraynum_set(L, -1, tab->ptr, (unsigned int)tab->num);
-        lua_rawset(L, idx);
-        ++tab;
-    }
-}
-
-size_t tablenum_len(lua_State *L, int idx) // NOLINT(misc-no-recursion)
-{
-    size_t num = 0;
-    size_t n = (size_t)lua_rawlen(L, idx);
+    a_size_t num = 0;
+    a_size_t n = (a_size_t)lua_rawlen(L, idx);
     for (unsigned int i = 0; i++ != n;)
     {
         lua_rawgeti(L, idx, (int)i);
@@ -233,7 +205,8 @@ size_t tablenum_len(lua_State *L, int idx) // NOLINT(misc-no-recursion)
     return num;
 }
 
-lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr) // NOLINT(misc-no-recursion)
+a_real_t *tablenum_num(lua_State *L, int idx, a_real_t *ptr);
+a_real_t *tablenum_num(lua_State *L, int idx, a_real_t *ptr) // NOLINT(misc-no-recursion)
 {
     size_t n = (size_t)lua_rawlen(L, idx);
     for (unsigned int i = 0; i++ != n;)
@@ -242,7 +215,7 @@ lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr) // NOLINT(misc-
         int e = lua_type(L, -1);
         if (e == LUA_TNUMBER)
         {
-            *ptr++ = lua_tonumber(L, -1);
+            *ptr++ = (a_real_t)lua_tonumber(L, -1);
         }
         else if (e == LUA_TTABLE)
         {
@@ -253,25 +226,26 @@ lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr) // NOLINT(misc-
     return ptr;
 }
 
-lua_Number *tablenum_get(lua_State *L, int idx, const lua_Number *ptr, size_t *num)
+a_real_t *tablenum_get(lua_State *L, int idx, const a_real_t *ptr, a_size_t *num)
 {
+    a_real_t *ret = (a_real_t *)(intptr_t)ptr; // NOLINT(performance-no-int-to-ptr)
     if (lua_type(L, idx) == LUA_TTABLE)
     {
-        size_t buf = 0;
-        num = num ? num : &buf;
+        a_size_t tmp = 0;
+        num = num ? num : &tmp;
         *num = tablenum_len(L, idx);
         if (*num)
         {
-            ptr = (lua_Number *)l_realloc(ptr, sizeof(lua_Number) * *num);
-            tablenum_num(L, idx, (lua_Number *)(intptr_t)ptr); // NOLINT(performance-no-int-to-ptr)
+            ret = (a_real_t *)l_realloc(ptr, sizeof(a_real_t) * *num);
+            tablenum_num(L, idx, ret);
         }
     }
-    return (lua_Number *)(intptr_t)ptr; // NOLINT(performance-no-int-to-ptr)
+    return ret;
 }
 
-void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, size_t num, unsigned int col)
+void tablenum_set(lua_State *L, int idx, const a_real_t *ptr, a_size_t num, unsigned int col)
 {
-    size_t n = num / col;
+    a_size_t n = num / col;
     lua_createtable(L, (int)n, 0);
     for (unsigned int i = 0; i++ != n;)
     {

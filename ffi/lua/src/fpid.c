@@ -9,15 +9,15 @@ static int fpid_init_(lua_State *L, a_fpid_s *ctx)
 {
     a_vptr_t buf = a_fpid_bufptr(ctx);
     a_uint_t max = (a_uint_t)luaL_checkinteger(L, 1);
-    lua_Number dt = luaL_checknumber(L, 2);
+    a_real_t dt = (a_real_t)luaL_checknumber(L, 2);
     luaL_checktype(L, 3, LUA_TTABLE);
     luaL_checktype(L, 4, LUA_TTABLE);
     luaL_checktype(L, 5, LUA_TTABLE);
     luaL_checktype(L, 6, LUA_TTABLE);
-    lua_Number imin = luaL_checknumber(L, 7);
-    lua_Number imax = luaL_checknumber(L, 8);
-    lua_Number omin = luaL_checknumber(L, 9);
-    lua_Number omax = luaL_checknumber(L, 10);
+    a_real_t imin = (a_real_t)luaL_checknumber(L, 7);
+    a_real_t imax = (a_real_t)luaL_checknumber(L, 8);
+    a_real_t omin = (a_real_t)luaL_checknumber(L, 9);
+    a_real_t omax = (a_real_t)luaL_checknumber(L, 10);
     a_uint_t num = (a_uint_t)lua_rawlen(L, 4);
     a_real_t *mmp = tablenum_get(L, 3, ctx->mmp, 0);
     a_real_t *mkp = tablenum_get(L, 4, ctx->mkp, 0);
@@ -25,8 +25,8 @@ static int fpid_init_(lua_State *L, a_fpid_s *ctx)
     a_real_t *mkd = tablenum_get(L, 6, ctx->mkd, 0);
     a_fpid_init(ctx, dt, num, mmp, mkp, mki, mkd, imin, imax, omin, omax);
     a_fpid_buf1(ctx, l_realloc(buf, A_FPID_BUF1(max)), max);
-    lua_type(L, 11) == LUA_TNUMBER
-        ? a_fpid_pos(ctx, lua_tonumber(L, 11))
+    lua_isnumber(L, 11)
+        ? a_fpid_pos(ctx, (a_real_t)lua_tonumber(L, 11))
         : a_fpid_inc(ctx);
     return 1;
 }
@@ -133,9 +133,9 @@ int fpid_proc(lua_State *L)
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -3);
     if (ctx)
     {
-        a_real_t set = luaL_checknumber(L, -2);
-        a_real_t fdb = luaL_checknumber(L, -1);
-        lua_pushnumber(L, a_fpid_outv(ctx, set, fdb));
+        a_real_t set = (a_real_t)luaL_checknumber(L, -2);
+        a_real_t fdb = (a_real_t)luaL_checknumber(L, -1);
+        lua_pushnumber(L, (lua_Number)a_fpid_outv(ctx, set, fdb));
         lua_pop(L, 2);
         return 1;
     }
@@ -200,9 +200,9 @@ int fpid_kpid(lua_State *L)
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -4);
     if (ctx)
     {
-        a_real_t kp = luaL_checknumber(L, -3);
-        a_real_t ki = luaL_checknumber(L, -2);
-        a_real_t kd = luaL_checknumber(L, -1);
+        a_real_t kp = (a_real_t)luaL_checknumber(L, -3);
+        a_real_t ki = (a_real_t)luaL_checknumber(L, -2);
+        a_real_t kd = (a_real_t)luaL_checknumber(L, -1);
         a_fpid_kpid(ctx, kp, ki, kd);
         lua_pop(L, 3);
         return 1;
@@ -223,8 +223,8 @@ int fpid_ilim(lua_State *L)
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -3);
     if (ctx)
     {
-        a_real_t min = luaL_checknumber(L, -2);
-        a_real_t max = luaL_checknumber(L, -1);
+        a_real_t min = (a_real_t)luaL_checknumber(L, -2);
+        a_real_t max = (a_real_t)luaL_checknumber(L, -1);
         a_fpid_ilim(ctx, min, max);
         lua_pop(L, 2);
         return 1;
@@ -245,8 +245,8 @@ int fpid_olim(lua_State *L)
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -3);
     if (ctx)
     {
-        a_real_t min = luaL_checknumber(L, -2);
-        a_real_t max = luaL_checknumber(L, -1);
+        a_real_t min = (a_real_t)luaL_checknumber(L, -2);
+        a_real_t max = (a_real_t)luaL_checknumber(L, -1);
         a_fpid_olim(ctx, min, max);
         lua_pop(L, 2);
         return 1;
@@ -266,7 +266,7 @@ int fpid_pos(lua_State *L)
     a_fpid_s *ctx = (a_fpid_s *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_fpid_pos(ctx, luaL_checknumber(L, -1));
+        a_fpid_pos(ctx, (a_real_t)luaL_checknumber(L, -1));
         lua_pop(L, 1);
         return 1;
     }
@@ -315,16 +315,16 @@ static int fpid_set(lua_State *L)
     switch (hash)
     {
     case 0x000033A0: // dt
-        a_pid_set_dt(ctx->pid, luaL_checknumber(L, 3));
+        a_pid_set_dt(ctx->pid, (a_real_t)luaL_checknumber(L, 3));
         break;
     case 0x00003731: // kp
-        ctx->kp = luaL_checknumber(L, 3);
+        ctx->kp = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x0000372A: // ki
-        ctx->ki = luaL_checknumber(L, 3);
+        ctx->ki = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x00003725: // kd
-        ctx->kd = luaL_checknumber(L, 3);
+        ctx->kd = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x0019E5B7: // buf
     {
@@ -334,7 +334,7 @@ static int fpid_set(lua_State *L)
         break;
     }
     case 0x10E9FF9D: // summax
-        ctx->pid->summax = luaL_checknumber(L, 3);
+        ctx->pid->summax = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x0EB84F77: // mode
         a_pid_set_mode(ctx->pid, (a_uint_t)luaL_checkinteger(L, 3));
@@ -359,46 +359,46 @@ static int fpid_get(lua_State *L)
     switch (hash)
     {
     case 0x000033A0: // dt
-        lua_pushnumber(L, a_pid_dt(ctx->pid));
+        lua_pushnumber(L, (lua_Number)a_pid_dt(ctx->pid));
         break;
     case 0x00003731: // kp
-        lua_pushnumber(L, ctx->kp);
+        lua_pushnumber(L, (lua_Number)ctx->kp);
         break;
     case 0x0000372A: // ki
-        lua_pushnumber(L, ctx->ki);
+        lua_pushnumber(L, (lua_Number)ctx->ki);
         break;
     case 0x00003725: // kd
-        lua_pushnumber(L, ctx->kd);
+        lua_pushnumber(L, (lua_Number)ctx->kd);
         break;
     case 0x23C8F51C: // outmin
-        lua_pushnumber(L, ctx->pid->outmin);
+        lua_pushnumber(L, (lua_Number)ctx->pid->outmin);
         break;
     case 0x23C8F10E: // outmax
-        lua_pushnumber(L, ctx->pid->outmax);
+        lua_pushnumber(L, (lua_Number)ctx->pid->outmax);
         break;
     case 0x10E9FF9D: // summax
-        lua_pushnumber(L, ctx->pid->summax);
+        lua_pushnumber(L, (lua_Number)ctx->pid->summax);
         break;
     case 0x001D4D3A: // out
-        lua_pushnumber(L, ctx->pid->out.v);
+        lua_pushnumber(L, (lua_Number)ctx->pid->out.v);
         break;
     case 0x001AE924: // fdb
-        lua_pushnumber(L, ctx->pid->fdb.v);
+        lua_pushnumber(L, (lua_Number)ctx->pid->fdb.v);
         break;
     case 0x00003412: // ec
-        lua_pushnumber(L, ctx->pid->ec.v);
+        lua_pushnumber(L, (lua_Number)ctx->pid->ec.v);
         break;
     case 0x00000065: // e
-        lua_pushnumber(L, ctx->pid->e.v);
+        lua_pushnumber(L, (lua_Number)ctx->pid->e.v);
         break;
     case 0x001A25B4: // col
-        lua_pushinteger(L, a_fpid_col(ctx));
+        lua_pushinteger(L, (lua_Integer)a_fpid_col(ctx));
         break;
     case 0x0019E5B7: // buf
-        lua_pushinteger(L, a_fpid_bufnum(ctx));
+        lua_pushinteger(L, (lua_Integer)a_fpid_bufnum(ctx));
         break;
     case 0x0EB84F77: // mode
-        lua_pushinteger(L, a_pid_mode(ctx->pid));
+        lua_pushinteger(L, (lua_Integer)a_pid_mode(ctx->pid));
         break;
     case 0x001D0204: // new
         lua_pushcfunction(L, fpid_new);

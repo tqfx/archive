@@ -15,7 +15,7 @@
 */
 static int sqrt_inv(lua_State *L)
 {
-    if (lua_istable(L, 1))
+    if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
@@ -23,15 +23,7 @@ static int sqrt_inv(lua_State *L)
     for (int i = 0; i++ != n;)
     {
         a_f32_t x = (a_f32_t)luaL_checknumber(L, i);
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* diagnostic */
-        lua_Number y = a_sqrt_inv(x);
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* diagnostic */
-        lua_pushnumber(L, y);
+        lua_pushnumber(L, (lua_Number)a_sqrt_inv(x));
     }
     return n;
 }

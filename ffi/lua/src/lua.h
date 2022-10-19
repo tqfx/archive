@@ -48,6 +48,15 @@
 #define LDIV "__div"
 #define LPOW "__pow"
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4820)
+#endif /* _MSC_VER */
+
 typedef struct
 {
     const char *name;
@@ -63,34 +72,27 @@ typedef struct
 typedef struct
 {
     const char *name;
-    lua_Number data;
+    a_real_t data;
 } SFnum;
 
 typedef struct
 {
     const char *name;
-    lua_Number *data;
+    a_real_t *data;
 } GFnum;
-
-typedef struct
-{
-    const char *name;
-    const lua_Number *ptr;
-    a_size_t num;
-} SFnums;
-
-typedef struct
-{
-    const char *name;
-    lua_Number *ptr;
-    a_size_t num;
-} GFnums;
 
 typedef struct
 {
     const char *name;
     lua_CFunction func;
 } SFunc;
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif /* diagnostic */
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif /* _MSC_VER */
 
 #if defined(__cplusplus)
 extern "C" {
@@ -104,27 +106,26 @@ void *l_cmalloc(size_t siz);
 void *l_realloc(const void *ptr, size_t siz);
 void l_dealloc(const void *var);
 
-lua_Integer get_enum(lua_State *L, int idx, const char *name);
 void set_enum(lua_State *L, int idx, const char *name, lua_Integer data);
+lua_Integer get_enum(lua_State *L, int idx, const char *name);
 void set_enums(lua_State *L, int idx, const SEnum *tab);
-lua_Number get_fnum(lua_State *L, int idx, const char *name);
-void set_fnum(lua_State *L, int idx, const char *name, lua_Number data);
+
+void set_fnum(lua_State *L, int idx, const char *name, a_real_t data);
+a_real_t get_fnum(lua_State *L, int idx, const char *name);
 void set_fnums(lua_State *L, int idx, const SFnum *tab);
 void get_fnums(lua_State *L, int idx, const GFnum *tab);
+
 void set_func(lua_State *L, int idx, const char *name, lua_CFunction func);
 void set_funcs(lua_State *L, int idx, const SFunc *tab);
+
 const char *get_name(lua_State *L, int idx, const char *name);
 void set_name(lua_State *L, int idx, const char *name, const char *data);
 
-void arraynum_get(lua_State *L, int idx, lua_Number *ptr, unsigned int num);
-void arraynum_set(lua_State *L, int idx, const lua_Number *ptr, unsigned int num);
-void arraynum_gets(lua_State *L, int idx, const GFnums *tab);
-void arraynum_sets(lua_State *L, int idx, const SFnums *tab);
+void arraynum_get(lua_State *L, int idx, a_real_t *ptr, unsigned int num);
+void arraynum_set(lua_State *L, int idx, const a_real_t *ptr, unsigned int num);
 
-size_t tablenum_len(lua_State *L, int idx);
-lua_Number *tablenum_num(lua_State *L, int idx, lua_Number *ptr);
-lua_Number *tablenum_get(lua_State *L, int idx, const lua_Number *ptr, size_t *num);
-void tablenum_set(lua_State *L, int idx, const lua_Number *ptr, size_t num, unsigned int col);
+a_real_t *tablenum_get(lua_State *L, int idx, const a_real_t *ptr, a_size_t *num);
+void tablenum_set(lua_State *L, int idx, const a_real_t *ptr, a_size_t num, unsigned int col);
 
 int luaopen_liba_mf(lua_State *L);
 int luaopen_liba_tf(lua_State *L);

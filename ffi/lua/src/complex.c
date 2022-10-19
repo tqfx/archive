@@ -56,8 +56,8 @@ static int complex_tostring(lua_State *L)
     if (ctx)
     {
         lua_pushfstring(L, "(%f,%f)",
-                        (lua_Number)a_complex_real(*ctx),
-                        (lua_Number)a_complex_imag(*ctx));
+                        (double)a_complex_real(*ctx),
+                        (double)a_complex_imag(*ctx));
         return 1;
     }
     return 0;

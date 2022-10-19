@@ -16,14 +16,14 @@
 */
 static int mf_gauss(lua_State *L)
 {
-    if (lua_istable(L, 1))
+    if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    lua_Number x = luaL_checknumber(L, 1);
-    lua_Number sigma = luaL_checknumber(L, 2);
-    lua_Number c = luaL_checknumber(L, 3);
-    lua_pushnumber(L, a_mf_gauss(x, sigma, c));
+    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t sigma = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t c = (a_real_t)luaL_checknumber(L, 3);
+    lua_pushnumber(L, (lua_Number)a_mf_gauss(x, sigma, c));
     return 1;
 }
 
@@ -38,15 +38,15 @@ static int mf_gauss(lua_State *L)
 */
 static int mf_gbell(lua_State *L)
 {
-    if (lua_istable(L, 1))
+    if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    lua_Number x = luaL_checknumber(L, 1);
-    lua_Number a = luaL_checknumber(L, 2);
-    lua_Number b = luaL_checknumber(L, 3);
-    lua_Number c = luaL_checknumber(L, 4);
-    lua_pushnumber(L, a_mf_gbell(x, a, b, c));
+    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t c = (a_real_t)luaL_checknumber(L, 4);
+    lua_pushnumber(L, (lua_Number)a_mf_gbell(x, a, b, c));
     return 1;
 }
 
@@ -60,14 +60,14 @@ static int mf_gbell(lua_State *L)
 */
 static int mf_sig(lua_State *L)
 {
-    if (lua_istable(L, 1))
+    if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    lua_Number x = luaL_checknumber(L, 1);
-    lua_Number a = luaL_checknumber(L, 2);
-    lua_Number c = luaL_checknumber(L, 3);
-    lua_pushnumber(L, a_mf_sig(x, a, c));
+    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t c = (a_real_t)luaL_checknumber(L, 3);
+    lua_pushnumber(L, (lua_Number)a_mf_sig(x, a, c));
     return 1;
 }
 
@@ -83,16 +83,16 @@ static int mf_sig(lua_State *L)
 */
 static int mf_trap(lua_State *L)
 {
-    if (lua_istable(L, 1))
+    if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    lua_Number x = luaL_checknumber(L, 1);
-    lua_Number a = luaL_checknumber(L, 2);
-    lua_Number b = luaL_checknumber(L, 3);
-    lua_Number c = luaL_checknumber(L, 4);
-    lua_Number d = luaL_checknumber(L, 5);
-    lua_pushnumber(L, a_mf_trap(x, a, b, c, d));
+    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t c = (a_real_t)luaL_checknumber(L, 4);
+    a_real_t d = (a_real_t)luaL_checknumber(L, 5);
+    lua_pushnumber(L, (lua_Number)a_mf_trap(x, a, b, c, d));
     return 1;
 }
 
@@ -107,15 +107,15 @@ static int mf_trap(lua_State *L)
 */
 static int mf_tri(lua_State *L)
 {
-    if (lua_istable(L, 1))
+    if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    lua_Number x = luaL_checknumber(L, 1);
-    lua_Number a = luaL_checknumber(L, 2);
-    lua_Number b = luaL_checknumber(L, 3);
-    lua_Number c = luaL_checknumber(L, 4);
-    lua_pushnumber(L, a_mf_tri(x, a, b, c));
+    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t c = (a_real_t)luaL_checknumber(L, 4);
+    lua_pushnumber(L, (lua_Number)a_mf_tri(x, a, b, c));
     return 1;
 }
 
@@ -129,14 +129,14 @@ static int mf_tri(lua_State *L)
 */
 static int mf_z(lua_State *L)
 {
-    if (lua_istable(L, 1))
+    if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    lua_Number x = luaL_checknumber(L, 1);
-    lua_Number a = luaL_checknumber(L, 2);
-    lua_Number b = luaL_checknumber(L, 3);
-    lua_pushnumber(L, a_mf_z(x, a, b));
+    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
+    lua_pushnumber(L, (lua_Number)a_mf_z(x, a, b));
     return 1;
 }
 
@@ -150,7 +150,7 @@ static int mf_z(lua_State *L)
 */
 static int mf(lua_State *L)
 {
-    while (lua_istable(L, 1))
+    while (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }

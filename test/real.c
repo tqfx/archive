@@ -196,8 +196,8 @@ int main(int argc, char *argv[])
         a_real_t max = A_REAL_MAX;
         a_real_t inf = A_REAL_INF;
         a_real_t nan = A_REAL_NAN;
-        printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI(, "g\n"), min, max);
-        printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI(, "g\n"), inf, nan);
+        printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI(, "g\n"), (a_f64_t)min, (a_f64_t)max);
+        printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI(, "g\n"), (a_f64_t)inf, (a_f64_t)nan);
     }
     if (argc > 1)
     {
