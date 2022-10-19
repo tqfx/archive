@@ -277,6 +277,7 @@ if(DOXYGEN_FOUND AND CMAKE_VERSION VERSION_GREATER 3.9)
   # Configuration options related to the HTML output
   set(DOXYGEN_GENERATE_HTML YES)
   set(DOXYGEN_USE_MATHJAX YES)
+  set(DOXYGEN_MATHJAX_VERSION MathJax_3)
 
   # Configuration options related to the LaTeX output
   # Configuration options related to the RTF output
