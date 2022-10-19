@@ -236,32 +236,32 @@ A_PUBLIC a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a);
 /*!
  @brief computes the complex base-e exponential
  @param z a complex number
- @return = \f$ \exp(z) \f$
+ @return = \f$ e^z \f$
 */
 A_PUBLIC a_complex_s a_complex_exp(a_complex_s z);
 
 /*!
  @brief computes the complex natural logarithm
  @param z a complex number
- @return = \f$ \log(z) \f$
+ @return = \f$ \ln{z} \f$
 */
 A_PUBLIC a_complex_s a_complex_log(a_complex_s z);
 /*!
  @brief computes the complex base-2 logarithm
  @param z a complex number
- @return = \f$ \log(z) \f$
+ @return = \f$ \log_{2}{z} \f$
 */
 A_PUBLIC a_complex_s a_complex_log2(a_complex_s z);
 /*!
  @brief computes the complex base-10 logarithm
  @param z a complex number
- @return = \f$ \log(z) \f$
+ @return = \f$ \lg{z} \f$
 */
 A_PUBLIC a_complex_s a_complex_log10(a_complex_s z);
 /*!
  @brief computes the complex base-b logarithm
  @param z a complex number
- @return = \f$ \log(z) \f$
+ @return = \f$ \log_{b}{z} \f$
 */
 A_PUBLIC a_complex_s a_complex_logb(a_complex_s z, a_complex_s b);
 

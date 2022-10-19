@@ -9,42 +9,35 @@
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* __GNUC__ || __clang__ */
 
+static int complex_isok(lua_State *L, int idx)
+{
+    int ok = 0;
+    if (lua_getmetatable(L, idx))
+    {
+        complex_meta_(L);
+        ok = lua_rawequal(L, -1, -2);
+        lua_pop(L, 2);
+    }
+    return ok;
+}
+
 static a_complex_s complex_from_lua(lua_State *L, int idx)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
-    int e = lua_type(L, idx);
-    switch (e)
+    switch (lua_type(L, idx))
     {
     case LUA_TUSERDATA:
-    {
-        z = *(a_complex_s *)lua_touserdata(L, idx);
-        break;
-    }
-    case LUA_TNUMBER:
-    {
-        a_complex_real(z) = (a_real_t)lua_tonumber(L, idx);
-        break;
-    }
-    case LUA_TSTRING:
-    {
-        char *endptr = A_NULL;
-        const char *str = lua_tostring(L, idx);
-        a_complex_real(z) = (a_real_t)lua_str2number(str, &endptr);
-        if (endptr)
+        if (complex_isok(L, idx))
         {
-            for (str = endptr; *str; ++str)
-            {
-                if (*str == '.' || *str == '-' || ('0' <= *str && *str <= '9') || *str == '+')
-                {
-                    a_complex_imag(z) = (a_real_t)lua_str2number(str, &endptr);
-                    break;
-                }
-            }
+            z = *(a_complex_s *)lua_touserdata(L, idx);
         }
         break;
-    }
+    case LUA_TSTRING:
+    case LUA_TNUMBER:
+        a_complex_real(z) = (a_real_t)lua_tonumber(L, idx);
+        break;
     default:
-        luaL_error(L, "'complex' not support '%s'", lua_typename(L, e));
+        break;
     }
     return z;
 }
@@ -62,7 +55,9 @@ static int complex_tostring(lua_State *L)
     a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
     if (ctx)
     {
-        lua_pushfstring(L, "(%f,%f)", (lua_Number)ctx->real, (lua_Number)ctx->imag);
+        lua_pushfstring(L, "(%f,%f)",
+                        (lua_Number)a_complex_real(*ctx),
+                        (lua_Number)a_complex_imag(*ctx));
         return 1;
     }
     return 0;
@@ -77,15 +72,24 @@ static int complex_tostring(lua_State *L)
 */
 int complex_new(lua_State *L)
 {
-    if (lua_gettop(L) > 1)
+    for (int e = lua_type(L, 1);
+         e == LUA_TTABLE || e == LUA_TUSERDATA;
+         e = lua_type(L, 1))
     {
-        a_real_t imag = (a_real_t)luaL_checknumber(L, -1);
-        a_real_t real = (a_real_t)luaL_checknumber(L, -2);
-        a_complex_s *ctx = complex_new_(L);
-        *ctx = a_complex_c(real, imag);
-        return 1;
+        lua_remove(L, 1);
     }
-    return 0;
+    a_complex_s z = A_COMPLEX_C(0.0, 0.0);
+    int top = lua_gettop(L);
+    if (top >= 2)
+    {
+        a_complex_imag(z) = (a_real_t)lua_tonumber(L, 2);
+    }
+    if (top >= 1)
+    {
+        a_complex_real(z) = (a_real_t)lua_tonumber(L, 1);
+    }
+    *complex_new_(L) = z;
+    return 1;
 }
 
 /***
@@ -97,136 +101,392 @@ int complex_new(lua_State *L)
 */
 int complex_polar(lua_State *L)
 {
-    if (lua_gettop(L) > 1)
+    for (int e = lua_type(L, 1);
+         e == LUA_TTABLE || e == LUA_TUSERDATA;
+         e = lua_type(L, 1))
     {
-        a_real_t theta = (a_real_t)luaL_checknumber(L, -1);
-        a_real_t r = (a_real_t)luaL_checknumber(L, -2);
-        a_complex_s *ctx = complex_new_(L);
-        *ctx = a_complex_polar(r, theta);
-        return 1;
+        lua_remove(L, 1);
     }
-    return 0;
+    a_real_t theta = A_REAL_C(0.0);
+    a_real_t r = A_REAL_C(0.0);
+    int top = lua_gettop(L);
+    if (top >= 2)
+    {
+        theta = (a_real_t)lua_tonumber(L, 2);
+    }
+    if (top >= 1)
+    {
+        r = (a_real_t)lua_tonumber(L, 1);
+    }
+    *complex_new_(L) = a_complex_polar(r, theta);
+    return 1;
 }
 
+#undef FUNC
+#define FUNC(func)                                  \
+    static int complex_##func(lua_State *L)         \
+    {                                               \
+        while (lua_type(L, 1) == LUA_TTABLE)        \
+        {                                           \
+            lua_remove(L, 1);                       \
+        }                                           \
+        if (lua_gettop(L) >= 1)                     \
+        {                                           \
+            a_complex_s z = complex_from_lua(L, 1); \
+            a_real_t x = a_complex_##func(z);       \
+            lua_pushnumber(L, (lua_Number)x);       \
+            return 1;                               \
+        }                                           \
+        return 0;                                   \
+    }
 /***
- complex conjugate value
- @tparam complex ctx complex number userdata
+ computes the natural logarithm of magnitude of a complex number
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function logabs
+*/
+FUNC(logabs)
+/***
+ computes the squared magnitude of a complex number
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function abs2
+*/
+FUNC(abs2)
+/***
+ computes the magnitude of a complex number
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function abs
+*/
+FUNC(abs)
+/***
+ computes the phase angle of a complex number
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function arg
+*/
+FUNC(arg)
+#undef FUNC
+#define FUNC(func)                                  \
+    static int complex_##func(lua_State *L)         \
+    {                                               \
+        while (lua_type(L, 1) == LUA_TTABLE)        \
+        {                                           \
+            lua_remove(L, 1);                       \
+        }                                           \
+        if (lua_gettop(L) >= 1)                     \
+        {                                           \
+            a_complex_s z = complex_from_lua(L, 1); \
+            *complex_new_(L) = a_complex_##func(z); \
+            return 1;                               \
+        }                                           \
+        return 0;                                   \
+    }
+/***
+ computes the complex conjugate
+ @tparam complex z complex number userdata
  @treturn complex complex number userdata
  @function conj
 */
-
+FUNC(conj)
 /***
- - complex unary – operator
- @tparam complex ctx complex number userdata
+ computes the complex negative
+ @tparam complex z complex number userdata
  @treturn complex complex number userdata
  @function unm
 */
-
+FUNC(neg)
 /***
- + complex addition operator
- @tparam complex ctx complex number userdata
- @tparam complex obj complex number userdata
+ inverse of a complex number
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function inv
+*/
+FUNC(inv)
+#undef FUNC
+#define FUNC(func)                                     \
+    static int complex_##func(lua_State *L)            \
+    {                                                  \
+        while (lua_type(L, 1) == LUA_TTABLE)           \
+        {                                              \
+            lua_remove(L, 1);                          \
+        }                                              \
+        if (lua_gettop(L) >= 2)                        \
+        {                                              \
+            a_complex_s x = complex_from_lua(L, 1);    \
+            a_complex_s y = complex_from_lua(L, 2);    \
+            *complex_new_(L) = a_complex_##func(x, y); \
+            return 1;                                  \
+        }                                              \
+        return 0;                                      \
+    }
+/***
+ addition of complex numbers
+ @tparam complex x complex number userdata
+ @tparam complex y complex number userdata
  @treturn complex complex number userdata
  @function add
 */
-
+FUNC(add)
 /***
- - complex subtraction operator
- @tparam complex ctx complex number userdata
- @tparam complex obj complex number userdata
+ subtraction of complex numbers
+ @tparam complex x complex number userdata
+ @tparam complex y complex number userdata
  @treturn complex complex number userdata
  @function sub
 */
-
+FUNC(sub)
 /***
- * complex multiplication operator
- @tparam complex ctx complex number userdata
- @tparam complex obj complex number userdata
+ multiplication of complex numbers
+ @tparam complex x complex number userdata
+ @tparam complex y complex number userdata
  @treturn complex complex number userdata
  @function mul
 */
-
+FUNC(mul)
 /***
- / complex division operator
- @tparam complex ctx complex number userdata
- @tparam complex obj complex number userdata
+ division of complex numbers
+ @tparam complex x complex number userdata
+ @tparam complex y complex number userdata
  @treturn complex complex number userdata
  @function div
 */
-
-#undef FUNC
-#define FUNC(func)                                          \
-    static int complex_##func(lua_State *L)                 \
-    {                                                       \
-        a_complex_s z = complex_from_lua(L, -1);            \
-        lua_pushnumber(L, (lua_Number)a_complex_##func(z)); \
-        return 1;                                           \
-    }
-FUNC(logabs)
-FUNC(abs2)
-FUNC(abs)
-FUNC(arg)
-#undef FUNC
-#define FUNC(func)                               \
-    static int complex_##func(lua_State *L)      \
-    {                                            \
-        a_complex_s z = complex_from_lua(L, -1); \
-        *complex_new_(L) = a_complex_##func(z);  \
-        return 1;                                \
-    }
-FUNC(conj)
-FUNC(neg)
-#undef FUNC
-#define FUNC(func)                                 \
-    static int complex_##func(lua_State *L)        \
-    {                                              \
-        a_complex_s x = complex_from_lua(L, -2);   \
-        a_complex_s y = complex_from_lua(L, -1);   \
-        *complex_new_(L) = a_complex_##func(x, y); \
-        return 1;                                  \
-    }
-FUNC(add)
-FUNC(sub)
-FUNC(mul)
 FUNC(div)
+/***
+ complex number z raised to complex power a
+ @tparam complex z complex number userdata
+ @tparam complex a complex number userdata
+ @treturn complex complex number userdata
+ @function pow
+*/
 FUNC(pow)
+/***
+ computes the complex base-b logarithm
+ @tparam complex z complex number userdata
+ @tparam complex b complex number userdata
+ @treturn complex complex number userdata
+ @function logb
+*/
 FUNC(logb)
 #undef FUNC
-#define FUNC(func)                               \
-    static int complex_##func(lua_State *L)      \
-    {                                            \
-        a_complex_s z = complex_from_lua(L, -1); \
-        *complex_new_(L) = a_complex_##func(z);  \
-        return 1;                                \
+#define FUNC(func)                                  \
+    static int complex_##func(lua_State *L)         \
+    {                                               \
+        while (lua_type(L, 1) == LUA_TTABLE)        \
+        {                                           \
+            lua_remove(L, 1);                       \
+        }                                           \
+        if (lua_gettop(L) >= 1)                     \
+        {                                           \
+            a_complex_s z = complex_from_lua(L, 1); \
+            *complex_new_(L) = a_complex_##func(z); \
+            return 1;                               \
+        }                                           \
+        return 0;                                   \
     }
+/***
+ computes the complex base-e exponential
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function exp
+*/
 FUNC(exp)
+/***
+ computes the complex natural logarithm
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function log
+*/
 FUNC(log)
+/***
+ computes the complex square root
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function sqrt
+*/
 FUNC(sqrt)
+/***
+ computes the complex base-2 logarithm
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function log2
+*/
 FUNC(log2)
+/***
+ computes the complex base-10 logarithm
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function log10
+*/
 FUNC(log10)
+/***
+ computes the complex sine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function sin
+*/
 FUNC(sin)
+/***
+ computes the complex cosine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function cos
+*/
 FUNC(cos)
+/***
+ computes the complex tangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function tan
+*/
 FUNC(tan)
+/***
+ computes the complex secant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function sec
+*/
 FUNC(sec)
+/***
+ computes the complex cosecant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function csc
+*/
 FUNC(csc)
+/***
+ computes the complex cotangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function cot
+*/
 FUNC(cot)
+/***
+ computes the complex arc sine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function asin
+*/
 FUNC(asin)
+/***
+ computes the complex arc cosine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function acos
+*/
 FUNC(acos)
+/***
+ computes the complex arc tangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function atan
+*/
 FUNC(atan)
+/***
+ computes the complex arc secant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function asec
+*/
 FUNC(asec)
+/***
+ computes the complex arc cosecant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function acsc
+*/
 FUNC(acsc)
+/***
+ computes the complex arc cotangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function acot
+*/
 FUNC(acot)
+/***
+ computes the complex hyperbolic sine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function sinh
+*/
 FUNC(sinh)
+/***
+ computes the complex hyperbolic cosine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function cosh
+*/
 FUNC(cosh)
+/***
+ computes the complex hyperbolic tangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function tanh
+*/
 FUNC(tanh)
+/***
+ computes the complex hyperbolic secant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function sech
+*/
 FUNC(sech)
+/***
+ computes the complex hyperbolic cosecant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function csch
+*/
 FUNC(csch)
+/***
+ computes the complex hyperbolic cotangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function coth
+*/
 FUNC(coth)
+/***
+ computes the complex arc hyperbolic sine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function asinh
+*/
 FUNC(asinh)
+/***
+ computes the complex arc hyperbolic cosine
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function acosh
+*/
 FUNC(acosh)
+/***
+ computes the complex arc hyperbolic tangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function atanh
+*/
 FUNC(atanh)
+/***
+ computes the complex arc hyperbolic secant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function asech
+*/
 FUNC(asech)
+/***
+ computes the complex arc hyperbolic cosecant
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function acsch
+*/
 FUNC(acsch)
+/***
+ computes the complex arc hyperbolic cotangent
+ @tparam complex z complex number userdata
+ @treturn complex complex number userdata
+ @function acoth
+*/
 FUNC(acoth)
 #undef FUNC
 
@@ -238,16 +498,16 @@ static int complex_set(lua_State *L)
     switch (hash)
     {
     case 0x0F6133A2: // real
-        ctx->real = (a_real_t)luaL_checknumber(L, 3);
+        a_complex_real(*ctx) = (a_real_t)luaL_checknumber(L, 3);
         break;
     case 0x0E2E9172: // imag
-        ctx->imag = (a_real_t)luaL_checknumber(L, 3);
+        a_complex_imag(*ctx) = (a_real_t)luaL_checknumber(L, 3);
         break;
+    case 0x90705068: // __unm
     case 0x906B0E8D: // __add
     case 0x906FCDE0: // __sub
     case 0x906E3BB4: // __mul
     case 0x906BDA49: // __div
-    case 0x90705068: // __unm
     case 0x906F01C8: // __pow
     case 0x906DF07D: // __len
     case 0xE8859EEB: // __name
@@ -272,10 +532,10 @@ static int complex_get(lua_State *L)
     switch (hash)
     {
     case 0x0F6133A2: // real
-        lua_pushnumber(L, (lua_Number)ctx->real);
+        lua_pushnumber(L, (lua_Number)a_complex_real(*ctx));
         break;
     case 0x0E2E9172: // imag
-        lua_pushnumber(L, (lua_Number)ctx->imag);
+        lua_pushnumber(L, (lua_Number)a_complex_imag(*ctx));
         break;
     case 0x00000072: // r
         lua_pushnumber(L, (lua_Number)a_complex_abs(*ctx));
@@ -315,6 +575,9 @@ static int complex_get(lua_State *L)
         break;
     case 0x001A65B5: // div
         lua_pushcfunction(L, complex_div);
+        break;
+    case 0x001BB771: // inv
+        lua_pushcfunction(L, complex_inv);
         break;
     case 0x001D8D34: // pow
         lua_pushcfunction(L, complex_pow);
@@ -426,11 +689,12 @@ int luaopen_liba_complex(lua_State *L)
         {"abs2", complex_abs2},
         {"abs", complex_abs},
         {"arg", complex_arg},
+        {"unm", complex_neg},
         {"add", complex_add},
         {"sub", complex_sub},
         {"mul", complex_mul},
         {"div", complex_div},
-        {"unm", complex_neg},
+        {"inv", complex_inv},
         {"pow", complex_pow},
         {"exp", complex_exp},
         {"log", complex_log},
@@ -476,11 +740,11 @@ int luaopen_liba_complex(lua_State *L)
         {LNEW, complex_new},
         {LGET, complex_get},
         {LSET, complex_set},
+        {LUNM, complex_neg},
         {LADD, complex_add},
         {LSUB, complex_sub},
         {LMUL, complex_mul},
         {LDIV, complex_div},
-        {LUNM, complex_neg},
         {LPOW, complex_pow},
         {LLEN, complex_abs},
         {NULL, NULL},

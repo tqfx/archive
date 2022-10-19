@@ -41,11 +41,11 @@
 #define LGET "__index"
 #define LSET "__newindex"
 #define LPRI "__tostring"
+#define LUNM "__unm"
 #define LADD "__add"
 #define LSUB "__sub"
 #define LMUL "__mul"
 #define LDIV "__div"
-#define LUNM "__unm"
 #define LPOW "__pow"
 
 typedef struct
