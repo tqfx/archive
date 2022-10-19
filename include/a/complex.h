@@ -15,6 +15,24 @@
  @{
 */
 
+#if defined(_MSC_VER)
+#if A_REAL_BITS > 64
+#define a_complex_t _Lcomplex
+#elif A_REAL_BITS == 64
+#define a_complex_t _Dcomplex
+#elif A_REAL_BITS == 32
+#define a_complex_t _Fcomplex
+#endif /* A_REAL_BITS */
+#else /* !_MSC_VER */
+#if A_REAL_BITS > 64
+#define a_complex_t _Complex long double
+#elif A_REAL_BITS == 64
+#define a_complex_t _Complex double
+#elif A_REAL_BITS == 32
+#define a_complex_t _Complex float
+#endif /* A_REAL_BITS */
+#endif /* _MSC_VER */
+
 #define A_COMPLEX_PRI(RF, RC, IF, IC) "(" A_REAL_PRI(RF, RC) "," A_REAL_PRI(IF, IC) ")"
 
 /*! constructs a complex number constant from real and imaginary parts */

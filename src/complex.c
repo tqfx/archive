@@ -12,24 +12,6 @@
 #include <complex.h>
 #include <math.h>
 
-#if defined(_MSC_VER)
-#if A_REAL_BITS > 64
-typedef _Lcomplex a_complex_t;
-#elif A_REAL_BITS == 64
-typedef _Dcomplex a_complex_t;
-#elif A_REAL_BITS == 32
-typedef _Fcomplex a_complex_t;
-#endif /* A_REAL_BITS */
-#else /* !_MSC_VER */
-#if A_REAL_BITS > 64
-typedef _Complex long double a_complex_t;
-#elif A_REAL_BITS == 64
-typedef _Complex double a_complex_t;
-#elif A_REAL_BITS == 32
-typedef _Complex float a_complex_t;
-#endif /* A_REAL_BITS */
-#endif /* _MSC_VER */
-
 #define a_complex_from(z) (*(a_complex_s *)&(z))
 #define a_complex_into(z) (*(a_complex_t *)&(z))
 
