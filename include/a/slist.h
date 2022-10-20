@@ -70,7 +70,7 @@ typedef struct a_slist_s
 */
 #define a_slist_forsafe(it, at, ctx)                                     \
     for (a_slist_u *at = (ctx)->head, *it = at->next; it != (ctx)->head; \
-         at = (at->next == it ? it : at), it = at->next)
+         at = (it && it == at->next) ? it : at, it = at->next)
 
 /*!
  @brief constructor for circular singly linked list head
