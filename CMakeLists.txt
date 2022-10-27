@@ -27,6 +27,7 @@ endif()
 
 include(GNUInstallDirs)
 include(cmake/core.cmake)
+include(cmake/check.cmake)
 include(cmake/target.cmake)
 include(cmake/package.cmake)
 include(cmake/standard.cmake)
@@ -88,11 +89,6 @@ set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 set(A_SIZEOF_P ${CMAKE_SIZEOF_VOID_P})
-find_library(MATH_LIBRARY NAMES m)
-
-if(NOT MATH_LIBRARY AND ANDROID)
-  set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
-endif()
 
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
@@ -116,6 +112,7 @@ function(target_library_setting target)
   target_library_options(${target})
 endfunction()
 
+configure_check()
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
   ${CMAKE_CURRENT_BINARY_DIR}/a.config.h

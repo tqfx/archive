@@ -19,6 +19,11 @@ A_INTERN a_complex_t a_complex_into_(a_complex_s z) { return *(a_complex_t *)&z;
 #define a_complex_from(z) a_complex_from_(z)
 #define a_complex_into(z) a_complex_into_(z)
 
+a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
+{
+    return (a_complex_s){r * A_REAL_F(cos, theta), r * A_REAL_F(sin, theta)};
+}
+
 a_real_t a_complex_logabs(a_complex_s z)
 {
     a_real_t xabs = A_REAL_F(fabs, z.real);
@@ -37,11 +42,6 @@ a_real_t a_complex_logabs(a_complex_s z)
     return A_REAL_F(log, max) + A_REAL_C(0.5) * A_REAL_F(log1p, u * u);
 }
 
-a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
-{
-    return (a_complex_s){r * A_REAL_F(cos, theta), r * A_REAL_F(sin, theta)};
-}
-
 a_real_t a_complex_abs2(a_complex_s z)
 {
     return z.real * z.real + z.imag * z.imag;
@@ -49,22 +49,40 @@ a_real_t a_complex_abs2(a_complex_s z)
 
 a_real_t a_complex_abs(a_complex_s z)
 {
-#if 1
+#if defined(A_HAVE_HYPOT)
     return A_REAL_F(hypot, z.real, z.imag);
-#else
+#else /* !A_HAVE_HYPOT */
     return A_REAL_F(sqrt, z.real * z.real + z.imag * z.imag);
-#endif
+#endif /* A_HAVE_HYPOT */
 }
 
 a_real_t a_complex_arg(a_complex_s z)
 {
+#if defined(A_HAVE_ATAN2)
     return A_REAL_F(atan2, z.imag, z.real);
-}
-
-a_complex_s a_complex_inv(a_complex_s z)
-{
-    a_real_t inv = 1 / (z.real * z.real + z.imag * z.imag);
-    return (a_complex_s){z.real * inv, -z.imag * inv};
+#else /* !A_HAVE_ATAN2 */
+    if (z.real > 0)
+    {
+        return A_REAL_F(atan, z.imag / z.real);
+    }
+    if (z.real < 0)
+    {
+        if (z.imag >= 0)
+        {
+            return A_REAL_F(atan, z.imag / z.real) + a_real_c(A_PI);
+        }
+        return A_REAL_F(atan, z.imag / z.real) - a_real_c(A_PI);
+    }
+    if (z.imag > 0)
+    {
+        return +a_real_c(A_PI);
+    }
+    if (z.imag < 0)
+    {
+        return -a_real_c(A_PI);
+    }
+    return 0;
+#endif /* A_HAVE_ATAN2 */
 }
 
 a_complex_s a_complex_add(a_complex_s x, a_complex_s y)
@@ -134,11 +152,46 @@ a_complex_s a_complex_div_imag(a_complex_s x, a_real_t y)
     return (a_complex_s){x.imag / y, -x.real / y};
 }
 
+a_complex_s a_complex_inv(a_complex_s z)
+{
+    a_real_t inv = 1 / (z.real * z.real + z.imag * z.imag);
+    return (a_complex_s){z.real * inv, -z.imag * inv};
+}
+
 a_complex_s a_complex_sqrt(a_complex_s z)
 {
+#if defined(A_HAVE_CSQRT)
     a_complex_t x = a_complex_into(z);
     x = A_REAL_F(csqrt, x);
     return a_complex_from(x);
+#else /* !A_HAVE_CSQRT */
+    if (z.real == 0 && z.imag == 0)
+    {
+        return A_COMPLEX_C(0.0, 0.0);
+    }
+    a_real_t x = A_REAL_F(fabs, z.real);
+    a_real_t y = A_REAL_F(fabs, z.imag);
+    a_real_t w;
+    if (x >= y)
+    {
+        a_real_t t = y / x;
+        w = A_REAL_F(sqrt, x) * A_REAL_F(sqrt, (A_REAL_F(sqrt, t * t + 1) + 1) * A_REAL_C(0.5));
+    }
+    else
+    {
+        a_real_t t = x / y;
+        w = A_REAL_F(sqrt, y) * A_REAL_F(sqrt, (A_REAL_F(sqrt, t * t + 1) + t) * A_REAL_C(0.5));
+    }
+    if (z.real >= 0)
+    {
+        return (a_complex_s){w, z.imag / (w * 2)};
+    }
+    if (z.imag < 0)
+    {
+        w = -w;
+    }
+    return (a_complex_s){z.imag / (w * 2), w};
+#endif /* A_HAVE_CSQRT */
 }
 
 a_complex_s a_complex_sqrt_real(a_real_t x)
@@ -152,10 +205,26 @@ a_complex_s a_complex_sqrt_real(a_real_t x)
 
 a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
 {
+#if defined(A_HAVE_CPOW)
     a_complex_t x = a_complex_into(z);
     a_complex_t y = a_complex_into(a);
     x = A_REAL_F(cpow, x, y);
     return a_complex_from(x);
+#else /* !A_HAVE_CPOW */
+    if (z.real == 0 && z.imag == 0)
+    {
+        if (a.real == 0 && a.imag == 0)
+        {
+            return A_COMPLEX_C(1.0, 0.0);
+        }
+        return A_COMPLEX_C(0.0, 0.0);
+    }
+    a_real_t logr = a_complex_logabs(z);
+    a_real_t theta = a_complex_arg(z);
+    a_real_t rho = A_REAL_F(exp, logr * a.real - theta * a.imag);
+    a_real_t beta = theta * a.real + logr * a.imag;
+    return a_complex_polar(rho, beta);
+#endif /* A_HAVE_CPOW */
 }
 
 a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a)
@@ -168,21 +237,32 @@ a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a)
     a_real_t theta = a_complex_arg(z);
     a_real_t rho = A_REAL_F(exp, logr * a);
     a_real_t beta = theta * a;
-    return (a_complex_s){rho * A_REAL_F(cos, beta), A_REAL_F(sin, beta) * rho};
+    return a_complex_polar(rho, beta);
 }
 
 a_complex_s a_complex_exp(a_complex_s z)
 {
+#if defined(A_HAVE_CEXP)
     a_complex_t x = a_complex_into(z);
     x = A_REAL_F(cexp, x);
     return a_complex_from(x);
+#else /* !A_HAVE_CEXP */
+    a_real_t rho = A_REAL_F(exp, z.real);
+    return a_complex_polar(rho, z.imag);
+#endif /* A_HAVE_CEXP */
 }
 
 a_complex_s a_complex_log(a_complex_s z)
 {
+#if defined(A_HAVE_CLOG)
     a_complex_t x = a_complex_into(z);
     x = A_REAL_F(clog, x);
     return a_complex_from(x);
+#else /* !A_HAVE_CLOG */
+    a_real_t logr = a_complex_logabs(z);
+    a_real_t theta = a_complex_arg(z);
+    return (a_complex_s){logr, theta};
+#endif /* A_HAVE_CLOG */
 }
 
 a_complex_s a_complex_log2(a_complex_s z)
@@ -203,21 +283,27 @@ a_complex_s a_complex_logb(a_complex_s z, a_complex_s b)
 a_complex_s a_complex_sin(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CSIN)
     x = A_REAL_F(csin, x);
+#endif /* A_HAVE_CSIN */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_cos(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CCOS)
     x = A_REAL_F(ccos, x);
+#endif /* A_HAVE_CCOS */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_tan(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CTAN)
     x = A_REAL_F(ctan, x);
+#endif /* A_HAVE_CTAN */
     return a_complex_from(x);
 }
 
@@ -239,21 +325,27 @@ a_complex_s a_complex_cot(a_complex_s z)
 a_complex_s a_complex_asin(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CASIN)
     x = A_REAL_F(casin, x);
+#endif /* A_HAVE_CASIN */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_acos(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CACOS)
     x = A_REAL_F(cacos, x);
+#endif /* A_HAVE_CACOS */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_atan(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CATAN)
     x = A_REAL_F(catan, x);
+#endif /* A_HAVE_CATAN */
     return a_complex_from(x);
 }
 
@@ -275,21 +367,27 @@ a_complex_s a_complex_acot(a_complex_s z)
 a_complex_s a_complex_sinh(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CSINH)
     x = A_REAL_F(csinh, x);
+#endif /* A_HAVE_CSINH */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_cosh(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CCOSH)
     x = A_REAL_F(ccosh, x);
+#endif /* A_HAVE_CCOSH */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_tanh(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CTANH)
     x = A_REAL_F(ctanh, x);
+#endif /* A_HAVE_CTANH */
     return a_complex_from(x);
 }
 
@@ -311,21 +409,27 @@ a_complex_s a_complex_coth(a_complex_s z)
 a_complex_s a_complex_asinh(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CASINH)
     x = A_REAL_F(casinh, x);
+#endif /* A_HAVE_CASINH */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_acosh(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CACOSH)
     x = A_REAL_F(cacosh, x);
+#endif /* A_HAVE_CACOSH */
     return a_complex_from(x);
 }
 
 a_complex_s a_complex_atanh(a_complex_s z)
 {
     a_complex_t x = a_complex_into(z);
+#if defined(A_HAVE_CATANH)
     x = A_REAL_F(catanh, x);
+#endif /* A_HAVE_CATANH */
     return a_complex_from(x);
 }
 

@@ -9,12 +9,45 @@
 #define LIBA_CONFIG_H
 
 /* clang-format off */
+
 #cmakedefine A_SIZEOF_P @A_SIZEOF_P@
 #cmakedefine A_VERSION "@A_VERSION@"
 #cmakedefine A_VERSION_MAJOR @A_VERSION_MAJOR@
 #cmakedefine A_VERSION_MINOR @A_VERSION_MINOR@
 #cmakedefine A_VERSION_PATCH @A_VERSION_PATCH@
 #cmakedefine A_VERSION_TWEAK A_U64_C(@A_VERSION_TWEAK@)
+
+#cmakedefine A_HAVE_HYPOT @A_HAVE_HYPOT@
+#cmakedefine A_HAVE_LOG1P @A_HAVE_LOG1P@
+#cmakedefine A_HAVE_FABS @A_HAVE_FABS@
+#cmakedefine A_HAVE_POW @A_HAVE_POW@
+#cmakedefine A_HAVE_EXP @A_HAVE_EXP@
+#cmakedefine A_HAVE_LOG @A_HAVE_LOG@
+#cmakedefine A_HAVE_SIN @A_HAVE_SIN@
+#cmakedefine A_HAVE_COS @A_HAVE_COS@
+#cmakedefine A_HAVE_TAN @A_HAVE_TAN@
+#cmakedefine A_HAVE_ASIN @A_HAVE_ASIN@
+#cmakedefine A_HAVE_ACOS @A_HAVE_ACOS@
+#cmakedefine A_HAVE_ATAN @A_HAVE_ATAN@
+#cmakedefine A_HAVE_ATAN2 @A_HAVE_ATAN2@
+
+#cmakedefine A_HAVE_CSQRT @A_HAVE_CSQRT@
+#cmakedefine A_HAVE_CPOW @A_HAVE_CPOW@
+#cmakedefine A_HAVE_CEXP @A_HAVE_CEXP@
+#cmakedefine A_HAVE_CLOG @A_HAVE_CLOG@
+#cmakedefine A_HAVE_CSIN @A_HAVE_CSIN@
+#cmakedefine A_HAVE_CCOS @A_HAVE_CCOS@
+#cmakedefine A_HAVE_CTAN @A_HAVE_CTAN@
+#cmakedefine A_HAVE_CASIN @A_HAVE_CASIN@
+#cmakedefine A_HAVE_CACOS @A_HAVE_CACOS@
+#cmakedefine A_HAVE_CATAN @A_HAVE_CATAN@
+#cmakedefine A_HAVE_CSINH @A_HAVE_CSINH@
+#cmakedefine A_HAVE_CCOSH @A_HAVE_CCOSH@
+#cmakedefine A_HAVE_CTANH @A_HAVE_CTANH@
+#cmakedefine A_HAVE_CASINH @A_HAVE_CASINH@
+#cmakedefine A_HAVE_CACOSH @A_HAVE_CACOSH@
+#cmakedefine A_HAVE_CATANH @A_HAVE_CATANH@
+
 /* clang-format on */
 
 #endif /* LIBA_CONFIG_H */

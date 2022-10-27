@@ -9,11 +9,44 @@
 #define LIBA_CONFIG_H
 
 /* clang-format off */
+
 #define A_VERSION "${VERSION}"
 #define A_VERSION_MAJOR ${VERSION_MAJOR}
 #define A_VERSION_MINOR ${VERSION_MINOR}
 #define A_VERSION_PATCH ${VERSION_ALTER}
 #define A_VERSION_TWEAK A_U64_C(${VERSION_BUILD})
+
+${define A_HAVE_HYPOT}
+${define A_HAVE_LOG1P}
+${define A_HAVE_FABS}
+${define A_HAVE_POW}
+${define A_HAVE_EXP}
+${define A_HAVE_LOG}
+${define A_HAVE_SIN}
+${define A_HAVE_COS}
+${define A_HAVE_TAN}
+${define A_HAVE_ASIN}
+${define A_HAVE_ACOS}
+${define A_HAVE_ATAN}
+${define A_HAVE_ATAN2}
+
+${define A_HAVE_CSQRT}
+${define A_HAVE_CPOW}
+${define A_HAVE_CEXP}
+${define A_HAVE_CLOG}
+${define A_HAVE_CSIN}
+${define A_HAVE_CCOS}
+${define A_HAVE_CTAN}
+${define A_HAVE_CASIN}
+${define A_HAVE_CACOS}
+${define A_HAVE_CATAN}
+${define A_HAVE_CSINH}
+${define A_HAVE_CCOSH}
+${define A_HAVE_CTANH}
+${define A_HAVE_CASINH}
+${define A_HAVE_CACOSH}
+${define A_HAVE_CATANH}
+
 /* clang-format on */
 
 #endif /* LIBA_CONFIG_H */

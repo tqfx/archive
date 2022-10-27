@@ -10,7 +10,6 @@
 #include "a/math.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <math.h>
 
 A_STATIC a_void_t test(a_complex_s a, a_complex_s b)
@@ -147,14 +146,14 @@ A_STATIC a_void_t test(a_complex_s a, a_complex_s b)
            a_complex_real(c), a_complex_imag(c));
 #endif /* __cplusplus */
 
-    c = a_complex_pow_real(a, x);
+    c = a_complex_pow_real(a, a_complex_real(b));
 #if defined(__cplusplus)
     printf("pow(" A_COMPLEX_PRI(, "g", , "g") "," A_REAL_PRI(, "g") ")=" A_COMPLEX_PRI(, "g", , "g") "\n",
            a_complex_real(a), a_complex_imag(a), a_complex_real(b),
            a_complex_real(c), a_complex_imag(c));
 #endif /* __cplusplus */
 
-    c = a_complex_sqrt(c);
+    c = a_complex_sqrt(a);
 #if defined(__cplusplus)
     printf("sqrt" A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
            a_complex_real(a), a_complex_imag(a), a_complex_real(c), a_complex_imag(c));
@@ -198,6 +197,7 @@ A_STATIC a_void_t test(a_complex_s a, a_complex_s b)
 #endif /* __cplusplus */
 
     a_void_c(c);
+    a_void_c(x);
 }
 
 A_STATIC a_void_t test_tri(a_complex_s x)
@@ -436,7 +436,7 @@ A_STATIC a_complex_s strtocomplex(const char *a_restrict str, char **a_restrict 
     {
         for (str = *endptr; *str; ++str)
         {
-            if (isdigit(*str))
+            if (*str == '+' || *str == '-' || ('0' <= *str && *str <= '9') || *str == '.')
             {
                 a_complex_imag(z) = strtoreal(str, endptr);
                 break;
