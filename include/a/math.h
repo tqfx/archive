@@ -43,38 +43,6 @@
 #define A_SQRT1_2 0.707106781186547524401
 
 /*!
- @brief expands to a floating-point constant expression
- having the value specified by its argument and the type double
-*/
-#define A_DBL_C(X) (X)
-/*!
- @brief expands to a floating-point constant expression
- having the value specified by its argument and the type float
-*/
-#define A_FLT_C(X) (X##F)
-/*!
- @brief expands to a floating-point constant expression
- having the value specified by its argument and the type long double
-*/
-#define A_LDBL_C(X) (X##L)
-
-/*!
- @brief expands to a floating-point function expression
- having the value specified by its argument and the type double
-*/
-#define A_DBL_F(F, ...) F(__VA_ARGS__)
-/*!
- @brief expands to a floating-point function expression
- having the value specified by its argument and the type float
-*/
-#define A_FLT_F(F, ...) F##f(__VA_ARGS__)
-/*!
- @brief expands to a floating-point function expression
- having the value specified by its argument and the type long double
-*/
-#define A_LDBL_F(F, ...) F##l(__VA_ARGS__)
-
-/*!
  @brief square of x, \f$ x^2 \f$
 */
 #define A_SQ(x) ((x) * (x))
