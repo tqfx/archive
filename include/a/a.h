@@ -449,9 +449,9 @@ typedef long double a_real_t;
 */
 #define A_REAL_F(F, ...) F##l(__VA_ARGS__)
 
-/*! Format constants for the fprintf family of functions */
+/*! format constants for the fprintf family of functions */
 #define A_REAL_PRI(_, ...) "%" _ "L" __VA_ARGS__
-/*! Format constants for the fscanf family of functions */
+/*! format constants for the fscanf family of functions */
 #define A_REAL_SCN(_, ...) "%" _ "L" __VA_ARGS__
 #define A_REAL_MIN LDBL_MIN
 #define A_REAL_MAX LDBL_MAX
@@ -470,9 +470,9 @@ typedef double a_real_t;
 */
 #define A_REAL_F(F, ...) F(__VA_ARGS__)
 
-/*! Format constants for the fprintf family of functions */
+/*! format constants for the fprintf family of functions */
 #define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
-/*! Format constants for the fscanf family of functions */
+/*! format constants for the fscanf family of functions */
 #define A_REAL_SCN(_, ...) "%" _ "l" __VA_ARGS__
 #define A_REAL_MIN DBL_MIN
 #define A_REAL_MAX DBL_MAX
@@ -491,9 +491,9 @@ typedef float a_real_t;
 */
 #define A_REAL_F(F, ...) F##f(__VA_ARGS__)
 
-/*! Format constants for the fprintf family of functions */
+/*! format constants for the fprintf family of functions */
 #define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
-/*! Format constants for the fscanf family of functions */
+/*! format constants for the fscanf family of functions */
 #define A_REAL_SCN(_, ...) "%" _ __VA_ARGS__
 #define A_REAL_MIN FLT_MIN
 #define A_REAL_MAX FLT_MAX
