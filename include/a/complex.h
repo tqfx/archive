@@ -15,7 +15,9 @@
  @{
 */
 
+/*! compiler built-in complex type */
 #if defined(_MSC_VER)
+#include <complex.h>
 #if A_REAL_BITS > 64
 #define a_complex_t _Lcomplex
 #elif A_REAL_BITS == 64
@@ -33,6 +35,7 @@
 #endif /* A_REAL_BITS */
 #endif /* _MSC_VER */
 
+/*! format constants for the fprintf family of functions */
 #define A_COMPLEX_PRI(RF, RC, IF, IC) "(" A_REAL_PRI(RF, RC) "," A_REAL_PRI(IF, IC) ")"
 
 /*! constructs a complex number constant from real and imaginary parts */
@@ -76,6 +79,15 @@ typedef struct a_complex_s
     a_real_t real; //!< real part of complex number
     a_real_t imag; //!< imaginary part of complex number
 } a_complex_s;
+
+/*!
+ @brief instance union for complex number
+*/
+typedef union a_complex_u
+{
+    a_complex_s s;
+    a_complex_t z;
+} a_complex_u;
 
 #if defined(__cplusplus)
 extern "C" {

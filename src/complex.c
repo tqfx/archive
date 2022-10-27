@@ -4,20 +4,12 @@
 #define A_INTERN A_INLINE
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Waggregate-return"
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif /* __GNUC__ || __clang__ */
 #include "a/complex.h"
 #undef A_INTERN
-#define A_INTERN A_STATIC A_INLINE
 #include <complex.h>
 #include <math.h>
-
-A_INTERN a_complex_s a_complex_from_(a_complex_t z) { return *(a_complex_s *)&z; }
-A_INTERN a_complex_t a_complex_into_(a_complex_s z) { return *(a_complex_t *)&z; }
-
-#define a_complex_from(z) a_complex_from_(z)
-#define a_complex_into(z) a_complex_into_(z)
 
 a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
 {
@@ -161,9 +153,9 @@ a_complex_s a_complex_inv(a_complex_s z)
 a_complex_s a_complex_sqrt(a_complex_s z)
 {
 #if defined(A_HAVE_CSQRT)
-    a_complex_t x = a_complex_into(z);
-    x = A_REAL_F(csqrt, x);
-    return a_complex_from(x);
+    a_complex_u u = {z};
+    u.z = A_REAL_F(csqrt, u.z);
+    return u.s;
 #else /* !A_HAVE_CSQRT */
     if (z.real == 0 && z.imag == 0)
     {
@@ -206,10 +198,9 @@ a_complex_s a_complex_sqrt_real(a_real_t x)
 a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
 {
 #if defined(A_HAVE_CPOW)
-    a_complex_t x = a_complex_into(z);
-    a_complex_t y = a_complex_into(a);
-    x = A_REAL_F(cpow, x, y);
-    return a_complex_from(x);
+    a_complex_u u = {z};
+    u.z = A_REAL_F(cpow, u.z, ((a_complex_u){a}).z);
+    return u.s;
 #else /* !A_HAVE_CPOW */
     if (z.real == 0 && z.imag == 0)
     {
@@ -243,9 +234,9 @@ a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a)
 a_complex_s a_complex_exp(a_complex_s z)
 {
 #if defined(A_HAVE_CEXP)
-    a_complex_t x = a_complex_into(z);
-    x = A_REAL_F(cexp, x);
-    return a_complex_from(x);
+    a_complex_u u = {z};
+    u.z = A_REAL_F(cexp, u.z);
+    return u.s;
 #else /* !A_HAVE_CEXP */
     a_real_t rho = A_REAL_F(exp, z.real);
     return a_complex_polar(rho, z.imag);
@@ -255,9 +246,9 @@ a_complex_s a_complex_exp(a_complex_s z)
 a_complex_s a_complex_log(a_complex_s z)
 {
 #if defined(A_HAVE_CLOG)
-    a_complex_t x = a_complex_into(z);
-    x = A_REAL_F(clog, x);
-    return a_complex_from(x);
+    a_complex_u u = {z};
+    u.z = A_REAL_F(clog, u.z);
+    return u.s;
 #else /* !A_HAVE_CLOG */
     a_real_t logr = a_complex_logabs(z);
     a_real_t theta = a_complex_arg(z);
@@ -282,29 +273,29 @@ a_complex_s a_complex_logb(a_complex_s z, a_complex_s b)
 
 a_complex_s a_complex_sin(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CSIN)
-    x = A_REAL_F(csin, x);
+    u.z = A_REAL_F(csin, u.z);
 #endif /* A_HAVE_CSIN */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_cos(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CCOS)
-    x = A_REAL_F(ccos, x);
+    u.z = A_REAL_F(ccos, u.z);
 #endif /* A_HAVE_CCOS */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_tan(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CTAN)
-    x = A_REAL_F(ctan, x);
+    u.z = A_REAL_F(ctan, u.z);
 #endif /* A_HAVE_CTAN */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_sec(a_complex_s z)
@@ -324,29 +315,29 @@ a_complex_s a_complex_cot(a_complex_s z)
 
 a_complex_s a_complex_asin(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CASIN)
-    x = A_REAL_F(casin, x);
+    u.z = A_REAL_F(casin, u.z);
 #endif /* A_HAVE_CASIN */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_acos(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CACOS)
-    x = A_REAL_F(cacos, x);
+    u.z = A_REAL_F(cacos, u.z);
 #endif /* A_HAVE_CACOS */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_atan(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CATAN)
-    x = A_REAL_F(catan, x);
+    u.z = A_REAL_F(catan, u.z);
 #endif /* A_HAVE_CATAN */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_asec(a_complex_s z)
@@ -366,29 +357,29 @@ a_complex_s a_complex_acot(a_complex_s z)
 
 a_complex_s a_complex_sinh(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CSINH)
-    x = A_REAL_F(csinh, x);
+    u.z = A_REAL_F(csinh, u.z);
 #endif /* A_HAVE_CSINH */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_cosh(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CCOSH)
-    x = A_REAL_F(ccosh, x);
+    u.z = A_REAL_F(ccosh, u.z);
 #endif /* A_HAVE_CCOSH */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_tanh(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CTANH)
-    x = A_REAL_F(ctanh, x);
+    u.z = A_REAL_F(ctanh, u.z);
 #endif /* A_HAVE_CTANH */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_sech(a_complex_s z)
@@ -408,29 +399,29 @@ a_complex_s a_complex_coth(a_complex_s z)
 
 a_complex_s a_complex_asinh(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CASINH)
-    x = A_REAL_F(casinh, x);
+    u.z = A_REAL_F(casinh, u.z);
 #endif /* A_HAVE_CASINH */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_acosh(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CACOSH)
-    x = A_REAL_F(cacosh, x);
+    u.z = A_REAL_F(cacosh, u.z);
 #endif /* A_HAVE_CACOSH */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_atanh(a_complex_s z)
 {
-    a_complex_t x = a_complex_into(z);
+    a_complex_u u = {z};
 #if defined(A_HAVE_CATANH)
-    x = A_REAL_F(catanh, x);
+    u.z = A_REAL_F(catanh, u.z);
 #endif /* A_HAVE_CATANH */
-    return a_complex_from(x);
+    return u.s;
 }
 
 a_complex_s a_complex_asech(a_complex_s z)
