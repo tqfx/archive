@@ -261,6 +261,7 @@ A_PUBLIC a_complex_s a_complex_log10(a_complex_s z);
 /*!
  @brief computes the complex base-b logarithm
  @param z a complex number
+ @param b a complex number
  @return = \f$ \log_{b}{z} \f$
 */
 A_PUBLIC a_complex_s a_complex_logb(a_complex_s z, a_complex_s b);
@@ -327,19 +328,19 @@ A_PUBLIC a_complex_s a_complex_atan(a_complex_s z);
 /*!
  @brief computes the complex arc secant \f[ \mathrm{arcsec}(z)=\mathrm{arccos}(\frac{1}{z}) \f]
  @param z a complex number
- @return = \f$ \arcsec(z) \f$
+ @return = \f$ \mathrm{arcsec}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_asec(a_complex_s z);
 /*!
  @brief computes the complex arc cosecant \f[ \mathrm{arccsc}(z)=\mathrm{arcsin}(\frac{1}{z}) \f]
  @param z a complex number
- @return = \f$ \arccsc(z) \f$
+ @return = \f$ \mathrm{arccsc}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_acsc(a_complex_s z);
 /*!
  @brief computes the complex arc cotangent \f[ \mathrm{arccot}(z)=\mathrm{arctan}(\frac{1}{z}) \f]
  @param z a complex number
- @return = \f$ \arccot(z) \f$
+ @return = \f$ \mathrm{arccot}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_acot(a_complex_s z);
 
@@ -364,21 +365,21 @@ A_PUBLIC a_complex_s a_complex_cosh(a_complex_s z);
 */
 A_PUBLIC a_complex_s a_complex_tanh(a_complex_s z);
 /*!
- @brief computes the complex hyperbolic secant \f[ \sech(z)=\frac{1}{\cosh(z)} \f]
+ @brief computes the complex hyperbolic secant \f[ \mathrm{sech}(z)=\frac{1}{\cosh(z)} \f]
  @param z a complex number
- @return = \f$ \sech(z) \f$
+ @return = \f$ \mathrm{sech}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_sech(a_complex_s z);
 /*!
- @brief computes the complex hyperbolic cosecant \f[ \csch(z)=\frac{1}{\sinh(z)} \f]
+ @brief computes the complex hyperbolic cosecant \f[ \mathrm{csch}(z)=\frac{1}{\sinh(z)} \f]
  @param z a complex number
- @return = \f$ \csch(z) \f$
+ @return = \f$ \mathrm{csch}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_csch(a_complex_s z);
 /*!
- @brief computes the complex hyperbolic cotangent \f[ \coth(z)=\frac{1}{\tanh(z)} \f]
+ @brief computes the complex hyperbolic cotangent \f[ \mathrm{coth}(z)=\frac{1}{\tanh(z)} \f]
  @param z a complex number
- @return = \f$ \coth(z) \f$
+ @return = \f$ \mathrm{coth}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_coth(a_complex_s z);
 
