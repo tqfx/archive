@@ -139,6 +139,18 @@ A_STATIC a_void_t test(a_complex_s a, a_complex_s b)
            a_complex_real(a), a_complex_imag(a), a_complex_real(c), a_complex_imag(c));
 #endif /* __cplusplus */
 
+    c = a_complex_sqrt(a);
+#if defined(__cplusplus)
+    printf("sqrt" A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
+           a_complex_real(a), a_complex_imag(a), a_complex_real(c), a_complex_imag(c));
+#endif /* __cplusplus */
+
+    c = a_complex_sqrt_real(a_complex_real(a));
+#if defined(__cplusplus)
+    printf("sqrt(" A_REAL_PRI(, "g") ")=" A_COMPLEX_PRI(, "g", , "g") "\n",
+           a_complex_real(a), a_complex_real(c), a_complex_imag(c));
+#endif /* __cplusplus */
+
     c = a_complex_pow(a, b);
 #if defined(__cplusplus)
     printf("pow(" A_COMPLEX_PRI(, "g", , "g") "," A_COMPLEX_PRI(, "g", , "g") ")=" A_COMPLEX_PRI(, "g", , "g") "\n",
@@ -151,18 +163,6 @@ A_STATIC a_void_t test(a_complex_s a, a_complex_s b)
     printf("pow(" A_COMPLEX_PRI(, "g", , "g") "," A_REAL_PRI(, "g") ")=" A_COMPLEX_PRI(, "g", , "g") "\n",
            a_complex_real(a), a_complex_imag(a), a_complex_real(b),
            a_complex_real(c), a_complex_imag(c));
-#endif /* __cplusplus */
-
-    c = a_complex_sqrt(a);
-#if defined(__cplusplus)
-    printf("sqrt" A_COMPLEX_PRI(, "g", , "g") "=" A_COMPLEX_PRI(, "g", , "g") "\n",
-           a_complex_real(a), a_complex_imag(a), a_complex_real(c), a_complex_imag(c));
-#endif /* __cplusplus */
-
-    c = a_complex_sqrt_real(a_complex_real(a));
-#if defined(__cplusplus)
-    printf("sqrt(" A_REAL_PRI(, "g") ")=" A_COMPLEX_PRI(, "g", , "g") "\n",
-           a_complex_real(a), a_complex_real(c), a_complex_imag(c));
 #endif /* __cplusplus */
 
     c = a_complex_exp(a);

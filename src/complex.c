@@ -8,7 +8,6 @@
 #endif /* __GNUC__ || __clang__ */
 #include "a/complex.h"
 #undef A_INTERN
-#include <complex.h>
 #include <math.h>
 
 a_complex_s a_complex_polar(a_real_t r, a_real_t theta)

@@ -16,24 +16,29 @@
 */
 
 /*! compiler built-in complex type */
-#if defined(_MSC_VER)
+#if defined(__cplusplus)
+#include <complex>
+typedef std::complex<a_real_t> a_complex_t;
+#else /* !__cplusplus */
 #include <complex.h>
+#if defined(_MSC_VER)
 #if A_REAL_BITS > 64
-#define a_complex_t _Lcomplex
+typedef _Lcomplex a_complex_t;
 #elif A_REAL_BITS == 64
-#define a_complex_t _Dcomplex
+typedef _Dcomplex a_complex_t;
 #elif A_REAL_BITS == 32
-#define a_complex_t _Fcomplex
+typedef _Fcomplex a_complex_t;
 #endif /* A_REAL_BITS */
 #else /* !_MSC_VER */
 #if A_REAL_BITS > 64
-#define a_complex_t _Complex long double
+typedef _Complex long double a_complex_t;
 #elif A_REAL_BITS == 64
-#define a_complex_t _Complex double
+typedef _Complex double a_complex_t;
 #elif A_REAL_BITS == 32
-#define a_complex_t _Complex float
+typedef _Complex float a_complex_t;
 #endif /* A_REAL_BITS */
 #endif /* _MSC_VER */
+#endif /* __cplusplus */
 
 /*! format constants for the fprintf family of functions */
 #define A_COMPLEX_PRI(RF, RC, IF, IC) "(" A_REAL_PRI(RF, RC) "," A_REAL_PRI(IF, IC) ")"
