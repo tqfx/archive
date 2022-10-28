@@ -45,7 +45,6 @@ jobs:
           MSYS2_PATH_TYPE: strict
           MSYSTEM: ${{ matrix.sys }}
         run: |
-          env
           set -x
           cmake -S . -B build -G "MinGW Makefiles" -DPython_ROOT_DIR=D:/msys64/${{ matrix.sys }} \
             -DENABLE_WARNINGS=1 \
