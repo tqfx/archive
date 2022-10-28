@@ -15,6 +15,7 @@ if(ENABLE_LUA)
     add_subdirectory(lua/cmake)
     target_compile_sanitize(PUBLIC ${LUA_LIBRARIES})
     target_link_sanitize(PUBLIC ${LUA_LIBRARIES} lualib)
+    set(LUA_EXECUTABLE ${TARGET_SYSTEM_EMULATOR} ${LUA_EXECUTABLE})
   endif()
 
   add_subdirectory(lua)

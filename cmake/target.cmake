@@ -68,6 +68,7 @@ function(target_executable_option_ target scope)
   endforeach()
 
   if(MINGW)
+    # https://fedoraproject.org/wiki/MinGW/Configure_wine
     target_link_options(${target} ${scope} -static-libgcc
       $<$<COMPILE_LANGUAGE:CXX>:-static-libstdc++>
       -Wl,-Bstatic,--whole-archive
