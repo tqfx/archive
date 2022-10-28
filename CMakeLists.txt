@@ -27,7 +27,6 @@ endif()
 
 include(GNUInstallDirs)
 include(cmake/core.cmake)
-include(cmake/check.cmake)
 include(cmake/target.cmake)
 include(cmake/package.cmake)
 include(cmake/standard.cmake)
@@ -56,6 +55,9 @@ if(ENABLE_SANITIZE)
   include(cmake/sanitize.cmake)
 endif()
 
+include(cmake/check.cmake)
+include(cmake/git.cmake)
+
 # https://cmake.org/cmake/help/latest/module/FindPython.html
 if(ENABLE_PYTHON AND CMAKE_VERSION VERSION_GREATER 3.12)
   find_package(Python COMPONENTS Interpreter)
@@ -81,8 +83,6 @@ elseif(ENABLE_IPO) # cmake < 3.9
   set(ENABLE_IPO NO)
 endif()
 
-configure_check()
-include(cmake/git.cmake)
 set(A_VERSION ${PROJECT_VERSION})
 set(A_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
