@@ -18,6 +18,9 @@ jobs:
         with:
           lfs: true
           submodules: true
+      - name: Run debug
+        run: |
+          Get-ChildItem Env: | Sort Name
       - name: Run cmake
         run: |
           Set-PSDebug -Trace 1
@@ -36,6 +39,7 @@ jobs:
         run: |
           Set-PSDebug -Trace 1
           cp -r -Force build/vcpkg/* $ENV:VCPKG_INSTALLATION_ROOT
+          vcpkg install liba[ipo,pkgconfig]:${{ matrix.triple }}-windows
           vcpkg install liba[ipo,pkgconfig]:${{ matrix.triple }}-windows-static
       - name: Run ctest
         env:
