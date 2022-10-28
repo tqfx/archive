@@ -15,66 +15,61 @@
  @{
 */
 
-/*! compiler built-in complex type */
-#if defined(__cplusplus)
-#include <complex>
-typedef std::complex<a_real_t> a_complex_t;
-#else /* !__cplusplus */
+#if !defined __cplusplus
 #include <complex.h>
 #if defined(_MSC_VER)
 #if A_REAL_BITS > 64
-typedef _Lcomplex a_complex_t;
+#define A_COMPLEX_T _Lcomplex
 #elif A_REAL_BITS == 64
-typedef _Dcomplex a_complex_t;
+#define A_COMPLEX_T _Dcomplex
 #elif A_REAL_BITS == 32
-typedef _Fcomplex a_complex_t;
+#define A_COMPLEX_T _Fcomplex
 #endif /* A_REAL_BITS */
 #else /* !_MSC_VER */
-#if A_REAL_BITS > 64
-typedef _Complex long double a_complex_t;
-#elif A_REAL_BITS == 64
-typedef _Complex double a_complex_t;
-#elif A_REAL_BITS == 32
-typedef _Complex float a_complex_t;
-#endif /* A_REAL_BITS */
+#define A_COMPLEX_T _Complex A_REAL_T
 #endif /* _MSC_VER */
+#else /* !__cplusplus */
+#include <complex>
+#define A_COMPLEX_T std::complex<A_REAL_T>
 #endif /* __cplusplus */
+/*! compiler built-in complex number type */
+#define a_complex_t A_COMPLEX_T
 
 /*! format constants for the fprintf family of functions */
 #define A_COMPLEX_PRI(RF, RC, IF, IC) "(" A_REAL_PRI(RF, RC) "," A_REAL_PRI(IF, IC) ")"
 
 /*! constructs a complex number constant from real and imaginary parts */
-#if defined(__cplusplus)
-#define a_complex_c(r, i)                            \
-    {                                                \
-        a_cast_s(a_real_t, r), a_cast_s(a_real_t, i) \
+#if !defined __cplusplus
+#define a_complex_c(r, i)        \
+    (a_complex_s)                \
+    {                            \
+        a_real_c(r), a_real_c(i) \
     }
 #else /* !__cplusplus */
-#define a_complex_c(r, i)            \
-    (a_complex_s)                    \
-    {                                \
-        (a_real_t)(r), (a_real_t)(i) \
+#define a_complex_c(r, i)        \
+    {                            \
+        a_real_c(r), a_real_c(i) \
     }
 #endif /* __cplusplus */
 
 /*! constructs a complex number from real and imaginary parts */
-#if defined(__cplusplus)
+#if !defined __cplusplus
 #define A_COMPLEX_C(R, I)        \
+    (a_complex_s)                \
     {                            \
         A_REAL_C(R), A_REAL_C(I) \
     }
 #else /* !__cplusplus */
 #define A_COMPLEX_C(R, I)        \
-    (a_complex_s)                \
     {                            \
         A_REAL_C(R), A_REAL_C(I) \
     }
 #endif /* __cplusplus */
 
 /*! real part of complex number */
-#define a_complex_real(z) (z).real
+#define a_complex_real(ctx) (ctx).real
 /*! imaginary part of complex number */
-#define a_complex_imag(z) (z).imag
+#define a_complex_imag(ctx) (ctx).imag
 
 /*!
  @brief instance structure for complex number

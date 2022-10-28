@@ -52,18 +52,13 @@ typedef a_ul_t ul_t;
 typedef a_ill_t ill_t;
 typedef a_ull_t ull_t;
 
-// clang-format off
-
-typedef  a_int_t  int_t;
-typedef a_sint_t sint_t;
+typedef a_int_t int_t;
 typedef a_uint_t uint_t;
 
-typedef  a_byte_t byte_t;
-typedef  a_char_t char_t;
-typedef a_schar_t schar_t;
-typedef a_uchar_t uchar_t;
+typedef a_byte_t byte_t;
+typedef a_char_t char_t;
 
-typedef  a_str_t  str_t;
+typedef a_str_t str_t;
 typedef a_cstr_t cstr_t;
 typedef a_vptr_t vptr_t;
 typedef a_cptr_t cptr_t;
@@ -72,8 +67,6 @@ typedef a_real_u real_u;
 
 typedef a_f32_t f32_t;
 typedef a_f64_t f64_t;
-
-// clang-format on
 
 /*! @} AA */
 } // namespace a

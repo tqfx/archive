@@ -8,6 +8,7 @@
 #define A_CONFIG_H
 
 /*! @cond */
+
 #if defined(__clang__)
 #pragma clang diagnostic push
 #if __has_warning("-Wreserved-identifier")
@@ -26,6 +27,7 @@
 #undef __USE_MINGW_ANSI_STDIO
 #define __USE_MINGW_ANSI_STDIO 1
 #endif /* __MINGW32__ */
+
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif /* __clang__ */
@@ -48,10 +50,5 @@
 #define A_SIZEOF_P 4
 #endif /* __SIZEOF_POINTER__ */
 #endif /* A_SIZEOF_P */
-
-/*! real number bits */
-#ifndef A_REAL_BITS
-#define A_REAL_BITS 64
-#endif // real bits
 
 #endif /* A_CONFIG_H */

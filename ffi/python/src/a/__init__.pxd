@@ -31,13 +31,10 @@ cdef extern from "a/a.h":
     ctypedef unsigned long long a_ull_t
 
     ctypedef          int  a_int_t
-    ctypedef   signed int a_sint_t
     ctypedef unsigned int a_uint_t
 
-    ctypedef unsigned char  a_byte_t
-    ctypedef          char  a_char_t
-    ctypedef   signed char a_schar_t
-    ctypedef unsigned char a_uchar_t
+    ctypedef unsigned char a_byte_t
+    ctypedef          char a_char_t
 
     ctypedef       char * a_str_t
     ctypedef const char *a_cstr_t
