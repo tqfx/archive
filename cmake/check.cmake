@@ -1,10 +1,8 @@
 include(CheckSymbolExists)
 
-find_library(MATH_LIBRARY NAMES m)
-
-if(NOT MATH_LIBRARY AND ANDROID)
-  set(MATH_LIBRARY m CACHE STRING "math library" FORCE)
-endif()
+find_library(MATH_LIBRARY NAMES m
+  PATHS /system/lib64 /system/lib
+)
 
 list(APPEND CMAKE_REQUIRED_LIBRARIES ${MATH_LIBRARY})
 
