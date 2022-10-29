@@ -59,7 +59,8 @@ if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
     source_c = ["ffi/python/src/lib.pyx"]
 elif os.path.exists("ffi/python/src/lib.c"):
     source_c = ["ffi/python/src/lib.c"]
-
+with open("ffi/python/src/a/__init__.pxi", "r") as f:
+    define_macros += re.findall(r"DEF (\w+) = (\d+)", f.read())
 if not os.path.exists("build"):
     os.mkdir("build")
 with open("setup.cfg", "r") as f:

@@ -1,3 +1,4 @@
+from a cimport *
 from a.fpid cimport *
 
 @cython.wraparound(False)
@@ -11,14 +12,14 @@ cdef class fpid:
     cdef array mki
     cdef array mkd
     def __cinit__(self, a_uint_t num, a_real_t dt, mmp, mkp, mki, mkd, a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax, a_real_t sum = 0):
-        self.mmp = array('d', (i for j in mmp for i in j))
-        self.mkp = array('d', (i for j in mkp for i in j))
-        self.mki = array('d', (i for j in mki for i in j))
-        self.mkd = array('d', (i for j in mkd for i in j))
-        cdef a_real_t *mp = self.mmp.data.as_doubles
-        cdef a_real_t *kp = self.mkp.data.as_doubles
-        cdef a_real_t *ki = self.mki.data.as_doubles
-        cdef a_real_t *kd = self.mkd.data.as_doubles
+        self.mmp = reals((i for j in mmp for i in j))
+        self.mkp = reals((i for j in mkp for i in j))
+        self.mki = reals((i for j in mki for i in j))
+        self.mkd = reals((i for j in mkd for i in j))
+        cdef a_real_t *mp = <a_real_t *>self.mmp.data.as_voidptr
+        cdef a_real_t *kp = <a_real_t *>self.mkp.data.as_voidptr
+        cdef a_real_t *ki = <a_real_t *>self.mki.data.as_voidptr
+        cdef a_real_t *kd = <a_real_t *>self.mkd.data.as_voidptr
         a_fpid_init(self.ctx, dt, <a_uint_t>len(mkp), mp, kp, ki, kd, imin, imax, omin, omax)
         if sum:
             a_fpid_pos(self.ctx, sum)
@@ -38,14 +39,14 @@ cdef class fpid:
         return self
     def base(self, mmp, mkp, mki, mkd):
         '''set rule base for fuzzy PID controller'''
-        self.mmp = array('d', (i for j in mmp for i in j))
-        self.mkp = array('d', (i for j in mkp for i in j))
-        self.mki = array('d', (i for j in mki for i in j))
-        self.mkd = array('d', (i for j in mkd for i in j))
-        cdef a_real_t *mp = self.mmp.data.as_doubles
-        cdef a_real_t *kp = self.mkp.data.as_doubles
-        cdef a_real_t *ki = self.mki.data.as_doubles
-        cdef a_real_t *kd = self.mkd.data.as_doubles
+        self.mmp = reals((i for j in mmp for i in j))
+        self.mkp = reals((i for j in mkp for i in j))
+        self.mki = reals((i for j in mki for i in j))
+        self.mkd = reals((i for j in mkd for i in j))
+        cdef a_real_t *mp = <a_real_t *>self.mmp.data.as_voidptr
+        cdef a_real_t *kp = <a_real_t *>self.mkp.data.as_voidptr
+        cdef a_real_t *ki = <a_real_t *>self.mki.data.as_voidptr
+        cdef a_real_t *kd = <a_real_t *>self.mkd.data.as_voidptr
         a_fpid_base(self.ctx, <a_uint_t>len(mkp), mp, kp, ki, kd)
         return self
     def kpid(self, kp: a_real_t, ki: a_real_t, kd: a_real_t):

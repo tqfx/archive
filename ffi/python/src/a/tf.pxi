@@ -29,9 +29,9 @@ cdef class tf:
     @num.setter
     def num(self, num):
         cdef a_uint_t m = <a_uint_t>len(num)
-        self._num = array('d', num)
-        self._u = array('d', num)
-        a_tf_set_num(self.ctx, m, self._num.data.as_doubles, self._u.data.as_doubles)
+        self._num = reals(num)
+        self._u = reals(num)
+        a_tf_set_num(self.ctx, m, <a_real_t *>self._num.data.as_voidptr, <a_real_t *>self._u.data.as_voidptr)
 
     @property
     def den(self):
@@ -39,6 +39,6 @@ cdef class tf:
     @den.setter
     def den(self, den):
         cdef a_uint_t n = <a_uint_t>len(den)
-        self._den = array('d', den)
-        self._v = array('d', den)
-        a_tf_set_den(self.ctx, n, self._den.data.as_doubles, self._v.data.as_doubles)
+        self._den = reals(den)
+        self._v = reals(den)
+        a_tf_set_den(self.ctx, n, <a_real_t *>self._den.data.as_voidptr, <a_real_t *>self._v.data.as_voidptr)

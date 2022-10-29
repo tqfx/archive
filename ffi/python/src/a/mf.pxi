@@ -13,10 +13,10 @@ cdef class mf:
     Z     = A_MF_Z
     @staticmethod
     def __call__(e: a_mf_e, x, a):
-        cdef array d = array('d', a)
-        cdef a_real_t *v = d.data.as_doubles
+        cdef array d = reals(a)
+        cdef a_real_t *v = <a_real_t *>d.data.as_voidptr
         if iterable(x):
-            y = array('d', x)
+            y = reals(x)
             for i, it in enumerate(x):
                 y[i] = a_mf(e, it, v)
             return y
@@ -25,7 +25,7 @@ cdef class mf:
     def gauss(x, sigma: a_real_t, c: a_real_t):
         '''Gaussian membership function'''
         if iterable(x):
-            y = array('d', x)
+            y = reals(x)
             for i, it in enumerate(x):
                 y[i] = a_mf_gauss(it, sigma, c)
             return y
@@ -34,7 +34,7 @@ cdef class mf:
     def gbell(x, a: a_real_t, b: a_real_t, c: a_real_t):
         '''Generalized bell-shaped membership function'''
         if iterable(x):
-            y = array('d', x)
+            y = reals(x)
             for i, it in enumerate(x):
                 y[i] = a_mf_gbell(it, a, b, c)
             return y
@@ -43,7 +43,7 @@ cdef class mf:
     def sig(x, a: a_real_t, c: a_real_t):
         '''Sigmoidal membership function'''
         if iterable(x):
-            y = array('d', x)
+            y = reals(x)
             for i, it in enumerate(x):
                 y[i] = a_mf_sig(it, a, c)
             return y
@@ -52,7 +52,7 @@ cdef class mf:
     def trap(x, a: a_real_t, b: a_real_t, c: a_real_t, d: a_real_t):
         '''Trapezoidal membership function'''
         if iterable(x):
-            y = array('d', x)
+            y = reals(x)
             for i, it in enumerate(x):
                 y[i] = a_mf_trap(it, a, b, c, d)
             return y
@@ -61,7 +61,7 @@ cdef class mf:
     def tri(x, a: a_real_t, b: a_real_t, c: a_real_t):
         '''Triangular membership function'''
         if iterable(x):
-            y = array('d', x)
+            y = reals(x)
             for i, it in enumerate(x):
                 y[i] = a_mf_tri(it, a, b, c)
             return y
@@ -70,7 +70,7 @@ cdef class mf:
     def z(x, a: a_real_t, b: a_real_t):
         '''Z-shaped membership function'''
         if iterable(x):
-            y = array('d', x)
+            y = reals(x)
             for i, it in enumerate(x):
                 y[i] = a_mf_z(it, a, b)
             return y

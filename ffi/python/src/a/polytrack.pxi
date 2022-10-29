@@ -11,21 +11,21 @@ cdef class polytrack3:
         '''calculate all'''
         cdef a_real_t out[3]
         if iterable(ts):
-            p = array('d')
-            v = array('d')
-            a = array('d')
+            p = reals(ts)
+            v = reals(ts)
+            a = reals(ts)
             for i, it in enumerate(ts):
                 a_polytrack3_out(self.ctx, it, out)
-                p.append(out[0])
-                v.append(out[1])
-                a.append(out[2])
+                p[i] = out[0]
+                v[i] = out[1]
+                a[i] = out[2]
             return p, v, a
         a_polytrack3_out(self.ctx, ts, out)
         return out[0], out[1], out[2]
     def pos(self, ts):
         '''calculate position'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack3_pos(self.ctx, it)
             return out
@@ -33,7 +33,7 @@ cdef class polytrack3:
     def vec(self, ts):
         '''calculate velocity'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack3_vec(self.ctx, it)
             return out
@@ -41,7 +41,7 @@ cdef class polytrack3:
     def acc(self, ts):
         '''calculate acceleration'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack3_acc(self.ctx, it)
             return out
@@ -131,21 +131,21 @@ cdef class polytrack5:
         '''calculate all'''
         cdef a_real_t out[3]
         if iterable(ts):
-            p = array('d')
-            v = array('d')
-            a = array('d')
+            p = reals(ts)
+            v = reals(ts)
+            a = reals(ts)
             for i, it in enumerate(ts):
                 a_polytrack5_out(self.ctx, it, out)
-                p.append(out[0])
-                v.append(out[1])
-                a.append(out[2])
+                p[i] = out[0]
+                v[i] = out[1]
+                a[i] = out[2]
             return p, v, a
         a_polytrack5_out(self.ctx, ts, out)
         return out[0], out[1], out[2]
     def pos(self, ts):
         '''calculate position'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack5_pos(self.ctx, it)
             return out
@@ -153,7 +153,7 @@ cdef class polytrack5:
     def vec(self, ts):
         '''calculate velocity'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack5_vec(self.ctx, it)
             return out
@@ -161,7 +161,7 @@ cdef class polytrack5:
     def acc(self, ts):
         '''calculate acceleration'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack5_acc(self.ctx, it)
             return out
@@ -273,23 +273,23 @@ cdef class polytrack7:
         '''calculate all'''
         cdef a_real_t out[4]
         if iterable(ts):
-            p = array('d')
-            v = array('d')
-            a = array('d')
-            j = array('d')
+            p = reals(ts)
+            v = reals(ts)
+            a = reals(ts)
+            j = reals(ts)
             for i, it in enumerate(ts):
                 a_polytrack7_out(self.ctx, it, out)
-                p.append(out[0])
-                v.append(out[1])
-                a.append(out[2])
-                j.append(out[3])
+                p[i] = out[0]
+                v[i] = out[1]
+                a[i] = out[2]
+                j[i] = out[3]
             return p, v, a, j
         a_polytrack7_out(self.ctx, ts, out)
         return out[0], out[1], out[2], out[3]
     def pos(self, ts):
         '''calculate position'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack7_pos(self.ctx, it)
             return out
@@ -297,7 +297,7 @@ cdef class polytrack7:
     def vec(self, ts):
         '''calculate velocity'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack7_vec(self.ctx, it)
             return out
@@ -305,7 +305,7 @@ cdef class polytrack7:
     def acc(self, ts):
         '''calculate acceleration'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack7_acc(self.ctx, it)
             return out
@@ -313,7 +313,7 @@ cdef class polytrack7:
     def jer(self, ts):
         '''calculate jerk'''
         if iterable(ts):
-            out = array('d', ts)
+            out = reals(ts)
             for i, it in enumerate(ts):
                 out[i] = a_polytrack7_jer(self.ctx, it)
             return out

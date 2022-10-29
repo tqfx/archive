@@ -5,7 +5,7 @@ from a.math cimport *
 def sqrt_inv(x):
     '''fast inverse square-root'''
     if iterable(x):
-        y = array('d', x)
+        y = reals(x)
         for i, it in enumerate(x):
             y[i] = a_sqrt_inv(it)
         return y

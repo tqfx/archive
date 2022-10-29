@@ -1,8 +1,14 @@
-from cpython.array cimport *
+from cpython.array cimport array
 from cpython cimport *
 
-cdef bint iterable(object obj):
-    return PyObject_HasAttrString(obj, "__contains__")
+include "a/__init__.pxi"
+cdef array reals(object o = ()):
+    IF A_REAL_BITS == 32:
+        return array('f', o)
+    IF A_REAL_BITS == 64:
+        return array('d', o)
+cdef bint iterable(object o):
+    return PyObject_HasAttrString(o, "__contains__")
 
 cimport cython
 include "a/version.pxi"
