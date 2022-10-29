@@ -8,8 +8,13 @@ script = os.path.abspath(argv[0])
 os.chdir(os.path.dirname(script))
 if len(argv) < 2:
     exit(Popen([executable, script, "build_ext", "--inplace"]).wait())
-from setuptools.command.build_ext import build_ext
-from setuptools import setup, Extension
+try:
+    from setuptools.command.build_ext import build_ext
+    from setuptools import setup, Extension
+except ImportError:
+    from distutils.command.build_ext import build_ext
+    from distutils.extension import Extension
+    from distutils.core import setup
 from glob import glob
 import re
 
@@ -28,14 +33,15 @@ class Build(build_ext):
                     e.extra_compile_args += ["/std:c11"]
         if self.compiler.compiler_type == "mingw32":
             for e in self.extensions:
+                e.extra_link_args += ["-static-libgcc"]
+                if e.language == "c++":
+                    e.extra_link_args += ["-static-libstdc++"]
                 e.extra_link_args += [
-                    "-static-libgcc",
-                    "-static-libstdc++",
                     "-Wl,-Bstatic,--whole-archive",
                     "-lwinpthread",
                     "-Wl,--no-whole-archive",
                 ]
-        super(Build, self).build_extensions()
+        build_ext.build_extensions(self)
 
 
 source_c, source_cc = [], []
