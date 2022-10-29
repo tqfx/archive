@@ -8,10 +8,17 @@ if(POLICY CMP0135) # 3.24
 endif() # DOWNLOAD_EXTRACT_TIMESTAMP
 
 include(FetchContent)
-
-FetchContent_Declare(${PROJECT_NAME}
-  URL https://www.${PROJECT_NAME}.org/ftp/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz
+find_file(LUA_ARCHIVE ${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz
+  ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
 )
+
+if(LUA_ARCHIVE)
+  FetchContent_Declare(${PROJECT_NAME} URL ${LUA_ARCHIVE})
+else()
+  FetchContent_Declare(${PROJECT_NAME}
+    URL https://www.${PROJECT_NAME}.org/ftp/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz
+  )
+endif()
 
 FetchContent_GetProperties(${PROJECT_NAME})
 

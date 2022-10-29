@@ -1,3 +1,8 @@
+# Archive
+*.tar.*
+*.zip
+*.7z
+
 # Prerequisites
 *.d
 
