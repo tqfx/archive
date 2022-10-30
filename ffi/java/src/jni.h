@@ -3,18 +3,22 @@
 #include "a/a.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
-#if a_prereq_gnuc(6, 0) || __has_warning("-Wignored-attributes")
+#endif /* diagnostic */
+#if a_prereq_gnuc(6, 1) || __has_warning("-Wignored-attributes")
 #pragma GCC diagnostic ignored "-Wignored-attributes"
 #endif /* -Wignored-attributes */
+#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
 #pragma GCC diagnostic ignored "-Wpadded"
-#endif /* diagnostic */
-#if defined(__clang__)
+#endif /* -Wpadded */
+#if __has_warning("-Wlanguage-extension-token")
 #pragma clang diagnostic ignored "-Wlanguage-extension-token"
+#endif /* -Wlanguage-extension-token */
 #if __has_warning("-Wreserved-identifier")
 #pragma clang diagnostic ignored "-Wreserved-identifier"
 #endif /* -Wreserved-identifier */
+#if __has_warning("-Wreserved-id-macro")
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
-#endif /* __clang__ */
+#endif /* -Wreserved-id-macro */
 #if defined(_MSC_VER)
 #pragma warning(push)
 #pragma warning(disable : 4820)

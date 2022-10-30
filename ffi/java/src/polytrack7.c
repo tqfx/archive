@@ -4,7 +4,9 @@
 #if __has_warning("-Wreserved-identifier")
 #pragma clang diagnostic ignored "-Wreserved-identifier"
 #endif /* -Wreserved-identifier */
+#if __has_warning("-Wreserved-id-macro")
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
+#endif /* -Wreserved-id-macro */
 #endif /* __clang__ */
 #include "liba_polytrack7.h"
 #if defined(__clang__)

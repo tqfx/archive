@@ -57,8 +57,10 @@ typedef enum a_pid_e
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
 #endif /* diagnostic */
+#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* -Wpadded */
 #if defined(_MSC_VER)
 #pragma warning(push)
 #pragma warning(disable : 4820)

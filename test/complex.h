@@ -1,11 +1,13 @@
 #ifndef TEST_COMPLEX_H
 #define TEST_COMPLEX_H
 
-#if defined(__GNUC__) || defined(__clang__)
+#include "a/a.h"
+#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* -Wdouble-promotion */
+#if a_prereq_gnuc(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
-#endif /* __GNUC__ || __clang__ */
-
+#endif /* -Waggregate-return */
 #include "a/complex.h"
 #include "a/math.h"
 #include <stdlib.h>

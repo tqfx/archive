@@ -3,13 +3,14 @@
 #include "../src/operator.h"
 #include <stdio.h>
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wc++-compat"
-#endif /* diagnostic */
-
 A_STATIC a_void_t test_intern(void)
 {
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#endif /* diagnostic */
+#if a_prereq_gnuc(4, 1) || __has_warning("-Wc++-compat")
+#pragma GCC diagnostic ignored "-Wc++-compat"
+#endif /* -Wc++-compat */
     {
         a_int_t x = 1;
         printf("inc %i ", x);
@@ -196,11 +197,10 @@ A_STATIC a_void_t test_intern(void)
         c or_eq b;
         printf("%i or_eq %i = %i\n", a, b, c);
     }
-}
-
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
+}
 
 A_STATIC a_void_t test_extern(void)
 {

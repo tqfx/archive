@@ -1,12 +1,12 @@
 #ifndef TEST_POLY_H
 #define TEST_POLY_H
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* diagnostic */
-
 #include "a/poly.h"
 #include <stdio.h>
+
+#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* -Wdouble-promotion */
 
 static a_void_t print(const a_real_t *a, a_size_t n)
 {

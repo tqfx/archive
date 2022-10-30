@@ -1,11 +1,13 @@
 #ifndef TEST_SLIST_H
 #define TEST_SLIST_H
 
-#if defined(__GNUC__) || defined(__clang__)
+#include "a/a.h"
+#if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
 #pragma GCC diagnostic ignored "-Winline"
+#endif /* -Winline */
+#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
 #pragma GCC diagnostic ignored "-Wpadded"
-#endif /* diagnostic */
-
+#endif /* -Wpadded */
 #include "a/slist.h"
 #include <stdlib.h>
 #include <stdio.h>

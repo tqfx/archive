@@ -4,13 +4,15 @@
 #include <stdio.h>
 #include <time.h>
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* diagnostic */
-
 A_STATIC a_void_t test(void)
 {
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#endif /* diagnostic */
+#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* -Wdouble-promotion */
+
     a_real_t lhs = 1;
     a_real_t rhs = 2;
 
@@ -18,11 +20,11 @@ A_STATIC a_void_t test(void)
     printf(A_REAL_PRI(, "g-") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, lhs - rhs);
     printf(A_REAL_PRI(, "g*") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, lhs * rhs);
     printf(A_REAL_PRI(, "g/") A_REAL_PRI(, "g=") A_REAL_PRI(, "g\n"), lhs, rhs, lhs / rhs);
-}
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
+}
 
 A_STATIC a_void_t real_add1(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rhs)
 {
@@ -67,9 +69,13 @@ A_STATIC a_void_t real_add2(a_size_t n, a_real_t *p, a_real_t *lhs, a_real_t *rh
 {
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpragmas"
-#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
 #endif /* diagnostic */
+#if a_prereq_gnuc(2, 95) || __has_warning("-Wpragmas")
+#pragma GCC diagnostic ignored "-Wpragmas"
+#endif /* -Wpragmas */
+#if a_prereq_gnuc(7, 1) || __has_warning("-Wimplicit-fallthrough")
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
+#endif /* -Wimplicit-fallthrough */
     if (n)
     {
         DUFF_DEVICE_8(n, *p++ = *lhs++ + *rhs++);

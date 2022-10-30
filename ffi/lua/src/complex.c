@@ -5,9 +5,9 @@
 
 #include "complex.h"
 
-#if defined(__GNUC__) || defined(__clang__)
+#if a_prereq_gnuc(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
-#endif /* __GNUC__ || __clang__ */
+#endif /* -Waggregate-return */
 
 static int complex_isok(lua_State *L, int idx)
 {

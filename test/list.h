@@ -1,10 +1,10 @@
 #ifndef TEST_LIST_H
 #define TEST_LIST_H
 
-#if defined(__GNUC__) || defined(__clang__)
+#include "a/a.h"
+#if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
 #pragma GCC diagnostic ignored "-Winline"
-#endif /* diagnostic */
-
+#endif /* -Winline */
 #include "a/list.h"
 #include <stdlib.h>
 #include <stdio.h>

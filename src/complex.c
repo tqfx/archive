@@ -2,10 +2,12 @@
 #include "a/math.h"
 #undef A_INTERN
 #define A_INTERN A_INLINE
-#if defined(__GNUC__) || defined(__clang__)
+#if a_prereq_gnuc(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
+#endif /* -Waggregate-return */
+#if a_prereq_gnuc(3, 0) || __has_warning("-Wfloat-equal")
 #pragma GCC diagnostic ignored "-Wfloat-equal"
-#endif /* __GNUC__ || __clang__ */
+#endif /* -Wfloat-equal */
 #include "a/complex.h"
 #undef A_INTERN
 #include <math.h>

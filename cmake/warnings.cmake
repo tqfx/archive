@@ -6,49 +6,50 @@ if(
   "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU"
 )
   # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
-  # https://gcc.gnu.org/onlinedocs/gcc-4.9.4/gcc/Warning-Options.html
-  warnings_flag_cc(-Winit-self)
-  warnings_flag_cc(-Wc++-compat)
-  warnings_flag_cc(-Wbad-function-cast)
-  warnings_flag_cc(-Wstrict-prototypes)
-  warnings_flag_cc(-Wold-style-definition)
-  warnings_flag_cc(-Wmissing-prototypes)
-  warnings_flag_cc(-Wnested-externs)
-  warnings_flag_cx(-Wdouble-promotion)
-  warnings_flag_cx(-Wnull-dereference)
-  warnings_flag_cx(-Wmissing-include-dirs)
-  warnings_flag_cx(-Wswitch-default)
-  warnings_flag_cx(-Wswitch-enum)
-  warnings_flag_cx(-Walloca)
-  warnings_flag_cx(-Wattributes)
-  warnings_flag_cx(-Wfloat-equal)
-  warnings_flag_cx(-Wshadow)
-  warnings_flag_cx(-Wundef)
-  warnings_flag_cx(-Wunused)
-  warnings_flag_cx(-Wunused-macros)
-  warnings_flag_cx(-Wcast-qual)
-  warnings_flag_cx(-Wcast-align)
-  warnings_flag_cx(-Wconversion)
-  warnings_flag_cx(-Wdate-time)
-  warnings_flag_cx(-Waggregate-return)
-  warnings_flag_cx(-Wmissing-declarations)
-  warnings_flag_cx(-Wpacked)
-  warnings_flag_cx(-Wpadded)
-  warnings_flag_cx(-Wredundant-decls)
-  warnings_flag_cx(-Winline)
-  warnings_flag_cx(-Winvalid-pch)
-  warnings_flag_cx(-Wdisabled-optimization)
-  warnings_flag_cx(-Wstack-protector)
-  warnings_flag_cx(-Wstringop-overflow)
-  warnings_flag_cx(-Wstringop-truncation)
-  warnings_flag_cx(-Walloc-zero)
-  warnings_flag_cx(-Wduplicated-branches)
-  warnings_flag_cx(-Wduplicated-cond)
-  warnings_flag_cx(-Wzero-length-bounds)
-  warnings_flag_cx(-Wtrampolines)
-  warnings_flag_cx(-Wunsafe-loop-optimizations)
-  warnings_flag_cx(-Wno-pedantic-ms-format)
-  warnings_flag_cx(-Wlogical-op)
+  # https://gcc.gnu.org/onlinedocs/gcc-3.0.3/gcc/Warning-Options.html
+  warnings_flag_cx(-Wextra) # 3.4+
+  warnings_flag_cc(-Winit-self) # 3.4+
+  warnings_flag_cc(-Wc++-compat) # 4.1+
+  warnings_flag_cc(-Wbad-function-cast) # 2.95+
+  warnings_flag_cc(-Wstrict-prototypes) # 2.95+
+  warnings_flag_cc(-Wold-style-definition) # 3.4+
+  warnings_flag_cc(-Wmissing-prototypes) # 2.95+
+  warnings_flag_cc(-Wnested-externs) # 2.95+
+  warnings_flag_cx(-Wdouble-promotion) # 4.6+
+  warnings_flag_cx(-Wnull-dereference) # 6.1+
+  warnings_flag_cx(-Wmissing-include-dirs) # 4.0+
+  warnings_flag_cx(-Wswitch-default) # 3.3+
+  warnings_flag_cx(-Wswitch-enum) # 3.3+
+  warnings_flag_cx(-Walloca) # 7.1+
+  warnings_flag_cx(-Wattributes) # 4.1+
+  warnings_flag_cx(-Wfloat-equal) # 3.0+
+  warnings_flag_cx(-Wshadow) # 2.95+
+  warnings_flag_cx(-Wundef) # 2.95+
+  warnings_flag_cx(-Wunused) # 2.95+
+  warnings_flag_cx(-Wunused-macros) # 7.1+
+  warnings_flag_cx(-Wcast-qual) # 2.95+
+  warnings_flag_cx(-Wcast-align) # 2.95+
+  warnings_flag_cx(-Wconversion) # 2.95+
+  warnings_flag_cx(-Wdate-time) # 4.9+
+  warnings_flag_cx(-Waggregate-return) # 2.95+
+  warnings_flag_cx(-Wmissing-declarations) # 2.95+
+  warnings_flag_cx(-Wpacked) # 3.0+
+  warnings_flag_cx(-Wpadded) # 3.0+
+  warnings_flag_cx(-Wredundant-decls) # 2.95+
+  warnings_flag_cx(-Winline) # 2.95+
+  warnings_flag_cx(-Winvalid-pch) # 3.4+
+  warnings_flag_cx(-Wdisabled-optimization) # 3.0+
+  warnings_flag_cx(-Wstack-protector) # 4.1+
+  warnings_flag_cx(-Wstringop-overflow) # 7.1+
+  warnings_flag_cx(-Wstringop-truncation) # 8.1+
+  warnings_flag_cx(-Walloc-zero) # 7.1+
+  warnings_flag_cx(-Wduplicated-branches) # 7.1+
+  warnings_flag_cx(-Wduplicated-cond) # 6.1+
+  warnings_flag_cx(-Wzero-length-bounds) # 10.1+
+  warnings_flag_cx(-Wtrampolines) # 4.6+
+  warnings_flag_cx(-Wunsafe-loop-optimizations) # 4.1+
+  warnings_flag_cx(-Wno-pedantic-ms-format) # 4.4+
+  warnings_flag_cx(-Wlogical-op) # 4.3+
 elseif(
   "${CMAKE_C_COMPILER_ID}" MATCHES "(ARM|Apple)?[Cc]lang" OR
   "${CMAKE_C_COMPILER_ID}" MATCHES "IntelLLVM" OR

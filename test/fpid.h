@@ -1,14 +1,14 @@
 #ifndef TEST_FPID_H
 #define TEST_FPID_H
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* diagnostic */
-
 #include "a/tf.h"
 #include "a/fpid.h"
 #include <assert.h>
 #include <stdio.h>
+
+#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* -Wdouble-promotion */
 
 #define NB -3
 #define NM -2

@@ -1,10 +1,14 @@
 #ifndef OPERATOR_H
 #define OPERATOR_H
 
+#include "a/a.h"
+
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wc++-compat"
 #endif /* diagnostic */
+#if a_prereq_gnuc(4, 1) || __has_warning("-Wc++-compat")
+#pragma GCC diagnostic ignored "-Wc++-compat"
+#endif /* -Wc++-compat */
 
 // clang-format off
 

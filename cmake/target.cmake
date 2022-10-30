@@ -23,7 +23,7 @@ function(target_library_option_ target scope)
       set_target_properties(${target} PROPERTIES ${lang}_CPPCHECK "${CPPCHECK};--enable=warning,performance")
     endif()
 
-    target_compile_options(${target} ${scope} $<IF:$<${lang}_COMPILER_ID:MSVC>,/W4 /sdl,-Wall -Wextra -Wpedantic>)
+    target_compile_options(${target} ${scope} $<IF:$<${lang}_COMPILER_ID:MSVC>,/W4 /sdl,-pedantic -Wall>)
   endforeach()
 
   target_compile_options(${target} ${scope}

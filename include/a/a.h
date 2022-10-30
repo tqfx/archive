@@ -34,7 +34,7 @@
 #define a_prereq_msvc(maj, min) 0
 #endif /* _MSC_VER */
 
-/* https://gcc.gnu.org/onlinedocs/gcc-4.9.4/cpp/Common-Predefined-Macros.html */
+/* https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html */
 #if defined(__GNUC__) && defined(__GNUC_MINOR__)
 #define a_prereq_gnuc(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
 #else /* !__GNUC__ */
@@ -819,8 +819,10 @@ extern "C" {
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif /* diagnostic */
+#if a_prereq_gnuc(3, 3) || __has_warning("-Wstrict-aliasing")
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif /* -Wstrict-aliasing */
 
 #if !defined A_HAVE_INLINE || defined(A_A_I)
 A_PUBLIC a_f32_t a_f32_from(a_u32_t x);

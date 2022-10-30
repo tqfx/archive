@@ -321,9 +321,9 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
              : (0);                                                   \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->prev))
 
-#if defined(__clang__)
-#pragma GCC diagnostic ignored "-Wdisabled-macro-expansion"
-#endif /* __clang__ */
+#if __has_warning("-Wdisabled-macro-expansion")
+#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
+#endif /* -Wdisabled-macro-expansion */
 
 #define a_que_fore(T, ctx) a_cast_s(T *, a_que_fore(ctx))
 #define a_que_back(T, ctx) a_cast_s(T *, a_que_back(ctx))

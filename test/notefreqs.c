@@ -1,13 +1,15 @@
 #include "a/a.h"
 #define A_NOTEFREQ_FREQ ((180000000 >> 1) / 200)
 #define A_NOTEFREQ_TYPE a_real_t
-#if defined(__GNUC__) || defined(__clang__)
+#if a_prereq_gnuc(4, 9) || __has_warning("-Wfloat-conversion")
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
+#endif /* -Wfloat-conversion */
+#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* -Wdouble-promotion */
 #if __has_warning("-Wimplicit-float-conversion")
 #pragma clang diagnostic ignored "-Wimplicit-float-conversion"
 #endif /* clang 10.0+ */
-#endif /* diagnostic */
 #include "a/notefreqs.h"
 #include <stdio.h>
 

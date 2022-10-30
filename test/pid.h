@@ -1,13 +1,13 @@
 #ifndef TEST_PID_H
 #define TEST_PID_H
 
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* diagnostic */
-
 #include "a/tf.h"
 #include "a/pid.h"
 #include <stdio.h>
+
+#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* -Wdouble-promotion */
 
 static void test(void)
 {

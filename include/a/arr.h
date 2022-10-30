@@ -338,9 +338,9 @@ A_INTERN a_vptr_t a_arr_pull(a_arr_s *ctx) { return a_arr_pull_back(ctx); }
 */
 #define a_arr_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->_ptr, (ctx)->_num)
 
-#if defined(__clang__)
-#pragma GCC diagnostic ignored "-Wdisabled-macro-expansion"
-#endif /* __clang__ */
+#if __has_warning("-Wdisabled-macro-expansion")
+#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
+#endif /* -Wdisabled-macro-expansion */
 
 #define a_arr_ptr(T, ctx) a_cast_s(T *, a_arr_ptr(ctx))
 #define a_arr_end(T, ctx) a_cast_s(T *, a_arr_end(ctx))

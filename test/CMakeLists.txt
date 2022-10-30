@@ -7,8 +7,8 @@ if(
   string_append(CMAKE_C_FLAGS /W4 /sdl)
   string_append(CMAKE_CXX_FLAGS /W4 /sdl)
 else()
-  string_append(CMAKE_C_FLAGS -Wall -Wextra -Wpedantic)
-  string_append(CMAKE_CXX_FLAGS -Wall -Wextra -Wpedantic -Weffc++)
+  string_append(CMAKE_C_FLAGS -pedantic -Wall)
+  string_append(CMAKE_CXX_FLAGS -pedantic -Wall -Weffc++)
 endif()
 
 string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
