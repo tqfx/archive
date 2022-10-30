@@ -120,7 +120,7 @@
 #endif /* visibility */
 #if defined(A_EXPORTS)
 #define A_PUBLIC extern A_EXPORT
-#elif defined(A_SHARED)
+#elif defined(A_IMPORTS)
 #define A_PUBLIC extern A_IMPORT
 #else /* !A_PUBLIC */
 #define A_PUBLIC extern

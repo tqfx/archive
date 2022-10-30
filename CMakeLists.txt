@@ -92,14 +92,12 @@ set(A_SIZEOF_P ${CMAKE_SIZEOF_VOID_P})
 
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
-  get_target_property(A_SHARED ${target} POSITION_INDEPENDENT_CODE)
   set_target_properties(${target} PROPERTIES OUTPUT_NAME a
-    VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR}
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS
   )
-  target_compile_definitions(${target} PUBLIC A_CONFIG
-    INTERFACE $<$<BOOL:${A_SHARED}>:A_SHARED>
-  )
+  target_compile_definitions(${target} PRIVATE A_EXPORTS)
+  target_compile_definitions(${target} PUBLIC A_CONFIG)
   target_include_directories(${target} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
@@ -108,7 +106,6 @@ function(target_library_setting target)
   target_link_libraries(${target} PUBLIC
     $<$<BOOL:${MATH_LIBRARY}>:${MATH_LIBRARY}>
   )
-  set(A_SHARED ${A_SHARED} PARENT_SCOPE)
   target_library_options(${target})
 endfunction()
 
@@ -124,18 +121,14 @@ set(A_LIBRARIES a)
 unset(SOURCES)
 
 if(TARGET_SUPPORTS_SHARED_LIBS)
-  if(A_SHARED)
+  if(BUILD_SHARED_LIBS)
     set(A_SHARED_LIBS a)
-    add_library(a-shared ALIAS a)
-    add_library(a-static STATIC $<TARGET_OBJECTS:a>)
-    target_library_setting(a-static)
-    list(APPEND A_LIBRARIES a-static)
+    list(APPEND A_LIBRARIES liba)
+    add_library(liba STATIC $<TARGET_OBJECTS:a>)
   else()
-    set(A_SHARED_LIBS a-shared)
-    add_library(a-static ALIAS a)
-    add_library(a-shared SHARED $<TARGET_OBJECTS:a>)
-    target_library_setting(a-shared)
-    list(APPEND A_LIBRARIES a-shared)
+    set(A_SHARED_LIBS liba)
+    list(APPEND A_LIBRARIES liba)
+    add_library(liba SHARED $<TARGET_OBJECTS:a>)
   endif()
 
   if("${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
@@ -144,6 +137,10 @@ if(TARGET_SUPPORTS_SHARED_LIBS)
     )
   endif()
 
+  target_library_setting(liba)
+  target_compile_definitions(${A_SHARED_LIBS}
+    INTERFACE A_IMPORTS
+  )
   target_link_sanitize(${A_SHARED_LIBS})
 endif()
 
@@ -213,7 +210,7 @@ if(ENABLE_VCPKG AND GIT_COMMIT)
   )
 endif()
 
-if(EXISTS ffi)
+if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/ffi AND TARGET_SUPPORTS_SHARED_LIBS)
   add_subdirectory(ffi)
 endif()
 
