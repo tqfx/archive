@@ -45,67 +45,111 @@ if is_mode("check") and not is_plat("mingw") then
     add_ldflags(flags)
 end
 
-target("a")
-    -- make as a static/shared library
-    set_kind("$(kind)")
-    includes("check_cfuncs.lua")
-    configvar_check_cfuncs("A_HAVE_HYPOT", "hypot", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_LOG1P", "log1p", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_FABS", "fabs", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_POW", "pow", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_EXP", "exp", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_LOG", "log", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_SIN", "sin", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_COS", "cos", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_TAN", "tan", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_ASIN", "asin", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_ACOS", "acos", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_ATAN", "atan", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_ATAN2", "atan2", {includes = "math.h"})
-    configvar_check_cfuncs("A_HAVE_CSQRT", "csqrt", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CPOW", "cpow", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CEXP", "cexp", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CLOG", "clog", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CSIN", "csin", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CCOS", "ccos", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CTAN", "ctan", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CASIN", "casin", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CACOS", "cacos", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CATAN", "catan", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CSINH", "csinh", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CCOSH", "ccosh", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CTANH", "ctanh", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CASINH", "casinh", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CACOSH", "cacosh", {includes = "complex.h"})
-    configvar_check_cfuncs("A_HAVE_CATANH", "catanh", {includes = "complex.h"})
-    -- get xmake version
+target("a.objs")
+    -- make as a collection of objects
+    set_kind("object")
+    -- custom load target configuration
     on_load(function (target)
+        import("core.project.config")
+        import("lib.detect.find_library")
         import("lib.detect.find_programver")
         target:set("configvar", "XMAKE_VERSION", find_programver("xmake"))
+        local m = {}
+        if config.get("plat") == 'mingw' then
+            table.insert(m, "/usr/" .. config.get("arch") .. "-w64-mingw32/lib")
+        end
+        if config.get("plat") == 'linux' then
+            table.insert(m, "/usr/lib/" .. config.get("arch") .. "-linux-gnu")
+            table.insert(m, "/lib/" .. config.get("arch") .. "-linux-gnu")
+        end
+        if string.find(config.get("arch"), "64") then
+            table.insert(m, "/system/lib64")
+            table.insert(m, "/usr/lib64")
+            table.insert(m, "/lib64")
+        else
+            table.insert(m, "/system/lib32")
+            table.insert(m, "/usr/lib32")
+            table.insert(m, "/lib32")
+        end
+        table.insert(m, "/system/lib")
+        table.insert(m, "/usr/lib")
+        table.insert(m, "/lib")
+        local m = find_library("m", m)
+        if m then
+            target:add("linkdirs", m.linkdir, {public = true})
+            target:add("links", m.link, {public = true})
+        end
     end)
+    -- detect c code functions
+    includes("check_cfuncs.lua")
+    local math = {includes = "math.h"}
+    configvar_check_cfuncs("A_HAVE_HYPOT", "hypot", math)
+    configvar_check_cfuncs("A_HAVE_LOG1P", "log1p", math)
+    configvar_check_cfuncs("A_HAVE_FABS", "fabs", math)
+    configvar_check_cfuncs("A_HAVE_POW", "pow", math)
+    configvar_check_cfuncs("A_HAVE_EXP", "exp", math)
+    configvar_check_cfuncs("A_HAVE_LOG", "log", math)
+    configvar_check_cfuncs("A_HAVE_SIN", "sin", math)
+    configvar_check_cfuncs("A_HAVE_COS", "cos", math)
+    configvar_check_cfuncs("A_HAVE_TAN", "tan", math)
+    configvar_check_cfuncs("A_HAVE_ASIN", "asin", math)
+    configvar_check_cfuncs("A_HAVE_ACOS", "acos", math)
+    configvar_check_cfuncs("A_HAVE_ATAN", "atan", math)
+    configvar_check_cfuncs("A_HAVE_ATAN2", "atan2", math)
+    local complex = {includes = "complex.h"}
+    configvar_check_cfuncs("A_HAVE_CSQRT", "csqrt", complex)
+    configvar_check_cfuncs("A_HAVE_CPOW", "cpow", complex)
+    configvar_check_cfuncs("A_HAVE_CEXP", "cexp", complex)
+    configvar_check_cfuncs("A_HAVE_CLOG", "clog", complex)
+    configvar_check_cfuncs("A_HAVE_CSIN", "csin", complex)
+    configvar_check_cfuncs("A_HAVE_CCOS", "ccos", complex)
+    configvar_check_cfuncs("A_HAVE_CTAN", "ctan", complex)
+    configvar_check_cfuncs("A_HAVE_CASIN", "casin", complex)
+    configvar_check_cfuncs("A_HAVE_CACOS", "cacos", complex)
+    configvar_check_cfuncs("A_HAVE_CATAN", "catan", complex)
+    configvar_check_cfuncs("A_HAVE_CSINH", "csinh", complex)
+    configvar_check_cfuncs("A_HAVE_CCOSH", "ccosh", complex)
+    configvar_check_cfuncs("A_HAVE_CTANH", "ctanh", complex)
+    configvar_check_cfuncs("A_HAVE_CASINH", "casinh", complex)
+    configvar_check_cfuncs("A_HAVE_CACOSH", "cacosh", complex)
+    configvar_check_cfuncs("A_HAVE_CATANH", "catanh", complex)
     -- set the auto-generated a.config.h
     add_configfiles("xmake/config.h", {filename = "a.config.h"})
-    -- set shared library symbols
-    if is_kind("shared") then
-        -- import symbols
-        add_defines("A_SHARED", {interface = true})
-        -- export symbols
-        add_defines("A_EXPORTS")
-    end
+    add_defines("A_CONFIG", {public = true})
+    -- set export library symbols
+    add_defines("A_EXPORTS")
     -- add include directories
     add_includedirs("$(buildir)", {public = true})
     add_includedirs("include", {public = true})
-    add_defines("A_CONFIG", {public = true})
     -- add the header files for installing
     add_headerfiles("$(buildir)/a.config.h")
     add_headerfiles("include/(**.hpp)")
     add_headerfiles("include/(**.h)")
     -- add the common source files
-    add_files("src/**.c","src/**.cpp")
+    add_files("src/**.c", "src/**.cpp")
     -- add the platform options
     if not is_plat("windows", "mingw") then
         add_cxflags("-fPIC")
-        add_syslinks("m")
+    end
+target_end()
+
+target("a")
+    -- make as a static/shared library
+    set_kind("static")
+    -- add the dependent target
+    add_deps("a.objs")
+target_end()
+
+target("liba")
+    set_basename("a")
+    set_prefixname("lib")
+    -- make as a shared library
+    set_kind("shared")
+    -- add the dependent target
+    add_deps("a.objs")
+    -- add the platform options
+    if is_plat("windows") then
+        add_defines("A_IMPORTS", {interface = true})
     end
 target_end()
 
@@ -122,9 +166,9 @@ option_end()
 if has_config("with-rust") then
     add_requires("cargo::liba", {configs = {cargo_toml = path.join(os.projectdir(), "Cargo.toml")}})
     target("a.rust")
-        add_deps("a")
         set_basename("a")
         set_kind("static")
+        add_deps("a.objs")
         add_files("src/lib.rs")
         add_packages("cargo::liba")
     target_end()
