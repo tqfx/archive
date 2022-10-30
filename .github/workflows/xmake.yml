@@ -17,11 +17,8 @@ jobs:
           lfs: true
           submodules: true
       - name: Run xmake
-        run: |
-          xmake f -y -m check --with-lua=y --with-rust=y
-          xmake -vwy
-          xmake -wy -g test
-          xmake run -g test
+        run: xmake f -y -m check --warnings=y --with-lua=y --with-rust=y
+      - run: xmake -vw --all
+      - run: xmake run --all
       - name: Run cargo
-        run: |
-          cargo test
+        run: cargo test
