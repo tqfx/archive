@@ -131,17 +131,17 @@ if(TARGET_SUPPORTS_SHARED_LIBS)
     add_library(liba SHARED $<TARGET_OBJECTS:a>)
   endif()
 
-  if("${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
-    set_target_properties(${A_SHARED_LIBS} PROPERTIES
-      OUTPUT_NAME ${PROJECT_NAME}
-    )
-  endif()
-
   target_library_setting(liba)
   target_compile_definitions(${A_SHARED_LIBS}
     INTERFACE A_IMPORTS
   )
   target_link_sanitize(${A_SHARED_LIBS})
+
+  if("${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
+    set_target_properties(${A_SHARED_LIBS} PROPERTIES
+      OUTPUT_NAME ${PROJECT_NAME}
+    )
+  endif()
 endif()
 
 set(prop "$<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>")
