@@ -137,10 +137,14 @@ int luaopen_liba_polytrack5(lua_State *L);
 int luaopen_liba_polytrack7(lua_State *L);
 int luaopen_liba_version(lua_State *L);
 
+A_PUBLIC int luaopen_liba(lua_State *L);
+
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
-A_PUBLIC int luaopen_liba(lua_State *L);
+#if __has_warning("-Wcomma")
+#pragma clang diagnostic ignored "-Wcomma"
+#endif /* __has_warning */
 
 #endif /* FFI_LUA_H */
