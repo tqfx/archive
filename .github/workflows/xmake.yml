@@ -19,6 +19,7 @@ jobs:
       - name: Run xmake
         run: |
           xmake f -y -m check --with-lua=y --with-rust=y
+          xmake -vwy
           xmake -wy -g test
           xmake run -g test
       - name: Run cargo
