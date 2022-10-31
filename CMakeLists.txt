@@ -97,7 +97,6 @@ set(A_SIZEOF_P ${CMAKE_SIZEOF_VOID_P})
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   set_target_properties(${target} PROPERTIES OUTPUT_NAME a
-    VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR}
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS
   )
   target_compile_definitions(${target} PRIVATE A_EXPORTS)
