@@ -1,7 +1,7 @@
 vcpkg_from_git(OUT_SOURCE_PATH SOURCE_PATH
   URL https://github.com/tqfx/${PORT}.git
   REF @GIT_COMMIT_LONG@
-  HEAD_REF master
+  HEAD_REF main
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS OPTIONS_RELEASE
