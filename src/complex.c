@@ -13,13 +13,13 @@
 
 a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
 {
-    return (a_complex_s){r * A_REAL_F(cos, theta), r * A_REAL_F(sin, theta)};
+    return (a_complex_s){r * a_real_cos(theta), r * a_real_sin(theta)};
 }
 
 a_real_t a_complex_logabs(a_complex_s z)
 {
-    a_real_t xabs = A_REAL_F(fabs, z.real);
-    a_real_t yabs = A_REAL_F(fabs, z.imag);
+    a_real_t xabs = a_real_abs(z.real);
+    a_real_t yabs = a_real_abs(z.imag);
     a_real_t max, u;
     if (xabs >= yabs)
     {
@@ -31,7 +31,7 @@ a_real_t a_complex_logabs(a_complex_s z)
         max = yabs;
         u = xabs / yabs;
     }
-    return A_REAL_F(log, max) + A_REAL_C(0.5) * A_REAL_F(log1p, u * u);
+    return a_real_log(max) + a_real_log1p(u * u) * A_REAL_C(0.5);
 }
 
 a_real_t a_complex_abs2(a_complex_s z)
@@ -41,40 +41,12 @@ a_real_t a_complex_abs2(a_complex_s z)
 
 a_real_t a_complex_abs(a_complex_s z)
 {
-#if defined(A_HAVE_HYPOT)
-    return A_REAL_F(hypot, z.real, z.imag);
-#else /* !A_HAVE_HYPOT */
-    return A_REAL_F(sqrt, z.real * z.real + z.imag * z.imag);
-#endif /* A_HAVE_HYPOT */
+    return a_real_hypot(z.real, z.imag);
 }
 
 a_real_t a_complex_arg(a_complex_s z)
 {
-#if defined(A_HAVE_ATAN2)
-    return A_REAL_F(atan2, z.imag, z.real);
-#else /* !A_HAVE_ATAN2 */
-    if (z.real > 0)
-    {
-        return A_REAL_F(atan, z.imag / z.real);
-    }
-    if (z.real < 0)
-    {
-        if (z.imag >= 0)
-        {
-            return A_REAL_F(atan, z.imag / z.real) + a_real_c(A_PI);
-        }
-        return A_REAL_F(atan, z.imag / z.real) - a_real_c(A_PI);
-    }
-    if (z.imag > 0)
-    {
-        return +a_real_c(A_PI);
-    }
-    if (z.imag < 0)
-    {
-        return -a_real_c(A_PI);
-    }
-    return 0;
-#endif /* A_HAVE_ATAN2 */
+    return a_real_atan2(z.imag, z.real);
 }
 
 a_complex_s a_complex_add(a_complex_s x, a_complex_s y)
@@ -161,18 +133,18 @@ a_complex_s a_complex_sqrt(a_complex_s z)
     {
         return A_COMPLEX_C(0.0, 0.0);
     }
-    a_real_t x = A_REAL_F(fabs, z.real);
-    a_real_t y = A_REAL_F(fabs, z.imag);
+    a_real_t x = a_real_abs(z.real);
+    a_real_t y = a_real_abs(z.imag);
     a_real_t w;
     if (x >= y)
     {
         a_real_t t = y / x;
-        w = A_REAL_F(sqrt, x) * A_REAL_F(sqrt, (A_REAL_F(sqrt, A_SQ(t) + 1) + 1) * A_REAL_C(0.5));
+        w = a_real_sqrt(x) * a_real_sqrt((a_real_sqrt(A_SQ(t) + 1) + 1) * A_REAL_C(0.5));
     }
     else
     {
         a_real_t t = x / y;
-        w = A_REAL_F(sqrt, y) * A_REAL_F(sqrt, (A_REAL_F(sqrt, A_SQ(t) + 1) + t) * A_REAL_C(0.5));
+        w = a_real_sqrt(y) * a_real_sqrt((a_real_sqrt(A_SQ(t) + 1) + t) * A_REAL_C(0.5));
     }
     if (z.real >= 0)
     {
@@ -190,9 +162,9 @@ a_complex_s a_complex_sqrt_real(a_real_t x)
 {
     if (x >= 0)
     {
-        return (a_complex_s){A_REAL_F(sqrt, x), 0};
+        return (a_complex_s){a_real_sqrt(x), 0};
     }
-    return (a_complex_s){0, A_REAL_F(sqrt, -x)};
+    return (a_complex_s){0, a_real_sqrt(-x)};
 }
 
 a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
@@ -212,7 +184,7 @@ a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
     }
     a_real_t logr = a_complex_logabs(z);
     a_real_t theta = a_complex_arg(z);
-    a_real_t rho = A_REAL_F(exp, logr * a.real - theta * a.imag);
+    a_real_t rho = a_real_exp(logr * a.real - theta * a.imag);
     a_real_t beta = theta * a.real + logr * a.imag;
     return a_complex_polar(rho, beta);
 #endif /* A_HAVE_CPOW */
@@ -226,7 +198,7 @@ a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a)
     }
     a_real_t logr = a_complex_logabs(z);
     a_real_t theta = a_complex_arg(z);
-    a_real_t rho = A_REAL_F(exp, logr * a);
+    a_real_t rho = a_real_exp(logr * a);
     a_real_t beta = theta * a;
     return a_complex_polar(rho, beta);
 }
@@ -238,7 +210,7 @@ a_complex_s a_complex_exp(a_complex_s z)
     u.z = A_REAL_F(cexp, u.z);
     return u.s;
 #else /* !A_HAVE_CEXP */
-    a_real_t rho = A_REAL_F(exp, z.real);
+    a_real_t rho = a_real_exp(z.real);
     return a_complex_polar(rho, z.imag);
 #endif /* A_HAVE_CEXP */
 }
@@ -258,12 +230,12 @@ a_complex_s a_complex_log(a_complex_s z)
 
 a_complex_s a_complex_log2(a_complex_s z)
 {
-    return a_complex_mul_real(a_complex_log(z), a_real_c(1 / A_LN2));
+    return a_complex_mul_real(a_complex_log(z), 1 / A_REAL_LN2);
 }
 
 a_complex_s a_complex_log10(a_complex_s z)
 {
-    return a_complex_mul_real(a_complex_log(z), a_real_c(1 / A_LN10));
+    return a_complex_mul_real(a_complex_log(z), 1 / A_REAL_LN10);
 }
 
 a_complex_s a_complex_logb(a_complex_s z, a_complex_s b)
@@ -280,11 +252,11 @@ a_complex_s a_complex_sin(a_complex_s z)
 #else /* !A_HAVE_CSIN */
     if (z.imag == 0)
     {
-        return (a_complex_s){A_REAL_F(sin, z.real), 0};
+        return (a_complex_s){a_real_sin(z.real), 0};
     }
     return (a_complex_s){
-        A_REAL_F(sin, z.real) * A_REAL_F(cosh, z.imag),
-        A_REAL_F(cos, z.real) * A_REAL_F(sinh, z.imag),
+        a_real_sin(z.real) * a_real_cosh(z.imag),
+        a_real_cos(z.real) * a_real_sinh(z.imag),
     };
 #endif /* A_HAVE_CSIN */
 }
@@ -298,11 +270,11 @@ a_complex_s a_complex_cos(a_complex_s z)
 #else /* !A_HAVE_CCOS */
     if (z.imag == 0)
     {
-        return (a_complex_s){A_REAL_F(cos, z.real), 0};
+        return (a_complex_s){a_real_cos(z.real), 0};
     }
     return (a_complex_s){
-        A_REAL_F(cos, z.real) * A_REAL_F(cosh, z.imag),
-        A_REAL_F(sin, z.real) * A_REAL_F(sinh, -z.imag),
+        a_real_cos(z.real) * a_real_cosh(z.imag),
+        a_real_sin(z.real) * a_real_sinh(-z.imag),
     };
 #endif /* A_HAVE_CCOS */
 }
@@ -314,16 +286,16 @@ a_complex_s a_complex_tan(a_complex_s z)
     u.z = A_REAL_F(ctan, u.z);
     return u.s;
 #else /* !A_HAVE_CTAN */
-    a_real_t cr = A_REAL_F(cos, z.real);
-    a_real_t si = A_REAL_F(sinh, z.imag);
+    a_real_t cr = a_real_cos(z.real);
+    a_real_t si = a_real_sinh(z.imag);
     a_real_t inv = A_REAL_C(0.5) / (cr * cr + si * si);
-    a_real_t real = A_REAL_F(sin, z.real * 2) * inv;
-    if (A_REAL_F(fabs, z.imag) < 1)
+    a_real_t real = a_real_sin(z.real * 2) * inv;
+    if (a_real_abs(z.imag) < 1)
     {
-        return (a_complex_s){real, A_REAL_F(sinh, z.imag * 2) * inv};
+        return (a_complex_s){real, a_real_sinh(z.imag * 2) * inv};
     }
-    a_real_t den = A_REAL_F(pow, cr / si, 2) + 1;
-    return (a_complex_s){real, 1 / (A_REAL_F(tanh, z.imag) * den)};
+    a_real_t den = a_real_pow(cr / si, 2) + 1;
+    return (a_complex_s){real, 1 / (a_real_tanh(z.imag) * den)};
 #endif /* A_HAVE_CTAN */
 }
 
@@ -355,28 +327,28 @@ a_complex_s a_complex_asin(a_complex_s z)
     }
     const a_real_t a_crossover = A_REAL_C(1.5);
     const a_real_t b_crossover = A_REAL_C(0.6417);
-    a_real_t x = A_REAL_F(fabs, z.real);
-    a_real_t y = A_REAL_F(fabs, z.imag);
-    a_real_t r = A_REAL_F(hypot, x + 1, y);
-    a_real_t s = A_REAL_F(hypot, x - 1, y);
+    a_real_t x = a_real_abs(z.real);
+    a_real_t y = a_real_abs(z.imag);
+    a_real_t r = a_real_hypot(x + 1, y);
+    a_real_t s = a_real_hypot(x - 1, y);
     a_real_t a = A_REAL_C(0.5) * (r + s);
     a_real_t b = x / a;
     a_real_t y2 = y * y;
     a_real_t real, imag;
     if (b <= b_crossover)
     {
-        real = A_REAL_F(asin, b);
+        real = a_real_asin(b);
     }
     else if (x <= 1)
     {
         a_real_t den = A_REAL_C(0.5) * (a + x) * (y2 / (r + x + 1) + (s + 1 - x));
-        real = A_REAL_F(atan, x / A_REAL_F(sqrt, den));
+        real = a_real_atan(x / a_real_sqrt(den));
     }
     else
     {
         a_real_t ax = a + x;
         a_real_t den = A_REAL_C(0.5) * (ax / (r + x + 1) + ax / (s + x - 1));
-        real = A_REAL_F(atan, x / (A_REAL_F(sqrt, den) * y));
+        real = a_real_atan(x / (a_real_sqrt(den) * y));
     }
     if (a <= a_crossover)
     {
@@ -389,11 +361,11 @@ a_complex_s a_complex_asin(a_complex_s z)
         {
             a1 = A_REAL_C(0.5) * (y2 / (r + x + 1) + (s + x - 1));
         }
-        imag = A_REAL_F(log1p, a1 + A_REAL_F(sqrt, (a + 1) * a1));
+        imag = a_real_log1p(a1 + a_real_sqrt((a + 1) * a1));
     }
     else
     {
-        imag = A_REAL_F(log, a + A_REAL_F(sqrt, a * a - 1));
+        imag = a_real_log(a + a_real_sqrt(a * a - 1));
     }
     return (a_complex_s){
         real >= 0 ? real : -real,
@@ -404,15 +376,15 @@ a_complex_s a_complex_asin(a_complex_s z)
 
 a_complex_s a_complex_asin_real(a_real_t x)
 {
-    if (A_REAL_F(fabs, x) <= 1)
+    if (a_real_abs(x) <= 1)
     {
-        return (a_complex_s){A_REAL_F(asin, 0), 0};
+        return (a_complex_s){a_real_asin(0), 0};
     }
     if (x < 0)
     {
-        return (a_complex_s){-a_real_c(A_PI_2), A_REAL_F(acosh, -x)};
+        return (a_complex_s){-A_REAL_PI_2, a_real_acosh(-x)};
     }
-    return (a_complex_s){a_real_c(A_PI_2), -A_REAL_F(acosh, x)};
+    return (a_complex_s){A_REAL_PI_2, -a_real_acosh(x)};
 }
 
 a_complex_s a_complex_acos(a_complex_s z)
@@ -428,28 +400,28 @@ a_complex_s a_complex_acos(a_complex_s z)
     }
     const a_real_t a_crossover = A_REAL_C(1.5);
     const a_real_t b_crossover = A_REAL_C(0.6417);
-    a_real_t x = A_REAL_F(fabs, z.real);
-    a_real_t y = A_REAL_F(fabs, z.imag);
-    a_real_t r = A_REAL_F(hypot, x + 1, y);
-    a_real_t s = A_REAL_F(hypot, x - 1, y);
+    a_real_t x = a_real_abs(z.real);
+    a_real_t y = a_real_abs(z.imag);
+    a_real_t r = a_real_hypot(x + 1, y);
+    a_real_t s = a_real_hypot(x - 1, y);
     a_real_t a = A_REAL_C(0.5) * (r + s);
     a_real_t b = x / a;
     a_real_t y2 = y * y;
     a_real_t real, imag;
     if (b <= b_crossover)
     {
-        real = A_REAL_F(acos, b);
+        real = a_real_acos(b);
     }
     else if (x <= 1)
     {
         a_real_t den = A_REAL_C(0.5) * (a + x) * (y2 / (r + x + 1) + (s + 1 - x));
-        real = A_REAL_F(atan, A_REAL_F(sqrt, den) / x);
+        real = a_real_atan(a_real_sqrt(den) / x);
     }
     else
     {
         a_real_t ax = a + x;
         a_real_t den = A_REAL_C(0.5) * (ax / (r + x + 1) + ax / (s + x - 1));
-        real = A_REAL_F(atan, A_REAL_F(sqrt, den) * y / x);
+        real = a_real_atan(a_real_sqrt(den) * y / x);
     }
     if (a <= a_crossover)
     {
@@ -462,14 +434,14 @@ a_complex_s a_complex_acos(a_complex_s z)
         {
             a1 = A_REAL_C(0.5) * (y2 / (r + x + 1) + (s + x - 1));
         }
-        imag = A_REAL_F(log1p, a1 + A_REAL_F(sqrt, (a + 1) * a1));
+        imag = a_real_log1p(a1 + a_real_sqrt((a + 1) * a1));
     }
     else
     {
-        imag = A_REAL_F(log, a + A_REAL_F(sqrt, a * a - 1));
+        imag = a_real_log(a + a_real_sqrt(a * a - 1));
     }
     return (a_complex_s){
-        real >= 0 ? real : a_real_c(A_PI) - real,
+        real >= 0 ? real : A_REAL_PI - real,
         imag >= 0 ? -imag : imag,
     };
 #endif /* A_HAVE_CACOS */
@@ -477,15 +449,15 @@ a_complex_s a_complex_acos(a_complex_s z)
 
 a_complex_s a_complex_acos_real(a_real_t x)
 {
-    if (A_REAL_F(fabs, x) <= 1)
+    if (a_real_abs(x) <= 1)
     {
-        return (a_complex_s){A_REAL_F(acos, 0), 0};
+        return (a_complex_s){a_real_acos(0), 0};
     }
     if (x < 0)
     {
-        return (a_complex_s){a_real_c(A_PI), -A_REAL_F(acosh, -x)};
+        return (a_complex_s){A_REAL_PI, -a_real_acosh(-x)};
     }
-    return (a_complex_s){0, A_REAL_F(acosh, x)};
+    return (a_complex_s){0, a_real_acosh(x)};
 }
 
 a_complex_s a_complex_atan(a_complex_s z)
@@ -497,34 +469,34 @@ a_complex_s a_complex_atan(a_complex_s z)
 #else /* !A_HAVE_CATAN */
     if (z.imag == 0)
     {
-        return (a_complex_s){A_REAL_F(atan, z.real), 0};
+        return (a_complex_s){a_real_atan(z.real), 0};
     }
-    a_real_t r = A_REAL_F(hypot, z.real, z.imag);
+    a_real_t r = a_real_hypot(z.real, z.imag);
     a_real_t u = 2 * z.imag / (r * r + 1);
     a_real_t imag;
-    if (A_REAL_F(fabs, u) < 0.1)
+    if (a_real_abs(u) < 0.1)
     {
-        imag = A_REAL_C(0.25) * (A_REAL_F(log1p, u) - A_REAL_F(log1p, -u));
+        imag = A_REAL_C(0.25) * (a_real_log1p(u) - a_real_log1p(-u));
     }
     else
     {
-        a_real_t a = A_REAL_F(hypot, z.real, z.imag + 1);
-        a_real_t b = A_REAL_F(hypot, z.real, z.imag - 1);
-        imag = A_REAL_C(0.5) * A_REAL_F(log, a / b);
+        a_real_t a = a_real_hypot(z.real, z.imag + 1);
+        a_real_t b = a_real_hypot(z.real, z.imag - 1);
+        imag = A_REAL_C(0.5) * a_real_log(a / b);
     }
     if (z.real == 0)
     {
         if (z.imag > 1)
         {
-            return (a_complex_s){a_real_c(A_PI), imag};
+            return (a_complex_s){A_REAL_PI, imag};
         }
         if (z.imag < -1)
         {
-            return (a_complex_s){-a_real_c(A_PI), imag};
+            return (a_complex_s){-A_REAL_PI, imag};
         }
         return (a_complex_s){0, imag};
     }
-    return (a_complex_s){A_REAL_C(0.5) * A_REAL_F(atan2, z.real * 2, (1 + r) * (1 - r)), imag};
+    return (a_complex_s){A_REAL_C(0.5) * a_real_atan2(z.real * 2, (1 + r) * (1 - r)), imag};
 #endif /* A_HAVE_CATAN */
 }
 
@@ -537,13 +509,13 @@ a_complex_s a_complex_asec_real(a_real_t x)
 {
     if (x <= -1 || x >= 1)
     {
-        return (a_complex_s){A_REAL_F(acos, 1 / x), 0};
+        return (a_complex_s){a_real_acos(1 / x), 0};
     }
     if (x >= 0)
     {
-        return (a_complex_s){0, A_REAL_F(acosh, 1 / x)};
+        return (a_complex_s){0, a_real_acosh(1 / x)};
     }
-    return (a_complex_s){a_real_c(A_PI), -A_REAL_F(acosh, -1 / x)};
+    return (a_complex_s){A_REAL_PI, -a_real_acosh(-1 / x)};
 }
 
 a_complex_s a_complex_acsc(a_complex_s z)
@@ -555,13 +527,13 @@ a_complex_s a_complex_acsc_real(a_real_t x)
 {
     if (x <= -1 || x >= 1)
     {
-        return (a_complex_s){A_REAL_F(asin, 1 / x), 0};
+        return (a_complex_s){a_real_asin(1 / x), 0};
     }
     if (x >= 0)
     {
-        return (a_complex_s){a_real_c(A_PI_2), -A_REAL_F(acosh, 1 / x)};
+        return (a_complex_s){A_REAL_PI_2, -a_real_acosh(1 / x)};
     }
-    return (a_complex_s){-a_real_c(A_PI_2), A_REAL_F(acosh, -1 / x)};
+    return (a_complex_s){-A_REAL_PI_2, a_real_acosh(-1 / x)};
 }
 
 a_complex_s a_complex_acot(a_complex_s z)
@@ -577,8 +549,8 @@ a_complex_s a_complex_sinh(a_complex_s z)
     return u.s;
 #else /* !A_HAVE_CSINH */
     return (a_complex_s){
-        A_REAL_F(sinh, z.real) * A_REAL_F(cos, z.imag),
-        A_REAL_F(cosh, z.real) * A_REAL_F(sin, z.imag),
+        a_real_sinh(z.real) * a_real_cos(z.imag),
+        a_real_cosh(z.real) * a_real_sin(z.imag),
     };
 #endif /* A_HAVE_CSINH */
 }
@@ -591,8 +563,8 @@ a_complex_s a_complex_cosh(a_complex_s z)
     return u.s;
 #else /* !A_HAVE_CCOSH */
     return (a_complex_s){
-        A_REAL_F(cosh, z.real) * A_REAL_F(cos, z.imag),
-        A_REAL_F(sinh, z.real) * A_REAL_F(sin, z.imag),
+        a_real_cosh(z.real) * a_real_cos(z.imag),
+        a_real_sinh(z.real) * a_real_sin(z.imag),
     };
 #endif /* A_HAVE_CCOSH */
 }
@@ -604,16 +576,16 @@ a_complex_s a_complex_tanh(a_complex_s z)
     u.z = A_REAL_F(ctanh, u.z);
     return u.s;
 #else /* !A_HAVE_CTANH */
-    a_real_t ci = A_REAL_F(cos, z.imag);
-    a_real_t sr = A_REAL_F(sinh, z.real);
+    a_real_t ci = a_real_cos(z.imag);
+    a_real_t sr = a_real_sinh(z.real);
     a_real_t inv = 1 / (ci * ci + sr * sr);
-    a_real_t imag = A_REAL_F(sin, z.imag * 2) * inv * A_REAL_C(0.5);
-    if (A_REAL_F(fabs, z.real) < 1)
+    a_real_t imag = a_real_sin(z.imag * 2) * inv * A_REAL_C(0.5);
+    if (a_real_abs(z.real) < 1)
     {
-        return (a_complex_s){A_REAL_F(sinh, z.real) * A_REAL_F(cosh, z.real) * inv, imag};
+        return (a_complex_s){a_real_sinh(z.real) * a_real_cosh(z.real) * inv, imag};
     }
-    a_real_t den = A_REAL_F(pow, ci / sr, 2) + 1;
-    return (a_complex_s){1 / (A_REAL_F(tanh, z.real) * den), imag};
+    a_real_t den = a_real_pow(ci / sr, 2) + 1;
+    return (a_complex_s){1 / (a_real_tanh(z.real) * den), imag};
 #endif /* A_HAVE_CTANH */
 }
 
@@ -661,13 +633,13 @@ a_complex_s a_complex_acosh_real(a_real_t x)
 {
     if (x >= 1)
     {
-        return (a_complex_s){A_REAL_F(acosh, x), 0};
+        return (a_complex_s){a_real_acosh(x), 0};
     }
     if (x >= -1)
     {
-        return (a_complex_s){0, A_REAL_F(acos, x)};
+        return (a_complex_s){0, a_real_acos(x)};
     }
-    return (a_complex_s){A_REAL_F(acos, -x), a_real_c(A_PI)};
+    return (a_complex_s){a_real_acos(-x), A_REAL_PI};
 }
 
 a_complex_s a_complex_atanh(a_complex_s z)
@@ -691,12 +663,9 @@ a_complex_s a_complex_atanh_real(a_real_t x)
 {
     if (x > -1 && x < 1)
     {
-        return (a_complex_s){A_REAL_F(atanh, x), 0};
+        return (a_complex_s){a_real_atanh(x), 0};
     }
-    return (a_complex_s){
-        A_REAL_F(atanh, 1 / x),
-        x < 0 ? a_real_c(A_PI_2) : -a_real_c(A_PI_2),
-    };
+    return (a_complex_s){a_real_atanh(1 / x), x < 0 ? A_REAL_PI_2 : -A_REAL_PI_2};
 }
 
 a_complex_s a_complex_asech(a_complex_s z)

@@ -2,6 +2,7 @@
 #define COMPLEX_H
 
 #include "a/complex.h"
+#include "a/real.h"
 #include <math.h>
 
 #if defined(__cplusplus)
