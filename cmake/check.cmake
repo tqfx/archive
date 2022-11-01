@@ -9,16 +9,6 @@ list(APPEND CMAKE_REQUIRED_LIBRARIES ${MATH_LIBRARY})
 # math.h
 check_symbol_exists(hypot "math.h" A_HAVE_HYPOT)
 check_symbol_exists(log1p "math.h" A_HAVE_LOG1P)
-check_symbol_exists(fabs "math.h" A_HAVE_FABS)
-check_symbol_exists(pow "math.h" A_HAVE_POW)
-check_symbol_exists(exp "math.h" A_HAVE_EXP)
-check_symbol_exists(log "math.h" A_HAVE_LOG)
-check_symbol_exists(sin "math.h" A_HAVE_SIN)
-check_symbol_exists(cos "math.h" A_HAVE_COS)
-check_symbol_exists(tan "math.h" A_HAVE_TAN)
-check_symbol_exists(asin "math.h" A_HAVE_ASIN)
-check_symbol_exists(acos "math.h" A_HAVE_ACOS)
-check_symbol_exists(atan "math.h" A_HAVE_ATAN)
 check_symbol_exists(atan2 "math.h" A_HAVE_ATAN2)
 
 # complex.h

@@ -296,12 +296,14 @@ A_PUBLIC a_complex_s a_complex_cot(a_complex_s z);
  @return = \f$ \arcsin(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_asin(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_asin_real(a_real_t x);
 /*!
  @brief computes the complex arc cosine
  @param z a complex number
  @return = \f$ \arccos(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_acos(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_acos_real(a_real_t x);
 /*!
  @brief computes the complex arc tangent
  @param z a complex number
@@ -314,12 +316,14 @@ A_PUBLIC a_complex_s a_complex_atan(a_complex_s z);
  @return = \f$ \mathrm{arcsec}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_asec(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_asec_real(a_real_t x);
 /*!
  @brief computes the complex arc cosecant \f[ \mathrm{arccsc}(z)=\mathrm{arcsin}(\frac{1}{z}) \f]
  @param z a complex number
  @return = \f$ \mathrm{arccsc}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_acsc(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_acsc_real(a_real_t x);
 /*!
  @brief computes the complex arc cotangent \f[ \mathrm{arccot}(z)=\mathrm{arctan}(\frac{1}{z}) \f]
  @param z a complex number
@@ -380,12 +384,14 @@ A_PUBLIC a_complex_s a_complex_asinh(a_complex_s z);
  @return = \f$ \mathrm{arccosh}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_acosh(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_acosh_real(a_real_t x);
 /*!
  @brief computes the complex arc hyperbolic tangent
  @param z a complex number
  @return = \f$ \mathrm{arctanh}(z) \f$
 */
 A_PUBLIC a_complex_s a_complex_atanh(a_complex_s z);
+A_PUBLIC a_complex_s a_complex_atanh_real(a_real_t x);
 /*!
  @brief computes the complex arc hyperbolic secant \f[ \mathrm{arcsech}(z)=\mathrm{arccosh}(\frac{1}{z}) \f]
  @param z a complex number
