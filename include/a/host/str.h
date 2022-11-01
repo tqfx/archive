@@ -9,9 +9,6 @@
 
 #include "../a.h"
 #include <string.h>
-
-#if __STDC_HOSTED__
-
 #include <stdarg.h>
 #include <stdlib.h>
 
@@ -224,7 +221,5 @@ A_INTERN a_void_t a_str_ctor_(a_vptr_t ctx) { a_str_ctor(a_cast_s(a_str_s *, ctx
 A_INTERN a_void_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx)); }
 
 /*! @} A_STR */
-
-#endif /* __STDC_HOSTED__ */
 
 #endif /* A_HOST_STR_H */

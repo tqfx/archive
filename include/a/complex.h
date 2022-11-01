@@ -15,26 +15,6 @@
  @{
 */
 
-#if !defined __cplusplus
-#include <complex.h>
-#if defined(_MSC_VER)
-#if A_REAL_BITS > 64
-#define A_COMPLEX_T _Lcomplex
-#elif A_REAL_BITS == 64
-#define A_COMPLEX_T _Dcomplex
-#elif A_REAL_BITS == 32
-#define A_COMPLEX_T _Fcomplex
-#endif /* A_REAL_BITS */
-#else /* !_MSC_VER */
-#define A_COMPLEX_T _Complex A_REAL_T
-#endif /* _MSC_VER */
-#else /* !__cplusplus */
-#include <complex>
-#define A_COMPLEX_T std::complex<A_REAL_T>
-#endif /* __cplusplus */
-/*! compiler built-in complex number type */
-#define a_complex_t A_COMPLEX_T
-
 /*! format constants for the fprintf family of functions */
 #define A_COMPLEX_PRI(RF, RC, IF, IC) "(" A_REAL_PRI(RF, RC) "," A_REAL_PRI(IF, IC) ")"
 
@@ -79,15 +59,6 @@ typedef struct a_complex_s
     a_real_t real; //!< real part of complex number
     a_real_t imag; //!< imaginary part of complex number
 } a_complex_s;
-
-/*!
- @brief instance union for complex number
-*/
-typedef union a_complex_u
-{
-    a_complex_s s;
-    a_complex_t z;
-} a_complex_u;
 
 #if defined(__cplusplus)
 extern "C" {

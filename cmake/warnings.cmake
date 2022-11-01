@@ -1,10 +1,18 @@
 # include modules
 include(${CMAKE_CURRENT_LIST_DIR}/core.cmake)
 
-if(
-  "${CMAKE_C_COMPILER_ID}" MATCHES "GNU" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU"
-)
+if(CMAKE_C_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_C_COMPILER_ID MATCHES "IntelLLVM" OR
+  CMAKE_CXX_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_CXX_COMPILER_ID MATCHES "IntelLLVM")
+  # https://clang.llvm.org/docs/DiagnosticsReference.html
+  # https://releases.llvm.org/4.0.1/tools/clang/docs/DiagnosticsReference.html
+  warnings_flag_cx(-Weverything)
+  warnings_flag_cx(-Wno-documentation)
+  warnings_flag_cx(-Wno-used-but-marked-unused)
+  warnings_flag_cx(-Wno-documentation-unknown-command)
+  warnings_flag_cc(-Wno-declaration-after-statement)
+  warnings_flag_xx(-Wno-c++98-compat-pedantic)
+elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR
+  CMAKE_C_COMPILER_ID MATCHES "TinyCC" OR CMAKE_CXX_COMPILER_ID MATCHES "TinyCC")
   # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
   # https://gcc.gnu.org/onlinedocs/gcc-3.0.3/gcc/Warning-Options.html
   warnings_flag_cx(-Wextra) # 3.4+
@@ -50,24 +58,7 @@ if(
   warnings_flag_cx(-Wunsafe-loop-optimizations) # 4.1+
   warnings_flag_cx(-Wno-pedantic-ms-format) # 4.4+
   warnings_flag_cx(-Wlogical-op) # 4.3+
-elseif(
-  "${CMAKE_C_COMPILER_ID}" MATCHES "(ARM|Apple)?[Cc]lang" OR
-  "${CMAKE_C_COMPILER_ID}" MATCHES "IntelLLVM" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "(ARM|Apple)?[Cc]lang" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
-)
-  # https://clang.llvm.org/docs/DiagnosticsReference.html
-  # https://releases.llvm.org/4.0.1/tools/clang/docs/DiagnosticsReference.html
-  warnings_flag_cx(-Weverything)
-  warnings_flag_cx(-Wno-documentation)
-  warnings_flag_cx(-Wno-used-but-marked-unused)
-  warnings_flag_cx(-Wno-documentation-unknown-command)
-  warnings_flag_cc(-Wno-declaration-after-statement)
-  warnings_flag_xx(-Wno-c++98-compat-pedantic)
-elseif(
-  "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
-)
+elseif(CMAKE_C_COMPILER_ID MATCHES "MSVC" OR CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   # https://learn.microsoft.com/en-us/cpp/error-messages
   warnings_flag_cx(/Wall)
   warnings_flag_cx(/wd4464)

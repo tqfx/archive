@@ -208,7 +208,7 @@ int main(int argc, char *argv[])
     if (argc > 1)
     {
         a_str_t endptr = NULL;
-        unsigned long long n = strtoull(argv[argc - 1], &endptr, 0);
+        unsigned long n = strtoul(argv[argc - 1], &endptr, 0);
         test_diff(a_cast_s(a_size_t, n));
     }
 

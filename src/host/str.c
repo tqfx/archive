@@ -1,5 +1,3 @@
-#if __STDC_HOSTED__
-
 #include "a/host/str.h"
 #include <assert.h>
 #include <stdio.h>
@@ -279,5 +277,3 @@ a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...)
     va_end(va);
     return num;
 }
-
-#endif /* __STDC_HOSTED__ */

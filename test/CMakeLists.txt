@@ -1,18 +1,14 @@
-get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-
-if(
-  "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
-)
-  string_append(CMAKE_C_FLAGS /W4 /sdl)
+if(CMAKE_C_COMPILER_ID MATCHES "MSVC" OR CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   string_append(CMAKE_CXX_FLAGS /W4 /sdl)
+  string_append(CMAKE_C_FLAGS /W4 /sdl)
 else()
-  string_append(CMAKE_C_FLAGS -pedantic -Wall)
   string_append(CMAKE_CXX_FLAGS -pedantic -Wall -Weffc++)
+  string_append(CMAKE_C_FLAGS -pedantic -Wall)
 endif()
 
-string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
+get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 string_append(CMAKE_CXX_FLAGS ${CXXFLAGS_WARNINGS} ${CXXFLAGS_SANITIZE})
+string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
 
 if(NOT ANDROID)
   set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_PIC})
@@ -30,20 +26,31 @@ endif()
 function(unittest target)
   cmake_parse_arguments(TEST "" "TARGET" "SOURCE;COMMAND" ${ARGN})
 
-  if(NOT TEST_TARGET)
-    set(TARGET test-${target})
-  else()
-    set(TARGET ${TEST_TARGET})
+  if(NOT CXX IN_LIST ENABLED_LANGUAGES)
+    list(FILTER TEST_SOURCE INCLUDE REGEX ".c$")
   endif()
 
-  add_executable(${TARGET} ${TEST_SOURCE})
-  target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::a)
-  set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
-  add_test(NAME ${target} WORKING_DIRECTORY
-    $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:a>,${CMAKE_CURRENT_BINARY_DIR}>
-    COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND}
-  )
-  target_executable_options(${TARGET})
+  if(TEST_SOURCE)
+    if(TEST_TARGET)
+      set(TARGET ${TEST_TARGET})
+    else()
+      set(TARGET test-${target})
+    endif()
+
+    add_executable(${TARGET} ${TEST_SOURCE})
+    target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::a)
+    set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
+    add_test(NAME ${target} WORKING_DIRECTORY
+      $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:a>,${CMAKE_CURRENT_BINARY_DIR}>
+      COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND}
+    )
+
+    if(CXX IN_LIST ENABLED_LANGUAGES)
+      target_compile_definitions(${TARGET} PRIVATE HAS_CXX)
+    endif()
+
+    target_executable_options(${TARGET})
+  endif()
 endfunction()
 
 unittest(a SOURCE lib.cpp)

@@ -8,9 +8,6 @@
 #define A_HOST_VECTOR_H
 
 #include "../a.h"
-
-#if __STDC_HOSTED__
-
 #include <stdlib.h>
 
 /*!
@@ -413,7 +410,5 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
 #define a_vector_pull(T, ctx) a_cast_s(T *, a_vector_pull(ctx))
 
 /*! @} A_VECTOR */
-
-#endif /* __STDC_HOSTED__ */
 
 #endif /* A_HOST_VECTOR_H */

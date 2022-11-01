@@ -1,5 +1,3 @@
-#if __STDC_HOSTED__
-
 #include "a/host/vec.h"
 #include <assert.h>
 #include <string.h>
@@ -300,5 +298,3 @@ a_vptr_t a_vec_pull_back(a_vec_s *ctx)
     A_ASSERT(ctx);
     return a_likely(ctx->_num) ? a_vec_dec_(ctx) : 0;
 }
-
-#endif /* __STDC_HOSTED__ */

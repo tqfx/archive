@@ -1,5 +1,3 @@
-#if __STDC_HOSTED__
-
 #include "a/host/que.h"
 #include <assert.h>
 #include <string.h>
@@ -425,5 +423,3 @@ a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx)
     }
     return a_que_pull_back(ctx);
 }
-
-#endif /* __STDC_HOSTED__ */

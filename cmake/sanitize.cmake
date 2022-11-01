@@ -7,12 +7,12 @@ macro(sanitize_flag)
 endmacro()
 
 if(
-  "${CMAKE_C_COMPILER_ID}" MATCHES "GNU" OR
-  "${CMAKE_C_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
-  "${CMAKE_C_COMPILER_ID}" MATCHES "IntelLLVM" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "IntelLLVM"
+  CMAKE_C_COMPILER_ID MATCHES "(Apple)?[Cc]lang" OR
+  CMAKE_C_COMPILER_ID MATCHES "IntelLLVM" OR
+  CMAKE_C_COMPILER_ID MATCHES "GNU" OR
+  CMAKE_CXX_COMPILER_ID MATCHES "(Apple)?[Cc]lang" OR
+  CMAKE_CXX_COMPILER_ID MATCHES "IntelLLVM" OR
+  CMAKE_CXX_COMPILER_ID MATCHES "GNU"
 )
   sanitize_flag(-fsanitize=address)
   sanitize_flag_cx(-fsanitize=undefined)
@@ -20,14 +20,14 @@ if(
   sanitize_flag_cx(-fsanitize-recover=address)
 
   if(NOT(
-    "${CMAKE_C_COMPILER_ID}" MATCHES "Apple[Cc]lang" OR
-    "${CMAKE_CXX_COMPILER_ID}" MATCHES "Apple[Cc]lang"
+    CMAKE_C_COMPILER_ID MATCHES "Apple[Cc]lang" OR
+    CMAKE_CXX_COMPILER_ID MATCHES "Apple[Cc]lang"
     ))
     sanitize_flag_cx(-fsanitize=leak)
   endif()
 elseif(
-  "${CMAKE_C_COMPILER_ID}" MATCHES "MSVC" OR
-  "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC"
+  CMAKE_C_COMPILER_ID MATCHES "MSVC" OR
+  CMAKE_CXX_COMPILER_ID MATCHES "MSVC"
 )
   sanitize_flag_cx(/fsanitize=address)
 endif()

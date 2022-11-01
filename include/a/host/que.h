@@ -8,9 +8,6 @@
 #define A_HOST_QUE_H
 
 #include "../list.h"
-
-#if __STDC_HOSTED__
-
 #include <stdlib.h>
 
 /*!
@@ -338,7 +335,5 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
 #define a_que_remove(T, ctx, idx) a_cast_s(T *, a_que_remove(ctx, idx))
 
 /*! @} A_QUE */
-
-#endif /* __STDC_HOSTED__ */
 
 #endif /* A_HOST_QUE_H */

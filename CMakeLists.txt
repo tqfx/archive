@@ -12,22 +12,16 @@ if(POLICY CMP0091) # 3.15
   cmake_policy(SET CMP0091 NEW)
 endif() # CMAKE_MSVC_RUNTIME_LIBRARY
 
-if("${VCPKG_TARGET_TRIPLET}" MATCHES "x86-mingw(.*)")
+if(VCPKG_TARGET_TRIPLET MATCHES "x86-mingw(.*)")
   include(cmake/mingw32.cmake)
-elseif("${VCPKG_TARGET_TRIPLET}" MATCHES "x64-mingw(.*)")
+elseif(VCPKG_TARGET_TRIPLET MATCHES "x64-mingw(.*)")
   include(cmake/mingw64.cmake)
 endif()
 
-set(PROJECT_LICENSE "MPL-2.0")
-project(liba VERSION 0.1.1 LANGUAGES C CXX
-  HOMEPAGE_URL "https://github.com/tqfx/liba.git"
+project(liba VERSION 0.1.1 LANGUAGES C # 3.12
   DESCRIPTION "An algorithm library based on C/C++ language"
+  HOMEPAGE_URL "https://github.com/tqfx/liba.git"
 )
-
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Specifies the build type on single-configuration generators." FORCE)
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
 
 include(GNUInstallDirs)
 include(cmake/core.cmake)
@@ -117,7 +111,12 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/a.config.h
 )
 
-file(GLOB_RECURSE SOURCES include/*.h* src/*.[chm]*)
+if(CXX IN_LIST ENABLED_LANGUAGES)
+  file(GLOB_RECURSE SOURCES include/*.h* src/*.[chm]*)
+else()
+  file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
+endif()
+
 add_library(a ${SOURCES})
 target_library_setting(a)
 set(A_LIBRARIES a)
@@ -140,7 +139,7 @@ if(TARGET_SUPPORTS_SHARED_LIBS)
   )
   target_link_sanitize(${A_SHARED_LIBS})
 
-  if("${CMAKE_STATIC_LIBRARY_SUFFIX}" MATCHES ".lib")
+  if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
     set_target_properties(${A_SHARED_LIBS} PROPERTIES
       OUTPUT_NAME ${PROJECT_NAME}
     )
@@ -149,13 +148,13 @@ endif()
 
 set(prop "$<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>")
 set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
+set(PROJECT_LICENSE MPL-2.0)
 set(PROJECT_LIBRARIES -la)
 unset(prop)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/a.config.h DESTINATION include)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
-  DESTINATION include FILES_MATCHING
-  REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
+  DESTINATION include FILES_MATCHING REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
 )
 install(TARGETS ${A_LIBRARIES} EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -289,7 +288,6 @@ if(DOXYGEN_FOUND AND CMAKE_VERSION VERSION_GREATER 3.9)
   set(DOXYGEN_PREDEFINED
     "__STDC_VERSION__=201112L"
     "__cplusplus=201103L"
-    "__STDC_HOSTED__=1"
     "A_STATIC:=static"
     "A_INTERN:="
     "A_PUBLIC:="

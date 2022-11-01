@@ -106,7 +106,7 @@ add_library(lualib STATIC $<TARGET_OBJECTS:liblua>)
 lua_library(lualib)
 
 add_executable(lua src/lua.c)
-target_link_libraries(lua PRIVATE liblua)
+target_link_libraries(lua PRIVATE lualib)
 add_executable(luac src/luac.c)
 target_link_libraries(luac PRIVATE lualib)
 target_link_libraries(liblua INTERFACE ${CMAKE_DL_LIBS}
