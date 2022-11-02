@@ -1,22 +1,36 @@
 cmake_minimum_required(VERSION 3.15) # CheckPIESupported
 set(LUA_VERSION 5.4.4 CACHE STRING "specifies building version for lua")
 set_property(CACHE LUA_VERSION PROPERTY STRINGS 5.4.4 5.3.6 5.2.4 5.1.5)
-project(lua VERSION ${LUA_VERSION} LANGUAGES C)
+find_file(LUA_ARCHIVE lua-${LUA_VERSION}.tar.gz
+  ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
+)
+
+if(NOT LUA_ARCHIVE)
+  file(GLOB_RECURSE LUA_ARCHIVE ${CMAKE_CURRENT_LIST_DIR}/lua-*.tar.gz
+    ${CMAKE_SOURCE_DIR}/lua-*.tar.gz ${CMAKE_BINARY_DIR}/lua-*.tar.gz
+  )
+  list(SORT LUA_ARCHIVE ORDER DESCENDING)
+  list(GET LUA_ARCHIVE 0 LUA_ARCHIVE)
+  string(REGEX MATCH "[0-9]+\.[0-9]+\.[0-9]+" LUA_VERSION ${LUA_ARCHIVE})
+  set(LUA_VERSION ${LUA_VERSION} CACHE STRING "" FORCE)
+endif()
+
+project(lua VERSION ${LUA_VERSION} LANGUAGES C
+  DESCRIPTION "A powerful, efficient, lightweight, embeddable scripting language."
+  HOMEPAGE_URL "https://www.${PROJECT_NAME}.org"
+)
 
 if(POLICY CMP0135) # 3.24
   cmake_policy(SET CMP0135 NEW)
 endif() # DOWNLOAD_EXTRACT_TIMESTAMP
 
 include(FetchContent)
-find_file(LUA_ARCHIVE ${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz
-  ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
-)
 
 if(LUA_ARCHIVE)
   FetchContent_Declare(${PROJECT_NAME} URL ${LUA_ARCHIVE})
 else()
   FetchContent_Declare(${PROJECT_NAME}
-    URL https://www.${PROJECT_NAME}.org/ftp/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz
+    URL ${PROJECT_HOMEPAGE_URL}/ftp/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz
   )
 endif()
 
@@ -32,11 +46,12 @@ if(NOT ${PROJECT_NAME}_POPULATED)
   FetchContent_Populate(${PROJECT_NAME})
 
   if(NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    set(LUA_LIBRARIES ${PROJECT_NAME}lib PARENT_SCOPE)
+    set(LUA_LIBRARIES lib${PROJECT_NAME} PARENT_SCOPE)
     set(LUA_EXECUTABLE $<TARGET_FILE:${PROJECT_NAME}> PARENT_SCOPE)
     set(LUA_INCLUDE_DIR ${${PROJECT_NAME}_SOURCE_DIR}/src PARENT_SCOPE)
   endif()
 
   file(COPY cmake/CMakeLists.txt DESTINATION ${${PROJECT_NAME}_SOURCE_DIR})
+  file(COPY cmake/config.pc DESTINATION ${${PROJECT_NAME}_SOURCE_DIR}/cmake)
   add_subdirectory(${${PROJECT_NAME}_SOURCE_DIR} ${${PROJECT_NAME}_BINARY_DIR})
 endif()

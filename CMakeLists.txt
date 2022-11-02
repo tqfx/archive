@@ -153,10 +153,11 @@ if(TARGET_SUPPORTS_SHARED_LIBS)
   endif()
 endif()
 
-set(prop "$<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>")
+get_target_property(prop a INTERFACE_COMPILE_DEFINITIONS)
 set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
+get_target_property(prop a INTERFACE_LINK_LIBRARIES)
+set(PROJECT_LIBRARIES "-l$<JOIN:a;${prop}, -l>")
 set(PROJECT_LICENSE MPL-2.0)
-set(PROJECT_LIBRARIES -la)
 unset(prop)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/a.config.h DESTINATION include)

@@ -1,3 +1,4 @@
+include(GNUInstallDirs)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -77,6 +78,9 @@ else()
 endif()
 
 function(lua_library target)
+  set_target_properties(${target} PROPERTIES OUTPUT_NAME lua
+    POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL ${DEFINE_SYMBOL}
+  )
   target_compile_definitions(${target} PUBLIC
     $<$<AND:$<BOOL:${READLINE_FOUND}>,$<VERSION_GREATER:${LUA_VERSION},5.3.6>>:LUA_USE_READLINE>
     $<$<BOOL:${LUA_PLATFORM}>:${LUA_PLATFORM}>
@@ -87,9 +91,6 @@ function(lua_library target)
   )
   target_link_libraries(${target} INTERFACE
     $<$<BOOL:${MATH_LIBRARY}>:${MATH_LIBRARY}>
-  )
-  set_target_properties(${target} PROPERTIES
-    OUTPUT_NAME lua DEFINE_SYMBOL ${DEFINE_SYMBOL}
   )
 endfunction()
 
@@ -106,22 +107,24 @@ add_library(lualib STATIC $<TARGET_OBJECTS:liblua>)
 lua_library(lualib)
 
 add_executable(lua src/lua.c)
-target_link_libraries(lua PRIVATE lualib)
+target_link_libraries(lua PRIVATE liblua)
 add_executable(luac src/luac.c)
 target_link_libraries(luac PRIVATE lualib)
 target_link_libraries(liblua INTERFACE ${CMAKE_DL_LIBS}
   $<$<BOOL:${READLINE_FOUND}>:${READLINE_LIBRARY}>
 )
 
-if(NOT WIN32)
-  set_target_properties(liblua PROPERTIES
-    OUTPUT_NAME lua${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-  )
+if(WIN32)
+  set(name lua${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR})
 else()
-  set_target_properties(liblua PROPERTIES
-    OUTPUT_NAME lua${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR}
-  )
+  set(name lua${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 endif()
+
+get_target_property(prop liblua INTERFACE_COMPILE_DEFINITIONS)
+set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
+set_target_properties(liblua PROPERTIES OUTPUT_NAME ${name})
+get_target_property(prop liblua INTERFACE_LINK_LIBRARIES)
+set(PROJECT_LIBRARIES "-l$<JOIN:${name};${prop}, -l>")
 
 install(FILES src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -135,5 +138,18 @@ install(EXPORT ${PROJECT_NAME}-targets FILE ${PROJECT_NAME}-targets.cmake
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 install(FILES doc/lua.1 doc/luac.1 DESTINATION man/man1)
+file(GENERATE
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  INPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+)
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+)
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  @ONLY
+)
 include(InstallRequiredSystemLibraries)
 include(CPack)
