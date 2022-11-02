@@ -1,30 +1,50 @@
-include(CheckSymbolExists)
+include(CheckLibraryExists)
 
+set(A_REAL_BITS 64 CACHE INTERNAL "real number bits")
 find_library(MATH_LIBRARY NAMES m
   PATHS /system/lib64 /system/lib
 )
 
-list(APPEND CMAKE_REQUIRED_LIBRARIES ${MATH_LIBRARY})
+function(check_m VARIABLE FUNCTION)
+  get_filename_component(LOCATION "${MATH_LIBRARY}" DIRECTORY)
+  list(APPEND CMAKE_REQUIRED_LIBRARIES ${MATH_LIBRARY})
+
+  if(A_REAL_BITS GREATER 64)
+    set(FUNCTION "${FUNCTION}l")
+  elseif(A_REAL_BITS EQUAL 32)
+    set(FUNCTION "${FUNCTION}f")
+  endif()
+
+  if(NOT MATH_LIBRARY AND WIN32)
+    set(MATH_LIBRARY msvcrt)
+  elseif(NOT MATH_LIBRARY)
+    set(MATH_LIBRARY m)
+  endif()
+
+  check_library_exists("${MATH_LIBRARY}"
+    ${FUNCTION} "${LOCATION}" ${VARIABLE}
+  )
+endfunction()
 
 # math.h
-check_symbol_exists(hypot "math.h" A_HAVE_HYPOT)
-check_symbol_exists(log1p "math.h" A_HAVE_LOG1P)
-check_symbol_exists(atan2 "math.h" A_HAVE_ATAN2)
+check_m(A_HAVE_HYPOT hypot)
+check_m(A_HAVE_LOG1P log1p)
+check_m(A_HAVE_ATAN2 atan2)
 
 # complex.h
-check_symbol_exists(csqrt "complex.h" A_HAVE_CSQRT)
-check_symbol_exists(cpow "complex.h" A_HAVE_CPOW)
-check_symbol_exists(cexp "complex.h" A_HAVE_CEXP)
-check_symbol_exists(clog "complex.h" A_HAVE_CLOG)
-check_symbol_exists(csin "complex.h" A_HAVE_CSIN)
-check_symbol_exists(ccos "complex.h" A_HAVE_CCOS)
-check_symbol_exists(ctan "complex.h" A_HAVE_CTAN)
-check_symbol_exists(casin "complex.h" A_HAVE_CASIN)
-check_symbol_exists(cacos "complex.h" A_HAVE_CACOS)
-check_symbol_exists(catan "complex.h" A_HAVE_CATAN)
-check_symbol_exists(csinh "complex.h" A_HAVE_CSINH)
-check_symbol_exists(ccosh "complex.h" A_HAVE_CCOSH)
-check_symbol_exists(ctanh "complex.h" A_HAVE_CTANH)
-check_symbol_exists(casinh "complex.h" A_HAVE_CASINH)
-check_symbol_exists(cacosh "complex.h" A_HAVE_CACOSH)
-check_symbol_exists(catanh "complex.h" A_HAVE_CATANH)
+check_m(A_HAVE_CSQRT csqrt)
+check_m(A_HAVE_CPOW cpow)
+check_m(A_HAVE_CEXP cexp)
+check_m(A_HAVE_CLOG clog)
+check_m(A_HAVE_CSIN csin)
+check_m(A_HAVE_CCOS ccos)
+check_m(A_HAVE_CTAN ctan)
+check_m(A_HAVE_CASIN casin)
+check_m(A_HAVE_CACOS cacos)
+check_m(A_HAVE_CATAN catan)
+check_m(A_HAVE_CSINH csinh)
+check_m(A_HAVE_CCOSH ccosh)
+check_m(A_HAVE_CTANH ctanh)
+check_m(A_HAVE_CASINH casinh)
+check_m(A_HAVE_CACOSH cacosh)
+check_m(A_HAVE_CATANH catanh)
