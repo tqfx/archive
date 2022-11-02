@@ -3,10 +3,7 @@
 
 #include "a/host/que.h"
 #include "../test.h"
-#include <inttypes.h>
-#include <assert.h>
 #include <string.h>
-#include <stdio.h>
 
 A_STATIC a_void_t dtor(a_vptr_t ptr)
 {

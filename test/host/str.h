@@ -3,7 +3,6 @@
 
 #include "a/host/str.h"
 #include "../test.h"
-#include <stdio.h>
 
 A_STATIC a_void_t tests(void)
 {

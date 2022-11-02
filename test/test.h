@@ -2,6 +2,14 @@
 #define TEST_TEST_H
 
 #include <stdio.h>
+#include <assert.h>
+#include <inttypes.h>
+
+#if !defined static_assert
+#if !defined __cplusplus
+#define static_assert _Static_assert
+#endif /* __cplusplus */
+#endif /* static_assert */
 
 #define TEST_IS_TRUE(expression, message)                   \
     do                                                      \
