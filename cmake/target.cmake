@@ -31,6 +31,10 @@ function(target_library_option_ target scope)
   foreach(lang ${ENABLED_LANGUAGES})
     target_compile_options(${target} ${scope} $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS_WARNINGS}>)
   endforeach()
+
+  if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib AND CMAKE_C_COMPILER_ID MATCHES "TinyCC")
+    set_target_properties(${target} PROPERTIES IMPORT_SUFFIX .def)
+  endif()
 endfunction()
 
 function(target_library_options)

@@ -3,7 +3,7 @@ option(ENABLE_LUA "Enable ffi lua" OFF)
 option(WITH_LUA "Build with lua" OFF)
 set(A_LIBRARY a)
 
-if(ENABLE_LUA)
+if(ENABLE_LUA OR WITH_LUA)
   if(NOT WITH_LUA)
     find_package(Lua)
   endif()

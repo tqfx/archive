@@ -1,6 +1,3 @@
-# include modules
-include(CheckLanguage)
-
 # Set the compiler C standard
 macro(set_c_standard variable)
   set(CMAKE_C_EXTENSIONS OFF)
@@ -28,10 +25,6 @@ if(NOT CMAKE_C_STANDARD_REQUIRED)
   set(CMAKE_C_STANDARD_REQUIRED OFF)
 endif()
 
-if(CMAKE_C_COMPILER_ID MATCHES "TinyCC")
-  string_append(CMAKE_C_FLAGS -std=c${CMAKE_C_STANDARD})
-endif()
-
 # default C++ standard
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 11)
@@ -45,8 +38,6 @@ if(NOT CMAKE_CXX_STANDARD_REQUIRED)
   set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 endif()
 
-check_language(CXX)
-
-if(CMAKE_CXX_COMPILER)
-  enable_language(CXX)
+if(CMAKE_C_COMPILER_ID MATCHES "TinyCC")
+  string_append(CMAKE_C_FLAGS -std=c${CMAKE_C_STANDARD})
 endif()

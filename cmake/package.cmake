@@ -9,7 +9,6 @@ function(package_cpack root)
     ${root}/.gitattributes
     ${PROJECT_BINARY_DIR}
   )
-  include(InstallRequiredSystemLibraries)
   set(CPACK_SOURCE_IGNORE_FILES ${SOURCE_IGNORE_FILES})
   set(CPACK_RESOURCE_FILE_LICENSE ${root}/LICENSE.txt)
   set(CPACK_RESOURCE_FILE_README ${root}/README.md)

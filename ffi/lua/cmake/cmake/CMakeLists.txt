@@ -78,6 +78,10 @@ else()
 endif()
 
 function(lua_library target)
+  if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib AND CMAKE_C_COMPILER_ID MATCHES "TinyCC")
+    set_target_properties(${target} PROPERTIES IMPORT_SUFFIX .def)
+  endif()
+
   set_target_properties(${target} PROPERTIES OUTPUT_NAME lua
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL ${DEFINE_SYMBOL}
   )
@@ -96,7 +100,6 @@ endfunction()
 
 unset(SOURCES)
 unset(SOURCES CACHE)
-include(GNUInstallDirs)
 aux_source_directory(src SOURCES)
 list(REMOVE_ITEM SOURCES src/lua.c)
 list(REMOVE_ITEM SOURCES src/luac.c)
@@ -126,9 +129,8 @@ set_target_properties(liblua PROPERTIES OUTPUT_NAME ${name})
 get_target_property(prop liblua INTERFACE_LINK_LIBRARIES)
 set(PROJECT_LIBRARIES "-l$<JOIN:${name};${prop}, -l>")
 
-install(FILES src/lua.h src/luaconf.h src/lualib.h src/lauxlib.h src/lua.hpp
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+file(GLOB_RECURSE PUBLIC_HEADER lua.h luaconf.h lualib.h lauxlib.h lua.hpp)
+install(FILES ${PUBLIC_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(TARGETS lualib liblua lua luac EXPORT ${PROJECT_NAME}-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -151,5 +153,4 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
   @ONLY
 )
-include(InstallRequiredSystemLibraries)
 include(CPack)

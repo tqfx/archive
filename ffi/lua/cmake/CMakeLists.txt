@@ -9,15 +9,18 @@ if(NOT LUA_ARCHIVE)
   file(GLOB_RECURSE LUA_ARCHIVE ${CMAKE_CURRENT_LIST_DIR}/lua-*.tar.gz
     ${CMAKE_SOURCE_DIR}/lua-*.tar.gz ${CMAKE_BINARY_DIR}/lua-*.tar.gz
   )
-  list(SORT LUA_ARCHIVE ORDER DESCENDING)
-  list(GET LUA_ARCHIVE 0 LUA_ARCHIVE)
-  string(REGEX MATCH "[0-9]+\.[0-9]+\.[0-9]+" LUA_VERSION ${LUA_ARCHIVE})
-  set(LUA_VERSION ${LUA_VERSION} CACHE STRING "" FORCE)
+
+  if(LUA_ARCHIVE)
+    list(SORT LUA_ARCHIVE)
+    list(REVERSE LUA_ARCHIVE)
+    list(GET LUA_ARCHIVE 0 LUA_ARCHIVE)
+    string(REGEX MATCH "[0-9]+\.[0-9]+\.[0-9]+" LUA_VERSION ${LUA_ARCHIVE})
+    set(LUA_VERSION ${LUA_VERSION} CACHE STRING "" FORCE)
+  endif()
 endif()
 
-project(lua VERSION ${LUA_VERSION} LANGUAGES C
+project(lua VERSION ${LUA_VERSION} LANGUAGES C HOMEPAGE_URL http://www.lua.org
   DESCRIPTION "A powerful, efficient, lightweight, embeddable scripting language."
-  HOMEPAGE_URL "https://www.${PROJECT_NAME}.org"
 )
 
 if(POLICY CMP0135) # 3.24
