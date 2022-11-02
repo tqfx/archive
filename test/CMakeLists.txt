@@ -9,6 +9,7 @@ endif()
 get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 string_append(CMAKE_CXX_FLAGS ${CXXFLAGS_WARNINGS} ${CXXFLAGS_SANITIZE})
 string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
+string_append(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_SANITIZE})
 
 if(NOT ANDROID)
   set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_PIC})
@@ -21,6 +22,12 @@ if(CMAKE_VERSION VERSION_GREATER 3.14)
   cmake_policy(SET CMP0083 NEW)
   include(CheckPIESupported)
   check_pie_supported()
+endif()
+
+if(ENABLE_SANITIZE)
+  set(A_LIBRARY a-san)
+else()
+  set(A_LIBRARY a)
 endif()
 
 function(unittest target)
@@ -38,17 +45,12 @@ function(unittest target)
     endif()
 
     add_executable(${TARGET} ${TEST_SOURCE})
-    target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::a)
     set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
+    target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::${A_LIBRARY})
     add_test(NAME ${target} WORKING_DIRECTORY
       $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:a>,${CMAKE_CURRENT_BINARY_DIR}>
       COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND}
     )
-
-    if(CXX IN_LIST ENABLED_LANGUAGES)
-      target_compile_definitions(${TARGET} PRIVATE HAS_CXX)
-    endif()
-
     target_executable_options(${TARGET})
   endif()
 endfunction()

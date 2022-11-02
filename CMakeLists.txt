@@ -90,7 +90,7 @@ set(A_SIZEOF_P ${CMAKE_SIZEOF_VOID_P})
 
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
-  set_target_properties(${target} PROPERTIES OUTPUT_NAME a
+  set_target_properties(${target} PROPERTIES
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS
   )
   target_compile_definitions(${target} PRIVATE A_EXPORTS)
@@ -117,30 +117,37 @@ else()
   file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 endif()
 
+if(ENABLE_SANITIZE)
+  add_library(a-san STATIC ${SOURCES})
+  target_compile_sanitize(a-san)
+  target_library_setting(a-san)
+endif()
+
 add_library(a ${SOURCES})
 target_library_setting(a)
 set(A_LIBRARIES a)
 unset(SOURCES)
 
 if(TARGET_SUPPORTS_SHARED_LIBS)
-  if(BUILD_SHARED_LIBS)
-    set(A_SHARED_LIBS a)
-    list(APPEND A_LIBRARIES liba)
-    add_library(liba STATIC $<TARGET_OBJECTS:a>)
+  if(NOT BUILD_SHARED_LIBS)
+    set(A_SHARED_LIB liba)
+    set(A_STATIC_LIB a)
+    set(module SHARED)
   else()
-    set(A_SHARED_LIBS liba)
-    list(APPEND A_LIBRARIES liba)
-    add_library(liba SHARED $<TARGET_OBJECTS:a>)
+    set(A_STATIC_LIB liba)
+    set(A_SHARED_LIB a)
+    set(module STATIC)
   endif()
 
+  list(APPEND A_LIBRARIES liba)
+  add_library(liba ${module} $<TARGET_OBJECTS:a>)
+  set_target_properties(${A_LIBRARIES} PROPERTIES OUTPUT_NAME a)
+  target_compile_definitions(${A_SHARED_LIB} INTERFACE A_IMPORTS)
   target_library_setting(liba)
-  target_compile_definitions(${A_SHARED_LIBS}
-    INTERFACE A_IMPORTS
-  )
-  target_link_sanitize(${A_SHARED_LIBS})
+  unset(module)
 
   if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
-    set_target_properties(${A_SHARED_LIBS} PROPERTIES
+    set_target_properties(${A_SHARED_LIB} PROPERTIES
       OUTPUT_NAME ${PROJECT_NAME}
     )
   endif()

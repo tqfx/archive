@@ -1,6 +1,7 @@
 option(ENABLE_LDOC "Enable ffi lua documentation" OFF)
 option(ENABLE_LUA "Enable ffi lua" OFF)
 option(WITH_LUA "Build with lua" OFF)
+set(A_LIBRARY a)
 
 if(ENABLE_LUA)
   if(NOT WITH_LUA)
@@ -11,12 +12,17 @@ if(ENABLE_LUA)
     set(LUA_MATH_LIBRARY ${MATH_LIBRARY} CACHE STRING "" FORCE)
   else()
     add_subdirectory(lua/cmake)
-    target_compile_sanitize(PUBLIC ${LUA_LIBRARIES})
-    target_link_sanitize(PUBLIC ${LUA_LIBRARIES} lualib)
     set(LUA_EXECUTABLE ${TARGET_SYSTEM_EMULATOR} ${LUA_EXECUTABLE})
+    target_link_sanitize(PUBLIC ${LUA_LIBRARIES} lualib)
+    target_compile_sanitize(PUBLIC ${LUA_LIBRARIES})
+
+    if(ENABLE_SANITIZE)
+      set(A_LIBRARY a-san)
+    endif()
   endif()
 
   add_subdirectory(lua)
+  unset(A_LIBRARY)
 endif()
 
 option(ENABLE_JAVA "Enable ffi java" OFF)

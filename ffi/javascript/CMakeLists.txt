@@ -29,10 +29,11 @@ target_include_directories(a-js PRIVATE $<TARGET_PROPERTY:a,INTERFACE_INCLUDE_DI
 set_target_properties(a-js PROPERTIES OUTPUT_NAME ${PROJECT_NAME} LINK_FLAGS ${EMFLAGS})
 target_link_libraries(a-js PRIVATE embind)
 
-if(NOT ENABLE_SANITIZE)
-  target_compile_options(a-js PRIVATE
-    $<$<C_COMPILER_ID:Clang>:${CFLAGS}>
-    $<$<CXX_COMPILER_ID:Clang>:${CXXFLAGS}>
+if(ENABLE_WARNINGS)
+  target_compile_options(a-js PRIVATE -Weverything -Wno-documentation
+    -Wno-documentation-unknown-command -Wno-used-but-marked-unused
+    $<$<COMPILE_LANGUAGE:C>:-Wno-declaration-after-statement>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wno-c++98-compat-pedantic>
   )
 endif()
 

@@ -26,13 +26,10 @@ function(target_library_option_ target scope)
     target_compile_options(${target} ${scope} $<IF:$<${lang}_COMPILER_ID:MSVC>,/W4 /sdl,-pedantic -Wall>)
   endforeach()
 
-  target_compile_options(${target} ${scope}
-    $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<NOT:$<CXX_COMPILER_ID:MSVC>>>:-Weffc++>
-  )
+  target_compile_options(${target} ${scope} $<$<AND:$<NOT:$<CXX_COMPILER_ID:MSVC>>,$<COMPILE_LANGUAGE:CXX>>:-Weffc++>)
 
   foreach(lang ${ENABLED_LANGUAGES})
-    list(APPEND ${lang}FLAGS ${${lang}FLAGS_WARNINGS} ${${lang}FLAGS_SANITIZE})
-    target_compile_options(${target} ${scope} $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS}>)
+    target_compile_options(${target} ${scope} $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS_WARNINGS}>)
   endforeach()
 endfunction()
 
@@ -88,6 +85,10 @@ function(target_executable_options)
     endif()
 
     target_executable_option_(${target} ${scope})
+
+    if(CXX IN_LIST ENABLED_LANGUAGES)
+      target_compile_definitions(${target} ${scope} HAS_CXX)
+    endif()
   endforeach()
 endfunction()
 
@@ -124,6 +125,8 @@ function(target_link_sanitize)
     foreach(lang ${ENABLED_LANGUAGES})
       target_link_options(${target} ${scope} $<$<COMPILE_LANGUAGE:${lang}>:${${lang}FLAGS_SANITIZE}>)
     endforeach()
+
+    target_link_options(${target} ${scope} ${LDFLAGS_SANITIZE})
   endforeach()
 endfunction()
 

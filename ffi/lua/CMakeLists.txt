@@ -13,8 +13,8 @@ find_program(LUA_EXECUTABLE NAMES lua
   HINTS ENV LUA_DIR
 )
 
-file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
-add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
+file(GLOB_RECURSE SOURCES src/*.[ch])
+add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:${A_LIBRARY}>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_compile_definitions(a-lua PRIVATE $<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>)
 target_include_directories(a-lua PRIVATE $<TARGET_PROPERTY:a,INTERFACE_INCLUDE_DIRECTORIES>)
@@ -47,6 +47,6 @@ if(ENABLE_LDOC AND LDOC_EXECUTABLE)
   create_ldoc(a-ldoc -f markdown ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()
 
-if(NOT LUA_FOUND OR NOT ENABLE_SANITIZE)
+if(LUA_EXECUTABLE)
   include(test.cmake)
 endif()

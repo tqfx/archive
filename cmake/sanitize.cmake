@@ -6,6 +6,10 @@ macro(sanitize_flag)
   list_append(CXXFLAGS_SANITIZE ${ARGN})
 endmacro()
 
+macro(sanitize_link)
+  check_flag_cc(LDFLAGS_SANITIZE ${ARGN})
+endmacro()
+
 if(
   CMAKE_C_COMPILER_ID MATCHES "(Apple)?[Cc]lang" OR
   CMAKE_C_COMPILER_ID MATCHES "IntelLLVM" OR
@@ -24,6 +28,30 @@ if(
     CMAKE_CXX_COMPILER_ID MATCHES "Apple[Cc]lang"
     ))
     sanitize_flag_cx(-fsanitize=leak)
+
+    if(
+      CMAKE_C_COMPILER_ID MATCHES "GNU" OR
+      CMAKE_CXX_COMPILER_ID MATCHES "GNU"
+    )
+      sanitize_link(-static-liblsan)
+    endif()
+  endif()
+
+  if(
+    CMAKE_C_COMPILER_ID MATCHES "GNU" OR
+    CMAKE_CXX_COMPILER_ID MATCHES "GNU"
+  )
+    sanitize_link(-static-libubsan)
+    sanitize_link(-static-libasan)
+  endif()
+
+  if(
+    CMAKE_C_COMPILER_ID MATCHES "(Apple)?[Cc]lang" OR
+    CMAKE_C_COMPILER_ID MATCHES "IntelLLVM" OR
+    CMAKE_CXX_COMPILER_ID MATCHES "(Apple)?[Cc]lang" OR
+    CMAKE_CXX_COMPILER_ID MATCHES "IntelLLVM"
+  )
+    sanitize_link(-static-libsan)
   endif()
 elseif(
   CMAKE_C_COMPILER_ID MATCHES "MSVC" OR

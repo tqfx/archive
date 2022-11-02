@@ -19,7 +19,7 @@ if(ENABLE_JAVADOC)
   create_javadoc(${PROJECT_NAME} FILES ${SOURCES} INSTALLPATH ${CMAKE_INSTALL_DATADIR}/javadoc)
 endif()
 
-file(GLOB_RECURSE SOURCES src/*.[ch] src/*.[chm]pp)
+file(GLOB_RECURSE SOURCES src/*.[ch])
 add_library(a-jni SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-jni PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_compile_definitions(a-jni PRIVATE $<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>)
@@ -38,6 +38,6 @@ install_jar_exports(TARGETS a-jni
   NAMESPACE ${PROJECT_NAME}::
 )
 
-if(NOT ENABLE_SANITIZE AND BUILD_TESTING)
+if(BUILD_TESTING)
   include(test.cmake)
 endif()
