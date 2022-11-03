@@ -76,7 +76,7 @@ target("a.objs")
         table.insert(m, "/lib")
         local m = find_library("m", m)
         if m then
-            target:add("linkdirs", m.linkdir, {public = true})
+            target:add("rpathdirs", m.linkdir, {public = true})
             target:add("links", m.link, {public = true})
         end
     end)
