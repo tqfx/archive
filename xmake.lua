@@ -7,10 +7,21 @@ set_xmakever("2.5.0")
 -- set project version
 set_version("0.1.1", {build = "%Y%m%d%H%M"})
 
--- set language: c11 c++11
-set_languages("c11", "c++11")
-if is_plat("windows") then
-    set_languages("c++17")
+-- option: with-cxx
+option("with-cxx")
+    set_default(true)
+    set_showmenu(true)
+    set_description("Enable or disable c++")
+option_end()
+
+-- set language: c11
+set_languages("c11")
+if has_config("with-cxx") then
+    if is_plat("windows") then
+        set_languages("c++17")
+    else
+        set_languages("c++11")
+    end
 end
 
 -- option: warnings
@@ -113,10 +124,15 @@ target("a.objs")
     add_includedirs("include", {public = true})
     -- add the header files for installing
     add_headerfiles("$(buildir)/a.config.h")
-    add_headerfiles("include/(**.hpp)")
+    if has_config("with-cxx") then
+        add_headerfiles("include/(**.hpp)")
+    end
     add_headerfiles("include/(**.h)")
     -- add the common source files
-    add_files("src/**.c", "src/**.cpp")
+    add_files("src/**.c")
+    if has_config("with-cxx") then
+        add_files("src/**.cpp")
+    end
     -- add the platform options
     if not is_plat("windows", "mingw") then
         add_cxflags("-fPIC")

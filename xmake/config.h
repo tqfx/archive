@@ -18,18 +18,7 @@
 
 ${define A_HAVE_HYPOT}
 ${define A_HAVE_LOG1P}
-${define A_HAVE_FABS}
-${define A_HAVE_POW}
-${define A_HAVE_EXP}
-${define A_HAVE_LOG}
-${define A_HAVE_SIN}
-${define A_HAVE_COS}
-${define A_HAVE_TAN}
-${define A_HAVE_ASIN}
-${define A_HAVE_ACOS}
-${define A_HAVE_ATAN}
 ${define A_HAVE_ATAN2}
-
 ${define A_HAVE_CSQRT}
 ${define A_HAVE_CPOW}
 ${define A_HAVE_CEXP}

@@ -38,6 +38,25 @@ install_jar_exports(TARGETS a-jni
   NAMESPACE ${PROJECT_NAME}::
 )
 
-if(BUILD_TESTING)
+function(java_check_size output)
+  execute_process(
+    COMMAND ${Java_JAVA_EXECUTABLE} -version
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE version
+    ERROR_VARIABLE version
+    ERROR_QUIET
+  )
+  string(FIND "${version}" "64-Bit" r)
+
+  if(${r} GREATER -1)
+    set(${output} 8 PARENT_SCOPE) # 64
+  else()
+    set(${output} 4 PARENT_SCOPE) # 32
+  endif()
+endfunction()
+
+java_check_size(JAVA_SIZE)
+
+if(CMAKE_SIZEOF_VOID_P EQUAL JAVE_SIZE AND BUILD_TESTING)
   include(test.cmake)
 endif()

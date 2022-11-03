@@ -19,18 +19,7 @@
 
 #cmakedefine A_HAVE_HYPOT @A_HAVE_HYPOT@
 #cmakedefine A_HAVE_LOG1P @A_HAVE_LOG1P@
-#cmakedefine A_HAVE_FABS @A_HAVE_FABS@
-#cmakedefine A_HAVE_POW @A_HAVE_POW@
-#cmakedefine A_HAVE_EXP @A_HAVE_EXP@
-#cmakedefine A_HAVE_LOG @A_HAVE_LOG@
-#cmakedefine A_HAVE_SIN @A_HAVE_SIN@
-#cmakedefine A_HAVE_COS @A_HAVE_COS@
-#cmakedefine A_HAVE_TAN @A_HAVE_TAN@
-#cmakedefine A_HAVE_ASIN @A_HAVE_ASIN@
-#cmakedefine A_HAVE_ACOS @A_HAVE_ACOS@
-#cmakedefine A_HAVE_ATAN @A_HAVE_ATAN@
 #cmakedefine A_HAVE_ATAN2 @A_HAVE_ATAN2@
-
 #cmakedefine A_HAVE_CSQRT @A_HAVE_CSQRT@
 #cmakedefine A_HAVE_CPOW @A_HAVE_CPOW@
 #cmakedefine A_HAVE_CEXP @A_HAVE_CEXP@
