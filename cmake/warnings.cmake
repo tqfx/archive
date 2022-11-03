@@ -4,7 +4,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/core.cmake)
 if(CMAKE_C_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_C_COMPILER_ID MATCHES "IntelLLVM" OR
   CMAKE_CXX_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_CXX_COMPILER_ID MATCHES "IntelLLVM")
   # https://clang.llvm.org/docs/DiagnosticsReference.html
-  # https://releases.llvm.org/4.0.1/tools/clang/docs/DiagnosticsReference.html
+  # https://releases.llvm.org/4.0.1/tools/clang/DiagnosticsReference.html
   warnings_flag_cx(-Weverything)
   warnings_flag_cx(-Wno-documentation)
   warnings_flag_cx(-Wno-used-but-marked-unused)

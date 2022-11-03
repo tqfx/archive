@@ -1,9 +1,11 @@
 include(CheckLibraryExists)
 
 set(A_REAL_BITS 64 CACHE INTERNAL "real number bits")
-find_library(MATH_LIBRARY NAMES m
-  PATHS /system/lib64 /system/lib
-)
+find_library(MATH_LIBRARY NAMES m PATHS /system/lib64 /system/lib)
+
+if(NOT MATH_LIBRARY AND CMAKE_C_COMPILER_ID MATCHES "TinyCC" AND WIN32)
+  find_file(MATH_LIBRARY NAMES ucrtbase.dll msvcrt.dll)
+endif()
 
 function(check_m VARIABLE FUNCTION)
   get_filename_component(LOCATION "${MATH_LIBRARY}" DIRECTORY)
@@ -16,7 +18,7 @@ function(check_m VARIABLE FUNCTION)
   endif()
 
   if(NOT MATH_LIBRARY AND WIN32)
-    set(MATH_LIBRARY msvcrt)
+    set(MATH_LIBRARY ucrt msvcrt)
   elseif(NOT MATH_LIBRARY)
     set(MATH_LIBRARY m)
   endif()
