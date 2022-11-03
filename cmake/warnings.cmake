@@ -11,8 +11,7 @@ if(CMAKE_C_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_C_COMPILER_ID MAT
   warnings_flag_cx(-Wno-documentation-unknown-command)
   warnings_flag_cc(-Wno-declaration-after-statement)
   warnings_flag_xx(-Wno-c++98-compat-pedantic)
-elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR
-  CMAKE_C_COMPILER_ID MATCHES "TinyCC" OR CMAKE_CXX_COMPILER_ID MATCHES "TinyCC")
+elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
   # https://gcc.gnu.org/onlinedocs/gcc-3.0.3/gcc/Warning-Options.html
   warnings_flag_cx(-Wextra) # 3.4+
@@ -66,4 +65,8 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "MSVC" OR CMAKE_CXX_COMPILER_ID MATCHES "MSVC
   warnings_flag_cx(/wd4710)
   warnings_flag_cx(/wd5039)
   warnings_flag_cx(/wd5045)
+elseif(CMAKE_C_COMPILER_ID MATCHES "TinyCC")
+  # https://bellard.org/tcc/tcc-doc.html
+  warnings_flag_cx(-Wwrite-strings)
+  warnings_flag_cx(-Wunsupported)
 endif()
