@@ -2,19 +2,26 @@ include(GNUInstallDirs)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_C_STANDARD_REQUIRED ON)
-option(LUA_32BITS "lua 32bits" OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-find_library(MATH_LIBRARY NAMES m
-  PATHS /system/lib64 /system/lib
-)
-find_library(READLINE_LIBRARY NAMES readline)
-find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
+option(LUA_32BITS "build lua 32bits" OFF)
 
 if(LUA_32BITS)
-  set(LUA_32BITS 1 CACHE BOOL "lua 32bits" FORCE)
+  set(LUA_32BITS 1 CACHE BOOL "" FORCE)
 else()
-  set(LUA_32BITS 0 CACHE BOOL "lua 32bits" FORCE)
+  set(LUA_32BITS 0 CACHE BOOL "" FORCE)
 endif()
+
+if(ANDROID AND UNIX)
+  list(APPEND CMAKE_PREFIX_PATH /system)
+endif()
+
+if(DEFINED ENV{PREFIX})
+  list(APPEND CMAKE_PREFIX_PATH $ENV{PREFIX})
+endif()
+
+find_library(READLINE_LIBRARY NAMES readline)
+find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
+find_library(MATH_LIBRARY NAMES m DOC "lua math library")
 
 if(READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
   set(READLINE_FOUND TRUE)
@@ -41,7 +48,7 @@ if(NOT WIN32)
   file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF_H}")
 endif()
 
-if(UNIX AND ANDROID)
+if(ANDROID AND UNIX)
   string(REGEX REPLACE "([^/\\]+)([/\\]*)$" "\\1/tmp/lua_XXXXXX" LUA_ROOT "${CMAKE_INSTALL_PREFIX}")
   file(READ ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c LOSLIB_C)
   string(LENGTH "${LUA_ROOT}0" LUA_ROOT_LENGTH)

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15) # CheckPIESupported
 
 if(POLICY CMP0057) # 3.3
   cmake_policy(SET CMP0057 NEW)
-endif() # IN_LIST if()
+endif() # if(IN_LIST)
 
 if(POLICY CMP0063) # 3.3
   cmake_policy(SET CMP0063 NEW)

@@ -26,12 +26,12 @@ ${define A_HAVE_CLOG}
 ${define A_HAVE_CSIN}
 ${define A_HAVE_CCOS}
 ${define A_HAVE_CTAN}
-${define A_HAVE_CASIN}
-${define A_HAVE_CACOS}
-${define A_HAVE_CATAN}
 ${define A_HAVE_CSINH}
 ${define A_HAVE_CCOSH}
 ${define A_HAVE_CTANH}
+${define A_HAVE_CASIN}
+${define A_HAVE_CACOS}
+${define A_HAVE_CATAN}
 ${define A_HAVE_CASINH}
 ${define A_HAVE_CACOSH}
 ${define A_HAVE_CATANH}

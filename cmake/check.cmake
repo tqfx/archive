@@ -1,7 +1,16 @@
+# include modules
 include(CheckLibraryExists)
 
+if(ANDROID AND UNIX)
+  list(APPEND CMAKE_PREFIX_PATH /system)
+endif()
+
+if(DEFINED ENV{PREFIX})
+  list(APPEND CMAKE_PREFIX_PATH $ENV{PREFIX})
+endif()
+
 set(A_REAL_BITS 64 CACHE INTERNAL "real number bits")
-find_library(MATH_LIBRARY NAMES m PATHS /system/lib64 /system/lib)
+find_library(MATH_LIBRARY NAMES m DOC "math library")
 
 if(NOT MATH_LIBRARY AND CMAKE_C_COMPILER_ID MATCHES "TinyCC" AND WIN32)
   find_file(MATH_LIBRARY NAMES ucrtbase.dll msvcrt.dll)
@@ -41,12 +50,12 @@ check_m(A_HAVE_CLOG clog)
 check_m(A_HAVE_CSIN csin)
 check_m(A_HAVE_CCOS ccos)
 check_m(A_HAVE_CTAN ctan)
-check_m(A_HAVE_CASIN casin)
-check_m(A_HAVE_CACOS cacos)
-check_m(A_HAVE_CATAN catan)
 check_m(A_HAVE_CSINH csinh)
 check_m(A_HAVE_CCOSH ccosh)
 check_m(A_HAVE_CTANH ctanh)
+check_m(A_HAVE_CASIN casin)
+check_m(A_HAVE_CACOS cacos)
+check_m(A_HAVE_CATAN catan)
 check_m(A_HAVE_CASINH casinh)
 check_m(A_HAVE_CACOSH cacosh)
 check_m(A_HAVE_CATANH catanh)

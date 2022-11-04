@@ -27,12 +27,12 @@
 #cmakedefine A_HAVE_CSIN @A_HAVE_CSIN@
 #cmakedefine A_HAVE_CCOS @A_HAVE_CCOS@
 #cmakedefine A_HAVE_CTAN @A_HAVE_CTAN@
-#cmakedefine A_HAVE_CASIN @A_HAVE_CASIN@
-#cmakedefine A_HAVE_CACOS @A_HAVE_CACOS@
-#cmakedefine A_HAVE_CATAN @A_HAVE_CATAN@
 #cmakedefine A_HAVE_CSINH @A_HAVE_CSINH@
 #cmakedefine A_HAVE_CCOSH @A_HAVE_CCOSH@
 #cmakedefine A_HAVE_CTANH @A_HAVE_CTANH@
+#cmakedefine A_HAVE_CASIN @A_HAVE_CASIN@
+#cmakedefine A_HAVE_CACOS @A_HAVE_CACOS@
+#cmakedefine A_HAVE_CATAN @A_HAVE_CATAN@
 #cmakedefine A_HAVE_CASINH @A_HAVE_CASINH@
 #cmakedefine A_HAVE_CACOSH @A_HAVE_CACOSH@
 #cmakedefine A_HAVE_CATANH @A_HAVE_CATANH@
