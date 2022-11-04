@@ -55,6 +55,8 @@ function(unittest target)
   endif()
 endfunction()
 
+unittest(main SOURCE main.c main.cpp)
+
 unittest(a SOURCE lib.cpp)
 
 unittest(for SOURCE for.c for.cpp)
