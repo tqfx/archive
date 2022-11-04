@@ -20,8 +20,7 @@ import ctypes.util
 import ctypes
 
 
-def check_math(funcs, define_macros=[]) -> str:
-    A_REAL_BITS = 64
+def check_math(funcs, define_macros=[]):
     if platform.system() == "Windows":
         path_libm = ctypes.util.find_library("ucrtbase")
         if not path_libm:
@@ -33,15 +32,16 @@ def check_math(funcs, define_macros=[]) -> str:
         libm = ctypes.CDLL(path_libm)
     except:
         return text
+    A_REAL_BYTE = 0x08
     for define_macro in define_macros:
-        if "A_REAL_BITS" in define_macro:
-            A_REAL_BITS = int(define_macro[-1])
+        if "A_REAL_BYTE" in define_macro:
+            A_REAL_BYTE = int(define_macro[-1])
             break
     for func in funcs:
         name = "A_HAVE_" + func.upper()
-        if A_REAL_BITS > 64:
+        if A_REAL_BYTE == 0x10:
             func += 'l'
-        elif A_REAL_BITS == 32:
+        if A_REAL_BYTE == 0x04:
             func += 'f'
         try:
             libm[func]
@@ -77,7 +77,7 @@ source_c, source_cc = [], []
 header_h, header_hh = [], []
 suffix_c, suffix_cc = (".c",), (".cc", ".cpp", ".cxx")
 suffix_h, suffix_hh = (".h",), (".hh", ".hpp", ".hxx")
-define_macros = [("A_CONFIG", None), ("A_EXPORTS", None)]
+define_macros = [("A_HAVE_H", None), ("A_EXPORTS", None)]
 include_dirs = ["build", "include"]
 try:
     USE_CYTHON = True
@@ -144,7 +144,6 @@ ext_modules = [
         define_macros=define_macros,
     )
 ]
-
 if USE_CYTHON:
     from Cython.Build import cythonize
 
@@ -158,17 +157,21 @@ if USE_CYTHON:
 
 class Build(build_ext):
     def build_extensions(self):
+        from sys import version
+
+        if self.compiler.compiler_type == "msvc":
+            version = int(re.findall(r"MSC v.(\d+)", version)[0])
+            for e in self.extensions:
+                if e.language == "c" and int(version) > 1927:  # 16.8
+                    e.extra_compile_args += ["/std:c11"]
         if not self.compiler.compiler_type == "msvc":
             for e in self.extensions:
                 if e.language == "c++":
                     e.extra_compile_args += ["-std=c++11"]
                 elif e.language == "c":
                     e.extra_compile_args += ["-std=c11"]
-        if self.compiler.compiler_type == "msvc":
-            for e in self.extensions:
-                if e.language == "c":
-                    e.extra_compile_args += ["/std:c11"]
         if self.compiler.compiler_type == "mingw32":
+            self.compiler.define_macro("__USE_MINGW_ANSI_STDIO", 1)
             for e in self.extensions:
                 e.extra_link_args += ["-static-libgcc"]
                 if e.language == "c++":
@@ -178,6 +181,7 @@ class Build(build_ext):
                     "-lwinpthread",
                     "-Wl,--no-whole-archive",
                 ]
+
         build_ext.build_extensions(self)
 
 

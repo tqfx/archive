@@ -8,7 +8,7 @@
 #if !defined static_assert
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 #define static_assert(exp, msg) _Static_assert(exp, msg)
-#else /* !__STDC_VERSION__ */
+#elif defined(__STDC_VERSION__)
 #define static_assert(exp, msg) ((void)(0))
 #endif /* __STDC_VERSION__ */
 #endif /* static_assert */

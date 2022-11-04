@@ -10,11 +10,19 @@
 
 /* clang-format off */
 
+${define A_SIZEOF_P}
+#if !defined A_REAL_BYTE
+${define A_REAL_BYTE}
+#endif /* A_REAL_BYTE */
 #define A_VERSION "${VERSION}"
 #define A_VERSION_MAJOR ${VERSION_MAJOR}
 #define A_VERSION_MINOR ${VERSION_MINOR}
 #define A_VERSION_PATCH ${VERSION_ALTER}
 #define A_VERSION_TWEAK A_U64_C(${VERSION_BUILD})
+
+${define A_HAVE_RESTRICT}
+${define A_HAVE_STATIC_ASSERT}
+${define A_HAVE_VARIADIC_MACROS}
 
 ${define A_HAVE_HYPOT}
 ${define A_HAVE_LOG1P}

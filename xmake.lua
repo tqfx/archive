@@ -56,6 +56,14 @@ if is_mode("check") and not is_plat("mingw") then
     add_ldflags(flags)
 end
 
+-- option: set-real
+option("set-real")
+    set_default("8")
+    set_showmenu(true)
+    set_values("4", "8", "16")
+    set_description("real number bytes")
+option_end()
+
 target("a.objs")
     -- make as a collection of objects
     set_kind("object")
@@ -93,6 +101,11 @@ target("a.objs")
     end)
     -- detect c code functions
     includes("check_cfuncs.lua")
+    includes("check_csnippets.lua")
+    configvar_check_csnippets("A_SIZEOF_P", "printf(\"%u\", sizeof(size_t));", {output = true, number = true})
+    configvar_check_csnippets("A_HAVE_VARIADIC_MACROS", "#define _(...) __VA_ARGS__", {languages = "c99"})
+    configvar_check_csnippets("A_HAVE_STATIC_ASSERT", "_Static_assert(1, \"\");", {languages = "c11"})
+    configvar_check_csnippets("A_HAVE_RESTRICT", "void _(void *__restrict p);", {languages = "c99"})
     local math = {includes = "math.h"}
     configvar_check_cfuncs("A_HAVE_HYPOT", "hypot", math)
     configvar_check_cfuncs("A_HAVE_LOG1P", "log1p", math)
@@ -115,8 +128,9 @@ target("a.objs")
     configvar_check_cfuncs("A_HAVE_CACOSH", "cacosh", complex)
     configvar_check_cfuncs("A_HAVE_CATANH", "catanh", complex)
     -- set the auto-generated a.config.h
+    set_configvar("A_REAL_BYTE", get_config("set-real"), {quote = false})
     add_configfiles("xmake/config.h", {filename = "a.config.h"})
-    add_defines("A_CONFIG", {public = true})
+    add_defines("A_HAVE_H", {public = true})
     -- set export library symbols
     add_defines("A_EXPORTS")
     -- add include directories

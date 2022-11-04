@@ -30,13 +30,7 @@ a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
     case A_FPID_OR_BOUNDED:
     case A_FPID_AND:
     {
-#if A_REAL_BITS > 64
-        ctx->op = fminl;
-#elif A_REAL_BITS == 64
-        ctx->op = fmin;
-#elif A_REAL_BITS == 32
-        ctx->op = fminf;
-#endif /* A_REAL_BITS */
+        ctx->op = A_REAL_P(fmin);
         break;
     }
     case A_FPID_AND_ALGEBRA:
@@ -47,13 +41,7 @@ a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
     case A_FPID_AND_BOUNDED:
     case A_FPID_OR:
     {
-#if A_REAL_BITS > 64
-        ctx->op = fmaxl;
-#elif A_REAL_BITS == 64
-        ctx->op = fmax;
-#elif A_REAL_BITS == 32
-        ctx->op = fmaxf;
-#endif /* A_REAL_BITS */
+        ctx->op = A_REAL_P(fmax);
         break;
     }
     case A_FPID_EQU:

@@ -7,17 +7,44 @@
 #ifndef A_CONFIG_H
 #define A_CONFIG_H
 
+#if defined(A_HAVE_H)
+#include "a.config.h"
+#endif /* A_HAVE_H */
+
 /*! @cond */
+
+#undef A_ASSERT
+#undef A_HAVE_INLINE
+#define A_HAVE_INLINE
+#if !defined NDEBUG && defined(__GNUC__)
+#define A_ASSERT(E) assert(E)
+#endif /* NDEBUG */
+
+#if !defined __has_attribute
+#define __has_attribute(...) 0
+#endif /* __has_attribute */
+#if !defined __has_builtin
+#define __has_builtin(...) 0
+#endif /* __has_builtin */
+#if !defined __has_feature
+#define __has_feature(...) 0
+#endif /* __has_feature */
+#if !defined __has_include
+#define __has_include(...) 0
+#endif /* __has_include */
+#if !defined __has_warning
+#define __has_warning(...) 0
+#endif /* __has_warning */
 
 #if defined(__clang__)
 #pragma clang diagnostic push
+#endif /* __clang__ */
 #if __has_warning("-Wreserved-identifier")
 #pragma clang diagnostic ignored "-Wreserved-identifier"
 #endif /* -Wreserved-identifier */
 #if __has_warning("-Wreserved-id-macro")
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #endif /* -Wreserved-id-macro */
-#endif /* __clang__ */
 
 #if defined(__STDC_LIB_EXT1__)
 #if !defined __STDC_WANT_LIB_EXT1__
@@ -34,13 +61,132 @@
 #pragma clang diagnostic pop
 #endif /* __clang__ */
 
-#define A_HAVE_INLINE
+#undef a_prereq_msvc
+/* https://en.wikipedia.org/wiki/Microsoft_Visual_C++ */
+#if defined(_MSC_VER)
+#define a_prereq_msvc(maj, min) (_MSC_VER >= (maj * 100 + min))
+#else /* !_MSC_VER */
+#define a_prereq_msvc(maj, min) 0
+#endif /* _MSC_VER */
+
+#undef a_prereq_gnuc
+/* https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#define a_prereq_gnuc(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+#else /* !__GNUC__ */
+#define a_prereq_gnuc(maj, min) 0
+#endif /* __GNUC__ */
+
+#undef a_prereq_clang
+/* https://clang.llvm.org/docs/LanguageExtensions.html */
+#if defined(__clang_major__) && defined(__clang_minor__)
+#define a_prereq_clang(maj, min) ((__clang_major__ << 16) + __clang_minor__ >= ((maj) << 16) + (min))
+#else /* !__clang__ */
+#define a_prereq_clang(maj, min) 0
+#endif /* __clang__ */
+
+#if a_prereq_gnuc(2, 96) || __has_builtin(__builtin_expect)
+#define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
+#define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
+#else /* !__GNUC__ */
+#define a_unlikely(...) (__VA_ARGS__)
+#define a_likely(...) (__VA_ARGS__)
+#endif /* __GNUC__ */
+
+#if defined(__GNUC__) || defined(__clang__)
+#define A_ATTRIBUTE(...) __attribute__((__VA_ARGS__))
+#else /* !__attribute__ */
+#define A_ATTRIBUTE(...)
+#endif /* __attribute__ */
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define A_DECLSPEC(...) __declspec(__VA_ARGS__)
+#else /* !__declspec */
+#define A_DECLSPEC(...)
+#endif /* __declspec */
+
+/* attribute fallthrough */
+#if a_prereq_gnuc(7, 1) || __has_attribute(fallthrough)
+#define A_FALLTHROUGH __attribute__((fallthrough))
+#else /* !fallthrough */
+#define A_FALLTHROUGH ((void)(0))
+#endif /* fallthrough */
+
+/* attribute format */
+#if a_prereq_gnuc(2, 4) || __has_attribute(format)
+#define A_FORMAT(...) __attribute__((format(__VA_ARGS__)))
+#else /* !format */
+#define A_FORMAT(...)
+#endif /* format */
+
+/* attribute deprecated */
+#if a_prereq_gnuc(3, 2) || __has_attribute(deprecated)
+#define A_DEPRECATED(...) __attribute__((deprecated(__VA_ARGS__)))
+#elif defined(_WIN32) || defined(__CYGWIN__)
+#define A_DEPRECATED(...) __declspec(deprecated(__VA_ARGS__))
+#else /* !deprecated */
+#define A_DEPRECATED(...)
+#endif /* deprecated */
+
+/* attribute always inline */
+#if a_prereq_gnuc(3, 2) || __has_attribute(always_inline)
+#define A_INLINE __inline __attribute__((always_inline))
+#elif defined(_MSC_VER)
+#define A_INLINE __inline __forceinline
+#else /* !_MSC_VER */
+#define A_INLINE __inline
+#endif /* _MSC_VER */
+#if !defined A_INTERN
+#define A_INTERN static A_INLINE
+#endif /* A_INTERN */
+#define A_STATIC static
+
+/* attribute visibility */
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define A_EXPORT __declspec(dllexport)
+#define A_IMPORT __declspec(dllimport)
+#define A_HIDDEN
+#elif a_prereq_gnuc(4, 0) || __has_attribute(visibility)
+#define A_EXPORT __attribute__((visibility("default")))
+#define A_IMPORT __attribute__((visibility("default")))
+#define A_HIDDEN __attribute__((visibility("hidden")))
+#else /* !visibility */
+#define A_EXPORT
+#define A_IMPORT
+#define A_HIDDEN
+#endif /* visibility */
+#if defined(A_EXPORTS)
+#define A_PUBLIC extern A_EXPORT
+#elif defined(A_IMPORTS)
+#define A_PUBLIC extern A_IMPORT
+#else /* !A_PUBLIC */
+#define A_PUBLIC extern
+#endif /* A_PUBLIC */
+#define A_EXTERN extern
+
+#if !defined __cplusplus
+#define A_EXTERN_C
+#define A_EXTERN_C_ENTER
+#define A_EXTERN_C_LEAVE
+#else /* !__cplusplus */
+#define A_EXTERN_C extern "C"
+#define A_EXTERN_C_ENTER extern "C" {
+#define A_EXTERN_C_LEAVE }
+#endif /* __cplusplus */
+
+#if defined(__cplusplus)
+#define A_REGISTER
+#else /* !__cplusplus */
+#define A_REGISTER __register
+#endif /* __cplusplus */
+#define A_VOLATILE __volatile
+#define A_RESTRICT __restrict
+
+#if !defined A_ASSERT
+#define A_ASSERT(E) ((void)(0))
+#endif /* A_ASSERT */
 
 /*! @endcond */
-
-#if defined(A_CONFIG)
-#include "a.config.h"
-#endif /* A_CONFIG */
 
 /*! sizeof pointer */
 #if !defined A_SIZEOF_P

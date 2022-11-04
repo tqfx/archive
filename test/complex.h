@@ -422,15 +422,15 @@ A_STATIC a_void_t test_atrih(a_complex_s x)
     a_void_c(z);
 }
 
-#if A_REAL_BITS > 64
-#define strtoreal(str, endptr) strtold(str, endptr)
-#elif A_REAL_BITS == 64
-#define strtoreal(str, endptr) strtod(str, endptr)
-#elif A_REAL_BITS == 32
+#if A_REAL_BYTE == A_REAL_SINGLE
 #define strtoreal(str, endptr) strtof(str, endptr)
-#endif /* A_REAL_BITS */
+#elif A_REAL_BYTE == A_REAL_DOUBLE
+#define strtoreal(str, endptr) strtod(str, endptr)
+#elif A_REAL_BYTE == A_REAL_EXTEND
+#define strtoreal(str, endptr) strtold(str, endptr)
+#endif /* A_REAL_BYTE */
 
-A_STATIC a_complex_s strtocomplex(const char *a_restrict str, char **a_restrict endptr)
+A_STATIC a_complex_s strtocomplex(const char *A_RESTRICT str, char **A_RESTRICT endptr)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     a_complex_real(z) = strtoreal(str, endptr);

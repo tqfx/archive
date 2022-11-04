@@ -94,7 +94,7 @@ function(target_library_setting target)
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS
   )
   target_compile_definitions(${target} PRIVATE A_EXPORTS)
-  target_compile_definitions(${target} PUBLIC A_CONFIG)
+  target_compile_definitions(${target} PUBLIC A_HAVE_H)
   target_include_directories(${target} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>

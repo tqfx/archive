@@ -3,10 +3,10 @@ from cpython cimport *
 
 include "a/__init__.pxi"
 cdef array reals(object o = ()):
-    IF A_REAL_BITS == 32:
-        return array('f', o)
-    IF A_REAL_BITS == 64:
+    IF A_REAL_BYTE == 8:
         return array('d', o)
+    IF A_REAL_BYTE == 4:
+        return array('f', o)
 cdef bint iterable(object o):
     return PyObject_HasAttrString(o, "__contains__")
 
