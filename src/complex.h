@@ -12,8 +12,8 @@
 #if defined(__GNUC__)
 #include <complex.h>
 #define A_COMPLEX_T _Complex A_REAL_T
-#elif a_prereq_msvc(19, 28)
-#include <complex.h> // 16.8
+#elif a_prereq_msvc(18, 0)
+#include <complex.h> // 12.0
 #if A_REAL_BYTE == A_REAL_SINGLE
 #define A_COMPLEX_T _Fcomplex
 #elif A_REAL_BYTE == A_REAL_DOUBLE

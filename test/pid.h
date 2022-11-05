@@ -8,6 +8,9 @@
 #if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif /* -Wdouble-promotion */
+#if defined(_MSC_VER)
+#pragma warning(disable : 4204)
+#endif /* _MSC_VER */
 
 static void test(void)
 {

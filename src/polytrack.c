@@ -1,3 +1,6 @@
+#if defined(_MSC_VER)
+#pragma warning(disable : 4204)
+#endif /* _MSC_VER */
 #include "a/polytrack.h"
 #include "a/poly.h"
 #include <assert.h>

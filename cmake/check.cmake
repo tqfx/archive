@@ -12,6 +12,8 @@ endif()
 set(A_REAL_BYTE 8 CACHE INTERNAL "real number bytes")
 find_library(MATH_LIBRARY NAMES m DOC "math library")
 
+# https://devblogs.microsoft.com/cppblog/c99-library-support-in-visual-studio-2013/
+# https://learn.microsoft.com/en-us/cpp/overview/visual-cpp-language-conformance
 if(NOT MATH_LIBRARY AND CMAKE_C_COMPILER_ID MATCHES "TinyCC" AND WIN32)
   find_file(MATH_LIBRARY NAMES ucrtbase.dll msvcrt.dll)
 endif()

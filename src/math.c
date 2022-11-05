@@ -1,3 +1,6 @@
+#if defined(_MSC_VER)
+#pragma warning(disable : 4204)
+#endif /* _MSC_VER */
 #include "math.h"
 
 a_f32_t a_sqrt_inv(a_f32_t x)

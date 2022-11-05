@@ -5,6 +5,10 @@
 #if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
 #pragma GCC diagnostic ignored "-Winline"
 #endif /* -Winline */
+#if defined(_MSC_VER)
+#pragma warning(disable : 4204)
+#pragma warning(disable : 4221)
+#endif /* _MSC_VER */
 #include "a/list.h"
 #include <stdlib.h>
 #include <stdio.h>

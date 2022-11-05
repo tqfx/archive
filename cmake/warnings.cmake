@@ -3,8 +3,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/core.cmake)
 
 if(CMAKE_C_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_C_COMPILER_ID MATCHES "IntelLLVM" OR
   CMAKE_CXX_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_CXX_COMPILER_ID MATCHES "IntelLLVM")
-  # https://clang.llvm.org/docs/DiagnosticsReference.html
   # https://releases.llvm.org/4.0.1/tools/clang/DiagnosticsReference.html
+  # https://clang.llvm.org/docs/DiagnosticsReference.html
   warnings_flag_cx(-Weverything)
   warnings_flag_cx(-Wno-documentation)
   warnings_flag_cx(-Wno-used-but-marked-unused)
@@ -12,8 +12,8 @@ if(CMAKE_C_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_C_COMPILER_ID MAT
   warnings_flag_cc(-Wno-declaration-after-statement)
   warnings_flag_xx(-Wno-c++98-compat-pedantic)
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-  # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
   # https://gcc.gnu.org/onlinedocs/gcc-3.0.3/gcc/Warning-Options.html
+  # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
   warnings_flag_cx(-Wextra) # 3.4+
   warnings_flag_cc(-Winit-self) # 3.4+
   warnings_flag_cc(-Wc++-compat) # 4.1+

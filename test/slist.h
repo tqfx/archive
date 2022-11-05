@@ -8,6 +8,10 @@
 #if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* -Wpadded */
+#if defined(_MSC_VER)
+#pragma warning(disable : 4204)
+#pragma warning(disable : 4221)
+#endif /* _MSC_VER */
 #include "a/slist.h"
 #include <stdlib.h>
 #include <stdio.h>

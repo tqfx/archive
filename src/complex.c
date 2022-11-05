@@ -8,6 +8,9 @@
 #if a_prereq_gnuc(3, 0) || __has_warning("-Wfloat-equal")
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif /* -Wfloat-equal */
+#if defined(_MSC_VER)
+#pragma warning(disable : 4204)
+#endif /* _MSC_VER */
 #include "complex.h"
 #undef A_INTERN
 

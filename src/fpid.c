@@ -2,9 +2,12 @@
 #include "pid.h"
 #undef A_INTERN
 #define A_INTERN A_INLINE
+#if defined(_MSC_VER)
+#pragma warning(disable : 4204)
+#endif /* _MSC_VER */
 #include "fpid.h"
-#undef A_INTERN
 #include <math.h>
+#undef A_INTERN
 
 a_real_t a_fpid_op_or(a_real_t l, a_real_t r) { return l + r - l * r; }
 
