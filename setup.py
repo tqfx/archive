@@ -90,12 +90,12 @@ elif os.path.exists("ffi/python/src/lib.c"):
     source_c = ["ffi/python/src/lib.c"]
 with open("ffi/python/src/a/__init__.pxi", "r") as f:
     define_macros += re.findall(r"DEF (\w+) = (\d+)", f.read())
-if not os.path.exists("build"):
-    os.mkdir("build")
 with open("setup.cfg", "r") as f:
     version = re.findall(r"version = (.+)", f.read())[0]
 major, minor, patch = re.findall(r"(\d+).(\d+).(\d+)", version)[0]
 tweak = time.strftime("%Y%m%d%H%M")
+if not os.path.exists("build"):
+    os.mkdir("build")
 text = '''/*!
  @file a.config.h
  @brief algorithm library configuration
@@ -155,14 +155,22 @@ if USE_CYTHON:
     )
 
 
-class Build(build_ext):
+class Build(build_ext):  # type: ignore
     def build_extensions(self):
-        from sys import version
-
         if self.compiler.compiler_type == "msvc":
-            version = int(re.findall(r"MSC v.(\d+)", version)[0])
+            from distutils.msvccompiler import MSVCCompiler as msvc
+
+            class MSVCCompiler(msvc):
+                def __init__(self, verbose=0, dry_run=0, force=0):
+                    msvc.__init__(self, verbose=0, dry_run=1, force=1)
+                    msvc.initialize(self)  # type: ignore
+
+                def version(self):
+                    return self.__version  # type: ignore
+
+            version = MSVCCompiler().version()
             for e in self.extensions:
-                if e.language == "c" and int(version) > 1927:  # 16.8
+                if e.language == "c" and version > 16.8:
                     e.extra_compile_args += ["/std:c11"]
         if not self.compiler.compiler_type == "msvc":
             for e in self.extensions:
@@ -173,9 +181,9 @@ class Build(build_ext):
         if self.compiler.compiler_type == "mingw32":
             self.compiler.define_macro("__USE_MINGW_ANSI_STDIO", 1)
             for e in self.extensions:
-                e.extra_link_args += ["-static-libgcc"]
                 if e.language == "c++":
                     e.extra_link_args += ["-static-libstdc++"]
+                e.extra_link_args += ["-static-libgcc"]
                 e.extra_link_args += [
                     "-Wl,-Bstatic,--whole-archive",
                     "-lwinpthread",
@@ -186,6 +194,6 @@ class Build(build_ext):
 
 
 setup(
-    ext_modules=ext_modules,
+    ext_modules=ext_modules,  # type: ignore
     cmdclass={"build_ext": Build},
 )
