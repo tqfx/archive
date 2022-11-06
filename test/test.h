@@ -6,14 +6,6 @@
 #include <assert.h>
 #include <inttypes.h>
 
-#if !defined static_assert
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
-#define static_assert(exp, msg) _Static_assert(exp, msg)
-#elif defined(__STDC_VERSION__)
-#define static_assert(exp, msg) ((void)(0))
-#endif /* __STDC_VERSION__ */
-#endif /* static_assert */
-
 #define TEST_IS_TRUE(expression, message)                   \
     do                                                      \
     {                                                       \

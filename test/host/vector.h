@@ -81,14 +81,14 @@ static void test(void)
     a_vector_foreach(a_u32_t, it, ctx)
     {
         A_ASSERT(a_vector_get(ctx) == sizeof(*it));
-        static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vector_foreach");
+        TEST_BUG(sizeof(a_u32_t) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vector_foreach_reverse(a_u32_t, it, ctx)
     {
         A_ASSERT(a_vector_get(ctx) == sizeof(*it));
-        static_assert(sizeof(a_u32_t) == sizeof(*it), "bug in a_vector_foreach_reverse");
+        TEST_BUG(sizeof(a_u32_t) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
