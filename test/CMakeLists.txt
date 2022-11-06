@@ -30,55 +30,80 @@ else()
   set(A_LIBRARY a)
 endif()
 
-function(unittest target)
-  cmake_parse_arguments(TEST "" "TARGET" "SOURCE;COMMAND" ${ARGN})
+set(TARGET_PREFIX test-)
+
+function(building target)
+  set(TARGET "${TARGET_PREFIX}${target}")
 
   if(NOT CXX IN_LIST ENABLED_LANGUAGES)
-    list(FILTER TEST_SOURCE INCLUDE REGEX ".c$")
+    list(FILTER ARGN INCLUDE REGEX ".c$")
   endif()
 
-  if(TEST_SOURCE)
-    if(TEST_TARGET)
-      set(TARGET ${TEST_TARGET})
-    else()
-      set(TARGET test-${target})
-    endif()
-
-    add_executable(${TARGET} ${TEST_SOURCE})
-    set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
-    target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::${A_LIBRARY})
-    add_test(NAME ${target} WORKING_DIRECTORY
-      $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:a>,${CMAKE_CURRENT_BINARY_DIR}>
-      COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_COMMAND}
-    )
-    target_executable_options(${TARGET})
-  endif()
+  add_executable(${TARGET} ${ARGN})
+  set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
+  target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::${A_LIBRARY})
+  target_executable_options(${TARGET})
 endfunction()
 
-unittest(main SOURCE main.c main.cpp)
+function(unittest target)
+  set(TARGET "${TARGET_PREFIX}${target}")
+  cmake_parse_arguments(TEST "" "NAME" "ARGS" ${ARGN})
 
-unittest(a SOURCE lib.cpp)
+  if(NOT TEST_NAME)
+    set(TEST_NAME ${target})
+  endif()
 
-unittest(for SOURCE for.c for.cpp)
+  add_test(NAME ${TEST_NAME} WORKING_DIRECTORY
+    $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:${A_LIBRARY}>,${CMAKE_CURRENT_BINARY_DIR}>
+    COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_ARGS}
+  )
+endfunction()
 
-unittest(version SOURCE version.cpp)
+building(a lib.c lib.cpp)
+unittest(a NAME bkdr ARGS bkdr bkdr)
+unittest(a NAME for ARGS for 10)
+unittest(a)
 
-unittest(bkdr SOURCE bkdr.c)
-unittest(real SOURCE real.c)
-unittest(math SOURCE math.c)
+building(main main.c main.cpp)
+unittest(main)
 
-unittest(arr SOURCE arr.c arr.cpp)
-unittest(list SOURCE list.c list.cpp)
-unittest(slist SOURCE slist.c slist.cpp)
-unittest(crc SOURCE crc.cpp COMMAND crc.c)
-unittest(complex SOURCE complex.c complex.cpp COMMAND -4,3 -2,1)
+building(math math.c math.cpp)
+unittest(math)
 
-unittest(pid SOURCE pid.c pid.cpp)
-unittest(fpid SOURCE fpid.c fpid.cpp)
-unittest(notefreqs SOURCE notefreqs.c)
-unittest(poly SOURCE poly.c poly.cpp)
-unittest(polytrack SOURCE polytrack.c polytrack.cpp)
+building(version version.c version.cpp)
+unittest(version)
 
-unittest(operator SOURCE operator.c)
+building(arr arr.c arr.cpp)
+unittest(arr)
+
+building(crc crc.c crc.cpp)
+unittest(crc ARGS crc.c)
+
+building(list list.c list.cpp)
+unittest(list)
+
+building(slist slist.c slist.cpp)
+unittest(slist)
+
+building(complex complex.c complex.cpp)
+unittest(complex ARGS -4,3 -2,1)
+
+building(pid pid.c pid.cpp)
+unittest(pid)
+
+building(fpid fpid.c fpid.cpp)
+unittest(fpid)
+
+building(poly poly.c poly.cpp)
+unittest(poly)
+
+building(polytrack polytrack.c polytrack.cpp)
+unittest(polytrack)
+
+building(notefreqs notefreqs.c notefreqs.cpp)
+unittest(notefreqs)
+
+building(operator operator.c operator.cpp)
+unittest(operator)
 
 add_subdirectory(host)

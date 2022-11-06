@@ -1,7 +1,7 @@
 #ifndef TEST_SLIST_H
 #define TEST_SLIST_H
-
-#include "a/a.h"
+#define MAIN_(s, argc, argv) slist##s(argc, argv)
+#include "test.h"
 #if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
 #pragma GCC diagnostic ignored "-Winline"
 #endif /* -Winline */
@@ -14,7 +14,6 @@
 #endif /* _MSC_VER */
 #include "a/slist.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 typedef struct
 {
@@ -22,7 +21,7 @@ typedef struct
     a_cast_u data[1];
 } a_data_s;
 
-A_STATIC a_size_t a_slist_len(const a_slist_s *ctx)
+static a_size_t a_slist_len(const a_slist_s *ctx)
 {
     a_size_t count = 0;
     if (ctx == A_NULL)
@@ -45,7 +44,7 @@ done:
     return count;
 }
 
-A_STATIC a_void_t test(void)
+static void test(void)
 {
     a_slist_s *list1 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
     a_slist_ctor(list1);
@@ -105,7 +104,7 @@ A_STATIC a_void_t test(void)
     free(list1);
 }
 
-A_STATIC a_void_t null(void)
+static void null(void)
 {
     a_slist_u node1[1] = {{node1}};
     a_slist_u node2[1] = {{node2}};
@@ -134,23 +133,14 @@ A_STATIC a_void_t null(void)
     a_slist_mov(list1, list1->tail, list2);
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t slist_c(void);
-a_int_t slist_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func slist_cpp
-#else /* !__cplusplus */
-#define func slist_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     printf("%s\n", __func__);
     test();
     null();
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_SLIST_H */

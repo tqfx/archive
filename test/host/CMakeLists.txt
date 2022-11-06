@@ -1,5 +1,13 @@
-unittest(str SOURCE str.c str.cpp)
-unittest(vec SOURCE vec.c vec.cpp)
-unittest(que SOURCE que.c que.cpp)
+set(TARGET_PREFIX test-host-)
 
-unittest(vector SOURCE vector.c vector.cpp)
+building(str str.c str.cpp)
+unittest(str)
+
+building(vec vec.c vec.cpp)
+unittest(vec)
+
+building(que que.c que.cpp)
+unittest(que)
+
+building(vector vector.c vector.cpp)
+unittest(vector)

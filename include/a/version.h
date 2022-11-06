@@ -37,7 +37,7 @@
 
 /*! algorithm library version string */
 #ifndef A_VERSION
-#define A_VERSION ""
+#define A_VERSION "0.0.0"
 #endif /* A_VERSION */
 
 #if defined(__cplusplus)

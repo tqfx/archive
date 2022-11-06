@@ -1,9 +1,9 @@
 #ifndef TEST_PID_H
 #define TEST_PID_H
-
+#define MAIN_(s, argc, argv) pid##s(argc, argv)
+#include "test.h"
 #include "a/tf.h"
 #include "a/pid.h"
-#include <stdio.h>
 
 #if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
@@ -60,30 +60,21 @@ static void test(void)
             a_tf_proc(tf + 1 + i, ptr[i]);
         }
         a_tf_proc(tf, a_pid_outv(ctx + 0, 1, v[0]));
-#if defined(__cplusplus)
+#if defined(MAIN_ONCE)
         printf(A_REAL_PRI(".3", "f ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"),
                t, A_REAL_C(1.0), v[0], v0[0], v1[0], v2[0]);
-#endif /* __cplusplus */
+#endif /* MAIN_ONCE */
     }
     a_pid_exit(ctx + 0);
     a_pid_exit(ctx + 1);
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t pid_c(void);
-a_int_t pid_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func pid_cpp
-#else /* !__cplusplus */
-#define func pid_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     test();
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_PID_H */

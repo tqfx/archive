@@ -5,10 +5,6 @@
 #include "a/real.h"
 #include <math.h>
 
-#if defined(__cplusplus)
-#include <complex>
-#define A_COMPLEX_T std::complex<A_REAL_T>
-#else /* !__cplusplus */
 #if defined(__GNUC__)
 #include <complex.h>
 #define A_COMPLEX_T _Complex A_REAL_T
@@ -22,8 +18,6 @@
 #define A_COMPLEX_T _Lcomplex
 #endif /* A_REAL_BYTE */
 #endif /* A_COMPLEX_T */
-#endif /* __cplusplus */
-
 #if defined(A_COMPLEX_T)
 
 /* compiler built-in complex number type */

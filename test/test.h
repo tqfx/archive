@@ -1,6 +1,7 @@
 #ifndef TEST_TEST_H
 #define TEST_TEST_H
 
+#include "a/a.h"
 #include <stdio.h>
 #include <assert.h>
 #include <inttypes.h>
@@ -39,7 +40,7 @@
 #define MAIN_C(argc, argv) MAIN_(_c, argc, argv)
 #define MAIN_CPP(argc, argv) MAIN_(_cpp, argc, argv)
 #if defined(__cplusplus) == defined(HAS_CXX)
-#define MAIN_OUTPUT 1
+#define MAIN_ONCE 1
 #endif /* __cplusplus */
 #if defined(__cplusplus)
 extern "C" {

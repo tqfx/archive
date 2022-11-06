@@ -1,14 +1,14 @@
 #ifndef TEST_POLY_H
 #define TEST_POLY_H
-
+#define MAIN_(s, argc, argv) poly##s(argc, argv)
+#include "test.h"
 #include "a/poly.h"
-#include <stdio.h>
 
 #if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif /* -Wdouble-promotion */
 
-static a_void_t print(const a_real_t *a, a_size_t n)
+static void print(const a_real_t *a, a_size_t n)
 {
     putchar('{');
     a_forenum(a_size_t, i, n)
@@ -43,22 +43,13 @@ static void test(void)
     printf("=" A_REAL_PRI(, "g") "\n", a_poly_evar(x4, 4, 2));
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t poly_c(void);
-a_int_t poly_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func poly_cpp
-#else /* !__cplusplus */
-#define func poly_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     printf("%s\n", __func__);
     test();
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_POLY_H */

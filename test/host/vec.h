@@ -1,24 +1,24 @@
 #ifndef TEST_HOST_VEC_H
 #define TEST_HOST_VEC_H
-
-#include "a/host/vec.h"
+#define MAIN_(s, argc, argv) vec##s(argc, argv)
 #include "../test.h"
+#include "a/host/vec.h"
 #include <string.h>
 
-A_STATIC a_void_t dtor(a_vptr_t ptr)
+static void dtor(a_vptr_t ptr)
 {
     a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
     printf("%" PRIu32 " ", *obj);
 }
 
-A_STATIC a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
+static a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
 {
     *a_cast_s(a_u32_t *, dst) = *a_cast_s(const a_u32_t *, src);
     printf("%" PRIu32 " ", *a_cast_s(const a_u32_t *, src));
     return 0;
 }
 
-A_STATIC a_void_t test(void)
+static void test(void)
 {
     a_vec_s *ctx = a_vec_new(sizeof(a_u64_t));
     a_vec_foreach(a_u64_t, it, ctx);
@@ -188,17 +188,17 @@ A_STATIC a_void_t test(void)
 #include "a/host/str.h"
 #include <time.h>
 
-A_STATIC a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
+static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
 {
     return *a_cast_s(const a_int_t *, lhs) - *a_cast_s(const a_int_t *, rhs);
 }
 
-A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
+static a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 {
     return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
 }
 
-A_STATIC a_void_t test_sort(void)
+static void test_sort(void)
 {
     a_uint_t t = a_cast_s(a_uint_t, time(A_NULL));
     a_vec_s *ctx = a_vec_new(sizeof(a_int_t));
@@ -296,23 +296,14 @@ A_STATIC a_void_t test_sort(void)
     a_vec_die(ctx, A_NULL);
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t vector_c(void);
-a_int_t vector_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func vector_cpp
-#else /* !__cplusplus */
-#define func vector_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     printf("%s\n", __func__);
     test();
     test_sort();
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_HOST_VEC_H */

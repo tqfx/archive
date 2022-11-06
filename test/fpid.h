@@ -1,10 +1,9 @@
 #ifndef TEST_FPID_H
 #define TEST_FPID_H
-
+#define MAIN_(s, argc, argv) fpid##s(argc, argv)
+#include "test.h"
 #include "a/tf.h"
 #include "a/fpid.h"
-#include <assert.h>
-#include <stdio.h>
 
 #if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
@@ -110,10 +109,10 @@ static void test(void)
             a_tf_proc(tf + 1 + i, ptr[i]);
         }
         a_tf_proc(tf, a_fpid_outv(ctx + 0, 1, v[0]));
-#if defined(__cplusplus)
+#if defined(MAIN_ONCE)
         printf(A_REAL_PRI(".3", "f ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"),
                t, A_REAL_C(1.0), v[0], v0[0], v1[0], v2[0]);
-#endif /* __cplusplus */
+#endif /* MAIN_ONCE */
     }
     a_tf_zero(tf);
     a_fpid_zero(ctx);
@@ -124,37 +123,28 @@ static void test(void)
         u[0] = a_fpid_outv(ctx, 1, v[0]);
         v[0] = a_tf_proc(tf, u[0]);
     }
-    assert(a_fpid_op(ctx) == A_FPID_EQU);
+    TEST_BUG(a_fpid_op(ctx) == A_FPID_EQU);
     a_fpid_set_op(ctx, A_FPID_OR_DEFAULT);
-    assert(a_fpid_op(ctx) == A_FPID_OR_DEFAULT);
+    TEST_BUG(a_fpid_op(ctx) == A_FPID_OR_DEFAULT);
     a_fpid_set_op(ctx, A_FPID_OR_ALGEBRA);
-    assert(a_fpid_op(ctx) == A_FPID_OR_ALGEBRA);
+    TEST_BUG(a_fpid_op(ctx) == A_FPID_OR_ALGEBRA);
     a_fpid_set_op(ctx, A_FPID_OR_BOUNDED);
-    assert(a_fpid_op(ctx) == A_FPID_OR_BOUNDED);
+    TEST_BUG(a_fpid_op(ctx) == A_FPID_OR_BOUNDED);
     a_fpid_set_op(ctx, A_FPID_AND_DEFAULT);
-    assert(a_fpid_op(ctx) == A_FPID_AND_DEFAULT);
+    TEST_BUG(a_fpid_op(ctx) == A_FPID_AND_DEFAULT);
     a_fpid_set_op(ctx, A_FPID_AND_ALGEBRA);
-    assert(a_fpid_op(ctx) == A_FPID_AND_ALGEBRA);
+    TEST_BUG(a_fpid_op(ctx) == A_FPID_AND_ALGEBRA);
     a_fpid_set_op(ctx, A_FPID_AND_BOUNDED);
-    assert(a_fpid_op(ctx) == A_FPID_AND_BOUNDED);
+    TEST_BUG(a_fpid_op(ctx) == A_FPID_AND_BOUNDED);
     a_fpid_exit(ctx);
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t fpid_c(void);
-a_int_t fpid_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func fpid_cpp
-#else /* !__cplusplus */
-#define func fpid_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     test();
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_FPID_H */

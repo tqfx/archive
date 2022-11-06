@@ -644,7 +644,7 @@ typedef union a_real_u
  @param base specifies the alignment that is a power of two
  @param size number of bytes to allocate
 */
-#define a_align(base, size) ((a_cast_r(a_size_t, size) + (base)-1) & ~((base)-1))
+#define a_align(base, size) ((a_cast_s(a_size_t, size) + (base)-1) & ~((base)-1))
 
 /*!
  @brief size of an array

@@ -1,7 +1,7 @@
 #ifndef TEST_LIST_H
 #define TEST_LIST_H
-
-#include "a/a.h"
+#define MAIN_(s, argc, argv) list##s(argc, argv)
+#include "test.h"
 #if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
 #pragma GCC diagnostic ignored "-Winline"
 #endif /* -Winline */
@@ -11,7 +11,6 @@
 #endif /* _MSC_VER */
 #include "a/list.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 typedef struct
 {
@@ -19,7 +18,7 @@ typedef struct
     a_cast_u data[1];
 } a_data_s;
 
-A_STATIC a_size_t a_list_len(const a_list_s *ctx)
+static a_size_t a_list_len(const a_list_s *ctx)
 {
     a_size_t count = 0;
     if (ctx == A_NULL)
@@ -54,7 +53,7 @@ done:
     return count;
 }
 
-A_STATIC a_void_t test_next(void)
+static void test_next(void)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -101,7 +100,7 @@ A_STATIC a_void_t test_next(void)
     free(list2);
 }
 
-A_STATIC a_void_t test_prev(void)
+static void test_prev(void)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -148,7 +147,7 @@ A_STATIC a_void_t test_prev(void)
     free(list2);
 }
 
-A_STATIC a_void_t test_func(void)
+static void test_func(void)
 {
     a_list_s *list1 = a_cast_s(a_list_s *, malloc(sizeof(a_list_s)));
     a_list_ctor(list1);
@@ -207,7 +206,7 @@ A_STATIC a_void_t test_func(void)
     free(ctx);
 }
 
-A_STATIC a_void_t test_null(void)
+static void test_null(void)
 {
     a_list_s list1[1] = {{list1, list1}};
     a_list_s list2[1] = {{list2, list2}};
@@ -316,25 +315,16 @@ A_STATIC a_void_t test_null(void)
     }
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t list_c(void);
-a_int_t list_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func list_cpp
-#else /* !__cplusplus */
-#define func list_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     printf("%s\n", __func__);
     test_next();
     test_prev();
     test_func();
     test_null();
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_LIST_H */

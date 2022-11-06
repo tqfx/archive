@@ -18,16 +18,16 @@ a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)
 
 a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *(a_u8_t *)lhs = *(a_u8_t *)lhs ^ *(a_u8_t *)rhs;
-    *(a_u8_t *)rhs = *(a_u8_t *)rhs ^ *(a_u8_t *)lhs;
-    *(a_u8_t *)lhs = *(a_u8_t *)lhs ^ *(a_u8_t *)rhs;
+    *(a_u8_t *)lhs = (a_u8_t)(*(a_u8_t *)lhs ^ *(a_u8_t *)rhs);
+    *(a_u8_t *)rhs = (a_u8_t)(*(a_u8_t *)rhs ^ *(a_u8_t *)lhs);
+    *(a_u8_t *)lhs = (a_u8_t)(*(a_u8_t *)lhs ^ *(a_u8_t *)rhs);
 }
 
 a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *(a_u16_t *)lhs = *(a_u16_t *)lhs ^ *(a_u16_t *)rhs;
-    *(a_u16_t *)rhs = *(a_u16_t *)rhs ^ *(a_u16_t *)lhs;
-    *(a_u16_t *)lhs = *(a_u16_t *)lhs ^ *(a_u16_t *)rhs;
+    *(a_u16_t *)lhs = (a_u16_t)(*(a_u16_t *)lhs ^ *(a_u16_t *)rhs);
+    *(a_u16_t *)rhs = (a_u16_t)(*(a_u16_t *)rhs ^ *(a_u16_t *)lhs);
+    *(a_u16_t *)lhs = (a_u16_t)(*(a_u16_t *)lhs ^ *(a_u16_t *)rhs);
 }
 
 a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)

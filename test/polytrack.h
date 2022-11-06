@@ -1,18 +1,19 @@
 #ifndef TEST_POLYTRACK_H
 #define TEST_POLYTRACK_H
-
+#define MAIN_(s, argc, argv) polytrack##s(argc, argv)
+#include "test.h"
 #include "a/polytrack.h"
 
 static void test(void)
 {
-    static a_real_t t[2] = {0, 10};
-    static a_real_t q[2] = {0, 10};
-    static a_real_t v[2] = {0, 10};
-    static a_real_t a[2] = {0, 10};
-    static a_real_t j[2] = {0, 10};
-    static a_real_t source[5] = {0, 0, 0, 0, 0};
-    static a_real_t target[5] = {10, 10, 10, 10, 10};
-    static a_real_t out[4];
+    a_real_t t[2] = {0, 10};
+    a_real_t q[2] = {0, 10};
+    a_real_t v[2] = {0, 10};
+    a_real_t a[2] = {0, 10};
+    a_real_t j[2] = {0, 10};
+    a_real_t source[5] = {0, 0, 0, 0, 0};
+    a_real_t target[5] = {10, 10, 10, 10, 10};
+    a_real_t out[4];
     {
         a_polytrack3_s ctx[1];
         a_polytrack3_init1(ctx, t, q, v);
@@ -46,21 +47,12 @@ static void test(void)
     }
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t polytrack_c(void);
-a_int_t polytrack_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func polytrack_cpp
-#else /* !__cplusplus */
-#define func polytrack_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     test();
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_POLYTRACK_H */

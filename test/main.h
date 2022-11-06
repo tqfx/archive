@@ -10,12 +10,12 @@ static int test(int argc, char *argv[])
     return 0;
 }
 
-int MAIN(int argc, char *argv[])
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
     printf(__func__);
-#if defined(MAIN_OUTPUT)
+#if defined(MAIN_ONCE)
     printf(" ok");
-#endif /* MAIN_OUTPUT */
+#endif /* MAIN_ONCE */
     putchar('\n');
     test(argc, argv);
     return 0;

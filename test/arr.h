@@ -1,18 +1,17 @@
 #ifndef TEST_ARR_H
 #define TEST_ARR_H
-
+#define MAIN_(s, argc, argv) arr##s(argc, argv)
+#include "test.h"
 #include "a/arr.h"
-#include <stdio.h>
 #include <stdlib.h>
-#include <inttypes.h>
 
-A_STATIC a_void_t dtor(a_vptr_t ptr)
+static void dtor(a_vptr_t ptr)
 {
     a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
     printf("%" PRIu32 " ", *obj);
 }
 
-A_STATIC a_void_t back(void)
+static void back(void)
 {
     a_arr_s ctx[1];
     a_u32_t buf[10];
@@ -46,7 +45,7 @@ A_STATIC a_void_t back(void)
     a_arr_dtor(ctx, dtor);
 }
 
-A_STATIC a_void_t fore(void)
+static void fore(void)
 {
     a_arr_s ctx[1];
     a_u32_t buf[10];
@@ -83,22 +82,22 @@ A_STATIC a_void_t fore(void)
 #include "a/host/str.h"
 #include <time.h>
 
-A_STATIC a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
+static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
 {
     return *a_cast_s(const a_int_t *, lhs) - *a_cast_s(const a_int_t *, rhs);
 }
 
-A_STATIC a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
+static a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 {
     return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
 }
 
-A_STATIC a_int_t rand10(void)
+static a_int_t rand10(void)
 {
     return a_cast_s(a_int_t, rand() / a_cast_s(double, RAND_MAX) * 10);
 }
 
-A_STATIC a_void_t test_sort(void)
+static void test_sort(void)
 {
     a_arr_s ctx[1];
     a_int_t buf[10];
@@ -196,26 +195,15 @@ A_STATIC a_void_t test_sort(void)
     a_arr_dtor(ctx, A_NULL);
 }
 
-#if defined(__cplusplus)
-extern "C" {
-#endif /* __cplusplus */
-a_int_t arr_c(void);
-a_int_t arr_cpp(void);
-#if defined(__cplusplus)
-} /* extern "C" */
-#define func arr_cpp
-#else /* !__cplusplus */
-#define func arr_c
-#endif /* __cplusplus */
-a_int_t func(void)
+int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
+    (void)(argc);
+    (void)(argv);
     printf("%s\n", __func__);
-
     back();
     fore();
     test_sort();
-
-    return A_SUCCESS;
+    return 0;
 }
 
 #endif /* TEST_ARR_H */

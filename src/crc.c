@@ -185,7 +185,7 @@ a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
     const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
     while (p != q)
     {
-        val = (val >> 8) ^ ctx[(val ^ *p++) & 0xFF];
+        val = (a_u16_t)((val >> 8) ^ ctx[(val ^ *p++) & 0xFF]);
     }
     return val;
 }

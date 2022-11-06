@@ -14,16 +14,6 @@ option("with-cxx")
     set_description("Enable or disable c++")
 option_end()
 
--- set language: c11
-set_languages("c11")
-if has_config("with-cxx") then
-    if is_plat("windows") then
-        set_languages("c++17")
-    else
-        set_languages("c++11")
-    end
-end
-
 -- option: warnings
 option("warnings")
     set_default(false)
