@@ -56,7 +56,7 @@ a_void_t a_arr_dtor(a_arr_s *ctx, a_void_t (*dtor)(a_vptr_t))
     if (ctx->_ptr)
     {
         a_arr_drop_(ctx, 0, dtor);
-        ctx->_ptr = 0;
+        ctx->_ptr = A_NULL;
     }
     ctx->_mem = 0;
     ctx->_siz = 0;
@@ -164,7 +164,7 @@ a_vptr_t a_arr_insert(a_arr_s *ctx, a_size_t idx)
         }
         return a_arr_inc_(ctx);
     }
-    return 0;
+    return A_NULL;
 }
 
 a_vptr_t a_arr_push_fore(a_arr_s *ctx) { return a_arr_insert(ctx, 0); }
@@ -172,7 +172,7 @@ a_vptr_t a_arr_push_fore(a_arr_s *ctx) { return a_arr_insert(ctx, 0); }
 a_vptr_t a_arr_push_back(a_arr_s *ctx)
 {
     A_ASSERT(ctx);
-    return a_likely(ctx->_num < ctx->_mem) ? a_arr_inc_(ctx) : 0;
+    return a_likely(ctx->_num < ctx->_mem) ? a_arr_inc_(ctx) : A_NULL;
 }
 
 a_vptr_t a_arr_remove(a_arr_s *ctx, a_size_t idx)
@@ -190,7 +190,7 @@ a_vptr_t a_arr_remove(a_arr_s *ctx, a_size_t idx)
         --ctx->_num;
         return dst;
     }
-    return a_likely(ctx->_num) ? a_arr_dec_(ctx) : 0;
+    return a_likely(ctx->_num) ? a_arr_dec_(ctx) : A_NULL;
 }
 
 a_vptr_t a_arr_pull_fore(a_arr_s *ctx) { return a_arr_remove(ctx, 0); }
@@ -198,5 +198,5 @@ a_vptr_t a_arr_pull_fore(a_arr_s *ctx) { return a_arr_remove(ctx, 0); }
 a_vptr_t a_arr_pull_back(a_arr_s *ctx)
 {
     A_ASSERT(ctx);
-    return a_likely(ctx->_num) ? a_arr_dec_(ctx) : 0;
+    return a_likely(ctx->_num) ? a_arr_dec_(ctx) : A_NULL;
 }

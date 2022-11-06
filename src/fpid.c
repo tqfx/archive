@@ -202,9 +202,9 @@ a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *
     ctx->sigma = x / (imax - imin);
     ctx->alpha = (omax - omin) / x;
     ctx->op = a_fpid_op_equ;
-    ctx->idx = 0;
-    ctx->mms = 0;
-    ctx->mat = 0;
+    ctx->idx = A_NULL;
+    ctx->mms = A_NULL;
+    ctx->mat = A_NULL;
     ctx->kp = 0;
     ctx->ki = 0;
     ctx->kd = 0;
@@ -246,7 +246,7 @@ A_STATIC void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
     inv = ctx->alpha / inv;
     /* mean of centers defuzzifier */
     a_real_t qv[3] = {0, 0, 0};
-    if (ctx->mkp == 0)
+    if (ctx->mkp == A_NULL)
     {
         goto skip_kp;
     }
@@ -261,7 +261,7 @@ A_STATIC void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
     }
     qv[0] *= inv;
 skip_kp:
-    if (ctx->mki == 0)
+    if (ctx->mki == A_NULL)
     {
         goto skip_ki;
     }
@@ -276,7 +276,7 @@ skip_kp:
     }
     qv[1] *= inv;
 skip_ki:
-    if (ctx->mkd == 0)
+    if (ctx->mkd == A_NULL)
     {
         goto skip_kd;
     }

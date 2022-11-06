@@ -52,7 +52,7 @@ A_STATIC a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
         } while (mem < num);
         a_size_t siz = a_align(sizeof(a_vptr_t), ctx->_siz * mem);
         a_vptr_t ptr = realloc(ctx->_ptr, siz);
-        if (a_unlikely(ptr == 0))
+        if (a_unlikely(ptr == A_NULL))
         {
             return A_FAILURE;
         }
@@ -85,9 +85,9 @@ a_void_t a_vec_ctor(a_vec_s *ctx, a_size_t size)
 {
     A_ASSERT(ctx);
     ctx->_siz = size ? size : sizeof(a_cast_u);
+    ctx->_ptr = A_NULL;
     ctx->_mem = 0;
     ctx->_num = 0;
-    ctx->_ptr = 0;
 }
 
 a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
@@ -97,7 +97,7 @@ a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
     {
         a_vec_drop_(ctx, 0, dtor);
         free(ctx->_ptr);
-        ctx->_ptr = 0;
+        ctx->_ptr = A_NULL;
     }
     ctx->_mem = 0;
     ctx->_siz = 0;
@@ -108,7 +108,7 @@ a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_
     A_ASSERT(ctx);
     A_ASSERT(obj);
     ctx->_ptr = malloc(obj->_mem * obj->_siz);
-    if (a_unlikely(ctx->_ptr == 0))
+    if (a_unlikely(ctx->_ptr == A_NULL))
     {
         return A_FAILURE;
     }
@@ -246,7 +246,7 @@ a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)
     A_ASSERT(ctx);
     if (a_unlikely(a_vec_alloc(ctx, ctx->_num)))
     {
-        return 0;
+        return A_NULL;
     }
     if (idx < ctx->_num)
     {
@@ -266,7 +266,7 @@ a_vptr_t a_vec_push_back(a_vec_s *ctx)
     A_ASSERT(ctx);
     if (a_unlikely(a_vec_alloc(ctx, ctx->_num)))
     {
-        return 0;
+        return A_NULL;
     }
     return a_vec_inc_(ctx);
 }
@@ -278,7 +278,7 @@ a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
     {
         if (a_unlikely(a_vec_alloc(ctx, ctx->_num)))
         {
-            return 0;
+            return A_NULL;
         }
         a_byte_t *ptr = a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num;
         a_byte_t *dst = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 0);
@@ -288,7 +288,7 @@ a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
         --ctx->_num;
         return ptr;
     }
-    return a_likely(ctx->_num) ? a_vec_dec_(ctx) : 0;
+    return a_likely(ctx->_num) ? a_vec_dec_(ctx) : A_NULL;
 }
 
 a_vptr_t a_vec_pull_fore(a_vec_s *ctx) { return a_vec_remove(ctx, 0); }
@@ -296,5 +296,5 @@ a_vptr_t a_vec_pull_fore(a_vec_s *ctx) { return a_vec_remove(ctx, 0); }
 a_vptr_t a_vec_pull_back(a_vec_s *ctx)
 {
     A_ASSERT(ctx);
-    return a_likely(ctx->_num) ? a_vec_dec_(ctx) : 0;
+    return a_likely(ctx->_num) ? a_vec_dec_(ctx) : A_NULL;
 }

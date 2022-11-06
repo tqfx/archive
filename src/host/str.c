@@ -24,7 +24,7 @@ a_void_t a_str_die(a_str_s *ctx)
 a_void_t a_str_ctor(a_str_s *ctx)
 {
     A_ASSERT(ctx);
-    ctx->_str = 0;
+    ctx->_str = A_NULL;
     ctx->_num = 0;
     ctx->_mem = 0;
 }
@@ -35,7 +35,7 @@ a_void_t a_str_dtor(a_str_s *ctx)
     if (ctx->_str)
     {
         free(ctx->_str);
-        ctx->_str = 0;
+        ctx->_str = A_NULL;
     }
     ctx->_num = 0;
     ctx->_mem = 0;
@@ -62,7 +62,7 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     ctx->_num = nbyte;
     ctx->_mem = nbyte + 1;
     ctx->_str = a_str_c(malloc(roundup32(ctx->_mem)));
-    if (a_unlikely(ctx->_str == 0))
+    if (a_unlikely(ctx->_str == A_NULL))
     {
         return A_FAILURE;
     }
@@ -97,7 +97,7 @@ a_str_t a_str_exit(a_str_s *ctx)
     if (ctx->_str)
     {
         ctx->_str[ctx->_num] = 0;
-        ctx->_str = 0;
+        ctx->_str = A_NULL;
     }
     ctx->_mem = 0;
     ctx->_num = 0;
@@ -247,7 +247,7 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
     va_list ap;
     va_copy(ap, va);
     mem = ctx->_mem - ctx->_num;
-    str = ctx->_str ? ctx->_str + ctx->_num : 0;
+    str = ctx->_str ? ctx->_str + ctx->_num : A_NULL;
     num = vsnprintf(str, mem, fmt, ap);
     va_end(ap);
     siz = a_size_c(num) + 1;
