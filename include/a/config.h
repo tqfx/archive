@@ -91,22 +91,22 @@
 #endif /* __GNUC__ */
 
 #if defined(__GNUC__) || defined(__clang__)
-#define A_ATTRIBUTE(...) __attribute__((__VA_ARGS__))
+#define A_ATTRIBUTE(x) __attribute__(x)
 #else /* !__attribute__ */
-#define A_ATTRIBUTE(...)
+#define A_ATTRIBUTE(x)
 #endif /* __attribute__ */
 
 #if defined(_WIN32) || defined(__CYGWIN__)
-#define A_DECLSPEC(...) __declspec(__VA_ARGS__)
+#define A_DECLSPEC(x) __declspec(x)
 #else /* !__declspec */
-#define A_DECLSPEC(...)
+#define A_DECLSPEC(x)
 #endif /* __declspec */
 
 /* attribute format */
 #if a_prereq_gnuc(2, 4) || __has_attribute(format)
-#define A_FORMAT(...) __attribute__((format(__VA_ARGS__)))
+#define A_FORMAT(_, a, b) __attribute__((format(_, a, b)))
 #else /* !format */
-#define A_FORMAT(...)
+#define A_FORMAT(_, a, b)
 #endif /* format */
 
 /* attribute fallthrough */
