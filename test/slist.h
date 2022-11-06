@@ -9,8 +9,7 @@
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* -Wpadded */
 #if defined(_MSC_VER)
-#pragma warning(disable : 4204)
-#pragma warning(disable : 4221)
+#pragma warning(disable : 4820)
 #endif /* _MSC_VER */
 #include "a/slist.h"
 #include <stdlib.h>
@@ -106,10 +105,14 @@ static void test(void)
 
 static void null(void)
 {
-    a_slist_u node1[1] = {{node1}};
-    a_slist_u node2[1] = {{node2}};
-    a_slist_s list1[1] = {{{{list1->head}}, list1->head}};
-    a_slist_s list2[1] = {{{{list2->head}}, list2->head}};
+    a_slist_u node1[1];
+    a_slist_u node2[1];
+    a_slist_s list1[1];
+    a_slist_s list2[1];
+    a_slist_node(node1);
+    a_slist_node(node2);
+    a_slist_ctor(list1);
+    a_slist_ctor(list2);
 
     a_slist_rot(list1);
     a_slist_rot(list1);

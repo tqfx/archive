@@ -5,13 +5,6 @@
 #include "a/tf.h"
 #include "a/pid.h"
 
-#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* -Wdouble-promotion */
-#if defined(_MSC_VER)
-#pragma warning(disable : 4204)
-#endif /* _MSC_VER */
-
 static void test(void)
 {
     a_real_t num[] = {A_REAL_C(6.59492796e-05), A_REAL_C(6.54019884e-05)};
@@ -53,7 +46,10 @@ static void test(void)
     a_pid_setp(ctx + 1, 3, out, fdb, sum, ec, e);
     for (a_real_t t = 0; t < A_REAL_C(0.4); t += A_REAL_C(0.001))
     {
-        a_real_t buf[3] = {v0[0], v1[0], v2[0]};
+        a_real_t buf[3];
+        buf[0] = *v0;
+        buf[1] = *v1;
+        buf[2] = *v2;
         a_real_t *ptr = a_pid_outp(ctx + 1, set, buf);
         for (a_uint_t i = 0; i != 3; ++i)
         {
@@ -62,7 +58,7 @@ static void test(void)
         a_tf_proc(tf, a_pid_outv(ctx + 0, 1, v[0]));
 #if defined(MAIN_ONCE)
         printf(A_REAL_PRI(".3", "f ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"),
-               t, A_REAL_C(1.0), v[0], v0[0], v1[0], v2[0]);
+               a_f64_c(t), A_REAL_C(1.0), a_f64_c(v[0]), a_f64_c(v0[0]), a_f64_c(v1[0]), a_f64_c(v2[0]));
 #endif /* MAIN_ONCE */
     }
     a_pid_exit(ctx + 0);

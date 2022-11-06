@@ -826,7 +826,8 @@ A_INTERN a_f32_t a_f32_from(a_u32_t x)
     {
         a_u32_t u;
         a_f32_t x;
-    } u = {x};
+    } u;
+    u.u = x;
     return u.x;
 }
 #endif /* A_HAVE_INLINE */
@@ -840,7 +841,8 @@ A_INTERN a_u32_t a_f32_into(a_f32_t x)
     {
         a_f32_t x;
         a_u32_t u;
-    } u = {x};
+    } u;
+    u.x = x;
     return u.u;
 }
 #endif /* A_HAVE_INLINE */
@@ -854,7 +856,8 @@ A_INTERN a_f64_t a_f64_from(a_u64_t x)
     {
         a_u64_t u;
         a_f64_t x;
-    } u = {x};
+    } u;
+    u.u = x;
     return u.x;
 }
 #endif /* A_HAVE_INLINE */
@@ -868,7 +871,8 @@ A_INTERN a_u64_t a_f64_into(a_f64_t x)
     {
         a_f64_t x;
         a_u64_t u;
-    } u = {x};
+    } u;
+    u.x = x;
     return u.u;
 }
 #endif /* A_HAVE_INLINE */

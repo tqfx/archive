@@ -5,10 +5,6 @@
 #if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
 #pragma GCC diagnostic ignored "-Winline"
 #endif /* -Winline */
-#if defined(_MSC_VER)
-#pragma warning(disable : 4204)
-#pragma warning(disable : 4221)
-#endif /* _MSC_VER */
 #include "a/list.h"
 #include <stdlib.h>
 
@@ -208,8 +204,10 @@ static void test_func(void)
 
 static void test_null(void)
 {
-    a_list_s list1[1] = {{list1, list1}};
-    a_list_s list2[1] = {{list2, list2}};
+    a_list_s list1[1];
+    a_list_s list2[1];
+    a_list_ctor(list1);
+    a_list_ctor(list2);
     a_size_t len = a_list_len(list1) + a_list_len(list2);
 
     a_list_add_next(list1, list1);

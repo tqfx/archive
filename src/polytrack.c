@@ -1,6 +1,3 @@
-#if defined(_MSC_VER)
-#pragma warning(disable : 4204)
-#endif /* _MSC_VER */
 #include "a/polytrack.h"
 #include "a/poly.h"
 #include <assert.h>
@@ -68,12 +65,11 @@ a_void_t a_polytrack3_out(const a_polytrack3_s *ctx, a_real_t ts, a_real_t out[3
 {
     A_ASSERT(out);
     A_ASSERT(ctx);
-    a_real_t a[4] = {
-        ctx->k[3],
-        ctx->k[2],
-        ctx->k[1],
-        ctx->k[0],
-    };
+    a_real_t a[4];
+    a[0] = ctx->k[3];
+    a[1] = ctx->k[2];
+    a[2] = ctx->k[1];
+    a[3] = ctx->k[0];
     ts -= ctx->t[0];
     out[0] = a_poly_evar(a, 4, ts);
     a[0] *= 3;
@@ -86,33 +82,30 @@ a_void_t a_polytrack3_out(const a_polytrack3_s *ctx, a_real_t ts, a_real_t out[3
 a_real_t a_polytrack3_pos(const a_polytrack3_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[4] = {
-        ctx->k[3],
-        ctx->k[2],
-        ctx->k[1],
-        ctx->k[0],
-    };
+    a_real_t a[4];
+    a[0] = ctx->k[3];
+    a[1] = ctx->k[2];
+    a[2] = ctx->k[1];
+    a[3] = ctx->k[0];
     return a_poly_evar(a, 4, ts - ctx->t[0]);
 }
 
 a_real_t a_polytrack3_vec(const a_polytrack3_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[3] = {
-        ctx->k[3] * 3,
-        ctx->k[2] * 2,
-        ctx->k[1],
-    };
+    a_real_t a[3];
+    a[0] = ctx->k[3] * 3;
+    a[1] = ctx->k[2] * 2;
+    a[2] = ctx->k[1];
     return a_poly_evar(a, 3, ts - ctx->t[0]);
 }
 
 a_real_t a_polytrack3_acc(const a_polytrack3_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[2] = {
-        ctx->k[3] * 3 * 2,
-        ctx->k[2] * 2,
-    };
+    a_real_t a[2];
+    a[0] = ctx->k[3] * 3 * 2;
+    a[1] = ctx->k[2] * 2;
     return a_poly_evar(a, 2, ts - ctx->t[0]);
 }
 
@@ -195,14 +188,13 @@ a_void_t a_polytrack5_out(const a_polytrack5_s *ctx, a_real_t ts, a_real_t out[3
 {
     A_ASSERT(out);
     A_ASSERT(ctx);
-    a_real_t a[6] = {
-        ctx->k[5],
-        ctx->k[4],
-        ctx->k[3],
-        ctx->k[2],
-        ctx->k[1],
-        ctx->k[0],
-    };
+    a_real_t a[6];
+    a[0] = ctx->k[5];
+    a[1] = ctx->k[4];
+    a[2] = ctx->k[3];
+    a[3] = ctx->k[2];
+    a[4] = ctx->k[1];
+    a[5] = ctx->k[0];
     ts -= ctx->t[0];
     out[0] = a_poly_evar(a, 6, ts);
     a[0] *= 5;
@@ -219,39 +211,36 @@ a_void_t a_polytrack5_out(const a_polytrack5_s *ctx, a_real_t ts, a_real_t out[3
 a_real_t a_polytrack5_pos(const a_polytrack5_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[6] = {
-        ctx->k[5],
-        ctx->k[4],
-        ctx->k[3],
-        ctx->k[2],
-        ctx->k[1],
-        ctx->k[0],
-    };
+    a_real_t a[6];
+    a[0] = ctx->k[5];
+    a[1] = ctx->k[4];
+    a[2] = ctx->k[3];
+    a[3] = ctx->k[2];
+    a[4] = ctx->k[1];
+    a[5] = ctx->k[0];
     return a_poly_evar(a, 6, ts - ctx->t[0]);
 }
 
 a_real_t a_polytrack5_vec(const a_polytrack5_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[5] = {
-        ctx->k[5] * 5,
-        ctx->k[4] * 4,
-        ctx->k[3] * 3,
-        ctx->k[2] * 2,
-        ctx->k[1],
-    };
+    a_real_t a[5];
+    a[0] = ctx->k[5] * 5;
+    a[1] = ctx->k[4] * 4;
+    a[2] = ctx->k[3] * 3;
+    a[3] = ctx->k[2] * 2;
+    a[4] = ctx->k[1];
     return a_poly_evar(a, 5, ts - ctx->t[0]);
 }
 
 a_real_t a_polytrack5_acc(const a_polytrack5_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[4] = {
-        ctx->k[5] * 5 * 4,
-        ctx->k[4] * 4 * 3,
-        ctx->k[3] * 3 * 2,
-        ctx->k[2] * 2,
-    };
+    a_real_t a[4];
+    a[0] = ctx->k[5] * 5 * 4;
+    a[1] = ctx->k[4] * 4 * 3;
+    a[2] = ctx->k[3] * 3 * 2;
+    a[3] = ctx->k[2] * 2;
     return a_poly_evar(a, 4, ts - ctx->t[0]);
 }
 
@@ -352,16 +341,15 @@ a_void_t a_polytrack7_out(const a_polytrack7_s *ctx, a_real_t ts, a_real_t out[4
 {
     A_ASSERT(out);
     A_ASSERT(ctx);
-    a_real_t a[8] = {
-        ctx->k[7],
-        ctx->k[6],
-        ctx->k[5],
-        ctx->k[4],
-        ctx->k[3],
-        ctx->k[2],
-        ctx->k[1],
-        ctx->k[0],
-    };
+    a_real_t a[8];
+    a[0] = ctx->k[7];
+    a[1] = ctx->k[6];
+    a[2] = ctx->k[5];
+    a[3] = ctx->k[4];
+    a[4] = ctx->k[3];
+    a[5] = ctx->k[2];
+    a[6] = ctx->k[1];
+    a[7] = ctx->k[0];
     ts -= ctx->t[0];
     out[0] = a_poly_evar(a, 8, ts);
     a[0] *= 7;
@@ -387,57 +375,53 @@ a_void_t a_polytrack7_out(const a_polytrack7_s *ctx, a_real_t ts, a_real_t out[4
 a_real_t a_polytrack7_pos(const a_polytrack7_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[8] = {
-        ctx->k[7],
-        ctx->k[6],
-        ctx->k[5],
-        ctx->k[4],
-        ctx->k[3],
-        ctx->k[2],
-        ctx->k[1],
-        ctx->k[0],
-    };
+    a_real_t a[8];
+    a[0] = ctx->k[7];
+    a[1] = ctx->k[6];
+    a[2] = ctx->k[5];
+    a[3] = ctx->k[4];
+    a[4] = ctx->k[3];
+    a[5] = ctx->k[2];
+    a[6] = ctx->k[1];
+    a[7] = ctx->k[0];
     return a_poly_evar(a, 8, ts - ctx->t[0]);
 }
 
 a_real_t a_polytrack7_vec(const a_polytrack7_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[7] = {
-        ctx->k[7] * 7,
-        ctx->k[6] * 6,
-        ctx->k[5] * 5,
-        ctx->k[4] * 4,
-        ctx->k[3] * 3,
-        ctx->k[2] * 2,
-        ctx->k[1],
-    };
+    a_real_t a[7];
+    a[0] = ctx->k[7] * 7;
+    a[1] = ctx->k[6] * 6;
+    a[2] = ctx->k[5] * 5;
+    a[3] = ctx->k[4] * 4;
+    a[4] = ctx->k[3] * 3;
+    a[5] = ctx->k[2] * 2;
+    a[6] = ctx->k[1];
     return a_poly_evar(a, 7, ts - ctx->t[0]);
 }
 
 a_real_t a_polytrack7_acc(const a_polytrack7_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[6] = {
-        ctx->k[7] * 7 * 6,
-        ctx->k[6] * 6 * 5,
-        ctx->k[5] * 5 * 4,
-        ctx->k[4] * 4 * 3,
-        ctx->k[3] * 3 * 2,
-        ctx->k[2] * 2,
-    };
+    a_real_t a[6];
+    a[0] = ctx->k[7] * 7 * 6;
+    a[1] = ctx->k[6] * 6 * 5;
+    a[2] = ctx->k[5] * 5 * 4;
+    a[3] = ctx->k[4] * 4 * 3;
+    a[4] = ctx->k[3] * 3 * 2;
+    a[5] = ctx->k[2] * 2;
     return a_poly_evar(a, 6, ts - ctx->t[0]);
 }
 
 a_real_t a_polytrack7_jer(const a_polytrack7_s *ctx, a_real_t ts)
 {
     A_ASSERT(ctx);
-    a_real_t a[5] = {
-        ctx->k[7] * 7 * 6 * 5,
-        ctx->k[6] * 6 * 5 * 4,
-        ctx->k[5] * 5 * 4 * 3,
-        ctx->k[4] * 4 * 3 * 2,
-        ctx->k[3] * 3 * 2,
-    };
+    a_real_t a[5];
+    a[0] = ctx->k[7] * 7 * 6 * 5;
+    a[1] = ctx->k[6] * 6 * 5 * 4;
+    a[2] = ctx->k[5] * 5 * 4 * 3;
+    a[3] = ctx->k[4] * 4 * 3 * 2;
+    a[4] = ctx->k[3] * 3 * 2;
     return a_poly_evar(a, 5, ts - ctx->t[0]);
 }

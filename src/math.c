@@ -1,6 +1,3 @@
-#if defined(_MSC_VER)
-#pragma warning(disable : 4204)
-#endif /* _MSC_VER */
 #include "math.h"
 
 a_f32_t a_sqrt_inv(a_f32_t x)
@@ -9,7 +6,8 @@ a_f32_t a_sqrt_inv(a_f32_t x)
     {
         a_f32_t x;
         a_u32_t u;
-    } u = {x};
+    } u;
+    u.x = x;
     if (a_likely(x > 0))
     {
         a_f32_t xh = A_F32_C(0.5) * x;

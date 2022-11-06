@@ -2,9 +2,6 @@
 #include "pid.h"
 #undef A_INTERN
 #define A_INTERN A_INLINE
-#if defined(_MSC_VER)
-#pragma warning(disable : 4204)
-#endif /* _MSC_VER */
 #include "fpid.h"
 #include <math.h>
 #undef A_INTERN
@@ -296,9 +293,9 @@ skip_kd:
 
 a_real_t a_fpid_outv(a_fpid_s *ctx, a_real_t set, a_real_t fdb)
 {
-    a_real_t e = set - fdb;
-    a_real_t ec = e - ctx->pid->e.v;
-    a_real_t ev[2] = {e, ec};
+    a_real_t ev[2];
+    a_real_t e = ev[0] = set - fdb;
+    a_real_t ec = ev[1] = e - ctx->pid->e.v;
     a_fpid_proc_(ctx, ev, a_fpid_col(ctx));
     return a_pid_outv_(ctx->pid, a_pid_mode(ctx->pid), set, fdb, ec, e);
 }
@@ -310,9 +307,9 @@ a_real_t *a_fpid_outp(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb)
     a_uint_t reg = a_pid_mode(ctx->pid);
     for (a_uint_t i = 0; i != num; ++i)
     {
-        a_real_t e = set[i] - fdb[i];
-        a_real_t ec = e - ctx->pid->e.p[i];
-        a_real_t ev[2] = {e, ec};
+        a_real_t ev[2];
+        a_real_t e = ev[0] = set[i] - fdb[i];
+        a_real_t ec = ev[1] = e - ctx->pid->e.p[i];
         a_fpid_proc_(ctx, ev, col);
         a_pid_outp_(ctx->pid, reg, set[i], fdb[i], ec, e, i);
     }
