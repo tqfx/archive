@@ -70,7 +70,7 @@ A_INTERN a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->_mem; }
 */
 A_INTERN a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
 {
-    return a_cast_s(a_byte_t *, ctx->_head) + ctx->_size * idx;
+    return a_byte_p(ctx->_head) + ctx->_size * idx;
 }
 
 /*!
@@ -93,7 +93,7 @@ A_INTERN a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
 */
 A_INTERN a_vptr_t a_vector_top_(const a_vector_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->_tail) - ctx->_size;
+    return a_byte_p(ctx->_tail) - ctx->_size;
 }
 
 /*!

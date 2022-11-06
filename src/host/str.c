@@ -61,7 +61,7 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     A_ASSERT(ctx);
     ctx->_num = nbyte;
     ctx->_mem = nbyte + 1;
-    ctx->_str = (a_str_t)malloc(roundup32(ctx->_mem));
+    ctx->_str = a_str_c(malloc(roundup32(ctx->_mem)));
     if (a_unlikely(ctx->_str == 0))
     {
         return A_FAILURE;
@@ -128,7 +128,7 @@ a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
 a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 {
     A_ASSERT(ctx);
-    a_str_t str = (a_str_t)realloc(ctx->_str, roundup32(mem));
+    a_str_t str = a_str_c(realloc(ctx->_str, roundup32(mem)));
     if (a_unlikely(!str && mem))
     {
         return A_FAILURE;
@@ -149,7 +149,7 @@ a_int_t a_str_getc_(a_str_s *ctx)
     a_int_t c = EOF;
     if (ctx->_num)
     {
-        c = (a_u8_t)ctx->_str[--ctx->_num];
+        c = a_int_c(ctx->_str[--ctx->_num]);
     }
     return c;
 }
@@ -159,7 +159,7 @@ a_int_t a_str_getc(a_str_s *ctx)
     a_int_t c = EOF;
     if (ctx->_num)
     {
-        c = (a_u8_t)ctx->_str[--ctx->_num];
+        c = a_int_c(ctx->_str[--ctx->_num]);
         ctx->_str[ctx->_num] = 0;
     }
     return c;
@@ -172,7 +172,7 @@ a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
     {
         return EOF;
     }
-    ctx->_str[ctx->_num++] = (a_char_t)c;
+    ctx->_str[ctx->_num++] = a_char_c(c);
     return c;
 }
 
@@ -183,7 +183,7 @@ a_int_t a_str_putc(a_str_s *ctx, a_int_t c)
     {
         return EOF;
     }
-    ctx->_str[ctx->_num++] = (a_char_t)c;
+    ctx->_str[ctx->_num++] = a_char_c(c);
     ctx->_str[ctx->_num] = 0;
     return c;
 }
@@ -226,7 +226,7 @@ a_int_t a_str_puts(a_str_s *ctx, a_cptr_t str)
 {
     A_ASSERT(ctx);
     A_ASSERT(str);
-    return a_str_putn(ctx, str, strlen((a_cstr_t)str));
+    return a_str_putn(ctx, str, strlen(a_char_P(str)));
 }
 
 a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj)
@@ -250,7 +250,7 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
     str = ctx->_str ? ctx->_str + ctx->_num : 0;
     num = vsnprintf(str, mem, fmt, ap);
     va_end(ap);
-    siz = (a_size_t)num + 1;
+    siz = a_size_c(num) + 1;
     if (siz > mem)
     {
         if (a_unlikely(a_str_alloc_(ctx, ctx->_num + siz)))
@@ -263,7 +263,7 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
         num = vsnprintf(str, mem, fmt, ap);
         va_end(ap);
     }
-    ctx->_num += (a_size_t)num;
+    ctx->_num += a_size_c(num);
     return num;
 }
 

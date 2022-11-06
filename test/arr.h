@@ -7,7 +7,7 @@
 
 static void dtor(a_vptr_t ptr)
 {
-    a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
+    a_u32_t *obj = a_u32_p(ptr);
     printf("%" PRIu32 " ", *obj);
 }
 
@@ -84,24 +84,24 @@ static void fore(void)
 
 static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_cast_s(const a_int_t *, lhs) - *a_cast_s(const a_int_t *, rhs);
+    return *a_int_P(lhs) - *a_int_P(rhs);
 }
 
 static a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
+    return *a_int_P(rhs) - *a_int_P(lhs);
 }
 
 static a_int_t rand10(void)
 {
-    return a_cast_s(a_int_t, rand() / a_cast_s(double, RAND_MAX) * 10);
+    return a_int_c(rand() / a_double_c(RAND_MAX) * 10);
 }
 
 static void test_sort(void)
 {
     a_arr_s ctx[1];
     a_int_t buf[10];
-    a_uint_t t = a_cast_s(a_uint_t, time(A_NULL));
+    a_uint_t t = a_uint_c(time(A_NULL));
     a_arr_ctor(ctx, buf, sizeof(a_int_t), 10);
 
     srand(t);

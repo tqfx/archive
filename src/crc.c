@@ -4,7 +4,7 @@ a_void_t a_crc8l_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
-        a_u8_t val = (a_u8_t)i;
+        a_u8_t val = a_u8_c(i);
         for (a_uint_t j = 8; j; --j)
         {
             if (val & 1)
@@ -25,7 +25,7 @@ a_void_t a_crc16l_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
-        a_u16_t val = (a_u16_t)i;
+        a_u16_t val = a_u16_c(i);
         for (a_uint_t j = 8; j; --j)
         {
             if (val & 1)
@@ -101,7 +101,7 @@ a_void_t a_crc8h_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly)
                 val <<= 1;
             }
         }
-        ctx[i] = (a_u8_t)val;
+        ctx[i] = a_u8_c(val);
     }
 }
 
@@ -122,7 +122,7 @@ a_void_t a_crc16h_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly)
                 val <<= 1;
             }
         }
-        ctx[i] = (a_u16_t)val;
+        ctx[i] = a_u16_c(val);
     }
 }
 
@@ -170,8 +170,8 @@ a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly)
 
 a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_t val)
 {
-    const a_u8_t *p = (const a_u8_t *)pdata;
-    const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
+    const a_u8_t *p = a_u8_P(pdata);
+    const a_u8_t *q = a_u8_P(pdata) + nbyte;
     while (p != q)
     {
         val = ctx[val ^ *p++];
@@ -181,19 +181,19 @@ a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_
 
 a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val)
 {
-    const a_u8_t *p = (const a_u8_t *)pdata;
-    const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
+    const a_u8_t *p = a_u8_P(pdata);
+    const a_u8_t *q = a_u8_P(pdata) + nbyte;
     while (p != q)
     {
-        val = (a_u16_t)((val >> 8) ^ ctx[(val ^ *p++) & 0xFF]);
+        val = a_u16_c((val >> 8) ^ ctx[(val ^ *p++) & 0xFF]);
     }
     return val;
 }
 
 a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val)
 {
-    const a_u8_t *p = (const a_u8_t *)pdata;
-    const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
+    const a_u8_t *p = a_u8_P(pdata);
+    const a_u8_t *q = a_u8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val >> 8) ^ ctx[(val ^ *p++) & 0xFF];
@@ -203,8 +203,8 @@ a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val)
 {
-    const a_u8_t *p = (const a_u8_t *)pdata;
-    const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
+    const a_u8_t *p = a_u8_P(pdata);
+    const a_u8_t *q = a_u8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val >> 8) ^ ctx[(val ^ *p++) & 0xFF];
@@ -214,19 +214,19 @@ a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val)
 {
-    const a_u8_t *p = (const a_u8_t *)pdata;
-    const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
+    const a_u8_t *p = a_u8_P(pdata);
+    const a_u8_t *q = a_u8_P(pdata) + nbyte;
     while (p != q)
     {
-        val = (a_u16_t)((val << 8) ^ ctx[((val >> 8) ^ *p++) & 0xFF]);
+        val = a_u16_c((val << 8) ^ ctx[((val >> 8) ^ *p++) & 0xFF]);
     }
     return val;
 }
 
 a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val)
 {
-    const a_u8_t *p = (const a_u8_t *)pdata;
-    const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
+    const a_u8_t *p = a_u8_P(pdata);
+    const a_u8_t *q = a_u8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val << 8) ^ ctx[((val >> 24) ^ *p++) & 0xFF];
@@ -236,8 +236,8 @@ a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val)
 {
-    const a_u8_t *p = (const a_u8_t *)pdata;
-    const a_u8_t *q = (const a_u8_t *)pdata + nbyte;
+    const a_u8_t *p = a_u8_P(pdata);
+    const a_u8_t *q = a_u8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val << 8) ^ ctx[((val >> 56) ^ *p++) & 0xFF];

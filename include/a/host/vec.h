@@ -60,7 +60,7 @@ A_INTERN a_size_t a_vec_get(const a_vec_s *ctx) { return ctx->_siz; }
 */
 A_INTERN a_vptr_t a_vec_at_(const a_vec_s *ctx, a_size_t idx)
 {
-    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * idx;
+    return a_byte_p(ctx->_ptr) + ctx->_siz * idx;
 }
 
 /*!
@@ -83,7 +83,7 @@ A_INTERN a_vptr_t a_vec_at(const a_vec_s *ctx, a_size_t idx)
 */
 A_INTERN a_vptr_t a_vec_top_(const a_vec_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * (ctx->_num - 1);
+    return a_byte_p(ctx->_ptr) + ctx->_siz * (ctx->_num - 1);
 }
 
 /*!
@@ -104,7 +104,7 @@ A_INTERN a_vptr_t a_vec_top(const a_vec_s *ctx)
 */
 A_INTERN a_vptr_t a_vec_end_(const a_vec_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * ctx->_num;
+    return a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num;
 }
 
 /*!

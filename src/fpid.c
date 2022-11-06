@@ -57,7 +57,7 @@ a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real_t *mms)
 {
     a_uint_t num = 0;
     a_int_t e = A_MF_NUL;
-    for (a_uint_t i = 0; (void)(e = (a_int_t)*a++), e != A_MF_NUL; ++i)
+    for (a_uint_t i = 0; (void)(e = a_int_c(*a++)), e != A_MF_NUL; ++i)
     {
         a_real_t y = 0;
         switch (e)
@@ -133,14 +133,14 @@ a_fpid_s *a_fpid_pos(a_fpid_s *ctx, a_real_t max)
 
 a_fpid_s *a_fpid_ilim(a_fpid_s *ctx, a_real_t min, a_real_t max)
 {
-    a_real_t x = (a_real_t)((a_fpid_col(ctx) - 1) >> 1 << 1);
+    a_real_t x = a_real_c((a_fpid_col(ctx) - 1) >> 1 << 1);
     ctx->sigma = x / (max - min);
     return ctx;
 }
 
 a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max)
 {
-    a_real_t x = (a_real_t)((a_fpid_col(ctx) - 1) >> 1 << 1);
+    a_real_t x = a_real_c((a_fpid_col(ctx) - 1) >> 1 << 1);
     ctx->alpha = (max - min) / x;
     ctx->pid->outmin = min;
     ctx->pid->outmax = max;
@@ -151,11 +151,11 @@ a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max)
 {
     a_fpid_set_bufnum(ctx, (a_uint_t)max);
     max <<= 1;
-    ctx->idx = (a_uint_t *)ptr;
-    ptr = (a_byte_t *)ptr + sizeof(a_uint_t) * max;
-    ctx->mms = (a_real_t *)ptr;
-    ptr = (a_byte_t *)ptr + sizeof(a_real_t) * max;
-    ctx->mat = (a_real_t *)ptr;
+    ctx->idx = a_uint_p(ptr);
+    ptr = a_byte_p(ptr) + sizeof(a_uint_t) * max;
+    ctx->mms = a_real_p(ptr);
+    ptr = a_byte_p(ptr) + sizeof(a_real_t) * max;
+    ctx->mat = a_real_p(ptr);
     return ctx;
 }
 
@@ -196,7 +196,7 @@ a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *
                       const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd,
                       a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax)
 {
-    a_real_t x = (a_real_t)((num - 1) >> 1 << 1);
+    a_real_t x = a_real_c((num - 1) >> 1 << 1);
     a_pid_init(ctx->pid, dt, omin, omax);
     a_fpid_base(ctx, num, mmp, mkp, mki, mkd);
     ctx->sigma = x / (imax - imin);

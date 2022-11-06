@@ -59,7 +59,7 @@ A_INTERN a_size_t a_arr_get(const a_arr_s *ctx) { return ctx->_siz; }
 */
 A_INTERN a_vptr_t a_arr_at_(const a_arr_s *ctx, a_size_t idx)
 {
-    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * idx;
+    return a_byte_p(ctx->_ptr) + ctx->_siz * idx;
 }
 
 /*!
@@ -82,7 +82,7 @@ A_INTERN a_vptr_t a_arr_at(const a_arr_s *ctx, a_size_t idx)
 */
 A_INTERN a_vptr_t a_arr_top_(const a_arr_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * (ctx->_num - 1);
+    return a_byte_p(ctx->_ptr) + ctx->_siz * (ctx->_num - 1);
 }
 
 /*!
@@ -102,7 +102,7 @@ A_INTERN a_vptr_t a_arr_top(const a_arr_s *ctx)
 */
 A_INTERN a_vptr_t a_arr_end(const a_arr_s *ctx)
 {
-    return a_cast_s(a_byte_t *, ctx->_ptr) + ctx->_siz * ctx->_num;
+    return a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num;
 }
 
 #if defined(__cplusplus)

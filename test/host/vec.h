@@ -7,14 +7,14 @@
 
 static void dtor(a_vptr_t ptr)
 {
-    a_u32_t *obj = a_cast_s(a_u32_t *, ptr);
+    a_u32_t *obj = a_u32_p(ptr);
     printf("%" PRIu32 " ", *obj);
 }
 
 static a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
 {
-    *a_cast_s(a_u32_t *, dst) = *a_cast_s(const a_u32_t *, src);
-    printf("%" PRIu32 " ", *a_cast_s(const a_u32_t *, src));
+    *a_u32_p(dst) = *a_u32_P(src);
+    printf("%" PRIu32 " ", *a_u32_P(src));
     return 0;
 }
 
@@ -48,7 +48,7 @@ static void test(void)
     {
         a_byte_t *end = a_vec_end(a_byte_t, ctx);
         a_byte_t *top = a_vec_top(a_byte_t, ctx);
-        TEST_BUG(a_vec_get(ctx) == a_cast_s(a_size_t, end - top));
+        TEST_BUG(a_vec_get(ctx) == a_size_c(end - top));
     }
 
     a_vec_swap(ctx, 0, 0);
@@ -190,17 +190,17 @@ static void test(void)
 
 static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_cast_s(const a_int_t *, lhs) - *a_cast_s(const a_int_t *, rhs);
+    return *a_int_P(lhs) - *a_int_P(rhs);
 }
 
 static a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_cast_s(const a_int_t *, rhs) - *a_cast_s(const a_int_t *, lhs);
+    return *a_int_P(rhs) - *a_int_P(lhs);
 }
 
 static void test_sort(void)
 {
-    a_uint_t t = a_cast_s(a_uint_t, time(A_NULL));
+    a_uint_t t = a_uint_c(time(A_NULL));
     a_vec_s *ctx = a_vec_new(sizeof(a_int_t));
 
     a_vec_make(ctx, 10, A_NULL);

@@ -21,12 +21,12 @@
 
 A_INTERN a_vptr_t a_vec_inc_(a_vec_s *ctx)
 {
-    return (a_byte_t *)ctx->_ptr + ctx->_siz * ctx->_num++;
+    return a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num++;
 }
 
 A_INTERN a_vptr_t a_vec_dec_(a_vec_s *ctx)
 {
-    return (a_byte_t *)ctx->_ptr + ctx->_siz * --ctx->_num;
+    return a_byte_p(ctx->_ptr) + ctx->_siz * --ctx->_num;
 }
 
 A_STATIC a_void_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vptr_t))
@@ -118,8 +118,8 @@ a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_
     a_size_t size = obj->_num * obj->_siz;
     if (dup)
     {
-        a_byte_t *dst = (a_byte_t *)ctx->_ptr;
-        a_byte_t *src = (a_byte_t *)obj->_ptr;
+        a_byte_t *dst = a_byte_p(ctx->_ptr);
+        a_byte_t *src = a_byte_p(obj->_ptr);
         for (a_byte_t *end = src + size; src != end;)
         {
             dup(dst, src);
@@ -177,7 +177,7 @@ a_void_t a_vec_swap(const a_vec_s *ctx, a_size_t lhs, a_size_t rhs)
     rhs = rhs < ctx->_num ? rhs : num;
     if (lhs != rhs)
     {
-        a_byte_t *ptr = (a_byte_t *)ctx->_ptr;
+        a_byte_t *ptr = a_byte_p(ctx->_ptr);
         a_vptr_t lobj = ptr + lhs * ctx->_siz;
         a_vptr_t robj = ptr + rhs * ctx->_siz;
         a_swap(ctx->_siz, lobj, robj);
@@ -195,8 +195,8 @@ a_void_t a_vec_sort_fore(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
     A_ASSERT(ctx);
     if (ctx->_num > 1)
     {
-        a_byte_t *ptr = (a_byte_t *)ctx->_ptr;
-        a_byte_t *end = (a_byte_t *)ctx->_ptr + ctx->_siz * ctx->_num - ctx->_siz;
+        a_byte_t *ptr = a_byte_p(ctx->_ptr);
+        a_byte_t *end = a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num - ctx->_siz;
         do
         {
             a_byte_t *cur = ptr + ctx->_siz;
@@ -218,7 +218,7 @@ a_void_t a_vec_sort_back(const a_vec_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
     A_ASSERT(ctx);
     if (ctx->_num > 1)
     {
-        a_byte_t *ptr = (a_byte_t *)ctx->_ptr + ctx->_siz * ctx->_num - ctx->_siz;
+        a_byte_t *ptr = a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num - ctx->_siz;
         do
         {
             a_byte_t *cur = ptr - ctx->_siz;
@@ -250,8 +250,8 @@ a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx)
     }
     if (idx < ctx->_num)
     {
-        a_byte_t *src = (a_byte_t *)ctx->_ptr + ctx->_siz * (idx + 0);
-        a_byte_t *dst = (a_byte_t *)ctx->_ptr + ctx->_siz * (idx + 1);
+        a_byte_t *src = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 0);
+        a_byte_t *dst = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 1);
         memmove(dst, src, (ctx->_num - idx) * ctx->_siz);
         ++ctx->_num;
         return src;
@@ -280,11 +280,11 @@ a_vptr_t a_vec_remove(a_vec_s *ctx, a_size_t idx)
         {
             return 0;
         }
-        a_byte_t *ptr = (a_byte_t *)ctx->_ptr + ctx->_siz * ctx->_num;
-        a_byte_t *dst = (a_byte_t *)ctx->_ptr + ctx->_siz * (idx + 0);
-        a_byte_t *src = (a_byte_t *)ctx->_ptr + ctx->_siz * (idx + 1);
+        a_byte_t *ptr = a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num;
+        a_byte_t *dst = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 0);
+        a_byte_t *src = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 1);
         memcpy(ptr, dst, ctx->_siz);
-        memmove(dst, src, (a_size_t)(ptr - src));
+        memmove(dst, src, a_size_c(ptr - src));
         --ctx->_num;
         return ptr;
     }

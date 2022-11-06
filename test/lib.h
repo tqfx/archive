@@ -26,7 +26,7 @@ static void test_for(int argc, char *argv[])
         n = a_uint_c(strtoul(argv[1], &endptr, 0));
     }
 
-    a_int_t *p = a_cast_s(a_int_t *, malloc(sizeof(a_int_t) * n));
+    a_int_t *p = a_int_p(malloc(sizeof(a_int_t) * n));
     a_int_t *d = p + n;
 
     a_forenum(a_uint_t, i, n)

@@ -6,8 +6,8 @@
 
 a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)
 {
-    a_byte_t *l = (a_byte_t *)lhs;
-    a_byte_t *r = (a_byte_t *)rhs;
+    a_byte_t *l = a_byte_p(lhs);
+    a_byte_t *r = a_byte_p(rhs);
     for (a_byte_t *d = r + siz; r != d; ++l, ++r)
     {
         *l ^= *r;
@@ -16,46 +16,11 @@ a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)
     }
 }
 
-a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
-{
-    *(a_u8_t *)lhs = (a_u8_t)(*(a_u8_t *)lhs ^ *(a_u8_t *)rhs);
-    *(a_u8_t *)rhs = (a_u8_t)(*(a_u8_t *)rhs ^ *(a_u8_t *)lhs);
-    *(a_u8_t *)lhs = (a_u8_t)(*(a_u8_t *)lhs ^ *(a_u8_t *)rhs);
-}
-
-a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
-{
-    *(a_u16_t *)lhs = (a_u16_t)(*(a_u16_t *)lhs ^ *(a_u16_t *)rhs);
-    *(a_u16_t *)rhs = (a_u16_t)(*(a_u16_t *)rhs ^ *(a_u16_t *)lhs);
-    *(a_u16_t *)lhs = (a_u16_t)(*(a_u16_t *)lhs ^ *(a_u16_t *)rhs);
-}
-
-a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)
-{
-    *(a_u32_t *)lhs = *(a_u32_t *)lhs ^ *(a_u32_t *)rhs;
-    *(a_u32_t *)rhs = *(a_u32_t *)rhs ^ *(a_u32_t *)lhs;
-    *(a_u32_t *)lhs = *(a_u32_t *)lhs ^ *(a_u32_t *)rhs;
-}
-
-a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs)
-{
-    *(a_u64_t *)lhs = *(a_u64_t *)lhs ^ *(a_u64_t *)rhs;
-    *(a_u64_t *)rhs = *(a_u64_t *)rhs ^ *(a_u64_t *)lhs;
-    *(a_u64_t *)lhs = *(a_u64_t *)lhs ^ *(a_u64_t *)rhs;
-}
-
-a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
-{
-    *(a_size_t *)lhs = *(a_size_t *)lhs ^ *(a_size_t *)rhs;
-    *(a_size_t *)rhs = *(a_size_t *)rhs ^ *(a_size_t *)lhs;
-    *(a_size_t *)lhs = *(a_size_t *)lhs ^ *(a_size_t *)rhs;
-}
-
 a_size_t a_hash_bkdr(a_cptr_t str, a_size_t val)
 {
     if (str)
     {
-        for (const a_u8_t *p = (const a_u8_t *)str; *p; ++p)
+        for (const a_u8_t *p = a_u8_P(str); *p; ++p)
         {
             val = val * 131 + *p;
         }
@@ -67,7 +32,7 @@ a_size_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_size_t val)
 {
     if (ptr && siz)
     {
-        for (const a_u8_t *p = (const a_u8_t *)ptr; siz--; ++p)
+        for (const a_u8_t *p = a_u8_P(ptr); siz--; ++p)
         {
             val = val * 131 + *p;
         }
