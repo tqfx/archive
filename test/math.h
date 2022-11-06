@@ -40,7 +40,7 @@ static void test_sqrt_inv(void)
     for (a_uint_t i = 0; i != sizeof(data) / sizeof(a_f32_t); ++i)
     {
         printf("1/sqrt(%g):\t%-10g%-10g\n", a_double_c(data[i]),
-               1 / a_double_c(A_F32_F(sqrt, data[i])),
+               1 / a_double_c(A_F32_F1(sqrt, data[i])),
                a_double_c(a_sqrt_inv(data[i])));
     }
 }

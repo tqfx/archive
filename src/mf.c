@@ -1,19 +1,20 @@
+#include "a/real.h"
 #include "a/mf.h"
 #include <math.h>
 
 a_real_t a_mf_gauss(a_real_t x, a_real_t sigma, a_real_t c)
 {
-    return A_REAL_F(exp, A_REAL_F(pow, (x - c) / sigma, 2) / -2);
+    return a_real_exp(a_real_pow((x - c) / sigma, 2) / -2);
 }
 
 a_real_t a_mf_gbell(a_real_t x, a_real_t a, a_real_t b, a_real_t c)
 {
-    return 1 / (A_REAL_F(pow, A_REAL_F(fabs, (x - c) / a), 2 * b) + 1);
+    return 1 / (a_real_pow(a_real_abs((x - c) / a), 2 * b) + 1);
 }
 
 a_real_t a_mf_sig(a_real_t x, a_real_t a, a_real_t c)
 {
-    return 1 / (A_REAL_F(exp, (c - x) * a) + 1);
+    return 1 / (a_real_exp((c - x) * a) + 1);
 }
 
 a_real_t a_mf_trap(a_real_t x, a_real_t a, a_real_t b, a_real_t c, a_real_t d)
@@ -82,11 +83,11 @@ a_real_t a_mf_z(a_real_t x, a_real_t a, a_real_t b)
     }
     else if (x < (a + b) / 2)
     {
-        x = 1 - 2 * A_REAL_F(pow, (x - a) / (b - a), 2);
+        x = 1 - 2 * a_real_pow((x - a) / (b - a), 2);
     }
     else if (x < b)
     {
-        x = 2 * A_REAL_F(pow, (x - b) / (b - a), 2);
+        x = 2 * a_real_pow((x - b) / (b - a), 2);
     }
     else
     {

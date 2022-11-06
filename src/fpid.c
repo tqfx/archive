@@ -12,7 +12,7 @@ a_real_t a_fpid_op_and(a_real_t l, a_real_t r) { return l * r; }
 
 a_real_t a_fpid_op_equ(a_real_t l, a_real_t r)
 {
-    return A_REAL_F(sqrt, l * r) * A_REAL_F(sqrt, 1 - (1 - l) * (1 - r));
+    return a_real_sqrt(l * r) * a_real_sqrt(1 - (1 - l) * (1 - r));
 }
 
 a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)

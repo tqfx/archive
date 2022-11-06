@@ -129,17 +129,17 @@ a_complex_s a_complex_inv(a_complex_s z)
 #endif /* gcc 10.1+ */
 
 #if defined(A_HAVE_CSQRT) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(csqrt, a_complex_s);
+a_complex_s A_REAL_F1(csqrt, a_complex_s);
 #endif /* A_HAVE_CSQRT */
 
 a_complex_s a_complex_sqrt(a_complex_s z)
 {
 #if defined(A_HAVE_CSQRT) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(csqrt, u.z);
+    u.z = A_REAL_F1(csqrt, u.z);
     return u.s;
 #elif defined(A_HAVE_CSQRT)
-    return A_REAL_F(csqrt, z);
+    return A_REAL_F1(csqrt, z);
 #else /* !A_HAVE_CSQRT */
     if (z.real == 0 && z.imag == 0)
     {
@@ -180,7 +180,7 @@ a_complex_s a_complex_sqrt_real(a_real_t x)
 }
 
 #if defined(A_HAVE_CPOW) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(cpow, a_complex_s, a_complex_s);
+a_complex_s A_REAL_F2(cpow, a_complex_s, a_complex_s);
 #endif /* A_HAVE_CPOW */
 
 a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
@@ -188,10 +188,10 @@ a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
 #if defined(A_HAVE_CPOW) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
     a_complex_u v = {a};
-    u.z = A_REAL_F(cpow, u.z, v.z);
+    u.z = A_REAL_F2(cpow, u.z, v.z);
     return u.s;
 #elif defined(A_HAVE_CPOW)
-    return A_REAL_F(cpow, z, a);
+    return A_REAL_F2(cpow, z, a);
 #else /* !A_HAVE_CPOW */
     if (z.real == 0 && z.imag == 0)
     {
@@ -227,17 +227,17 @@ a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a)
 }
 
 #if defined(A_HAVE_CEXP) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(cexp, a_complex_s);
+a_complex_s A_REAL_F1(cexp, a_complex_s);
 #endif /* A_HAVE_CEXP */
 
 a_complex_s a_complex_exp(a_complex_s z)
 {
 #if defined(A_HAVE_CEXP) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(cexp, u.z);
+    u.z = A_REAL_F1(cexp, u.z);
     return u.s;
 #elif defined(A_HAVE_CEXP)
-    return A_REAL_F(cexp, z);
+    return A_REAL_F1(cexp, z);
 #else /* !A_HAVE_CEXP */
     a_real_t rho = a_real_exp(z.real);
     return a_complex_polar(rho, z.imag);
@@ -245,17 +245,17 @@ a_complex_s a_complex_exp(a_complex_s z)
 }
 
 #if defined(A_HAVE_CLOG) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(clog, a_complex_s);
+a_complex_s A_REAL_F1(clog, a_complex_s);
 #endif /* A_HAVE_CLOG */
 
 a_complex_s a_complex_log(a_complex_s z)
 {
 #if defined(A_HAVE_CLOG) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(clog, u.z);
+    u.z = A_REAL_F1(clog, u.z);
     return u.s;
 #elif defined(A_HAVE_CLOG)
-    return A_REAL_F(clog, z);
+    return A_REAL_F1(clog, z);
 #else /* !A_HAVE_CLOG */
     a_real_t logr = a_complex_logabs(z);
     a_real_t theta = a_complex_arg(z);
@@ -279,17 +279,17 @@ a_complex_s a_complex_logb(a_complex_s z, a_complex_s b)
 }
 
 #if defined(A_HAVE_CSIN) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(csin, a_complex_s);
+a_complex_s A_REAL_F1(csin, a_complex_s);
 #endif /* A_HAVE_CSIN */
 
 a_complex_s a_complex_sin(a_complex_s z)
 {
 #if defined(A_HAVE_CSIN) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(csin, u.z);
+    u.z = A_REAL_F1(csin, u.z);
     return u.s;
 #elif defined(A_HAVE_CSIN)
-    return A_REAL_F(csin, z);
+    return A_REAL_F1(csin, z);
 #else /* !A_HAVE_CSIN */
     if (z.imag == 0)
     {
@@ -301,17 +301,17 @@ a_complex_s a_complex_sin(a_complex_s z)
 }
 
 #if defined(A_HAVE_CCOS) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(ccos, a_complex_s);
+a_complex_s A_REAL_F1(ccos, a_complex_s);
 #endif /* A_HAVE_CCOS */
 
 a_complex_s a_complex_cos(a_complex_s z)
 {
 #if defined(A_HAVE_CCOS) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(ccos, u.z);
+    u.z = A_REAL_F1(ccos, u.z);
     return u.s;
 #elif defined(A_HAVE_CCOS)
-    return A_REAL_F(ccos, z);
+    return A_REAL_F1(ccos, z);
 #else /* !A_HAVE_CCOS */
     if (z.imag == 0)
     {
@@ -323,17 +323,17 @@ a_complex_s a_complex_cos(a_complex_s z)
 }
 
 #if defined(A_HAVE_CTAN) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(ctan, a_complex_s);
+a_complex_s A_REAL_F1(ctan, a_complex_s);
 #endif /* A_HAVE_CTAN */
 
 a_complex_s a_complex_tan(a_complex_s z)
 {
 #if defined(A_HAVE_CTAN) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(ctan, u.z);
+    u.z = A_REAL_F1(ctan, u.z);
     return u.s;
 #elif defined(A_HAVE_CTAN)
-    return A_REAL_F(ctan, z);
+    return A_REAL_F1(ctan, z);
 #else /* !A_HAVE_CTAN */
     a_real_t cr = a_real_cos(z.real);
     a_real_t si = a_real_sinh(z.imag);
@@ -364,17 +364,17 @@ a_complex_s a_complex_cot(a_complex_s z)
 }
 
 #if defined(A_HAVE_CASIN) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(casin, a_complex_s);
+a_complex_s A_REAL_F1(casin, a_complex_s);
 #endif /* A_HAVE_CASIN */
 
 a_complex_s a_complex_asin(a_complex_s z)
 {
 #if defined(A_HAVE_CASIN) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(casin, u.z);
+    u.z = A_REAL_F1(casin, u.z);
     return u.s;
 #elif defined(A_HAVE_CASIN)
-    return A_REAL_F(casin, z);
+    return A_REAL_F1(casin, z);
 #else /* !A_HAVE_CASIN */
     if (z.imag == 0)
     {
@@ -441,17 +441,17 @@ a_complex_s a_complex_asin_real(a_real_t x)
 }
 
 #if defined(A_HAVE_CACOS) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(cacos, a_complex_s);
+a_complex_s A_REAL_F1(cacos, a_complex_s);
 #endif /* A_HAVE_CACOS */
 
 a_complex_s a_complex_acos(a_complex_s z)
 {
 #if defined(A_HAVE_CACOS) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(cacos, u.z);
+    u.z = A_REAL_F1(cacos, u.z);
     return u.s;
 #elif defined(A_HAVE_CACOS)
-    return A_REAL_F(cacos, z);
+    return A_REAL_F1(cacos, z);
 #else /* !A_HAVE_CACOS */
     if (z.imag == 0)
     {
@@ -518,17 +518,17 @@ a_complex_s a_complex_acos_real(a_real_t x)
 }
 
 #if defined(A_HAVE_CATAN) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(catan, a_complex_s);
+a_complex_s A_REAL_F1(catan, a_complex_s);
 #endif /* A_HAVE_CATAN */
 
 a_complex_s a_complex_atan(a_complex_s z)
 {
 #if defined(A_HAVE_CATAN) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(catan, u.z);
+    u.z = A_REAL_F1(catan, u.z);
     return u.s;
 #elif defined(A_HAVE_CATAN)
-    return A_REAL_F(catan, z);
+    return A_REAL_F1(catan, z);
 #else /* !A_HAVE_CATAN */
     if (z.imag == 0)
     {
@@ -605,17 +605,17 @@ a_complex_s a_complex_acot(a_complex_s z)
 }
 
 #if defined(A_HAVE_CSINH) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(csinh, a_complex_s);
+a_complex_s A_REAL_F1(csinh, a_complex_s);
 #endif /* A_HAVE_CSINH */
 
 a_complex_s a_complex_sinh(a_complex_s z)
 {
 #if defined(A_HAVE_CSINH) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(csinh, u.z);
+    u.z = A_REAL_F1(csinh, u.z);
     return u.s;
 #elif defined(A_HAVE_CSINH)
-    return A_REAL_F(csinh, z);
+    return A_REAL_F1(csinh, z);
 #else /* !A_HAVE_CSINH */
     return a_complex_c(a_real_sinh(z.real) * a_real_cos(z.imag),
                        a_real_cosh(z.real) * a_real_sin(z.imag));
@@ -623,17 +623,17 @@ a_complex_s a_complex_sinh(a_complex_s z)
 }
 
 #if defined(A_HAVE_CCOSH) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(ccosh, a_complex_s);
+a_complex_s A_REAL_F1(ccosh, a_complex_s);
 #endif /* A_HAVE_CCOSH */
 
 a_complex_s a_complex_cosh(a_complex_s z)
 {
 #if defined(A_HAVE_CCOSH) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(ccosh, u.z);
+    u.z = A_REAL_F1(ccosh, u.z);
     return u.s;
 #elif defined(A_HAVE_CCOSH)
-    return A_REAL_F(ccosh, z);
+    return A_REAL_F1(ccosh, z);
 #else /* !A_HAVE_CCOSH */
     return a_complex_c(a_real_cosh(z.real) * a_real_cos(z.imag),
                        a_real_sinh(z.real) * a_real_sin(z.imag));
@@ -641,17 +641,17 @@ a_complex_s a_complex_cosh(a_complex_s z)
 }
 
 #if defined(A_HAVE_CTANH) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(ctanh, a_complex_s);
+a_complex_s A_REAL_F1(ctanh, a_complex_s);
 #endif /* A_HAVE_CTANH */
 
 a_complex_s a_complex_tanh(a_complex_s z)
 {
 #if defined(A_HAVE_CTANH) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(ctanh, u.z);
+    u.z = A_REAL_F1(ctanh, u.z);
     return u.s;
 #elif defined(A_HAVE_CTANH)
-    return A_REAL_F(ctanh, z);
+    return A_REAL_F1(ctanh, z);
 #else /* !A_HAVE_CTANH */
     a_real_t ci = a_real_cos(z.imag);
     a_real_t sr = a_real_sinh(z.real);
@@ -682,17 +682,17 @@ a_complex_s a_complex_coth(a_complex_s z)
 }
 
 #if defined(A_HAVE_CASINH) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(casinh, a_complex_s);
+a_complex_s A_REAL_F1(casinh, a_complex_s);
 #endif /* A_HAVE_CASINH */
 
 a_complex_s a_complex_asinh(a_complex_s z)
 {
 #if defined(A_HAVE_CASINH) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(casinh, u.z);
+    u.z = A_REAL_F1(casinh, u.z);
     return u.s;
 #elif defined(A_HAVE_CASINH)
-    return A_REAL_F(casinh, z);
+    return A_REAL_F1(casinh, z);
 #else /* !A_HAVE_CASINH */
     z = a_complex_mul_imag(z, 1);
     z = a_complex_asin(z);
@@ -701,17 +701,17 @@ a_complex_s a_complex_asinh(a_complex_s z)
 }
 
 #if defined(A_HAVE_CACOSH) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(cacosh, a_complex_s);
+a_complex_s A_REAL_F1(cacosh, a_complex_s);
 #endif /* A_HAVE_CACOSH */
 
 a_complex_s a_complex_acosh(a_complex_s z)
 {
 #if defined(A_HAVE_CACOSH) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(cacosh, u.z);
+    u.z = A_REAL_F1(cacosh, u.z);
     return u.s;
 #elif defined(A_HAVE_CACOSH)
-    return A_REAL_F(cacosh, z);
+    return A_REAL_F1(cacosh, z);
 #else /* !A_HAVE_CACOSH */
     z = a_complex_acsc(z);
     return a_complex_mul_imag(z, z.imag > 0 ? -1 : 1);
@@ -732,17 +732,17 @@ a_complex_s a_complex_acosh_real(a_real_t x)
 }
 
 #if defined(A_HAVE_CATANH) && !defined A_COMPLEX_T
-a_complex_s A_REAL_F(catanh, a_complex_s);
+a_complex_s A_REAL_F1(catanh, a_complex_s);
 #endif /* A_HAVE_CATANH */
 
 a_complex_s a_complex_atanh(a_complex_s z)
 {
 #if defined(A_HAVE_CATANH) && defined(A_COMPLEX_T)
     a_complex_u u = {z};
-    u.z = A_REAL_F(catanh, u.z);
+    u.z = A_REAL_F1(catanh, u.z);
     return u.s;
 #elif defined(A_HAVE_CATANH)
-    return A_REAL_F(catanh, z);
+    return A_REAL_F1(catanh, z);
 #else /* !A_HAVE_CATANH */
     if (z.imag == 0)
     {

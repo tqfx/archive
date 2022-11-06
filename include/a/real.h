@@ -55,34 +55,36 @@ A_PUBLIC a_real_t a_real_atan2(a_real_t x, a_real_t y);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#define a_real_abs(x) A_REAL_F(fabs, x)
-#define a_real_exp(x) A_REAL_F(exp, x)
-#define a_real_log(x) A_REAL_F(log, x)
-#define a_real_pow(x, y) A_REAL_F(pow, x, y)
-#define a_real_sqrt(x) A_REAL_F(sqrt, x)
+#define a_real_abs(x) A_REAL_F1(fabs, x)
+#define a_real_exp(x) A_REAL_F1(exp, x)
+#define a_real_log(x) A_REAL_F1(log, x)
+#define a_real_min(x, y) A_REAL_F2(fmin, x, y)
+#define a_real_max(x, y) A_REAL_F2(fmax, x, y)
+#define a_real_pow(x, y) A_REAL_F2(pow, x, y)
+#define a_real_sqrt(x) A_REAL_F1(sqrt, x)
 
 #if defined(A_HAVE_LOG1P)
-#define a_real_log1p(x) A_REAL_F(log1p, x)
+#define a_real_log1p(x) A_REAL_F1(log1p, x)
 #endif /* A_HAVE_LOG1P */
 #if defined(A_HAVE_HYPOT)
-#define a_real_hypot(x, y) A_REAL_F(hypot, x, y)
+#define a_real_hypot(x, y) A_REAL_F2(hypot, x, y)
 #endif /* A_HAVE_HYPOT */
 #if defined(A_HAVE_ATAN2)
-#define a_real_atan2(x, y) A_REAL_F(atan2, x, y)
+#define a_real_atan2(x, y) A_REAL_F2(atan2, x, y)
 #endif /* A_HAVE_ATAN2 */
 
-#define a_real_sin(x) A_REAL_F(sin, x)
-#define a_real_cos(x) A_REAL_F(cos, x)
-#define a_real_tan(x) A_REAL_F(tan, x)
-#define a_real_sinh(x) A_REAL_F(sin, x)
-#define a_real_cosh(x) A_REAL_F(cos, x)
-#define a_real_tanh(x) A_REAL_F(tan, x)
-#define a_real_asin(x) A_REAL_F(sin, x)
-#define a_real_acos(x) A_REAL_F(cos, x)
-#define a_real_atan(x) A_REAL_F(tan, x)
-#define a_real_asinh(x) A_REAL_F(sin, x)
-#define a_real_acosh(x) A_REAL_F(cos, x)
-#define a_real_atanh(x) A_REAL_F(tan, x)
+#define a_real_sin(x) A_REAL_F1(sin, x)
+#define a_real_cos(x) A_REAL_F1(cos, x)
+#define a_real_tan(x) A_REAL_F1(tan, x)
+#define a_real_sinh(x) A_REAL_F1(sin, x)
+#define a_real_cosh(x) A_REAL_F1(cos, x)
+#define a_real_tanh(x) A_REAL_F1(tan, x)
+#define a_real_asin(x) A_REAL_F1(sin, x)
+#define a_real_acos(x) A_REAL_F1(cos, x)
+#define a_real_atan(x) A_REAL_F1(tan, x)
+#define a_real_asinh(x) A_REAL_F1(sin, x)
+#define a_real_acosh(x) A_REAL_F1(cos, x)
+#define a_real_atanh(x) A_REAL_F1(tan, x)
 
 /*! @} A_REAL */
 
