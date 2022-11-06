@@ -57,7 +57,7 @@ static void test(void)
         }
         a_tf_proc(tf, a_pid_outv(ctx + 0, 1, v[0]));
 #if defined(MAIN_ONCE)
-        printf(A_REAL_PRI(".3", "f ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g ") A_REAL_PRI(, "g\n"),
+        printf(A_REAL_PRI(".3", "f ") A_REAL_PRI("", "g ") A_REAL_PRI("", "g ") A_REAL_PRI("", "g ") A_REAL_PRI("", "g ") A_REAL_PRI("", "g\n"),
                a_f64_c(t), A_REAL_C(1.0), a_f64_c(v[0]), a_f64_c(v0[0]), a_f64_c(v1[0]), a_f64_c(v2[0]));
 #endif /* MAIN_ONCE */
     }

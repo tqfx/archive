@@ -74,7 +74,7 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     for (a_uint_t i = 0; i != song_n; ++i)
     {
 #if defined(MAIN_ONCE)
-        printf(A_REAL_PRI(, "g\t") A_REAL_PRI(, "g\r\n"), a_f64_c(song[i][0]), a_f64_c(song[i][1]));
+        printf(A_REAL_PRI("", "g\t") A_REAL_PRI("", "g\r\n"), a_f64_c(song[i][0]), a_f64_c(song[i][1]));
 #endif /* MAIN_ONCE */
     }
     return 0;

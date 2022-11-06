@@ -43,8 +43,8 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
         a_real_t inf = A_REAL_INF;
         a_real_t nan = A_REAL_NAN;
 #if defined(MAIN_ONCE)
-        printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI(, "g\n"), a_f64_c(min), a_f64_c(max));
-        printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI(, "g\n"), a_f64_c(inf), a_f64_c(nan));
+        printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI("", "g\n"), a_f64_c(min), a_f64_c(max));
+        printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI("", "g\n"), a_f64_c(inf), a_f64_c(nan));
 #else /* !MAIN_ONCE */
         (void)(min);
         (void)(max);
