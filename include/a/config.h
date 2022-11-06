@@ -18,19 +18,19 @@
 #endif /* A_ASSERT */
 
 #if !defined __has_attribute
-#define __has_attribute(...) 0
+#define __has_attribute(x) 0
 #endif /* __has_attribute */
 #if !defined __has_builtin
-#define __has_builtin(...) 0
+#define __has_builtin(x) 0
 #endif /* __has_builtin */
 #if !defined __has_feature
-#define __has_feature(...) 0
+#define __has_feature(x) 0
 #endif /* __has_feature */
 #if !defined __has_include
-#define __has_include(...) 0
+#define __has_include(x) 0
 #endif /* __has_include */
 #if !defined __has_warning
-#define __has_warning(...) 0
+#define __has_warning(x) 0
 #endif /* __has_warning */
 
 #if defined(__clang__)
@@ -83,11 +83,11 @@
 #endif /* __clang__ */
 
 #if a_prereq_gnuc(2, 96) || __has_builtin(__builtin_expect)
-#define a_unlikely(...) __builtin_expect(!!(__VA_ARGS__), 0)
-#define a_likely(...) __builtin_expect(!!(__VA_ARGS__), 1)
+#define a_unlikely(x) __builtin_expect(!!(x), 0)
+#define a_likely(x) __builtin_expect(!!(x), 1)
 #else /* !__GNUC__ */
-#define a_unlikely(...) (__VA_ARGS__)
-#define a_likely(...) (__VA_ARGS__)
+#define a_unlikely(x) (x)
+#define a_likely(x) (x)
 #endif /* __GNUC__ */
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -102,13 +102,6 @@
 #define A_DECLSPEC(...)
 #endif /* __declspec */
 
-/* attribute fallthrough */
-#if a_prereq_gnuc(7, 1) || __has_attribute(fallthrough)
-#define A_FALLTHROUGH __attribute__((fallthrough))
-#else /* !fallthrough */
-#define A_FALLTHROUGH ((void)(0))
-#endif /* fallthrough */
-
 /* attribute format */
 #if a_prereq_gnuc(2, 4) || __has_attribute(format)
 #define A_FORMAT(...) __attribute__((format(__VA_ARGS__)))
@@ -116,13 +109,20 @@
 #define A_FORMAT(...)
 #endif /* format */
 
+/* attribute fallthrough */
+#if a_prereq_gnuc(7, 1) || __has_attribute(fallthrough)
+#define A_FALLTHROUGH __attribute__((fallthrough))
+#else /* !fallthrough */
+#define A_FALLTHROUGH ((void)(0))
+#endif /* fallthrough */
+
 /* attribute deprecated */
 #if a_prereq_gnuc(3, 2) || __has_attribute(deprecated)
-#define A_DEPRECATED(...) __attribute__((deprecated(__VA_ARGS__)))
+#define A_DEPRECATED __attribute__((deprecated))
 #elif defined(_WIN32) || defined(__CYGWIN__)
-#define A_DEPRECATED(...) __declspec(deprecated(__VA_ARGS__))
+#define A_DEPRECATED __declspec(deprecated)
 #else /* !deprecated */
-#define A_DEPRECATED(...)
+#define A_DEPRECATED
 #endif /* deprecated */
 
 /* attribute always inline */

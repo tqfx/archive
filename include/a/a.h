@@ -19,18 +19,17 @@
 */
 
 #if defined(__cplusplus)
-#define a_cast_r(T, ...) reinterpret_cast<T>(__VA_ARGS__)
-#define a_cast_d(T, ...) dynamic_cast<T>(__VA_ARGS__)
-#define a_cast_s(T, ...) static_cast<T>(__VA_ARGS__)
-#define a_cast_c(T, ...) const_cast<T>(__VA_ARGS__)
+#define a_cast_r(_, x) reinterpret_cast<_>(x)
+#define a_cast_d(_, x) dynamic_cast<_>(x)
+#define a_cast_s(_, x) static_cast<_>(x)
+#define a_cast_c(_, x) const_cast<_>(x)
 #else /* !__cplusplus */
-#define a_cast_r(T, ...) ((T)(__VA_ARGS__))
-#define a_cast_d(T, ...) ((T)(__VA_ARGS__))
-#define a_cast_s(T, ...) ((T)(__VA_ARGS__))
-#define a_cast_c(T, ...) ((T)(__VA_ARGS__))
+#define a_cast_r(_, x) ((_)(x))
+#define a_cast_d(_, x) ((_)(x))
+#define a_cast_s(_, x) ((_)(x))
+#define a_cast_c(_, x) ((_)(x))
 #endif /* __cplusplus */
 
-#define A_INIT 0
 #if !defined A_VOID_T
 #define A_VOID_T void
 #endif /* A_VOID_T */
@@ -202,9 +201,9 @@
 #define A_SINGLE_INF a_single_c(A_DOUBLE_INF)
 #define A_SINGLE_NAN (A_SINGLE_C(0.0) * A_SINGLE_INF)
 /*! format constants for the fprintf family of functions */
-#define A_SINGLE_PRI(_, ...) "%" _ __VA_ARGS__
+#define A_SINGLE_PRI(F, C) "%" F C
 /*! format constants for the fscanf family of functions */
-#define A_SINGLE_SCN(_, ...) "%" _ __VA_ARGS__
+#define A_SINGLE_SCN(F, C) "%" F C
 /*! static cast to \ref a_single_t */
 #define a_single_c(x) a_cast_s(A_SINGLE_T, x)
 #define a_single_p(x) a_cast_s(A_SINGLE_T *, x)
@@ -223,9 +222,9 @@
 #define A_DOUBLE_INF (DBL_MAX * DBL_MAX)
 #define A_DOUBLE_NAN (A_DOUBLE_C(0.0) * A_DOUBLE_INF)
 /*! format constants for the fprintf family of functions */
-#define A_DOUBLE_PRI(_, ...) "%" _ "l" __VA_ARGS__
+#define A_DOUBLE_PRI(F, C) "%" F "l" C
 /*! format constants for the fscanf family of functions */
-#define A_DOUBLE_SCN(_, ...) "%" _ "l" __VA_ARGS__
+#define A_DOUBLE_SCN(F, C) "%" F "l" C
 /*! static cast to \ref a_double_t */
 #define a_double_c(x) a_cast_s(A_DOUBLE_T, x)
 #define a_double_p(x) a_cast_s(A_DOUBLE_T *, x)
@@ -244,9 +243,9 @@
 #define A_EXTEND_INF (LDBL_MAX * LDBL_MAX)
 #define A_EXTEND_NAN (A_EXTEND_C(0.0) * A_EXTEND_INF)
 /*! format constants for the fprintf family of functions */
-#define A_EXTEND_PRI(_, ...) "%" _ "L" __VA_ARGS__
+#define A_EXTEND_PRI(F, C) "%" F "L" C
 /*! format constants for the fscanf family of functions */
-#define A_EXTEND_SCN(_, ...) "%" _ "L" __VA_ARGS__
+#define A_EXTEND_SCN(F, C) "%" F "L" C
 /*! static cast to \ref a_extend_t */
 #define a_extend_c(x) a_cast_s(A_EXTEND_T, x)
 #define a_extend_p(x) a_cast_s(A_EXTEND_T *, x)
@@ -510,9 +509,9 @@
 #define A_F32_NINF A_U32_C(0xFF800000)
 #define A_F32_PINF A_U32_C(0x7F800000)
 /*! format constants for the fprintf family of functions */
-#define A_F32_PRI(_, ...) "%" _ __VA_ARGS__
+#define A_F32_PRI(F, C) "%" F C
 /*! format constants for the fscanf family of functions */
-#define A_F32_SCN(_, ...) "%" _ __VA_ARGS__
+#define A_F32_SCN(F, C) "%" F C
 /*! static cast to \ref a_f32_t */
 #define a_f32_c(x) a_cast_s(A_F32_T, x)
 #define a_f32_p(x) a_cast_s(A_F32_T *, x)
@@ -535,9 +534,9 @@
 #define A_F64_NINF A_U64_C(0xFFF0000000000000)
 #define A_F64_PINF A_U64_C(0x7FF0000000000000)
 /*! format constants for the fprintf family of functions */
-#define A_F64_PRI(_, ...) "%" _ "l" __VA_ARGS__
+#define A_F64_PRI(F, C) "%" F "l" C
 /*! format constants for the fscanf family of functions */
-#define A_F64_SCN(_, ...) "%" _ "l" __VA_ARGS__
+#define A_F64_SCN(F, C) "%" F "l" C
 /*! static cast to \ref a_f64_t */
 #define a_f64_c(x) a_cast_s(A_F64_T, x)
 #define a_f64_p(x) a_cast_s(A_F64_T *, x)
@@ -627,9 +626,9 @@ typedef union a_cast_u
 #define A_REAL_P(F) F##f
 
 /*! format constants for the fprintf family of functions */
-#define A_REAL_PRI(_, ...) "%" _ __VA_ARGS__
+#define A_REAL_PRI(F, C) "%" F C
 /*! format constants for the fscanf family of functions */
-#define A_REAL_SCN(_, ...) "%" _ __VA_ARGS__
+#define A_REAL_SCN(F, C) "%" F C
 
 #elif A_REAL_BYTE == A_REAL_DOUBLE
 
@@ -655,9 +654,9 @@ typedef union a_cast_u
 #define A_REAL_P(F) F
 
 /*! format constants for the fprintf family of functions */
-#define A_REAL_PRI(_, ...) "%" _ "l" __VA_ARGS__
+#define A_REAL_PRI(F, C) "%" F "l" C
 /*! format constants for the fscanf family of functions */
-#define A_REAL_SCN(_, ...) "%" _ "l" __VA_ARGS__
+#define A_REAL_SCN(F, C) "%" F "l" C
 
 #elif A_REAL_BYTE == A_REAL_EXTEND
 
@@ -683,9 +682,9 @@ typedef union a_cast_u
 #define A_REAL_P(F) F##l
 
 /*! format constants for the fprintf family of functions */
-#define A_REAL_PRI(_, ...) "%" _ "L" __VA_ARGS__
+#define A_REAL_PRI(F, C) "%" F "L" C
 /*! format constants for the fscanf family of functions */
-#define A_REAL_SCN(_, ...) "%" _ "L" __VA_ARGS__
+#define A_REAL_SCN(F, C) "%" F "L" C
 
 #else /* !A_REAL_BYTE */
 #error unknown precision
