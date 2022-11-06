@@ -21,6 +21,9 @@
 #cmakedefine A_VERSION_PATCH @A_VERSION_PATCH@
 #cmakedefine A_VERSION_TWEAK A_U64_C(@A_VERSION_TWEAK@)
 
+#cmakedefine A_HAVE_INLINE @A_HAVE_INLINE@
+#cmakedefine A_HAVE_RESTRICT @A_HAVE_RESTRICT@
+
 #cmakedefine A_HAVE_HYPOT @A_HAVE_HYPOT@
 #cmakedefine A_HAVE_LOG1P @A_HAVE_LOG1P@
 #cmakedefine A_HAVE_ATAN2 @A_HAVE_ATAN2@

@@ -1,5 +1,22 @@
 # include modules
 include(CheckLibraryExists)
+include(CheckCSourceCompiles)
+include(CheckCXXSourceCompiles)
+
+set(source
+  "
+  __inline void func(void) { }
+  int main(void) { return 0; }
+  "
+)
+check_c_source_compiles("${source}" A_HAVE_INLINE)
+set(source
+  "
+  void fn(void *__restrict p);
+  int main(void) { return 0; }
+  "
+)
+check_c_source_compiles("${source}" A_HAVE_RESTRICT)
 
 if(ANDROID AND UNIX)
   list(APPEND CMAKE_PREFIX_PATH /system)

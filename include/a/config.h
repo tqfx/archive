@@ -13,12 +13,9 @@
 
 /*! @cond */
 
-#undef A_ASSERT
-#undef A_HAVE_INLINE
-#define A_HAVE_INLINE
-#if !defined NDEBUG && defined(__GNUC__)
+#if !defined A_ASSERT && defined(__GNUC__)
 #define A_ASSERT(E) assert(E)
-#endif /* NDEBUG */
+#endif /* A_ASSERT */
 
 #if !defined __has_attribute
 #define __has_attribute(...) 0
