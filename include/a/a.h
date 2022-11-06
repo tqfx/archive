@@ -33,10 +33,10 @@
 #if !defined A_VOID_T
 #define A_VOID_T void
 #endif /* A_VOID_T */
-#if !defined __cplusplus
-#define A_NULL NULL
-#else /* !__cplusplus */
+#if defined(__cplusplus) && (__cplusplus >= 201103L)
 #define A_NULL nullptr
+#else /* !__cplusplus */
+#define A_NULL NULL
 #endif /* __cplusplus */
 /*! static cast to \ref a_void_t */
 #define a_void_c(x) a_cast_s(A_VOID_T, x)
