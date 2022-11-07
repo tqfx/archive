@@ -8,18 +8,9 @@ if(CMAKE_CXX_COMPILER)
   enable_language(CXX)
 endif()
 
-function(check_compile_feature)
-  foreach(feature ${ARGN})
-    string(TOUPPER ${feature} var)
-    string(CONCAT var "A_HAVE_" ${var})
-    set(${var} 1 CACHE INTERNAL "Have feature ${feature}")
-  endforeach()
-endfunction()
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
 get_cmake_property(TARGET_SUPPORTS_SHARED_LIBS TARGET_SUPPORTS_SHARED_LIBS)
-check_compile_feature(${CMAKE_C_COMPILE_FEATURES} ${CMAKE_CXX_COMPILE_FEATURES})
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Specifies the build type on single-configuration generators." FORCE)

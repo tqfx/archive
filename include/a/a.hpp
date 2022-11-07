@@ -49,8 +49,10 @@ typedef a_us_t us_t;
 typedef a_il_t il_t;
 typedef a_ul_t ul_t;
 
+#if defined(A_HAVE_LONG_LONG_TYPE)
 typedef a_ill_t ill_t;
 typedef a_ull_t ull_t;
+#endif /* A_HAVE_LONG_LONG_TYPE */
 
 typedef a_int_t int_t;
 typedef a_uint_t uint_t;

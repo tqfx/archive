@@ -144,11 +144,11 @@ static void test_swap(void)
         a_size_t lhs = 0;
         a_size_t rhs = A_SIZE_MAX;
 #if defined(MAIN_ONCE)
-        printf("%zu %zu -> ", lhs, rhs);
+        printf("%" PRIuPTR " %" PRIuPTR " -> ", lhs, rhs);
 #endif /* MAIN_ONCE */
         a_swapz(&lhs, &rhs);
 #if defined(MAIN_ONCE)
-        printf("%zu %zu  \n", lhs, rhs);
+        printf("%" PRIuPTR " %" PRIuPTR "  \n", lhs, rhs);
 #endif /* MAIN_ONCE */
     }
 }

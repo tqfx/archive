@@ -52,7 +52,7 @@ typedef enum a_pid_e
 {
     A_PID_OFF, //!< turn off PID controller
     A_PID_POS, //!< positional PID controller
-    A_PID_INC, //!< incremental PID controller
+    A_PID_INC //!< incremental PID controller
 } a_pid_e;
 
 #if defined(__GNUC__) || defined(__clang__)

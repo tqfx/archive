@@ -22,7 +22,7 @@ typedef enum a_fuzzy_e
 {
     A_FUZZY_DEFAULT, //!< default operator
     A_FUZZY_ALGEBRA, //!< algebra operator
-    A_FUZZY_BOUNDED, //!< bounded operator
+    A_FUZZY_BOUNDED //!<  bounded operator
 } a_fuzzy_e;
 
 #if defined(__cplusplus)

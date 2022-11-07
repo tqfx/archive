@@ -8,7 +8,7 @@ static void tests(void)
 {
     a_str_s ctx[1] = {A_STR_NIL};
     a_str_t str = a_str_exit(ctx);
-    printf("0x%zX ", a_cast_r(a_uptr_t, str));
+    printf("0x%" PRIXPTR " ", a_cast_r(a_uptr_t, str));
     a_str_getc(ctx);
     a_str_getc_(ctx);
     a_str_putc_(ctx, 0);
@@ -17,7 +17,7 @@ static void tests(void)
     a_str_puts(ctx, "");
     a_str_putn(ctx, A_NULL, 0);
     str = a_str_val(ctx);
-    printf("0x%zX ", a_cast_r(a_uptr_t, str));
+    printf("0x%" PRIXPTR " ", a_cast_r(a_uptr_t, str));
     a_str_dtor(ctx);
 }
 

@@ -162,6 +162,8 @@
 /*! unsigned integer type is guaranteed to be at least 32 bits */
 #define a_ul_t A_UL_T
 
+#if defined(A_HAVE_LONG_LONG_TYPE)
+
 #if !defined A_ILL_T
 #define A_ILL_T signed long long
 #endif /* A_ILL_T */
@@ -189,6 +191,8 @@
 #define a_ill_t A_ILL_T
 /*! unsigned integer type is guaranteed to be at least 64 bits */
 #define a_ull_t A_ULL_T
+
+#endif /* A_HAVE_LONG_LONG_TYPE */
 
 #if !defined A_SINGLE_T
 #define A_SINGLE_T float
@@ -586,8 +590,10 @@ typedef union a_cast_u
     a_us_t us;
     a_il_t il;
     a_ul_t ul;
+#if defined(A_HAVE_LONG_LONG_TYPE)
     a_ill_t ill;
     a_ull_t ull;
+#endif /* A_HAVE_LONG_LONG_TYPE */
     a_i8_t i8;
     a_u8_t u8;
     a_i16_t i16;
@@ -689,7 +695,7 @@ typedef union a_cast_u
 #define A_REAL_F3(F, a, b, c) F(a, b, c)
 
 /*! format constants for the fprintf family of functions */
-#define A_REAL_PRI(F, C) "%" F "l" C
+#define A_REAL_PRI(F, C) "%" F C
 /*! format constants for the fscanf family of functions */
 #define A_REAL_SCN(F, C) "%" F "l" C
 
@@ -849,7 +855,7 @@ enum
 {
     A_SUCCESS, //!< return success
     A_FAILURE, //!< return failure
-    A_INVALID, //!< return invalid
+    A_INVALID //!<  return invalid
 };
 
 #if defined(__cplusplus)

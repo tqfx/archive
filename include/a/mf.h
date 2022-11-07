@@ -26,7 +26,7 @@ typedef enum a_mf_e
     A_MF_SIG, //!< sigmoidal membership function
     A_MF_TRAP, //!< trapezoidal membership function
     A_MF_TRI, //!< triangular membership function
-    A_MF_Z, //!< z-shaped membership function
+    A_MF_Z //!< z-shaped membership function
 } a_mf_e;
 
 #if defined(__cplusplus)

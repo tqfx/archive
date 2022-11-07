@@ -79,7 +79,7 @@ static void test(void)
         a_data_s *node = a_slist_entry(it, a_data_s, list);
         printf("%i ", node->data->i);
     }
-    printf("%zu", a_slist_len(list1));
+    printf("%" PRIuPTR, a_slist_len(list1));
     for (a_int_t i = 0; i != 10; ++i)
     {
         a_data_s *node = a_slist_entry_next(list1->head, a_data_s, list);

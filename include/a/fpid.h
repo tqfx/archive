@@ -35,7 +35,7 @@ typedef enum a_fpid_e
     A_FPID_OR = (1 << (A_FPID_FUZZY_BITL + 3)),
     A_FPID_OR_DEFAULT = A_FPID_OR + (A_FUZZY_DEFAULT << A_FPID_FUZZY_BITL),
     A_FPID_OR_ALGEBRA = A_FPID_OR + (A_FUZZY_ALGEBRA << A_FPID_FUZZY_BITL),
-    A_FPID_OR_BOUNDED = A_FPID_OR + (A_FUZZY_BOUNDED << A_FPID_FUZZY_BITL),
+    A_FPID_OR_BOUNDED = A_FPID_OR + (A_FUZZY_BOUNDED << A_FPID_FUZZY_BITL)
 } a_fpid_e;
 
 #if defined(__GNUC__) || defined(__clang__)
