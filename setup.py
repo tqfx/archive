@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from sys import argv, executable, version_info
 from subprocess import Popen
-import os, time
+import os, sys, time
 
 script = os.path.abspath(argv[0])
 os.chdir(os.path.dirname(script))
@@ -14,14 +14,14 @@ except ImportError:
     from distutils.command.build_ext import build_ext
     from distutils.extension import Extension
     from distutils.core import setup
+from re import findall
 from glob import glob
-import platform, re
 import ctypes.util
 import ctypes
 
 
 def check_math(funcs, define_macros=[]):
-    if platform.system() == "Windows":
+    if sys.platform == "win32":
         path_libm = ctypes.util.find_library("ucrtbase")
         if not path_libm:
             path_libm = ctypes.util.find_msvcrt()
@@ -89,10 +89,10 @@ if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
 elif os.path.exists("ffi/python/src/lib.c"):
     source_c = ["ffi/python/src/lib.c"]
 with open("ffi/python/src/a/__init__.pxi", "r") as f:
-    define_macros += re.findall(r"DEF (\w+) = (\d+)", f.read())
+    define_macros += findall(r"DEF (\w+) = (\d+)", f.read())
 with open("setup.cfg", "r") as f:
-    version = re.findall(r"version = (.+)", f.read())[0]
-major, minor, patch = re.findall(r"(\d+).(\d+).(\d+)", version)[0]
+    version = findall(r"version = (.+)", f.read())[0]
+major, minor, patch = findall(r"(\d+).(\d+).(\d+)", version)[0]
 tweak = time.strftime("%Y%m%d%H%M")
 if not os.path.exists("build"):
     os.mkdir("build")
