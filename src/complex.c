@@ -124,6 +124,9 @@ a_complex_s a_complex_inv(a_complex_s z)
 #if __has_warning("-Wincompatible-library-redeclaration")
 #pragma clang diagnostic ignored "-Wincompatible-library-redeclaration"
 #endif /* clang 4.0+ */
+#if a_prereq_gnuc(2, 95) || __has_warning("-Wimplicit-function-declaration")
+#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
+#endif /* gcc 2.95+ */
 #if a_prereq_gnuc(10, 1)
 #pragma GCC diagnostic ignored "-Wbuiltin-declaration-mismatch"
 #endif /* gcc 10.1+ */
