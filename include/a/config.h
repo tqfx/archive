@@ -13,9 +13,35 @@
 
 /*! @cond */
 
-#if !defined A_ASSERT && defined(__GNUC__)
-#define A_ASSERT(E) assert(E)
-#endif /* A_ASSERT */
+#if !defined A_HAVE_INLINE
+#define A_HAVE_INLINE
+#endif /* A_HAVE_INLINE */
+
+#if !defined A_HAVE_RESTRICT
+#if defined(A_HAVE_C_RESTRICT)
+#define A_HAVE_RESTRICT 1
+#endif /* A_HAVE_C_RESTRICT */
+#endif /* A_HAVE_RESTRICT */
+
+#if !defined A_HAVE_VARIADIC_MACROS
+#if !defined __cplusplus && defined(A_HAVE_C_VARIADIC_MACROS) || \
+    defined(__cplusplus) && defined(A_HAVE_CXX_VARIADIC_MACROS)
+#define A_HAVE_VARIADIC_MACROS 1
+#endif /* A_HAVE_<LANG>_VARIADIC_MACROS */
+#endif /* A_HAVE_VARIADIC_MACROS */
+
+#if !defined A_HAVE_STATIC_ASSERT
+#if !defined __cplusplus && defined(A_HAVE_C_STATIC_ASSERT) || \
+    defined(__cplusplus) && defined(A_HAVE_CXX_STATIC_ASSERT)
+#define A_HAVE_STATIC_ASSERT 1
+#endif /* A_HAVE_<LANG>_STATIC_ASSERT */
+#endif /* A_HAVE_STATIC_ASSERT */
+
+#if !defined A_HAVE_NULLPTR
+#if defined(A_HAVE_CXX_NULLPTR)
+#define A_HAVE_NULLPTR 1
+#endif /* A_HAVE_CXX_NULLPTR */
+#endif /* A_HAVE_NULLPTR */
 
 #if !defined __has_attribute
 #define __has_attribute(x) 0
@@ -171,17 +197,21 @@
 #define A_EXTERN_C_LEAVE }
 #endif /* __cplusplus */
 
+#if !defined A_ASSERT && defined(__GNUC__)
+#define A_ASSERT(x) assert(x)
+#elif !defined A_ASSERT
+#define A_ASSERT(x) ((void)(0))
+#endif /* A_ASSERT */
+
 #if defined(__cplusplus)
 #define A_REGISTER
 #else /* !__cplusplus */
 #define A_REGISTER __register
 #endif /* __cplusplus */
 #define A_VOLATILE __volatile
+#if defined(A_HAVE_RESTRICT)
 #define A_RESTRICT __restrict
-
-#if !defined A_ASSERT
-#define A_ASSERT(E) ((void)(0))
-#endif /* A_ASSERT */
+#endif /* A_HAVE_RESTRICT */
 
 /*! @endcond */
 

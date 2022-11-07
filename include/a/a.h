@@ -33,7 +33,7 @@
 #if !defined A_VOID_T
 #define A_VOID_T void
 #endif /* A_VOID_T */
-#if defined(__cplusplus) && (__cplusplus >= 201103L)
+#if defined(__cplusplus) && defined(A_HAVE_NULLPTR)
 #define A_NULL nullptr
 #else /* !__cplusplus */
 #define A_NULL NULL
@@ -195,6 +195,9 @@
 #endif /* A_SINGLE_T */
 #define A_SINGLE_P(F) F##f
 #define A_SINGLE_C(X) (X##F)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_SINGLE_F(F, ...) F##f(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_SINGLE_F1(F, a) F##f(a)
 #define A_SINGLE_F2(F, a, b) F##f(a, b)
 #define A_SINGLE_F3(F, a, b, c) F##f(a, b, c)
@@ -218,6 +221,9 @@
 #endif /* A_DOUBLE_T */
 #define A_DOUBLE_P(F) F
 #define A_DOUBLE_C(X) (X)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_DOUBLE_F(F, ...) F(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_DOUBLE_F1(F, a) F(a)
 #define A_DOUBLE_F2(F, a, b) F(a, b)
 #define A_DOUBLE_F3(F, a, b, c) F(a, b, c)
@@ -241,6 +247,9 @@
 #endif /* A_EXTEND_T */
 #define A_EXTEND_P(F) F##l
 #define A_EXTEND_C(X) (X##L)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_EXTEND_F(F, ...) F##l(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_EXTEND_F1(F, a) F##l(a)
 #define A_EXTEND_F2(F, a, b) F##l(a, b)
 #define A_EXTEND_F3(F, a, b, c) F##l(a, b, c)
@@ -505,6 +514,9 @@
 #endif /* A_F32_T */
 #define A_F32_P(F) F##f
 #define A_F32_C(X) (X##F)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_F32_F(F, ...) F##f(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_F32_F1(F, a) F##f(a)
 #define A_F32_F2(F, a, b) F##f(a, b)
 #define A_F32_F3(F, a, b, c) F##f(a, b, c)
@@ -532,6 +544,9 @@
 #endif /* A_F64_T */
 #define A_F64_P(F) F
 #define A_F64_C(X) (X)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_F64_F(F, ...) F(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_F64_F1(F, a) F(a)
 #define A_F64_F2(F, a, b) F(a, b)
 #define A_F64_F3(F, a, b, c) F(a, b, c)
@@ -633,6 +648,9 @@ typedef union a_cast_u
  expands to a floating-point function expression having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_P(F) F##f
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_REAL_F(F, ...) F##f(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_REAL_F1(F, a) F##f(a)
 #define A_REAL_F2(F, a, b) F##f(a, b)
 #define A_REAL_F3(F, a, b, c) F##f(a, b, c)
@@ -663,6 +681,9 @@ typedef union a_cast_u
  expands to a floating-point function expression having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_P(F) F
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_REAL_F(F, ...) F(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_REAL_F1(F, a) F(a)
 #define A_REAL_F2(F, a, b) F(a, b)
 #define A_REAL_F3(F, a, b, c) F(a, b, c)
@@ -693,6 +714,9 @@ typedef union a_cast_u
  expands to a floating-point function expression having the value specified by its argument and the type \ref a_real_t
 */
 #define A_REAL_P(F) F##l
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_REAL_F(F, ...) F##l(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_REAL_F1(F, a) F##l(a)
 #define A_REAL_F2(F, a, b) F##l(a, b)
 #define A_REAL_F3(F, a, b, c) F##l(a, b, c)

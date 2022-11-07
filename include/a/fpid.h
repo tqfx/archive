@@ -93,10 +93,10 @@ A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
 #if defined(A_HAVE_INLINE) || defined(A_FPID_I)
 A_INTERN a_size_t A_FPID_BUF1(a_uint_t max)
 {
-#define A_FPID_BUF1(N) ((sizeof(a_uint_t) << 1) * (N) + sizeof(a_real_t) * ((N) + 2) * (N))
-    return A_FPID_BUF1(max);
+    return (sizeof(a_uint_t) << 1) * max + sizeof(a_real_t) * (max + 2) * max;
 }
 #endif /* A_HAVE_INLINE */
+#define A_FPID_BUF1(N) ((sizeof(a_uint_t) << 1) * (N) + sizeof(a_real_t) * ((N) + 2) * (N))
 
 #if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
@@ -104,10 +104,10 @@ A_PUBLIC a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
 #if defined(A_HAVE_INLINE) || defined(A_FPID_I)
 A_INTERN a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
 {
-#define a_fpid_bufptr(ctx) (ctx)->idx
-    return a_fpid_bufptr(ctx);
+    return ctx->idx;
 }
 #endif /* A_HAVE_INLINE */
+#define a_fpid_bufptr(ctx) (ctx)->idx
 
 #if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);

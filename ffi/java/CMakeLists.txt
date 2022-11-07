@@ -46,9 +46,9 @@ function(java_check_size output)
     ERROR_VARIABLE version
     ERROR_QUIET
   )
-  string(FIND "${version}" "64-Bit" r)
+  string(FIND "${version}" "64-Bit" out)
 
-  if(${r} GREATER -1)
+  if(${out} GREATER -1)
     set(${output} 8 PARENT_SCOPE) # 64
   else()
     set(${output} 4 PARENT_SCOPE) # 32
