@@ -57,6 +57,6 @@ endfunction()
 
 java_check_size(JAVA_SIZE)
 
-if(CMAKE_SIZEOF_VOID_P EQUAL JAVE_SIZE AND BUILD_TESTING)
+if(CMAKE_SIZEOF_VOID_P EQUAL JAVA_SIZE AND BUILD_TESTING)
   include(test.cmake)
 endif()
