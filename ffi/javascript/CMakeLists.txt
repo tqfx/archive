@@ -24,8 +24,8 @@ string_append(EMFLAGS -sEXPORTED_RUNTIME_METHODS=ccall,cwrap)
 
 file(GLOB_RECURSE SOURCES src/*.h* src/*.cc)
 add_executable(a-js ${SOURCES} $<TARGET_PROPERTY:a,SOURCES>)
-target_compile_definitions(a-js PRIVATE $<TARGET_PROPERTY:a,INTERFACE_COMPILE_DEFINITIONS>)
-target_include_directories(a-js PRIVATE $<TARGET_PROPERTY:a,INTERFACE_INCLUDE_DIRECTORIES>)
+target_compile_definitions(a-js PRIVATE $<TARGET_PROPERTY:a,COMPILE_DEFINITIONS>)
+target_include_directories(a-js PRIVATE $<TARGET_PROPERTY:a,INCLUDE_DIRECTORIES>)
 set_target_properties(a-js PROPERTIES OUTPUT_NAME ${PROJECT_NAME} LINK_FLAGS ${EMFLAGS})
 target_link_libraries(a-js PRIVATE embind)
 
