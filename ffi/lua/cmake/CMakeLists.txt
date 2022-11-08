@@ -23,6 +23,10 @@ project(lua VERSION ${LUA_VERSION} LANGUAGES C HOMEPAGE_URL http://www.lua.org
   DESCRIPTION "A powerful, efficient, lightweight, embeddable scripting language."
 )
 
+if(NOT FETCHCONTENT_BASE_DIR)
+  set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR} CACHE STRING "")
+endif()
+
 if(POLICY CMP0135) # 3.24
   cmake_policy(SET CMP0135 NEW)
 endif() # DOWNLOAD_EXTRACT_TIMESTAMP
