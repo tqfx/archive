@@ -1,8 +1,8 @@
 # include modules
 include(CheckLibraryExists)
 
-if(ANDROID AND UNIX)
-  list(APPEND CMAKE_PREFIX_PATH /system)
+if(DEFINED ENV{ANDROID_ROOT})
+  list(APPEND CMAKE_PREFIX_PATH $ENV{ANDROID_ROOT})
 endif()
 
 if(DEFINED ENV{PREFIX})

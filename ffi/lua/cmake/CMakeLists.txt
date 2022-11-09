@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.15) # CheckPIESupported
+cmake_minimum_required(VERSION 3.15)
+
 set(LUA_VERSION 5.4.4 CACHE STRING "specifies building version for lua")
 set_property(CACHE LUA_VERSION PROPERTY STRINGS 5.4.4 5.3.6 5.2.4 5.1.5)
 find_file(LUA_ARCHIVE lua-${LUA_VERSION}.tar.gz

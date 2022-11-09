@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15) # CheckPIESupported
+cmake_minimum_required(VERSION 3.15)
 
 if(POLICY CMP0057) # 3.3
   cmake_policy(SET CMP0057 NEW)
