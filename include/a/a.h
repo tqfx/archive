@@ -853,9 +853,9 @@ typedef union a_real_u
 */
 enum
 {
-    A_SUCCESS, //!< return success
-    A_FAILURE, //!< return failure
-    A_INVALID //!<  return invalid
+    A_SUCCESS /*!< return success */,
+    A_FAILURE /*!< return failure */,
+    A_INVALID /*!< return invalid */
 };
 
 #if defined(__cplusplus)
