@@ -23,12 +23,6 @@
 /* compiler built-in complex number type */
 #define a_complex_t A_COMPLEX_T
 
-typedef union
-{
-    a_complex_s s;
-    a_complex_t z;
-} a_complex_u;
-
 #endif /* A_COMPLEX_T */
 
 #endif /* COMPLEX_H */

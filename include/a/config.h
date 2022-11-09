@@ -57,6 +57,9 @@
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif /* __clang__ */
+#if __has_warning("-Wdisabled-macro-expansion")
+#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
+#endif /* -Wdisabled-macro-expansion */
 
 #undef a_prereq_msvc
 /* https://en.wikipedia.org/wiki/Microsoft_Visual_C++ */
@@ -103,7 +106,7 @@
 #define A_HAVE_LONG_LONG_TYPE 1
 #endif /* A_HAVE_LONG_LONG_TYPE */
 
-#endif /* C >= 1999 or C++ >= 2011 */
+#endif /* C > 199900 or C++ > 201100 */
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 201100L) || \
     defined(__cplusplus) && (__cplusplus > 201100L)
@@ -112,7 +115,7 @@
 #define A_HAVE_STATIC_ASSERT 1
 #endif /* A_HAVE_STATIC_ASSERT */
 
-#endif /* C >= 2011 or C++ >= 2011 */
+#endif /* C > 201100 or C++ > 201100 */
 
 #if defined(__cplusplus) && (__cplusplus > 201100L)
 
@@ -120,7 +123,7 @@
 #define A_HAVE_NULLPTR 1
 #endif /* A_HAVE_NULLPTR */
 
-#endif /*  C++ >= 2011 */
+#endif /*  C++ > 201100 */
 
 #if a_prereq_gnuc(2, 96) || __has_builtin(__builtin_expect)
 #define a_unlikely(x) __builtin_expect(!!(x), 0)

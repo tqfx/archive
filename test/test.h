@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include <inttypes.h>
+#if defined(_MSC_VER)
+#pragma warning(disable : 4127)
+#endif /* _MSC_VER */
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L) || \
     defined(__cplusplus) && (__cplusplus > 201100L) || defined(_MSC_VER)
@@ -51,7 +54,7 @@
 #define SCNtx "tx"
 #define SCNtX "tX"
 
-#else /* C90 or C++98 */
+#else /* C < 199900 and C++ < 201100 */
 
 #define PRIjd PRIdMAX
 #define PRIji PRIiMAX
@@ -95,7 +98,7 @@
 #define SCNtx PRIxPTR
 #define SCNtX PRIXPTR
 
-#endif /* C99 or C++11 */
+#endif /* C > 199900 or C++ > 201100 */
 
 #define TEST_IS_TRUE(expression, message)                   \
     do                                                      \

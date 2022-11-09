@@ -7,7 +7,7 @@
 #ifndef A_HOST_QUE_H
 #define A_HOST_QUE_H
 
-#include "../list.h"
+#include "a/list.h"
 #include <stdlib.h>
 
 /*!
@@ -317,10 +317,6 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
              ? ((void)(it = a_cast_s(T *, a_que_from(it)->_data)), 1) \
              : (0);                                                   \
          it = it##_, it##_ = a_cast_r(T *, a_list_from(it)->prev))
-
-#if __has_warning("-Wdisabled-macro-expansion")
-#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
-#endif /* -Wdisabled-macro-expansion */
 
 #define a_que_fore(T, ctx) a_cast_s(T *, a_que_fore(ctx))
 #define a_que_back(T, ctx) a_cast_s(T *, a_que_back(ctx))

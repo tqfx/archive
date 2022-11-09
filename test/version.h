@@ -12,7 +12,7 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
     (void)(argc);
     (void)(argv);
-    printf("%s\n", __func__);
+    printf("%s\n", __FUNCTION__);
 #if defined(__cplusplus)
     printf("version %s\n", a::version());
     printf("major %u\n", a::version_major());

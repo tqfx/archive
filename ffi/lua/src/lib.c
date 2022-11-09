@@ -22,8 +22,8 @@ static int sqrt_inv(lua_State *L)
     int n = lua_gettop(L);
     for (int i = 0; i++ != n;)
     {
-        a_f32_t x = (a_f32_t)luaL_checknumber(L, i);
-        lua_pushnumber(L, (lua_Number)a_sqrt_inv(x));
+        lua_Number x = luaL_checknumber(L, i);
+        lua_pushnumber(L, (lua_Number)a_sqrt_inv((a_f32_t)x));
     }
     return n;
 }

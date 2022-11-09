@@ -19,15 +19,15 @@
 */
 
 #if defined(__cplusplus)
-#define a_cast_r(_, x) reinterpret_cast<_>(x)
-#define a_cast_d(_, x) dynamic_cast<_>(x)
-#define a_cast_s(_, x) static_cast<_>(x)
-#define a_cast_c(_, x) const_cast<_>(x)
+#define a_cast_r(T, x) reinterpret_cast<T>(x)
+#define a_cast_d(T, x) dynamic_cast<T>(x)
+#define a_cast_s(T, x) static_cast<T>(x)
+#define a_cast_c(T, x) const_cast<T>(x)
 #else /* !__cplusplus */
-#define a_cast_r(_, x) ((_)(x))
-#define a_cast_d(_, x) ((_)(x))
-#define a_cast_s(_, x) ((_)(x))
-#define a_cast_c(_, x) ((_)(x))
+#define a_cast_r(T, x) ((T)(x))
+#define a_cast_d(T, x) ((T)(x))
+#define a_cast_s(T, x) ((T)(x))
+#define a_cast_c(T, x) ((T)(x))
 #endif /* __cplusplus */
 
 #if !defined A_VOID_T

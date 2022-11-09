@@ -58,13 +58,21 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   warnings_flag_cx(-Wno-pedantic-ms-format) # 4.4+
   warnings_flag_cx(-Wlogical-op) # 4.3+
 elseif(CMAKE_C_COMPILER_ID MATCHES "MSVC" OR CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-  # https://learn.microsoft.com/en-us/cpp/error-messages
+  # https://learn.microsoft.com/cpp/error-messages/compiler-warnings
   warnings_flag_cx(/Wall)
-  warnings_flag_cx(/wd4464)
-  warnings_flag_cx(/wd4514)
-  warnings_flag_cx(/wd4710)
-  warnings_flag_cx(/wd5039)
-  warnings_flag_cx(/wd5045)
+  warnings_flag_cx(/wd4464) # relative include path contains '..'
+  warnings_flag_cx(/wd4514) # 'function' : unreferenced inline function has been removed
+  warnings_flag_cx(/wd4710) # 'function' : function not inlined
+  warnings_flag_cx(/wd4711) # function 'function' selected for inline expansion
+  warnings_flag_cx(/wd4820) # 'bytes' bytes padding added after construct 'member_name'
+
+  if(MSVC_VERSION GREATER 1911) # 15.5
+    warnings_flag_cx(/wd5039) # 'function': pointer or reference to potentially throwing function passed to extern C function under -EHc
+  endif()
+
+  if(MSVC_VERSION GREATER 1913) # 15.7
+    warnings_flag_cx(/wd5045) # Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+  endif()
 elseif(CMAKE_C_COMPILER_ID MATCHES "TinyCC")
   # https://bellard.org/tcc/tcc-doc.html
   warnings_flag_cx(-Wwrite-strings)

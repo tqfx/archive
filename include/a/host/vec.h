@@ -7,7 +7,7 @@
 #ifndef A_HOST_VEC_H
 #define A_HOST_VEC_H
 
-#include "../a.h"
+#include "a/a.h"
 #include <stdlib.h>
 
 /*!
@@ -392,10 +392,6 @@ A_INTERN a_vptr_t a_vec_pull(a_vec_s *ctx) { return a_vec_pull_back(ctx); }
  @param ctx points to an instance of vector structure
 */
 #define a_vec_foreach_reverse(T, it, ctx) a_foreach_reverse(T, it, (ctx)->_ptr, (ctx)->_num)
-
-#if __has_warning("-Wdisabled-macro-expansion")
-#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
-#endif /* -Wdisabled-macro-expansion */
 
 #define a_vec_ptr(T, ctx) a_cast_s(T *, a_vec_ptr(ctx))
 #define a_vec_end(T, ctx) a_cast_s(T *, a_vec_end(ctx))

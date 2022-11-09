@@ -303,7 +303,7 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
     (void)(argc);
     (void)(argv);
-    printf("%s\n", __func__);
+    printf("%s\n", __FUNCTION__);
     test();
     test_sort();
     return 0;

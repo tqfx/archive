@@ -7,7 +7,7 @@
 #ifndef A_HOST_STR_H
 #define A_HOST_STR_H
 
-#include "../a.h"
+#include "a/a.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>

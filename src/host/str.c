@@ -1,3 +1,8 @@
+#if defined(_MSC_VER)
+#if !defined _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif /* _CRT_SECURE_NO_WARNINGS */
+#endif /* _MSC_VER */
 #include "a/host/str.h"
 #include <assert.h>
 #include <stdio.h>

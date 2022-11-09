@@ -2,16 +2,15 @@
 #define FFI_LUA_H
 
 #if defined(_MSC_VER)
+#if !defined _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
+#endif /* _CRT_SECURE_NO_WARNINGS */
 #endif /* _MSC_VER */
-
 #include "a/a.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
-#endif /* diagnostic */
-#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
 #pragma GCC diagnostic ignored "-Wpadded"
-#endif /* -Wpadded */
+#endif /* diagnostic */
 #if defined(_MSC_VER)
 #pragma warning(push)
 #pragma warning(disable : 4820)
@@ -19,6 +18,9 @@
 #include "lauxlib.h"
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
+#endif /* diagnostic */
+#if __has_warning("-Wcomma")
+#pragma clang diagnostic ignored "-Wcomma"
 #endif /* diagnostic */
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -146,9 +148,5 @@ A_PUBLIC int luaopen_liba(lua_State *L);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
-
-#if __has_warning("-Wcomma")
-#pragma clang diagnostic ignored "-Wcomma"
-#endif /* -Wcomma */
 
 #endif /* FFI_LUA_H */
