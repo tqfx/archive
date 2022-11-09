@@ -14,47 +14,8 @@
 /*! @cond */
 
 #if !defined A_HAVE_INLINE
-#define A_HAVE_INLINE
+#define A_HAVE_INLINE 1
 #endif /* A_HAVE_INLINE */
-
-// https://en.cppreference.com/w/c/preprocessor/replace
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L)
-#endif /* C99 */
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 201100L)
-#endif /* C11 */
-
-// https://en.cppreference.com/w/cpp/preprocessor/replace
-#if defined(__cplusplus) && (__cplusplus < 201100L)
-#endif /* C++98 */
-#if defined(__cplusplus) && (__cplusplus > 201100L)
-
-#if !defined A_HAVE_NULLPTR
-#define A_HAVE_NULLPTR 1
-#endif /* A_HAVE_NULLPTR */
-
-#endif /* C++11 */
-
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L) || \
-    defined(__cplusplus) && (__cplusplus > 201100L)
-
-#if !defined A_HAVE_VARIADIC_MACROS
-#define A_HAVE_VARIADIC_MACROS 1
-#endif /* A_HAVE_VARIADIC_MACROS */
-
-#if !defined A_HAVE_LONG_LONG_TYPE
-#define A_HAVE_LONG_LONG_TYPE 1
-#endif /* A_HAVE_LONG_LONG_TYPE */
-
-#endif /* C99 or C++11 */
-
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201100L) || \
-    defined(__cplusplus) && (__cplusplus >= 201100L)
-
-#if !defined A_HAVE_STATIC_ASSERT
-#define A_HAVE_STATIC_ASSERT 1
-#endif /* A_HAVE_STATIC_ASSERT */
-
-#endif /* C11 or C++11 */
 
 #if !defined __has_attribute
 #define __has_attribute(x) 0
@@ -121,6 +82,46 @@
 #define a_prereq_clang(maj, min) 0
 #endif /* __clang__ */
 
+/* https://en.cppreference.com/w/cpp/preprocessor/replace */
+#if !defined __cplusplus
+/* https://en.cppreference.com/w/c/preprocessor/replace */
+#if !defined __STDC_VERSION__ && a_prereq_msvc(18, 0)
+#define __STDC_VERSION__ 199901L /* C99 */
+#elif !defined __STDC_VERSION__
+#define __STDC_VERSION__ 199001L /* C90 */
+#endif /* __STDC_VERSION__ */
+#endif /* __cplusplus */
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L) || \
+    defined(__cplusplus) && (__cplusplus > 201100L)
+
+#if !defined A_HAVE_VARIADIC_MACROS
+#define A_HAVE_VARIADIC_MACROS 1
+#endif /* A_HAVE_VARIADIC_MACROS */
+
+#if !defined A_HAVE_LONG_LONG_TYPE
+#define A_HAVE_LONG_LONG_TYPE 1
+#endif /* A_HAVE_LONG_LONG_TYPE */
+
+#endif /* C >= 1999 or C++ >= 2011 */
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 201100L) || \
+    defined(__cplusplus) && (__cplusplus > 201100L)
+
+#if !defined A_HAVE_STATIC_ASSERT
+#define A_HAVE_STATIC_ASSERT 1
+#endif /* A_HAVE_STATIC_ASSERT */
+
+#endif /* C >= 2011 or C++ >= 2011 */
+
+#if defined(__cplusplus) && (__cplusplus > 201100L)
+
+#if !defined A_HAVE_NULLPTR
+#define A_HAVE_NULLPTR 1
+#endif /* A_HAVE_NULLPTR */
+
+#endif /*  C++ >= 2011 */
+
 #if a_prereq_gnuc(2, 96) || __has_builtin(__builtin_expect)
 #define a_unlikely(x) __builtin_expect(!!(x), 0)
 #define a_likely(x) __builtin_expect(!!(x), 1)
@@ -129,17 +130,17 @@
 #define a_likely(x) (x)
 #endif /* __GNUC__ */
 
-#if defined(__GNUC__) || defined(__clang__)
-#define A_ATTRIBUTE(x) __attribute__(x)
-#else /* !__attribute__ */
-#define A_ATTRIBUTE(x)
-#endif /* __attribute__ */
-
 #if defined(_WIN32) || defined(__CYGWIN__)
 #define A_DECLSPEC(x) __declspec(x)
 #else /* !__declspec */
 #define A_DECLSPEC(x)
 #endif /* __declspec */
+
+#if defined(__GNUC__) || defined(__clang__)
+#define A_ATTRIBUTE(x) __attribute__(x)
+#else /* !__attribute__ */
+#define A_ATTRIBUTE(x)
+#endif /* __attribute__ */
 
 /* attribute format */
 #if a_prereq_gnuc(2, 4) || __has_attribute(format)
