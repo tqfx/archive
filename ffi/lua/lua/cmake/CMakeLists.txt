@@ -12,12 +12,12 @@ else()
   set(LUA_32BITS 0 CACHE BOOL "" FORCE)
 endif()
 
-if(DEFINED ENV{ANDROID_ROOT})
-  list(APPEND CMAKE_PREFIX_PATH $ENV{ANDROID_ROOT})
-endif()
-
 if(DEFINED ENV{PREFIX})
   list(APPEND CMAKE_PREFIX_PATH $ENV{PREFIX})
+endif()
+
+if(DEFINED ENV{ANDROID_ROOT})
+  list(APPEND CMAKE_PREFIX_PATH $ENV{ANDROID_ROOT})
 endif()
 
 find_library(READLINE_LIBRARY NAMES readline)
@@ -25,14 +25,20 @@ find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
 find_library(MATH_LIBRARY NAMES m DOC "lua math library")
 
 if(READLINE_LIBRARY AND READLINE_INCLUDE_DIR)
-  set(READLINE_FOUND TRUE)
+  set(READLINE_FOUND 1)
 else()
-  set(READLINE_FOUND 0)
+  unset(READLINE_INCLUDE_DIR CACHE)
+  unset(READLINE_LIBRARY CACHE)
 endif()
 
-if(NOT WIN32)
+if(NOT MATH_LIBRARY)
+  unset(MATH_LIBRARY CACHE)
+endif()
+
+if(NOT WIN32 AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h)
   file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF_H)
   string(REGEX REPLACE "([^/\\]+)$" "\\1/" LUA_ROOT "${CMAKE_INSTALL_PREFIX}")
+  string(REGEX REPLACE "#define LUA_USE_READLINE([^\n]+)\n" "" LUACONF_H "${LUACONF_H}")
   string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT}\"\n" LUACONF_H "${LUACONF_H}")
   string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" LUACONF_H "${LUACONF_H}")
 
@@ -49,7 +55,7 @@ if(NOT WIN32)
   file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF_H}")
 endif()
 
-if(DEFINED ENV{PREFIX})
+if(DEFINED ENV{PREFIX} AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c)
   string(REGEX REPLACE "([^/\\]+)([/\\]*)$" "\\1/tmp/lua_XXXXXX" LUA_ROOT "$ENV{PREFIX}")
   file(READ ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c LOSLIB_C)
   string(LENGTH "${LUA_ROOT}0" LUA_ROOT_LENGTH)
@@ -91,20 +97,15 @@ function(lua_library target)
     set_target_properties(${target} PROPERTIES IMPORT_SUFFIX .def)
   endif()
 
-  set_target_properties(${target} PROPERTIES OUTPUT_NAME lua
-    POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL ${DEFINE_SYMBOL}
-  )
-  target_compile_definitions(${target} PUBLIC
-    $<$<AND:$<BOOL:${READLINE_FOUND}>,$<VERSION_GREATER:${LUA_VERSION},5.3.6>>:LUA_USE_READLINE>
-    $<$<BOOL:${LUA_PLATFORM}>:${LUA_PLATFORM}>
-  )
-  target_include_directories(${target} PUBLIC
-    $<$<BOOL:${READLINE_FOUND}>:${READLINE_INCLUDE_DIR}>
-    $<INSTALL_INTERFACE:include>
-  )
-  target_link_libraries(${target} INTERFACE
-    $<$<BOOL:${MATH_LIBRARY}>:${MATH_LIBRARY}>
-  )
+  set_target_properties(${target} PROPERTIES OUTPUT_NAME lua DEFINE_SYMBOL ${DEFINE_SYMBOL})
+  target_compile_definitions(${target} PUBLIC ${DEFINE_SYMBOL} ${LUA_PLATFORM})
+  target_include_directories(${target} PUBLIC $<INSTALL_INTERFACE:include>)
+  target_link_libraries(${target} INTERFACE ${MATH_LIBRARY})
+
+  if(READLINE_FOUND)
+    target_include_directories(${target} PUBLIC ${READLINE_INCLUDE_DIR})
+    target_compile_definitions(${target} PUBLIC LUA_USE_READLINE)
+  endif()
 endfunction()
 
 unset(SOURCES)
@@ -112,18 +113,16 @@ unset(SOURCES CACHE)
 aux_source_directory(src SOURCES)
 list(REMOVE_ITEM SOURCES src/lua.c)
 list(REMOVE_ITEM SOURCES src/luac.c)
-
 add_library(liblua SHARED ${SOURCES})
 lua_library(liblua)
 add_library(lualib STATIC $<TARGET_OBJECTS:liblua>)
 lua_library(lualib)
-
 add_executable(lua src/lua.c)
-target_link_libraries(lua PRIVATE liblua)
 add_executable(luac src/luac.c)
+target_link_libraries(lua PRIVATE liblua)
 target_link_libraries(luac PRIVATE lualib)
-target_link_libraries(liblua INTERFACE ${CMAKE_DL_LIBS}
-  $<$<BOOL:${READLINE_FOUND}>:${READLINE_LIBRARY}>
+target_link_libraries(liblua INTERFACE
+  ${READLINE_LIBRARY} ${CMAKE_DL_LIBS}
 )
 
 if(WIN32)

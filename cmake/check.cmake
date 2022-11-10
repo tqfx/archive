@@ -1,12 +1,12 @@
 # include modules
 include(CheckLibraryExists)
 
-if(DEFINED ENV{ANDROID_ROOT})
-  list(APPEND CMAKE_PREFIX_PATH $ENV{ANDROID_ROOT})
-endif()
-
 if(DEFINED ENV{PREFIX})
   list(APPEND CMAKE_PREFIX_PATH $ENV{PREFIX})
+endif()
+
+if(DEFINED ENV{ANDROID_ROOT})
+  list(APPEND CMAKE_PREFIX_PATH $ENV{ANDROID_ROOT})
 endif()
 
 set(A_REAL_BYTE 8 CACHE INTERNAL "real number bytes")
@@ -38,6 +38,10 @@ function(check_m VARIABLE FUNCTION)
     ${FUNCTION} "${LOCATION}" ${VARIABLE}
   )
 endfunction()
+
+if(NOT MATH_LIBRARY)
+  unset(MATH_LIBRARY CACHE)
+endif()
 
 # math.h
 check_m(A_HAVE_HYPOT hypot)

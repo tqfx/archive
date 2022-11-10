@@ -24,6 +24,7 @@ add_library(a-jni SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
 set_target_properties(a-jni PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_compile_definitions(a-jni PRIVATE $<TARGET_PROPERTY:a,COMPILE_DEFINITIONS>)
 target_include_directories(a-jni PRIVATE $<TARGET_PROPERTY:a,INCLUDE_DIRECTORIES>)
+target_link_libraries(a-jni PRIVATE $<TARGET_PROPERTY:a,LINK_LIBRARIES>)
 target_link_libraries(a-jni PRIVATE jar-native-a)
 target_library_options(a-jni)
 
