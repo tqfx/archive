@@ -12,7 +12,7 @@ static int test(int argc, char *argv[])
 
 int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
-    printf(__FUNCTION__);
+    printf(A_FUNC);
 #if defined(MAIN_ONCE)
     printf(" ok");
 #endif /* MAIN_ONCE */

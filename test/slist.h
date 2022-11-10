@@ -140,7 +140,7 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {
     (void)(argc);
     (void)(argv);
-    printf("%s\n", __FUNCTION__);
+    printf("%s\n", A_FUNC);
     test();
     null();
     return 0;

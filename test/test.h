@@ -9,8 +9,8 @@
 #pragma warning(disable : 4127)
 #endif /* _MSC_VER */
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L) || \
-    defined(__cplusplus) && (__cplusplus > 201100L) || defined(_MSC_VER)
+#if defined(__cplusplus) && (__cplusplus > 201100L) || \
+    defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L)
 
 #define PRIjd "jd"
 #define PRIji "ji"

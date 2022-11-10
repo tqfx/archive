@@ -85,6 +85,19 @@
 #define a_prereq_clang(maj, min) 0
 #endif /* __clang__ */
 
+#if !defined A_FUNC
+#if defined(_MSC_VER)
+#define A_FUNC __FUNCTION__
+#elif defined(__GNUC__)
+#define A_FUNC (__extension__ __PRETTY_FUNCTION__)
+#elif defined(__cplusplus) && (__cplusplus > 201100L) || \
+    defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L)
+#define A_FUNC __func__
+#else /* !__func__ */
+#define A_FUNC __FUNCTION__
+#endif /* __func__ */
+#endif /* A_FUNC */
+
 /* https://en.cppreference.com/w/cpp/preprocessor/replace */
 #if !defined __cplusplus
 /* https://en.cppreference.com/w/c/preprocessor/replace */
@@ -95,8 +108,8 @@
 #endif /* __STDC_VERSION__ */
 #endif /* __cplusplus */
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L) || \
-    defined(__cplusplus) && (__cplusplus > 201100L)
+#if defined(__cplusplus) && (__cplusplus > 201100L) || \
+    defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L)
 
 #if !defined A_HAVE_VARIADIC_MACROS
 #define A_HAVE_VARIADIC_MACROS 1
@@ -108,8 +121,8 @@
 
 #endif /* C > 199900 or C++ > 201100 */
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 201100L) || \
-    defined(__cplusplus) && (__cplusplus > 201100L)
+#if defined(__cplusplus) && (__cplusplus > 201100L) || \
+    defined(__STDC_VERSION__) && (__STDC_VERSION__ > 201100L)
 
 #if !defined A_HAVE_STATIC_ASSERT
 #define A_HAVE_STATIC_ASSERT 1
