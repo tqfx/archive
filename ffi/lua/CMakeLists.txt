@@ -32,7 +32,7 @@ install(TARGETS a-lua
 function(create_ldoc target)
   # https://stevedonovan.github.io/ldoc/manual/doc.md.html
   configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.ld
+    ${CMAKE_CURRENT_SOURCE_DIR}/ldoc/config.ld
     ${CMAKE_CURRENT_BINARY_DIR}/LDoc.${target}
     @ONLY
   )

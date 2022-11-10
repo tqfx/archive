@@ -118,9 +118,9 @@ else()
 endif()
 
 if(ENABLE_SANITIZE)
-  add_library(a-san STATIC ${SOURCES})
-  target_compile_sanitize(a-san)
-  target_library_setting(a-san)
+  add_library(a-dbg ${SOURCES})
+  target_library_setting(a-dbg)
+  target_compile_sanitize(a-dbg)
 endif()
 
 add_library(a ${SOURCES})

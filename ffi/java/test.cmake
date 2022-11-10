@@ -9,32 +9,32 @@ function(building target source)
   )
 endfunction()
 
-function(unittest target source)
-  add_test(NAME jar-${target} WORKING_DIRECTORY $<TARGET_FILE_DIR:a-jni>
+function(unittest source name)
+  add_test(NAME jar-${name} WORKING_DIRECTORY $<TARGET_FILE_DIR:a-jni>
     COMMAND ${JAVA_EXECUTABLE} -jar ${CMAKE_CURRENT_BINARY_DIR}/${source}.jar ${ARGN}
   )
 endfunction()
 
 building(test test)
-unittest(lib test)
+unittest(test a)
 
 building(test-mf test_mf)
-unittest(mf test_mf)
+unittest(test_mf mf)
 
 building(test-tf test_tf)
-unittest(tf test_tf)
+unittest(test_tf tf)
 
 building(test-pid test_pid)
-unittest(pid test_pid)
+unittest(test_pid pid)
 
 building(test-fpid test_fpid)
-unittest(fpid test_fpid)
+unittest(test_fpid fpid)
 
 building(test-polytrack3 test_polytrack3)
-unittest(polytrack3 test_polytrack3)
+unittest(test_polytrack3 polytrack3)
 
 building(test-polytrack5 test_polytrack5)
-unittest(polytrack5 test_polytrack5)
+unittest(test_polytrack5 polytrack5)
 
 building(test-polytrack7 test_polytrack7)
-unittest(polytrack7 test_polytrack7)
+unittest(test_polytrack7 polytrack7)

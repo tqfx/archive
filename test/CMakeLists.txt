@@ -23,13 +23,13 @@ if(CMAKE_VERSION VERSION_GREATER 3.14)
   check_pie_supported()
 endif()
 
+set(TARGET_PREFIX test-)
+
 if(ENABLE_SANITIZE)
-  set(A_LIBRARY a-san)
+  set(A_LIBRARY a-dbg)
 else()
   set(A_LIBRARY a)
 endif()
-
-set(TARGET_PREFIX test-)
 
 function(building target)
   set(TARGET "${TARGET_PREFIX}${target}")
