@@ -158,19 +158,8 @@ if USE_CYTHON:
 class Build(build_ext):  # type: ignore
     def build_extensions(self):
         if self.compiler.compiler_type == "msvc":
-            from distutils.msvccompiler import MSVCCompiler as msvc
-
-            class MSVCCompiler(msvc):
-                def __init__(self, verbose=0, dry_run=0, force=0):
-                    msvc.__init__(self, verbose=0, dry_run=1, force=1)
-                    msvc.initialize(self)  # type: ignore
-
-                def version(self):
-                    return self.__version  # type: ignore
-
-            version = MSVCCompiler().version()
             for e in self.extensions:
-                if e.language == "c" and version > 16.8:
+                if e.language == "c":
                     e.extra_compile_args += ["/std:c11"]
         if not self.compiler.compiler_type == "msvc":
             for e in self.extensions:
@@ -189,7 +178,6 @@ class Build(build_ext):  # type: ignore
                     "-lwinpthread",
                     "-Wl,--no-whole-archive",
                 ]
-
         build_ext.build_extensions(self)
 
 
