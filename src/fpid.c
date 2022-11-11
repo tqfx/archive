@@ -30,7 +30,7 @@ a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
     case A_FPID_OR_BOUNDED:
     case A_FPID_AND:
     {
-        ctx->op = A_REAL_P(fmin);
+        ctx->op = a_real_min;
         break;
     }
     case A_FPID_AND_ALGEBRA:
@@ -41,7 +41,7 @@ a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
     case A_FPID_AND_BOUNDED:
     case A_FPID_OR:
     {
-        ctx->op = A_REAL_P(fmax);
+        ctx->op = a_real_max;
         break;
     }
     case A_FPID_EQU:

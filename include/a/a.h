@@ -197,14 +197,14 @@
 #if !defined A_SINGLE_T
 #define A_SINGLE_T float
 #endif /* A_SINGLE_T */
-#define A_SINGLE_P(F) F##f
-#define A_SINGLE_C(X) (X##F)
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_SINGLE_F(F, ...) F##f(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_SINGLE_C(X) X##F
+#define A_SINGLE_F(F) F##f
 #define A_SINGLE_F1(F, a) F##f(a)
 #define A_SINGLE_F2(F, a, b) F##f(a, b)
 #define A_SINGLE_F3(F, a, b, c) F##f(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_SINGLE_FN(F, ...) F##f(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_SINGLE_MIN FLT_MIN
 #define A_SINGLE_MAX FLT_MAX
 #define A_SINGLE_INF a_single_c(A_DOUBLE_INF)
@@ -223,14 +223,14 @@
 #if !defined A_DOUBLE_T
 #define A_DOUBLE_T double
 #endif /* A_DOUBLE_T */
-#define A_DOUBLE_P(F) F
-#define A_DOUBLE_C(X) (X)
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_DOUBLE_F(F, ...) F(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_DOUBLE_C(X) X
+#define A_DOUBLE_F(F) F
 #define A_DOUBLE_F1(F, a) F(a)
 #define A_DOUBLE_F2(F, a, b) F(a, b)
 #define A_DOUBLE_F3(F, a, b, c) F(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_DOUBLE_FN(F, ...) F(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_DOUBLE_MIN DBL_MIN
 #define A_DOUBLE_MAX DBL_MAX
 #define A_DOUBLE_INF (DBL_MAX * DBL_MAX)
@@ -249,14 +249,14 @@
 #if !defined A_EXTEND_T
 #define A_EXTEND_T long double
 #endif /* A_EXTEND_T */
-#define A_EXTEND_P(F) F##l
-#define A_EXTEND_C(X) (X##L)
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_EXTEND_F(F, ...) F##l(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_EXTEND_C(X) X##L
+#define A_EXTEND_F(F) F##l
 #define A_EXTEND_F1(F, a) F##l(a)
 #define A_EXTEND_F2(F, a, b) F##l(a, b)
 #define A_EXTEND_F3(F, a, b, c) F##l(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_EXTEND_FN(F, ...) F##l(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_EXTEND_MIN LDBL_MIN
 #define A_EXTEND_MAX LDBL_MAX
 #define A_EXTEND_INF (LDBL_MAX * LDBL_MAX)
@@ -516,14 +516,14 @@
 #if !defined A_F32_T
 #define A_F32_T float
 #endif /* A_F32_T */
-#define A_F32_P(F) F##f
-#define A_F32_C(X) (X##F)
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_F32_F(F, ...) F##f(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_F32_C(X) X##F
+#define A_F32_F(F) F##f
 #define A_F32_F1(F, a) F##f(a)
 #define A_F32_F2(F, a, b) F##f(a, b)
 #define A_F32_F3(F, a, b, c) F##f(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_F32_FN(F, ...) F##f(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_F32_MIN FLT_MIN
 #define A_F32_MAX FLT_MAX
 #define A_F32_INF a_f32_c(A_F64_INF)
@@ -546,14 +546,14 @@
 #if !defined A_F64_T
 #define A_F64_T double
 #endif /* A_F64_T */
-#define A_F64_P(F) F
-#define A_F64_C(X) (X)
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_F64_F(F, ...) F(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_F64_C(X) X
+#define A_F64_F(F) F
 #define A_F64_F1(F, a) F(a)
 #define A_F64_F2(F, a, b) F(a, b)
 #define A_F64_F3(F, a, b, c) F(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_F64_FN(F, ...) F(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 #define A_F64_MIN DBL_MIN
 #define A_F64_MAX DBL_MAX
 #define A_F64_INF (DBL_MAX * DBL_MAX)
@@ -653,13 +653,13 @@ typedef union a_cast_u
 /*!
  expands to a floating-point function expression having the value specified by its argument and the type \ref a_real_t
 */
-#define A_REAL_P(F) F##f
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_REAL_F(F, ...) F##f(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_REAL_F(F) F##f
 #define A_REAL_F1(F, a) F##f(a)
 #define A_REAL_F2(F, a, b) F##f(a, b)
 #define A_REAL_F3(F, a, b, c) F##f(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_REAL_FN(F, ...) F##f(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 
 /*! format constants for the fprintf family of functions */
 #define A_REAL_PRI(F, C) "%" F C
@@ -686,13 +686,13 @@ typedef union a_cast_u
 /*!
  expands to a floating-point function expression having the value specified by its argument and the type \ref a_real_t
 */
-#define A_REAL_P(F) F
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_REAL_F(F, ...) F(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_REAL_F(F) F
 #define A_REAL_F1(F, a) F(a)
 #define A_REAL_F2(F, a, b) F(a, b)
 #define A_REAL_F3(F, a, b, c) F(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_REAL_FN(F, ...) F(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 
 /*! format constants for the fprintf family of functions */
 #define A_REAL_PRI(F, C) "%" F C
@@ -719,13 +719,13 @@ typedef union a_cast_u
 /*!
  expands to a floating-point function expression having the value specified by its argument and the type \ref a_real_t
 */
-#define A_REAL_P(F) F##l
-#if defined(A_HAVE_VARIADIC_MACROS)
-#define A_REAL_F(F, ...) F##l(__VA_ARGS__)
-#endif /* A_HAVE_VARIADIC_MACROS */
+#define A_REAL_F(F) F##l
 #define A_REAL_F1(F, a) F##l(a)
 #define A_REAL_F2(F, a, b) F##l(a, b)
 #define A_REAL_F3(F, a, b, c) F##l(a, b, c)
+#if defined(A_HAVE_VARIADIC_MACROS)
+#define A_REAL_FN(F, ...) F##l(__VA_ARGS__)
+#endif /* A_HAVE_VARIADIC_MACROS */
 
 /*! format constants for the fprintf family of functions */
 #define A_REAL_PRI(F, C) "%" F "L" C
