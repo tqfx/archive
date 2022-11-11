@@ -243,6 +243,27 @@
 
 /*! @endcond */
 
+#if defined(__ORDER_LITTLE_ENDIAN__)
+#define A_ORDER_LITTLE __ORDER_LITTLE_ENDIAN__
+#else /* !__ORDER_LITTLE_ENDIAN__ */
+#define A_ORDER_LITTLE 1234
+#endif /* __ORDER_LITTLE_ENDIAN__ */
+#if defined(__ORDER_BIG_ENDIAN__)
+#define A_ORDER_BIG __ORDER_BIG_ENDIAN__
+#else /* !__ORDER_BIG_ENDIAN__ */
+#define A_ORDER_BIG 4321
+#endif /* __ORDER_BIG_ENDIAN__ */
+#if defined(__ORDER_PDP_ENDIAN__)
+#define A_ORDER_PDP __ORDER_PDP_ENDIAN__
+#else /* !__ORDER_PDP_ENDIAN__ */
+#define A_ORDER_PDP 3421
+#endif /* __ORDER_PDP_ENDIAN__ */
+#if !defined A_BYTE_ORDER
+#if defined(__BYTE_ORDER__)
+#define A_BYTE_ORDER __BYTE_ORDER__
+#endif /* __BYTE_ORDER__ */
+#endif /* A_BYTE_ORDER */
+
 /*! sizeof pointer */
 #if !defined A_SIZEOF_P
 #if defined(__SIZEOF_POINTER__)

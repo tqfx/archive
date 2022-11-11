@@ -1,6 +1,21 @@
 # include modules
 include(CheckLibraryExists)
 
+if(CMAKE_VERSION VERSION_GREATER 3.20 AND CMAKE_C_BYTE_ORDER EQUAL LITTLE_ENDIAN)
+  set(A_BYTE_ORDER 1234)
+elseif(CMAKE_VERSION VERSION_GREATER 3.20 AND CMAKE_C_BYTE_ORDER EQUAL BIG_ENDIAN)
+  set(A_BYTE_ORDER 4321)
+else()
+  include(TestBigEndian)
+  test_big_endian(var)
+
+  if(var)
+    set(A_BYTE_ORDER 4321)
+  else()
+    set(A_BYTE_ORDER 1234)
+  endif()
+endif()
+
 if(DEFINED ENV{PREFIX})
   list(APPEND CMAKE_PREFIX_PATH $ENV{PREFIX})
 endif()

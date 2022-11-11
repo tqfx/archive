@@ -10,10 +10,11 @@
 
 /* clang-format off */
 
-${define A_SIZEOF_P}
+${define A_BYTE_ORDER}
 #if !defined A_REAL_BYTE
 ${define A_REAL_BYTE}
 #endif /* A_REAL_BYTE */
+${define A_SIZEOF_P}
 #define A_VERSION "${VERSION}"
 #define A_VERSION_MAJOR ${VERSION_MAJOR}
 #define A_VERSION_MINOR ${VERSION_MINOR}
