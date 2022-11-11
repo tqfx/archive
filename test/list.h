@@ -2,9 +2,6 @@
 #define TEST_LIST_H
 #define MAIN_(s, argc, argv) list##s(argc, argv)
 #include "test.h"
-#if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
-#pragma GCC diagnostic ignored "-Winline"
-#endif /* -Winline */
 #include "a/list.h"
 #include <stdlib.h>
 

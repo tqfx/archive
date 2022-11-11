@@ -110,9 +110,6 @@ static void test(void)
     putchar('\n');
 }
 
-#if defined(_MSC_VER)
-#pragma warning(disable : 4820)
-#endif /* _MSC_VER */
 #include <time.h>
 
 static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)

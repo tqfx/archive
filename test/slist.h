@@ -2,15 +2,6 @@
 #define TEST_SLIST_H
 #define MAIN_(s, argc, argv) slist##s(argc, argv)
 #include "test.h"
-#if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
-#pragma GCC diagnostic ignored "-Winline"
-#endif /* -Winline */
-#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
-#pragma GCC diagnostic ignored "-Wpadded"
-#endif /* -Wpadded */
-#if defined(_MSC_VER)
-#pragma warning(disable : 4820)
-#endif /* _MSC_VER */
 #include "a/slist.h"
 #include <stdlib.h>
 

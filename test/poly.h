@@ -4,10 +4,6 @@
 #include "test.h"
 #include "a/poly.h"
 
-#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* -Wdouble-promotion */
-
 static void print(const a_real_t *a, a_size_t n)
 {
     putchar('{');

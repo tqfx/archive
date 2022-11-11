@@ -2,9 +2,6 @@
 #define TEST_COMPLEX_H
 #define MAIN_(s, argc, argv) complex##s(argc, argv)
 #include "test.h"
-#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
-#pragma GCC diagnostic ignored "-Wdouble-promotion"
-#endif /* -Wdouble-promotion */
 #if a_prereq_gnuc(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* -Waggregate-return */

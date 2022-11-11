@@ -1,18 +1,6 @@
 #include "lib.h"
 #include "a/mf.h"
-#if defined(__clang__)
-#pragma clang diagnostic push
-#if __has_warning("-Wreserved-identifier")
-#pragma clang diagnostic ignored "-Wreserved-identifier"
-#endif /* -Wreserved-identifier */
-#if __has_warning("-Wreserved-id-macro")
-#pragma clang diagnostic ignored "-Wreserved-id-macro"
-#endif /* -Wreserved-id-macro */
-#endif /* __clang__ */
 #include "liba_mf.h"
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif /* __clang__ */
 
 JNIEXPORT jdouble JNICALL JPACKAGE(mf_gauss)(JNIEnv *jenv, jclass jcls, jdouble jx, jdouble jsigma, jdouble jc)
 {

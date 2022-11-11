@@ -5,27 +5,16 @@
 #if !defined _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif /* _CRT_SECURE_NO_WARNINGS */
-#endif /* _MSC_VER */
-#include "a/a.h"
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpadded"
-#endif /* diagnostic */
-#if defined(_MSC_VER)
-#pragma warning(push)
 #pragma warning(disable : 4820)
 #endif /* _MSC_VER */
-#include "lauxlib.h"
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* diagnostic */
+#include "a/a.h"
 #if __has_warning("-Wcomma")
 #pragma clang diagnostic ignored "-Wcomma"
-#endif /* diagnostic */
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif /* _MSC_VER */
-#include <inttypes.h>
+#endif /* -Wcomma */
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* -Wpadded */
+#include "lauxlib.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -51,17 +40,6 @@
 #define LMUL "__mul"
 #define LDIV "__div"
 #define LPOW "__pow"
-
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#endif /* diagnostic */
-#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
-#pragma GCC diagnostic ignored "-Wpadded"
-#endif /* -Wpadded */
-#if defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable : 4820)
-#endif /* _MSC_VER */
 
 typedef struct
 {
@@ -92,13 +70,6 @@ typedef struct
     const char *name;
     lua_CFunction func;
 } SFunc;
-
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif /* diagnostic */
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif /* _MSC_VER */
 
 #if defined(__cplusplus)
 extern "C" {
@@ -148,5 +119,7 @@ A_PUBLIC int luaopen_liba(lua_State *L);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
+
+#include <inttypes.h>
 
 #endif /* FFI_LUA_H */

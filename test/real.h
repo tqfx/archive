@@ -28,8 +28,8 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
         a_f32_t inf = A_F32_INF;
         a_f32_t nan = A_F32_NAN;
 #if defined(MAIN_ONCE)
-        printf("32 min = %-12g max = %g\n", a_f64_c(min), a_f64_c(max));
-        printf("32 inf = %-12g nan = %g\n", a_f64_c(inf), a_f64_c(nan));
+        printf("32 min = %-12g max = %g\n", min, max);
+        printf("32 inf = %-12g nan = %g\n", inf, nan);
 #else /* !MAIN_ONCE */
         (void)(min);
         (void)(max);
@@ -43,8 +43,8 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
         a_real_t inf = A_REAL_INF;
         a_real_t nan = A_REAL_NAN;
 #if defined(MAIN_ONCE)
-        printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI("", "g\n"), a_f64_c(min), a_f64_c(max));
-        printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI("", "g\n"), a_f64_c(inf), a_f64_c(nan));
+        printf("min = " A_REAL_PRI("-12", "g ") "max = " A_REAL_PRI("", "g\n"), min, max);
+        printf("inf = " A_REAL_PRI("-12", "g ") "nan = " A_REAL_PRI("", "g\n"), inf, nan);
 #else /* !MAIN_ONCE */
         (void)(min);
         (void)(max);

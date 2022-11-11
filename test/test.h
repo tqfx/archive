@@ -7,8 +7,19 @@
 #include <inttypes.h>
 #if defined(_MSC_VER)
 #pragma warning(disable : 4127)
+#pragma warning(disable : 4820)
 #endif /* _MSC_VER */
-
+#if a_prereq_gnuc(2, 95) || __has_warning("-Winline")
+#pragma GCC diagnostic ignored "-Winline"
+#endif /* -Winline */
+#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* -Wpadded */
+#if a_prereq_gnuc(4, 6) || __has_warning("-Wdouble-promotion")
+#if A_REAL_BYTE == A_REAL_SINGLE
+#pragma GCC diagnostic ignored "-Wdouble-promotion"
+#endif /* A_REAL_BYTE == 0x04 */
+#endif /* -Wdouble-promotion */
 #if defined(__cplusplus) && (__cplusplus > 201100L) || \
     defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L)
 
