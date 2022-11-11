@@ -81,13 +81,6 @@ elseif(ENABLE_IPO) # cmake < 3.9
   set(ENABLE_IPO NO)
 endif()
 
-set(A_VERSION ${PROJECT_VERSION})
-set(A_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
-set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-set(A_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
-set(A_SIZEOF_P ${CMAKE_SIZEOF_VOID_P})
-
 function(target_library_setting target)
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   set_target_properties(${target} PROPERTIES

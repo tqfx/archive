@@ -93,7 +93,7 @@ target("a.objs")
     includes("check_cfuncs.lua")
     includes("check_csnippets.lua")
     local source = "printf(\"%u\", sizeof(size_t));"
-    configvar_check_csnippets("A_SIZEOF_P", source, {output = true, number = true})
+    configvar_check_csnippets("A_SIZE_PTR", source, {output = true, number = true})
     local source = 'int x = 1; puts(*(char *)&x ? "1234" : "4321");'
     configvar_check_csnippets("A_BYTE_ORDER", source, {output = true, number = true})
     local math = {includes = "math.h"}

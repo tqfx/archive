@@ -264,15 +264,15 @@
 #endif /* __BYTE_ORDER__ */
 #endif /* A_BYTE_ORDER */
 
-/*! sizeof pointer */
-#if !defined A_SIZEOF_P
+/*! size of pointer */
+#if !defined A_SIZE_PTR
 #if defined(__SIZEOF_POINTER__)
-#define A_SIZEOF_P __SIZEOF_POINTER__
+#define A_SIZE_PTR __SIZEOF_POINTER__
 #elif defined(_WIN64)
-#define A_SIZEOF_P 8
+#define A_SIZE_PTR 8
 #elif defined(_WIN32)
-#define A_SIZEOF_P 4
+#define A_SIZE_PTR 4
 #endif /* __SIZEOF_POINTER__ */
-#endif /* A_SIZEOF_P */
+#endif /* A_SIZE_PTR */
 
 #endif /* A_CONFIG_H */
