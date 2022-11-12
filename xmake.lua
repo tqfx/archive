@@ -54,72 +54,54 @@ option("real")
     set_description("real number bytes")
 option_end()
 
+-- option: rpath
+option("rpath")
+    set_showmenu(true)
+    set_description("dynamic library search path")
+option_end()
+
 target("a.objs")
+    real = get_config("real")
+    rpath = get_config("rpath")
     -- make as a collection of objects
     set_kind("object")
     -- custom load target configuration
     on_load(function (target)
-        import("core.project.config")
-        import("lib.detect.find_library")
         import("lib.detect.find_programver")
         target:set("configvar", "XMAKE_VERSION", find_programver("xmake"))
-        local m = {}
-        if config.get("plat") == 'mingw' then
-            table.insert(m, "/usr/" .. config.get("arch") .. "-w64-mingw32/lib")
-        end
-        if config.get("plat") == 'linux' then
-            table.insert(m, "/usr/lib/" .. config.get("arch") .. "-linux-gnu")
-            table.insert(m, "/lib/" .. config.get("arch") .. "-linux-gnu")
-        end
-        if string.find(config.get("arch"), "64") then
-            table.insert(m, "/system/lib64")
-            table.insert(m, "/usr/lib64")
-            table.insert(m, "/lib64")
-        else
-            table.insert(m, "/system/lib32")
-            table.insert(m, "/usr/lib32")
-            table.insert(m, "/lib32")
-        end
-        table.insert(m, "/system/lib")
-        table.insert(m, "/usr/lib")
-        table.insert(m, "/lib")
-        local m = find_library("m", m)
-        if m then
-            target:add("rpathdirs", m.linkdir, {public = true})
-            target:add("links", m.link, {public = true})
-        end
     end)
     -- detect c code functions
-    includes("check_cfuncs.lua")
     includes("check_csnippets.lua")
     local source = "printf(\"%u\", (unsigned int)sizeof(size_t));"
     configvar_check_csnippets("A_SIZE_PTR", source, {output = true, number = true})
     local source = 'int x = 1; puts(*(char *)&x ? "1234" : "4321");'
     configvar_check_csnippets("A_BYTE_ORDER", source, {output = true, number = true})
-    local math = {includes = "math.h"}
-    configvar_check_cfuncs("A_HAVE_HYPOT", "hypot", math)
-    configvar_check_cfuncs("A_HAVE_LOG1P", "log1p", math)
-    configvar_check_cfuncs("A_HAVE_ATAN2", "atan2", math)
-    local complex = {includes = "complex.h"}
-    configvar_check_cfuncs("A_HAVE_CSQRT", "csqrt", complex)
-    configvar_check_cfuncs("A_HAVE_CPOW", "cpow", complex)
-    configvar_check_cfuncs("A_HAVE_CEXP", "cexp", complex)
-    configvar_check_cfuncs("A_HAVE_CLOG", "clog", complex)
-    configvar_check_cfuncs("A_HAVE_CSIN", "csin", complex)
-    configvar_check_cfuncs("A_HAVE_CCOS", "ccos", complex)
-    configvar_check_cfuncs("A_HAVE_CTAN", "ctan", complex)
-    configvar_check_cfuncs("A_HAVE_CSINH", "csinh", complex)
-    configvar_check_cfuncs("A_HAVE_CCOSH", "ccosh", complex)
-    configvar_check_cfuncs("A_HAVE_CTANH", "ctanh", complex)
-    configvar_check_cfuncs("A_HAVE_CASIN", "casin", complex)
-    configvar_check_cfuncs("A_HAVE_CACOS", "cacos", complex)
-    configvar_check_cfuncs("A_HAVE_CATAN", "catan", complex)
-    configvar_check_cfuncs("A_HAVE_CASINH", "casinh", complex)
-    configvar_check_cfuncs("A_HAVE_CACOSH", "cacosh", complex)
-    configvar_check_cfuncs("A_HAVE_CATANH", "catanh", complex)
+    includes("check_cincludes.lua")
+    configvar_check_cincludes("A_HAVE_COMPLEX_H", "complex.h")
+    configvar_check_cincludes("A_HAVE_STDINT_H", "stdint.h")
+    function check_math(funcs, opt)
+        includes("check_cfuncs.lua")
+        for i, func in pairs(funcs) do
+            local have = "A_HAVE_" .. string.upper(func)
+            if real == "16" then func = func .. 'l' end
+            if real == "4" then func = func .. 'f' end
+            configvar_check_cfuncs(have, func, opt)
+        end
+    end
+    local funcs = {"hypot", "log1p", "atan2"}
+    check_math(funcs, {includes = "math.h"})
+    local funcs = {
+        "csqrt",
+        "cpow", "cexp", "clog",
+        "csin", "ccos", "ctan",
+        "csinh", "ccosh", "ctanh",
+        "casin", "cacos", "catan",
+        "casinh", "cacosh", "catanh",
+    }
+    check_math(funcs, {includes = "complex.h"})
     -- set the auto-generated a.config.h
-    set_configvar("A_REAL_BYTE", get_config("real"), {quote = false})
     add_configfiles("xmake/config.h", {filename = "a.config.h"})
+    set_configvar("A_REAL_BYTE", real, {quote = false})
     add_defines("A_HAVE_H", {public = true})
     -- set export library symbols
     add_defines("A_EXPORTS")
@@ -138,7 +120,11 @@ target("a.objs")
         add_files("src/**.cpp")
     end
     -- add the platform options
+    if rpath then
+        add_rpathdirs(rpath, {public = true})
+    end
     if not is_plat("windows", "mingw") then
+        add_links("m", {public = true})
         add_cxflags("-fPIC")
     end
 target_end()

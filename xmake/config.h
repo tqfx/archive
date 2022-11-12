@@ -21,6 +21,8 @@ ${define A_SIZE_PTR}
 #define A_VERSION_PATCH ${VERSION_ALTER}
 #define A_VERSION_TWEAK A_U64_C(${VERSION_BUILD})
 
+${define A_HAVE_COMPLEX_H}
+${define A_HAVE_STDINT_H}
 ${define A_HAVE_HYPOT}
 ${define A_HAVE_LOG1P}
 ${define A_HAVE_ATAN2}
