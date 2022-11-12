@@ -6,7 +6,7 @@ option("with-lua")
 option_end()
 
 if has_config("with-lua") then
-    if has_config("warnings") then
+    if has_config("warning") then
         add_cxflags("-Wno-documentation", "-Wno-documentation-unknown-command")
     end
     add_requires("lua")

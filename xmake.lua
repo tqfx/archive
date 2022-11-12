@@ -14,14 +14,14 @@ option("with-cxx")
     set_description("Enable or disable c++")
 option_end()
 
--- option: warnings
-option("warnings")
+-- option: warning
+option("warning")
     set_default(false)
     set_showmenu(true)
-    set_description("Enable or disable warnings")
+    set_description("Enable or disable warning")
 option_end()
 
-if has_config("warnings") then
+if has_config("warning") then
     -- set warning everything
     set_warnings("everything")
     -- disable some compiler errors
@@ -46,8 +46,8 @@ if is_mode("check") and not is_plat("mingw") then
     add_ldflags(flags)
 end
 
--- option: set-real
-option("set-real")
+-- option: real
+option("real")
     set_default("8")
     set_showmenu(true)
     set_values("4", "8", "16")
@@ -92,7 +92,7 @@ target("a.objs")
     -- detect c code functions
     includes("check_cfuncs.lua")
     includes("check_csnippets.lua")
-    local source = "printf(\"%u\", sizeof(size_t));"
+    local source = "printf(\"%u\", (unsigned int)sizeof(size_t));"
     configvar_check_csnippets("A_SIZE_PTR", source, {output = true, number = true})
     local source = 'int x = 1; puts(*(char *)&x ? "1234" : "4321");'
     configvar_check_csnippets("A_BYTE_ORDER", source, {output = true, number = true})
@@ -118,7 +118,7 @@ target("a.objs")
     configvar_check_cfuncs("A_HAVE_CACOSH", "cacosh", complex)
     configvar_check_cfuncs("A_HAVE_CATANH", "catanh", complex)
     -- set the auto-generated a.config.h
-    set_configvar("A_REAL_BYTE", get_config("set-real"), {quote = false})
+    set_configvar("A_REAL_BYTE", get_config("real"), {quote = false})
     add_configfiles("xmake/config.h", {filename = "a.config.h"})
     add_defines("A_HAVE_H", {public = true})
     -- set export library symbols
