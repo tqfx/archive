@@ -73,7 +73,7 @@ target("a.objs")
     -- detect c code functions
     includes("check_csnippets.lua")
     local source = "printf(\"%u\", (unsigned int)sizeof(size_t));"
-    configvar_check_csnippets("A_SIZE_PTR", source, {output = true, number = true})
+    configvar_check_csnippets("A_SIZE_VPTR", source, {output = true, number = true})
     local source = 'int x = 1; puts(*(char *)&x ? "1234" : "4321");'
     configvar_check_csnippets("A_BYTE_ORDER", source, {output = true, number = true})
     includes("check_cincludes.lua")
@@ -101,7 +101,7 @@ target("a.objs")
     check_math(funcs, {includes = "complex.h"})
     -- set the auto-generated a.config.h
     add_configfiles("xmake/config.h", {filename = "a.config.h"})
-    set_configvar("A_REAL_BYTE", real, {quote = false})
+    set_configvar("A_SIZE_REAL", real, {quote = false})
     add_defines("A_HAVE_H", {public = true})
     -- set export library symbols
     add_defines("A_EXPORTS")

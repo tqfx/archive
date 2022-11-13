@@ -253,11 +253,6 @@
 #else /* !__ORDER_BIG_ENDIAN__ */
 #define A_ORDER_BIG 4321
 #endif /* __ORDER_BIG_ENDIAN__ */
-#if defined(__ORDER_PDP_ENDIAN__)
-#define A_ORDER_PDP __ORDER_PDP_ENDIAN__
-#else /* !__ORDER_PDP_ENDIAN__ */
-#define A_ORDER_PDP 3421
-#endif /* __ORDER_PDP_ENDIAN__ */
 #if !defined A_BYTE_ORDER
 #if defined(__BYTE_ORDER__)
 #define A_BYTE_ORDER __BYTE_ORDER__
@@ -265,14 +260,14 @@
 #endif /* A_BYTE_ORDER */
 
 /*! size of pointer */
-#if !defined A_SIZE_PTR
+#if !defined A_SIZE_VPTR
 #if defined(__SIZEOF_POINTER__)
-#define A_SIZE_PTR __SIZEOF_POINTER__
+#define A_SIZE_VPTR __SIZEOF_POINTER__
 #elif defined(_WIN64)
-#define A_SIZE_PTR 8
+#define A_SIZE_VPTR 8
 #elif defined(_WIN32)
-#define A_SIZE_PTR 4
+#define A_SIZE_VPTR 4
 #endif /* __SIZEOF_POINTER__ */
-#endif /* A_SIZE_PTR */
+#endif /* A_SIZE_VPTR */
 
 #endif /* A_CONFIG_H */

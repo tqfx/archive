@@ -623,17 +623,17 @@ typedef union a_cast_u
 */
 
 /*! real number bytes */
-#if !defined A_REAL_BYTE
-#if !defined A_REAL_BITS
-#define A_REAL_BYTE A_REAL_DOUBLE
-#else /* !A_REAL_BITS */
-#define A_REAL_BYTE (A_REAL_BITS >> 3)
-#endif /* A_REAL_BITS */
-#endif /* A_REAL_BYTE */
+#if !defined A_REAL_TYPE
+#if !defined A_SIZE_REAL
+#define A_REAL_TYPE A_REAL_DOUBLE
+#else /* !A_SIZE_REAL */
+#define A_REAL_TYPE A_SIZE_REAL
+#endif /* A_SIZE_REAL */
+#endif /* A_REAL_TYPE */
 #define A_REAL_SINGLE 0x04
 #define A_REAL_DOUBLE 0x08
 #define A_REAL_EXTEND 0x10
-#if A_REAL_BYTE == A_REAL_SINGLE
+#if A_REAL_TYPE == A_REAL_SINGLE
 
 /*! real number stored using `float` */
 #if !defined A_REAL_T
@@ -666,7 +666,7 @@ typedef union a_cast_u
 /*! format constants for the fscanf family of functions */
 #define A_REAL_SCN(F, C) "%" F C
 
-#elif A_REAL_BYTE == A_REAL_DOUBLE
+#elif A_REAL_TYPE == A_REAL_DOUBLE
 
 /*! real number stored using `double` */
 #if !defined A_REAL_T
@@ -699,7 +699,7 @@ typedef union a_cast_u
 /*! format constants for the fscanf family of functions */
 #define A_REAL_SCN(F, C) "%" F "l" C
 
-#elif A_REAL_BYTE == A_REAL_EXTEND
+#elif A_REAL_TYPE == A_REAL_EXTEND
 
 /*! real number stored using `long double` */
 #if !defined A_REAL_T
@@ -732,9 +732,9 @@ typedef union a_cast_u
 /*! format constants for the fscanf family of functions */
 #define A_REAL_SCN(F, C) "%" F "L" C
 
-#else /* !A_REAL_BYTE */
+#else /* !A_REAL_TYPE */
 #error unknown precision
-#endif /* A_REAL_BYTE */
+#endif /* A_REAL_TYPE */
 
 #define A_REAL_INF a_cast_s(A_REAL_T, A_F64_INF)
 #define A_REAL_NAN (A_REAL_C(0.0) * A_REAL_INF)

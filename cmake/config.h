@@ -10,12 +10,11 @@
 
 /* clang-format off */
 
+#if !defined A_SIZE_REAL
+#cmakedefine A_SIZE_REAL @A_SIZE_REAL@
+#endif /* A_SIZE_REAL */
+#cmakedefine A_SIZE_VPTR @A_SIZE_VPTR@
 #cmakedefine A_BYTE_ORDER @A_BYTE_ORDER@
-#cmakedefine A_REAL_BITS @A_REAL_BITS@
-#if !defined A_REAL_BYTE
-#cmakedefine A_REAL_BYTE @A_REAL_BYTE@
-#endif /* A_REAL_BYTE */
-#cmakedefine A_SIZE_PTR @A_SIZE_PTR@
 #cmakedefine A_VERSION "@A_VERSION@"
 #cmakedefine A_VERSION_MAJOR @A_VERSION_MAJOR@
 #cmakedefine A_VERSION_MINOR @A_VERSION_MINOR@

@@ -44,9 +44,9 @@ cdef extern from "a/a.h":
 
     ctypedef  float a_f32_t
     ctypedef double a_f64_t
-    IF A_REAL_BYTE == 8:
+    IF A_SIZE_REAL == 8:
         ctypedef double a_real_t
-    IF A_REAL_BYTE == 4:
+    IF A_SIZE_REAL == 4:
         ctypedef float a_real_t
     ctypedef union a_real_u:
         a_real_t v

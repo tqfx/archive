@@ -2,7 +2,7 @@
 include(CheckIncludeFile)
 include(CheckLibraryExists)
 set(A_VERSION ${PROJECT_VERSION})
-set(A_SIZE_PTR ${CMAKE_SIZEOF_VOID_P})
+set(A_SIZE_VPTR ${CMAKE_SIZEOF_VOID_P})
 set(A_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(A_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(A_VERSION_PATCH ${PROJECT_VERSION_PATCH})
@@ -31,7 +31,7 @@ if(DEFINED ENV{ANDROID_ROOT})
   list(APPEND CMAKE_PREFIX_PATH $ENV{ANDROID_ROOT})
 endif()
 
-set(A_REAL_BYTE 8 CACHE INTERNAL "real number bytes")
+set(A_SIZE_REAL 8 CACHE INTERNAL "real number bytes")
 find_library(MATH_LIBRARY NAMES m DOC "math library")
 
 # https://devblogs.microsoft.com/cppblog/c99-library-support-in-visual-studio-2013
@@ -44,9 +44,9 @@ function(check_math VARIABLE FUNCTION)
   get_filename_component(LOCATION "${MATH_LIBRARY}" DIRECTORY)
   list(APPEND CMAKE_REQUIRED_LIBRARIES ${MATH_LIBRARY})
 
-  if(A_REAL_BYTE GREATER 8 OR A_REAL_BITS GREATER 64)
+  if(A_SIZE_REAL GREATER 8)
     set(FUNCTION "${FUNCTION}l")
-  elseif(A_REAL_BYTE EQUAL 4 OR A_REAL_BITS EQUAL 32)
+  elseif(A_SIZE_REAL EQUAL 4)
     set(FUNCTION "${FUNCTION}f")
   endif()
 

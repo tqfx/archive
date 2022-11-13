@@ -34,10 +34,10 @@ def check_math(define_macros=[]):
         libm = ctypes.CDLL(path_libm)
     except:
         return text
-    A_REAL_BYTE = 0x08
+    A_SIZE_REAL = 0x08
     for define_macro in define_macros:
-        if "A_REAL_BYTE" in define_macro:
-            A_REAL_BYTE = int(define_macro[-1])
+        if "A_SIZE_REAL" in define_macro:
+            A_SIZE_REAL = int(define_macro[-1])
             break
     for func in (
         "hypot",
@@ -61,9 +61,9 @@ def check_math(define_macros=[]):
         "catanh",
     ):
         name = "A_HAVE_" + func.upper()
-        if A_REAL_BYTE == 0x10:
+        if A_SIZE_REAL == 0x10:
             func += 'l'
-        if A_REAL_BYTE == 0x04:
+        if A_SIZE_REAL == 0x04:
             func += 'f'
         try:
             libm[func]
@@ -90,7 +90,7 @@ def configure(config, define_macros=[]):
 #ifndef LIBA_CONFIG_H
 #define LIBA_CONFIG_H
 #define A_BYTE_ORDER {}
-#define A_SIZE_PTR {}
+#define A_SIZE_VPTR {}
 #define A_VERSION "{}"
 #define A_VERSION_MAJOR {}
 #define A_VERSION_MINOR {}

@@ -419,13 +419,13 @@ static void test_atrih(a_complex_s x)
     (void)(z);
 }
 
-#if A_REAL_BYTE == A_REAL_SINGLE
+#if A_REAL_TYPE == A_REAL_SINGLE
 #define strtoreal(str, endptr) strtof(str, endptr)
-#elif A_REAL_BYTE == A_REAL_DOUBLE
+#elif A_REAL_TYPE == A_REAL_DOUBLE
 #define strtoreal(str, endptr) strtod(str, endptr)
-#elif A_REAL_BYTE == A_REAL_EXTEND
+#elif A_REAL_TYPE == A_REAL_EXTEND
 #define strtoreal(str, endptr) strtold(str, endptr)
-#endif /* A_REAL_BYTE */
+#endif /* A_REAL_TYPE */
 
 static a_complex_s strtocomplex(const char *A_RESTRICT str, char **A_RESTRICT endptr)
 {

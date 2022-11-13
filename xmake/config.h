@@ -10,11 +10,11 @@
 
 /* clang-format off */
 
+#if !defined A_SIZE_REAL
+${define A_SIZE_REAL}
+#endif /* A_SIZE_REAL */
+${define A_SIZE_VPTR}
 ${define A_BYTE_ORDER}
-#if !defined A_REAL_BYTE
-${define A_REAL_BYTE}
-#endif /* A_REAL_BYTE */
-${define A_SIZE_PTR}
 #define A_VERSION "${VERSION}"
 #define A_VERSION_MAJOR ${VERSION_MAJOR}
 #define A_VERSION_MINOR ${VERSION_MINOR}
