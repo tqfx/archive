@@ -227,12 +227,6 @@
 #define A_EXTERN_C_LEAVE }
 #endif /* __cplusplus */
 
-#if !defined A_ASSERT && defined(__GNUC__)
-#define A_ASSERT(x) assert(x)
-#elif !defined A_ASSERT
-#define A_ASSERT(x) ((void)(0))
-#endif /* A_ASSERT */
-
 #if defined(__cplusplus)
 #define A_REGISTER
 #else /* !__cplusplus */

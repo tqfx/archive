@@ -60,7 +60,7 @@ static void test(void)
     a_vector_forenum(i, ctx)
     {
         a_u32_t *it = a_vector_at(a_u32_t, ctx, i);
-        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
+        TEST_BUG(a_vector_get(ctx) == sizeof(*it));
         if (it)
         {
             printf("%" PRIu32 " ", *it);
@@ -70,7 +70,7 @@ static void test(void)
     a_vector_forenum_reverse(i, ctx)
     {
         a_u32_t *it = a_vector_at(a_u32_t, ctx, i);
-        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
+        TEST_BUG(a_vector_get(ctx) == sizeof(*it));
         if (it)
         {
             printf("%" PRIu32 " ", *it);
@@ -80,14 +80,14 @@ static void test(void)
 
     a_vector_foreach(a_u32_t, it, ctx)
     {
-        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
+        TEST_BUG(a_vector_get(ctx) == sizeof(*it));
         TEST_BUG(sizeof(a_u32_t) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_vector_foreach_reverse(a_u32_t, it, ctx)
     {
-        A_ASSERT(a_vector_get(ctx) == sizeof(*it));
+        TEST_BUG(a_vector_get(ctx) == sizeof(*it));
         TEST_BUG(sizeof(a_u32_t) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }

@@ -12,8 +12,8 @@ a_f32_t a_sqrt_inv(a_f32_t x)
     {
         a_f32_t xh = A_F32_C(0.5) * x;
         u.u = A_U32_C(0x5F3759DF) - (u.u >> 1);
-        u.x *= A_F32_C(1.5) - A_SQ(u.x) * xh;
-        u.x *= A_F32_C(1.5) - A_SQ(u.x) * xh;
+        u.x *= A_F32_C(1.5) - u.x * u.x * xh;
+        u.x *= A_F32_C(1.5) - u.x * u.x * xh;
     }
     else if (x < 0)
     {

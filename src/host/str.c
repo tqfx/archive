@@ -4,7 +4,6 @@
 #endif /* _CRT_SECURE_NO_WARNINGS */
 #endif /* _MSC_VER */
 #include "a/host/str.h"
-#include <assert.h>
 #include <stdio.h>
 
 a_str_s *a_str_new(void)
@@ -28,7 +27,6 @@ a_void_t a_str_die(a_str_s *ctx)
 
 a_void_t a_str_ctor(a_str_s *ctx)
 {
-    A_ASSERT(ctx);
     ctx->_str = A_NULL;
     ctx->_num = 0;
     ctx->_mem = 0;
@@ -36,7 +34,6 @@ a_void_t a_str_ctor(a_str_s *ctx)
 
 a_void_t a_str_dtor(a_str_s *ctx)
 {
-    A_ASSERT(ctx);
     if (ctx->_str)
     {
         free(ctx->_str);
@@ -63,7 +60,6 @@ a_void_t a_str_dtor(a_str_s *ctx)
 
 a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 {
-    A_ASSERT(ctx);
     ctx->_num = nbyte;
     ctx->_mem = nbyte + 1;
     ctx->_str = a_str_c(malloc(roundup32(ctx->_mem)));
@@ -81,15 +77,11 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 
 a_int_t a_str_copy(a_str_s *ctx, const a_str_s *obj)
 {
-    A_ASSERT(ctx);
-    A_ASSERT(obj);
     return a_str_init(ctx, obj->_str, obj->_num);
 }
 
 a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj)
 {
-    A_ASSERT(ctx);
-    A_ASSERT(obj);
     memcpy(ctx, obj, sizeof(*obj));
     memset(obj, 0, sizeof(*obj));
     return ctx;
@@ -97,7 +89,6 @@ a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj)
 
 a_str_t a_str_exit(a_str_s *ctx)
 {
-    A_ASSERT(ctx);
     a_str_t str = ctx->_str;
     if (ctx->_str)
     {
@@ -111,8 +102,6 @@ a_str_t a_str_exit(a_str_s *ctx)
 
 a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
 {
-    A_ASSERT(lhs);
-    A_ASSERT(rhs);
     a_int_t ok = 0;
     if (lhs->_str && rhs->_str)
     {
@@ -132,7 +121,6 @@ a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
 
 a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 {
-    A_ASSERT(ctx);
     a_str_t str = a_str_c(realloc(ctx->_str, roundup32(mem)));
     if (a_unlikely(!str && mem))
     {
@@ -145,7 +133,6 @@ a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 
 a_int_t a_str_alloc(a_str_s *ctx, a_size_t mem)
 {
-    A_ASSERT(ctx);
     return ctx->_mem < mem ? a_str_alloc_(ctx, mem) : A_SUCCESS;
 }
 
@@ -172,7 +159,6 @@ a_int_t a_str_getc(a_str_s *ctx)
 
 a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 {
-    A_ASSERT(ctx);
     if (a_unlikely(a_str_alloc(ctx, ctx->_num + 1)))
     {
         return EOF;
@@ -183,7 +169,6 @@ a_int_t a_str_putc_(a_str_s *ctx, a_int_t c)
 
 a_int_t a_str_putc(a_str_s *ctx, a_int_t c)
 {
-    A_ASSERT(ctx);
     if (a_unlikely(a_str_alloc(ctx, ctx->_num + 2)))
     {
         return EOF;
@@ -195,7 +180,6 @@ a_int_t a_str_putc(a_str_s *ctx, a_int_t c)
 
 a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 {
-    A_ASSERT(ctx);
     if (pdata && nbyte)
     {
         if (a_unlikely(a_str_alloc(ctx, ctx->_num + nbyte)))
@@ -210,7 +194,6 @@ a_int_t a_str_putn_(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 
 a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 {
-    A_ASSERT(ctx);
     if (pdata)
     {
         if (a_unlikely(a_str_alloc(ctx, ctx->_num + nbyte + 1)))
@@ -229,22 +212,16 @@ a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 
 a_int_t a_str_puts(a_str_s *ctx, a_cptr_t str)
 {
-    A_ASSERT(ctx);
-    A_ASSERT(str);
     return a_str_putn(ctx, str, strlen(a_char_P(str)));
 }
 
 a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj)
 {
-    A_ASSERT(ctx);
-    A_ASSERT(obj);
     return a_str_putn(ctx, obj->_str, obj->_num);
 }
 
 a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
 {
-    A_ASSERT(ctx);
-    A_ASSERT(fmt);
     a_size_t siz;
     a_size_t mem;
     a_str_t str;
@@ -274,8 +251,6 @@ a_int_t a_str_vprintf(a_str_s *ctx, a_cstr_t fmt, va_list va)
 
 a_int_t a_str_printf(a_str_s *ctx, a_cstr_t fmt, ...)
 {
-    A_ASSERT(ctx);
-    A_ASSERT(fmt);
     va_list va;
     va_start(va, fmt);
     a_int_t num = a_str_vprintf(ctx, fmt, va);

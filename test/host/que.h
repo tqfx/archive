@@ -88,13 +88,13 @@ static void test(void)
     }
     a_que_foreach(a_u32_t, it, ctx)
     {
-        A_ASSERT(a_que_get(ctx) == sizeof(*it));
+        TEST_BUG(a_que_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
     a_que_foreach_reverse(a_u32_t, it, ctx)
     {
-        A_ASSERT(a_que_get(ctx) == sizeof(*it));
+        TEST_BUG(a_que_get(ctx) == sizeof(*it));
         printf("%" PRIu32 " ", *it);
     }
     putchar('\n');
