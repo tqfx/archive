@@ -43,26 +43,12 @@ a_void_t a_str_dtor(a_str_s *ctx)
     ctx->_mem = 0;
 }
 
-#if defined(__clang__)
-#pragma GCC diagnostic ignored "-Wcomma"
-#endif /* __clang__ */
-
-#ifndef roundup32
-#define roundup32(x)     \
-    (--(x),              \
-     (x) |= (x) >> 0x01, \
-     (x) |= (x) >> 0x02, \
-     (x) |= (x) >> 0x04, \
-     (x) |= (x) >> 0x08, \
-     (x) |= (x) >> 0x10, \
-     ++(x))
-#endif /* roundup32 */
-
 a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 {
     ctx->_num = nbyte;
     ctx->_mem = nbyte + 1;
-    ctx->_str = a_str_c(malloc(roundup32(ctx->_mem)));
+    ctx->_mem = a_align(sizeof(a_vptr_t), ctx->_mem);
+    ctx->_str = a_str_c(malloc(ctx->_mem));
     if (a_unlikely(ctx->_str == A_NULL))
     {
         return A_FAILURE;
@@ -121,7 +107,9 @@ a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
 
 a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 {
-    a_str_t str = a_str_c(realloc(ctx->_str, roundup32(mem)));
+    a_str_t str;
+    mem = a_align(sizeof(a_vptr_t), mem);
+    str = a_str_c(realloc(ctx->_str, mem));
     if (a_unlikely(!str && mem))
     {
         return A_FAILURE;
