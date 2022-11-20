@@ -20,8 +20,8 @@
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
 #endif /* A_REAL_TYPE == 0x04 */
 #endif /* -Wdouble-promotion */
-#if defined(__cplusplus) && (__cplusplus > 201100L) || \
-    defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ > 199900L) || \
+    defined(__cplusplus) && (__cplusplus > 201100L) || defined(_MSC_VER)
 
 #define PRIjd "jd"
 #define PRIji "ji"
