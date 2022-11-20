@@ -73,6 +73,10 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "MSVC" OR CMAKE_CXX_COMPILER_ID MATCHES "MSVC
   if(MSVC_VERSION GREATER 1913) # 15.7
     warnings_flag_cx(/wd5045) # Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
   endif()
+
+  if(MSVC_VERSION GREATER 1900) # 15.0
+    warnings_flag_cx(/diagnostics:caret)
+  endif()
 elseif(CMAKE_C_COMPILER_ID MATCHES "TinyCC")
   # https://bellard.org/tcc/tcc-doc.html
   warnings_flag_cx(-Wwrite-strings)
