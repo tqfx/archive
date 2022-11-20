@@ -10,16 +10,16 @@
 
 /* clang-format off */
 
-#if !defined A_SIZE_REAL
-#cmakedefine A_SIZE_REAL @A_SIZE_REAL@
-#endif /* A_SIZE_REAL */
-#cmakedefine A_SIZE_VPTR @A_SIZE_VPTR@
-#cmakedefine A_BYTE_ORDER @A_BYTE_ORDER@
 #cmakedefine A_VERSION "@A_VERSION@"
 #cmakedefine A_VERSION_MAJOR @A_VERSION_MAJOR@
 #cmakedefine A_VERSION_MINOR @A_VERSION_MINOR@
 #cmakedefine A_VERSION_PATCH @A_VERSION_PATCH@
 #cmakedefine A_VERSION_TWEAK A_U64_C(@A_VERSION_TWEAK@)
+#cmakedefine A_BYTE_ORDER @A_BYTE_ORDER@
+#cmakedefine A_SIZE_VPTR @A_SIZE_VPTR@
+#if !defined A_SIZE_REAL
+#cmakedefine A_SIZE_REAL @A_SIZE_REAL@
+#endif /* A_SIZE_REAL */
 
 #cmakedefine A_HAVE_COMPLEX_H @A_HAVE_COMPLEX_H@
 #cmakedefine A_HAVE_STDINT_H @A_HAVE_STDINT_H@

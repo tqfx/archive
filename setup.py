@@ -89,16 +89,16 @@ def configure(config, define_macros=[]):
 */
 #ifndef LIBA_CONFIG_H
 #define LIBA_CONFIG_H
-#define A_BYTE_ORDER {}
-#define A_SIZE_VPTR {}
 #define A_VERSION "{}"
 #define A_VERSION_MAJOR {}
 #define A_VERSION_MINOR {}
 #define A_VERSION_PATCH {}
 #define A_VERSION_TWEAK A_U64_C({})
+#define A_BYTE_ORDER {}
+#define A_SIZE_VPTR {}
 {}#endif /* LIBA_CONFIG_H */
 '''.format(
-        order, vsize, version, major, minor, patch, tweak, check
+        version, major, minor, patch, tweak, order, vsize, check
     )
     with open(config, "wb") as f:
         f.write(text.encode("UTF-8"))
