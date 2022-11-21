@@ -16,7 +16,6 @@ except ImportError:
     from distutils.core import setup
 from sys import byteorder
 from re import findall
-from glob import glob
 import ctypes.util
 import ctypes
 
@@ -114,6 +113,7 @@ define_macros = [("A_HAVE_H", None), ("A_EXPORTS", None)]
 include_dirs = [build, "include"]
 try:
     USE_CYTHON = True
+    from sys import version_info
     from Cython.Build import cythonize
 except:
     USE_CYTHON = False
@@ -129,22 +129,22 @@ if not os.path.exists(config):
         os.mkdir(build)
     configure(config, define_macros)
 
-for source in glob("src/**"):
-    if not os.path.isfile(source):
-        continue
-    prefix, suffix = os.path.splitext(source)
-    if suffix in suffix_cc:
-        source_cc.append(source)
-    elif suffix in suffix_c:
-        source_c.append(source)
-for header in glob("include/**"):
-    if not os.path.isfile(header):
-        continue
-    prefix, suffix = os.path.splitext(header)
-    if suffix in suffix_hh:
-        header_hh.append(header)
-    elif suffix in suffix_h:
-        header_h.append(header)
+for dirpath, dirnames, filenames in os.walk("include"):
+    for filename in filenames:
+        header = os.path.join(dirpath, filename)
+        prefix, suffix = os.path.splitext(header)
+        if suffix in suffix_hh:
+            header_hh.append(header)
+        elif suffix in suffix_h:
+            header_h.append(header)
+for dirpath, dirnames, filenames in os.walk("src"):
+    for filename in filenames:
+        source = os.path.join(dirpath, filename)
+        prefix, suffix = os.path.splitext(source)
+        if suffix in suffix_cc:
+            source_cc.append(source)
+        elif suffix in suffix_c:
+            source_c.append(source)
 
 ext_modules = [
     Extension(
@@ -156,13 +156,9 @@ ext_modules = [
     )
 ]
 if USE_CYTHON:
-    from Cython.Build import cythonize
-    from sys import version_info
-
-    ext_modules = cythonize(
+    ext_modules = cythonize(  # type: ignore
         ext_modules,
-        language_level=version_info[0],
-        annotate=True,
+        language_level=version_info[0],  # type: ignore
         quiet=True,
     )
 
