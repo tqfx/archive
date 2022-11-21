@@ -47,16 +47,24 @@ static void test_sqrt_inv(void)
 
 static void test_u32_sqrt(void)
 {
-    TEST_BUG(a_u32_sqrt(A_U32_C(~0)) == A_U16_C(0xFFFF));
-    TEST_BUG(a_u32_sqrt(A_U32_C(0x10000)) == A_U16_C(0x100));
-    TEST_BUG(a_u32_sqrt(A_U32_C(0xFFFFFFFF)) == A_U16_C(0xFFFF));
+    a_u32_t x;
+    TEST_BUG(a_u32_sqrt(A_U32_C(~0), &x) == A_U16_C(0xFFFF));
+    TEST_BUG(A_U32_C(0x1FFFE) == x);
+    TEST_BUG(a_u32_sqrt(A_U32_C(0x10000), &x) == A_U16_C(0x100));
+    TEST_BUG(A_U32_C(0) == x);
+    TEST_BUG(a_u32_sqrt(A_U32_C(0xFFFFFFFF), &x) == A_U16_C(0xFFFF));
+    TEST_BUG(A_U32_C(0x1FFFE) == x);
 }
 
 static void test_u64_sqrt(void)
 {
-    TEST_BUG(a_u64_sqrt(A_U64_C(~0)) == A_U32_C(0xFFFFFFFF));
-    TEST_BUG(a_u64_sqrt(A_U64_C(0x100000000)) == A_U32_C(0x10000));
-    TEST_BUG(a_u64_sqrt(A_U64_C(0xFFFFFFFFFFFFFFFF)) == A_U32_C(0xFFFFFFFF));
+    a_u64_t x;
+    TEST_BUG(a_u64_sqrt(A_U64_C(~0), &x) == A_U32_C(0xFFFFFFFF));
+    TEST_BUG(A_U64_C(0x1FFFFFFFE) == x);
+    TEST_BUG(a_u64_sqrt(A_U64_C(0x100000000), &x) == A_U32_C(0x10000));
+    TEST_BUG(A_U64_C(0) == x);
+    TEST_BUG(a_u64_sqrt(A_U64_C(0xFFFFFFFFFFFFFFFF), &x) == A_U32_C(0xFFFFFFFF));
+    TEST_BUG(A_U64_C(0x1FFFFFFFE) == x);
 }
 
 int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)

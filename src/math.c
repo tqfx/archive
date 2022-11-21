@@ -26,7 +26,7 @@ a_f32_t a_sqrt_inv(a_f32_t x)
     return u.x;
 }
 
-a_u32_t a_u32_sqrt(a_u32_t x)
+a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *p)
 {
     a_u32_t y = 0;
     for (a_uint_t i = 0; i < 32; i += 2)
@@ -43,10 +43,14 @@ a_u32_t a_u32_sqrt(a_u32_t x)
             y >>= 1;
         }
     }
+    if (p)
+    {
+        *p = x;
+    }
     return y;
 }
 
-a_u64_t a_u64_sqrt(a_u64_t x)
+a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *p)
 {
     a_u64_t y = 0;
     for (a_uint_t i = 0; i < 64; i += 2)
@@ -62,6 +66,10 @@ a_u64_t a_u64_sqrt(a_u64_t x)
         {
             y >>= 1;
         }
+    }
+    if (p)
+    {
+        *p = x;
     }
     return y;
 }
