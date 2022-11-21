@@ -1,5 +1,122 @@
 #include "math.h"
 
+a_f64_t a_f64_sq(a_f64_t x, a_f64_t *p)
+{
+    a_f64_t xh, xl, xc;
+    xc = x * (0x1p27 + 1);
+    xh = x - xc + xc;
+    xl = x - xh;
+    x *= x;
+    *p = xh * xh - x + 2 * xh * xl + xl * xl;
+    return x;
+}
+
+#undef a_f32_hypot
+a_f32_t a_f32_hypot(a_f32_t x, a_f32_t y)
+{
+    union
+    {
+        a_f32_t x;
+        a_u32_t u;
+    } ux, uy;
+    a_f32_t z;
+
+    ux.x = x;
+    uy.x = y;
+    ux.u &= A_U32_C(~0) >> 1;
+    uy.u &= A_U32_C(~0) >> 1;
+    if (ux.u < uy.u)
+    {
+        ux.u ^= uy.u;
+        uy.u ^= ux.u;
+        ux.u ^= uy.u;
+    }
+
+    x = ux.x;
+    y = uy.x;
+    if (uy.u == 0xFF << 23)
+    {
+        return y;
+    }
+    if (ux.u >= 0xFF << 23 || uy.u == 0 || ux.u - uy.u >= 25 << 23)
+    {
+        return x + y;
+    }
+
+    z = 1;
+    if (ux.u >= (0x7F + 60) << 23)
+    {
+        z = A_F32_C(0x1p90);
+        x *= A_F32_C(0x1p-90);
+        y *= A_F32_C(0x1p-90);
+    }
+    else if (uy.u < (0x7F - 60) << 23)
+    {
+        z = A_F32_C(0x1p-90);
+        x *= A_F32_C(0x1p90);
+        y *= A_F32_C(0x1p90);
+    }
+    return z * a_f32_sqrt(a_f32_c(a_f64_c(x) * a_f64_c(x) + a_f64_c(y) * a_f64_c(y)));
+}
+
+#undef a_f64_hypot
+a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y)
+{
+    union
+    {
+        a_f64_t x;
+        a_u64_t u;
+    } ux, uy;
+    a_int_t ex, ey;
+    a_f64_t hx, lx, hy, ly, z;
+
+    ux.x = x;
+    uy.x = y;
+    ux.u &= A_U64_C(~0) >> 1;
+    uy.u &= A_U64_C(~0) >> 1;
+    if (ux.u < uy.u)
+    {
+        ux.u ^= uy.u;
+        uy.u ^= ux.u;
+        ux.u ^= uy.u;
+    }
+
+    x = ux.x;
+    y = uy.x;
+    ex = a_int_c(ux.u >> 52);
+    ey = a_int_c(uy.u >> 52);
+    /* hypot(inf,nan) == inf */
+    if (ey == 0x7FF)
+    {
+        return y;
+    }
+    if (ex == 0x7FF || uy.u == 0)
+    {
+        return x;
+    }
+    if (ex - ey > 64)
+    {
+        return x + y;
+    }
+
+    z = 1;
+    if (ex > 0x3FF + 510)
+    {
+        z = A_F64_C(0x1p700);
+        x *= A_F64_C(0x1p-700);
+        y *= A_F64_C(0x1p-700);
+    }
+    else if (ey < 0x3FF - 450)
+    {
+        z = A_F64_C(0x1p-700);
+        x *= A_F64_C(0x1p700);
+        y *= A_F64_C(0x1p700);
+    }
+    hx = a_f64_sq(x, &lx);
+    hy = a_f64_sq(y, &ly);
+    return z * a_f64_sqrt(ly + lx + hy + hx);
+}
+
 a_f32_t a_sqrt_inv(a_f32_t x)
 {
     union

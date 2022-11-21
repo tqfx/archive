@@ -162,12 +162,12 @@ a_complex_s a_complex_sqrt(a_complex_s z)
     if (x >= y)
     {
         a_real_t t = y / x;
-        w = a_real_sqrt(x) * a_real_sqrt((a_real_sqrt(A_SQ(t) + 1) + 1) * A_REAL_C(0.5));
+        w = a_real_sqrt(x) * a_real_sqrt((a_real_sqrt(t * t + 1) + 1) * A_REAL_C(0.5));
     }
     else
     {
         a_real_t t = x / y;
-        w = a_real_sqrt(y) * a_real_sqrt((a_real_sqrt(A_SQ(t) + 1) + t) * A_REAL_C(0.5));
+        w = a_real_sqrt(y) * a_real_sqrt((a_real_sqrt(t * t + 1) + t) * A_REAL_C(0.5));
     }
     if (z.real >= 0)
     {

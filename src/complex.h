@@ -3,7 +3,6 @@
 
 #include "a/complex.h"
 #include "a/real.h"
-#include <math.h>
 
 #if defined(__GNUC__)
 #include <complex.h>

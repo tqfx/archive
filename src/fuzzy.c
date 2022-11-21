@@ -1,6 +1,5 @@
 #include "a/fuzzy.h"
 #include "a/real.h"
-#include <math.h>
 
 a_real_t a_fuzzy_or(a_uint_t e, a_real_t l, a_real_t r)
 {

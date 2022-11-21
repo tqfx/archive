@@ -1,5 +1,4 @@
 #include "a/real.h"
-#include <math.h>
 
 #undef a_real_log1p
 a_real_t a_real_log1p(a_real_t x)
@@ -10,7 +9,13 @@ a_real_t a_real_log1p(a_real_t x)
 #undef a_real_hypot
 a_real_t a_real_hypot(a_real_t x, a_real_t y)
 {
+#if A_REAL_TYPE == A_REAL_SINGLE
+    return a_f32_hypot(x, y);
+#elif A_REAL_TYPE == A_REAL_DOUBLE
+    return a_f64_hypot(x, y);
+#elif A_REAL_TYPE == A_REAL_EXTEND
     return A_REAL_F1(sqrt, x * x + y * y);
+#endif /* A_REAL_TYPE */
 }
 
 #undef a_real_atan2

@@ -9,7 +9,6 @@
 #include "a/math.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 
 static void test(a_complex_s a, a_complex_s b)
 {

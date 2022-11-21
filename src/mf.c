@@ -1,6 +1,5 @@
 #include "a/real.h"
 #include "a/mf.h"
-#include <math.h>
 
 a_real_t a_mf_gauss(a_real_t x, a_real_t sigma, a_real_t c)
 {
