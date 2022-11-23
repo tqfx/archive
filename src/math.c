@@ -2,18 +2,45 @@
 
 a_f64_t a_f64_sq(a_f64_t x, a_f64_t *p)
 {
+#undef K
+#if defined(_MSC_VER) && (_MSC_VER < 1914)
+    const union
+    {
+        a_u64_t u;
+        a_f64_t x;
+    } k = {A_U64_C(0x41A0000000000000)};
+#define K k.x
+#else
+#define K A_F64_C(0x1P27)
+#endif
     a_f64_t xh, xl, xc;
-    xc = x * (0x1p27 + 1);
+    xc = x * (K + 1);
     xh = x - xc + xc;
     xl = x - xh;
     x *= x;
     *p = xh * xh - x + 2 * xh * xl + xl * xl;
     return x;
+#undef K
 }
 
 #undef a_f32_hypot
 a_f32_t a_f32_hypot(a_f32_t x, a_f32_t y)
 {
+#undef NEG
+#undef POS
+#if defined(_MSC_VER) && (_MSC_VER < 1914)
+    const union
+    {
+        a_u32_t u;
+        a_f32_t x;
+    } pos = {A_U32_C(0x6C800000)},
+      neg = {A_U32_C(0x12800000)};
+#define POS pos.x
+#define NEG neg.x
+#else
+#define POS A_F32_C(0x1P+90)
+#define NEG A_F32_C(0x1P-90)
+#endif
     union
     {
         a_f32_t x;
@@ -46,22 +73,39 @@ a_f32_t a_f32_hypot(a_f32_t x, a_f32_t y)
     z = 1;
     if (ux.u >= (0x7F + 60) << 23)
     {
-        z = A_F32_C(0x1p90);
-        x *= A_F32_C(0x1p-90);
-        y *= A_F32_C(0x1p-90);
+        z = POS;
+        x *= NEG;
+        y *= NEG;
     }
     else if (uy.u < (0x7F - 60) << 23)
     {
-        z = A_F32_C(0x1p-90);
-        x *= A_F32_C(0x1p90);
-        y *= A_F32_C(0x1p90);
+        z = NEG;
+        x *= POS;
+        y *= POS;
     }
     return z * a_f32_sqrt(a_f32_c(a_f64_c(x) * a_f64_c(x) + a_f64_c(y) * a_f64_c(y)));
+#undef NEG
+#undef POS
 }
 
 #undef a_f64_hypot
 a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y)
 {
+#undef NEG
+#undef POS
+#if defined(_MSC_VER) && (_MSC_VER < 1914)
+    const union
+    {
+        a_u64_t u;
+        a_f64_t x;
+    } pos = {A_U64_C(0x6BB0000000000000)},
+      neg = {A_U64_C(0x1430000000000000)};
+#define POS pos.x
+#define NEG neg.x
+#else
+#define POS A_F64_C(0x1P+700)
+#define NEG A_F64_C(0x1P-700)
+#endif
     union
     {
         a_f64_t x;
@@ -102,19 +146,21 @@ a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y)
     z = 1;
     if (ex > 0x3FF + 510)
     {
-        z = A_F64_C(0x1p700);
-        x *= A_F64_C(0x1p-700);
-        y *= A_F64_C(0x1p-700);
+        z = POS;
+        x *= NEG;
+        y *= NEG;
     }
     else if (ey < 0x3FF - 450)
     {
-        z = A_F64_C(0x1p-700);
-        x *= A_F64_C(0x1p700);
-        y *= A_F64_C(0x1p700);
+        z = NEG;
+        x *= POS;
+        y *= POS;
     }
     hx = a_f64_sq(x, &lx);
     hy = a_f64_sq(y, &ly);
     return z * a_f64_sqrt(ly + lx + hy + hx);
+#undef NEG
+#undef POS
 }
 
 a_f32_t a_sqrt_inv(a_f32_t x)
