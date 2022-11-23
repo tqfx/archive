@@ -235,9 +235,8 @@ endif()
 if(PYTHONINTERP_FOUND)
   file(GLOB BYPRODUCT ${PROJECT_NAME}.*)
   file(GLOB_RECURSE SOURCES ffi/python/src/*.[ch]*)
-  add_custom_target(a-py-build ALL # https://cython.readthedocs.io/en/stable
-    ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py build_ext --inplace
-    COMMENT "setup.py build_ext --inplace"
+  add_custom_target(a-py ALL # https://cython.readthedocs.io/en/stable
+    ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/setup.py --quiet build_ext --inplace
     BYPRODUCTS ${BYPRODUCT} ${SOURCES}
   )
   add_custom_target(a-py-setup # https://pip.readthedocs.io/en/stable
