@@ -17,7 +17,7 @@ if(ENABLE_LUA OR WITH_LUA)
     if(ENABLE_SANITIZE)
       target_link_sanitize(PUBLIC ${LUA_LIBRARIES} lualib)
       target_compile_sanitize(PUBLIC ${LUA_LIBRARIES})
-      set(A_LIBRARY a-dbg)
+      set(A_LIBRARY asan)
     endif()
   endif()
 

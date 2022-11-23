@@ -26,7 +26,7 @@ endif()
 set(TARGET_PREFIX test-)
 
 if(ENABLE_SANITIZE)
-  set(A_LIBRARY a-dbg)
+  set(A_LIBRARY asan)
 else()
   set(A_LIBRARY a)
 endif()
