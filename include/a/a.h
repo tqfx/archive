@@ -937,9 +937,9 @@ A_PUBLIC a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(A_A_I)
 A_INTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u8_p(lhs) = a_u8_c(*a_u8_p(lhs) ^ *a_u8_p(rhs));
-    *a_u8_p(rhs) = a_u8_c(*a_u8_p(rhs) ^ *a_u8_p(lhs));
-    *a_u8_p(lhs) = a_u8_c(*a_u8_p(lhs) ^ *a_u8_p(rhs));
+    *a_u8_p(lhs) ^= *a_u8_p(rhs);
+    *a_u8_p(rhs) ^= *a_u8_p(lhs);
+    *a_u8_p(lhs) ^= *a_u8_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(A_A_I)
@@ -948,9 +948,9 @@ A_PUBLIC a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(A_A_I)
 A_INTERN a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u16_p(lhs) = a_u16_c(*a_u16_p(lhs) ^ *a_u16_p(rhs));
-    *a_u16_p(rhs) = a_u16_c(*a_u16_p(rhs) ^ *a_u16_p(lhs));
-    *a_u16_p(lhs) = a_u16_c(*a_u16_p(lhs) ^ *a_u16_p(rhs));
+    *a_u16_p(lhs) ^= *a_u16_p(rhs);
+    *a_u16_p(rhs) ^= *a_u16_p(lhs);
+    *a_u16_p(lhs) ^= *a_u16_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(A_A_I)
@@ -959,9 +959,9 @@ A_PUBLIC a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(A_A_I)
 A_INTERN a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u32_p(lhs) = *a_u32_p(lhs) ^ *a_u32_p(rhs);
-    *a_u32_p(rhs) = *a_u32_p(rhs) ^ *a_u32_p(lhs);
-    *a_u32_p(lhs) = *a_u32_p(lhs) ^ *a_u32_p(rhs);
+    *a_u32_p(lhs) ^= *a_u32_p(rhs);
+    *a_u32_p(rhs) ^= *a_u32_p(lhs);
+    *a_u32_p(lhs) ^= *a_u32_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(A_A_I)
@@ -970,9 +970,9 @@ A_PUBLIC a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(A_A_I)
 A_INTERN a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u64_p(lhs) = *a_u64_p(lhs) ^ *a_u64_p(rhs);
-    *a_u64_p(rhs) = *a_u64_p(rhs) ^ *a_u64_p(lhs);
-    *a_u64_p(lhs) = *a_u64_p(lhs) ^ *a_u64_p(rhs);
+    *a_u64_p(lhs) ^= *a_u64_p(rhs);
+    *a_u64_p(rhs) ^= *a_u64_p(lhs);
+    *a_u64_p(lhs) ^= *a_u64_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(A_A_I)
@@ -981,9 +981,9 @@ A_PUBLIC a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(A_A_I)
 A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_size_p(lhs) = *a_size_p(lhs) ^ *a_size_p(rhs);
-    *a_size_p(rhs) = *a_size_p(rhs) ^ *a_size_p(lhs);
-    *a_size_p(lhs) = *a_size_p(lhs) ^ *a_size_p(rhs);
+    *a_size_p(lhs) ^= *a_size_p(rhs);
+    *a_size_p(rhs) ^= *a_size_p(lhs);
+    *a_size_p(lhs) ^= *a_size_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
 
@@ -993,8 +993,8 @@ A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
  @param[in] val initial value
  @return hash value
 */
-A_PUBLIC a_size_t a_hash_bkdr(a_cptr_t str, a_size_t val);
-A_PUBLIC a_size_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_size_t val);
+A_PUBLIC a_umax_t a_hash_bkdr(a_cptr_t str, a_umax_t val);
+A_PUBLIC a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val);
 
 #if defined(__cplusplus)
 } /* extern "C" */

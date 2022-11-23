@@ -16,7 +16,7 @@ a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)
     }
 }
 
-a_size_t a_hash_bkdr(a_cptr_t str, a_size_t val)
+a_umax_t a_hash_bkdr(a_cptr_t str, a_umax_t val)
 {
     if (str)
     {
@@ -28,7 +28,7 @@ a_size_t a_hash_bkdr(a_cptr_t str, a_size_t val)
     return val;
 }
 
-a_size_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_size_t val)
+a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val)
 {
     if (ptr && siz)
     {
