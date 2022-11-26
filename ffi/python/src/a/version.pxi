@@ -1,8 +1,10 @@
 from a.version cimport *
 
-def version() -> str:
+def version():
     '''algorithm library version'''
-    return a_version().decode()
+    if PY_MAJOR_VERSION >= 3:
+        return a_version().decode()
+    return a_version()
 
 def version_major() -> a_uint_t:
     '''algorithm library version major'''
