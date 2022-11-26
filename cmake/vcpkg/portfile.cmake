@@ -9,7 +9,8 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS OPTIONS_RELEASE
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
-  FEATURES pkgconfig ENABLE_PKGCONFIG
+  FEATURES
+    pkgconfig ENABLE_PKGCONFIG
 )
 
 vcpkg_configure_cmake(SOURCE_PATH ${SOURCE_PATH}

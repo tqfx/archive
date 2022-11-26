@@ -5,11 +5,11 @@
   "homepage": "@PROJECT_HOMEPAGE_URL@",
   "description": "@PROJECT_DESCRIPTION@",
   "features": {
-    "ipo": {
-      "description": "Enable interprocedural optimization"
-    },
     "pkgconfig": {
       "description": "Enable pkgconfig configuration"
+    },
+    "ipo": {
+      "description": "Enable interprocedural optimization"
     }
   }
 }
