@@ -14,6 +14,12 @@ except ImportError:
     from distutils.command.build_ext import build_ext
     from distutils.extension import Extension
     from distutils.core import setup
+try:
+    USE_CYTHON = True
+    from sys import version_info
+    from Cython.Build import cythonize
+except:
+    USE_CYTHON = False
 from sys import byteorder
 from re import findall
 import ctypes.util
@@ -110,19 +116,13 @@ header_h, header_hh = [], []
 suffix_c, suffix_cc = (".c",), (".cc", ".cpp", ".cxx")
 suffix_h, suffix_hh = (".h",), (".hh", ".hpp", ".hxx")
 define_macros = [("A_HAVE_H", None), ("A_EXPORTS", None)]
-include_dirs = [build, "include"]
-try:
-    USE_CYTHON = True
-    from sys import version_info
-    from Cython.Build import cythonize
-except:
-    USE_CYTHON = False
+if os.path.exists("ffi/python/src/a/__init__.pxi"):
+    with open("ffi/python/src/a/__init__.pxi", "r") as f:
+        define_macros += findall(r"DEF (\w+) = (\d+)", f.read())
 if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
     source_c = ["ffi/python/src/lib.pyx"]
 elif os.path.exists("ffi/python/src/lib.c"):
     source_c = ["ffi/python/src/lib.c"]
-with open("ffi/python/src/a/__init__.pxi", "r") as f:
-    define_macros += findall(r"DEF (\w+) = (\d+)", f.read())
 config = os.path.join(build, config_h)
 if not os.path.exists(config):
     if not os.path.exists(build):
@@ -151,7 +151,7 @@ ext_modules = [
         name="liba",
         language="c",
         sources=source_c,
-        include_dirs=include_dirs,
+        include_dirs=[build, "include"],
         define_macros=define_macros,
     )
 ]
