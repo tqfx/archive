@@ -131,8 +131,8 @@ if(TARGET_SUPPORTS_SHARED_LIBS)
   unset(module)
 
   if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
-    set_target_properties(${A_SHARED_LIB} PROPERTIES
-      OUTPUT_NAME ${PROJECT_NAME}
+    set_target_properties(${A_SHARED_LIB}
+      PROPERTIES OUTPUT_NAME liba
     )
   endif()
 endif()
@@ -141,6 +141,9 @@ if(ENABLE_SANITIZE)
   add_library(asan ${SOURCES})
   target_library_setting(asan)
   target_compile_sanitize(asan)
+  set_target_properties(asan
+    PROPERTIES OUTPUT_NAME a.san
+  )
 endif()
 
 get_target_property(prop a INTERFACE_COMPILE_DEFINITIONS)
