@@ -15,10 +15,10 @@
 #define A_VERSION_MINOR ${VERSION_MINOR}
 #define A_VERSION_PATCH ${VERSION_ALTER}
 #define A_VERSION_TWEAK A_U64_C(${VERSION_BUILD})
-${define A_BYTE_ORDER}
-${define A_SIZE_VPTR}
+#define A_BYTE_ORDER ${A_BYTE_ORDER}
+#define A_SIZE_VPTR ${A_SIZE_VPTR}
 #if !defined A_SIZE_REAL
-${define A_SIZE_REAL}
+#define A_SIZE_REAL ${A_SIZE_REAL}
 #endif /* A_SIZE_REAL */
 
 ${define A_HAVE_COMPLEX_H}
