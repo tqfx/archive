@@ -4,7 +4,7 @@
 #if defined(_MSC_VER)
 #pragma warning(disable : 4820)
 #endif /* _MSC_VER */
-#if a_prereq_gnuc(2, 95) || __has_warning("-Wpadded")
+#if A_PREREQ_GNUC(2, 95) || __has_warning("-Wpadded")
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* -Wpadded */
 #if __has_warning("-Wreserved-id-macro")
@@ -16,7 +16,7 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #endif /* diagnostic */
-#if a_prereq_gnuc(6, 1) || __has_warning("-Wignored-attributes")
+#if A_PREREQ_GNUC(6, 1) || __has_warning("-Wignored-attributes")
 #pragma GCC diagnostic ignored "-Wignored-attributes"
 #endif /* -Wignored-attributes */
 #if __has_warning("-Wlanguage-extension-token")

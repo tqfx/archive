@@ -5,7 +5,7 @@
 
 #include "complex.h"
 
-#if a_prereq_gnuc(2, 95) || __has_warning("-Waggregate-return")
+#if A_PREREQ_GNUC(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* -Waggregate-return */
 

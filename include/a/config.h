@@ -63,23 +63,23 @@
 
 /* https://en.wikipedia.org/wiki/Microsoft_Visual_C++ */
 #if defined(_MSC_VER)
-#define a_prereq_msvc(maj, min) (_MSC_VER >= (maj * 100 + min))
+#define A_PREREQ_MSVC(maj, min) (_MSC_VER >= (maj * 100 + min))
 #else /* !_MSC_VER */
-#define a_prereq_msvc(maj, min) 0
+#define A_PREREQ_MSVC(maj, min) 0
 #endif /* _MSC_VER */
 
 /* https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html */
 #if defined(__GNUC__) && defined(__GNUC_MINOR__)
-#define a_prereq_gnuc(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+#define A_PREREQ_GNUC(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
 #else /* !__GNUC__ */
-#define a_prereq_gnuc(maj, min) 0
+#define A_PREREQ_GNUC(maj, min) 0
 #endif /* __GNUC__ */
 
 /* https://clang.llvm.org/docs/LanguageExtensions.html */
 #if defined(__clang_major__) && defined(__clang_minor__)
-#define a_prereq_clang(maj, min) ((__clang_major__ << 16) + __clang_minor__ >= ((maj) << 16) + (min))
+#define A_PREREQ_LLVM(maj, min) ((__clang_major__ << 16) + __clang_minor__ >= ((maj) << 16) + (min))
 #else /* !__clang__ */
-#define a_prereq_clang(maj, min) 0
+#define A_PREREQ_LLVM(maj, min) 0
 #endif /* __clang__ */
 
 #if !defined A_FUNC
@@ -98,7 +98,7 @@
 /* https://en.cppreference.com/w/cpp/preprocessor/replace */
 #if !defined __cplusplus
 /* https://en.cppreference.com/w/c/preprocessor/replace */
-#if !defined __STDC_VERSION__ && a_prereq_msvc(18, 0)
+#if !defined __STDC_VERSION__ && A_PREREQ_MSVC(18, 0)
 #define __STDC_VERSION__ 199901L /* C99 */
 #elif !defined __STDC_VERSION__
 #define __STDC_VERSION__ 199001L /* C90 */
@@ -135,7 +135,7 @@
 
 #endif /*  C++ > 201100 */
 
-#if a_prereq_gnuc(2, 96) || __has_builtin(__builtin_expect)
+#if A_PREREQ_GNUC(2, 96) || __has_builtin(__builtin_expect)
 #define a_unlikely(x) __builtin_expect(!!(x), 0)
 #define a_likely(x) __builtin_expect(!!(x), 1)
 #else /* !__GNUC__ */
@@ -156,21 +156,21 @@
 #endif /* __attribute__ */
 
 /* attribute format */
-#if a_prereq_gnuc(2, 4) || __has_attribute(format)
+#if A_PREREQ_GNUC(2, 4) || __has_attribute(format)
 #define A_FORMAT(_, a, b) __attribute__((format(_, a, b)))
 #else /* !format */
 #define A_FORMAT(_, a, b)
 #endif /* format */
 
 /* attribute fallthrough */
-#if a_prereq_gnuc(7, 1) || __has_attribute(fallthrough)
+#if A_PREREQ_GNUC(7, 1) || __has_attribute(fallthrough)
 #define A_FALLTHROUGH __attribute__((fallthrough))
 #else /* !fallthrough */
 #define A_FALLTHROUGH ((void)(0))
 #endif /* fallthrough */
 
 /* attribute deprecated */
-#if a_prereq_gnuc(3, 2) || __has_attribute(deprecated)
+#if A_PREREQ_GNUC(3, 2) || __has_attribute(deprecated)
 #define A_DEPRECATED __attribute__((deprecated))
 #elif defined(_WIN32) || defined(__CYGWIN__)
 #define A_DEPRECATED __declspec(deprecated)
@@ -179,7 +179,7 @@
 #endif /* deprecated */
 
 /* attribute always inline */
-#if a_prereq_gnuc(3, 2) || __has_attribute(always_inline)
+#if A_PREREQ_GNUC(3, 2) || __has_attribute(always_inline)
 #define A_INLINE __inline __attribute__((always_inline))
 #elif defined(_MSC_VER)
 #define A_INLINE __inline __forceinline
@@ -196,7 +196,7 @@
 #define A_EXPORT __declspec(dllexport)
 #define A_IMPORT __declspec(dllimport)
 #define A_HIDDEN
-#elif a_prereq_gnuc(4, 0) || __has_attribute(visibility)
+#elif A_PREREQ_GNUC(4, 0) || __has_attribute(visibility)
 #define A_EXPORT __attribute__((visibility("default")))
 #define A_IMPORT __attribute__((visibility("default")))
 #define A_HIDDEN __attribute__((visibility("hidden")))

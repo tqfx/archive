@@ -1,10 +1,10 @@
 #define A_COMPLEX_I
 #include "a/real.h"
 #include "inline.h"
-#if a_prereq_gnuc(2, 95) || __has_warning("-Waggregate-return")
+#if A_PREREQ_GNUC(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* -Waggregate-return */
-#if a_prereq_gnuc(3, 0) || __has_warning("-Wfloat-equal")
+#if A_PREREQ_GNUC(3, 0) || __has_warning("-Wfloat-equal")
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif /* -Wfloat-equal */
 #include "complex.h"
@@ -152,13 +152,13 @@ a_complex_s a_complex_inv(a_complex_s z)
     return z;
 }
 
-#if a_prereq_gnuc(2, 95) || __has_warning("-Wimplicit-function-declaration")
+#if A_PREREQ_GNUC(2, 95) || __has_warning("-Wimplicit-function-declaration")
 #pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
 #endif /* gcc 2.95+ */
 #if __has_warning("-Wincompatible-library-redeclaration")
 #pragma clang diagnostic ignored "-Wincompatible-library-redeclaration"
 #endif /* clang 4.0+ */
-#if a_prereq_gnuc(10, 1)
+#if A_PREREQ_GNUC(10, 1)
 #pragma GCC diagnostic ignored "-Wbuiltin-declaration-mismatch"
 #endif /* gcc 10.1+ */
 
