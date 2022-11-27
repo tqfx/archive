@@ -1,8 +1,7 @@
 #define A_A_I
-#undef A_INTERN
-#define A_INTERN A_INLINE
+#include "inline.h"
 #include "a/a.h"
-#undef A_INTERN
+#include "intern.h"
 
 a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)
 {

@@ -61,7 +61,6 @@
 #pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 #endif /* -Wdisabled-macro-expansion */
 
-#undef a_prereq_msvc
 /* https://en.wikipedia.org/wiki/Microsoft_Visual_C++ */
 #if defined(_MSC_VER)
 #define a_prereq_msvc(maj, min) (_MSC_VER >= (maj * 100 + min))
@@ -69,7 +68,6 @@
 #define a_prereq_msvc(maj, min) 0
 #endif /* _MSC_VER */
 
-#undef a_prereq_gnuc
 /* https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html */
 #if defined(__GNUC__) && defined(__GNUC_MINOR__)
 #define a_prereq_gnuc(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
@@ -77,7 +75,6 @@
 #define a_prereq_gnuc(maj, min) 0
 #endif /* __GNUC__ */
 
-#undef a_prereq_clang
 /* https://clang.llvm.org/docs/LanguageExtensions.html */
 #if defined(__clang_major__) && defined(__clang_minor__)
 #define a_prereq_clang(maj, min) ((__clang_major__ << 16) + __clang_minor__ >= ((maj) << 16) + (min))

@@ -2,7 +2,6 @@
 #define COMPLEX_H
 
 #include "a/complex.h"
-#include "a/real.h"
 
 #if defined(__GNUC__)
 #include <complex.h>
@@ -18,10 +17,10 @@
 #endif /* A_REAL_TYPE */
 #endif /* A_COMPLEX_T */
 #if defined(A_COMPLEX_T)
-
 /* compiler built-in complex number type */
 #define a_complex_t A_COMPLEX_T
-
+#else /* !A_COMPLEX_T */
+#define a_complex_t a_complex_s
 #endif /* A_COMPLEX_T */
 
 #endif /* COMPLEX_H */

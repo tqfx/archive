@@ -1,9 +1,8 @@
 #define A_PID_I
 #include "a/a.h"
-#undef A_INTERN
-#define A_INTERN A_INLINE
+#include "inline.h"
 #include "pid.h"
-#undef A_INTERN
+#include "intern.h"
 
 a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt)
 {

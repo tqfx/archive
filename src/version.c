@@ -1,6 +1,5 @@
 #define A_VERSION_I
 #include "a/a.h"
-#undef A_INTERN
-#define A_INTERN A_INLINE
+#include "inline.h"
 #include "a/version.h"
-#undef A_INTERN
+#include "intern.h"
