@@ -20,6 +20,7 @@ try:
     from Cython.Build import cythonize
 except:
     USE_CYTHON = False
+from argparse import ArgumentParser
 from sys import byteorder
 from re import findall
 import ctypes.util
@@ -109,7 +110,10 @@ def configure(config, define_macros=[]):
         f.write(text.encode("UTF-8"))
 
 
-build = "build"
+parser = ArgumentParser(add_help=False)
+parser.add_argument("-b", "--build-base", default="build")
+args = parser.parse_known_args(argv[1:])
+base = args[0].build_base
 config_h = "a.config.h"
 source_c, source_cc = [], []
 header_h, header_hh = [], []
@@ -123,10 +127,10 @@ if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
     source_c = ["ffi/python/src/lib.pyx"]
 elif os.path.exists("ffi/python/src/lib.c"):
     source_c = ["ffi/python/src/lib.c"]
-config = os.path.join(build, config_h)
+config = os.path.join(base, config_h)
 if not os.path.exists(config):
-    if not os.path.exists(build):
-        os.mkdir(build)
+    if not os.path.exists(base):
+        os.mkdir(base)
     configure(config, define_macros)
 
 for dirpath, dirnames, filenames in os.walk("include"):
@@ -151,7 +155,7 @@ ext_modules = [
         name="liba",
         language="c",
         sources=source_c,
-        include_dirs=[build, "include"],
+        include_dirs=[base, "include"],
         define_macros=define_macros,
     )
 ]
