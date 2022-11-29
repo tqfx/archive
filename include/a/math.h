@@ -73,8 +73,8 @@ A_PUBLIC a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y);
 */
 A_PUBLIC a_f32_t a_sqrt_inv(a_f32_t x);
 
-A_PUBLIC a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *p);
-A_PUBLIC a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *p);
+A_PUBLIC a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *o);
+A_PUBLIC a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *o);
 
 #if defined(__cplusplus)
 } /* extern "C" */

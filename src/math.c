@@ -1,26 +1,26 @@
 #include "math.h"
 
-a_f64_t a_f64_sq(a_f64_t x, a_f64_t *p)
+a_f64_t a_f64_sq(a_f64_t x, a_f64_t *o)
 {
-#undef K
+#undef U
 #if defined(_MSC_VER) && (_MSC_VER < 1914)
     const union
     {
         a_u64_t u;
         a_f64_t x;
-    } k = {A_U64_C(0x41A0000000000000)};
-#define K k.x
+    } u = {A_U64_C(0x41A0000000000000)};
+#define U u.x
 #else
-#define K A_F64_C(0x1P27)
+#define U A_F64_C(0x1P27)
 #endif
     a_f64_t xh, xl, xc;
-    xc = x * (K + 1);
+    xc = x * (U + 1);
     xh = x - xc + xc;
     xl = x - xh;
     x *= x;
-    *p = xh * xh - x + 2 * xh * xl + xl * xl;
+    *o = xh * xh - x + 2 * xh * xl + xl * xl;
     return x;
-#undef K
+#undef U
 }
 
 #undef a_f32_hypot
@@ -189,7 +189,7 @@ a_f32_t a_sqrt_inv(a_f32_t x)
     return u.x;
 }
 
-a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *p)
+a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *o)
 {
     a_u32_t y = 0;
     for (a_uint_t i = 0; i < 32; i += 2)
@@ -206,14 +206,14 @@ a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *p)
             y >>= 1;
         }
     }
-    if (p)
+    if (o)
     {
-        *p = x;
+        *o = x;
     }
     return y;
 }
 
-a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *p)
+a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *o)
 {
     a_u64_t y = 0;
     for (a_uint_t i = 0; i < 64; i += 2)
@@ -230,9 +230,9 @@ a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *p)
             y >>= 1;
         }
     }
-    if (p)
+    if (o)
     {
-        *p = x;
+        *o = x;
     }
     return y;
 }
