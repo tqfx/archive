@@ -12,13 +12,19 @@ if(POLICY CMP0091) # 3.15
   cmake_policy(SET CMP0091 NEW)
 endif() # CMAKE_MSVC_RUNTIME_LIBRARY
 
+option(ENABLE_CXX "Enable C++ language" ON)
+
 if(VCPKG_TARGET_TRIPLET MATCHES "x86-mingw(.*)")
   include(cmake/mingw32.cmake)
 elseif(VCPKG_TARGET_TRIPLET MATCHES "x64-mingw(.*)")
   include(cmake/mingw64.cmake)
 endif()
 
-project(liba VERSION 0.1.1 LANGUAGES C # 3.12
+if(ENABLE_CXX)
+  set(LANGUAGE CXX)
+endif()
+
+project(liba VERSION 0.1.1 LANGUAGES C ${LANGUAGE} # 3.12
   DESCRIPTION "An algorithm library based on C/C++ language"
   HOMEPAGE_URL "https://github.com/tqfx/liba.git"
 )

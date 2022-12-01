@@ -1,12 +1,6 @@
 # include modules
-include(CheckCXXCompilerFlag)
 include(CheckCCompilerFlag)
-include(CheckLanguage)
-check_language(CXX)
-
-if(CMAKE_CXX_COMPILER)
-  enable_language(CXX)
-endif()
+include(CheckCXXCompilerFlag)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
