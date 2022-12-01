@@ -12,7 +12,7 @@ find_program(LUA_EXECUTABLE NAMES lua
   lua.${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
   HINTS ENV LUA_DIR
 )
-
+mark_as_advanced(LDOC_EXECUTABLE)
 file(GLOB_RECURSE SOURCES src/*.[ch])
 add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:${A_LIBRARY}>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)

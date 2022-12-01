@@ -17,14 +17,6 @@ else()
   endif()
 endif()
 
-if(DEFINED ENV{PREFIX})
-  list(APPEND CMAKE_PREFIX_PATH $ENV{PREFIX})
-endif()
-
-if(DEFINED ENV{ANDROID_ROOT})
-  list(APPEND CMAKE_PREFIX_PATH $ENV{ANDROID_ROOT})
-endif()
-
 set(A_SIZE_REAL 8 CACHE INTERNAL "real number bytes")
 find_library(MATH_LIBRARY NAMES m DOC "math library")
 
@@ -55,8 +47,10 @@ function(check_math VARIABLE FUNCTION)
   )
 endfunction()
 
-if(NOT MATH_LIBRARY)
+if(NOT MATH_LIBRARY AND WIN32)
   unset(MATH_LIBRARY CACHE)
+elseif(NOT MATH_LIBRARY)
+  set(MATH_LIBRARY m)
 endif()
 
 check_include_file(stdint.h A_HAVE_STDINT_H)

@@ -3,6 +3,13 @@ find_program(CLANG_FORMAT clang-format)
 find_program(CLANG_TIDY clang-tidy)
 find_program(CPPCHECK cppcheck)
 find_program(CPPLINT cpplint)
+mark_as_advanced(
+  INCLUDE_WHAT_YOU_USE
+  CLANG_FORMAT
+  CLANG_TIDY
+  CPPCHECK
+  CPPLINT
+)
 
 function(target_library_option_ target scope)
   list(FILTER ENABLED_LANGUAGES INCLUDE REGEX "^C|CXX")

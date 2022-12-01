@@ -5,8 +5,10 @@ set_property(CACHE LUA_VERSION PROPERTY STRINGS 5.4.4 5.3.6 5.2.4 5.1.5)
 find_file(LUA_ARCHIVE lua-${LUA_VERSION}.tar.gz
   ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
 )
+mark_as_advanced(LUA_ARCHIVE)
 
 if(NOT LUA_ARCHIVE)
+  unset(LUA_ARCHIVE CACHE)
   file(GLOB_RECURSE LUA_ARCHIVE ${CMAKE_CURRENT_LIST_DIR}/lua-*.tar.gz
     ${CMAKE_SOURCE_DIR}/lua-*.tar.gz ${CMAKE_BINARY_DIR}/lua-*.tar.gz
   )
@@ -16,7 +18,7 @@ if(NOT LUA_ARCHIVE)
     list(REVERSE LUA_ARCHIVE)
     list(GET LUA_ARCHIVE 0 LUA_ARCHIVE)
     string(REGEX MATCH "[0-9]+\.[0-9]+\.[0-9]+" LUA_VERSION ${LUA_ARCHIVE})
-    set(LUA_VERSION ${LUA_VERSION} CACHE STRING "" FORCE)
+    set(LUA_VERSION ${LUA_VERSION} CACHE STRING "specifies building version for lua" FORCE)
   endif()
 endif()
 
@@ -25,7 +27,9 @@ project(lua VERSION ${LUA_VERSION} LANGUAGES C HOMEPAGE_URL http://www.lua.org
 )
 
 if(NOT FETCHCONTENT_BASE_DIR)
-  set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR} CACHE STRING "")
+  set(FETCHCONTENT_BASE_DIR ${CMAKE_BINARY_DIR} CACHE STRING
+    "Directory under which to collect all populated content"
+  )
 endif()
 
 if(POLICY CMP0135) # 3.24
