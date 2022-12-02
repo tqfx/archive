@@ -19,6 +19,7 @@ endif()
 
 set(A_SIZE_REAL 8 CACHE INTERNAL "real number bytes")
 find_library(MATH_LIBRARY NAMES m DOC "math library")
+mark_as_advanced(MATH_LIBRARY)
 
 # https://devblogs.microsoft.com/cppblog/c99-library-support-in-visual-studio-2013
 # https://learn.microsoft.com/cpp/overview/visual-cpp-language-conformance

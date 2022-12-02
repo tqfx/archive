@@ -16,8 +16,10 @@ find_library(TINFO_LIBRARY NAMES tinfo)
 find_library(READLINE_LIBRARY NAMES readline)
 find_path(READLINE_INCLUDE_DIR NAMES readline/readline.h)
 find_library(MATH_LIBRARY NAMES m DOC "lua math library")
+mark_as_advanced(TINFO_LIBRARY READLINE_LIBRARY MATH_LIBRARY)
 
 if(READLINE_INCLUDE_DIR AND READLINE_LIBRARY)
+  mark_as_advanced(READLINE_INCLUDE_DIR)
   set(READLINE_FOUND 1)
 
   if(TINFO_LIBRARY)

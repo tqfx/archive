@@ -4,6 +4,7 @@ else()
   set(CMAKE_SHARED_LIBRARY_SUFFIX .so)
 endif()
 
+file(GLOB_RECURSE SOURCES src/*.[ch])
 find_program(LDOC_EXECUTABLE NAMES ldoc)
 find_program(LUA_EXECUTABLE NAMES lua
   lua${LUA_VERSION_MAJOR}${LUA_VERSION_MINOR}
@@ -12,8 +13,7 @@ find_program(LUA_EXECUTABLE NAMES lua
   lua.${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
   HINTS ENV LUA_DIR
 )
-mark_as_advanced(LDOC_EXECUTABLE)
-file(GLOB_RECURSE SOURCES src/*.[ch])
+mark_as_advanced(LDOC_EXECUTABLE LUA_EXECUTABLE)
 add_library(a-lua SHARED ${SOURCES} $<TARGET_OBJECTS:${A_LIBRARY}>)
 set_target_properties(a-lua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_compile_definitions(a-lua PRIVATE $<TARGET_PROPERTY:a,COMPILE_DEFINITIONS>)
