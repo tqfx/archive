@@ -12,7 +12,7 @@
 
 ## required tools
 
-- C/C++ compiler: [gnu](https://gcc.gnu.org) or [llvm](https://clang.llvm.org) or [msvc](https://visualstudio.microsoft.com/visual-cpp-build-tools) etc
+- C/C++ compiler: [tcc](https://bellard.org/tcc) or [gnu](https://gcc.gnu.org) or [llvm](https://clang.llvm.org) or [msvc](https://visualstudio.microsoft.com/visual-cpp-build-tools) etc
 
 ## optional tools
 
