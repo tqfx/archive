@@ -2,10 +2,10 @@ set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_SYSTEM_PROCESSOR i686)
 set(TOOLCHAIN_PREFIX i686-w64-mingw32)
 
+find_program(CMAKE_AR ${TOOLCHAIN_PREFIX}-gcc-ar)
 find_program(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
 find_program(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++)
 find_program(CMAKE_RANLIB ${TOOLCHAIN_PREFIX}-gcc-ranlib)
-find_program(CMAKE_AR ${TOOLCHAIN_PREFIX}-gcc-ar)
 
 find_program(TOOLCHAIN_PATH ${TOOLCHAIN_PREFIX}-gcc)
 get_filename_component(TOOLCHAIN_PATH "${TOOLCHAIN_PATH}" DIRECTORY)

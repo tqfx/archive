@@ -75,7 +75,7 @@ function(target_executable_option_ target scope)
     endif()
   endforeach()
 
-  if(MINGW)
+  if(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND MINGW)
     # https://fedoraproject.org/wiki/MinGW/Configure_wine
     target_link_options(${target} ${scope} -static-libgcc
       $<$<COMPILE_LANGUAGE:CXX>:-static-libstdc++>
