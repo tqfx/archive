@@ -38,11 +38,11 @@
  @{
 */
 
-#define A_PID_NUM_BITS 8
+#define A_PID_NUM_BITS 8 // 00000000 11111111
 #define A_PID_NUM_MASK ((1U << A_PID_NUM_BITS) - 1U)
-#define A_PID_REG_BITS 8
+#define A_PID_REG_BITS 8 // 00000000 11111111
 #define A_PID_REG_MASK ((1U << A_PID_REG_BITS) - 1U)
-#define A_PID_MODE_BITS 2
+#define A_PID_MODE_BITS 2 // 00000000 00000011
 #define A_PID_MODE_MASK ((1U << A_PID_MODE_BITS) - 1U)
 
 /*!
@@ -79,6 +79,10 @@ typedef struct a_pid_s
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+#if defined(A_PID_I)
+#undef A_INTERN
+#define A_INTERN A_INLINE
+#endif /* A_PID_I */
 
 #if !defined A_HAVE_INLINE || defined(A_PID_I)
 A_PUBLIC a_real_t a_pid_dt(const a_pid_s *ctx);
@@ -296,6 +300,10 @@ A_PUBLIC a_pid_s *a_pid_exit(a_pid_s *ctx);
 */
 A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 
+#if defined(A_PID_I)
+#undef A_INTERN
+#define A_INTERN static A_INLINE
+#endif /* A_PID_I */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */

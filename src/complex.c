@@ -1,6 +1,5 @@
 #define A_COMPLEX_I
 #include "a/real.h"
-#include "inline.h"
 #if A_PREREQ_GNUC(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* -Waggregate-return */
@@ -8,7 +7,6 @@
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #endif /* -Wfloat-equal */
 #include "complex.h"
-#include "intern.h"
 
 a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
 {

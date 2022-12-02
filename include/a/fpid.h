@@ -17,7 +17,7 @@
  @{
 */
 
-#define A_FPID_FUZZY_BITS 4
+#define A_FPID_FUZZY_BITS 4 // 00111100
 #define A_FPID_FUZZY_BITL A_PID_MODE_BITS
 #define A_FPID_FUZZY_BITH (A_FPID_FUZZY_BITS + A_FPID_FUZZY_BITL)
 #define A_FPID_FUZZY_MASK (~((1U << A_FPID_FUZZY_BITL) - 1U) & ((1U << A_FPID_FUZZY_BITH) - 1U))
@@ -28,11 +28,11 @@
 typedef enum a_fpid_e
 {
     A_FPID_EQU,
-    A_FPID_AND = (1 << (A_FPID_FUZZY_BITL + 2)),
+    A_FPID_AND = (1 << (A_FPID_FUZZY_BITL + 2)), // 00010000 + 0100 * 0
     A_FPID_AND_DEFAULT = A_FPID_AND + (A_FUZZY_DEFAULT << A_FPID_FUZZY_BITL),
     A_FPID_AND_ALGEBRA = A_FPID_AND + (A_FUZZY_ALGEBRA << A_FPID_FUZZY_BITL),
     A_FPID_AND_BOUNDED = A_FPID_AND + (A_FUZZY_BOUNDED << A_FPID_FUZZY_BITL),
-    A_FPID_OR = (1 << (A_FPID_FUZZY_BITL + 3)),
+    A_FPID_OR = (1 << (A_FPID_FUZZY_BITL + 3)), // 00100000 + 0100 * 0
     A_FPID_OR_DEFAULT = A_FPID_OR + (A_FUZZY_DEFAULT << A_FPID_FUZZY_BITL),
     A_FPID_OR_ALGEBRA = A_FPID_OR + (A_FUZZY_ALGEBRA << A_FPID_FUZZY_BITL),
     A_FPID_OR_BOUNDED = A_FPID_OR + (A_FUZZY_BOUNDED << A_FPID_FUZZY_BITL)
@@ -68,6 +68,10 @@ typedef struct a_fpid_s
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+#if defined(A_FPID_I)
+#undef A_INTERN
+#define A_INTERN A_INLINE
+#endif /* A_FPID_I */
 
 #if !defined A_HAVE_INLINE || defined(A_FPID_I)
 A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
@@ -287,6 +291,10 @@ A_PUBLIC a_fpid_s *a_fpid_exit(a_fpid_s *ctx);
 */
 A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 
+#if defined(A_FPID_I)
+#undef A_INTERN
+#define A_INTERN static A_INLINE
+#endif /* A_FPID_I */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */

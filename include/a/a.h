@@ -14,7 +14,7 @@
 #include <float.h>
 
 /*!
- @addtogroup A algorithm library based on C
+ @addtogroup A algorithm library
  @{
 */
 
@@ -617,6 +617,65 @@ typedef union a_cast_u
     a_char_t c;
 } a_cast_u;
 
+#if defined(__cplusplus)
+namespace a
+{
+
+typedef a_void_t void_t;
+typedef a_bool_t bool_t;
+
+typedef a_i8_t i8_t;
+typedef a_u8_t u8_t;
+
+typedef a_i16_t i16_t;
+typedef a_u16_t u16_t;
+
+typedef a_i32_t i32_t;
+typedef a_u32_t u32_t;
+
+typedef a_i64_t i64_t;
+typedef a_u64_t u64_t;
+
+typedef a_imax_t imax_t;
+typedef a_umax_t umax_t;
+
+typedef a_iptr_t iptr_t;
+typedef a_uptr_t uptr_t;
+
+typedef a_diff_t diff_t;
+typedef a_size_t size_t;
+
+typedef a_i_t i_t;
+typedef a_u_t u_t;
+
+typedef a_is_t is_t;
+typedef a_us_t us_t;
+
+typedef a_il_t il_t;
+typedef a_ul_t ul_t;
+
+#if defined(A_HAVE_LONG_LONG_TYPE)
+typedef a_ill_t ill_t;
+typedef a_ull_t ull_t;
+#endif /* A_HAVE_LONG_LONG_TYPE */
+
+typedef a_int_t int_t;
+typedef a_uint_t uint_t;
+
+typedef a_byte_t byte_t;
+typedef a_char_t char_t;
+
+typedef a_str_t str_t;
+typedef a_cstr_t cstr_t;
+typedef a_vptr_t vptr_t;
+typedef a_cptr_t cptr_t;
+
+typedef a_f32_t f32_t;
+typedef a_f64_t f64_t;
+
+} /* namespace a */
+#endif /* __cplusplus */
+
 /*!
  @addtogroup A_REAL real number
  @{
@@ -752,6 +811,16 @@ typedef union a_real_u
     a_real_t *p; //!< real vector
 } a_real_u;
 
+#if defined(__cplusplus)
+namespace a
+{
+
+typedef a_real_t real_t;
+typedef a_real_u real_u;
+
+} /* namespace a */
+#endif /* __cplusplus */
+
 /*! @} A_REAL */
 
 /*!
@@ -861,6 +930,10 @@ enum
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+#if defined(A_A_I)
+#undef A_INTERN
+#define A_INTERN A_INLINE
+#endif /* A_A_I */
 
 #if !defined A_HAVE_INLINE || defined(A_A_I)
 A_PUBLIC a_f32_t a_f32_from(a_u32_t x);
@@ -996,6 +1069,10 @@ A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
 A_PUBLIC a_umax_t a_hash_bkdr(a_cptr_t str, a_umax_t val);
 A_PUBLIC a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val);
 
+#if defined(A_A_I)
+#undef A_INTERN
+#define A_INTERN static A_INLINE
+#endif /* A_A_I */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */

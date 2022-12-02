@@ -2,11 +2,7 @@
 #define TEST_VERSION_H
 #define MAIN_(s, argc, argv) version##s(argc, argv)
 #include "test.h"
-#if defined(__cplusplus)
-#include "a/version.hpp"
-#else /* !__cplusplus */
 #include "a/version.h"
-#endif /* __cplusplus */
 
 int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
 {

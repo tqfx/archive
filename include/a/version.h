@@ -11,7 +11,7 @@
 
 /*!
  @ingroup A
- @addtogroup A_VERSION algorithm library version based on C
+ @addtogroup A_VERSION algorithm library version
  @{
 */
 
@@ -41,8 +41,26 @@
 #endif /* A_VERSION */
 
 #if defined(__cplusplus)
+namespace a
+{
+
+/*!
+ @brief enumeration for algorithm library version
+*/
+enum
+{
+    VERSION_MAJOR = A_VERSION_MAJOR,
+    VERSION_MINOR = A_VERSION_MINOR,
+    VERSION_PATCH = A_VERSION_PATCH
+};
+
+} /* namespace a */
 extern "C" {
 #endif /* __cplusplus */
+#if defined(A_VERSION_I)
+#undef A_INTERN
+#define A_INTERN A_INLINE
+#endif /* A_VERSION_I */
 
 /*!
  @brief algorithm library version string
@@ -96,8 +114,74 @@ A_INTERN a_uint_t a_version_patch(void)
 }
 #endif /* A_HAVE_INLINE */
 
+#if defined(A_VERSION_I)
+#undef A_INTERN
+#define A_INTERN static A_INLINE
+#endif /* A_VERSION_I */
 #if defined(__cplusplus)
 } /* extern "C" */
+#if defined(A_VERSION_IPP)
+#undef A_INTERN
+#define A_INTERN
+#endif /* A_VERSION_IPP */
+namespace a
+{
+
+/*!
+ @brief algorithm library version string
+*/
+#if !defined A_HAVE_INLINE || defined(A_VERSION_IPP)
+A_PUBLIC cstr_t version(void);
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_VERSION_IPP)
+A_INTERN cstr_t version(void)
+{
+    return A_VERSION;
+}
+#endif /* A_HAVE_INLINE */
+
+/*!
+ @brief algorithm library version major
+*/
+#if !defined A_HAVE_INLINE || defined(A_VERSION_IPP)
+A_PUBLIC uint_t version_major(void);
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_VERSION_IPP)
+A_INTERN uint_t version_major(void)
+{
+    return VERSION_MAJOR;
+}
+#endif /* A_HAVE_INLINE */
+/*!
+ @brief algorithm library version minor
+*/
+#if !defined A_HAVE_INLINE || defined(A_VERSION_IPP)
+A_PUBLIC uint_t version_minor(void);
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_VERSION_IPP)
+A_INTERN uint_t version_minor(void)
+{
+    return VERSION_MINOR;
+}
+#endif /* A_HAVE_INLINE */
+/*!
+ @brief algorithm library version patch
+*/
+#if !defined A_HAVE_INLINE || defined(A_VERSION_IPP)
+A_PUBLIC uint_t version_patch(void);
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(A_VERSION_IPP)
+A_INTERN uint_t version_patch(void)
+{
+    return VERSION_PATCH;
+}
+#endif /* A_HAVE_INLINE */
+
+} /* namespace a */
+#if defined(A_VERSION_IPP)
+#undef A_INTERN
+#define A_INTERN static A_INLINE
+#endif /* A_VERSION_IPP */
 #endif /* __cplusplus */
 
 /*! @} A_VERSION */

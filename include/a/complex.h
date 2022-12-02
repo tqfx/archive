@@ -63,6 +63,10 @@ typedef struct a_complex_s
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+#if defined(A_COMPLEX_I)
+#undef A_INTERN
+#define A_INTERN A_INLINE
+#endif /* A_COMPLEX_I */
 
 /*!
  @brief constructs a complex number from polar form
@@ -411,6 +415,10 @@ A_PUBLIC a_complex_s a_complex_acsch(a_complex_s z);
 */
 A_PUBLIC a_complex_s a_complex_acoth(a_complex_s z);
 
+#if defined(A_COMPLEX_I)
+#undef A_INTERN
+#define A_INTERN static A_INLINE
+#endif /* A_COMPLEX_I */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
