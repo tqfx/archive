@@ -156,7 +156,6 @@ get_property(prop TARGET a PROPERTY INTERFACE_COMPILE_DEFINITIONS)
 set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
 get_property(prop TARGET a PROPERTY INTERFACE_LINK_LIBRARIES)
 set(PROJECT_LIBS "-l$<JOIN:a;${prop}, -l>")
-set(PROJECT_LICENSE MPL-2.0)
 unset(SOURCES)
 unset(prop)
 
