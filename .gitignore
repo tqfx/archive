@@ -76,6 +76,10 @@ build[_-]*
 # Rust
 Cargo.lock
 
+# Zig
+zig-out
+zig-cache
+
 # pipenv
 Pipfile.lock
 
