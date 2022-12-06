@@ -110,30 +110,27 @@ else()
   file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 endif()
 
+set(A_LIBRARIES a)
 add_library(a ${SOURCES})
 target_library_setting(a)
-set(A_LIBRARIES a)
 
 if(TARGET_SUPPORTS_SHARED_LIBS)
   if(NOT BUILD_SHARED_LIBS)
-    set(A_SHARED_LIB liba)
-    set(A_STATIC_LIB a)
     set(module SHARED)
+    set(shared liba)
   else()
-    set(A_STATIC_LIB liba)
-    set(A_SHARED_LIB a)
     set(module STATIC)
+    set(shared a)
   endif()
 
   list(APPEND A_LIBRARIES liba)
   add_library(liba ${module} $<TARGET_OBJECTS:a>)
-  set_target_properties(${A_LIBRARIES} PROPERTIES OUTPUT_NAME a)
-  target_compile_definitions(${A_SHARED_LIB} INTERFACE A_IMPORTS)
+  set_target_properties(liba PROPERTIES OUTPUT_NAME a)
+  target_compile_definitions(${shared} INTERFACE A_IMPORTS)
   target_library_setting(liba)
-  unset(module)
 
   if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
-    set_target_properties(${A_SHARED_LIB}
+    set_target_properties(${shared}
       PROPERTIES OUTPUT_NAME liba
     )
   endif()
@@ -146,14 +143,33 @@ if(LIBA_SANITIZE)
   set_target_properties(asan
     PROPERTIES OUTPUT_NAME a.san
   )
+
+  if(TARGET_SUPPORTS_SHARED_LIBS)
+    if(NOT BUILD_SHARED_LIBS)
+      set(shared libasan)
+      set(module SHARED)
+    else()
+      set(module STATIC)
+      set(shared asan)
+    endif()
+
+    add_library(libasan ${module} $<TARGET_OBJECTS:asan>)
+    set_target_properties(libasan PROPERTIES OUTPUT_NAME a.san)
+    target_compile_definitions(${shared} INTERFACE A_IMPORTS)
+    target_library_setting(libasan)
+
+    if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
+      set_target_properties(${shared}
+        PROPERTIES OUTPUT_NAME liba.san
+      )
+    endif()
+  endif()
 endif()
 
 get_property(prop TARGET a PROPERTY INTERFACE_COMPILE_DEFINITIONS)
 set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
 get_property(prop TARGET a PROPERTY INTERFACE_LINK_LIBRARIES)
 set(PROJECT_LIBS "-l$<JOIN:a;${prop}, -l>")
-unset(SOURCES)
-unset(prop)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/a.config.h DESTINATION include)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
@@ -237,7 +253,6 @@ if(CLANG_FORMAT)
     ${CLANG_FORMAT} --style=file -i ${SOURCES} --verbose
     COMMENT "Formatting code using ClangFormat"
   )
-  unset(SOURCES)
 endif()
 
 if(PYTHONINTERP_FOUND)
@@ -255,8 +270,6 @@ if(PYTHONINTERP_FOUND)
     ${PYTHON_EXECUTABLE} -m black -S ${CMAKE_CURRENT_LIST_DIR}
     COMMENT "Formatting code using black"
   )
-  unset(BYPRODUCT)
-  unset(SOURCES)
 endif()
 
 if(DOXYGEN_FOUND AND CMAKE_VERSION VERSION_GREATER 3.9)

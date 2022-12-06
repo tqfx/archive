@@ -23,6 +23,6 @@ if(UNIX)
   find_program(TARGET_SYSTEM_EMULATOR wine64)
 
   if(NOT TARGET_SYSTEM_EMULATOR)
-    unset(TARGET_SYSTEM_EMULATOR)
+    unset(TARGET_SYSTEM_EMULATOR CACHE)
   endif()
 endif()

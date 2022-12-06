@@ -42,7 +42,6 @@ if(
     CMAKE_CXX_COMPILER_ID MATCHES "GNU"
   )
     sanitize_link(-static-libubsan)
-    sanitize_link(-static-libasan)
   endif()
 
   if(

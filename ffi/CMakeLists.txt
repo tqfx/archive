@@ -16,14 +16,14 @@ if(LIBA_LUA OR WITH_LUA)
     set(LUA_EXECUTABLE ${TARGET_SYSTEM_EMULATOR} ${LUA_EXECUTABLE})
 
     if(LIBA_SANITIZE)
-      target_link_sanitize(PUBLIC ${LUA_LIBRARIES} lualib)
-      target_compile_sanitize(PUBLIC ${LUA_LIBRARIES})
+      target_link_sanitize(PUBLIC liblua lualib)
+      target_compile_sanitize(PUBLIC liblua)
       set(A_LIBRARY asan)
     endif()
   endif()
 
   add_subdirectory(lua)
-  unset(A_LIBRARY)
+  set(A_LIBRARY a)
 endif()
 
 option(LIBA_JAVADOC "Enable or disable ffi javadoc" 0)

@@ -21,6 +21,7 @@ target_include_directories(a-lua PRIVATE $<TARGET_PROPERTY:a,INCLUDE_DIRECTORIES
 target_include_directories(a-lua PRIVATE ${LUA_INCLUDE_DIR})
 target_link_libraries(a-lua PRIVATE ${LUA_LIBRARIES})
 target_library_options(a-lua)
+target_compile_sanitize(a-lua)
 
 install(TARGETS a-lua
   EXPORT ${PROJECT_NAME}-targets
