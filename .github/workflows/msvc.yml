@@ -25,13 +25,13 @@ jobs:
         run: |
           Set-PSDebug -Trace 1
           cmake -S . -B build -A ${{ matrix.arch }} `
-            -DENABLE_WARNINGS=ON `
-            -DENABLE_SANITIZE=1 `
-            -DENABLE_PYTHON=ON `
-            -DENABLE_VCPKG=ON `
-            -DENABLE_JAVA=ON `
-            -DENABLE_LUA=ON `
-            -DBUILD_TESTING=ON
+            -DLIBA_WARNINGS=1 `
+            -DLIBA_SANITIZE=1 `
+            -DLIBA_PYTHON=1 `
+            -DLIBA_VCPKG=1 `
+            -DLIBA_JAVA=1 `
+            -DLIBA_LUA=1 `
+            -DBUILD_TESTING=1
           cmake --build build --target a-py-setup -- -noLogo
           cmake --build build --config ${{ matrix.type }} -- -noLogo
       - name: Run vcpkg

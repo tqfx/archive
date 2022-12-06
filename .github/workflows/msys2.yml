@@ -47,12 +47,12 @@ jobs:
         run: |
           set -x
           cmake -S . -B build -G "MinGW Makefiles" -DPython_ROOT_DIR=D:/msys64/${{ matrix.sys }} \
-            -DENABLE_WARNINGS=1 \
-            -DENABLE_PYTHON=ON \
-            -DENABLE_VCPKG=ON \
-            -DENABLE_JAVA=ON \
-            -DENABLE_LUA=ON \
-            -DBUILD_TESTING=ON
+            -DLIBA_WARNINGS=1 \
+            -DLIBA_PYTHON=1 \
+            -DLIBA_VCPKG=1 \
+            -DLIBA_JAVA=1 \
+            -DLIBA_LUA=1 \
+            -DBUILD_TESTING=1
           cmake --build build
       - name: Run vcpkg
         shell: msys2 {0}

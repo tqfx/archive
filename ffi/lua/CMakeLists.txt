@@ -43,7 +43,7 @@ function(create_ldoc target)
   )
 endfunction()
 
-if(ENABLE_LDOC AND LDOC_EXECUTABLE)
+if(LIBA_LDOC AND LDOC_EXECUTABLE)
   create_ldoc(a-ldoc -f markdown ${CMAKE_CURRENT_SOURCE_DIR}/src)
 endif()
 

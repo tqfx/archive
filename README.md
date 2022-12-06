@@ -46,7 +46,7 @@ cmake --install build
 ### vcpkg
 
 ```bash
-cmake -S . -B build -DENABLE_VCPKG=ON
+cmake -S . -B build -DLIBA_VCPKG=1
 ```
 
 ```bash

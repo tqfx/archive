@@ -15,7 +15,7 @@ add_jar(a-jar
 )
 install_jar(a-jar ${CMAKE_INSTALL_LIBDIR}/java)
 
-if(ENABLE_JAVADOC)
+if(LIBA_JAVADOC)
   create_javadoc(${PROJECT_NAME} FILES ${SOURCES} INSTALLPATH ${CMAKE_INSTALL_DATADIR}/javadoc)
 endif()
 

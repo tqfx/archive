@@ -39,9 +39,9 @@ class aConan(ConanFile):
         cmake = CMake(self)
         cmake.definitions["BUILD_TESTING"] = False
         if self.settings.build_type != "Debug":  # type: ignore
-            cmake.definitions["ENABLE_IPO"] = self.options.ipo  # type: ignore
+            cmake.definitions["LIBA_IPO"] = self.options.ipo  # type: ignore
         else:
-            cmake.definitions["ENABLE_IPO"] = False
+            cmake.definitions["LIBA_IPO"] = False
         cmake.configure()
         cmake.build()
 

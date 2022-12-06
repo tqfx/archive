@@ -21,7 +21,7 @@ jobs:
       - name: Run doxygen
         run: |
           set -x
-          cmake -S . -B build -DENABLE_DOXYGEN=1
+          cmake -S . -B build -DLIBA_DOXYGEN=1
           cmake --build build --target a-doxygen
       - uses: peaceiris/actions-gh-pages@v3
         with:

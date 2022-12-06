@@ -5,12 +5,12 @@ vcpkg_from_git(OUT_SOURCE_PATH SOURCE_PATH
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS OPTIONS_RELEASE
-  FEATURES ipo ENABLE_IPO
+  FEATURES ipo LIBA_IPO
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
   FEATURES
-    pkgconfig ENABLE_PKGCONFIG
+    pkgconfig LIBA_PKGCONFIG
 )
 
 vcpkg_configure_cmake(SOURCE_PATH ${SOURCE_PATH}
@@ -22,7 +22,7 @@ vcpkg_install_cmake()
 
 vcpkg_copy_pdbs()
 
-if(ENABLE_PKGCONFIG)
+if(LIBA_PKGCONFIG)
   vcpkg_fixup_pkgconfig()
 endif()
 

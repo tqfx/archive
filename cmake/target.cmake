@@ -1,3 +1,6 @@
+option(LIBA_CPPCHECK "Enable or disable cppcheck" 0)
+option(LIBA_CLANG_TIDY "Enable or disable clang-tidy" 0)
+option(LIBA_IYWU "Enable or disable include-what-you-use" 0)
 find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
 find_program(CLANG_FORMAT clang-format)
 find_program(CLANG_TIDY clang-tidy)
@@ -13,20 +16,20 @@ mark_as_advanced(
 
 function(target_library_option_ target scope)
   list(FILTER ENABLED_LANGUAGES INCLUDE REGEX "^C|CXX")
-  set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${ENABLE_IPO})
+  set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LIBA_IPO})
 
   foreach(lang ${ENABLED_LANGUAGES})
     set_target_properties(${target} PROPERTIES ${lang}_VISIBILITY_PRESET hidden)
 
-    if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
+    if(LIBA_IYWU AND INCLUDE_WHAT_YOU_USE)
       set_target_properties(${target} PROPERTIES ${lang}_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
     endif()
 
-    if(ENABLE_CLANG_TIDY AND CLANG_TIDY)
+    if(LIBA_CLANG_TIDY AND CLANG_TIDY)
       set_target_properties(${target} PROPERTIES ${lang}_CLANG_TIDY "${CLANG_TIDY};--fix")
     endif()
 
-    if(ENABLE_CPPCHECK AND CPPCHECK)
+    if(LIBA_CPPCHECK AND CPPCHECK)
       set_target_properties(${target} PROPERTIES ${lang}_CPPCHECK "${CPPCHECK};--enable=warning,performance")
     endif()
 
@@ -59,23 +62,23 @@ endfunction()
 
 function(target_executable_option_ target scope)
   list(FILTER ENABLED_LANGUAGES INCLUDE REGEX "^C|CXX")
-  set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${ENABLE_IPO})
+  set_target_properties(${target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LIBA_IPO})
 
   foreach(lang ${ENABLED_LANGUAGES})
-    if(ENABLE_IYWU AND INCLUDE_WHAT_YOU_USE)
+    if(LIBA_IYWU AND INCLUDE_WHAT_YOU_USE)
       set_target_properties(${target} PROPERTIES ${lang}_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
     endif()
 
-    if(ENABLE_CLANG_TIDY AND CLANG_TIDY)
+    if(LIBA_CLANG_TIDY AND CLANG_TIDY)
       set_target_properties(${target} PROPERTIES ${lang}_CLANG_TIDY "${CLANG_TIDY};--fix")
     endif()
 
-    if(ENABLE_CPPCHECK AND CPPCHECK)
+    if(LIBA_CPPCHECK AND CPPCHECK)
       set_target_properties(${target} PROPERTIES ${lang}_CPPCHECK "${CPPCHECK};--enable=warning,performance")
     endif()
   endforeach()
 
-  if(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND MINGW)
+  if((CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU") AND MINGW)
     # https://fedoraproject.org/wiki/MinGW/Configure_wine
     target_link_options(${target} ${scope} -static-libgcc
       $<$<COMPILE_LANGUAGE:CXX>:-static-libstdc++>

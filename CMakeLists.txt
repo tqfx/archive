@@ -12,19 +12,17 @@ if(POLICY CMP0091) # 3.15
   cmake_policy(SET CMP0091 NEW)
 endif() # CMAKE_MSVC_RUNTIME_LIBRARY
 
-option(ENABLE_CXX "Enable C++ language" ON)
+option(WITH_CXX "Enable or disable C++" 1)
 
-if(VCPKG_TARGET_TRIPLET MATCHES "x86-mingw(.*)")
-  include(cmake/mingw32.cmake)
-elseif(VCPKG_TARGET_TRIPLET MATCHES "x64-mingw(.*)")
-  include(cmake/mingw64.cmake)
+if(NOT CXX IN_LIST LANGUAGES AND WITH_CXX)
+  list(PREPEND LANGUAGES CXX)
 endif()
 
-if(ENABLE_CXX)
-  set(LANGUAGE CXX)
+if(NOT C IN_LIST LANGUAGES)
+  list(PREPEND LANGUAGES C)
 endif()
 
-project(liba VERSION 0.1.1 LANGUAGES C ${LANGUAGE} # 3.12
+project(liba VERSION 0.1.1 LANGUAGES ${LANGUAGES} # 3.12
   DESCRIPTION "An algorithm library based on C/C++ language"
   HOMEPAGE_URL "https://github.com/tqfx/liba.git"
 )
@@ -35,56 +33,54 @@ include(cmake/target.cmake)
 include(cmake/package.cmake)
 include(cmake/standard.cmake)
 
-option(ENABLE_VCPKG "Enable vcpkg" OFF)
-option(ENABLE_PYTHON "Enable python" OFF)
-option(ENABLE_DOXYGEN "Enable doxygen" OFF)
-option(ENABLE_WARNINGS "Enable warnings" OFF)
-option(ENABLE_SANITIZE "Enable sanitize" OFF)
-option(ENABLE_CPPCHECK "Enable cppcheck" OFF)
-option(ENABLE_PKGCONFIG "Enable pkgconfig" OFF)
-option(ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
-option(ENABLE_IYWU "Enable include-what-you-use" OFF)
-option(ENABLE_PIC "Enable position independent code" OFF)
-option(ENABLE_IPO "Enable interprocedural optimization" OFF)
-
 if(TARGET_SUPPORTS_SHARED_LIBS AND PROJECT_IS_TOP_LEVEL)
   include(CTest)
 endif()
 
-if(ENABLE_WARNINGS)
+option(LIBA_WARNINGS "Enable or disable warnings" 0)
+
+if(LIBA_WARNINGS)
   include(cmake/warnings.cmake)
 endif()
 
-if(ENABLE_SANITIZE)
+option(LIBA_SANITIZE "Enable or disable sanitize" 0)
+
+if(LIBA_SANITIZE)
   include(cmake/sanitize.cmake)
 endif()
 
 include(cmake/check.cmake)
 include(cmake/git.cmake)
 
+option(LIBA_PYTHON "Enable or disable python" 0)
+
 # https://cmake.org/cmake/help/latest/module/FindPython.html
-if(ENABLE_PYTHON AND CMAKE_VERSION VERSION_GREATER 3.12)
+if(LIBA_PYTHON AND CMAKE_VERSION VERSION_GREATER 3.12)
   find_package(Python COMPONENTS Interpreter)
   set(PYTHONINTERP_FOUND ${Python_Interpreter_FOUND})
   set(PYTHON_EXECUTABLE ${Python_EXECUTABLE})
-elseif(ENABLE_PYTHON) # cmake < 3.12
+elseif(LIBA_PYTHON) # cmake < 3.12
   find_package(PythonInterp)
 endif()
 
+option(LIBA_DOXYGEN "Enable or disable doxygen" 0)
+
 # https://cmake.org/cmake/help/latest/module/FindDoxygen.html
-if(ENABLE_DOXYGEN AND CMAKE_VERSION VERSION_GREATER 3.9)
+if(LIBA_DOXYGEN AND CMAKE_VERSION VERSION_GREATER 3.9)
   find_package(Doxygen OPTIONAL_COMPONENTS dot mscgen dia)
-elseif(ENABLE_DOXYGEN) # cmake < 3.9
+elseif(LIBA_DOXYGEN) # cmake < 3.9
   find_package(Doxygen)
 endif()
 
+option(LIBA_IPO "Enable or disable interprocedural optimization" 0)
+
 # https://cmake.org/cmake/help/latest/module/CheckIPOSupported.html
-if(ENABLE_IPO AND CMAKE_VERSION VERSION_GREATER 3.9)
+if(LIBA_IPO AND CMAKE_VERSION VERSION_GREATER 3.9)
   cmake_policy(SET CMP0069 NEW)
   include(CheckIPOSupported)
-  check_ipo_supported(RESULT ENABLE_IPO)
-elseif(ENABLE_IPO) # cmake < 3.9
-  set(ENABLE_IPO NO)
+  check_ipo_supported(RESULT LIBA_IPO)
+elseif(LIBA_IPO) # cmake < 3.9
+  set(LIBA_IPO 0)
 endif()
 
 function(target_library_setting target)
@@ -143,7 +139,7 @@ if(TARGET_SUPPORTS_SHARED_LIBS)
   endif()
 endif()
 
-if(ENABLE_SANITIZE)
+if(LIBA_SANITIZE)
   add_library(asan ${SOURCES})
   target_library_setting(asan)
   target_compile_sanitize(asan)
@@ -189,7 +185,9 @@ configure_package_config_file(
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
-if(ENABLE_PKGCONFIG)
+option(LIBA_PKGCONFIG "Enable or disable pkgconfig" 0)
+
+if(LIBA_PKGCONFIG)
   file(GENERATE
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
     INPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
@@ -205,7 +203,9 @@ if(ENABLE_PKGCONFIG)
   )
 endif()
 
-if(ENABLE_VCPKG AND GIT_COMMIT)
+option(LIBA_VCPKG "Enable or disable vcpkg" 0)
+
+if(LIBA_VCPKG AND GIT_COMMIT)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg DESTINATION ${CMAKE_INSTALL_DATADIR})
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/vcpkg/portfile.cmake

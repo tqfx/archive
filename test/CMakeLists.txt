@@ -10,10 +10,13 @@ get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 string_append(CMAKE_CXX_FLAGS ${CXXFLAGS_WARNINGS} ${CXXFLAGS_SANITIZE})
 string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
 string_append(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_SANITIZE})
-set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_PIC})
+
+option(LIBA_PIC "Enable or disable position independent code" 0)
 
 if(DEFINED ENV{ANDROID_ROOT})
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+  set(CMAKE_POSITION_INDEPENDENT_CODE 1)
+else()
+  set(CMAKE_POSITION_INDEPENDENT_CODE ${LIBA_PIC})
 endif()
 
 # https://cmake.org/cmake/help/latest/module/CheckPIESupported.html
@@ -25,7 +28,7 @@ endif()
 
 set(TARGET_PREFIX test-)
 
-if(ENABLE_SANITIZE)
+if(LIBA_SANITIZE)
   set(A_LIBRARY asan)
 else()
   set(A_LIBRARY a)

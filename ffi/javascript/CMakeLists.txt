@@ -12,8 +12,8 @@ if(${emxx} EQUAL -1)
 endif()
 
 set(CMAKE_EXECUTABLE_SUFFIX .js)
-set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_PIC})
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ENABLE_IPO})
+set(CMAKE_POSITION_INDEPENDENT_CODE ${LIBA_PIC})
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${LIBA_IPO})
 list(FIND CMAKE_C_COMPILER_PREDEFINES_COMMAND -m64 emcc)
 list(FIND CMAKE_CXX_COMPILER_PREDEFINES_COMMAND -m64 emxx)
 
@@ -29,7 +29,7 @@ target_include_directories(a-js PRIVATE $<TARGET_PROPERTY:a,INCLUDE_DIRECTORIES>
 set_target_properties(a-js PROPERTIES OUTPUT_NAME ${PROJECT_NAME} LINK_FLAGS ${EMFLAGS})
 target_link_libraries(a-js PRIVATE embind)
 
-if(ENABLE_WARNINGS)
+if(LIBA_WARNINGS)
   target_compile_options(a-js PRIVATE -Weverything -Wno-documentation
     -Wno-documentation-unknown-command -Wno-used-but-marked-unused
     $<$<COMPILE_LANGUAGE:C>:-Wno-declaration-after-statement>

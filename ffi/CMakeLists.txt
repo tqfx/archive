@@ -1,9 +1,10 @@
-option(ENABLE_LDOC "Enable ffi lua documentation" OFF)
-option(ENABLE_LUA "Enable ffi lua" OFF)
-option(WITH_LUA "Build with lua" OFF)
-set(A_LIBRARY a)
+option(LIBA_LDOC "Enable or disable ffi ldoc" 0)
+option(LIBA_LUA "Enable or disable ffi lua" 0)
+option(WITH_LUA "Build with lua" 0)
 
-if(ENABLE_LUA OR WITH_LUA)
+if(LIBA_LUA OR WITH_LUA)
+  set(A_LIBRARY a)
+
   if(NOT WITH_LUA)
     find_package(Lua)
   endif()
@@ -14,7 +15,7 @@ if(ENABLE_LUA OR WITH_LUA)
     add_subdirectory(lua/lua)
     set(LUA_EXECUTABLE ${TARGET_SYSTEM_EMULATOR} ${LUA_EXECUTABLE})
 
-    if(ENABLE_SANITIZE)
+    if(LIBA_SANITIZE)
       target_link_sanitize(PUBLIC ${LUA_LIBRARIES} lualib)
       target_compile_sanitize(PUBLIC ${LUA_LIBRARIES})
       set(A_LIBRARY asan)
@@ -25,10 +26,10 @@ if(ENABLE_LUA OR WITH_LUA)
   unset(A_LIBRARY)
 endif()
 
-option(ENABLE_JAVA "Enable ffi java" OFF)
-option(ENABLE_JAVADOC "Enable ffi java documentation" OFF)
+option(LIBA_JAVADOC "Enable or disable ffi javadoc" 0)
+option(LIBA_JAVA "Enable or disable ffi java" 0)
 
-if(ENABLE_JAVA)
+if(LIBA_JAVA)
   find_package(Java)
   find_package(JNI)
 endif()
@@ -41,9 +42,9 @@ if(PYTHONINTERP_FOUND)
   add_subdirectory(python)
 endif()
 
-option(ENABLE_JAVASCRIPT "Enable ffi javascript" OFF)
+option(LIBA_JAVASCRIPT "Enable or disable ffi javascript" 0)
 
-if(ENABLE_JAVASCRIPT)
+if(LIBA_JAVASCRIPT)
   find_program(EMCC emcc)
   find_program(EMCXX em++)
   mark_as_advanced(EMCC EMCXX)
@@ -55,9 +56,9 @@ if(ENABLE_JAVASCRIPT)
   endif()
 endif()
 
-option(ENABLE_SWIG "Enable ffi swig" OFF)
+option(LIBA_SWIG "Enable or disable ffi swig" 0)
 
-if(ENABLE_SWIG)
+if(LIBA_SWIG)
   # https://cmake.org/cmake/help/latest/module/UseSWIG.html
   if(POLICY CMP0078) # 3.13
     cmake_policy(SET CMP0078 NEW)

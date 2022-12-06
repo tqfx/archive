@@ -31,13 +31,13 @@ jobs:
             pkg install -y rust
           run: |
             cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.type }} \
-              -DENABLE_WARNINGS=ON \
-              -DENABLE_SANITIZE=1 \
-              -DENABLE_PYTHON=ON \
-              -DENABLE_VCPKG=ON \
-              -DENABLE_JAVA=ON \
-              -DENABLE_LUA=ON \
-              -DBUILD_TESTING=ON
+              -DLIBA_WARNINGS=1 \
+              -DLIBA_SANITIZE=1 \
+              -DLIBA_PYTHON=1 \
+              -DLIBA_VCPKG=1 \
+              -DLIBA_JAVA=1 \
+              -DLIBA_LUA=1 \
+              -DBUILD_TESTING=1
             cmake --build build --target a-py-setup
             cmake --build build --config ${{ matrix.type }}
             cmake --build build --target test
