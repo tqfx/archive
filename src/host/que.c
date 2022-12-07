@@ -15,7 +15,7 @@
 
 A_INTERN a_void_t func(a_vptr_t vptr) { (void)(vptr); }
 
-A_STATIC a_que_node_s *a_que_node_alloc(a_que_s *ctx)
+static a_que_node_s *a_que_node_alloc(a_que_s *ctx)
 {
     a_que_node_s *node = A_NULL;
     if (ctx->_cur)
@@ -44,7 +44,7 @@ A_STATIC a_que_node_s *a_que_node_alloc(a_que_s *ctx)
     return node;
 }
 
-A_STATIC int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
+static int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
 {
     if (obj == A_NULL)
     {
@@ -66,7 +66,7 @@ A_STATIC int a_que_node_free(a_que_s *ctx, a_que_node_s *obj)
     return A_SUCCESS;
 }
 
-A_STATIC a_void_t a_que_drop_(a_que_s *ctx)
+static a_void_t a_que_drop_(a_que_s *ctx)
 {
     while (a_list_used(ctx->_head))
     {

@@ -28,7 +28,7 @@ A_INTERN a_vptr_t a_vec_dec_(a_vec_s *ctx)
     return a_byte_p(ctx->_ptr) + ctx->_siz * --ctx->_num;
 }
 
-A_STATIC a_void_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vptr_t))
+static a_void_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vptr_t))
 {
     if (dtor)
     {
@@ -40,7 +40,7 @@ A_STATIC a_void_t a_vec_drop_(a_vec_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vpt
     ctx->_num = bot;
 }
 
-A_STATIC a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
+static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
 {
     if (ctx->_mem <= num)
     {

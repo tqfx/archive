@@ -85,7 +85,7 @@ extern "C" {
 #endif /* LIBA_PID_C */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_real_t a_pid_dt(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_dt(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_dt(const a_pid_s *ctx)
@@ -94,10 +94,10 @@ A_INTERN a_real_t a_pid_dt(const a_pid_s *ctx)
 }
 #endif /* A_HAVE_INLINE */
 
-A_PUBLIC a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt);
+A_EXTERN a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt);
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_real_t a_pid_kp(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_kp(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_kp(const a_pid_s *ctx)
@@ -107,7 +107,7 @@ A_INTERN a_real_t a_pid_kp(const a_pid_s *ctx)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp);
+A_EXTERN a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp)
@@ -117,7 +117,7 @@ A_INTERN a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_real_t a_pid_ki(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_ki(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_ki(const a_pid_s *ctx)
@@ -127,7 +127,7 @@ A_INTERN a_real_t a_pid_ki(const a_pid_s *ctx)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki);
+A_EXTERN a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki)
@@ -137,7 +137,7 @@ A_INTERN a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_real_t a_pid_kd(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_kd(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_kd(const a_pid_s *ctx)
@@ -147,7 +147,7 @@ A_INTERN a_real_t a_pid_kd(const a_pid_s *ctx)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd);
+A_EXTERN a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd)
@@ -157,7 +157,7 @@ A_INTERN a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_uint_t a_pid_num(const a_pid_s *ctx);
+A_EXTERN a_uint_t a_pid_num(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_uint_t a_pid_num(const a_pid_s *ctx)
@@ -167,7 +167,7 @@ A_INTERN a_uint_t a_pid_num(const a_pid_s *ctx)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
+A_EXTERN a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num)
@@ -178,7 +178,7 @@ A_INTERN a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_uint_t a_pid_reg(const a_pid_s *ctx);
+A_EXTERN a_uint_t a_pid_reg(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_uint_t a_pid_reg(const a_pid_s *ctx)
@@ -188,7 +188,7 @@ A_INTERN a_uint_t a_pid_reg(const a_pid_s *ctx)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
+A_EXTERN a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
@@ -199,7 +199,7 @@ A_INTERN a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_uint_t a_pid_mode(const a_pid_s *mode);
+A_EXTERN a_uint_t a_pid_mode(const a_pid_s *mode);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_uint_t a_pid_mode(const a_pid_s *ctx)
@@ -209,7 +209,7 @@ A_INTERN a_uint_t a_pid_mode(const a_pid_s *ctx)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_PUBLIC a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode);
+A_EXTERN a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode)
@@ -223,20 +223,20 @@ A_INTERN a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode)
  @brief turn off PID controller
  @param[in,out] ctx points to an instance of PID controller
 */
-A_PUBLIC a_pid_s *a_pid_off(a_pid_s *ctx);
+A_EXTERN a_pid_s *a_pid_off(a_pid_s *ctx);
 
 /*!
  @brief incremental PID controller
  @param[in,out] ctx points to an instance of PID controller
 */
-A_PUBLIC a_pid_s *a_pid_inc(a_pid_s *ctx);
+A_EXTERN a_pid_s *a_pid_inc(a_pid_s *ctx);
 
 /*!
  @brief positional PID controller
  @param[in,out] ctx points to an instance of PID controller
  @param[in] max maximum intergral output
 */
-A_PUBLIC a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max);
+A_EXTERN a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max);
 
 /*!
  @brief set proportional integral derivative constant for PID controller
@@ -245,7 +245,7 @@ A_PUBLIC a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max);
  @param[in] ki integral constant
  @param[in] kd derivative constant
 */
-A_PUBLIC a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd);
+A_EXTERN a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd);
 
 /*!
  @brief set buffer for PID controller
@@ -257,7 +257,7 @@ A_PUBLIC a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd
  @param[in] ec points to error change buffer
  @param[in] e points to error input buffer
 */
-A_PUBLIC a_pid_s *a_pid_setp(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
+A_EXTERN a_pid_s *a_pid_setp(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e);
 
 /*!
  @brief initialize function for PID controller, default is turn off
@@ -266,7 +266,7 @@ A_PUBLIC a_pid_s *a_pid_setp(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t
  @param[in] min minimum output
  @param[in] max maximum output
 */
-A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t max);
+A_EXTERN a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t max);
 
 /*!
  @brief calculate function for PID controller
@@ -276,7 +276,7 @@ A_PUBLIC a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t m
  @return output
   @retval set when PID controller is off
 */
-A_PUBLIC a_real_t a_pid_outv(a_pid_s *ctx, a_real_t set, a_real_t fdb);
+A_EXTERN a_real_t a_pid_outv(a_pid_s *ctx, a_real_t set, a_real_t fdb);
 
 /*!
  @brief calculate function for PID controller
@@ -286,19 +286,19 @@ A_PUBLIC a_real_t a_pid_outv(a_pid_s *ctx, a_real_t set, a_real_t fdb);
  @return points to output
   @retval set when PID controller is off
 */
-A_PUBLIC a_real_t *a_pid_outp(a_pid_s *ctx, a_real_t *set, a_real_t *fdb);
+A_EXTERN a_real_t *a_pid_outp(a_pid_s *ctx, a_real_t *set, a_real_t *fdb);
 
 /*!
  @brief terminate function for PID controller
  @param[in,out] ctx points to an instance of PID controller
 */
-A_PUBLIC a_pid_s *a_pid_exit(a_pid_s *ctx);
+A_EXTERN a_pid_s *a_pid_exit(a_pid_s *ctx);
 
 /*!
  @brief zero function for PID controller
  @param[in,out] ctx points to an instance of PID controller
 */
-A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
+A_EXTERN a_pid_s *a_pid_zero(a_pid_s *ctx);
 
 #if defined(LIBA_PID_C)
 #undef A_INTERN

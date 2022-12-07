@@ -39,7 +39,7 @@ extern "C" {
  @param[in] num numerator
  @param[in] u input buffer
 */
-A_PUBLIC a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_real_t *u);
+A_EXTERN a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_real_t *u);
 
 /*!
  @brief set denominator for transfer function
@@ -48,7 +48,7 @@ A_PUBLIC a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_r
  @param[in] den denominator
  @param[in] v output buffer
 */
-A_PUBLIC a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_real_t *v);
+A_EXTERN a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_real_t *v);
 
 /*!
  @brief initialize function for transfer function
@@ -60,7 +60,7 @@ A_PUBLIC a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_r
  @param[in] den denominator
  @param[in] v output buffer
 */
-A_PUBLIC a_tf_s *a_tf_init(a_tf_s *ctx,
+A_EXTERN a_tf_s *a_tf_init(a_tf_s *ctx,
                            a_uint_t m, const a_real_t *num, a_real_t *u,
                            a_uint_t n, const a_real_t *den, a_real_t *v);
 
@@ -70,19 +70,19 @@ A_PUBLIC a_tf_s *a_tf_init(a_tf_s *ctx,
  @param[in] x controller output
  @return feedback
 */
-A_PUBLIC a_real_t a_tf_proc(a_tf_s *ctx, a_real_t x);
+A_EXTERN a_real_t a_tf_proc(a_tf_s *ctx, a_real_t x);
 
 /*!
  @brief terminate function for transfer function
  @param[in,out] ctx points to an instance of transfer function
 */
-A_PUBLIC a_tf_s *a_tf_exit(a_tf_s *ctx);
+A_EXTERN a_tf_s *a_tf_exit(a_tf_s *ctx);
 
 /*!
  @brief zero function for transfer function
  @param[in,out] ctx points to an instance of transfer function
 */
-A_PUBLIC a_tf_s *a_tf_zero(a_tf_s *ctx);
+A_EXTERN a_tf_s *a_tf_zero(a_tf_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

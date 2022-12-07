@@ -1,7 +1,7 @@
 #include "a/tf.h"
 #include <string.h>
 
-A_STATIC void a_tf_roll(a_real_t *p, a_uint_t n, a_real_t x)
+static void a_tf_roll(a_real_t *p, a_uint_t n, a_real_t x)
 {
     for (a_uint_t i = --n; i; n = i)
     {

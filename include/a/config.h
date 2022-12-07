@@ -188,7 +188,6 @@
 #if !defined A_INTERN
 #define A_INTERN static A_INLINE
 #endif /* A_INTERN */
-#define A_STATIC static
 
 /* attribute visibility */
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -205,13 +204,12 @@
 #define A_HIDDEN
 #endif /* visibility */
 #if defined(A_EXPORTS)
-#define A_PUBLIC extern A_EXPORT
+#define A_PUBLIC A_EXPORT
 #elif defined(A_IMPORTS)
-#define A_PUBLIC extern A_IMPORT
+#define A_PUBLIC A_IMPORT
 #else /* !A_PUBLIC */
-#define A_PUBLIC extern
+#define A_PUBLIC
 #endif /* A_PUBLIC */
-#define A_EXTERN extern
 
 #if !defined __cplusplus
 #define A_EXTERN_C
@@ -222,6 +220,9 @@
 #define A_EXTERN_C_ENTER extern "C" {
 #define A_EXTERN_C_LEAVE }
 #endif /* __cplusplus */
+#if !defined A_EXTERN
+#define A_EXTERN extern A_PUBLIC
+#endif /* A_EXTERN */
 
 #if defined(__cplusplus)
 #define A_REGISTER

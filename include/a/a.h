@@ -936,7 +936,7 @@ extern "C" {
 #endif /* LIBA_A_C */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_f32_t a_f32_from(a_u32_t x);
+A_EXTERN a_f32_t a_f32_from(a_u32_t x);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_f32_t a_f32_from(a_u32_t x)
@@ -951,7 +951,7 @@ A_INTERN a_f32_t a_f32_from(a_u32_t x)
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_u32_t a_f32_into(a_f32_t x);
+A_EXTERN a_u32_t a_f32_into(a_f32_t x);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_u32_t a_f32_into(a_f32_t x)
@@ -966,7 +966,7 @@ A_INTERN a_u32_t a_f32_into(a_f32_t x)
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_f64_t a_f64_from(a_u64_t x);
+A_EXTERN a_f64_t a_f64_from(a_u64_t x);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_f64_t a_f64_from(a_u64_t x)
@@ -981,7 +981,7 @@ A_INTERN a_f64_t a_f64_from(a_u64_t x)
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_u64_t a_f64_into(a_f64_t x);
+A_EXTERN a_u64_t a_f64_into(a_f64_t x);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_u64_t a_f64_into(a_f64_t x)
@@ -1002,10 +1002,10 @@ A_INTERN a_u64_t a_f64_into(a_f64_t x)
  @param[in,out] lhs points to memory block on the left
  @param[in,out] rhs points to memory block on the right
 */
-A_PUBLIC a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs);
 
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
@@ -1016,7 +1016,7 @@ A_INTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
@@ -1027,7 +1027,7 @@ A_INTERN a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)
@@ -1038,7 +1038,7 @@ A_INTERN a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs)
@@ -1049,7 +1049,7 @@ A_INTERN a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs)
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
-A_PUBLIC a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
@@ -1066,8 +1066,8 @@ A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
  @param[in] val initial value
  @return hash value
 */
-A_PUBLIC a_umax_t a_hash_bkdr(a_cptr_t str, a_umax_t val);
-A_PUBLIC a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val);
+A_EXTERN a_umax_t a_hash_bkdr(a_cptr_t str, a_umax_t val);
+A_EXTERN a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val);
 
 #if defined(LIBA_A_C)
 #undef A_INTERN

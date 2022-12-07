@@ -117,7 +117,7 @@ extern "C" {
  @param[in] ctor element constructor
  @param[in] dtor element destructor
 */
-A_PUBLIC a_vector_s *a_vector_new(a_size_t size,
+A_EXTERN a_vector_s *a_vector_new(a_size_t size,
                                   a_void_t (*ctor)(a_vptr_t),
                                   a_void_t (*dtor)(a_vptr_t));
 
@@ -125,7 +125,7 @@ A_PUBLIC a_vector_s *a_vector_new(a_size_t size,
  @brief deallocate a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_PUBLIC a_void_t a_vector_die(a_vector_s *ctx);
+A_EXTERN a_void_t a_vector_die(a_vector_s *ctx);
 
 /*!
  @brief constructor for vector structure
@@ -134,7 +134,7 @@ A_PUBLIC a_void_t a_vector_die(a_vector_s *ctx);
  @param[in] ctor element constructor
  @param[in] dtor element destructor
 */
-A_PUBLIC a_void_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
+A_EXTERN a_void_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
                                 a_void_t (*ctor)(a_vptr_t),
                                 a_void_t (*dtor)(a_vptr_t));
 
@@ -142,7 +142,7 @@ A_PUBLIC a_void_t a_vector_ctor(a_vector_s *ctx, a_size_t size,
  @brief destructor for vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_PUBLIC a_void_t a_vector_dtor(a_vector_s *ctx);
+A_EXTERN a_void_t a_vector_dtor(a_vector_s *ctx);
 
 /*!
  @brief initialize a pointer to vector structure by copying
@@ -154,14 +154,14 @@ A_PUBLIC a_void_t a_vector_dtor(a_vector_s *ctx);
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t));
+A_EXTERN a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t));
 
 /*!
  @brief initialize a pointer to vector structure by moving
  @param[in] ctx points to an instance of vector structure
  @param[in] obj input source pointing to an instance
 */
-A_PUBLIC a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
+A_EXTERN a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
 
 /*!
  @brief modify size of a element for a pointer to vector structure
@@ -170,7 +170,7 @@ A_PUBLIC a_vector_s *a_vector_move(a_vector_s *ctx, a_vector_s *obj);
  @param[in] ctor current element constructor
  @param[in] dtor current element destructor
 */
-A_PUBLIC a_void_t a_vector_set(a_vector_s *ctx, a_size_t size,
+A_EXTERN a_void_t a_vector_set(a_vector_s *ctx, a_size_t size,
                                a_void_t (*ctor)(a_vptr_t),
                                a_void_t (*dtor)(a_vptr_t));
 
@@ -182,13 +182,13 @@ A_PUBLIC a_void_t a_vector_set(a_vector_s *ctx, a_size_t size,
   @retval 0 success
   @retval 1 failure
 */
-A_PUBLIC a_int_t a_vector_make(a_vector_s *ctx, a_size_t num);
+A_EXTERN a_int_t a_vector_make(a_vector_s *ctx, a_size_t num);
 
 /*!
  @brief drop all the elements for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_PUBLIC a_void_t a_vector_drop(a_vector_s *ctx);
+A_EXTERN a_void_t a_vector_drop(a_vector_s *ctx);
 
 /*!
  @brief swap elements lhs and rhs for a pointer to vector structure
@@ -196,7 +196,7 @@ A_PUBLIC a_void_t a_vector_drop(a_vector_s *ctx);
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
 */
-A_PUBLIC a_void_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
+A_EXTERN a_void_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief sort all elements for a pointer to vector structure
@@ -206,7 +206,7 @@ A_PUBLIC a_void_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rh
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_void_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort foremost element for a pointer to vector structure
@@ -225,7 +225,7 @@ A_PUBLIC a_void_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, 
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_void_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort backmost element for a pointer to vector structure
@@ -244,7 +244,7 @@ A_PUBLIC a_void_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cpt
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_PUBLIC a_void_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief search the given element in this vector
@@ -257,7 +257,7 @@ A_PUBLIC a_void_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cpt
  @return matching element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_search(const a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_vptr_t a_vector_search(const a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert an element into the vector
@@ -268,7 +268,7 @@ A_PUBLIC a_vptr_t a_vector_search(const a_vector_s *ctx, a_cptr_t obj, a_int_t (
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx);
+A_EXTERN a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx);
 
 /*!
  @brief remove an element from the vector
@@ -279,7 +279,7 @@ A_PUBLIC a_vptr_t a_vector_insert(a_vector_s *ctx, a_size_t idx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx);
+A_EXTERN a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx);
 
 /*!
  @brief push an element into the vector forward
@@ -287,7 +287,7 @@ A_PUBLIC a_vptr_t a_vector_remove(a_vector_s *ctx, a_size_t idx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_push_fore(a_vector_s *ctx);
+A_EXTERN a_vptr_t a_vector_push_fore(a_vector_s *ctx);
 
 /*!
  @brief push an element into the vector backward
@@ -295,7 +295,7 @@ A_PUBLIC a_vptr_t a_vector_push_fore(a_vector_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_push_back(a_vector_s *ctx);
+A_EXTERN a_vptr_t a_vector_push_back(a_vector_s *ctx);
 
 /*!
  @brief pull an element from the vector forward
@@ -303,7 +303,7 @@ A_PUBLIC a_vptr_t a_vector_push_back(a_vector_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_pull_fore(a_vector_s *ctx);
+A_EXTERN a_vptr_t a_vector_pull_fore(a_vector_s *ctx);
 
 /*!
  @brief pull an element from the vector backward
@@ -311,7 +311,7 @@ A_PUBLIC a_vptr_t a_vector_pull_fore(a_vector_s *ctx);
  @return element pointer
   @retval 0 failure
 */
-A_PUBLIC a_vptr_t a_vector_pull_back(a_vector_s *ctx);
+A_EXTERN a_vptr_t a_vector_pull_back(a_vector_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

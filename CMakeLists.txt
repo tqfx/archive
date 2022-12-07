@@ -307,7 +307,7 @@ if(DOXYGEN_FOUND AND CMAKE_VERSION VERSION_GREATER 3.9)
   set(DOXYGEN_PREDEFINED
     "__STDC_VERSION__=201112L"
     "__cplusplus=201103L"
-    "A_STATIC:=static"
+    "A_EXTERN:="
     "A_INTERN:="
     "A_PUBLIC:="
     "A_HIDDEN:="

@@ -211,7 +211,7 @@ a_fpid_s *a_fpid_zero(a_fpid_s *ctx)
     return ctx;
 }
 
-A_STATIC void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
+static void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
 {
     /* quantize input */
     ev[0] = ctx->sigma * ev[0] / (1 << 0);

@@ -30,7 +30,7 @@ A_INTERN a_vptr_t a_vector_dec_(a_vector_s *ctx)
     return (void)(--ctx->_num), ctx->_tail;
 }
 
-A_STATIC a_void_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
+static a_void_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
 {
     if (ctx->dtor)
     {
@@ -43,7 +43,7 @@ A_STATIC a_void_t a_vector_drop_(a_vector_s *ctx, a_size_t bot)
     ctx->_num = bot;
 }
 
-A_STATIC a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
+static a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
 {
     if (ctx->_mem <= num)
     {

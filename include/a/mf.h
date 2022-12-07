@@ -42,7 +42,7 @@ extern "C" {
  @param[in] sigma sigma
  @param[in] c c
 */
-A_PUBLIC a_real_t a_mf_gauss(a_real_t x, a_real_t sigma, a_real_t c);
+A_EXTERN a_real_t a_mf_gauss(a_real_t x, a_real_t sigma, a_real_t c);
 
 /*!
  @brief generalized bell-shaped membership function
@@ -54,7 +54,7 @@ A_PUBLIC a_real_t a_mf_gauss(a_real_t x, a_real_t sigma, a_real_t c);
  @param[in] b b
  @param[in] c c
 */
-A_PUBLIC a_real_t a_mf_gbell(a_real_t x, a_real_t a, a_real_t b, a_real_t c);
+A_EXTERN a_real_t a_mf_gbell(a_real_t x, a_real_t a, a_real_t b, a_real_t c);
 
 /*!
  @brief sigmoidal membership function
@@ -65,7 +65,7 @@ A_PUBLIC a_real_t a_mf_gbell(a_real_t x, a_real_t a, a_real_t b, a_real_t c);
  @param[in] a a
  @param[in] c c
 */
-A_PUBLIC a_real_t a_mf_sig(a_real_t x, a_real_t a, a_real_t c);
+A_EXTERN a_real_t a_mf_sig(a_real_t x, a_real_t a, a_real_t c);
 
 /*!
  @brief trapezoidal membership function
@@ -84,7 +84,7 @@ A_PUBLIC a_real_t a_mf_sig(a_real_t x, a_real_t a, a_real_t c);
  @param[in] c c
  @param[in] d d
 */
-A_PUBLIC a_real_t a_mf_trap(a_real_t x, a_real_t a, a_real_t b, a_real_t c, a_real_t d);
+A_EXTERN a_real_t a_mf_trap(a_real_t x, a_real_t a, a_real_t b, a_real_t c, a_real_t d);
 
 /*!
  @brief triangular membership function
@@ -101,7 +101,7 @@ A_PUBLIC a_real_t a_mf_trap(a_real_t x, a_real_t a, a_real_t b, a_real_t c, a_re
  @param[in] b b
  @param[in] c c
 */
-A_PUBLIC a_real_t a_mf_tri(a_real_t x, a_real_t a, a_real_t b, a_real_t c);
+A_EXTERN a_real_t a_mf_tri(a_real_t x, a_real_t a, a_real_t b, a_real_t c);
 
 /*!
  @brief z-shaped membership function
@@ -117,7 +117,7 @@ A_PUBLIC a_real_t a_mf_tri(a_real_t x, a_real_t a, a_real_t b, a_real_t c);
  @param[in] a a
  @param[in] b b
 */
-A_PUBLIC a_real_t a_mf_z(a_real_t x, a_real_t a, a_real_t b);
+A_EXTERN a_real_t a_mf_z(a_real_t x, a_real_t a, a_real_t b);
 
 /*!
  @brief membership function
@@ -134,7 +134,7 @@ A_PUBLIC a_real_t a_mf_z(a_real_t x, a_real_t a, a_real_t b);
   @arg a[3] \ref a_mf_gbell \ref a_mf_tri
   @arg a[4] \ref a_mf_trap
 */
-A_PUBLIC a_real_t a_mf(a_uint_t e, a_real_t x, a_real_t *a);
+A_EXTERN a_real_t a_mf(a_uint_t e, a_real_t x, a_real_t *a);
 
 #if defined(__cplusplus)
 } /* extern "C" */

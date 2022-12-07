@@ -39,7 +39,7 @@ extern "C" {
  @param[in] r right-hand operand
  @return result of operation
 */
-A_PUBLIC a_real_t a_fuzzy_or(a_uint_t e, a_real_t l, a_real_t r);
+A_EXTERN a_real_t a_fuzzy_or(a_uint_t e, a_real_t l, a_real_t r);
 
 /*!
  @brief Intersection operator
@@ -51,7 +51,7 @@ A_PUBLIC a_real_t a_fuzzy_or(a_uint_t e, a_real_t l, a_real_t r);
  @param[in] r right-hand operand
  @return result of operation
 */
-A_PUBLIC a_real_t a_fuzzy_and(a_uint_t e, a_real_t l, a_real_t r);
+A_EXTERN a_real_t a_fuzzy_and(a_uint_t e, a_real_t l, a_real_t r);
 
 /*!
  @brief Equilibrium operator
@@ -60,7 +60,7 @@ A_PUBLIC a_real_t a_fuzzy_and(a_uint_t e, a_real_t l, a_real_t r);
  @param[in] r right-hand operand
  @return result of operation
 */
-A_PUBLIC a_real_t a_fuzzy_equ(a_real_t gamma, a_real_t l, a_real_t r);
+A_EXTERN a_real_t a_fuzzy_equ(a_real_t gamma, a_real_t l, a_real_t r);
 
 #if defined(__cplusplus)
 } /* extern "C" */

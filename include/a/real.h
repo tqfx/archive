@@ -47,9 +47,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC a_real_t a_real_log1p(a_real_t x);
-A_PUBLIC a_real_t a_real_hypot(a_real_t x, a_real_t y);
-A_PUBLIC a_real_t a_real_atan2(a_real_t x, a_real_t y);
+A_EXTERN a_real_t a_real_log1p(a_real_t x);
+A_EXTERN a_real_t a_real_hypot(a_real_t x, a_real_t y);
+A_EXTERN a_real_t a_real_atan2(a_real_t x, a_real_t y);
 
 #if defined(__cplusplus)
 } /* extern "C" */

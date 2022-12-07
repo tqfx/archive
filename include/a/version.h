@@ -66,7 +66,7 @@ extern "C" {
  @brief algorithm library version string
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_PUBLIC a_cstr_t a_version(void);
+A_EXTERN a_cstr_t a_version(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
 A_INTERN a_cstr_t a_version(void)
@@ -79,7 +79,7 @@ A_INTERN a_cstr_t a_version(void)
  @brief algorithm library version major
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_PUBLIC a_uint_t a_version_major(void);
+A_EXTERN a_uint_t a_version_major(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
 A_INTERN a_uint_t a_version_major(void)
@@ -92,7 +92,7 @@ A_INTERN a_uint_t a_version_major(void)
  @brief algorithm library version minor
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_PUBLIC a_uint_t a_version_minor(void);
+A_EXTERN a_uint_t a_version_minor(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
 A_INTERN a_uint_t a_version_minor(void)
@@ -105,7 +105,7 @@ A_INTERN a_uint_t a_version_minor(void)
  @brief algorithm library version patch
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_PUBLIC a_uint_t a_version_patch(void);
+A_EXTERN a_uint_t a_version_patch(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
 A_INTERN a_uint_t a_version_patch(void)
@@ -131,7 +131,7 @@ namespace a
  @brief algorithm library version string
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
-A_PUBLIC cstr_t version(void);
+A_EXTERN cstr_t version(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
 A_INTERN cstr_t version(void)
@@ -144,7 +144,7 @@ A_INTERN cstr_t version(void)
  @brief algorithm library version major
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
-A_PUBLIC uint_t version_major(void);
+A_EXTERN uint_t version_major(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
 A_INTERN uint_t version_major(void)
@@ -156,7 +156,7 @@ A_INTERN uint_t version_major(void)
  @brief algorithm library version minor
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
-A_PUBLIC uint_t version_minor(void);
+A_EXTERN uint_t version_minor(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
 A_INTERN uint_t version_minor(void)
@@ -168,7 +168,7 @@ A_INTERN uint_t version_minor(void)
  @brief algorithm library version patch
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
-A_PUBLIC uint_t version_patch(void);
+A_EXTERN uint_t version_patch(void);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
 A_INTERN uint_t version_patch(void)

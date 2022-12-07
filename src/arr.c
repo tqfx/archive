@@ -28,7 +28,7 @@ A_INTERN a_vptr_t a_arr_dec_(a_arr_s *ctx)
     return a_byte_p(ctx->_ptr) + ctx->_siz * --ctx->_num;
 }
 
-A_STATIC a_void_t a_arr_drop_(a_arr_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vptr_t))
+static a_void_t a_arr_drop_(a_arr_s *ctx, a_size_t bot, a_void_t (*dtor)(a_vptr_t))
 {
     if (dtor)
     {

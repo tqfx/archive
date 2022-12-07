@@ -28,24 +28,24 @@
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC a_void_t a_crc8l_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly);
-A_PUBLIC a_void_t a_crc8h_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly);
-A_PUBLIC a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_t val);
+A_EXTERN a_void_t a_crc8l_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly);
+A_EXTERN a_void_t a_crc8h_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly);
+A_EXTERN a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_t val);
 
-A_PUBLIC a_void_t a_crc16l_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly);
-A_PUBLIC a_void_t a_crc16h_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly);
-A_PUBLIC a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val);
-A_PUBLIC a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val);
+A_EXTERN a_void_t a_crc16l_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly);
+A_EXTERN a_void_t a_crc16h_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly);
+A_EXTERN a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val);
+A_EXTERN a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val);
 
-A_PUBLIC a_void_t a_crc32l_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly);
-A_PUBLIC a_void_t a_crc32h_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly);
-A_PUBLIC a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val);
-A_PUBLIC a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val);
+A_EXTERN a_void_t a_crc32l_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly);
+A_EXTERN a_void_t a_crc32h_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly);
+A_EXTERN a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val);
+A_EXTERN a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val);
 
-A_PUBLIC a_void_t a_crc64l_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly);
-A_PUBLIC a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly);
-A_PUBLIC a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val);
-A_PUBLIC a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val);
+A_EXTERN a_void_t a_crc64l_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly);
+A_EXTERN a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly);
+A_EXTERN a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val);
+A_EXTERN a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val);
 
 #if defined(__cplusplus)
 } /* extern "C" */
