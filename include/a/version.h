@@ -15,6 +15,11 @@
  @{
 */
 
+/*! algorithm library version string */
+#ifndef A_VERSION
+#define A_VERSION "0.0.0"
+#endif /* A_VERSION */
+
 /*! algorithm library version major */
 #ifndef A_VERSION_MAJOR
 #define A_VERSION_MAJOR 0
@@ -32,13 +37,8 @@
 
 /*! algorithm library version tweak */
 #ifndef A_VERSION_TWEAK
-#define A_VERSION_TWEAK A_U64_C(0)
+#define A_VERSION_TWEAK 0
 #endif /* A_VERSION_TWEAK */
-
-/*! algorithm library version string */
-#ifndef A_VERSION
-#define A_VERSION "0.0.0"
-#endif /* A_VERSION */
 
 #if defined(__cplusplus)
 namespace a
