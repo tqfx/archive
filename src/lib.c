@@ -17,7 +17,7 @@ a_umax_t a_hash_bkdr(a_cptr_t str, a_umax_t val)
 {
     if (str)
     {
-        for (const a_u8_t *p = a_u8_P(str); *p; ++p)
+        for (const a_u8_t *p = A_U8_P(str); *p; ++p)
         {
             val = val * 131 + *p;
         }
@@ -29,7 +29,7 @@ a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val)
 {
     if (ptr && siz)
     {
-        for (const a_u8_t *p = a_u8_P(ptr); siz--; ++p)
+        for (const a_u8_t *p = A_U8_P(ptr); siz--; ++p)
         {
             val = val * 131 + *p;
         }

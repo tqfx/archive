@@ -200,7 +200,7 @@ a_int_t a_str_putn(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
 
 a_int_t a_str_puts(a_str_s *ctx, a_cptr_t str)
 {
-    return a_str_putn(ctx, str, strlen(a_char_P(str)));
+    return a_str_putn(ctx, str, strlen(A_CHAR_P(str)));
 }
 
 a_int_t a_str_cat(a_str_s *ctx, const a_str_s *obj)

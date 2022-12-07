@@ -41,7 +41,7 @@
 /*! static cast to \ref a_void_t */
 #define a_void_c(x) a_cast_s(A_VOID_T, x)
 #define a_void_p(x) a_cast_s(A_VOID_T *, x)
-#define a_void_P(x) a_cast_s(const A_VOID_T *, x)
+#define A_VOID_P(x) a_cast_s(const A_VOID_T *, x)
 /*! as the declaration of the incomplete type */
 #define a_void_t A_VOID_T
 
@@ -60,8 +60,8 @@
 /*! type, capable of holding one of the two values: 1 and 0 */
 #define a_bool_t A_BOOL_T
 
-#define a_byte_P(x) a_cast_s(const a_byte_t *, x)
-#define a_char_P(x) a_cast_s(const a_char_t *, x)
+#define A_BYTE_P(x) a_cast_s(const a_byte_t *, x)
+#define A_CHAR_P(x) a_cast_s(const a_char_t *, x)
 #define a_byte_p(x) a_cast_s(a_byte_t *, x)
 #define a_char_p(x) a_cast_s(a_char_t *, x)
 #define a_byte_c(x) a_cast_s(a_byte_t, x)
@@ -69,8 +69,8 @@
 #define a_byte_t unsigned char
 #define a_char_t char
 /* the most optimal integer type for the platform */
-#define a_uint_P(x) a_cast_s(const a_uint_t *, x)
-#define a_int_P(x) a_cast_s(const a_int_t *, x)
+#define A_UINT_P(x) a_cast_s(const a_uint_t *, x)
+#define A_INT_P(x) a_cast_s(const a_int_t *, x)
 #define a_uint_p(x) a_cast_s(a_uint_t *, x)
 #define a_int_p(x) a_cast_s(a_int_t *, x)
 #define a_uint_c(x) a_cast_s(a_uint_t, x)
@@ -96,11 +96,11 @@
 /*! static cast to \ref a_i_t */
 #define a_i_c(x) a_cast_s(A_I_T, x)
 #define a_i_p(x) a_cast_s(A_I_T *, x)
-#define a_i_P(x) a_cast_s(const A_I_T *, x)
+#define A_I_P(x) a_cast_s(const A_I_T *, x)
 /*! static cast to \ref a_u_t */
 #define a_u_c(x) a_cast_s(A_U_T, x)
 #define a_u_p(x) a_cast_s(A_U_T *, x)
-#define a_u_P(x) a_cast_s(const A_U_T *, x)
+#define A_U_P(x) a_cast_s(const A_U_T *, x)
 /*! signed integer type is guaranteed to be at least 16 bits */
 #define a_i_t A_I_T
 /*! unsigned integer type is guaranteed to be at least 16 bits */
@@ -124,11 +124,11 @@
 /*! static cast to \ref a_is_t */
 #define a_is_c(x) a_cast_s(A_IS_T, x)
 #define a_is_p(x) a_cast_s(A_IS_T *, x)
-#define a_is_P(x) a_cast_s(const A_IS_T *, x)
+#define A_IS_P(x) a_cast_s(const A_IS_T *, x)
 /*! static cast to \ref a_us_t */
 #define a_us_c(x) a_cast_s(A_US_T, x)
 #define a_us_p(x) a_cast_s(A_US_T *, x)
-#define a_us_P(x) a_cast_s(const A_US_T *, x)
+#define A_US_P(x) a_cast_s(const A_US_T *, x)
 /*! signed integer type is guaranteed to be at least 16 bits */
 #define a_is_t A_IS_T
 /*! unsigned integer type is guaranteed to be at least 16 bits */
@@ -152,11 +152,11 @@
 /*! static cast to \ref a_il_t */
 #define a_il_c(x) a_cast_s(A_IL_T, x)
 #define a_il_p(x) a_cast_s(A_IL_T *, x)
-#define a_il_P(x) a_cast_s(const A_IL_T *, x)
+#define A_IL_P(x) a_cast_s(const A_IL_T *, x)
 /*! static cast to \ref a_ul_t */
 #define a_ul_c(x) a_cast_s(A_UL_T, x)
 #define a_ul_p(x) a_cast_s(A_UL_T *, x)
-#define a_ul_P(x) a_cast_s(const A_UL_T *, x)
+#define A_UL_P(x) a_cast_s(const A_UL_T *, x)
 /*! signed integer type is guaranteed to be at least 32 bits */
 #define a_il_t A_IL_T
 /*! unsigned integer type is guaranteed to be at least 32 bits */
@@ -182,11 +182,11 @@
 /*! static cast to \ref a_ill_t */
 #define a_ill_c(x) a_cast_s(A_ILL_T, x)
 #define a_ill_p(x) a_cast_s(A_ILL_T *, x)
-#define a_ill_P(x) a_cast_s(const A_ILL_T *, x)
+#define A_ILL_P(x) a_cast_s(const A_ILL_T *, x)
 /*! static cast to \ref a_ull_t */
 #define a_ull_c(x) a_cast_s(A_ULL_T, x)
 #define a_ull_p(x) a_cast_s(A_ULL_T *, x)
-#define a_ull_P(x) a_cast_s(const A_ULL_T *, x)
+#define A_ULL_P(x) a_cast_s(const A_ULL_T *, x)
 /*! signed integer type is guaranteed to be at least 64 bits */
 #define a_ill_t A_ILL_T
 /*! unsigned integer type is guaranteed to be at least 64 bits */
@@ -216,7 +216,7 @@
 /*! static cast to \ref a_single_t */
 #define a_single_c(x) a_cast_s(A_SINGLE_T, x)
 #define a_single_p(x) a_cast_s(A_SINGLE_T *, x)
-#define a_single_P(x) a_cast_s(const A_SINGLE_T *, x)
+#define A_SINGLE_P(x) a_cast_s(const A_SINGLE_T *, x)
 /*! single precision floating point type. Matches IEEE-754 binary32 format if supported. */
 #define a_single_t A_SINGLE_T
 
@@ -242,7 +242,7 @@
 /*! static cast to \ref a_double_t */
 #define a_double_c(x) a_cast_s(A_DOUBLE_T, x)
 #define a_double_p(x) a_cast_s(A_DOUBLE_T *, x)
-#define a_double_P(x) a_cast_s(const A_DOUBLE_T *, x)
+#define A_DOUBLE_P(x) a_cast_s(const A_DOUBLE_T *, x)
 /*! double precision floating point type. Matches IEEE-754 binary32 format if supported. */
 #define a_double_t A_DOUBLE_T
 
@@ -268,7 +268,7 @@
 /*! static cast to \ref a_extend_t */
 #define a_extend_c(x) a_cast_s(A_EXTEND_T, x)
 #define a_extend_p(x) a_cast_s(A_EXTEND_T *, x)
-#define a_extend_P(x) a_cast_s(const A_EXTEND_T *, x)
+#define A_EXTEND_P(x) a_cast_s(const A_EXTEND_T *, x)
 /*! extend precision floating point type. Matches IEEE-754 extend format if supported. */
 #define a_extend_t A_EXTEND_T
 
@@ -296,11 +296,11 @@
 /*! static cast to \ref a_i8_t */
 #define a_i8_c(x) a_cast_s(A_I8_T, x)
 #define a_i8_p(x) a_cast_s(A_I8_T *, x)
-#define a_i8_P(x) a_cast_s(const A_I8_T *, x)
+#define A_I8_P(x) a_cast_s(const A_I8_T *, x)
 /*! static cast to \ref a_u8_t */
 #define a_u8_c(x) a_cast_s(A_U8_T, x)
 #define a_u8_p(x) a_cast_s(A_U8_T *, x)
-#define a_u8_P(x) a_cast_s(const A_U8_T *, x)
+#define A_U8_P(x) a_cast_s(const A_U8_T *, x)
 /*! signed integer type with width of exactly 8 bits */
 #define a_i8_t A_I8_T
 /*! unsigned integer type with width of exactly 8 bits */
@@ -330,11 +330,11 @@
 /*! static cast to \ref a_i16_t */
 #define a_i16_c(x) a_cast_s(A_I16_T, x)
 #define a_i16_p(x) a_cast_s(A_I16_T *, x)
-#define a_i16_P(x) a_cast_s(const A_I16_T *, x)
+#define A_I16_P(x) a_cast_s(const A_I16_T *, x)
 /*! static cast to \ref a_u16_t */
 #define a_u16_c(x) a_cast_s(A_U16_T, x)
 #define a_u16_p(x) a_cast_s(A_U16_T *, x)
-#define a_u16_P(x) a_cast_s(const A_U16_T *, x)
+#define A_U16_P(x) a_cast_s(const A_U16_T *, x)
 /*! signed integer type with width of exactly 16 bits */
 #define a_i16_t A_I16_T
 /*! unsigned integer type with width of exactly 16 bits */
@@ -364,11 +364,11 @@
 /*! static cast to \ref a_i32_t */
 #define a_i32_c(x) a_cast_s(A_I32_T, x)
 #define a_i32_p(x) a_cast_s(A_I32_T *, x)
-#define a_i32_P(x) a_cast_s(const A_I32_T *, x)
+#define A_I32_P(x) a_cast_s(const A_I32_T *, x)
 /*! static cast to \ref a_u32_t */
 #define a_u32_c(x) a_cast_s(A_U32_T, x)
 #define a_u32_p(x) a_cast_s(A_U32_T *, x)
-#define a_u32_P(x) a_cast_s(const A_U32_T *, x)
+#define A_U32_P(x) a_cast_s(const A_U32_T *, x)
 /*! signed integer type with width of exactly 32 bits */
 #define a_i32_t A_I32_T
 /*! unsigned integer type with width of exactly 32 bits */
@@ -398,11 +398,11 @@
 /*! static cast to \ref a_i64_t */
 #define a_i64_c(x) a_cast_s(A_I64_T, x)
 #define a_i64_p(x) a_cast_s(A_I64_T *, x)
-#define a_i64_P(x) a_cast_s(const A_I64_T *, x)
+#define A_I64_P(x) a_cast_s(const A_I64_T *, x)
 /*! static cast to \ref a_u64_t */
 #define a_u64_c(x) a_cast_s(A_U64_T, x)
 #define a_u64_p(x) a_cast_s(A_U64_T *, x)
-#define a_u64_P(x) a_cast_s(const A_U64_T *, x)
+#define A_U64_P(x) a_cast_s(const A_U64_T *, x)
 /*! signed integer type with width of exactly 64 bits */
 #define a_i64_t A_I64_T
 /*! unsigned integer type with width of exactly 64 bits */
@@ -432,11 +432,11 @@
 /*! static cast to \ref a_imax_t */
 #define a_imax_c(x) a_cast_s(A_IMAX_T, x)
 #define a_imax_p(x) a_cast_s(A_IMAX_T *, x)
-#define a_imax_P(x) a_cast_s(const A_IMAX_T *, x)
+#define A_IMAX_P(x) a_cast_s(const A_IMAX_T *, x)
 /*! static cast to \ref a_umax_t */
 #define a_umax_c(x) a_cast_s(A_UMAX_T, x)
 #define a_umax_p(x) a_cast_s(A_UMAX_T *, x)
-#define a_umax_P(x) a_cast_s(const A_UMAX_T *, x)
+#define A_UMAX_P(x) a_cast_s(const A_UMAX_T *, x)
 /*! maximum-width signed integer type */
 #define a_imax_t A_IMAX_T
 /*! maximum-width unsigned integer type */
@@ -466,11 +466,11 @@
 /*! static cast to \ref a_iptr_t */
 #define a_iptr_c(x) a_cast_s(A_IPTR_T, x)
 #define a_iptr_p(x) a_cast_s(A_IPTR_T *, x)
-#define a_iptr_P(x) a_cast_s(const A_IPTR_T *, x)
+#define A_IPTR_P(x) a_cast_s(const A_IPTR_T *, x)
 /*! static cast to \ref a_uptr_t */
 #define a_uptr_c(x) a_cast_s(A_UPTR_T, x)
 #define a_uptr_p(x) a_cast_s(A_UPTR_T *, x)
-#define a_uptr_P(x) a_cast_s(const A_UPTR_T *, x)
+#define A_UPTR_P(x) a_cast_s(const A_UPTR_T *, x)
 /*! signed integer type capable of holding a pointer to void */
 #define a_iptr_t A_IPTR_T
 /*! unsigned integer type capable of holding a pointer to void */
@@ -488,7 +488,7 @@
 /*! static cast to \ref a_diff_t */
 #define a_diff_c(x) a_cast_s(A_DIFF_T, x)
 #define a_diff_p(x) a_cast_s(A_DIFF_T *, x)
-#define a_diff_P(x) a_cast_s(const A_DIFF_T *, x)
+#define A_DIFF_P(x) a_cast_s(const A_DIFF_T *, x)
 /*! signed integer type returned when subtracting two pointers */
 #define a_diff_t A_DIFF_T
 
@@ -501,7 +501,7 @@
 /*! static cast to \ref a_size_t */
 #define a_size_c(x) a_cast_s(A_SIZE_T, x)
 #define a_size_p(x) a_cast_s(A_SIZE_T *, x)
-#define a_size_P(x) a_cast_s(const A_SIZE_T *, x)
+#define A_SIZE_P(x) a_cast_s(const A_SIZE_T *, x)
 /*! unsigned integer type returned by the sizeof operator */
 #define a_size_t A_SIZE_T
 
@@ -539,7 +539,7 @@
 /*! static cast to \ref a_f32_t */
 #define a_f32_c(x) a_cast_s(A_F32_T, x)
 #define a_f32_p(x) a_cast_s(A_F32_T *, x)
-#define a_f32_P(x) a_cast_s(const A_F32_T *, x)
+#define A_F32_P(x) a_cast_s(const A_F32_T *, x)
 /*! single precision floating point type. Matches IEEE-754 binary32 format if supported. */
 #define a_f32_t A_F32_T
 
@@ -569,7 +569,7 @@
 /*! static cast to \ref a_f64_t */
 #define a_f64_c(x) a_cast_s(A_F64_T, x)
 #define a_f64_p(x) a_cast_s(A_F64_T *, x)
-#define a_f64_P(x) a_cast_s(const A_F64_T *, x)
+#define A_F64_P(x) a_cast_s(const A_F64_T *, x)
 /*! double precision floating point type. Matches IEEE-754 binary64 format if supported. */
 #define a_f64_t A_F64_T
 
@@ -801,7 +801,7 @@ typedef a_f64_t f64_t;
 /*! static cast to \ref a_real_t */
 #define a_real_c(x) a_cast_s(A_REAL_T, x)
 #define a_real_p(x) a_cast_s(A_REAL_T *, x)
-#define a_real_P(x) a_cast_s(const A_REAL_T *, x)
+#define A_REAL_P(x) a_cast_s(const A_REAL_T *, x)
 /*! compiler built-in real number type */
 #define a_real_t A_REAL_T
 
@@ -1010,9 +1010,9 @@ A_PUBLIC a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u8_p(lhs) ^= *a_u8_p(rhs);
-    *a_u8_p(rhs) ^= *a_u8_p(lhs);
-    *a_u8_p(lhs) ^= *a_u8_p(rhs);
+    *a_u8_p(lhs) ^= *A_U8_P(rhs);
+    *a_u8_p(rhs) ^= *A_U8_P(lhs);
+    *a_u8_p(lhs) ^= *A_U8_P(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
@@ -1021,9 +1021,9 @@ A_PUBLIC a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u16_p(lhs) ^= *a_u16_p(rhs);
-    *a_u16_p(rhs) ^= *a_u16_p(lhs);
-    *a_u16_p(lhs) ^= *a_u16_p(rhs);
+    *a_u16_p(lhs) ^= *A_U16_P(rhs);
+    *a_u16_p(rhs) ^= *A_U16_P(lhs);
+    *a_u16_p(lhs) ^= *A_U16_P(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
@@ -1032,9 +1032,9 @@ A_PUBLIC a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u32_p(lhs) ^= *a_u32_p(rhs);
-    *a_u32_p(rhs) ^= *a_u32_p(lhs);
-    *a_u32_p(lhs) ^= *a_u32_p(rhs);
+    *a_u32_p(lhs) ^= *A_U32_P(rhs);
+    *a_u32_p(rhs) ^= *A_U32_P(lhs);
+    *a_u32_p(lhs) ^= *A_U32_P(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
@@ -1043,9 +1043,9 @@ A_PUBLIC a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_u64_p(lhs) ^= *a_u64_p(rhs);
-    *a_u64_p(rhs) ^= *a_u64_p(lhs);
-    *a_u64_p(lhs) ^= *a_u64_p(rhs);
+    *a_u64_p(lhs) ^= *A_U64_P(rhs);
+    *a_u64_p(rhs) ^= *A_U64_P(lhs);
+    *a_u64_p(lhs) ^= *A_U64_P(rhs);
 }
 #endif /* A_HAVE_INLINE */
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
@@ -1054,9 +1054,9 @@ A_PUBLIC a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
 #if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
 {
-    *a_size_p(lhs) ^= *a_size_p(rhs);
-    *a_size_p(rhs) ^= *a_size_p(lhs);
-    *a_size_p(lhs) ^= *a_size_p(rhs);
+    *a_size_p(lhs) ^= *A_SIZE_P(rhs);
+    *a_size_p(rhs) ^= *A_SIZE_P(lhs);
+    *a_size_p(lhs) ^= *A_SIZE_P(rhs);
 }
 #endif /* A_HAVE_INLINE */
 

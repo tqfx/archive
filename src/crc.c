@@ -170,8 +170,8 @@ a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly)
 
 a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_t val)
 {
-    const a_u8_t *p = a_u8_P(pdata);
-    const a_u8_t *q = a_u8_P(pdata) + nbyte;
+    const a_u8_t *p = A_U8_P(pdata);
+    const a_u8_t *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = ctx[val ^ *p++];
@@ -181,8 +181,8 @@ a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_
 
 a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val)
 {
-    const a_u8_t *p = a_u8_P(pdata);
-    const a_u8_t *q = a_u8_P(pdata) + nbyte;
+    const a_u8_t *p = A_U8_P(pdata);
+    const a_u8_t *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = a_u16_c((val >> 8) ^ ctx[(val ^ *p++) & 0xFF]);
@@ -192,8 +192,8 @@ a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val)
 {
-    const a_u8_t *p = a_u8_P(pdata);
-    const a_u8_t *q = a_u8_P(pdata) + nbyte;
+    const a_u8_t *p = A_U8_P(pdata);
+    const a_u8_t *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val >> 8) ^ ctx[(val ^ *p++) & 0xFF];
@@ -203,8 +203,8 @@ a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val)
 {
-    const a_u8_t *p = a_u8_P(pdata);
-    const a_u8_t *q = a_u8_P(pdata) + nbyte;
+    const a_u8_t *p = A_U8_P(pdata);
+    const a_u8_t *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val >> 8) ^ ctx[(val ^ *p++) & 0xFF];
@@ -214,8 +214,8 @@ a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val)
 {
-    const a_u8_t *p = a_u8_P(pdata);
-    const a_u8_t *q = a_u8_P(pdata) + nbyte;
+    const a_u8_t *p = A_U8_P(pdata);
+    const a_u8_t *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = a_u16_c((val << 8) ^ ctx[((val >> 8) ^ *p++) & 0xFF]);
@@ -225,8 +225,8 @@ a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val)
 {
-    const a_u8_t *p = a_u8_P(pdata);
-    const a_u8_t *q = a_u8_P(pdata) + nbyte;
+    const a_u8_t *p = A_U8_P(pdata);
+    const a_u8_t *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val << 8) ^ ctx[((val >> 24) ^ *p++) & 0xFF];
@@ -236,8 +236,8 @@ a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
 
 a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val)
 {
-    const a_u8_t *p = a_u8_P(pdata);
-    const a_u8_t *q = a_u8_P(pdata) + nbyte;
+    const a_u8_t *p = A_U8_P(pdata);
+    const a_u8_t *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val << 8) ^ ctx[((val >> 56) ^ *p++) & 0xFF];

@@ -29,7 +29,7 @@
 #define __has_warning(x) 0
 #endif /* __has_warning */
 #if !defined A_HAVE_INLINE
-// #define A_HAVE_INLINE 1
+#define A_HAVE_INLINE 1
 #endif /* A_HAVE_INLINE */
 
 #if defined(__clang__)

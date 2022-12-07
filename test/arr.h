@@ -84,12 +84,12 @@ static void fore(void)
 
 static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_int_P(lhs) - *a_int_P(rhs);
+    return *A_INT_P(lhs) - *A_INT_P(rhs);
 }
 
 static a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_int_P(rhs) - *a_int_P(lhs);
+    return *A_INT_P(rhs) - *A_INT_P(lhs);
 }
 
 static a_int_t rand10(void)

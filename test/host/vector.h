@@ -13,8 +13,8 @@ static void dtor(a_vptr_t ptr)
 
 static a_int_t u32dup(a_vptr_t dst, a_cptr_t src)
 {
-    *a_u32_p(dst) = *a_u32_P(src);
-    printf("%" PRIu32 " ", *a_u32_P(src));
+    *a_u32_p(dst) = *A_U32_P(src);
+    printf("%" PRIu32 " ", *A_U32_P(src));
     return 0;
 }
 
@@ -191,12 +191,12 @@ static void test(void)
 
 static a_int_t cmp(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_int_P(lhs) - *a_int_P(rhs);
+    return *A_INT_P(lhs) - *A_INT_P(rhs);
 }
 
 static a_int_t cmpr(a_cptr_t lhs, a_cptr_t rhs)
 {
-    return *a_int_P(rhs) - *a_int_P(lhs);
+    return *A_INT_P(rhs) - *A_INT_P(lhs);
 }
 
 static void test_sort(void)
