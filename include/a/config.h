@@ -13,10 +13,6 @@
 
 /*! @cond */
 
-#if !defined A_HAVE_INLINE
-#define A_HAVE_INLINE 1
-#endif /* A_HAVE_INLINE */
-
 #if !defined __has_attribute
 #define __has_attribute(x) 0
 #endif /* __has_attribute */
@@ -32,6 +28,9 @@
 #if !defined __has_warning
 #define __has_warning(x) 0
 #endif /* __has_warning */
+#if !defined A_HAVE_INLINE
+#define A_HAVE_INLINE 1
+#endif /* A_HAVE_INLINE */
 
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -250,7 +249,7 @@
 #endif /* __BYTE_ORDER__ */
 #endif /* A_BYTE_ORDER */
 
-/*! size of pointer */
+/* size of void pointer */
 #if !defined A_SIZE_VPTR
 #if defined(__SIZEOF_POINTER__)
 #define A_SIZE_VPTR __SIZEOF_POINTER__
