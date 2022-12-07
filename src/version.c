@@ -1,2 +1,2 @@
-#define A_VERSION_I
+#define LIBA_VERSION_C
 #include "a/version.h"

@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_HOST_QUE_H
-#define A_HOST_QUE_H
+#ifndef LIBA_HOST_QUE_H
+#define LIBA_HOST_QUE_H
 
 #include "a/list.h"
 #include <stdlib.h>
@@ -332,4 +332,4 @@ A_PUBLIC a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
 
 /*! @} A_QUE */
 
-#endif /* A_HOST_QUE_H */
+#endif /* LIBA_HOST_QUE_H */

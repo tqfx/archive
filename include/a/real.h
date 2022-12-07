@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_REAL_H
-#define A_REAL_H
+#ifndef LIBA_REAL_H
+#define LIBA_REAL_H
 
 #include "a.h"
 #include "math.h"
@@ -115,4 +115,4 @@ A_PUBLIC a_real_t a_real_atan2(a_real_t x, a_real_t y);
 
 /*! @} A_REAL */
 
-#endif /* A_REAL_H */
+#endif /* LIBA_REAL_H */

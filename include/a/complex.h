@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_COMPLEX_H
-#define A_COMPLEX_H
+#ifndef LIBA_COMPLEX_H
+#define LIBA_COMPLEX_H
 
 #include "a.h"
 
@@ -63,10 +63,10 @@ typedef struct a_complex_s
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-#if defined(A_COMPLEX_I)
+#if defined(LIBA_COMPLEX_C)
 #undef A_INTERN
 #define A_INTERN A_INLINE
-#endif /* A_COMPLEX_I */
+#endif /* LIBA_COMPLEX_C */
 
 /*!
  @brief constructs a complex number from polar form
@@ -113,10 +113,10 @@ A_PUBLIC a_real_t a_complex_arg(a_complex_s z);
  @param z a complex number
  @return = \f$ (a,-b{i}) \f$
 */
-#if !defined A_HAVE_INLINE || defined(A_COMPLEX_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_COMPLEX_C)
 A_PUBLIC a_complex_s a_complex_conj(a_complex_s z);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_COMPLEX_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_COMPLEX_C)
 A_INTERN a_complex_s a_complex_conj(a_complex_s z)
 {
     z.imag = -z.imag;
@@ -129,10 +129,10 @@ A_INTERN a_complex_s a_complex_conj(a_complex_s z)
  @param z a complex number
  @return \f$ (-a,-b{i}) \f$
 */
-#if !defined A_HAVE_INLINE || defined(A_COMPLEX_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_COMPLEX_C)
 A_PUBLIC a_complex_s a_complex_neg(a_complex_s z);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_COMPLEX_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_COMPLEX_C)
 A_INTERN a_complex_s a_complex_neg(a_complex_s z)
 {
     z.real = -z.real;
@@ -415,14 +415,14 @@ A_PUBLIC a_complex_s a_complex_acsch(a_complex_s z);
 */
 A_PUBLIC a_complex_s a_complex_acoth(a_complex_s z);
 
-#if defined(A_COMPLEX_I)
+#if defined(LIBA_COMPLEX_C)
 #undef A_INTERN
 #define A_INTERN static A_INLINE
-#endif /* A_COMPLEX_I */
+#endif /* LIBA_COMPLEX_C */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A_COMPLEX */
 
-#endif /* A_COMPLEX_H */
+#endif /* LIBA_COMPLEX_H */

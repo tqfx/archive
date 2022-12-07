@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_POLY_H
-#define A_POLY_H
+#ifndef LIBA_POLY_H
+#define LIBA_POLY_H
 
 #include "a.h"
 
@@ -56,4 +56,4 @@ A_PUBLIC a_real_t *a_poly_evarn(const a_real_t *a, a_size_t n, const a_real_t *p
 
 /*! @} A_POLY */
 
-#endif /* A_POLY_H */
+#endif /* LIBA_POLY_H */

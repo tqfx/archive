@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_TF_H
-#define A_TF_H
+#ifndef LIBA_TF_H
+#define LIBA_TF_H
 
 #include "a.h"
 
@@ -90,4 +90,4 @@ A_PUBLIC a_tf_s *a_tf_zero(a_tf_s *ctx);
 
 /*! @} A_TF */
 
-#endif /* A_TF_H */
+#endif /* LIBA_TF_H */

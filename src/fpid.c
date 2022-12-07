@@ -1,4 +1,4 @@
-#define A_FPID_I
+#define LIBA_FPID_C
 #include "fpid.h"
 
 a_real_t a_fpid_op_or(a_real_t l, a_real_t r) { return l + r - l * r; }

@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_ARR_H
-#define A_ARR_H
+#ifndef LIBA_ARR_H
+#define LIBA_ARR_H
 
 #include "a.h"
 
@@ -356,4 +356,4 @@ A_INTERN a_vptr_t a_arr_pull(a_arr_s *ctx) { return a_arr_pull_back(ctx); }
 
 /*! @} A_ARR */
 
-#endif /* A_ARR_H */
+#endif /* LIBA_ARR_H */

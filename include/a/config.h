@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_CONFIG_H
-#define A_CONFIG_H
+#ifndef LIBA_CONFIG_H
+#define LIBA_CONFIG_H
 
 #if defined(A_HAVE_H)
 #include "a.config.h"
@@ -29,7 +29,7 @@
 #define __has_warning(x) 0
 #endif /* __has_warning */
 #if !defined A_HAVE_INLINE
-#define A_HAVE_INLINE 1
+// #define A_HAVE_INLINE 1
 #endif /* A_HAVE_INLINE */
 
 #if defined(__clang__)
@@ -260,4 +260,4 @@
 #endif /* __SIZEOF_POINTER__ */
 #endif /* A_SIZE_VPTR */
 
-#endif /* A_CONFIG_H */
+#endif /* LIBA_CONFIG_H */

@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_A_H
-#define A_A_H
+#ifndef LIBA_A_H
+#define LIBA_A_H
 
 #include "config.h"
 #include <stddef.h>
@@ -930,15 +930,15 @@ enum
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-#if defined(A_A_I)
+#if defined(LIBA_A_C)
 #undef A_INTERN
 #define A_INTERN A_INLINE
-#endif /* A_A_I */
+#endif /* LIBA_A_C */
 
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_f32_t a_f32_from(a_u32_t x);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_f32_t a_f32_from(a_u32_t x)
 {
     union
@@ -950,10 +950,10 @@ A_INTERN a_f32_t a_f32_from(a_u32_t x)
     return u.x;
 }
 #endif /* A_HAVE_INLINE */
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_u32_t a_f32_into(a_f32_t x);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_u32_t a_f32_into(a_f32_t x)
 {
     union
@@ -965,10 +965,10 @@ A_INTERN a_u32_t a_f32_into(a_f32_t x)
     return u.u;
 }
 #endif /* A_HAVE_INLINE */
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_f64_t a_f64_from(a_u64_t x);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_f64_t a_f64_from(a_u64_t x)
 {
     union
@@ -980,10 +980,10 @@ A_INTERN a_f64_t a_f64_from(a_u64_t x)
     return u.x;
 }
 #endif /* A_HAVE_INLINE */
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_u64_t a_f64_into(a_f64_t x);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_u64_t a_f64_into(a_f64_t x)
 {
     union
@@ -1004,10 +1004,10 @@ A_INTERN a_u64_t a_f64_into(a_f64_t x)
 */
 A_PUBLIC a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs);
 
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
 {
     *a_u8_p(lhs) ^= *a_u8_p(rhs);
@@ -1015,10 +1015,10 @@ A_INTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs)
     *a_u8_p(lhs) ^= *a_u8_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
 {
     *a_u16_p(lhs) ^= *a_u16_p(rhs);
@@ -1026,10 +1026,10 @@ A_INTERN a_void_t a_swap2(a_vptr_t lhs, a_vptr_t rhs)
     *a_u16_p(lhs) ^= *a_u16_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)
 {
     *a_u32_p(lhs) ^= *a_u32_p(rhs);
@@ -1037,10 +1037,10 @@ A_INTERN a_void_t a_swap4(a_vptr_t lhs, a_vptr_t rhs)
     *a_u32_p(lhs) ^= *a_u32_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs)
 {
     *a_u64_p(lhs) ^= *a_u64_p(rhs);
@@ -1048,10 +1048,10 @@ A_INTERN a_void_t a_swap8(a_vptr_t lhs, a_vptr_t rhs)
     *a_u64_p(lhs) ^= *a_u64_p(rhs);
 }
 #endif /* A_HAVE_INLINE */
-#if !defined A_HAVE_INLINE || defined(A_A_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_PUBLIC a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_A_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_A_C)
 A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
 {
     *a_size_p(lhs) ^= *a_size_p(rhs);
@@ -1069,14 +1069,14 @@ A_INTERN a_void_t a_swapz(a_vptr_t lhs, a_vptr_t rhs)
 A_PUBLIC a_umax_t a_hash_bkdr(a_cptr_t str, a_umax_t val);
 A_PUBLIC a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val);
 
-#if defined(A_A_I)
+#if defined(LIBA_A_C)
 #undef A_INTERN
 #define A_INTERN static A_INLINE
-#endif /* A_A_I */
+#endif /* LIBA_A_C */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A */
 
-#endif /* A_A_H */
+#endif /* LIBA_A_H */

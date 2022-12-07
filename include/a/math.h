@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_MATH_H
-#define A_MATH_H
+#ifndef LIBA_MATH_H
+#define LIBA_MATH_H
 
 #include "a.h"
 #include <math.h>
@@ -190,4 +190,4 @@ A_PUBLIC a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *o);
 
 /*! @} A_MATH */
 
-#endif /* A_MATH_H */
+#endif /* LIBA_MATH_H */

@@ -27,8 +27,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_PID_H
-#define A_PID_H
+#ifndef LIBA_PID_H
+#define LIBA_PID_H
 
 #include "a.h"
 
@@ -79,15 +79,15 @@ typedef struct a_pid_s
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-#if defined(A_PID_I)
+#if defined(LIBA_PID_C)
 #undef A_INTERN
 #define A_INTERN A_INLINE
-#endif /* A_PID_I */
+#endif /* LIBA_PID_C */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_real_t a_pid_dt(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_dt(const a_pid_s *ctx)
 {
     return ctx->dt;
@@ -96,80 +96,80 @@ A_INTERN a_real_t a_pid_dt(const a_pid_s *ctx)
 
 A_PUBLIC a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt);
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_real_t a_pid_kp(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_kp(const a_pid_s *ctx)
 {
     return ctx->kp;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_kp(a_pid_s *ctx, a_real_t kp)
 {
     ctx->kp = kp;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_real_t a_pid_ki(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_ki(const a_pid_s *ctx)
 {
     return ctx->ki / ctx->dt;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_ki(a_pid_s *ctx, a_real_t ki)
 {
     ctx->ki = ki * ctx->dt;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_real_t a_pid_kd(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_real_t a_pid_kd(const a_pid_s *ctx)
 {
     return ctx->kd * ctx->dt;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_kd(a_pid_s *ctx, a_real_t kd)
 {
     ctx->kd = kd / ctx->dt;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_uint_t a_pid_num(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_uint_t a_pid_num(const a_pid_s *ctx)
 {
     return ctx->num & A_PID_NUM_MASK;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num)
 {
     ctx->num &= ~A_PID_NUM_MASK;
@@ -177,20 +177,20 @@ A_INTERN a_void_t a_pid_set_num(a_pid_s *ctx, a_uint_t num)
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_uint_t a_pid_reg(const a_pid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_uint_t a_pid_reg(const a_pid_s *ctx)
 {
     return ctx->reg & A_PID_REG_MASK;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
 {
     ctx->reg &= ~A_PID_REG_MASK;
@@ -198,20 +198,20 @@ A_INTERN a_void_t a_pid_set_reg(a_pid_s *ctx, a_uint_t reg)
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_uint_t a_pid_mode(const a_pid_s *mode);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_uint_t a_pid_mode(const a_pid_s *ctx)
 {
     return ctx->reg & A_PID_MODE_MASK;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_PID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
 A_PUBLIC a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_PID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
 A_INTERN a_void_t a_pid_set_mode(a_pid_s *ctx, a_uint_t mode)
 {
     ctx->reg &= ~A_PID_MODE_MASK;
@@ -300,14 +300,14 @@ A_PUBLIC a_pid_s *a_pid_exit(a_pid_s *ctx);
 */
 A_PUBLIC a_pid_s *a_pid_zero(a_pid_s *ctx);
 
-#if defined(A_PID_I)
+#if defined(LIBA_PID_C)
 #undef A_INTERN
 #define A_INTERN static A_INLINE
-#endif /* A_PID_I */
+#endif /* LIBA_PID_C */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A_PID */
 
-#endif /* A_PID_H */
+#endif /* LIBA_PID_H */

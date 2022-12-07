@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_FPID_H
-#define A_FPID_H
+#ifndef LIBA_FPID_H
+#define LIBA_FPID_H
 
 #include "mf.h"
 #include "pid.h"
@@ -68,15 +68,15 @@ typedef struct a_fpid_s
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-#if defined(A_FPID_I)
+#if defined(LIBA_FPID_C)
 #undef A_INTERN
 #define A_INTERN A_INLINE
-#endif /* A_FPID_I */
+#endif /* LIBA_FPID_C */
 
-#if !defined A_HAVE_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
 A_PUBLIC a_size_t A_FPID_BUF1(a_uint_t max);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
 A_INTERN a_size_t A_FPID_BUF1(a_uint_t max)
 {
     return (sizeof(a_uint_t) << 1) * max + sizeof(a_real_t) * (max + 2) * max;
@@ -84,10 +84,10 @@ A_INTERN a_size_t A_FPID_BUF1(a_uint_t max)
 #endif /* A_HAVE_INLINE */
 #define A_FPID_BUF1(N) ((sizeof(a_uint_t) << 1) * (N) + sizeof(a_real_t) * ((N) + 2) * (N))
 
-#if !defined A_HAVE_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
 A_PUBLIC a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
 A_INTERN a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
 {
     return ctx->idx;
@@ -95,20 +95,20 @@ A_INTERN a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx)
 #endif /* A_HAVE_INLINE */
 #define a_fpid_bufptr(ctx) (ctx)->idx
 
-#if !defined A_HAVE_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
 A_PUBLIC a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
 A_INTERN a_uint_t a_fpid_bufnum(const a_fpid_s *ctx)
 {
     return ctx->pid->num >> A_PID_NUM_BITS;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
 A_PUBLIC a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
 A_INTERN a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num)
 {
     ctx->pid->num &= A_PID_NUM_MASK;
@@ -116,20 +116,20 @@ A_INTERN a_void_t a_fpid_set_bufnum(a_fpid_s *ctx, a_uint_t num)
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
 A_PUBLIC a_uint_t a_fpid_col(const a_fpid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
 A_INTERN a_uint_t a_fpid_col(const a_fpid_s *ctx)
 {
     return ctx->pid->reg >> A_PID_REG_BITS;
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
 A_PUBLIC a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
 A_INTERN a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
 {
     ctx->pid->reg &= A_PID_REG_MASK;
@@ -137,10 +137,10 @@ A_INTERN a_void_t a_fpid_set_col(a_fpid_s *ctx, a_uint_t reg)
 }
 #endif /* A_HAVE_INLINE */
 
-#if !defined A_HAVE_INLINE || defined(A_FPID_I)
+#if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
 A_PUBLIC a_uint_t a_fpid_op(const a_fpid_s *ctx);
 #endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(A_FPID_I)
+#if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
 A_INTERN a_uint_t a_fpid_op(const a_fpid_s *ctx)
 {
     return ctx->pid->reg & A_FPID_FUZZY_MASK;
@@ -291,14 +291,14 @@ A_PUBLIC a_fpid_s *a_fpid_exit(a_fpid_s *ctx);
 */
 A_PUBLIC a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 
-#if defined(A_FPID_I)
+#if defined(LIBA_FPID_C)
 #undef A_INTERN
 #define A_INTERN static A_INLINE
-#endif /* A_FPID_I */
+#endif /* LIBA_FPID_C */
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
 /*! @} A_FPID */
 
-#endif /* A_FPID_H */
+#endif /* LIBA_FPID_H */

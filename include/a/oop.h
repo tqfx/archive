@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_OOP_H
-#define A_OOP_H
+#ifndef LIBA_OOP_H
+#define LIBA_OOP_H
 
 #include "a.h"
 
@@ -104,4 +104,4 @@
 
 /*! @} A_OOP */
 
-#endif /* A_OOP_H */
+#endif /* LIBA_OOP_H */

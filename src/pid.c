@@ -1,4 +1,4 @@
-#define A_PID_I
+#define LIBA_PID_C
 #include "pid.h"
 
 a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt)

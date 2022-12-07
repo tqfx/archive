@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_HOST_VECTOR_H
-#define A_HOST_VECTOR_H
+#ifndef LIBA_HOST_VECTOR_H
+#define LIBA_HOST_VECTOR_H
 
 #include "a/a.h"
 #include <stdlib.h>
@@ -407,4 +407,4 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
 
 /*! @} A_VECTOR */
 
-#endif /* A_HOST_VECTOR_H */
+#endif /* LIBA_HOST_VECTOR_H */

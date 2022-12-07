@@ -1,4 +1,4 @@
-#define A_COMPLEX_I
+#define LIBA_COMPLEX_C
 #include "a/real.h"
 #if A_PREREQ_GNUC(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"

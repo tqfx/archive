@@ -1,4 +1,4 @@
-#define A_A_I
+#define LIBA_A_C
 #include "a/a.h"
 
 a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs)

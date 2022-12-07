@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_HOST_STR_H
-#define A_HOST_STR_H
+#ifndef LIBA_HOST_STR_H
+#define LIBA_HOST_STR_H
 
 #include "a/a.h"
 #include <string.h>
@@ -222,4 +222,4 @@ A_INTERN a_void_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx
 
 /*! @} A_STR */
 
-#endif /* A_HOST_STR_H */
+#endif /* LIBA_HOST_STR_H */

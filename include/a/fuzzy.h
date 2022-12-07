@@ -4,8 +4,8 @@
  @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
-#ifndef A_FUZZY_H
-#define A_FUZZY_H
+#ifndef LIBA_FUZZY_H
+#define LIBA_FUZZY_H
 
 #include "a.h"
 
@@ -68,4 +68,4 @@ A_PUBLIC a_real_t a_fuzzy_equ(a_real_t gamma, a_real_t l, a_real_t r);
 
 /*! @} A_FUZZY */
 
-#endif /* A_FUZZY_H */
+#endif /* LIBA_FUZZY_H */
