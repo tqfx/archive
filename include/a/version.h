@@ -37,80 +37,202 @@
 
 /*! algorithm library version tweak */
 #ifndef A_VERSION_TWEAK
-#define A_VERSION_TWEAK 0
+#define A_VERSION_TWEAK A_U64_C(0)
 #endif /* A_VERSION_TWEAK */
+
+#define A_VERSION_C(maj, min, pat) \
+    {                              \
+        maj, min, pat              \
+    }
+
+/*!
+ @brief instance structure for version
+*/
+typedef struct a_version_s
+{
+#if defined(__cplusplus)
+    A_PUBLIC a_bool_t operator<(const a_version_s &ver) const;
+    A_PUBLIC a_bool_t operator>(const a_version_s &ver) const;
+    A_PUBLIC a_bool_t operator<=(const a_version_s &ver) const;
+    A_PUBLIC a_bool_t operator>=(const a_version_s &ver) const;
+    A_PUBLIC a_bool_t operator==(const a_version_s &ver) const;
+    A_PUBLIC a_bool_t operator!=(const a_version_s &ver) const;
+    A_PUBLIC a_version_s(a_uint_t maj = 0,
+                         a_uint_t min = 0,
+                         a_uint_t pat = 0)
+        : major(maj)
+        , minor(min)
+        , patch(pat)
+    {
+    }
+#endif /* __cplusplus */
+    a_uint_t major;
+    a_uint_t minor;
+    a_uint_t patch;
+} a_version_s;
 
 #if defined(__cplusplus)
 namespace a
 {
 
-/*!
- @brief enumeration for algorithm library version
-*/
-enum
-{
-    VERSION_MAJOR = A_VERSION_MAJOR,
-    VERSION_MINOR = A_VERSION_MINOR,
-    VERSION_PATCH = A_VERSION_PATCH
-};
+/*! algorithm library version string */
+const cstr_t VERSION = A_VERSION;
+/*! algorithm library version major */
+const uint_t VERSION_MAJOR = A_VERSION_MAJOR;
+/*! algorithm library version minor */
+const uint_t VERSION_MINOR = A_VERSION_MINOR;
+/*! algorithm library version patch */
+const uint_t VERSION_PATCH = A_VERSION_PATCH;
+/*! algorithm library version tweak */
+const u64_t VERSION_TWEAK = A_VERSION_TWEAK;
+/* instance structure for version */
+typedef a_version_s version;
 
 } /* namespace a */
 extern "C" {
 #endif /* __cplusplus */
+
+/*!
+ @brief algorithm library version string
+*/
+A_EXTERN a_cstr_t a_version(void);
+
+/*!
+ @brief algorithm library version major
+*/
+A_EXTERN a_uint_t a_version_major(void);
+
+/*!
+ @brief algorithm library version minor
+*/
+A_EXTERN a_uint_t a_version_minor(void);
+
+/*!
+ @brief algorithm library version patch
+*/
+A_EXTERN a_uint_t a_version_patch(void);
+
 #if defined(LIBA_VERSION_C)
 #undef A_INTERN
 #define A_INTERN A_INLINE
 #endif /* LIBA_VERSION_C */
 
 /*!
- @brief algorithm library version string
+ @brief version lhs less than version rhs
+ @param[in] lhs operand on the left
+ @param[in] rhs operand on the right
+ @return result of comparison
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_EXTERN a_cstr_t a_version(void);
+A_EXTERN a_bool_t a_version_lt(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_cstr_t a_version(void)
+A_INTERN a_bool_t a_version_lt(const a_version_s *lhs, const a_version_s *rhs)
 {
-    return A_VERSION;
+    if (lhs->major < rhs->major)
+    {
+        return A_TRUE;
+    }
+    if (lhs->minor < rhs->minor)
+    {
+        return A_TRUE;
+    }
+    if (lhs->patch < rhs->patch)
+    {
+        return A_TRUE;
+    }
+    return A_FALSE;
 }
 #endif /* A_HAVE_INLINE */
 
 /*!
- @brief algorithm library version major
+ @brief version lhs greater than version rhs
+ @param[in] lhs operand on the left
+ @param[in] rhs operand on the right
+ @return result of comparison
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_EXTERN a_uint_t a_version_major(void);
+A_EXTERN a_bool_t a_version_gt(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_uint_t a_version_major(void)
+A_INTERN a_bool_t a_version_gt(const a_version_s *lhs, const a_version_s *rhs)
 {
-    return A_VERSION_MAJOR;
+    if (lhs->major > rhs->major)
+    {
+        return A_TRUE;
+    }
+    if (lhs->minor > rhs->minor)
+    {
+        return A_TRUE;
+    }
+    if (lhs->patch > rhs->patch)
+    {
+        return A_TRUE;
+    }
+    return A_FALSE;
 }
 #endif /* A_HAVE_INLINE */
 
 /*!
- @brief algorithm library version minor
+ @brief version lhs less than or equal version rhs
+ @param[in] lhs operand on the left
+ @param[in] rhs operand on the right
+ @return result of comparison
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_EXTERN a_uint_t a_version_minor(void);
+A_EXTERN a_bool_t a_version_le(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_uint_t a_version_minor(void)
+A_INTERN a_bool_t a_version_le(const a_version_s *lhs, const a_version_s *rhs)
 {
-    return A_VERSION_MINOR;
+    return !a_version_lt(rhs, lhs);
+}
+#endif /* A_HAVE_INLINE */
+/*!
+ @brief version lhs greater than or equal version rhs
+ @param[in] lhs operand on the left
+ @param[in] rhs operand on the right
+ @return result of comparison
+*/
+#if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
+A_EXTERN a_bool_t a_version_ge(const a_version_s *lhs, const a_version_s *rhs);
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
+A_INTERN a_bool_t a_version_ge(const a_version_s *lhs, const a_version_s *rhs)
+{
+    return !a_version_gt(rhs, lhs);
 }
 #endif /* A_HAVE_INLINE */
 
 /*!
- @brief algorithm library version patch
+ @brief version lhs equal version rhs
+ @param[in] lhs operand on the left
+ @param[in] rhs operand on the right
+ @return result of comparison
 */
 #if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
-A_EXTERN a_uint_t a_version_patch(void);
+A_EXTERN a_bool_t a_version_eq(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_uint_t a_version_patch(void)
+A_INTERN a_bool_t a_version_eq(const a_version_s *lhs, const a_version_s *rhs)
 {
-    return A_VERSION_PATCH;
+    return (lhs->major == rhs->major) && (lhs->minor == rhs->minor) && (lhs->patch == rhs->patch);
+}
+#endif /* A_HAVE_INLINE */
+
+/*!
+ @brief version lhs not equal version rhs
+ @param[in] lhs operand on the left
+ @param[in] rhs operand on the right
+ @return result of comparison
+*/
+#if !defined A_HAVE_INLINE || defined(LIBA_VERSION_C)
+A_EXTERN a_bool_t a_version_ne(const a_version_s *lhs, const a_version_s *rhs);
+#endif /* A_HAVE_INLINE */
+#if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
+A_INTERN a_bool_t a_version_ne(const a_version_s *lhs, const a_version_s *rhs)
+{
+    return (lhs->major != rhs->major) || (lhs->minor != rhs->minor) || (lhs->patch != rhs->patch);
 }
 #endif /* A_HAVE_INLINE */
 
@@ -118,70 +240,42 @@ A_INTERN a_uint_t a_version_patch(void)
 #undef A_INTERN
 #define A_INTERN static A_INLINE
 #endif /* LIBA_VERSION_C */
+
+/*!
+ @brief algorithm library version check
+*/
+A_INTERN a_bool_t a_version_check(void)
+{
+    a_version_s outer = A_VERSION_C(0, 0, 0);
+    a_version_s inner = A_VERSION_C(0, 0, 0);
+    outer.major = a_version_major();
+    outer.minor = a_version_minor();
+    inner.major = A_VERSION_MAJOR;
+    inner.minor = A_VERSION_MINOR;
+    return a_version_eq(&inner, &outer);
+}
+
 #if defined(__cplusplus)
 } /* extern "C" */
-#if defined(LIBA_VERSION_CPP)
-#undef A_INTERN
-#define A_INTERN
-#endif /* LIBA_VERSION_CPP */
 namespace a
 {
 
 /*!
- @brief algorithm library version string
-*/
-#if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
-A_EXTERN cstr_t version(void);
-#endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
-A_INTERN cstr_t version(void)
-{
-    return A_VERSION;
-}
-#endif /* A_HAVE_INLINE */
-
-/*!
  @brief algorithm library version major
 */
-#if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
 A_EXTERN uint_t version_major(void);
-#endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
-A_INTERN uint_t version_major(void)
-{
-    return VERSION_MAJOR;
-}
-#endif /* A_HAVE_INLINE */
+
 /*!
  @brief algorithm library version minor
 */
-#if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
 A_EXTERN uint_t version_minor(void);
-#endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
-A_INTERN uint_t version_minor(void)
-{
-    return VERSION_MINOR;
-}
-#endif /* A_HAVE_INLINE */
+
 /*!
  @brief algorithm library version patch
 */
-#if !defined A_HAVE_INLINE || defined(LIBA_VERSION_CPP)
 A_EXTERN uint_t version_patch(void);
-#endif /* A_HAVE_INLINE */
-#if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_CPP)
-A_INTERN uint_t version_patch(void)
-{
-    return VERSION_PATCH;
-}
-#endif /* A_HAVE_INLINE */
 
 } /* namespace a */
-#if defined(LIBA_VERSION_CPP)
-#undef A_INTERN
-#define A_INTERN static A_INLINE
-#endif /* LIBA_VERSION_CPP */
 #endif /* __cplusplus */
 
 /*! @} A_VERSION */

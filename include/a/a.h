@@ -46,15 +46,18 @@
 #define a_void_t A_VOID_T
 
 #if !defined __cplusplus
+#define A_TRUE 1
 #define A_FALSE 0
-#define A_TRUE !A_FALSE
-#else /* !__cplusplus */
-#define A_FALSE false
-#define A_TRUE true
-#endif /* __cplusplus */
 #if !defined A_BOOL_T
-#define A_BOOL_T int
+#define A_BOOL_T _Bool
 #endif /* A_BOOL_T */
+#else /* !__cplusplus */
+#define A_TRUE true
+#define A_FALSE false
+#if !defined A_BOOL_T
+#define A_BOOL_T bool
+#endif /* A_BOOL_T */
+#endif /* __cplusplus */
 /*! static cast to \ref a_bool_t */
 #define a_bool_c(x) (!!(x))
 /*! type, capable of holding one of the two values: 1 and 0 */
