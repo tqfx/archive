@@ -112,6 +112,31 @@ A_EXTERN a_uint_t a_version_minor(void);
 */
 A_EXTERN a_uint_t a_version_patch(void);
 
+/*!
+ @brief compare the version lhs with the version rhs
+ @param[in] lhs version structure to be compared
+ @param[in] rhs version structure to be compared
+ @return relationship between the versions
+  @retval <0 version lhs < version rhs
+  @retval >0 version lhs > version rhs
+  @retval 0 version lhs == version rhs
+*/
+A_EXTERN a_int_t a_version_cmp(const a_version_s *lhs, const a_version_s *rhs);
+
+/*!
+ @brief algorithm library version check
+*/
+A_INTERN a_int_t a_version_check(void)
+{
+    a_version_s outer = A_VERSION_C(0, 0, 0);
+    a_version_s inner = A_VERSION_C(0, 0, 0);
+    outer.major = a_version_major();
+    outer.minor = a_version_minor();
+    inner.major = A_VERSION_MAJOR;
+    inner.minor = A_VERSION_MINOR;
+    return a_version_cmp(&inner, &outer);
+}
+
 #if defined(LIBA_VERSION_C)
 #undef A_INTERN
 #define A_INTERN A_INLINE
@@ -240,20 +265,6 @@ A_INTERN a_bool_t a_version_ne(const a_version_s *lhs, const a_version_s *rhs)
 #undef A_INTERN
 #define A_INTERN static A_INLINE
 #endif /* LIBA_VERSION_C */
-
-/*!
- @brief algorithm library version check
-*/
-A_INTERN a_bool_t a_version_check(void)
-{
-    a_version_s outer = A_VERSION_C(0, 0, 0);
-    a_version_s inner = A_VERSION_C(0, 0, 0);
-    outer.major = a_version_major();
-    outer.minor = a_version_minor();
-    inner.major = A_VERSION_MAJOR;
-    inner.minor = A_VERSION_MINOR;
-    return a_version_eq(&inner, &outer);
-}
 
 #if defined(__cplusplus)
 } /* extern "C" */

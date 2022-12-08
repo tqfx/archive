@@ -20,3 +20,32 @@ a_uint_t a_version_patch(void)
 {
     return A_VERSION_PATCH;
 }
+
+a_int_t a_version_cmp(const a_version_s *lhs, const a_version_s *rhs)
+{
+    if (lhs->major < rhs->major)
+    {
+        return -3;
+    }
+    if (lhs->major > rhs->major)
+    {
+        return +3;
+    }
+    if (lhs->minor < rhs->minor)
+    {
+        return -2;
+    }
+    if (lhs->minor > rhs->minor)
+    {
+        return +2;
+    }
+    if (lhs->patch < rhs->patch)
+    {
+        return -1;
+    }
+    if (lhs->patch > rhs->patch)
+    {
+        return +1;
+    }
+    return 0;
+}
