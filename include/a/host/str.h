@@ -119,13 +119,13 @@ A_EXTERN a_str_s *a_str_move(a_str_s *ctx, a_str_s *obj);
 A_EXTERN a_str_t a_str_exit(a_str_s *ctx);
 
 /*!
- @brief compare the string lhs to the string rhs
+ @brief compare the string lhs with the string rhs
  @param[in] lhs string structure to be compared
  @param[in] rhs string structure to be compared
  @return relationship between the strings
-  @retval <0 lhs < rhs
-  @retval >0 lhs > rhs
-  @retval 0 lhs == rhs
+  @retval <0 string lhs < string rhs
+  @retval >0 string lhs > string rhs
+  @retval 0 string lhs == string rhs
 */
 A_EXTERN a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs);
 

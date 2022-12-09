@@ -102,7 +102,7 @@ a_int_t a_str_cmp(const a_str_s *lhs, const a_str_s *rhs)
     {
         return 0;
     }
-    return lhs->_num < rhs->_num ? -1 : 1;
+    return lhs->_num < rhs->_num ? -1 : +1;
 }
 
 a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
