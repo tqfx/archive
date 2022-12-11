@@ -41,7 +41,12 @@ function(building target)
     list(FILTER ARGN INCLUDE REGEX ".c$")
   endif()
 
-  add_executable(${TARGET} ${ARGN})
+  if(NOT TARGET_SUPPORTS_EXECUTABLES)
+    add_library(${TARGET} STATIC ${ARGN})
+  else()
+    add_executable(${TARGET} ${ARGN})
+  endif()
+
   set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME ${target})
   target_link_libraries(${TARGET} PRIVATE ${PROJECT_NAME}::${A_LIBRARY})
   target_executable_options(${TARGET})
@@ -55,9 +60,12 @@ function(unittest target)
     set(TEST_NAME ${target})
   endif()
 
-  add_test(NAME ${TEST_NAME} WORKING_DIRECTORY
-    $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:${A_LIBRARY}>,${CMAKE_CURRENT_BINARY_DIR}>
-    COMMAND ${TARGET_SYSTEM_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_ARGS}
+  if(NOT TARGET_SUPPORTS_EXECUTABLES AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
+    return()
+  endif()
+
+  add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:${TARGET}> ${TEST_ARGS}
+    WORKING_DIRECTORY $<IF:${IS_MULTI_CONFIG},$<TARGET_FILE_DIR:${A_LIBRARY}>,${CMAKE_CURRENT_BINARY_DIR}>
   )
 endfunction()
 

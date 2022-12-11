@@ -33,10 +33,6 @@ include(cmake/target.cmake)
 include(cmake/package.cmake)
 include(cmake/standard.cmake)
 
-if(TARGET_SUPPORTS_SHARED_LIBS AND PROJECT_IS_TOP_LEVEL)
-  include(CTest)
-endif()
-
 option(LIBA_WARNINGS "Enable or disable warnings" 0)
 
 if(LIBA_WARNINGS)
@@ -99,16 +95,16 @@ function(target_library_setting target)
   target_library_options(${target})
 endfunction()
 
-configure_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
-  ${CMAKE_CURRENT_BINARY_DIR}/a.config.h
-)
-
 if(CXX IN_LIST ENABLED_LANGUAGES)
   file(GLOB_RECURSE SOURCES include/*.h* src/*.[chm]*)
 else()
   file(GLOB_RECURSE SOURCES include/*.h src/*.[ch])
 endif()
+
+configure_file(
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.h
+  ${CMAKE_CURRENT_BINARY_DIR}/a.config.h
+)
 
 set(A_LIBRARIES a)
 add_library(a ${SOURCES})
@@ -235,11 +231,11 @@ if(LIBA_VCPKG AND GIT_COMMIT)
   )
 endif()
 
-if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/ffi AND TARGET_SUPPORTS_SHARED_LIBS)
+if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/ffi)
   add_subdirectory(ffi)
 endif()
 
-if(TARGET_SUPPORTS_SHARED_LIBS AND PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/test AND PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
   add_subdirectory(test)
 endif()
 

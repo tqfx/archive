@@ -1,10 +1,17 @@
 # include modules
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
+include(CheckCSourceCompiles)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
 get_cmake_property(TARGET_SUPPORTS_SHARED_LIBS TARGET_SUPPORTS_SHARED_LIBS)
+
+function(target_supports_executables)
+  set(CMAKE_REQUIRED_QUIET 1)
+  set(CMAKE_TRY_COMPILE_TARGET_TYPE EXECUTABLE)
+  check_c_source_compiles("int main(void) { return 0; }" TARGET_SUPPORTS_EXECUTABLES)
+endfunction()
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Specifies the build type on single-configuration generators." FORCE)
@@ -17,6 +24,12 @@ if(CMAKE_VERSION VERSION_LESS 3.21)
   else()
     set(PROJECT_IS_TOP_LEVEL 0)
   endif()
+endif()
+
+target_supports_executables()
+
+if(PROJECT_IS_TOP_LEVEL)
+  include(CTest)
 endif()
 
 function(string_prefix VAR)
