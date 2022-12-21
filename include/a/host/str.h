@@ -7,10 +7,9 @@
 #ifndef LIBA_HOST_STR_H
 #define LIBA_HOST_STR_H
 
-#include "a/a.h"
+#include "a.h"
 #include <string.h>
 #include <stdarg.h>
-#include <stdlib.h>
 
 /*!
  @ingroup A

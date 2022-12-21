@@ -7,8 +7,7 @@
 #ifndef LIBA_HOST_VEC_H
 #define LIBA_HOST_VEC_H
 
-#include "a/a.h"
-#include <stdlib.h>
+#include "a.h"
 
 /*!
  @ingroup A
