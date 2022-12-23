@@ -40,10 +40,9 @@
 #define A_VERSION_TWEAK A_U64_C(0)
 #endif /* A_VERSION_TWEAK */
 
-#define A_VERSION_C(maj, min, pat) \
-    {                              \
-        maj, min, pat              \
-    }
+// clang-format off
+#define A_VERSION_C(maj, min, pat) {maj, min, pat}
+// clang-format on
 
 /*!
  @brief instance structure for version
