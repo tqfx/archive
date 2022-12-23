@@ -122,7 +122,7 @@ elif os.path.exists("ffi/python/src/lib.c"):
 config = os.path.join(base, config_h)
 if not os.path.exists(config):
     if not os.path.exists(base):
-        os.mkdir(base)
+        os.makedirs(base)
     configure(config, define_macros)
 
 for dirpath, dirnames, filenames in os.walk("include"):
