@@ -75,3 +75,18 @@ check_math(A_HAVE_CATAN catan)
 check_math(A_HAVE_CASINH casinh)
 check_math(A_HAVE_CACOSH cacosh)
 check_math(A_HAVE_CATANH catanh)
+
+option(LIBA_TALLOC "Enable or disable talloc" 0)
+
+if(LIBA_TALLOC)
+  find_path(TALLOC_INCLUDE_DIR talloc.h)
+  find_library(TALLOC_LIBRARY talloc)
+  mark_as_advanced(
+    TALLOC_INCLUDE_DIR TALLOC_LIBRARY
+  )
+
+  if(TALLOC_INCLUDE_DIR AND TALLOC_LIBRARY)
+    set(A_HAVE_TALLOC_H 1)
+    set(TALLOC_FOUND 1)
+  endif()
+endif()

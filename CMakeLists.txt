@@ -80,6 +80,11 @@ elseif(LIBA_IPO) # cmake < 3.9
 endif()
 
 function(target_library_setting target)
+  if(LIBA_TALLOC AND TALLOC_FOUND)
+    target_include_directories(${target} PUBLIC ${TALLOC_INCLUDE_DIR})
+    target_link_libraries(${target} PUBLIC ${TALLOC_LIBRARY})
+  endif()
+
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})
   set_target_properties(${target} PROPERTIES
     POSITION_INDEPENDENT_CODE ON DEFINE_SYMBOL A_EXPORTS

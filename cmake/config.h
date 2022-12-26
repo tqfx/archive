@@ -32,3 +32,4 @@
 #cmakedefine A_HAVE_CASINH @A_HAVE_CASINH@
 #cmakedefine A_HAVE_CACOSH @A_HAVE_CACOSH@
 #cmakedefine A_HAVE_CATANH @A_HAVE_CATANH@
+#cmakedefine A_HAVE_TALLOC_H @A_HAVE_TALLOC_H@

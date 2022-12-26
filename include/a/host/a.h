@@ -10,6 +10,14 @@
 #include "a/a.h"
 #include <stdlib.h>
 
+#if defined(A_HAVE_TALLOC_H)
+#include <talloc.h>
+#define malloc(siz) _talloc(A_NULL, siz)
+#define realloc(ptr, siz) _talloc(ptr, siz)
+#define calloc(num, siz) _talloc_zero(A_NULL, (num) * (siz), __location__)
+#define free(ptr) _talloc_free(ptr, __location__)
+#endif /* A_HAVE_TALLOC_H */
+
 A_INTERN a_void_t a_die(a_vptr_t ptr) { free(ptr); }
 A_INTERN a_vptr_t a_new(a_vptr_t ptr, a_size_t siz)
 {
