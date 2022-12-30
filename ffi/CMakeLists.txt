@@ -9,9 +9,9 @@ if(LIBA_LUA OR WITH_LUA)
     find_package(Lua)
   endif()
 
-  if(LUA_FOUND)
-    set(LUA_MATH_LIBRARY ${MATH_LIBRARY} CACHE STRING "" FORCE)
-  else()
+  set(LUA_MATH_LIBRARY ${LIBA_MATH} CACHE STRING "lua math library" FORCE)
+
+  if(NOT LUA_FOUND)
     add_subdirectory(lua/lua)
     set(LUA_EXECUTABLE ${CMAKE_CROSSCOMPILING_EMULATOR} ${LUA_EXECUTABLE})
 

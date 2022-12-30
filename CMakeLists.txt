@@ -96,7 +96,7 @@ function(target_library_setting target)
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
     $<INSTALL_INTERFACE:include>
   )
-  target_link_libraries(${target} PUBLIC ${MATH_LIBRARY})
+  target_link_libraries(${target} PUBLIC ${LIBA_MATH})
   target_library_options(${target})
 endfunction()
 
