@@ -46,7 +46,6 @@ if(LIBA_SANITIZE)
 endif()
 
 include(cmake/check.cmake)
-include(cmake/git.cmake)
 
 option(LIBA_PYTHON "Enable or disable python" 0)
 
@@ -81,8 +80,7 @@ endif()
 
 function(target_library_setting target)
   if(LIBA_TALLOC AND TALLOC_FOUND)
-    target_include_directories(${target} PUBLIC ${TALLOC_INCLUDE_DIR})
-    target_link_libraries(${target} PUBLIC ${TALLOC_LIBRARY})
+    target_link_libraries(${target} PUBLIC Talloc::talloc)
   endif()
 
   add_library(${PROJECT_NAME}::${target} ALIAS ${target})

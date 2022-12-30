@@ -71,17 +71,41 @@ check_math(A_HAVE_CASINH casinh)
 check_math(A_HAVE_CACOSH cacosh)
 check_math(A_HAVE_CATANH catanh)
 
+find_package(Git)
+
+if(GIT_FOUND)
+  function(git_command output)
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} ${ARGN}
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      OUTPUT_VARIABLE ${output}
+      ERROR_QUIET
+    )
+    set(${output} ${${output}} PARENT_SCOPE)
+  endfunction()
+
+  git_command(GIT_BRANCH branch --show-current)
+  git_command(GIT_COMMIT log -1 --pretty=format:%h)
+  git_command(GIT_COMMIT_LONG log -1 --pretty=format:%H)
+  git_command(GIT_COMMIT_DATE log -1 --pretty=format:%cd --date=format:%Y%m%d%H%M)
+endif()
+
+if(NOT GIT_COMMIT_DATE)
+  string(TIMESTAMP ${PROJECT_NAME}_VERSION_TWEAK %Y%m%d%H%M)
+  string(TIMESTAMP PROJECT_VERSION_TWEAK %Y%m%d%H%M)
+else()
+  set(${PROJECT_NAME}_VERSION_TWEAK ${GIT_COMMIT_DATE})
+  set(PROJECT_VERSION_TWEAK ${GIT_COMMIT_DATE})
+endif()
+
 option(LIBA_TALLOC "Enable or disable talloc" 0)
 
 if(LIBA_TALLOC)
-  find_path(TALLOC_INCLUDE_DIR talloc.h)
-  find_library(TALLOC_LIBRARY talloc)
-  mark_as_advanced(
-    TALLOC_INCLUDE_DIR TALLOC_LIBRARY
-  )
+  find_package(Talloc)
+endif()
 
-  if(TALLOC_INCLUDE_DIR AND TALLOC_LIBRARY)
-    set(A_HAVE_TALLOC_H 1)
-    set(TALLOC_FOUND 1)
-  endif()
+if(LIBA_TALLOC AND TALLOC_FOUND)
+  set(A_HAVE_TALLOC_H 1)
+else()
+  set(A_HAVE_TALLOC_H 0)
 endif()
