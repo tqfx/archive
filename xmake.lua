@@ -130,7 +130,7 @@ target("a.objs")
 target_end()
 
 target("a")
-    -- make as a static/shared library
+    -- make as a static library
     set_kind("static")
     -- add the dependent target
     add_deps("a.objs")
