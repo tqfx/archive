@@ -11,13 +11,13 @@ string_append(CMAKE_CXX_FLAGS ${CXXFLAGS_WARNINGS} ${CXXFLAGS_SANITIZE})
 string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
 string_append(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_SANITIZE})
 
-option(LIBA_PIC "Enable or disable position independent code" 0)
-
-if(DEFINED ENV{ANDROID_ROOT})
-  set(CMAKE_POSITION_INDEPENDENT_CODE 1)
+if(DEFINED ENV{ANDROID_ROOT} AND EXISTS $ENV{ANDROID_ROOT})
+  option(LIBA_PIC "Enable or disable position independent code" 1)
 else()
-  set(CMAKE_POSITION_INDEPENDENT_CODE ${LIBA_PIC})
+  option(LIBA_PIC "Enable or disable position independent code" 0)
 endif()
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ${LIBA_PIC})
 
 # https://cmake.org/cmake/help/latest/module/CheckPIESupported.html
 if(CMAKE_VERSION VERSION_GREATER 3.14)

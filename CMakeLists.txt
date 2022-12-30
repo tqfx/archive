@@ -33,6 +33,12 @@ include(cmake/target.cmake)
 include(cmake/package.cmake)
 include(cmake/standard.cmake)
 
+option(LIBA_STATIC "Enable or disable static" 0)
+
+if(LIBA_STATIC)
+  include(cmake/static.cmake)
+endif()
+
 option(LIBA_WARNINGS "Enable or disable warnings" 0)
 
 if(LIBA_WARNINGS)
