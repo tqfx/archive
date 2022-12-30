@@ -12,6 +12,10 @@ else()
   option(LUA_READLINE "Enable or disable readline" 1)
 endif()
 
+if(LUA_READLINE)
+  find_package(ReadLine)
+endif()
+
 if(LUA_32BITS)
   set(LUA_32BITS 1 CACHE BOOL "build lua 32bits" FORCE)
 else()
@@ -114,8 +118,7 @@ endif()
 
 if(LUA_READLINE AND READLINE_FOUND)
   target_compile_definitions(lua PRIVATE LUA_USE_READLINE)
-  target_include_directories(lua PRIVATE ${READLINE_INCLUDE_DIR})
-  target_link_libraries(lua PRIVATE ${READLINE_LIBRARY})
+  target_link_libraries(lua PRIVATE ReadLine::readline)
 endif()
 
 if(WIN32)

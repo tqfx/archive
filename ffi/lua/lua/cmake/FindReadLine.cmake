@@ -1,0 +1,85 @@
+include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
+
+find_package(PkgConfig QUIET)
+
+if(PKG_CONFIG_FOUND)
+  pkg_check_modules(READLINE QUIET readline tinfo)
+  set(READLINE_LIBRARIES "")
+  set(READLINE_FOUND "")
+endif()
+
+find_path(READLINE_INCLUDE_DIR
+  NAMES readline/readline.h
+  HINTS ${READLINE_INCLUDE_DIRS}
+)
+mark_as_advanced(READLINE_INCLUDE_DIR)
+
+if(NOT READLINE_INCLUDE_DIRS)
+  list(APPEND READLINE_INCLUDE_DIRS ${READLINE_INCLUDE_DIR})
+endif()
+
+if(NOT READLINE_VERSION AND EXISTS ${READLINE_INCLUDE_DIR}/readline/readline.h)
+  file(STRINGS ${READLINE_INCLUDE_DIR}/readline/readline.h readline_h REGEX "define.*RL_VERSION")
+  string(REGEX REPLACE ".*VERSION_MAJOR[^0-9]+([0-9]+).*" "\\1" READLINE_VERSION_MAJOR ${readline_h})
+  string(REGEX REPLACE ".*VERSION_MINOR[^0-9]+([0-9]+).*" "\\1" READLINE_VERSION_MINOR ${readline_h})
+  set(READLINE_VERSION ${READLINE_VERSION_MAJOR}.${READLINE_VERSION_MINOR})
+  unset(readline_h)
+endif()
+
+find_library(READLINE_LIBRARY
+  NAMES readline NAMES_PER_DIR
+  HINTS ${READLINE_LIBRARY_DIRS}
+)
+
+if(EXISTS ${READLINE_LIBRARY})
+  mark_as_advanced(READLINE_LIBRARY)
+  list(APPEND READLINE_LIBRARIES ${READLINE_LIBRARY})
+endif()
+
+find_library(TINFO_LIBRARY
+  NAMES tinfo NAMES_PER_DIR
+  HINTS ${READLINE_LIBRARY_DIRS}
+)
+
+if(EXISTS ${TINFO_LIBRARY})
+  mark_as_advanced(TINFO_LIBRARY)
+  list(APPEND READLINE_LIBRARIES ${TINFO_LIBRARY})
+endif()
+
+find_package_handle_standard_args(ReadLine
+  FOUND_VAR
+    READLINE_FOUND
+  REQUIRED_VARS
+    READLINE_LIBRARIES
+    READLINE_INCLUDE_DIRS
+  VERSION_VAR
+    READLINE_VERSION
+)
+
+if(READLINE_FOUND)
+  if(EXISTS ${TINFO_LIBRARY})
+    add_library(ReadLine::tinfo UNKNOWN IMPORTED)
+    set_target_properties(ReadLine::tinfo PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${READLINE_INCLUDE_DIR}
+      INTERFACE_COMPILE_OPTIONS "${READLINE_CFLAGS}"
+      IMPORTED_LOCATION ${TINFO_LIBRARY}
+      IMPORTED_LINK_INTERFACE_LANGUAGES C
+    )
+  endif()
+
+  if(EXISTS ${READLINE_LIBRARY})
+    add_library(ReadLine::readline UNKNOWN IMPORTED)
+    set_target_properties(ReadLine::readline PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${READLINE_INCLUDE_DIR}
+      INTERFACE_COMPILE_OPTIONS "${READLINE_CFLAGS}"
+      IMPORTED_LOCATION ${READLINE_LIBRARY}
+      IMPORTED_LINK_INTERFACE_LANGUAGES C
+    )
+  endif()
+
+  if(EXISTS ${READLINE_LIBRARY} AND EXISTS ${TINFO_LIBRARY})
+    set_target_properties(ReadLine::readline PROPERTIES
+      INTERFACE_LINK_LIBRARIES ReadLine::tinfo
+    )
+  endif()
+endif()
