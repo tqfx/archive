@@ -40,9 +40,13 @@
 #define A_VERSION_TWEAK A_U64_C(0)
 #endif /* A_VERSION_TWEAK */
 
+#if defined(__cplusplus)
+#define A_VERSION_C(maj, min, pat) a_version_s(maj, min, pat)
+#else /* !__cplusplus */
 // clang-format off
 #define A_VERSION_C(maj, min, pat) {maj, min, pat}
 // clang-format on
+#endif /* __cplusplus */
 
 /*!
  @brief instance structure for version
