@@ -133,11 +133,6 @@ else()
   set_target_properties(liblua PROPERTIES OUTPUT_NAME ${static})
 endif()
 
-get_property(prop TARGET liblua PROPERTY INTERFACE_COMPILE_DEFINITIONS)
-set(PROJECT_CFLAGS "-D$<JOIN:${prop}, -D>")
-get_property(prop TARGET liblua PROPERTY INTERFACE_LINK_LIBRARIES)
-set(PROJECT_LIBS "-l$<JOIN:${static};${prop}, -l>")
-
 file(GLOB_RECURSE PUBLIC_HEADER lua.h luaconf.h lualib.h lauxlib.h lua.hpp)
 install(FILES ${PUBLIC_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(TARGETS lualib liblua lua luac EXPORT ${PROJECT_NAME}-targets
@@ -149,6 +144,16 @@ install(EXPORT ${PROJECT_NAME}-targets FILE ${PROJECT_NAME}-targets.cmake
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 install(FILES doc/lua.1 doc/luac.1 DESTINATION man/man1)
+
+get_property(prop TARGET liblua PROPERTY INTERFACE_COMPILE_DEFINITIONS)
+set(PC_CFLAGS "-D$<JOIN:${prop}, -D>")
+get_property(prop TARGET liblua PROPERTY INTERFACE_LINK_LIBRARIES)
+set(PC_LDFLAGS "-l${static}")
+
+if(prop)
+  set(PC_STATIC_LDFLAGS "-l$<JOIN:${prop}, -l>")
+endif()
+
 file(GENERATE
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${static}.pc
   INPUT ${CMAKE_CURRENT_BINARY_DIR}/${static}.pc
@@ -162,4 +167,5 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${static}.pc
   @ONLY
 )
+
 include(CPack)

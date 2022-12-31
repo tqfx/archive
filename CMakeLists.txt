@@ -171,11 +171,6 @@ if(LIBA_SANITIZE)
   endif()
 endif()
 
-get_property(prop TARGET a PROPERTY INTERFACE_COMPILE_DEFINITIONS)
-set(PROJECT_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
-get_property(prop TARGET a PROPERTY INTERFACE_LINK_LIBRARIES)
-set(PROJECT_LIBS "-l$<JOIN:a;${prop}, -l>")
-
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/a.config.h DESTINATION include)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
   DESTINATION include FILES_MATCHING REGEX ".*\.\(h\|hh\|hxx\|hpp\)$"
@@ -209,6 +204,15 @@ configure_package_config_file(
 option(LIBA_PKGCONFIG "Enable or disable pkgconfig" 0)
 
 if(LIBA_PKGCONFIG)
+  get_property(prop TARGET a PROPERTY INTERFACE_COMPILE_DEFINITIONS)
+  set(PC_CFLAGS "$<$<BOOL:${prop}>:-D$<JOIN:${prop}, -D>>")
+  get_property(prop TARGET a PROPERTY INTERFACE_LINK_LIBRARIES)
+  set(PC_LDFLAGS -la)
+
+  if(prop)
+    set(PC_STATIC_LDFLAGS "-l$<JOIN:${prop}, -l>")
+  endif()
+
   file(GENERATE
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
     INPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
