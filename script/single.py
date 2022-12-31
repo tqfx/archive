@@ -21,7 +21,7 @@ class single(object):
             self._include_dirs.append(value)
 
     def read(self, name):
-        self.name = os.path.relpath(name)
+        self.name = os.path.relpath(name).replace('\\', '/')
         with open(self.name, "r") as f:
             self.source = f.read()
         return self
@@ -40,6 +40,7 @@ class single(object):
             name = args[0]
         else:
             name = self.name
+        name = name.replace('\\', '/')
         if not os.path.exists(name):
             return ''
         if name in self._include_files:
@@ -129,9 +130,11 @@ if __name__ == "__main__":
                     o.read(source)()
                     o.write(output)
     if args[0].verbose:
+        sources = " ".join(o.include_files)
+        objects = ".o ".join(o.include_files) + ".o"
         for key in o.include_files:
             item = o.include_files[key]
-            sys.stderr.write(key + ":\n")
-            for header in item["header"]:
-                header = "  " + header + '\n'
-                sys.stderr.write(header)
+            item = " ".join(reversed(item["header"]))
+            sys.stderr.write(key + ".o:%s\n" % item)
+        sys.stderr.write("SOURCES = %s\n" % sources)
+        sys.stderr.write("OBJECTS = %s\n" % objects)
