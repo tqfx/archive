@@ -3,14 +3,22 @@ include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 find_package(PkgConfig QUIET)
 
 if(PKG_CONFIG_FOUND)
-  pkg_check_modules(TALLOC QUIET talloc)
-  set(TALLOC_LIBRARIES "")
-  set(TALLOC_FOUND "")
+  if(CMAKE_VERSION VERSION_GREATER 3.6)
+    pkg_check_modules(Talloc QUIET IMPORTED_TARGET talloc)
+  else()
+    pkg_check_modules(Talloc QUIET readline talloc)
+  endif()
+
+  if(Talloc_FOUND)
+    if(Talloc_VERSION)
+      set(TALLOC_VERSION ${Talloc_VERSION})
+    endif()
+  endif()
 endif()
 
 find_path(TALLOC_INCLUDE_DIR
   NAMES talloc.h
-  HINTS ${TALLOC_INCLUDE_DIRS}
+  HINTS ${Talloc_INCLUDE_DIRS}
 )
 mark_as_advanced(TALLOC_INCLUDE_DIR)
 
@@ -28,7 +36,7 @@ endif()
 
 find_library(TALLOC_LIBRARY
   NAMES talloc NAMES_PER_DIR
-  HINTS ${TALLOC_LIBRARY_DIRS}
+  HINTS ${Talloc_LIBRARY_DIRS}
 )
 
 if(EXISTS ${TALLOC_LIBRARY})
@@ -47,7 +55,11 @@ find_package_handle_standard_args(Talloc
 )
 
 if(TALLOC_FOUND)
-  if(EXISTS ${TALLOC_LIBRARY})
+  if(TARGET PkgConfig::Talloc)
+    add_library(Talloc::talloc ALIAS PkgConfig::Talloc)
+  endif()
+
+  if(NOT TARGET Talloc::talloc AND EXISTS ${TALLOC_LIBRARY})
     add_library(Talloc::talloc UNKNOWN IMPORTED)
     set_target_properties(Talloc::talloc PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES ${TALLOC_INCLUDE_DIR}
