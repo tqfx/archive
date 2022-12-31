@@ -3,13 +3,12 @@ option(LIBA_LUA "Enable or disable ffi lua" 0)
 option(WITH_LUA "Build with lua" 0)
 
 if(LIBA_LUA OR WITH_LUA)
+  set(LUA_MATH_LIBRARY ${LIBA_MATH} CACHE STRING "lua math library")
   set(A_LIBRARY a)
 
   if(NOT WITH_LUA)
     find_package(Lua)
   endif()
-
-  set(LUA_MATH_LIBRARY ${LIBA_MATH} CACHE STRING "lua math library" FORCE)
 
   if(NOT LUA_FOUND)
     add_subdirectory(lua/lua)

@@ -29,35 +29,37 @@ elseif(NOT LUA_MATH)
 endif()
 
 if(NOT WIN32 AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h)
-  file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h LUACONF_H)
+  file(READ ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h luaconf_h)
   string(REGEX REPLACE "([^/\\]+)$" "\\1/" LUA_ROOT "${CMAKE_INSTALL_PREFIX}")
-  string(REGEX REPLACE "#define LUA_USE_READLINE([^\n]+)\n" "" LUACONF_H "${LUACONF_H}")
-  string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT}\"\n" LUACONF_H "${LUACONF_H}")
-  string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" LUACONF_H "${LUACONF_H}")
+  string(REGEX REPLACE "#define LUA_USE_READLINE([^\n]+)\n" "" luaconf_h "${luaconf_h}")
+  string(REGEX REPLACE "#define LUA_ROOT\t([^\n]+)\n" "#define LUA_ROOT\t\"${LUA_ROOT}\"\n" luaconf_h "${luaconf_h}")
+  string(REGEX REPLACE "#define LUA_32BITS\t([^\n]+)\n" "#define LUA_32BITS\t${LUA_32BITS}\n" luaconf_h "${luaconf_h}")
 
   if(APPLE)
-    if(LUA_VERSION VERSION_GREATER 5.1.5)
+    if(LUA_VERSION VERSION_GREATER_EQUAL 5.2)
       set(LUA_CPATH_DEFAULT ".so;\" \\\\\n\tLUA_CDIR\"?.dylib;\" LUA_CDIR\"loadall.dylib;\" \"./?.dylib\"\n")
     else()
       set(LUA_CPATH_DEFAULT ".so;\" \\\\\n\t\"./?.dylib;\" LUA_CDIR\"?.dylib;\" LUA_CDIR\"loadall.dylib\"\n")
     endif()
 
-    string(REGEX REPLACE "\.so\"\n" "${LUA_CPATH_DEFAULT}" LUACONF_H "${LUACONF_H}")
+    string(REGEX REPLACE "\.so\"\n" "${LUA_CPATH_DEFAULT}" luaconf_h "${luaconf_h}")
   endif()
 
-  file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${LUACONF_H}")
+  file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h "${luaconf_h}")
+  unset(luaconf_h)
 endif()
 
 if(DEFINED ENV{PREFIX} AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c)
   string(REGEX REPLACE "([^/\\]+)([/\\]*)$" "\\1/tmp/lua_XXXXXX" LUA_ROOT "$ENV{PREFIX}")
-  file(READ ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c LOSLIB_C)
+  file(READ ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c loslib_c)
   string(LENGTH "${LUA_ROOT}0" LUA_ROOT_LENGTH)
-  string(REGEX REPLACE "#define LUA_TMPNAMTEMPLATE\t([^\n]+)\n" "#define LUA_TMPNAMTEMPLATE\t\"${LUA_ROOT}\"\n" LOSLIB_C "${LOSLIB_C}")
-  string(REGEX REPLACE "#define LUA_TMPNAMBUFSIZE\t([^\n]+)\n" "#define LUA_TMPNAMBUFSIZE\t${LUA_ROOT_LENGTH}\n" LOSLIB_C "${LOSLIB_C}")
-  file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c "${LOSLIB_C}")
+  string(REGEX REPLACE "#define LUA_TMPNAMTEMPLATE\t([^\n]+)\n" "#define LUA_TMPNAMTEMPLATE\t\"${LUA_ROOT}\"\n" loslib_c "${loslib_c}")
+  string(REGEX REPLACE "#define LUA_TMPNAMBUFSIZE\t([^\n]+)\n" "#define LUA_TMPNAMBUFSIZE\t${LUA_ROOT_LENGTH}\n" loslib_c "${loslib_c}")
+  file(WRITE ${CMAKE_CURRENT_LIST_DIR}/src/loslib.c "${loslib_c}")
+  unset(loslib_c)
 endif()
 
-if(DEFINED ENV{ANDROID_ROOT})
+if(DEFINED ENV{ANDROID_ROOT} AND EXISTS $ENV{ANDROID_ROOT})
   set(CMAKE_POSITION_INDEPENDENT_CODE 1)
 endif()
 
@@ -67,9 +69,9 @@ if(CMAKE_VERSION VERSION_GREATER 3.13)
   check_pie_supported()
 endif()
 
-if(LUA_VERSION VERSION_GREATER 5.3.6)
+if(LUA_VERSION VERSION_GREATER_EQUAL 5.4)
   set(LUA_COMPAT LUA_COMPAT_5_3)
-elseif(LUA_VERSION VERSION_GREATER 5.2.4)
+elseif(LUA_VERSION VERSION_GREATER_EQUAL 5.3)
   set(LUA_COMPAT LUA_COMPAT_5_2)
 else()
   set(LUA_COMPAT LUA_COMPAT_ALL)
@@ -88,7 +90,7 @@ function(lua_library target)
     set_target_properties(${target} PROPERTIES IMPORT_SUFFIX .def)
   endif()
 
-  set_target_properties(${target} PROPERTIES OUTPUT_NAME lua DEFINE_SYMBOL ${LUA_COMPAT})
+  set_target_properties(${target} PROPERTIES DEFINE_SYMBOL ${LUA_COMPAT})
   target_link_libraries(${target} INTERFACE ${CMAKE_DL_LIBS} ${LUA_MATH_LIBRARY})
   target_compile_definitions(${target} PUBLIC ${LUA_COMPAT} ${LUA_PLATFORM})
   target_include_directories(${target} PUBLIC $<INSTALL_INTERFACE:include>)
@@ -121,17 +123,20 @@ if(LUA_READLINE AND READLINE_FOUND)
   target_link_libraries(lua PRIVATE ReadLine::readline)
 endif()
 
+set(static lua${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+set(shared lua${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR})
+set_target_properties(lualib PROPERTIES OUTPUT_NAME ${static})
+
 if(WIN32)
-  set(name lua${PROJECT_VERSION_MAJOR}${PROJECT_VERSION_MINOR})
+  set_target_properties(liblua PROPERTIES OUTPUT_NAME ${shared})
 else()
-  set(name lua${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+  set_target_properties(liblua PROPERTIES OUTPUT_NAME ${static})
 endif()
 
 get_property(prop TARGET liblua PROPERTY INTERFACE_COMPILE_DEFINITIONS)
 set(PROJECT_CFLAGS "-D$<JOIN:${prop}, -D>")
 get_property(prop TARGET liblua PROPERTY INTERFACE_LINK_LIBRARIES)
-set(PROJECT_LIBS "-l$<JOIN:${name};${prop}, -l>")
-set_target_properties(liblua PROPERTIES OUTPUT_NAME ${name})
+set(PROJECT_LIBS "-l$<JOIN:${static};${prop}, -l>")
 
 file(GLOB_RECURSE PUBLIC_HEADER lua.h luaconf.h lualib.h lauxlib.h lua.hpp)
 install(FILES ${PUBLIC_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
@@ -145,16 +150,16 @@ install(EXPORT ${PROJECT_NAME}-targets FILE ${PROJECT_NAME}-targets.cmake
 )
 install(FILES doc/lua.1 doc/luac.1 DESTINATION man/man1)
 file(GENERATE
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  INPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${static}.pc
+  INPUT ${CMAKE_CURRENT_BINARY_DIR}/${static}.pc
 )
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  ${CMAKE_CURRENT_BINARY_DIR}/${static}.pc
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.pc
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+  ${CMAKE_CURRENT_BINARY_DIR}/${static}.pc
   @ONLY
 )
 include(CPack)
