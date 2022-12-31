@@ -12,9 +12,9 @@
 
 #if defined(A_HAVE_TALLOC_H)
 #include <talloc.h>
-#define malloc(siz) _talloc(A_NULL, siz)
-#define realloc(ptr, siz) _talloc(ptr, siz)
-#define calloc(num, siz) _talloc_zero(A_NULL, (num) * (siz), __location__)
+#define malloc(siz) _talloc_array(A_NULL, 1, siz, __location__)
+#define calloc(num, siz) _talloc_zero_array(A_NULL, siz, num, __location__)
+#define realloc(ptr, siz) _talloc_realloc(A_NULL, ptr, siz, __location__)
 #define free(ptr) _talloc_free(ptr, __location__)
 #endif /* A_HAVE_TALLOC_H */
 
