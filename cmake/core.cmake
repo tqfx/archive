@@ -11,7 +11,7 @@ get_cmake_property(TARGET_SUPPORTS_SHARED_LIBS TARGET_SUPPORTS_SHARED_LIBS)
 function(target_supports_executables)
   set(CMAKE_REQUIRED_QUIET 1)
   set(CMAKE_TRY_COMPILE_TARGET_TYPE EXECUTABLE)
-  check_c_source_compiles("int main(void) { return 0; }" TARGET_SUPPORTS_EXECUTABLES)
+  check_c_source_compiles("int main() {}" TARGET_SUPPORTS_EXECUTABLES)
 endfunction()
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -43,6 +43,7 @@ if(CMAKE_VERSION VERSION_LESS 3.21)
 endif()
 
 target_supports_executables()
+set(PROJECT_LICENSE MPL-2.0)
 
 if(PROJECT_IS_TOP_LEVEL)
   include(CTest)

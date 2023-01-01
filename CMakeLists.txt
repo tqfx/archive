@@ -30,7 +30,6 @@ project(liba VERSION 0.1.1 LANGUAGES ${LANGUAGES} # 3.12
 include(GNUInstallDirs)
 include(cmake/core.cmake)
 include(cmake/target.cmake)
-include(cmake/package.cmake)
 include(cmake/standard.cmake)
 
 option(LIBA_STATIC "Enable or disable static" 0)
@@ -252,7 +251,24 @@ if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/test AND PROJECT_IS_TOP_LEVEL AND BUILD_TEST
   add_subdirectory(test)
 endif()
 
-package_cpack(${CMAKE_CURRENT_LIST_DIR})
+set(CPACK_SOURCE_IGNORE_FILES
+  ${CMAKE_CURRENT_LIST_DIR}/.git
+  ${CMAKE_CURRENT_LIST_DIR}/.cache
+  ${CMAKE_CURRENT_LIST_DIR}/.vscode
+  ${CMAKE_CURRENT_LIST_DIR}/.github
+  ${CMAKE_CURRENT_LIST_DIR}/.gitignore
+  ${CMAKE_CURRENT_LIST_DIR}/.gitmodules
+  ${CMAKE_CURRENT_LIST_DIR}/.gitattributes
+  ${PROJECT_BINARY_DIR}
+)
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_LIST_DIR}/LICENSE.txt)
+set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/README.md)
+set(CPACK_RPM_PACKAGE_LICENSE ${PROJECT_LICENSE})
+set(CPACK_PACKAGE_CONTACT tqfx@foxmail.com)
+include(CPack)
+
+find_program(CLANG_FORMAT clang-format)
+mark_as_advanced(CLANG_FORMAT)
 
 if(CLANG_FORMAT)
   file(GLOB_RECURSE SOURCES ffi/*.[chm]* include/*.h* src/*.[chm]* test/*.[chm]*)
