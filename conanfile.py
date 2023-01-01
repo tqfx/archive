@@ -11,8 +11,8 @@ class aConan(ConanFile):
     topics = ("algorithm",)
     generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False], "ipo": [True, False]}
-    default_options = {"shared": False, "fPIC": True, "ipo": False}
+    options = {"shared": [1, 0], "fPIC": [1, 0], "ipo": [1, 0]}
+    default_options = {"shared": 0, "fPIC": 1, "ipo": 0}
     exports_sources = (
         "CMakeLists.txt",
         "LICENSE.txt",
@@ -27,21 +27,23 @@ class aConan(ConanFile):
             del self.options.fPIC  # type: ignore
 
     def source(self):
-        tools.replace_in_file(
-            "CMakeLists.txt",
-            "include(cmake/standard.cmake)",
-            "include(cmake/standard.cmake)\n\n"
-            "include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)\n"
-            "conan_basic_setup()",
-        )
+        CMakeLists_txt = str(tools.load("CMakeLists.txt"))
+        if "conan_basic_setup" not in CMakeLists_txt:
+            CMakeLists_txt = CMakeLists_txt.replace(
+                "include(cmake/standard.cmake)\n",
+                "include(cmake/standard.cmake)\n"
+                "include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)\n"
+                "conan_basic_setup()\n",
+            )
+        tools.save("CMakeLists.txt", CMakeLists_txt)
 
     def build(self):
         cmake = CMake(self)
-        cmake.definitions["BUILD_TESTING"] = False
+        cmake.definitions["BUILD_TESTING"] = 0
         if self.settings.build_type != "Debug":  # type: ignore
             cmake.definitions["LIBA_IPO"] = self.options.ipo  # type: ignore
         else:
-            cmake.definitions["LIBA_IPO"] = False
+            cmake.definitions["LIBA_IPO"] = 0
         cmake.configure()
         cmake.build()
 
