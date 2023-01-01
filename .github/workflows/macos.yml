@@ -31,7 +31,7 @@ jobs:
           set -x
           cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.type }} \
             -DLIBA_WARNINGS=1 \
-            -DLIBA_SANITIZE=0 \
+            -DLIBA_SANITIZE=1 \
             -DLIBA_PYTHON=1 \
             -DLIBA_VCPKG=1 \
             -DLIBA_JAVA=1 \

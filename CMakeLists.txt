@@ -161,6 +161,7 @@ if(LIBA_SANITIZE)
     set_target_properties(libasan PROPERTIES OUTPUT_NAME a.san)
     target_compile_definitions(${shared} INTERFACE A_IMPORTS)
     target_library_setting(libasan)
+    target_link_sanitize(${shared})
 
     if(CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
       set_target_properties(${shared}
