@@ -2,7 +2,7 @@
 option("with-lua")
     set_default(false)
     set_showmenu(true)
-    set_description("Enable or disable lua")
+    set_description("Enable/Disable lua")
 option_end()
 
 if has_config("with-lua") then

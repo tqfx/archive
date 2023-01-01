@@ -2,6 +2,8 @@
 include(CheckIncludeFile)
 include(CheckLibraryExists)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
+
 find_library(LIBA_MATH NAMES m DOC "math library")
 find_library(LIBA_LIBM NAMES m DOC "math library" NO_CMAKE_PATH)
 
@@ -98,7 +100,7 @@ else()
   set(PROJECT_VERSION_TWEAK ${GIT_COMMIT_DATE})
 endif()
 
-option(LIBA_TALLOC "Enable or disable talloc" 0)
+option(LIBA_TALLOC "Enable/Disable talloc" 0)
 
 if(LIBA_TALLOC)
   find_package(Talloc)

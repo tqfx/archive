@@ -7,9 +7,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE 0)
 option(LUA_32BITS "build lua 32bits" 0)
 
 if(WIN32)
-  option(LUA_READLINE "Enable or disable readline" 0)
+  option(LUA_READLINE "Enable/Disable readline" 0)
 else()
-  option(LUA_READLINE "Enable or disable readline" 1)
+  option(LUA_READLINE "Enable/Disable readline" 1)
 endif()
 
 if(LUA_READLINE)

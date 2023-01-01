@@ -12,9 +12,9 @@ string_append(CMAKE_C_FLAGS ${CFLAGS_WARNINGS} ${CFLAGS_SANITIZE})
 string_append(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_SANITIZE})
 
 if(DEFINED ENV{ANDROID_ROOT} AND EXISTS $ENV{ANDROID_ROOT})
-  option(LIBA_PIC "Enable or disable position independent code" 1)
+  option(LIBA_PIC "Enable/Disable position independent code" 1)
 else()
-  option(LIBA_PIC "Enable or disable position independent code" 0)
+  option(LIBA_PIC "Enable/Disable position independent code" 0)
 endif()
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ${LIBA_PIC})

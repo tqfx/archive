@@ -12,7 +12,7 @@ if(POLICY CMP0091) # 3.15
   cmake_policy(SET CMP0091 NEW)
 endif() # CMAKE_MSVC_RUNTIME_LIBRARY
 
-option(WITH_CXX "Enable or disable C++" 1)
+option(WITH_CXX "Enable/Disable C++" 1)
 
 if(NOT CXX IN_LIST LANGUAGES AND WITH_CXX)
   list(INSERT LANGUAGES 0 CXX)
@@ -32,19 +32,19 @@ include(cmake/core.cmake)
 include(cmake/target.cmake)
 include(cmake/standard.cmake)
 
-option(LIBA_STATIC "Enable or disable static" 0)
+option(LIBA_STATIC "Enable/Disable static" 0)
 
 if(LIBA_STATIC)
   include(cmake/static.cmake)
 endif()
 
-option(LIBA_WARNINGS "Enable or disable warnings" 0)
+option(LIBA_WARNINGS "Enable/Disable warnings" 0)
 
 if(LIBA_WARNINGS)
   include(cmake/warnings.cmake)
 endif()
 
-option(LIBA_SANITIZE "Enable or disable sanitize" 0)
+option(LIBA_SANITIZE "Enable/Disable sanitize" 0)
 
 if(LIBA_SANITIZE)
   include(cmake/sanitize.cmake)
@@ -52,7 +52,7 @@ endif()
 
 include(cmake/check.cmake)
 
-option(LIBA_PYTHON "Enable or disable python" 0)
+option(LIBA_PYTHON "Enable/Disable python" 0)
 
 # https://cmake.org/cmake/help/latest/module/FindPython.html
 if(LIBA_PYTHON AND CMAKE_VERSION VERSION_GREATER 3.12)
@@ -63,7 +63,7 @@ elseif(LIBA_PYTHON) # cmake < 3.12
   find_package(PythonInterp)
 endif()
 
-option(LIBA_DOXYGEN "Enable or disable doxygen" 0)
+option(LIBA_DOXYGEN "Enable/Disable doxygen" 0)
 
 # https://cmake.org/cmake/help/latest/module/FindDoxygen.html
 if(LIBA_DOXYGEN AND CMAKE_VERSION VERSION_GREATER 3.9)
@@ -72,7 +72,7 @@ elseif(LIBA_DOXYGEN) # cmake < 3.9
   find_package(Doxygen)
 endif()
 
-option(LIBA_IPO "Enable or disable interprocedural optimization" 0)
+option(LIBA_IPO "Enable/Disable interprocedural optimization" 0)
 
 # https://cmake.org/cmake/help/latest/module/CheckIPOSupported.html
 if(LIBA_IPO AND CMAKE_VERSION VERSION_GREATER 3.9)
@@ -200,7 +200,7 @@ configure_package_config_file(
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
-option(LIBA_PKGCONFIG "Enable or disable pkgconfig" 0)
+option(LIBA_PKGCONFIG "Enable/Disable pkgconfig" 0)
 
 if(LIBA_PKGCONFIG)
   get_property(prop TARGET a PROPERTY INTERFACE_COMPILE_DEFINITIONS)
@@ -227,7 +227,7 @@ if(LIBA_PKGCONFIG)
   )
 endif()
 
-option(LIBA_VCPKG "Enable or disable vcpkg" 0)
+option(LIBA_VCPKG "Enable/Disable vcpkg" 0)
 
 if(LIBA_VCPKG AND GIT_COMMIT)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/vcpkg DESTINATION ${CMAKE_INSTALL_DATADIR})

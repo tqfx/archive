@@ -3,8 +3,6 @@ include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
 include(CheckCSourceCompiles)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
 get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
 get_cmake_property(TARGET_SUPPORTS_SHARED_LIBS TARGET_SUPPORTS_SHARED_LIBS)
 
@@ -18,6 +16,9 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Specifies the build type on single-configuration generators." FORCE)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1 CACHE BOOL "Enable/Disable output of compile commands during generation." FORCE)
+mark_as_advanced(CMAKE_EXPORT_COMPILE_COMMANDS)
 
 if(CMAKE_VERSION VERSION_GREATER 3.20 AND CMAKE_C_BYTE_ORDER EQUAL LITTLE_ENDIAN)
   set(PROJECT_BYTE_ORDER 1234)

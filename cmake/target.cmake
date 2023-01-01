@@ -1,18 +1,18 @@
-option(LIBA_CPPCHECK "Enable or disable cppcheck" 0)
+option(LIBA_CPPCHECK "Enable/Disable cppcheck" 0)
 
 if(LIBA_CPPCHECK)
   find_program(CPPCHECK cppcheck)
   mark_as_advanced(CPPCHECK)
 endif()
 
-option(LIBA_CLANG_TIDY "Enable or disable clang-tidy" 0)
+option(LIBA_CLANG_TIDY "Enable/Disable clang-tidy" 0)
 
 if(LIBA_CLANG_TIDY)
   find_program(CLANG_TIDY clang-tidy)
   mark_as_advanced(CLANG_TIDY)
 endif()
 
-option(LIBA_IYWU "Enable or disable include-what-you-use" 0)
+option(LIBA_IYWU "Enable/Disable include-what-you-use" 0)
 
 if(LIBA_IYWU)
   find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)

@@ -1,6 +1,6 @@
-option(LIBA_LDOC "Enable or disable ffi ldoc" 0)
-option(LIBA_LUA "Enable or disable ffi lua" 0)
-option(WITH_LUA "Build with lua" 0)
+option(WITH_LUA "Enable/Disable build with lua" 0)
+option(LIBA_LDOC "Enable/Disable ffi ldoc" 0)
+option(LIBA_LUA "Enable/Disable ffi lua" 0)
 
 if(LIBA_LUA OR WITH_LUA)
   set(LUA_MATH_LIBRARY ${LIBA_MATH} CACHE STRING "lua math library")
@@ -25,8 +25,8 @@ if(LIBA_LUA OR WITH_LUA)
   set(A_LIBRARY a)
 endif()
 
-option(LIBA_JAVADOC "Enable or disable ffi javadoc" 0)
-option(LIBA_JAVA "Enable or disable ffi java" 0)
+option(LIBA_JAVADOC "Enable/Disable ffi javadoc" 0)
+option(LIBA_JAVA "Enable/Disable ffi java" 0)
 
 if(LIBA_JAVA)
   find_package(Java)
@@ -42,9 +42,9 @@ if(PYTHONINTERP_FOUND)
 endif()
 
 if(EMSCRIPTEN)
-  option(LIBA_JAVASCRIPT "Enable or disable ffi javascript" 1)
+  option(LIBA_JAVASCRIPT "Enable/Disable ffi javascript" 1)
 else()
-  option(LIBA_JAVASCRIPT "Enable or disable ffi javascript" 0)
+  option(LIBA_JAVASCRIPT "Enable/Disable ffi javascript" 0)
 endif()
 
 if(LIBA_JAVASCRIPT)
@@ -59,7 +59,7 @@ if(LIBA_JAVASCRIPT)
   endif()
 endif()
 
-option(LIBA_SWIG "Enable or disable ffi swig" 0)
+option(LIBA_SWIG "Enable/Disable ffi swig" 0)
 
 if(LIBA_SWIG)
   # https://cmake.org/cmake/help/latest/module/UseSWIG.html

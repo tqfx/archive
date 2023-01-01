@@ -11,14 +11,14 @@ set_version("0.1.1", {build = "%Y%m%d%H%M"})
 option("with-cxx")
     set_default(true)
     set_showmenu(true)
-    set_description("Enable or disable c++")
+    set_description("Enable/Disable c++")
 option_end()
 
 -- option: warning
 option("warning")
     set_default(false)
     set_showmenu(true)
-    set_description("Enable or disable warning")
+    set_description("Enable/Disable warning")
 option_end()
 
 if has_config("warning") then
@@ -156,7 +156,7 @@ includes("ffi/lua")
 option("with-rust")
     set_default(false)
     set_showmenu(true)
-    set_description("Enable or disable rust")
+    set_description("Enable/Disable rust")
 option_end()
 
 if has_config("with-rust") then
