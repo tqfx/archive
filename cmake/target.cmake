@@ -1,18 +1,23 @@
 option(LIBA_CPPCHECK "Enable or disable cppcheck" 0)
+
+if(LIBA_CPPCHECK)
+  find_program(CPPCHECK cppcheck)
+  mark_as_advanced(CPPCHECK)
+endif()
+
 option(LIBA_CLANG_TIDY "Enable or disable clang-tidy" 0)
+
+if(LIBA_CLANG_TIDY)
+  find_program(CLANG_TIDY clang-tidy)
+  mark_as_advanced(CLANG_TIDY)
+endif()
+
 option(LIBA_IYWU "Enable or disable include-what-you-use" 0)
-find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
-find_program(CLANG_FORMAT clang-format)
-find_program(CLANG_TIDY clang-tidy)
-find_program(CPPCHECK cppcheck)
-find_program(CPPLINT cpplint)
-mark_as_advanced(
-  INCLUDE_WHAT_YOU_USE
-  CLANG_FORMAT
-  CLANG_TIDY
-  CPPCHECK
-  CPPLINT
-)
+
+if(LIBA_IYWU)
+  find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
+  mark_as_advanced(INCLUDE_WHAT_YOU_USE)
+endif()
 
 function(target_library_option_ target scope)
   list(FILTER ENABLED_LANGUAGES INCLUDE REGEX "^C|CXX")
