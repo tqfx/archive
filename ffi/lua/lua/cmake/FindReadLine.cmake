@@ -41,9 +41,9 @@ find_library(READLINE_LIBRARY
   NAMES readline NAMES_PER_DIR
   HINTS ${ReadLine_LIBRARY_DIRS}
 )
+mark_as_advanced(READLINE_LIBRARY)
 
 if(EXISTS ${READLINE_LIBRARY})
-  mark_as_advanced(READLINE_LIBRARY)
   list(APPEND READLINE_LIBRARIES ${READLINE_LIBRARY})
 endif()
 
@@ -51,9 +51,9 @@ find_library(TINFO_LIBRARY
   NAMES tinfo NAMES_PER_DIR
   HINTS ${ReadLine_LIBRARY_DIRS}
 )
+mark_as_advanced(TINFO_LIBRARY)
 
 if(EXISTS ${TINFO_LIBRARY})
-  mark_as_advanced(TINFO_LIBRARY)
   list(APPEND READLINE_LIBRARIES ${TINFO_LIBRARY})
 endif()
 
