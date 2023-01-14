@@ -210,8 +210,8 @@ endif()
 
 function(set_library_compile target)
   if((LIBA_SYMLINK OR WIN32) AND TARGET_SUPPORTS_SYMBOLIC_LINK)
-    set_target_properties(${target} PROPERTIES VERSION ${PROJECT_VERSION}
-      SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    set_target_properties(${target} PROPERTIES SOVERSION
+      ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION}
     )
   endif()
 
