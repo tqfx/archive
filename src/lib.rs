@@ -68,12 +68,18 @@ pub fn version_patch() -> u32 {
 }
 
 extern "C" {
-    fn a_sqrt_inv(x: f32) -> f32;
+    fn a_f32_rsqrt(x: f32) -> f32;
+    fn a_f64_rsqrt(x: f64) -> f64;
 }
 
 /// fast inverse square-root, $ \frac{1}{\sqrt{x}} $
-pub fn sqrt_inv(x: f32) -> f32 {
-    unsafe { a_sqrt_inv(x) }
+pub fn f32_rsqrt(x: f32) -> f32 {
+    unsafe { a_f32_rsqrt(x) }
+}
+
+/// fast inverse square-root, $ \frac{1}{\sqrt{x}} $
+pub fn f64_rsqrt(x: f64) -> f64 {
+    unsafe { a_f64_rsqrt(x) }
 }
 
 #[cfg(test)]
@@ -86,7 +92,8 @@ mod test {
         println!("patch {}", crate::version_patch());
     }
     #[test]
-    fn sqrt_inv() {
-        println!("1/sqrt({})={}", 4, crate::sqrt_inv(4.0));
+    fn rsqrt() {
+        println!("1/sqrt({})={}", 4, crate::f32_rsqrt(4.0));
+        println!("1/sqrt({})={}", 4, crate::f64_rsqrt(4.0));
     }
 }

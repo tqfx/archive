@@ -71,7 +71,8 @@ A_EXTERN a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y);
  @param[in] x independent variable
  @return calculated result
 */
-A_EXTERN a_f32_t a_sqrt_inv(a_f32_t x);
+A_EXTERN a_f32_t a_f32_rsqrt(a_f32_t x);
+A_EXTERN a_f64_t a_f64_rsqrt(a_f64_t x);
 
 A_EXTERN a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *o);
 A_EXTERN a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *o);

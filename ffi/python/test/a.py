@@ -11,4 +11,4 @@ print("major:", liba.version_major())
 print("minor:", liba.version_minor())
 print("patch:", liba.version_patch())
 
-print(liba.sqrt_inv(1))
+print(liba.f64_rsqrt(4), liba.f32_rsqrt(4))

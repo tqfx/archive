@@ -23,7 +23,12 @@ JNIEXPORT jint JNICALL JPACKAGE(a_version_1patch)(JNIEnv *jenv, jclass jcls)
     return (void)(jenv), (void)(jcls), (jint)a_version_patch();
 }
 
-JNIEXPORT jfloat JNICALL JPACKAGE(a_sqrt_1inv)(JNIEnv *jenv, jclass jcls, jfloat jx)
+JNIEXPORT jfloat JNICALL JPACKAGE(a_f32_1rsqrt)(JNIEnv *jenv, jclass jcls, jfloat jx)
 {
-    return (void)(jenv), (void)(jcls), a_sqrt_inv(jx);
+    return (void)(jenv), (void)(jcls), a_f32_rsqrt(jx);
+}
+
+JNIEXPORT jdouble JNICALL JPACKAGE(a_f64_1rsqrt)(JNIEnv *jenv, jclass jcls, jdouble jx)
+{
+    return (void)(jenv), (void)(jcls), a_f64_rsqrt(jx);
 }

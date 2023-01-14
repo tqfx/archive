@@ -26,26 +26,6 @@ static void test_sgn(void)
     TEST_BUG(A_SGN(zero) == 0);
 }
 
-static void test_sqrt_inv(void)
-{
-    a_f32_t data[] = {
-        A_F32_C(-1.0),
-        A_F32_C(-0.0),
-        A_F32_C(1e-10),
-        A_F32_C(1.0),
-        A_F32_C(4.0),
-        A_F32_C(2.5) * A_F32_C(2.5),
-    };
-    for (a_uint_t i = 0; i != sizeof(data) / sizeof(a_f32_t); ++i)
-    {
-#if defined(MAIN_ONCE)
-        printf("1/sqrt(%g):\t%-10g%-10g\n", a_double_c(data[i]),
-               1 / a_double_c(A_F32_F1(sqrt, data[i])),
-               a_double_c(a_sqrt_inv(data[i])));
-#endif /* MAIN_ONCE */
-    }
-}
-
 static void test_u32_sqrt(void)
 {
     a_u32_t x;
@@ -66,6 +46,46 @@ static void test_u64_sqrt(void)
     TEST_BUG(A_U64_C(0) == x);
     TEST_BUG(a_u64_sqrt(A_U64_C(0xFFFFFFFFFFFFFFFF), &x) == A_U32_C(0xFFFFFFFF));
     TEST_BUG(A_U64_C(0x1FFFFFFFE) == x);
+}
+
+static void test_f32_rsqrt(void)
+{
+    a_f32_t data[] = {
+        A_F32_C(-1.0),
+        A_F32_C(-0.0),
+        A_F32_C(1e-10),
+        A_F32_C(1.0),
+        A_F32_C(4.0),
+        A_F32_C(2.5) * A_F32_C(2.5),
+    };
+    for (a_uint_t i = 0; i != sizeof(data) / sizeof(a_f32_t); ++i)
+    {
+#if defined(MAIN_ONCE)
+        printf("1/sqrt(%g):\t%-10g%-10g\n", a_double_c(data[i]),
+               1 / a_double_c(A_F32_F1(sqrt, data[i])),
+               a_double_c(a_f32_rsqrt(data[i])));
+#endif /* MAIN_ONCE */
+    }
+}
+
+static void test_f64_rsqrt(void)
+{
+    a_f64_t data[] = {
+        A_F64_C(-1.0),
+        A_F64_C(-0.0),
+        A_F64_C(1e-10),
+        A_F64_C(1.0),
+        A_F64_C(4.0),
+        A_F64_C(2.5) * A_F64_C(2.5),
+    };
+    for (a_uint_t i = 0; i != sizeof(data) / sizeof(a_f64_t); ++i)
+    {
+#if defined(MAIN_ONCE)
+        printf("1/sqrt(%g):\t%-10g%-10g\n", a_double_c(data[i]),
+               1 / a_double_c(A_F64_F1(sqrt, data[i])),
+               a_double_c(a_f64_rsqrt(data[i])));
+#endif /* MAIN_ONCE */
+    }
 }
 
 static void test_f32_hypot(void)
@@ -103,9 +123,10 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     test_sq();
     test_abs();
     test_sgn();
-    test_sqrt_inv();
     test_u32_sqrt();
     test_u64_sqrt();
+    test_f32_rsqrt();
+    test_f64_rsqrt();
     test_f32_hypot();
     test_f64_hypot();
     return 0;

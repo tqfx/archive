@@ -45,5 +45,13 @@ public final class a {
      * @param x independent variable
      * @return calculated result
      */
-    public static final native float sqrt_inv(float x);
+    public static final native float f32_rsqrt(float x);
+
+    /**
+     * fast inverse square-root
+     *
+     * @param x independent variable
+     * @return calculated result
+     */
+    public static final native double f64_rsqrt(double x);
 }

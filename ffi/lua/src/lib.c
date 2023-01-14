@@ -11,9 +11,9 @@
  @tparam number x independent variable
  @tparam number ... independent variables
  @treturn number calculated result
- @function sqrt_inv
+ @function rsqrt
 */
-static int sqrt_inv(lua_State *L)
+static int rsqrt(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -23,7 +23,8 @@ static int sqrt_inv(lua_State *L)
     for (int i = 0; i++ != n;)
     {
         lua_Number x = luaL_checknumber(L, i);
-        lua_pushnumber(L, (lua_Number)a_sqrt_inv((a_f32_t)x));
+        x = (lua_Number)a_f32_rsqrt((a_f32_t)x);
+        lua_pushnumber(L, x);
     }
     return n;
 }
@@ -33,7 +34,7 @@ int luaopen_liba(lua_State *L)
     luaL_checkversion(L);
 
     const SFunc funcs[] = {
-        {"sqrt_inv", sqrt_inv},
+        {"rsqrt", rsqrt},
         {NULL, NULL},
     };
     lua_createtable(L, 0, Larray(funcs) - 1);

@@ -26,20 +26,20 @@ a_f64_t a_f64_sq(a_f64_t x, a_f64_t *o)
 #undef a_f32_hypot
 a_f32_t a_f32_hypot(a_f32_t x, a_f32_t y)
 {
-#undef NEG
-#undef POS
+#undef MIN
+#undef MAX
 #if defined(_MSC_VER) && (_MSC_VER < 1914)
     const union
     {
         a_u32_t u;
         a_f32_t x;
-    } pos = {A_U32_C(0x6C800000)},
-      neg = {A_U32_C(0x12800000)};
-#define POS pos.x
-#define NEG neg.x
+    } max = {A_U32_C(0x6C800000)},
+      min = {A_U32_C(0x12800000)};
+#define MAX max.x
+#define MIN min.x
 #else
-#define POS A_F32_C(0x1P+90)
-#define NEG A_F32_C(0x1P-90)
+#define MAX A_F32_C(0x1P+90)
+#define MIN A_F32_C(0x1P-90)
 #endif
     union
     {
@@ -73,38 +73,38 @@ a_f32_t a_f32_hypot(a_f32_t x, a_f32_t y)
     z = 1;
     if (ux.u >= (0x7F + 60) << 23)
     {
-        z = POS;
-        x *= NEG;
-        y *= NEG;
+        z = MAX;
+        x *= MIN;
+        y *= MIN;
     }
     else if (uy.u < (0x7F - 60) << 23)
     {
-        z = NEG;
-        x *= POS;
-        y *= POS;
+        z = MIN;
+        x *= MAX;
+        y *= MAX;
     }
     return z * a_f32_sqrt(a_f32_c(a_f64_c(x) * a_f64_c(x) + a_f64_c(y) * a_f64_c(y)));
-#undef NEG
-#undef POS
+#undef MIN
+#undef MAX
 }
 
 #undef a_f64_hypot
 a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y)
 {
-#undef NEG
-#undef POS
+#undef MIN
+#undef MAX
 #if defined(_MSC_VER) && (_MSC_VER < 1914)
     const union
     {
         a_u64_t u;
         a_f64_t x;
-    } pos = {A_U64_C(0x6BB0000000000000)},
-      neg = {A_U64_C(0x1430000000000000)};
-#define POS pos.x
-#define NEG neg.x
+    } max = {A_U64_C(0x6BB0000000000000)},
+      min = {A_U64_C(0x1430000000000000)};
+#define MAX max.x
+#define MIN min.x
 #else
-#define POS A_F64_C(0x1P+700)
-#define NEG A_F64_C(0x1P-700)
+#define MAX A_F64_C(0x1P+700)
+#define MIN A_F64_C(0x1P-700)
 #endif
     union
     {
@@ -146,25 +146,30 @@ a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y)
     z = 1;
     if (ex > 0x3FF + 510)
     {
-        z = POS;
-        x *= NEG;
-        y *= NEG;
+        z = MAX;
+        x *= MIN;
+        y *= MIN;
     }
     else if (ey < 0x3FF - 450)
     {
-        z = NEG;
-        x *= POS;
-        y *= POS;
+        z = MIN;
+        x *= MAX;
+        y *= MAX;
     }
     hx = a_f64_sq(x, &lx);
     hy = a_f64_sq(y, &ly);
     return z * a_f64_sqrt(ly + lx + hy + hx);
-#undef NEG
-#undef POS
+#undef MIN
+#undef MAX
 }
 
-a_f32_t a_sqrt_inv(a_f32_t x)
+a_f32_t a_f32_rsqrt(a_f32_t x)
 {
+#if 0
+    return 1 / a_f32_sqrt(x);
+#else
+#undef U
+#define U 0x5F375A86
     union
     {
         a_f32_t x;
@@ -174,7 +179,7 @@ a_f32_t a_sqrt_inv(a_f32_t x)
     if (a_likely(x > 0))
     {
         a_f32_t xh = A_F32_C(0.5) * x;
-        u.u = A_U32_C(0x5F3759DF) - (u.u >> 1);
+        u.u = A_U32_C(U) - (u.u >> 1);
         u.x *= A_F32_C(1.5) - u.x * u.x * xh;
         u.x *= A_F32_C(1.5) - u.x * u.x * xh;
     }
@@ -187,6 +192,41 @@ a_f32_t a_sqrt_inv(a_f32_t x)
         u.u |= A_F32_PINF;
     }
     return u.x;
+#undef U
+#endif
+}
+
+a_f64_t a_f64_rsqrt(a_f64_t x)
+{
+#if 0
+    return 1 / a_f64_sqrt(x);
+#else
+#undef U
+#define U 0x5FE6EC85E7DE30DA
+    union
+    {
+        a_f64_t x;
+        a_u64_t u;
+    } u;
+    u.x = x;
+    if (a_likely(x > 0))
+    {
+        a_f64_t xh = A_F64_C(0.5) * x;
+        u.u = A_U64_C(U) - (u.u >> 1);
+        u.x *= A_F64_C(1.5) - u.x * u.x * xh;
+        u.x *= A_F64_C(1.5) - u.x * u.x * xh;
+    }
+    else if (x < 0)
+    {
+        u.u = A_F64_NNAN;
+    }
+    else
+    {
+        u.u |= A_F64_PINF;
+    }
+    return u.x;
+#undef U
+#endif
 }
 
 a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *o)
