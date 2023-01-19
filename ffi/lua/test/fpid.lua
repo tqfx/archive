@@ -3,13 +3,13 @@
 package.path = arg[0]:sub(0, -arg[0]:match("([^/\\]*)$"):len() - 1) .. "?.lua;" .. package.path
 local test = require("test")
 local a = require("liba")
-local NB = -3;
-local NM = -2;
-local NS = -1;
-local ZO = 0;
-local PS = 1;
-local PM = 2;
-local PB = 3;
+local NB = -3
+local NM = -2
+local NS = -1
+local ZO = 0
+local PS = 1
+local PM = 2
+local PB = 3
 local mmp = {
   -- LuaFormatter off
   { a.mf.TRI, NB, NB, NM },
@@ -57,41 +57,41 @@ local mkd = {
 }
 test:r(getmetatable(a.fpid))
 ctx = a.fpid.new(2, 1, mmp, mkp, mki, mkd, -3, 3, -10, 10)
-assert(type(a.fpid.base(ctx, mmp, mkp, mki, mkd)) == 'userdata')
-assert(type(a.fpid:base(ctx, mmp, mkp, mki, mkd)) == 'userdata')
-assert(type(a.fpid.kpid(ctx, 3, 2, 1)) == 'userdata')
-assert(type(a.fpid:kpid(ctx, 3, 2, 1)) == 'userdata')
-assert(type(a.fpid.ilim(ctx, -3, 3)) == 'userdata')
-assert(type(a.fpid:ilim(ctx, -3, 3)) == 'userdata')
-assert(type(a.fpid.olim(ctx, -10, 10)) == 'userdata')
-assert(type(a.fpid:olim(ctx, -10, 10)) == 'userdata')
-assert(type(a.fpid.proc(ctx, 1, 0)) == 'number')
-assert(type(a.fpid:proc(ctx, 1, 0)) == 'number')
-assert(type(a.fpid.zero(ctx)) == 'userdata')
-assert(type(a.fpid:zero(ctx)) == 'userdata')
-assert(type(a.fpid.pos(ctx, 10)) == 'userdata')
-assert(type(a.fpid:pos(ctx, 10)) == 'userdata')
-assert(type(a.fpid.inc(ctx)) == 'userdata')
-assert(type(a.fpid:inc(ctx)) == 'userdata')
-assert(type(a.fpid.off(ctx)) == 'userdata')
-assert(type(a.fpid:off(ctx)) == 'userdata')
+assert(type(a.fpid.base(ctx, mmp, mkp, mki, mkd)) == "userdata")
+assert(type(a.fpid:base(ctx, mmp, mkp, mki, mkd)) == "userdata")
+assert(type(a.fpid.kpid(ctx, 3, 2, 1)) == "userdata")
+assert(type(a.fpid:kpid(ctx, 3, 2, 1)) == "userdata")
+assert(type(a.fpid.ilim(ctx, -3, 3)) == "userdata")
+assert(type(a.fpid:ilim(ctx, -3, 3)) == "userdata")
+assert(type(a.fpid.olim(ctx, -10, 10)) == "userdata")
+assert(type(a.fpid:olim(ctx, -10, 10)) == "userdata")
+assert(type(a.fpid.proc(ctx, 1, 0)) == "number")
+assert(type(a.fpid:proc(ctx, 1, 0)) == "number")
+assert(type(a.fpid.zero(ctx)) == "userdata")
+assert(type(a.fpid:zero(ctx)) == "userdata")
+assert(type(a.fpid.pos(ctx, 10)) == "userdata")
+assert(type(a.fpid:pos(ctx, 10)) == "userdata")
+assert(type(a.fpid.inc(ctx)) == "userdata")
+assert(type(a.fpid:inc(ctx)) == "userdata")
+assert(type(a.fpid.off(ctx)) == "userdata")
+assert(type(a.fpid:off(ctx)) == "userdata")
 test:r(getmetatable(ctx))
 ctx = a:fpid(2, 1, mmp, mkp, mki, mkd, -3, 3, -10, 10)
 ctx:kpid(3, 2, 1):off():inc():pos(10)
-assert(type(ctx(1, 0)) == 'number')
-assert(type(ctx.outmin) == 'number')
-assert(type(ctx.outmax) == 'number')
-assert(type(ctx.summax) == 'number')
-assert(type(ctx.dt) == 'number')
-assert(type(ctx.kp) == 'number')
-assert(type(ctx.ki) == 'number')
-assert(type(ctx.kd) == 'number')
-assert(type(ctx.col) == 'number')
-assert(type(ctx.buf) == 'number')
-assert(type(ctx.out) == 'number')
-assert(type(ctx.fdb) == 'number')
-assert(type(ctx.ec) == 'number')
-assert(type(ctx.e) == 'number')
+assert(type(ctx(1, 0)) == "number")
+assert(type(ctx.outmin) == "number")
+assert(type(ctx.outmax) == "number")
+assert(type(ctx.summax) == "number")
+assert(type(ctx.dt) == "number")
+assert(type(ctx.kp) == "number")
+assert(type(ctx.ki) == "number")
+assert(type(ctx.kd) == "number")
+assert(type(ctx.col) == "number")
+assert(type(ctx.buf) == "number")
+assert(type(ctx.out) == "number")
+assert(type(ctx.fdb) == "number")
+assert(type(ctx.ec) == "number")
+assert(type(ctx.e) == "number")
 assert(ctx.mode == a.pid.POS)
 ctx.mode = a.pid.OFF
 ctx.buf = ctx.col

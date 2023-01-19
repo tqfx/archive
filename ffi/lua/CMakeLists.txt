@@ -47,7 +47,13 @@ install(TARGETS alua
 )
 
 if(PROJECT_IS_TOP_LEVEL)
+  find_package(StyLua)
   find_package(LuaFormat)
+  file(GLOB_RECURSE SOURCES test/*.lua)
+endif()
+
+if(STYLUA_FOUND)
+  add_stylua(astylua VERBOSE ${SOURCES})
 endif()
 
 if(LUA_FORMAT_FOUND)
