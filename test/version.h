@@ -10,13 +10,13 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     (void)(argv);
     printf("%s\n", A_FUNC);
 #if defined(__cplusplus)
-    printf("version %s\n", a::VERSION);
+    printf("version %s+%" PRIu64 "\n", a::VERSION, a::VERSION_TWEAK);
     printf("major %u\n", a::version_major());
     printf("minor %u\n", a::version_minor());
     printf("patch %u\n", a::version_patch());
     printf("tweak %" PRIu64 "\n", a::VERSION_TWEAK);
 #else /* !__cplusplus */
-    printf("version %s\n", a_version());
+    printf("version %s+%" PRIu64 "\n", a_version(), A_VERSION_TWEAK);
     printf("major %u\n", a_version_major());
     printf("minor %u\n", a_version_minor());
     printf("patch %u\n", a_version_patch());

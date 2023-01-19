@@ -95,8 +95,12 @@ def configure(config, define_macros=[]):
 #define A_VERSION_MINOR {}
 #define A_VERSION_PATCH {}
 #define A_VERSION_TWEAK A_U64_C({})
+#if !defined A_BYTE_ORDER
 #define A_BYTE_ORDER {}
+#endif /* A_BYTE_ORDER */
+#if !defined A_SIZE_VPTR
 #define A_SIZE_VPTR {}
+#endif /* A_SIZE_VPTR */
 {}'''.format(
         version, major, minor, patch, tweak, order, vsize, check
     )
