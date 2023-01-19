@@ -144,14 +144,13 @@ function(set_library_options)
     cppcheck(TARGETS ${ARGN} OPTIONS --enable=warning,performance)
   endif()
 
-  set_target_properties(${ARGN} PROPERTIES
-    INTERPROCEDURAL_OPTIMIZATION ${LIBA_LTO}
-    C_VISIBILITY_PRESET hidden CXX_VISIBILITY_PRESET hidden
-  )
-
   if(CMAKE_C_COMPILER_ID MATCHES "TinyCC" AND CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
     set_property(TARGET ${ARGN} PROPERTY IMPORT_SUFFIX .def)
   endif()
+
+  set_target_properties(${ARGN} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${LIBA_LTO}
+    C_VISIBILITY_PRESET hidden CXX_VISIBILITY_PRESET hidden
+  )
 
   if(LIBA_WARNINGS)
     target_compile_warnings(${ARGN})
