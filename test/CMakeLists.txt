@@ -15,15 +15,15 @@ function(set_executable_options)
   endif()
 
   if(LIBA_IWYU AND IWYU_FOUND)
-    include_what_you_use(TARGETS ${ARGN})
+    add_include_what_you_use(TARGETS ${ARGN})
   endif()
 
   if(LIBA_CLANG_TIDY AND CLANG_TIDY_FOUND)
-    clang_tidy(TARGETS ${ARGN} OPTIONS --fix)
+    add_clang_tidy(TARGETS ${ARGN} OPTIONS --fix)
   endif()
 
   if(LIBA_CPPCHECK AND CPPCHECK_FOUND)
-    cppcheck(TARGETS ${ARGN} OPTIONS --enable=warning,performance)
+    add_cppcheck(TARGETS ${ARGN} OPTIONS --enable=warning,performance)
   endif()
 
   if(LIBA_STATIC)

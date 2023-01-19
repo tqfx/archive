@@ -15,10 +15,6 @@
 #
 # ``CCACHE_VERSION``
 #
-# ``CCACHE_VERSION_MAJOR``
-#
-# ``CCACHE_VERSION_MINOR``
-#
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 find_program(CCACHE_EXECUTABLE ccache)
 mark_as_advanced(CCACHE_EXECUTABLE)
@@ -26,8 +22,6 @@ mark_as_advanced(CCACHE_EXECUTABLE)
 if(EXISTS "${CCACHE_EXECUTABLE}")
   execute_process(COMMAND ${CCACHE_EXECUTABLE} --version OUTPUT_VARIABLE CCACHE_VERSION)
   string(REGEX REPLACE "ccache version ([^\n ]+).*" "\\1" CCACHE_VERSION "${CCACHE_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.([^.]+).*" "\\1" CCACHE_VERSION_MINOR "${CCACHE_VERSION}")
-  string(REGEX REPLACE "^([^.]+).*" "\\1" CCACHE_VERSION_MAJOR "${CCACHE_VERSION}")
 endif()
 
 find_package_handle_standard_args(CCache

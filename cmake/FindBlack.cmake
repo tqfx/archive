@@ -15,20 +15,14 @@
 #
 # ``BLACK_VERSION``
 #
-# ``BLACK_VERSION_MAJOR``
-#
-# ``BLACK_VERSION_MINOR``
-#
-# ``BLACK_VERSION_PATCH``
-#
 # Functions
 # ^^^^^^^^^
 #
-# .. command:: black
+# .. command:: add_black
 #
 #   ::
 #
-#     black(target [QUIET] [VERBOSE]
+#     add_black(target [QUIET] [VERBOSE]
 #         [WORKING_DIRECTORY dir] [COMMENT comment]
 #         [OPTIONS opt ...] [SOURCES src ...] [src ...]
 #     )
@@ -54,10 +48,6 @@ if(NOT BLACK_VERSION AND EXISTS "${BLACK_EXECUTABLE}")
   string(REGEX REPLACE "black[^0-9]+([^ ]+).*" "\\1" BLACK_VERSION "${BLACK_VERSION}")
 endif()
 
-string(REGEX REPLACE "^[^.]+\\.[^.]+\\.([^.]+).*" "\\1" BLACK_VERSION_PATCH "${BLACK_VERSION}")
-string(REGEX REPLACE "^[^.]+\\.([^.]+).*" "\\1" BLACK_VERSION_MINOR "${BLACK_VERSION}")
-string(REGEX REPLACE "^([^.]+).*" "\\1" BLACK_VERSION_MAJOR "${BLACK_VERSION}")
-
 find_package_handle_standard_args(Black
   FOUND_VAR
     BLACK_FOUND
@@ -68,7 +58,7 @@ find_package_handle_standard_args(Black
 )
 
 if(BLACK_FOUND)
-  function(black target)
+  function(add_black target)
     cmake_parse_arguments(BLACK "QUIET;VERBOSE" "WORKING_DIRECTORY;COMMENT" "OPTIONS;SOURCES" ${ARGN})
     list(APPEND BLACK_SOURCES ${BLACK_UNPARSED_ARGUMENTS})
     if(BLACK_QUIET)

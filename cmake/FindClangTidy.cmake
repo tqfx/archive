@@ -15,20 +15,14 @@
 #
 # ``CLANG_TIDY_VERSION``
 #
-# ``CLANG_TIDY_VERSION_MAJOR``
-#
-# ``CLANG_TIDY_VERSION_MINOR``
-#
-# ``CLANG_TIDY_VERSION_PATCH``
-#
 # Functions
 # ^^^^^^^^^
 #
-# .. command:: clang_tidy
+# .. command:: add_clang_tidy
 #
 #   ::
 #
-#     clang_tidy([OPTIONS opt] [TARGETS tgt ...] [tgt ...])
+#     add_clang_tidy([OPTIONS opt] [TARGETS tgt ...] [tgt ...])
 #
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 find_program(CLANG_TIDY_EXECUTABLE NAMES clang-tidy)
@@ -37,9 +31,6 @@ mark_as_advanced(CLANG_TIDY_EXECUTABLE)
 if(EXISTS "${CLANG_TIDY_EXECUTABLE}")
   execute_process(COMMAND ${CLANG_TIDY_EXECUTABLE} --version OUTPUT_VARIABLE CLANG_TIDY_VERSION)
   string(REGEX REPLACE ".*version ([^\n ]+).*" "\\1" CLANG_TIDY_VERSION "${CLANG_TIDY_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.[^.]+\\.([^.]+).*" "\\1" CLANG_TIDY_VERSION_PATCH "${CLANG_TIDY_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.([^.]+).*" "\\1" CLANG_TIDY_VERSION_MINOR "${CLANG_TIDY_VERSION}")
-  string(REGEX REPLACE "^([^.]+).*" "\\1" CLANG_TIDY_VERSION_MAJOR "${CLANG_TIDY_VERSION}")
 endif()
 
 find_package_handle_standard_args(ClangTidy
@@ -52,8 +43,8 @@ find_package_handle_standard_args(ClangTidy
 )
 
 if(ClangTidy_FOUND)
-  set(CLANG_TIDY_FOUND TRUE)
-  function(clang_tidy)
+  set(CLANG_TIDY_FOUND 1)
+  function(add_clang_tidy)
     if(CMAKE_VERSION VERSION_LESS 3.6)
       return()
     endif()

@@ -15,12 +15,6 @@
 #
 # ``LDOC_VERSION``
 #
-# ``LDOC_VERSION_MAJOR``
-#
-# ``LDOC_VERSION_MINOR``
-#
-# ``LDOC_VERSION_PATCH``
-#
 # Functions
 # ^^^^^^^^^
 #
@@ -40,9 +34,6 @@ mark_as_advanced(LDOC_EXECUTABLE)
 if(EXISTS "${LDOC_EXECUTABLE}")
   execute_process(COMMAND ${LDOC_EXECUTABLE} ERROR_VARIABLE LDOC_VERSION)
   string(REGEX REPLACE ".*vs ([^\n ]+).*" "\\1" LDOC_VERSION "${LDOC_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.[^.]+\\.([^.]+).*" "\\1" LDOC_VERSION_PATCH "${LDOC_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.([^.]+).*" "\\1" LDOC_VERSION_MINOR "${LDOC_VERSION}")
-  string(REGEX REPLACE "^([^.]+).*" "\\1" LDOC_VERSION_MAJOR "${LDOC_VERSION}")
 endif()
 
 find_package_handle_standard_args(LDoc

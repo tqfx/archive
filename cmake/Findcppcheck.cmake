@@ -15,18 +15,14 @@
 #
 # ``CPPCHECK_VERSION``
 #
-# ``CPPCHECK_VERSION_MAJOR``
-#
-# ``CPPCHECK_VERSION_MINOR``
-#
 # Functions
 # ^^^^^^^^^
 #
-# .. command:: cppcheck
+# .. command:: add_cppcheck
 #
 #   ::
 #
-#     cppcheck([OPTIONS opt] [TARGETS tgt ...] [tgt ...])
+#     add_cppcheck([OPTIONS opt] [TARGETS tgt ...] [tgt ...])
 #
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 find_program(CPPCHECK_EXECUTABLE NAMES cppcheck)
@@ -34,9 +30,7 @@ mark_as_advanced(CPPCHECK_EXECUTABLE)
 
 if(EXISTS "${CPPCHECK_EXECUTABLE}")
   execute_process(COMMAND ${CPPCHECK_EXECUTABLE} --version OUTPUT_VARIABLE CPPCHECK_VERSION)
-  string(REGEX MATCH "[^ .]+\\.[^\n. ]+" CPPCHECK_VERSION "${CPPCHECK_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.([^.]+).*" "\\1" CPPCHECK_VERSION_MINOR "${CPPCHECK_VERSION}")
-  string(REGEX REPLACE "^([^.]+).*" "\\1" CPPCHECK_VERSION_MAJOR "${CPPCHECK_VERSION}")
+  string(REGEX REPLACE ".*check ([^\n ]+).*" "\\1" CPPCHECK_VERSION "${CPPCHECK_VERSION}")
 endif()
 
 find_package_handle_standard_args(cppcheck
@@ -49,7 +43,7 @@ find_package_handle_standard_args(cppcheck
 )
 
 if(CPPCHECK_FOUND)
-  function(cppcheck)
+  function(add_cppcheck)
     if(CMAKE_VERSION VERSION_LESS 3.10)
       return()
     endif()

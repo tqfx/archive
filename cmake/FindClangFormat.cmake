@@ -15,20 +15,14 @@
 #
 # ``CLANG_FORMAT_VERSION``
 #
-# ``CLANG_FORMAT_VERSION_MAJOR``
-#
-# ``CLANG_FORMAT_VERSION_MINOR``
-#
-# ``CLANG_FORMAT_VERSION_PATCH``
-#
 # Functions
 # ^^^^^^^^^
 #
-# .. command:: clang_format
+# .. command:: add_clang_format
 #
 #   ::
 #
-#     clang_format(target [VERBOSE]
+#     add_clang_format(target [VERBOSE]
 #         [WORKING_DIRECTORY dir] [COMMENT comment]
 #         [OPTIONS opt ...] [SOURCES src ...] [src ...]
 #     )
@@ -40,9 +34,6 @@ mark_as_advanced(CLANG_FORMAT_EXECUTABLE)
 if(EXISTS "${CLANG_FORMAT_EXECUTABLE}")
   execute_process(COMMAND ${CLANG_FORMAT_EXECUTABLE} --version OUTPUT_VARIABLE CLANG_FORMAT_VERSION)
   string(REGEX REPLACE ".*version ([^\n ]+).*" "\\1" CLANG_FORMAT_VERSION "${CLANG_FORMAT_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.[^.]+\\.([^.]+).*" "\\1" CLANG_FORMAT_VERSION_PATCH "${CLANG_FORMAT_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.([^.]+).*" "\\1" CLANG_FORMAT_VERSION_MINOR "${CLANG_FORMAT_VERSION}")
-  string(REGEX REPLACE "^([^.]+).*" "\\1" CLANG_FORMAT_VERSION_MAJOR "${CLANG_FORMAT_VERSION}")
 endif()
 
 find_package_handle_standard_args(ClangFormat
@@ -56,7 +47,7 @@ find_package_handle_standard_args(ClangFormat
 
 if(ClangFormat_FOUND)
   set(CLANG_FORMAT_FOUND 1)
-  function(clang_format target)
+  function(add_clang_format target)
     cmake_parse_arguments(CLANG_FORMAT "VERBOSE" "WORKING_DIRECTORY;COMMENT" "SOURCES" ${ARGN})
     list(APPEND CLANG_FORMAT_SOURCES ${CLANG_FORMAT_UNPARSED_ARGUMENTS})
     list(APPEND CLANG_FORMAT_OPTIONS --style=file -i)

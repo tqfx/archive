@@ -133,15 +133,15 @@ endif()
 
 function(set_library_options)
   if(LIBA_IWYU AND IWYU_FOUND)
-    include_what_you_use(TARGETS ${ARGN})
+    add_include_what_you_use(TARGETS ${ARGN})
   endif()
 
   if(LIBA_CLANG_TIDY AND CLANG_TIDY_FOUND)
-    clang_tidy(TARGETS ${ARGN} OPTIONS --fix)
+    add_clang_tidy(TARGETS ${ARGN} OPTIONS --fix)
   endif()
 
   if(LIBA_CPPCHECK AND CPPCHECK_FOUND)
-    cppcheck(TARGETS ${ARGN} OPTIONS --enable=warning,performance)
+    add_cppcheck(TARGETS ${ARGN} OPTIONS --enable=warning,performance)
   endif()
 
   if(CMAKE_C_COMPILER_ID MATCHES "TinyCC" AND CMAKE_STATIC_LIBRARY_SUFFIX STREQUAL .lib)
@@ -389,11 +389,11 @@ endif()
 
 if(CLANG_FORMAT_FOUND)
   file_scaner(SOURCES RECURSE include src test ffi/java/src ffi/javascript/src ffi/lua/src)
-  clang_format(aformat VERBOSE ${SOURCES})
+  add_clang_format(aformat VERBOSE ${SOURCES})
 endif()
 
 if(BLACK_FOUND)
-  black(ablack ${CMAKE_CURRENT_LIST_DIR} OPTIONS -S)
+  add_black(ablack ${CMAKE_CURRENT_LIST_DIR} OPTIONS -S)
 endif()
 
 if(PYTHON_FOUND)

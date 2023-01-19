@@ -51,8 +51,7 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 if(LUA_FORMAT_FOUND)
-  file(GLOB_RECURSE SOURCES test/*.lua)
-  lua_format(aluaformat VERBOSE ${SOURCES})
+  add_lua_format(aluaformat VERBOSE ${SOURCES})
 endif()
 
 option(LIBA_LDOC "Enable/Disable ffi ldoc" 0)

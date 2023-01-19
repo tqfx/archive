@@ -16,11 +16,11 @@
 # Functions
 # ^^^^^^^^^
 #
-# .. command:: lua_format
+# .. command:: add_lua_format
 #
 #   ::
 #
-#     lua_format(target [VERBOSE]
+#     add_lua_format(target [VERBOSE]
 #         [WORKING_DIRECTORY dir] [COMMENT comment] [CONFIG cfg]
 #         [OPTIONS opt ...] [SOURCES src ...] [src ...]
 #     )
@@ -38,7 +38,7 @@ find_package_handle_standard_args(LuaFormat
 
 if(LuaFormat_FOUND)
   set(LUA_FORMAT_FOUND 1)
-  function(lua_format target)
+  function(add_lua_format target)
     cmake_parse_arguments(LUA_FORMAT "VERBOSE" "WORKING_DIRECTORY;COMMENT;CONFIG" "OPTIONS;SOURCES" ${ARGN})
     list(APPEND LUA_FORMAT_SOURCES ${LUA_FORMAT_UNPARSED_ARGUMENTS})
     list(APPEND LUA_FORMAT_OPTIONS --in-place)
@@ -55,7 +55,7 @@ if(LuaFormat_FOUND)
       set(LUA_FORMAT_COMMENT "Formatting ${target} using lua-format")
     endif()
     add_custom_target(${target} # https://github.com/Koihik/LuaFormatter
-      ${LUA_FORMAT_EXECUTABLE} ${LUA_FORMAT_OPTIONS} ${LUA_FORMAT_SOURCES}
+      ${LUA_FORMAT_EXECUTABLE} ${LUA_FORMAT_OPTIONS} -- ${LUA_FORMAT_SOURCES}
       WORKING_DIRECTORY ${LUA_FORMAT_WORKING_DIRECTORY}
       COMMENT "${LUA_FORMAT_COMMENT}"
     )

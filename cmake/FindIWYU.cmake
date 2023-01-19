@@ -15,18 +15,14 @@
 #
 # ``IWYU_VERSION``
 #
-# ``IWYU_VERSION_MAJOR``
-#
-# ``IWYU_VERSION_MINOR``
-#
 # Functions
 # ^^^^^^^^^
 #
-# .. command:: include_what_you_use
+# .. command:: add_include_what_you_use
 #
 #   ::
 #
-#     include_what_you_use([OPTIONS opt] [TARGETS tgt ...] [tgt ...])
+#     add_include_what_you_use([OPTIONS opt] [TARGETS tgt ...] [tgt ...])
 #
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 find_program(IWYU_EXECUTABLE NAMES include-what-you-use)
@@ -35,8 +31,6 @@ mark_as_advanced(IWYU_EXECUTABLE)
 if(EXISTS "${IWYU_EXECUTABLE}")
   execute_process(COMMAND ${IWYU_EXECUTABLE} --version OUTPUT_VARIABLE IWYU_VERSION)
   string(REGEX REPLACE ".*use ([^ ]+).*" "\\1" IWYU_VERSION "${IWYU_VERSION}")
-  string(REGEX REPLACE "^[^.]+\\.([^.]+).*" "\\1" IWYU_VERSION_MINOR "${IWYU_VERSION}")
-  string(REGEX REPLACE "^([^.]+).*" "\\1" IWYU_VERSION_MAJOR "${IWYU_VERSION}")
 endif()
 
 find_package_handle_standard_args(IWYU
@@ -49,7 +43,7 @@ find_package_handle_standard_args(IWYU
 )
 
 if(IWYU_FOUND)
-  function(include_what_you_use)
+  function(add_include_what_you_use)
     if(CMAKE_VERSION VERSION_LESS 3.3)
       return()
     endif()
