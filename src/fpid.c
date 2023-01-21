@@ -18,27 +18,19 @@ a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
     switch (op)
     {
     case A_FPID_OR_ALGEBRA:
-    {
         ctx->op = a_fpid_op_or;
         break;
-    }
     case A_FPID_OR_BOUNDED:
     case A_FPID_AND:
-    {
         ctx->op = a_real_min;
         break;
-    }
     case A_FPID_AND_ALGEBRA:
-    {
         ctx->op = a_fpid_op_and;
         break;
-    }
     case A_FPID_AND_BOUNDED:
     case A_FPID_OR:
-    {
         ctx->op = a_real_max;
         break;
-    }
     case A_FPID_EQU:
     default:
         ctx->op = a_fpid_op_equ;
@@ -55,41 +47,29 @@ a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real_t *mms)
         switch (e)
         {
         case A_MF_GAUSS:
-        {
             y = a_mf_gauss(x, a[0], a[1]);
             a += 2;
             break;
-        }
         case A_MF_GBELL:
-        {
             y = a_mf_gbell(x, a[0], a[1], a[2]);
             a += 3;
             break;
-        }
         case A_MF_SIG:
-        {
             y = a_mf_sig(x, a[0], a[1]);
             a += 2;
             break;
-        }
         case A_MF_TRAP:
-        {
             y = a_mf_trap(x, a[0], a[1], a[2], a[3]);
             a += 4;
             break;
-        }
         case A_MF_TRI:
-        {
             y = a_mf_tri(x, a[0], a[1], a[2]);
             a += 3;
             break;
-        }
         case A_MF_Z:
-        {
             y = a_mf_z(x, a[0], a[1]);
             a += 2;
             break;
-        }
         case A_MF_NUL:
         default:
             goto done;

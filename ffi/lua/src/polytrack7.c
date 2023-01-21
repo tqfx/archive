@@ -13,43 +13,29 @@ static int l_polytrack7_init_(lua_State *L, a_polytrack7_s *ctx)
     switch (lua_gettop(L) - lua_isuserdata(L, -1))
     {
     case 10:
-    {
         j1 = (a_real_t)luaL_checknumber(L, 10);
         A_FALLTHROUGH;
-    }
     case 9:
-    {
         j0 = (a_real_t)luaL_checknumber(L, 9);
         A_FALLTHROUGH;
-    }
     case 8:
-    {
         a1 = (a_real_t)luaL_checknumber(L, 8);
         A_FALLTHROUGH;
-    }
     case 7:
-    {
         a0 = (a_real_t)luaL_checknumber(L, 7);
         A_FALLTHROUGH;
-    }
     case 6:
-    {
         v1 = (a_real_t)luaL_checknumber(L, 6);
         A_FALLTHROUGH;
-    }
     case 5:
-    {
         v0 = (a_real_t)luaL_checknumber(L, 5);
         A_FALLTHROUGH;
-    }
     case 4:
-    {
         q1 = (a_real_t)luaL_checknumber(L, 4);
         q0 = (a_real_t)luaL_checknumber(L, 3);
         t1 = (a_real_t)luaL_checknumber(L, 2);
         t0 = (a_real_t)luaL_checknumber(L, 1);
-    }
-    break;
+        A_FALLTHROUGH;
     default:
         break;
     }
