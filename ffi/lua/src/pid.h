@@ -33,8 +33,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int l_pid_func_(lua_State *L);
-int l_pid_meta_(lua_State *L);
+A_PUBLIC int l_pid_func_(lua_State *L);
+A_PUBLIC int l_pid_meta_(lua_State *L);
 
 /***
  constructor for PID controller
@@ -48,10 +48,10 @@ int l_pid_meta_(lua_State *L);
  @treturn pid PID controller userdata
  @function new
 */
-int l_pid_new(lua_State *L);
+A_PUBLIC int l_pid_new(lua_State *L);
 
 /***
- calculate function for PID controller
+ initialize function for PID controller
  @tparam number dt sampling time unit(s)
  @tparam[opt] number kp proportional constant
  @tparam[opt] number ki integral constant
@@ -62,7 +62,7 @@ int l_pid_new(lua_State *L);
  @treturn pid PID controller userdata
  @function init
 */
-int l_pid_init(lua_State *L);
+A_PUBLIC int l_pid_init(lua_State *L);
 
 /***
  calculate function for PID controller
@@ -71,14 +71,14 @@ int l_pid_init(lua_State *L);
  @treturn number output
  @function proc
 */
-int l_pid_proc(lua_State *L);
+A_PUBLIC int l_pid_proc(lua_State *L);
 
 /***
  zero function for PID controller
  @treturn pid PID controller userdata
  @function zero
 */
-int l_pid_zero(lua_State *L);
+A_PUBLIC int l_pid_zero(lua_State *L);
 
 /***
  set proportional integral derivative constant for PID controller
@@ -88,7 +88,7 @@ int l_pid_zero(lua_State *L);
  @treturn pid PID controller userdata
  @function kpid
 */
-int l_pid_kpid(lua_State *L);
+A_PUBLIC int l_pid_kpid(lua_State *L);
 
 /***
  positional PID controller
@@ -96,21 +96,21 @@ int l_pid_kpid(lua_State *L);
  @treturn pid PID controller userdata
  @function pos
 */
-int l_pid_pos(lua_State *L);
+A_PUBLIC int l_pid_pos(lua_State *L);
 
 /***
  incremental PID controller
  @treturn pid PID controller userdata
  @function inc
 */
-int l_pid_inc(lua_State *L);
+A_PUBLIC int l_pid_inc(lua_State *L);
 
 /***
  turn off PID controller
  @treturn pid PID controller userdata
  @function off
 */
-int l_pid_off(lua_State *L);
+A_PUBLIC int l_pid_off(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */

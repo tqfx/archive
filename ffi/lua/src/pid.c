@@ -30,8 +30,8 @@ static int l_pid_init_(lua_State *L, a_pid_s *ctx)
         {
             a_pid_set_mode(ctx, A_PID_INC);
         }
+        break;
     }
-    break;
     case 4: /* dt, outmin, outmax, summax */
     {
         ctx->summax = (a_real_t)luaL_checknumber(L, 4);
@@ -46,8 +46,8 @@ static int l_pid_init_(lua_State *L, a_pid_s *ctx)
         {
             a_pid_set_mode(ctx, A_PID_INC);
         }
+        break;
     }
-    break;
     default:
         break;
     }

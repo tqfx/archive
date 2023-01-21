@@ -138,6 +138,7 @@ static int l_tf_set(lua_State *L)
     switch (hash)
     {
     case 0x001D0A2A: // num
+    {
         luaL_checktype(L, 3, LUA_TTABLE);
         a_uint_t m = (a_uint_t)lua_rawlen(L, 3);
         a_real_t *num = (a_real_t *)alloc(ud, (void *)(intptr_t)ctx->num, // NOLINT(performance-no-int-to-ptr)
@@ -146,7 +147,9 @@ static int l_tf_set(lua_State *L)
         l_array_num_get(L, 3, num, m);
         a_tf_set_num(ctx, m, num, num + m);
         break;
+    }
     case 0x001A63A1: // den
+    {
         luaL_checktype(L, 3, LUA_TTABLE);
         a_uint_t n = (a_uint_t)lua_rawlen(L, 3);
         a_real_t *den = (a_real_t *)alloc(ud, (void *)(intptr_t)ctx->den, // NOLINT(performance-no-int-to-ptr)
@@ -155,6 +158,7 @@ static int l_tf_set(lua_State *L)
         l_array_num_get(L, 3, den, n);
         a_tf_set_den(ctx, n, den, den + n);
         break;
+    }
     case 0xE8859EEB: // __name
     case 0xA65758B2: // __index
     case 0xAEB551C6: // __newindex

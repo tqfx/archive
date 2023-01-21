@@ -6,6 +6,7 @@
 #define LUA_LIB
 #include "a.h"
 #include "a/math.h"
+#include "a/version.h"
 
 /***
  fast inverse square-root
@@ -44,7 +45,8 @@ int luaopen_liba(lua_State *L)
         {"rsqrt", l_rsqrt},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, L_ARRAY(funcs) - 1);
+    lua_createtable(L, 0, L_ARRAY(funcs));
+    l_str_set(L, -1, "VERSION", A_VERSION);
     l_func_reg(L, -1, funcs);
 
     lua_pushstring(L, "mf");

@@ -37,8 +37,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int l_polytrack7_func_(lua_State *L);
-int l_polytrack7_meta_(lua_State *L);
+A_PUBLIC int l_polytrack7_func_(lua_State *L);
+A_PUBLIC int l_polytrack7_meta_(lua_State *L);
 
 /***
  constructor for hepta polynomial trajectory
@@ -57,7 +57,7 @@ int l_polytrack7_meta_(lua_State *L);
  @treturn polytrack7 hepta polynomial trajectory userdata
  @function new
 */
-int l_polytrack7_new(lua_State *L);
+A_PUBLIC int l_polytrack7_new(lua_State *L);
 
 /***
  initialize function for hepta polynomial trajectory
@@ -76,14 +76,14 @@ int l_polytrack7_new(lua_State *L);
  @treturn polytrack7 hepta polynomial trajectory userdata
  @function init
 */
-int l_polytrack7_init(lua_State *L);
+A_PUBLIC int l_polytrack7_init(lua_State *L);
 
 /***
  generation function for hepta polynomial trajectory
  @treturn polytrack7 hepta polynomial trajectory userdata
  @function gen
 */
-int l_polytrack7_gen(lua_State *L);
+A_PUBLIC int l_polytrack7_gen(lua_State *L);
 
 /***
  process function for hepta polynomial trajectory
@@ -91,7 +91,7 @@ int l_polytrack7_gen(lua_State *L);
  @treturn table {position,velocity,acceleration,jerk}
  @function out
 */
-int l_polytrack7_out(lua_State *L);
+A_PUBLIC int l_polytrack7_out(lua_State *L);
 
 /***
  process function for hepta polynomial trajectory position
@@ -99,7 +99,7 @@ int l_polytrack7_out(lua_State *L);
  @treturn number position output
  @function pos
 */
-int l_polytrack7_pos(lua_State *L);
+A_PUBLIC int l_polytrack7_pos(lua_State *L);
 
 /***
  process function for hepta polynomial trajectory velocity
@@ -107,7 +107,7 @@ int l_polytrack7_pos(lua_State *L);
  @treturn number velocity output
  @function vec
 */
-int l_polytrack7_vec(lua_State *L);
+A_PUBLIC int l_polytrack7_vec(lua_State *L);
 
 /***
  process function for hepta polynomial trajectory acceleration
@@ -115,7 +115,7 @@ int l_polytrack7_vec(lua_State *L);
  @treturn number acceleration output
  @function acc
 */
-int l_polytrack7_acc(lua_State *L);
+A_PUBLIC int l_polytrack7_acc(lua_State *L);
 
 /***
  process function for hepta polynomial trajectory jerk
@@ -123,7 +123,7 @@ int l_polytrack7_acc(lua_State *L);
  @treturn number jerk output
  @function jer
 */
-int l_polytrack7_jer(lua_State *L);
+A_PUBLIC int l_polytrack7_jer(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */

@@ -34,8 +34,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int l_polytrack5_func_(lua_State *L);
-int l_polytrack5_meta_(lua_State *L);
+A_PUBLIC int l_polytrack5_func_(lua_State *L);
+A_PUBLIC int l_polytrack5_meta_(lua_State *L);
 
 /***
  constructor for quintic polynomial trajectory
@@ -52,7 +52,7 @@ int l_polytrack5_meta_(lua_State *L);
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function new
 */
-int l_polytrack5_new(lua_State *L);
+A_PUBLIC int l_polytrack5_new(lua_State *L);
 
 /***
  initialize function for quintic polynomial trajectory
@@ -69,14 +69,14 @@ int l_polytrack5_new(lua_State *L);
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function init
 */
-int l_polytrack5_init(lua_State *L);
+A_PUBLIC int l_polytrack5_init(lua_State *L);
 
 /***
  generation function for quintic polynomial trajectory
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function gen
 */
-int l_polytrack5_gen(lua_State *L);
+A_PUBLIC int l_polytrack5_gen(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory
@@ -84,7 +84,7 @@ int l_polytrack5_gen(lua_State *L);
  @treturn table {position,velocity,acceleration}
  @function out
 */
-int l_polytrack5_out(lua_State *L);
+A_PUBLIC int l_polytrack5_out(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory position
@@ -92,7 +92,7 @@ int l_polytrack5_out(lua_State *L);
  @treturn number position output
  @function pos
 */
-int l_polytrack5_pos(lua_State *L);
+A_PUBLIC int l_polytrack5_pos(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory velocity
@@ -100,7 +100,7 @@ int l_polytrack5_pos(lua_State *L);
  @treturn number velocity output
  @function vec
 */
-int l_polytrack5_vec(lua_State *L);
+A_PUBLIC int l_polytrack5_vec(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory acceleration
@@ -108,7 +108,7 @@ int l_polytrack5_vec(lua_State *L);
  @treturn number acceleration output
  @function acc
 */
-int l_polytrack5_acc(lua_State *L);
+A_PUBLIC int l_polytrack5_acc(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */

@@ -133,5 +133,8 @@ LUALIB_API int luaL_error(lua_State *L, const char *fmt, ...);
 #define L_MUL "__mul"
 #define L_DIV "__div"
 #define L_POW "__pow"
+#define L_LT "__lt"
+#define L_LE "__le"
+#define L_EQ "__eq"
 
 #endif /* FFI_FFI_H */

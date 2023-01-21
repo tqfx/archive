@@ -125,7 +125,7 @@ int l_complex_polar(lua_State *L)
 
 #undef FUNC
 #define FUNC(func)                                    \
-    static int l_complex_##func(lua_State *L)         \
+    int l_complex_##func(lua_State *L)                \
     {                                                 \
         while (lua_type(L, 1) == LUA_TTABLE)          \
         {                                             \
@@ -170,7 +170,7 @@ FUNC(abs)
 FUNC(arg)
 #undef FUNC
 #define FUNC(func)                                    \
-    static int l_complex_##func(lua_State *L)         \
+    int l_complex_##func(lua_State *L)                \
     {                                                 \
         while (lua_type(L, 1) == LUA_TTABLE)          \
         {                                             \
@@ -207,7 +207,7 @@ FUNC(neg)
 FUNC(inv)
 #undef FUNC
 #define FUNC(func)                                       \
-    static int l_complex_##func(lua_State *L)            \
+    int l_complex_##func(lua_State *L)                   \
     {                                                    \
         while (lua_type(L, 1) == LUA_TTABLE)             \
         {                                                \
@@ -272,7 +272,7 @@ FUNC(pow)
 FUNC(logb)
 #undef FUNC
 #define FUNC(func)                                    \
-    static int l_complex_##func(lua_State *L)         \
+    int l_complex_##func(lua_State *L)                \
     {                                                 \
         while (lua_type(L, 1) == LUA_TTABLE)          \
         {                                             \

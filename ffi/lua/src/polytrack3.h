@@ -31,8 +31,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int l_polytrack3_func_(lua_State *L);
-int l_polytrack3_meta_(lua_State *L);
+A_PUBLIC int l_polytrack3_func_(lua_State *L);
+A_PUBLIC int l_polytrack3_meta_(lua_State *L);
 
 /***
  constructor for cubic polynomial trajectory
@@ -47,7 +47,7 @@ int l_polytrack3_meta_(lua_State *L);
  @treturn polytrack3 cubic polynomial trajectory userdata
  @function new
 */
-int l_polytrack3_new(lua_State *L);
+A_PUBLIC int l_polytrack3_new(lua_State *L);
 
 /***
  initialize function for cubic polynomial trajectory
@@ -62,14 +62,14 @@ int l_polytrack3_new(lua_State *L);
  @treturn polytrack3 cubic polynomial trajectory userdata
  @function init
 */
-int l_polytrack3_init(lua_State *L);
+A_PUBLIC int l_polytrack3_init(lua_State *L);
 
 /***
  generation function for cubic polynomial trajectory
  @treturn polytrack3 cubic polynomial trajectory userdata
  @function gen
 */
-int l_polytrack3_gen(lua_State *L);
+A_PUBLIC int l_polytrack3_gen(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory
@@ -77,7 +77,7 @@ int l_polytrack3_gen(lua_State *L);
  @treturn table {position,velocity,acceleration}
  @function out
 */
-int l_polytrack3_out(lua_State *L);
+A_PUBLIC int l_polytrack3_out(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory position
@@ -85,7 +85,7 @@ int l_polytrack3_out(lua_State *L);
  @treturn number position output
  @function pos
 */
-int l_polytrack3_pos(lua_State *L);
+A_PUBLIC int l_polytrack3_pos(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory velocity
@@ -93,7 +93,7 @@ int l_polytrack3_pos(lua_State *L);
  @treturn number velocity output
  @function vec
 */
-int l_polytrack3_vec(lua_State *L);
+A_PUBLIC int l_polytrack3_vec(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory acceleration
@@ -101,7 +101,7 @@ int l_polytrack3_vec(lua_State *L);
  @treturn number acceleration output
  @function acc
 */
-int l_polytrack3_acc(lua_State *L);
+A_PUBLIC int l_polytrack3_acc(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */
