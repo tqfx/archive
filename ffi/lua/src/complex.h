@@ -13,18 +13,18 @@
 #ifndef FFI_COMPLEX_H
 #define FFI_COMPLEX_H
 
-#include "lua.h"
+#include "a.h"
 #include "a/complex.h"
 
-#define COMPLEX_FUNC_ (void *)(intptr_t)complex_func_ // NOLINT(performance-no-int-to-ptr)
-#define COMPLEX_META_ (void *)(intptr_t)complex_meta_ // NOLINT(performance-no-int-to-ptr)
+#define L_COMPLEX_FUNC_ (void *)(intptr_t)l_complex_func_ // NOLINT(performance-no-int-to-ptr)
+#define L_COMPLEX_META_ (void *)(intptr_t)l_complex_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int complex_func_(lua_State *L);
-int complex_meta_(lua_State *L);
+int l_complex_func_(lua_State *L);
+int l_complex_meta_(lua_State *L);
 
 /***
  constructor for complex number from rectangular Cartesian components
@@ -33,7 +33,7 @@ int complex_meta_(lua_State *L);
  @treturn complex complex number userdata
  @function new
 */
-int complex_new(lua_State *L);
+int l_complex_new(lua_State *L);
 
 /***
  constructor for complex number from polar form
@@ -42,7 +42,7 @@ int complex_new(lua_State *L);
  @treturn complex complex number userdata
  @function polar
 */
-int complex_polar(lua_State *L);
+int l_complex_polar(lua_State *L);
 
 /***
  computes the natural logarithm of magnitude of a complex number

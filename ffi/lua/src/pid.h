@@ -23,18 +23,18 @@
 #ifndef FFI_PID_H
 #define FFI_PID_H
 
-#include "lua.h"
+#include "a.h"
 #include "a/pid.h"
 
-#define PID_FUNC_ (void *)(intptr_t)pid_func_ // NOLINT(performance-no-int-to-ptr)
-#define PID_META_ (void *)(intptr_t)pid_meta_ // NOLINT(performance-no-int-to-ptr)
+#define L_PID_FUNC_ (void *)(intptr_t)l_pid_func_ // NOLINT(performance-no-int-to-ptr)
+#define L_PID_META_ (void *)(intptr_t)l_pid_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int pid_func_(lua_State *L);
-int pid_meta_(lua_State *L);
+int l_pid_func_(lua_State *L);
+int l_pid_meta_(lua_State *L);
 
 /***
  constructor for PID controller
@@ -48,7 +48,7 @@ int pid_meta_(lua_State *L);
  @treturn pid PID controller userdata
  @function new
 */
-int pid_new(lua_State *L);
+int l_pid_new(lua_State *L);
 
 /***
  calculate function for PID controller
@@ -62,7 +62,7 @@ int pid_new(lua_State *L);
  @treturn pid PID controller userdata
  @function init
 */
-int pid_init(lua_State *L);
+int l_pid_init(lua_State *L);
 
 /***
  calculate function for PID controller
@@ -71,14 +71,14 @@ int pid_init(lua_State *L);
  @treturn number output
  @function proc
 */
-int pid_proc(lua_State *L);
+int l_pid_proc(lua_State *L);
 
 /***
  zero function for PID controller
  @treturn pid PID controller userdata
  @function zero
 */
-int pid_zero(lua_State *L);
+int l_pid_zero(lua_State *L);
 
 /***
  set proportional integral derivative constant for PID controller
@@ -88,7 +88,7 @@ int pid_zero(lua_State *L);
  @treturn pid PID controller userdata
  @function kpid
 */
-int pid_kpid(lua_State *L);
+int l_pid_kpid(lua_State *L);
 
 /***
  positional PID controller
@@ -96,21 +96,21 @@ int pid_kpid(lua_State *L);
  @treturn pid PID controller userdata
  @function pos
 */
-int pid_pos(lua_State *L);
+int l_pid_pos(lua_State *L);
 
 /***
  incremental PID controller
  @treturn pid PID controller userdata
  @function inc
 */
-int pid_inc(lua_State *L);
+int l_pid_inc(lua_State *L);
 
 /***
  turn off PID controller
  @treturn pid PID controller userdata
  @function off
 */
-int pid_off(lua_State *L);
+int l_pid_off(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */

@@ -3,7 +3,8 @@
  @module liba.mf
 */
 
-#include "lua.h"
+#define LUA_LIB
+#include "a.h"
 #include "a/mf.h"
 
 /***
@@ -14,7 +15,7 @@
  @treturn number membership
  @function gauss
 */
-static int mf_gauss(lua_State *L)
+static int l_mf_gauss(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -36,7 +37,7 @@ static int mf_gauss(lua_State *L)
  @treturn number membership
  @function gbell
 */
-static int mf_gbell(lua_State *L)
+static int l_mf_gbell(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -58,7 +59,7 @@ static int mf_gbell(lua_State *L)
  @treturn number membership
  @function sig
 */
-static int mf_sig(lua_State *L)
+static int l_mf_sig(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -81,7 +82,7 @@ static int mf_sig(lua_State *L)
  @treturn number membership
  @function trap
 */
-static int mf_trap(lua_State *L)
+static int l_mf_trap(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -105,7 +106,7 @@ static int mf_trap(lua_State *L)
  @treturn number membership
  @function tri
 */
-static int mf_tri(lua_State *L)
+static int l_mf_tri(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -127,7 +128,7 @@ static int mf_tri(lua_State *L)
  @treturn number membership
  @function z
 */
-static int mf_z(lua_State *L)
+static int l_mf_z(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -148,7 +149,7 @@ static int mf_z(lua_State *L)
  @treturn number membership
  @function mf
 */
-static int mf(lua_State *L)
+static int l_mf(lua_State *L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -159,17 +160,17 @@ static int mf(lua_State *L)
     switch (e)
     {
     case A_MF_GAUSS:
-        return mf_gauss(L);
+        return l_mf_gauss(L);
     case A_MF_GBELL:
-        return mf_gbell(L);
+        return l_mf_gbell(L);
     case A_MF_SIG:
-        return mf_sig(L);
+        return l_mf_sig(L);
     case A_MF_TRAP:
-        return mf_trap(L);
+        return l_mf_trap(L);
     case A_MF_TRI:
-        return mf_tri(L);
+        return l_mf_tri(L);
     case A_MF_Z:
-        return mf_z(L);
+        return l_mf_z(L);
     case A_MF_NUL:
     default:
         return 0;
@@ -189,7 +190,7 @@ static int mf(lua_State *L)
 */
 int luaopen_liba_mf(lua_State *L)
 {
-    const SEnum enums[] = {
+    const l_int_s enums[] = {
         {"NUL", A_MF_NUL},
         {"GAUSS", A_MF_GAUSS},
         {"GBELL", A_MF_GBELL},
@@ -199,24 +200,24 @@ int luaopen_liba_mf(lua_State *L)
         {"Z", A_MF_Z},
         {NULL, 0},
     };
-    const SFunc funcs[] = {
-        {"gauss", mf_gauss},
-        {"gbell", mf_gbell},
-        {"sig", mf_sig},
-        {"trap", mf_trap},
-        {"tri", mf_tri},
-        {"z", mf_z},
+    const l_func_s funcs[] = {
+        {"gauss", l_mf_gauss},
+        {"gbell", l_mf_gbell},
+        {"sig", l_mf_sig},
+        {"trap", l_mf_trap},
+        {"tri", l_mf_tri},
+        {"z", l_mf_z},
         {NULL, NULL},
     };
-    const SFunc metas[] = {
-        {"__call", mf},
+    const l_func_s metas[] = {
+        {"__call", l_mf},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, Larray(enums) + Larray(funcs) - 2);
-    set_enums(L, -1, enums);
-    set_funcs(L, -1, funcs);
-    lua_createtable(L, 0, Larray(metas) - 1);
-    set_funcs(L, -1, metas);
+    lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(funcs) - 2);
+    l_int_reg(L, -1, enums);
+    l_func_reg(L, -1, funcs);
+    lua_createtable(L, 0, L_ARRAY(metas) - 1);
+    l_func_reg(L, -1, metas);
     lua_setmetatable(L, -2);
     return 1;
 }

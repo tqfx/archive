@@ -24,18 +24,18 @@
 #ifndef FFI_POLYTRACK5_H
 #define FFI_POLYTRACK5_H
 
-#include "lua.h"
+#include "a.h"
 #include "a/polytrack.h"
 
-#define POLYTRACK5_FUNC_ (void *)(intptr_t)polytrack5_func_ // NOLINT(performance-no-int-to-ptr)
-#define POLYTRACK5_META_ (void *)(intptr_t)polytrack5_meta_ // NOLINT(performance-no-int-to-ptr)
+#define L_POLYTRACK5_FUNC_ (void *)(intptr_t)l_polytrack5_func_ // NOLINT(performance-no-int-to-ptr)
+#define L_POLYTRACK5_META_ (void *)(intptr_t)l_polytrack5_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-int polytrack5_func_(lua_State *L);
-int polytrack5_meta_(lua_State *L);
+int l_polytrack5_func_(lua_State *L);
+int l_polytrack5_meta_(lua_State *L);
 
 /***
  constructor for quintic polynomial trajectory
@@ -52,7 +52,7 @@ int polytrack5_meta_(lua_State *L);
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function new
 */
-int polytrack5_new(lua_State *L);
+int l_polytrack5_new(lua_State *L);
 
 /***
  initialize function for quintic polynomial trajectory
@@ -69,14 +69,14 @@ int polytrack5_new(lua_State *L);
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function init
 */
-int polytrack5_init(lua_State *L);
+int l_polytrack5_init(lua_State *L);
 
 /***
  generation function for quintic polynomial trajectory
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function gen
 */
-int polytrack5_gen(lua_State *L);
+int l_polytrack5_gen(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory
@@ -84,7 +84,7 @@ int polytrack5_gen(lua_State *L);
  @treturn table {position,velocity,acceleration}
  @function out
 */
-int polytrack5_out(lua_State *L);
+int l_polytrack5_out(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory position
@@ -92,7 +92,7 @@ int polytrack5_out(lua_State *L);
  @treturn number position output
  @function pos
 */
-int polytrack5_pos(lua_State *L);
+int l_polytrack5_pos(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory velocity
@@ -100,7 +100,7 @@ int polytrack5_pos(lua_State *L);
  @treturn number velocity output
  @function vec
 */
-int polytrack5_vec(lua_State *L);
+int l_polytrack5_vec(lua_State *L);
 
 /***
  process function for quintic polynomial trajectory acceleration
@@ -108,7 +108,7 @@ int polytrack5_vec(lua_State *L);
  @treturn number acceleration output
  @function acc
 */
-int polytrack5_acc(lua_State *L);
+int l_polytrack5_acc(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */
