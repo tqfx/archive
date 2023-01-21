@@ -1,7 +1,7 @@
 #ifndef FFI_PID_H
 #define FFI_PID_H
 
-#include "lib.h"
+#include "a.h"
 #include "a/pid.h"
 
 typedef struct

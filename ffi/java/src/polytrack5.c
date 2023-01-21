@@ -22,22 +22,22 @@ j_polytrack5_s *j_polytrack5_new(JNIEnv *jenv, jobject jobj, j_polytrack5_s *jct
 jobject j_polytrack5_get(const j_polytrack5_s *jctx, a_polytrack5_s *ctx)
 {
     JNIEnv *jenv = jctx->jenv;
-    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jt, 0, ARRAY_SIZE(ctx->t), ctx->t);
-    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jq, 0, ARRAY_SIZE(ctx->q), ctx->q);
-    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jv, 0, ARRAY_SIZE(ctx->v), ctx->v);
-    (*jenv)->GetDoubleArrayRegion(jenv, jctx->ja, 0, ARRAY_SIZE(ctx->a), ctx->a);
-    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jk, 0, ARRAY_SIZE(ctx->k), ctx->k);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jt, 0, JARRAYOF(ctx->t), ctx->t);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jq, 0, JARRAYOF(ctx->q), ctx->q);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jv, 0, JARRAYOF(ctx->v), ctx->v);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->ja, 0, JARRAYOF(ctx->a), ctx->a);
+    (*jenv)->GetDoubleArrayRegion(jenv, jctx->jk, 0, JARRAYOF(ctx->k), ctx->k);
     return jctx->jobj;
 }
 
 jobject j_polytrack5_set(const j_polytrack5_s *jctx, const a_polytrack5_s *ctx)
 {
     JNIEnv *jenv = jctx->jenv;
-    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jt, 0, ARRAY_SIZE(ctx->t), ctx->t);
-    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jq, 0, ARRAY_SIZE(ctx->q), ctx->q);
-    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jv, 0, ARRAY_SIZE(ctx->v), ctx->v);
-    (*jenv)->SetDoubleArrayRegion(jenv, jctx->ja, 0, ARRAY_SIZE(ctx->a), ctx->a);
-    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jk, 0, ARRAY_SIZE(ctx->k), ctx->k);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jt, 0, JARRAYOF(ctx->t), ctx->t);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jq, 0, JARRAYOF(ctx->q), ctx->q);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jv, 0, JARRAYOF(ctx->v), ctx->v);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->ja, 0, JARRAYOF(ctx->a), ctx->a);
+    (*jenv)->SetDoubleArrayRegion(jenv, jctx->jk, 0, JARRAYOF(ctx->k), ctx->k);
     return jctx->jobj;
 }
 
@@ -71,10 +71,10 @@ JNIEXPORT jobject JNICALL JPACKAGE(polytrack5_init__DDDD)(JNIEnv *jenv, jobject 
 JNIEXPORT jobject JNICALL JPACKAGE(polytrack5_init___3D_3D_3D_3D)(JNIEnv *jenv, jobject jobj, jdoubleArray jt, jdoubleArray jq, jdoubleArray jv, jdoubleArray ja)
 {
     jdouble t[2] = {0}, q[2] = {0}, v[2] = {0}, a[2] = {0};
-    (*jenv)->GetDoubleArrayRegion(jenv, jt, 0, GetArrayLengthN(jenv, jt, ARRAY_SIZE(t)), t);
-    (*jenv)->GetDoubleArrayRegion(jenv, jq, 0, GetArrayLengthN(jenv, jq, ARRAY_SIZE(q)), q);
-    (*jenv)->GetDoubleArrayRegion(jenv, jv, 0, GetArrayLengthN(jenv, jv, ARRAY_SIZE(v)), v);
-    (*jenv)->GetDoubleArrayRegion(jenv, ja, 0, GetArrayLengthN(jenv, ja, ARRAY_SIZE(a)), a);
+    (*jenv)->GetDoubleArrayRegion(jenv, jt, 0, GetArrayLengthN(jenv, jt, JARRAYOF(t)), t);
+    (*jenv)->GetDoubleArrayRegion(jenv, jq, 0, GetArrayLengthN(jenv, jq, JARRAYOF(q)), q);
+    (*jenv)->GetDoubleArrayRegion(jenv, jv, 0, GetArrayLengthN(jenv, jv, JARRAYOF(v)), v);
+    (*jenv)->GetDoubleArrayRegion(jenv, ja, 0, GetArrayLengthN(jenv, ja, JARRAYOF(a)), a);
     a_polytrack5_s ctx[1];
     j_polytrack5_s jctx[1];
     j_polytrack5_new(jenv, jobj, jctx);
@@ -85,9 +85,9 @@ JNIEXPORT jobject JNICALL JPACKAGE(polytrack5_init___3D_3D_3D_3D)(JNIEnv *jenv, 
 JNIEXPORT jobject JNICALL JPACKAGE(polytrack5_init___3D_3D_3D)(JNIEnv *jenv, jobject jobj, jdoubleArray jt, jdoubleArray jq, jdoubleArray jv)
 {
     jdouble t[2] = {0}, q[2] = {0}, v[2] = {0}, a[2] = {0};
-    (*jenv)->GetDoubleArrayRegion(jenv, jt, 0, GetArrayLengthN(jenv, jt, ARRAY_SIZE(t)), t);
-    (*jenv)->GetDoubleArrayRegion(jenv, jq, 0, GetArrayLengthN(jenv, jq, ARRAY_SIZE(q)), q);
-    (*jenv)->GetDoubleArrayRegion(jenv, jv, 0, GetArrayLengthN(jenv, jv, ARRAY_SIZE(v)), v);
+    (*jenv)->GetDoubleArrayRegion(jenv, jt, 0, GetArrayLengthN(jenv, jt, JARRAYOF(t)), t);
+    (*jenv)->GetDoubleArrayRegion(jenv, jq, 0, GetArrayLengthN(jenv, jq, JARRAYOF(q)), q);
+    (*jenv)->GetDoubleArrayRegion(jenv, jv, 0, GetArrayLengthN(jenv, jv, JARRAYOF(v)), v);
     a_polytrack5_s ctx[1];
     j_polytrack5_s jctx[1];
     j_polytrack5_new(jenv, jobj, jctx);
@@ -98,8 +98,8 @@ JNIEXPORT jobject JNICALL JPACKAGE(polytrack5_init___3D_3D_3D)(JNIEnv *jenv, job
 JNIEXPORT jobject JNICALL JPACKAGE(polytrack5_init___3D_3D)(JNIEnv *jenv, jobject jobj, jdoubleArray jsource, jdoubleArray jtarget)
 {
     jdouble source[4] = {0}, target[4] = {0};
-    (*jenv)->GetDoubleArrayRegion(jenv, jsource, 0, GetArrayLengthN(jenv, jsource, ARRAY_SIZE(source)), source);
-    (*jenv)->GetDoubleArrayRegion(jenv, jtarget, 0, GetArrayLengthN(jenv, jtarget, ARRAY_SIZE(target)), target);
+    (*jenv)->GetDoubleArrayRegion(jenv, jsource, 0, GetArrayLengthN(jenv, jsource, JARRAYOF(source)), source);
+    (*jenv)->GetDoubleArrayRegion(jenv, jtarget, 0, GetArrayLengthN(jenv, jtarget, JARRAYOF(target)), target);
     a_polytrack5_s ctx[1];
     j_polytrack5_s jctx[1];
     j_polytrack5_new(jenv, jobj, jctx);
@@ -114,8 +114,8 @@ JNIEXPORT jdoubleArray JNICALL JPACKAGE(polytrack5_out)(JNIEnv *jenv, jobject jo
     j_polytrack5_s jctx[1];
     j_polytrack5_get(j_polytrack5_new(jenv, jobj, jctx), ctx);
     a_polytrack5_out(ctx, ts, out);
-    jdoubleArray jresult = (*jenv)->NewDoubleArray(jenv, ARRAY_SIZE(out));
-    (*jenv)->SetDoubleArrayRegion(jenv, jresult, 0, ARRAY_SIZE(out), out);
+    jdoubleArray jresult = (*jenv)->NewDoubleArray(jenv, JARRAYOF(out));
+    (*jenv)->SetDoubleArrayRegion(jenv, jresult, 0, JARRAYOF(out), out);
     return jresult;
 }
 

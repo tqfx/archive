@@ -1,7 +1,7 @@
-#include "lib.h"
-#include "liba_a.h"
+#include "a.h"
 #include "a/math.h"
 #include "a/version.h"
+#include "liba_a.h"
 
 JNIEXPORT jstring JNICALL JPACKAGE(a_version)(JNIEnv *jenv, jclass jcls)
 {

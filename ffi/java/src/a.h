@@ -1,5 +1,6 @@
-#ifndef FFI_JNI_H
-#define FFI_JNI_H
+#ifndef FFI_A_H
+#define FFI_A_H
+
 #include "a/a.h"
 #if defined(_MSC_VER)
 #pragma warning(disable : 4820)
@@ -26,4 +27,15 @@
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
-#endif /* FFI_JNI_H */
+
+#define JARRAYOF(A) (sizeof(A) / sizeof(*(A)))
+#define JPACKAGE(F) Java_liba_##F
+#define CLASSPATH "liba/"
+
+A_INTERN jsize GetArrayLengthN(JNIEnv *jenv, jarray jobj, jsize jmax)
+{
+    jsize length = (*jenv)->GetArrayLength(jenv, jobj);
+    return length < jmax ? length : jmax;
+}
+
+#endif /* FFI_A_H */

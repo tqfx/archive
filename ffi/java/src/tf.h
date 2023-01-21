@@ -1,7 +1,7 @@
 #ifndef FFI_TF_H
 #define FFI_TF_H
 
-#include "lib.h"
+#include "a.h"
 #include "a/tf.h"
 
 typedef struct

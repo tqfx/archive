@@ -1,7 +1,7 @@
 #ifndef FFI_POLYTRACK3_H
 #define FFI_POLYTRACK3_H
 
-#include "lib.h"
+#include "a.h"
 #include "a/polytrack.h"
 
 typedef struct
