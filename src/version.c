@@ -49,3 +49,17 @@ a_int_t a_version_cmp(const a_version_s *lhs, const a_version_s *rhs)
     }
     return 0;
 }
+
+#undef a_version_check
+a_int_t a_version_check(a_uint_t major, a_uint_t minor, a_uint_t patch)
+{
+    a_version_s inner = A_VERSION_C(0, 0, 0);
+    a_version_s outer = A_VERSION_C(0, 0, 0);
+    inner.major = a_version_major();
+    inner.minor = a_version_minor();
+    inner.patch = a_version_patch();
+    outer.major = major;
+    outer.minor = minor;
+    outer.patch = patch;
+    return a_version_cmp(&inner, &outer);
+}

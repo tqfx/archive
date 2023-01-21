@@ -129,16 +129,8 @@ A_EXTERN a_int_t a_version_cmp(const a_version_s *lhs, const a_version_s *rhs);
 /*!
  @brief algorithm library version check
 */
-A_INTERN a_int_t a_version_check(void)
-{
-    a_version_s outer = A_VERSION_C(0, 0, 0);
-    a_version_s inner = A_VERSION_C(0, 0, 0);
-    outer.major = a_version_major();
-    outer.minor = a_version_minor();
-    inner.major = A_VERSION_MAJOR;
-    inner.minor = A_VERSION_MINOR;
-    return a_version_cmp(&inner, &outer);
-}
+A_EXTERN a_int_t a_version_check(a_uint_t major, a_uint_t minor, a_uint_t patch);
+#define a_version_check() a_version_check(A_VERSION_MAJOR, A_VERSION_MINOR, A_VERSION_PATCH)
 
 #if defined(LIBA_VERSION_C)
 #undef A_INTERN
