@@ -1,5 +1,5 @@
-#ifndef FFI_TF_H
-#define FFI_TF_H
+#ifndef J_TF_H
+#define J_TF_H
 
 #include "a.h"
 #include "a/tf.h"
@@ -30,4 +30,4 @@ jobject j_tf_get(const j_tf_s *jctx, a_tf_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_TF_H */
+#endif /* J_TF_H */

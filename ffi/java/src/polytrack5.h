@@ -1,5 +1,5 @@
-#ifndef FFI_POLYTRACK5_H
-#define FFI_POLYTRACK5_H
+#ifndef J_POLYTRACK5_H
+#define J_POLYTRACK5_H
 
 #include "a.h"
 #include "a/polytrack.h"
@@ -32,4 +32,4 @@ jobject j_polytrack5_get(const j_polytrack5_s *jctx, a_polytrack5_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_POLYTRACK5_H */
+#endif /* J_POLYTRACK5_H */

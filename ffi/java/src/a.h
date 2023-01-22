@@ -1,5 +1,5 @@
-#ifndef FFI_A_H
-#define FFI_A_H
+#ifndef J_A_H
+#define J_A_H
 
 #include "a/a.h"
 #if defined(_MSC_VER)
@@ -38,4 +38,4 @@ A_INTERN jsize GetArrayLengthN(JNIEnv *jenv, jarray jobj, jsize jmax)
     return length < jmax ? length : jmax;
 }
 
-#endif /* FFI_A_H */
+#endif /* J_A_H */

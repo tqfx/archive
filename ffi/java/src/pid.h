@@ -1,5 +1,5 @@
-#ifndef FFI_PID_H
-#define FFI_PID_H
+#ifndef J_PID_H
+#define J_PID_H
 
 #include "a.h"
 #include "a/pid.h"
@@ -36,4 +36,4 @@ jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_PID_H */
+#endif /* J_PID_H */

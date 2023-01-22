@@ -18,21 +18,18 @@
  @table polytrack3
 */
 
-#ifndef FFI_POLYTRACK3_H
-#define FFI_POLYTRACK3_H
+#ifndef L_POLYTRACK3_H
+#define L_POLYTRACK3_H
 
 #include "a.h"
 #include "a/polytrack.h"
-
-#define L_POLYTRACK3_FUNC_ ((void *)(intptr_t)l_polytrack3_func_)
-#define L_POLYTRACK3_META_ ((void *)(intptr_t)l_polytrack3_meta_)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC int l_polytrack3_func_(lua_State *L);
-A_PUBLIC int l_polytrack3_meta_(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_func_)(lua_State *L, int ret);
+A_PUBLIC int AMODULE(polytrack3_meta_)(lua_State *L, int ret);
 
 /***
  constructor for cubic polynomial trajectory
@@ -47,7 +44,7 @@ A_PUBLIC int l_polytrack3_meta_(lua_State *L);
  @treturn polytrack3 cubic polynomial trajectory userdata
  @function new
 */
-A_PUBLIC int l_polytrack3_new(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_new)(lua_State *L);
 
 /***
  initialize function for cubic polynomial trajectory
@@ -62,14 +59,14 @@ A_PUBLIC int l_polytrack3_new(lua_State *L);
  @treturn polytrack3 cubic polynomial trajectory userdata
  @function init
 */
-A_PUBLIC int l_polytrack3_init(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_init)(lua_State *L);
 
 /***
  generation function for cubic polynomial trajectory
  @treturn polytrack3 cubic polynomial trajectory userdata
  @function gen
 */
-A_PUBLIC int l_polytrack3_gen(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_gen)(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory
@@ -77,7 +74,7 @@ A_PUBLIC int l_polytrack3_gen(lua_State *L);
  @treturn table {position,velocity,acceleration}
  @function out
 */
-A_PUBLIC int l_polytrack3_out(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_out)(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory position
@@ -85,7 +82,7 @@ A_PUBLIC int l_polytrack3_out(lua_State *L);
  @treturn number position output
  @function pos
 */
-A_PUBLIC int l_polytrack3_pos(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_pos)(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory velocity
@@ -93,7 +90,7 @@ A_PUBLIC int l_polytrack3_pos(lua_State *L);
  @treturn number velocity output
  @function vec
 */
-A_PUBLIC int l_polytrack3_vec(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_vec)(lua_State *L);
 
 /***
  process function for cubic polynomial trajectory acceleration
@@ -101,10 +98,10 @@ A_PUBLIC int l_polytrack3_vec(lua_State *L);
  @treturn number acceleration output
  @function acc
 */
-A_PUBLIC int l_polytrack3_acc(lua_State *L);
+A_PUBLIC int AMODULE(polytrack3_acc)(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_POLYTRACK3_H */
+#endif /* L_POLYTRACK3_H */

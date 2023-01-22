@@ -20,21 +20,18 @@
  @table pid
 */
 
-#ifndef FFI_PID_H
-#define FFI_PID_H
+#ifndef L_PID_H
+#define L_PID_H
 
 #include "a.h"
 #include "a/pid.h"
-
-#define L_PID_FUNC_ (void *)(intptr_t)l_pid_func_ // NOLINT(performance-no-int-to-ptr)
-#define L_PID_META_ (void *)(intptr_t)l_pid_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC int l_pid_func_(lua_State *L);
-A_PUBLIC int l_pid_meta_(lua_State *L);
+A_PUBLIC int AMODULE(pid_func_)(lua_State *L, int ret);
+A_PUBLIC int AMODULE(pid_meta_)(lua_State *L, int ret);
 
 /***
  constructor for PID controller
@@ -48,7 +45,7 @@ A_PUBLIC int l_pid_meta_(lua_State *L);
  @treturn pid PID controller userdata
  @function new
 */
-A_PUBLIC int l_pid_new(lua_State *L);
+A_PUBLIC int AMODULE(pid_new)(lua_State *L);
 
 /***
  initialize function for PID controller
@@ -62,7 +59,7 @@ A_PUBLIC int l_pid_new(lua_State *L);
  @treturn pid PID controller userdata
  @function init
 */
-A_PUBLIC int l_pid_init(lua_State *L);
+A_PUBLIC int AMODULE(pid_init)(lua_State *L);
 
 /***
  calculate function for PID controller
@@ -71,14 +68,14 @@ A_PUBLIC int l_pid_init(lua_State *L);
  @treturn number output
  @function proc
 */
-A_PUBLIC int l_pid_proc(lua_State *L);
+A_PUBLIC int AMODULE(pid_proc)(lua_State *L);
 
 /***
  zero function for PID controller
  @treturn pid PID controller userdata
  @function zero
 */
-A_PUBLIC int l_pid_zero(lua_State *L);
+A_PUBLIC int AMODULE(pid_zero)(lua_State *L);
 
 /***
  set proportional integral derivative constant for PID controller
@@ -88,7 +85,7 @@ A_PUBLIC int l_pid_zero(lua_State *L);
  @treturn pid PID controller userdata
  @function kpid
 */
-A_PUBLIC int l_pid_kpid(lua_State *L);
+A_PUBLIC int AMODULE(pid_kpid)(lua_State *L);
 
 /***
  positional PID controller
@@ -96,24 +93,24 @@ A_PUBLIC int l_pid_kpid(lua_State *L);
  @treturn pid PID controller userdata
  @function pos
 */
-A_PUBLIC int l_pid_pos(lua_State *L);
+A_PUBLIC int AMODULE(pid_pos)(lua_State *L);
 
 /***
  incremental PID controller
  @treturn pid PID controller userdata
  @function inc
 */
-A_PUBLIC int l_pid_inc(lua_State *L);
+A_PUBLIC int AMODULE(pid_inc)(lua_State *L);
 
 /***
  turn off PID controller
  @treturn pid PID controller userdata
  @function off
 */
-A_PUBLIC int l_pid_off(lua_State *L);
+A_PUBLIC int AMODULE(pid_off)(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_PID_H */
+#endif /* L_PID_H */

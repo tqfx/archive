@@ -1,5 +1,5 @@
-#ifndef FFI_POLYTRACK3_H
-#define FFI_POLYTRACK3_H
+#ifndef J_POLYTRACK3_H
+#define J_POLYTRACK3_H
 
 #include "a.h"
 #include "a/polytrack.h"
@@ -30,4 +30,4 @@ jobject j_polytrack3_get(const j_polytrack3_s *jctx, a_polytrack3_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_POLYTRACK3_H */
+#endif /* J_POLYTRACK3_H */

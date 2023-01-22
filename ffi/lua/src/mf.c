@@ -3,7 +3,6 @@
  @module liba.mf
 */
 
-#define LUA_LIB
 #include "a.h"
 #include "a/mf.h"
 

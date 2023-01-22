@@ -3,11 +3,10 @@
  @module liba.version
 */
 
-#define LUA_LIB
 #include "version.h"
 #include <string.h>
 
-static int l_version_tostring(lua_State *L)
+static int AMODULE(version_tostring)(lua_State *L)
 {
     a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
     if (ctx)
@@ -18,7 +17,7 @@ static int l_version_tostring(lua_State *L)
     return 0;
 }
 
-static int l_version_init_(lua_State *L, a_version_s *ctx)
+static int AMODULE(version_init_)(lua_State *L, a_version_s *ctx)
 {
     switch (lua_gettop(L) - lua_isuserdata(L, -1))
     {
@@ -45,7 +44,7 @@ static int l_version_init_(lua_State *L, a_version_s *ctx)
  @treturn algorithm library version userdata
  @function new
 */
-int l_version_new(lua_State *L)
+int AMODULE(version_new)(lua_State *L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -53,9 +52,9 @@ int l_version_new(lua_State *L)
     }
     a_version_s *ctx = (a_version_s *)lua_newuserdata(L, sizeof(a_version_s));
     memset(ctx, 0, sizeof(a_version_s));
-    l_version_meta_(L);
+    AMODULE2(version_meta_, L, 1);
     lua_setmetatable(L, -2);
-    return l_version_init_(L, ctx);
+    return AMODULE2(version_init_, L, ctx);
 }
 
 /***
@@ -67,7 +66,7 @@ int l_version_new(lua_State *L)
  @treturn algorithm library version userdata
  @function init
 */
-int l_version_init(lua_State *L)
+int AMODULE(version_init)(lua_State *L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -77,7 +76,7 @@ int l_version_init(lua_State *L)
     a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
     lua_pushvalue(L, 1);
     lua_remove(L, 1);
-    return l_version_init_(L, ctx);
+    return AMODULE2(version_init_, L, ctx);
 }
 
 /***
@@ -89,7 +88,7 @@ int l_version_init(lua_State *L)
  @treturn integer 0 version lhs == version rhs
  @function cmp
 */
-int l_version_cmp(lua_State *L)
+int AMODULE(version_cmp)(lua_State *L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -105,7 +104,7 @@ int l_version_cmp(lua_State *L)
 
 #undef FUNC
 #define FUNC(func)                                              \
-    int l_version_##func(lua_State *L)                          \
+    int AMODULE(version_##func)(lua_State * L)                  \
     {                                                           \
         while (lua_type(L, 1) == LUA_TTABLE)                    \
         {                                                       \
@@ -168,10 +167,10 @@ FUNC(eq)
 FUNC(ne)
 #undef FUNC
 
-static int l_version_set(lua_State *L)
+static int AMODULE(version_set)(lua_State *L)
 {
-    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
+    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
     a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
@@ -201,10 +200,10 @@ static int l_version_set(lua_State *L)
     return 0;
 }
 
-static int l_version_get(lua_State *L)
+static int AMODULE(version_get)(lua_State *L)
 {
-    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
+    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
     a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
@@ -218,25 +217,25 @@ static int l_version_get(lua_State *L)
         lua_pushinteger(L, (lua_Integer)ctx->patch);
         break;
     case 0x001A24B2: // cmp
-        lua_pushcfunction(L, l_version_cmp);
+        lua_pushcfunction(L, AMODULE(version_cmp));
         break;
     case 0x000037B8: // lt
-        lua_pushcfunction(L, l_version_lt);
+        lua_pushcfunction(L, AMODULE(version_lt));
         break;
     case 0x00003529: // gt
-        lua_pushcfunction(L, l_version_gt);
+        lua_pushcfunction(L, AMODULE(version_gt));
         break;
     case 0x000037A9: // le
-        lua_pushcfunction(L, l_version_le);
+        lua_pushcfunction(L, AMODULE(version_le));
         break;
     case 0x0000351A: // ge
-        lua_pushcfunction(L, l_version_ge);
+        lua_pushcfunction(L, AMODULE(version_ge));
         break;
     case 0x00003420: // eq
-        lua_pushcfunction(L, l_version_eq);
+        lua_pushcfunction(L, AMODULE(version_eq));
         break;
     case 0x000038AF: // ne
-        lua_pushcfunction(L, l_version_ne);
+        lua_pushcfunction(L, AMODULE(version_ne));
         break;
     default:
         lua_getmetatable(L, 1);
@@ -252,7 +251,7 @@ static int l_version_get(lua_State *L)
  @field patch algorithm library version patch
  @table version
 */
-int luaopen_liba_version(lua_State *L)
+int AMODULE_(_version, lua_State *L)
 {
     const l_int_s enums[] = {
         {"major", A_VERSION_MAJOR},
@@ -261,53 +260,67 @@ int luaopen_liba_version(lua_State *L)
         {NULL, 0},
     };
     const l_func_s funcs[] = {
-        {"init", l_version_init},
-        {"new", l_version_new},
-        {"cmp", l_version_cmp},
-        {"lt", l_version_lt},
-        {"gt", l_version_gt},
-        {"le", l_version_le},
-        {"ge", l_version_ge},
-        {"eq", l_version_eq},
-        {"ne", l_version_ne},
+        {"init", AMODULE(version_init)},
+        {"new", AMODULE(version_new)},
+        {"cmp", AMODULE(version_cmp)},
+        {"lt", AMODULE(version_lt)},
+        {"gt", AMODULE(version_gt)},
+        {"le", AMODULE(version_le)},
+        {"ge", AMODULE(version_ge)},
+        {"eq", AMODULE(version_eq)},
+        {"ne", AMODULE(version_ne)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(funcs) - 1);
     l_int_reg(L, -1, enums);
     l_func_reg(L, -1, funcs);
     lua_createtable(L, 0, 2);
-    l_func_set(L, -1, L_SET, l_setter);
-    l_func_set(L, -1, L_NEW, l_version_new);
+    l_func_set(L, -1, L_SET, AMODULE(setter));
+    l_func_set(L, -1, L_NEW, AMODULE(version_new));
     lua_setmetatable(L, -2);
 
     const l_func_s metas[] = {
-        {L_PRI, l_version_tostring},
-        {L_NEW, l_version_new},
-        {L_GET, l_version_get},
-        {L_SET, l_version_set},
-        {L_LT, l_version_lt},
-        {L_LE, l_version_le},
-        {L_EQ, l_version_eq},
+        {L_PRI, AMODULE(version_tostring)},
+        {L_NEW, AMODULE(version_init)},
+        {L_GET, AMODULE(version_get)},
+        {L_SET, AMODULE(version_set)},
+        {L_EQ, AMODULE(version_eq)},
+        {L_LT, AMODULE(version_lt)},
+        {L_LE, AMODULE(version_le)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(metas));
     l_str_set(L, -1, L_NAME, "version");
     l_func_reg(L, -1, metas);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, L_VERSION_META_); // NOLINT(performance-no-int-to-ptr)
-    lua_rawsetp(L, LUA_REGISTRYINDEX, L_VERSION_FUNC_); // NOLINT(performance-no-int-to-ptr)
+    AMODULE2(version_meta_, L, 0);
+    AMODULE2(version_func_, L, 0);
 
-    return l_version_func_(L);
+    return AMODULE2(version_func_, L, 1);
 }
 
-int l_version_func_(lua_State *L)
+int AMODULE(version_func_)(lua_State *L, int ret)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, L_VERSION_FUNC_); // NOLINT(performance-no-int-to-ptr)
-    return 1;
+    // NOLINTNEXTLINE(performance-no-int-to-ptr)
+    void *p = (void *)(intptr_t)AMODULE(version_func_);
+    if (ret)
+    {
+        lua_rawgetp(L, LUA_REGISTRYINDEX, p);
+        return 1;
+    }
+    lua_rawsetp(L, LUA_REGISTRYINDEX, p);
+    return 0;
 }
 
-int l_version_meta_(lua_State *L)
+int AMODULE(version_meta_)(lua_State *L, int ret)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, L_VERSION_META_); // NOLINT(performance-no-int-to-ptr)
-    return 1;
+    // NOLINTNEXTLINE(performance-no-int-to-ptr)
+    void *p = (void *)(intptr_t)AMODULE(version_meta_);
+    if (ret)
+    {
+        lua_rawgetp(L, LUA_REGISTRYINDEX, p);
+        return 1;
+    }
+    lua_rawsetp(L, LUA_REGISTRYINDEX, p);
+    return 0;
 }

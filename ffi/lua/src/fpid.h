@@ -22,27 +22,24 @@
  @table fpid
 */
 
-#ifndef FFI_FPID_H
-#define FFI_FPID_H
+#ifndef L_FPID_H
+#define L_FPID_H
 
 #include "pid.h"
 #include "a/fpid.h"
-
-#define L_FPID_FUNC_ (void *)(intptr_t)l_fpid_func_ // NOLINT(performance-no-int-to-ptr)
-#define L_FPID_META_ (void *)(intptr_t)l_fpid_meta_ // NOLINT(performance-no-int-to-ptr)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC int l_fpid_func_(lua_State *L);
-A_PUBLIC int l_fpid_meta_(lua_State *L);
+A_PUBLIC int AMODULE(fpid_func_)(lua_State *L, int ret);
+A_PUBLIC int AMODULE(fpid_meta_)(lua_State *L, int ret);
 
 /***
  destructor for fuzzy PID controller
  @function die
 */
-A_PUBLIC int l_fpid_die(lua_State *L);
+A_PUBLIC int AMODULE(fpid_die)(lua_State *L);
 
 /***
  constructor for fuzzy PID controller
@@ -60,7 +57,7 @@ A_PUBLIC int l_fpid_die(lua_State *L);
  @treturn fpid fuzzy PID controller userdata
  @function new
 */
-A_PUBLIC int l_fpid_new(lua_State *L);
+A_PUBLIC int AMODULE(fpid_new)(lua_State *L);
 
 /***
  initialize function for fuzzy PID controller
@@ -78,7 +75,7 @@ A_PUBLIC int l_fpid_new(lua_State *L);
  @treturn fpid fuzzy PID controller userdata
  @function init
 */
-A_PUBLIC int l_fpid_init(lua_State *L);
+A_PUBLIC int AMODULE(fpid_init)(lua_State *L);
 
 /***
  calculate function for fuzzy PID controller
@@ -87,14 +84,14 @@ A_PUBLIC int l_fpid_init(lua_State *L);
  @treturn number output
  @function proc
 */
-A_PUBLIC int l_fpid_proc(lua_State *L);
+A_PUBLIC int AMODULE(fpid_proc)(lua_State *L);
 
 /***
  zero function for fuzzy PID controller
  @treturn fpid fuzzy PID controller userdata
  @function zero
 */
-A_PUBLIC int l_fpid_zero(lua_State *L);
+A_PUBLIC int AMODULE(fpid_zero)(lua_State *L);
 
 /***
  set rule base for fuzzy PID controller
@@ -105,7 +102,7 @@ A_PUBLIC int l_fpid_zero(lua_State *L);
  @treturn fpid fuzzy PID controller userdata
  @function buff
 */
-A_PUBLIC int l_fpid_base(lua_State *L);
+A_PUBLIC int AMODULE(fpid_base)(lua_State *L);
 
 /***
  set proportional integral derivative constant for fuzzy PID controller
@@ -115,7 +112,7 @@ A_PUBLIC int l_fpid_base(lua_State *L);
  @treturn fpid fuzzy PID controller userdata
  @function kpid
 */
-A_PUBLIC int l_fpid_kpid(lua_State *L);
+A_PUBLIC int AMODULE(fpid_kpid)(lua_State *L);
 
 /***
  set input extreme value for fuzzy PID controller
@@ -124,7 +121,7 @@ A_PUBLIC int l_fpid_kpid(lua_State *L);
  @treturn fpid fuzzy PID controller userdata
  @function ilim
 */
-A_PUBLIC int l_fpid_ilim(lua_State *L);
+A_PUBLIC int AMODULE(fpid_ilim)(lua_State *L);
 
 /***
  set output extreme value for fuzzy PID controller
@@ -133,7 +130,7 @@ A_PUBLIC int l_fpid_ilim(lua_State *L);
  @treturn fpid fuzzy PID controller userdata
  @function olim
 */
-A_PUBLIC int l_fpid_olim(lua_State *L);
+A_PUBLIC int AMODULE(fpid_olim)(lua_State *L);
 
 /***
  positional fuzzy PID controller
@@ -141,24 +138,24 @@ A_PUBLIC int l_fpid_olim(lua_State *L);
  @treturn fpid fuzzy PID controller userdata
  @function pos
 */
-A_PUBLIC int l_fpid_pos(lua_State *L);
+A_PUBLIC int AMODULE(fpid_pos)(lua_State *L);
 
 /***
  incremental fuzzy PID controller
  @treturn fpid fuzzy PID controller userdata
  @function inc
 */
-A_PUBLIC int l_fpid_inc(lua_State *L);
+A_PUBLIC int AMODULE(fpid_inc)(lua_State *L);
 
 /***
  turn off fuzzy PID controller
  @treturn fpid fuzzy PID controller userdata
  @function off
 */
-A_PUBLIC int l_fpid_off(lua_State *L);
+A_PUBLIC int AMODULE(fpid_off)(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_FPID_H */
+#endif /* L_FPID_H */

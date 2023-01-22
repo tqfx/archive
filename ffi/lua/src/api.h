@@ -1,22 +1,29 @@
-#ifndef FFI_FFI_H
-#define FFI_FFI_H
+#ifndef L_API_H
+#define L_API_H
 
-#if !defined __has_warning
-#define __has_warning(x) 0
-#endif /* __has_warning */
+#if !defined L_API
+#define L_API
+#endif /* L_API */
+#if !defined L_NUM
+#define L_NUM a_real_t
+#endif /* L_NUM */
+#if !defined L_INT
+#define L_INT lua_Integer
+#endif /* L_INT */
+
+#include "a/a.h"
 #if defined(_MSC_VER)
 #if !defined _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif /* _CRT_SECURE_NO_WARNINGS */
 #pragma warning(disable : 4820)
 #endif /* _MSC_VER */
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic ignored "-Wpadded"
-#endif /* -Wpadded */
 #if __has_warning("-Wcomma")
 #pragma clang diagnostic ignored "-Wcomma"
 #endif /* -Wcomma */
-
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif /* -Wpadded */
 #include <lua.h>
 
 typedef struct
@@ -31,24 +38,16 @@ typedef struct
     const char *data;
 } l_str_s;
 
-#if !defined FFI_INT
-#define FFI_INT lua_Integer
-#endif /* FFI_INT */
-
 typedef struct
 {
     const char *name;
-    FFI_INT data;
+    L_INT data;
 } l_int_s;
 
-#if !defined FFI_NUM
-#define FFI_NUM lua_Number
-#endif /* FFI_NUM */
-
 typedef struct
 {
     const char *name;
-    FFI_NUM data;
+    L_NUM data;
 } l_num_s;
 
 #if defined(__cplusplus)
@@ -68,36 +67,6 @@ LUALIB_API void luaL_checkversion_(lua_State *L, lua_Number ver, size_t sz);
 #define lua_rawlen(L, i) lua_objlen(L, i)
 #endif /* LUA_VERSION_NUM */
 
-LUALIB_API void l_func_reg(lua_State *L, int idx, const l_func_s *tab);
-LUALIB_API void l_func_set(lua_State *L, int idx, const char *name, lua_CFunction func);
-
-LUALIB_API void l_str_reg(lua_State *L, int idx, const l_str_s *tab);
-LUALIB_API const char *l_str_get(lua_State *L, int idx, const char *name);
-LUALIB_API void l_str_set(lua_State *L, int idx, const char *name, const char *data);
-
-LUALIB_API void l_int_reg(lua_State *L, int idx, const l_int_s *tab);
-LUALIB_API void l_int_set(lua_State *L, int idx, const char *name, FFI_INT data);
-LUALIB_API FFI_INT l_int_get(lua_State *L, int idx, const char *name);
-
-LUALIB_API void l_num_reg(lua_State *L, int idx, const l_num_s *tab);
-LUALIB_API void l_num_set(lua_State *L, int idx, const char *name, FFI_NUM data);
-LUALIB_API FFI_NUM l_num_get(lua_State *L, int idx, const char *name);
-
-LUALIB_API void l_array_str_get(lua_State *L, int idx, const char **ptr, unsigned int num);
-LUALIB_API void l_array_str_set(lua_State *L, int idx, const char *const *ptr, unsigned int num);
-
-LUALIB_API void l_array_int_get(lua_State *L, int idx, FFI_INT *ptr, unsigned int num);
-LUALIB_API void l_array_int_set(lua_State *L, int idx, const FFI_INT *ptr, unsigned int num);
-
-LUALIB_API void l_array_num_get(lua_State *L, int idx, FFI_NUM *ptr, unsigned int num);
-LUALIB_API void l_array_num_set(lua_State *L, int idx, const FFI_NUM *ptr, unsigned int num);
-
-LUALIB_API FFI_NUM *l_table_num_get(lua_State *L, int idx, const FFI_NUM *ptr, size_t *num);
-LUALIB_API void l_table_num_set(lua_State *L, int idx, const FFI_NUM *ptr, size_t num, unsigned int col);
-
-LUALIB_API void l_stack_type(lua_State *L, int line);
-LUALIB_API void l_stack_show(lua_State *L, int line);
-
 LUALIB_API const char *luaL_checklstring(lua_State *L, int numArg, size_t *l);
 LUALIB_API const char *luaL_optlstring(lua_State *L, int numArg, const char *def, size_t *l);
 
@@ -113,6 +82,38 @@ LUALIB_API void luaL_checkany(lua_State *L, int narg);
 
 LUALIB_API void luaL_where(lua_State *L, int lvl);
 LUALIB_API int luaL_error(lua_State *L, const char *fmt, ...);
+
+L_API void *l_alloc(lua_State *L, const void *ptr, size_t siz);
+
+L_API void l_func_reg(lua_State *L, int idx, const l_func_s *tab);
+L_API void l_func_set(lua_State *L, int idx, const char *name, lua_CFunction func);
+
+L_API void l_str_reg(lua_State *L, int idx, const l_str_s *tab);
+L_API const char *l_str_get(lua_State *L, int idx, const char *name);
+L_API void l_str_set(lua_State *L, int idx, const char *name, const char *data);
+
+L_API void l_int_reg(lua_State *L, int idx, const l_int_s *tab);
+L_API void l_int_set(lua_State *L, int idx, const char *name, L_INT data);
+L_API L_INT l_int_get(lua_State *L, int idx, const char *name);
+
+L_API void l_num_reg(lua_State *L, int idx, const l_num_s *tab);
+L_API void l_num_set(lua_State *L, int idx, const char *name, L_NUM data);
+L_API L_NUM l_num_get(lua_State *L, int idx, const char *name);
+
+L_API void l_array_str_get(lua_State *L, int idx, const char **ptr, unsigned int num);
+L_API void l_array_str_set(lua_State *L, int idx, const char *const *ptr, unsigned int num);
+
+L_API void l_array_int_get(lua_State *L, int idx, L_INT *ptr, unsigned int num);
+L_API void l_array_int_set(lua_State *L, int idx, const L_INT *ptr, unsigned int num);
+
+L_API void l_array_num_get(lua_State *L, int idx, L_NUM *ptr, unsigned int num);
+L_API void l_array_num_set(lua_State *L, int idx, const L_NUM *ptr, unsigned int num);
+
+L_API L_NUM *l_table_num_get(lua_State *L, int idx, const L_NUM *ptr, size_t *num);
+L_API void l_table_num_set(lua_State *L, int idx, const L_NUM *ptr, size_t num, unsigned int col);
+
+L_API void l_stack_type(lua_State *L, int line);
+L_API void l_stack_show(lua_State *L, int line);
 
 #if defined(__cplusplus)
 } /* extern "C" */
@@ -133,8 +134,8 @@ LUALIB_API int luaL_error(lua_State *L, const char *fmt, ...);
 #define L_MUL "__mul"
 #define L_DIV "__div"
 #define L_POW "__pow"
+#define L_EQ "__eq"
 #define L_LT "__lt"
 #define L_LE "__le"
-#define L_EQ "__eq"
 
-#endif /* FFI_FFI_H */
+#endif /* L_API_H */

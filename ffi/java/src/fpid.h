@@ -1,5 +1,5 @@
-#ifndef FFI_FPID_H
-#define FFI_FPID_H
+#ifndef J_FPID_H
+#define J_FPID_H
 
 #include "pid.h"
 #include "a/fpid.h"
@@ -43,4 +43,4 @@ jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FFI_FPID_H */
+#endif /* J_FPID_H */

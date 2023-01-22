@@ -3,32 +3,31 @@
  @module liba.complex
 */
 
-#define LUA_LIB
 #include "complex.h"
 
 #if A_PREREQ_GNUC(2, 95) || __has_warning("-Waggregate-return")
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* -Waggregate-return */
 
-static int l_complex_isok(lua_State *L, int idx)
+static int AMODULE(complex_isok)(lua_State *L, int idx)
 {
     int ok = 0;
     if (lua_getmetatable(L, idx))
     {
-        l_complex_meta_(L);
+        AMODULE2(complex_meta_, L, 1);
         ok = lua_rawequal(L, -1, -2);
         lua_pop(L, 2);
     }
     return ok;
 }
 
-static a_complex_s l_complex_from_lua(lua_State *L, int idx)
+static a_complex_s AMODULE(complex_from_lua)(lua_State *L, int idx)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     switch (lua_type(L, idx))
     {
     case LUA_TUSERDATA:
-        if (l_complex_isok(L, idx))
+        if (AMODULE2(complex_isok, L, idx))
         {
             z = *(a_complex_s *)lua_touserdata(L, idx);
         }
@@ -43,15 +42,15 @@ static a_complex_s l_complex_from_lua(lua_State *L, int idx)
     return z;
 }
 
-static a_complex_s *l_complex_new_(lua_State *L)
+static a_complex_s *AMODULE(complex_new_)(lua_State *L)
 {
     a_complex_s *ctx = (a_complex_s *)lua_newuserdata(L, sizeof(a_complex_s));
-    l_complex_meta_(L);
+    AMODULE2(complex_meta_, L, 1);
     lua_setmetatable(L, -2);
     return ctx;
 }
 
-static int l_complex_tostring(lua_State *L)
+static int AMODULE(complex_tostring)(lua_State *L)
 {
     a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
     if (ctx)
@@ -71,7 +70,7 @@ static int l_complex_tostring(lua_State *L)
  @treturn complex complex number userdata
  @function new
 */
-int l_complex_new(lua_State *L)
+int AMODULE(complex_new)(lua_State *L)
 {
     for (int e = lua_type(L, 1);
          e == LUA_TTABLE || e == LUA_TUSERDATA;
@@ -89,7 +88,7 @@ int l_complex_new(lua_State *L)
     {
         a_complex_real(z) = (a_real_t)lua_tonumber(L, 1);
     }
-    *l_complex_new_(L) = z;
+    *AMODULE1(complex_new_, L) = z;
     return 1;
 }
 
@@ -100,7 +99,7 @@ int l_complex_new(lua_State *L)
  @treturn complex complex number userdata
  @function polar
 */
-int l_complex_polar(lua_State *L)
+int AMODULE(complex_polar)(lua_State *L)
 {
     for (int e = lua_type(L, 1);
          e == LUA_TTABLE || e == LUA_TUSERDATA;
@@ -119,26 +118,26 @@ int l_complex_polar(lua_State *L)
     {
         r = (a_real_t)lua_tonumber(L, 1);
     }
-    *l_complex_new_(L) = a_complex_polar(r, theta);
+    *AMODULE1(complex_new_, L) = a_complex_polar(r, theta);
     return 1;
 }
 
 #undef FUNC
-#define FUNC(func)                                    \
-    int l_complex_##func(lua_State *L)                \
-    {                                                 \
-        while (lua_type(L, 1) == LUA_TTABLE)          \
-        {                                             \
-            lua_remove(L, 1);                         \
-        }                                             \
-        if (lua_gettop(L) >= 1)                       \
-        {                                             \
-            a_complex_s z = l_complex_from_lua(L, 1); \
-            a_real_t x = a_complex_##func(z);         \
-            lua_pushnumber(L, (lua_Number)x);         \
-            return 1;                                 \
-        }                                             \
-        return 0;                                     \
+#define FUNC(func)                                            \
+    int AMODULE(complex_##func)(lua_State * L)                \
+    {                                                         \
+        while (lua_type(L, 1) == LUA_TTABLE)                  \
+        {                                                     \
+            lua_remove(L, 1);                                 \
+        }                                                     \
+        if (lua_gettop(L) >= 1)                               \
+        {                                                     \
+            a_complex_s z = AMODULE2(complex_from_lua, L, 1); \
+            a_real_t x = a_complex_##func(z);                 \
+            lua_pushnumber(L, (lua_Number)x);                 \
+            return 1;                                         \
+        }                                                     \
+        return 0;                                             \
     }
 /***
  computes the natural logarithm of magnitude of a complex number
@@ -169,20 +168,20 @@ FUNC(abs)
 */
 FUNC(arg)
 #undef FUNC
-#define FUNC(func)                                    \
-    int l_complex_##func(lua_State *L)                \
-    {                                                 \
-        while (lua_type(L, 1) == LUA_TTABLE)          \
-        {                                             \
-            lua_remove(L, 1);                         \
-        }                                             \
-        if (lua_gettop(L) >= 1)                       \
-        {                                             \
-            a_complex_s z = l_complex_from_lua(L, 1); \
-            *l_complex_new_(L) = a_complex_##func(z); \
-            return 1;                                 \
-        }                                             \
-        return 0;                                     \
+#define FUNC(func)                                            \
+    int AMODULE(complex_##func)(lua_State * L)                \
+    {                                                         \
+        while (lua_type(L, 1) == LUA_TTABLE)                  \
+        {                                                     \
+            lua_remove(L, 1);                                 \
+        }                                                     \
+        if (lua_gettop(L) >= 1)                               \
+        {                                                     \
+            a_complex_s z = AMODULE2(complex_from_lua, L, 1); \
+            *AMODULE1(complex_new_, L) = a_complex_##func(z); \
+            return 1;                                         \
+        }                                                     \
+        return 0;                                             \
     }
 /***
  computes the complex conjugate
@@ -206,21 +205,21 @@ FUNC(neg)
 */
 FUNC(inv)
 #undef FUNC
-#define FUNC(func)                                       \
-    int l_complex_##func(lua_State *L)                   \
-    {                                                    \
-        while (lua_type(L, 1) == LUA_TTABLE)             \
-        {                                                \
-            lua_remove(L, 1);                            \
-        }                                                \
-        if (lua_gettop(L) >= 2)                          \
-        {                                                \
-            a_complex_s x = l_complex_from_lua(L, 1);    \
-            a_complex_s y = l_complex_from_lua(L, 2);    \
-            *l_complex_new_(L) = a_complex_##func(x, y); \
-            return 1;                                    \
-        }                                                \
-        return 0;                                        \
+#define FUNC(func)                                               \
+    int AMODULE(complex_##func)(lua_State * L)                   \
+    {                                                            \
+        while (lua_type(L, 1) == LUA_TTABLE)                     \
+        {                                                        \
+            lua_remove(L, 1);                                    \
+        }                                                        \
+        if (lua_gettop(L) >= 2)                                  \
+        {                                                        \
+            a_complex_s x = AMODULE2(complex_from_lua, L, 1);    \
+            a_complex_s y = AMODULE2(complex_from_lua, L, 2);    \
+            *AMODULE1(complex_new_, L) = a_complex_##func(x, y); \
+            return 1;                                            \
+        }                                                        \
+        return 0;                                                \
     }
 /***
  addition of complex numbers
@@ -271,20 +270,20 @@ FUNC(pow)
 */
 FUNC(logb)
 #undef FUNC
-#define FUNC(func)                                    \
-    int l_complex_##func(lua_State *L)                \
-    {                                                 \
-        while (lua_type(L, 1) == LUA_TTABLE)          \
-        {                                             \
-            lua_remove(L, 1);                         \
-        }                                             \
-        if (lua_gettop(L) >= 1)                       \
-        {                                             \
-            a_complex_s z = l_complex_from_lua(L, 1); \
-            *l_complex_new_(L) = a_complex_##func(z); \
-            return 1;                                 \
-        }                                             \
-        return 0;                                     \
+#define FUNC(func)                                            \
+    int AMODULE(complex_##func)(lua_State * L)                \
+    {                                                         \
+        while (lua_type(L, 1) == LUA_TTABLE)                  \
+        {                                                     \
+            lua_remove(L, 1);                                 \
+        }                                                     \
+        if (lua_gettop(L) >= 1)                               \
+        {                                                     \
+            a_complex_s z = AMODULE2(complex_from_lua, L, 1); \
+            *AMODULE1(complex_new_, L) = a_complex_##func(z); \
+            return 1;                                         \
+        }                                                     \
+        return 0;                                             \
     }
 /***
  computes the complex base-e exponential
@@ -491,10 +490,10 @@ FUNC(acsch)
 FUNC(acoth)
 #undef FUNC
 
-static int l_complex_set(lua_State *L)
+static int AMODULE(complex_set)(lua_State *L)
 {
-    a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
+    a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
     a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
@@ -525,10 +524,10 @@ static int l_complex_set(lua_State *L)
     return 0;
 }
 
-static int l_complex_get(lua_State *L)
+static int AMODULE(complex_get)(lua_State *L)
 {
-    a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
     const char *field = lua_tostring(L, 2);
+    a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
     a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
@@ -545,133 +544,133 @@ static int l_complex_get(lua_State *L)
         lua_pushnumber(L, (lua_Number)a_complex_arg(*ctx));
         break;
     case 0xC628B402: // logabs
-        lua_pushcfunction(L, l_complex_logabs);
+        lua_pushcfunction(L, AMODULE(complex_logabs));
         break;
     case 0xBCFBE386: // polar
-        lua_pushcfunction(L, l_complex_polar);
+        lua_pushcfunction(L, AMODULE(complex_polar));
         break;
     case 0x0D614C8C: // conj
-        lua_pushcfunction(L, l_complex_conj);
+        lua_pushcfunction(L, AMODULE(complex_conj));
         break;
     case 0x0D194C38: // abs2
-        lua_pushcfunction(L, l_complex_abs2);
+        lua_pushcfunction(L, AMODULE(complex_abs2));
         break;
     case 0x00199902: // abs
-        lua_pushcfunction(L, l_complex_abs);
+        lua_pushcfunction(L, AMODULE(complex_abs));
         break;
     case 0x0019A126: // arg
-        lua_pushcfunction(L, l_complex_arg);
+        lua_pushcfunction(L, AMODULE(complex_arg));
         break;
     case 0x001EDBD4: // unm
-        lua_pushcfunction(L, l_complex_neg);
+        lua_pushcfunction(L, AMODULE(complex_neg));
         break;
     case 0x001999F9: // add
-        lua_pushcfunction(L, l_complex_add);
+        lua_pushcfunction(L, AMODULE(complex_add));
         break;
     case 0x001E594C: // sub
-        lua_pushcfunction(L, l_complex_sub);
+        lua_pushcfunction(L, AMODULE(complex_sub));
         break;
     case 0x001CC720: // mul
-        lua_pushcfunction(L, l_complex_mul);
+        lua_pushcfunction(L, AMODULE(complex_mul));
         break;
     case 0x001A65B5: // div
-        lua_pushcfunction(L, l_complex_div);
+        lua_pushcfunction(L, AMODULE(complex_div));
         break;
     case 0x001BB771: // inv
-        lua_pushcfunction(L, l_complex_inv);
+        lua_pushcfunction(L, AMODULE(complex_inv));
         break;
     case 0x001D8D34: // pow
-        lua_pushcfunction(L, l_complex_pow);
+        lua_pushcfunction(L, AMODULE(complex_pow));
         break;
     case 0x001AB065: // exp
-        lua_pushcfunction(L, l_complex_exp);
+        lua_pushcfunction(L, AMODULE(complex_exp));
         break;
     case 0x001C8100: // log
-        lua_pushcfunction(L, l_complex_log);
+        lua_pushcfunction(L, AMODULE(complex_log));
         break;
     case 0x0E960332: // log2
-        lua_pushcfunction(L, l_complex_log2);
+        lua_pushcfunction(L, AMODULE(complex_log2));
         break;
     case 0x76C3A243: // log10
-        lua_pushcfunction(L, l_complex_log10);
+        lua_pushcfunction(L, AMODULE(complex_log10));
         break;
     case 0x0E960362: // logb
-        lua_pushcfunction(L, l_complex_logb);
+        lua_pushcfunction(L, AMODULE(complex_logb));
         break;
     case 0x0F86AE64: // sqrt
-        lua_pushcfunction(L, l_complex_sqrt);
+        lua_pushcfunction(L, AMODULE(complex_sqrt));
         break;
     case 0x001E5334: // sin
-        lua_pushcfunction(L, l_complex_sin);
+        lua_pushcfunction(L, AMODULE(complex_sin));
         break;
     case 0x001A25BB: // cos
-        lua_pushcfunction(L, l_complex_cos);
+        lua_pushcfunction(L, AMODULE(complex_cos));
         break;
     case 0x001E9225: // tan
-        lua_pushcfunction(L, l_complex_tan);
+        lua_pushcfunction(L, AMODULE(complex_tan));
         break;
     case 0x001E511D: // sec
-        lua_pushcfunction(L, l_complex_sec);
+        lua_pushcfunction(L, AMODULE(complex_sec));
         break;
     case 0x001A27B7: // csc
-        lua_pushcfunction(L, l_complex_csc);
+        lua_pushcfunction(L, AMODULE(complex_csc));
         break;
     case 0x001A25BC: // cot
-        lua_pushcfunction(L, l_complex_cot);
+        lua_pushcfunction(L, AMODULE(complex_cot));
         break;
     case 0x0D1DBAEF: // asin
-        lua_pushcfunction(L, l_complex_asin);
+        lua_pushcfunction(L, AMODULE(complex_asin));
         break;
     case 0x0D198D76: // acos
-        lua_pushcfunction(L, l_complex_acos);
+        lua_pushcfunction(L, AMODULE(complex_acos));
         break;
     case 0x0D1DF9E0: // atan
-        lua_pushcfunction(L, l_complex_atan);
+        lua_pushcfunction(L, AMODULE(complex_atan));
         break;
     case 0x0D1DB8D8: // asec
-        lua_pushcfunction(L, l_complex_asec);
+        lua_pushcfunction(L, AMODULE(complex_asec));
         break;
     case 0x0D198F72: // acsc
-        lua_pushcfunction(L, l_complex_acsc);
+        lua_pushcfunction(L, AMODULE(complex_acsc));
         break;
     case 0x0D198D77: // acot
-        lua_pushcfunction(L, l_complex_acot);
+        lua_pushcfunction(L, AMODULE(complex_acot));
         break;
     case 0x0F849404: // sinh
-        lua_pushcfunction(L, l_complex_sinh);
+        lua_pushcfunction(L, AMODULE(complex_sinh));
         break;
     case 0x0D614F19: // cosh
-        lua_pushcfunction(L, l_complex_cosh);
+        lua_pushcfunction(L, AMODULE(complex_cosh));
         break;
     case 0x0FA4C957: // tanh
-        lua_pushcfunction(L, l_complex_tanh);
+        lua_pushcfunction(L, AMODULE(complex_tanh));
         break;
     case 0x0F83823F: // sech
-        lua_pushcfunction(L, l_complex_sech);
+        lua_pushcfunction(L, AMODULE(complex_sech));
         break;
     case 0x0D62530D: // csch
-        lua_pushcfunction(L, l_complex_csch);
+        lua_pushcfunction(L, AMODULE(complex_csch));
         break;
     case 0x0D614F9C: // coth
-        lua_pushcfunction(L, l_complex_coth);
+        lua_pushcfunction(L, AMODULE(complex_coth));
         break;
     case 0xB636A8B5: // asinh
-        lua_pushcfunction(L, l_complex_asinh);
+        lua_pushcfunction(L, AMODULE(complex_asinh));
         break;
     case 0xB41363CA: // acosh
-        lua_pushcfunction(L, l_complex_acosh);
+        lua_pushcfunction(L, AMODULE(complex_acosh));
         break;
     case 0xB656DE08: // atanh
-        lua_pushcfunction(L, l_complex_atanh);
+        lua_pushcfunction(L, AMODULE(complex_atanh));
         break;
     case 0xB63596F0: // asech
-        lua_pushcfunction(L, l_complex_asech);
+        lua_pushcfunction(L, AMODULE(complex_asech));
         break;
     case 0xB41467BE: // acsch
-        lua_pushcfunction(L, l_complex_acsch);
+        lua_pushcfunction(L, AMODULE(complex_acsch));
         break;
     case 0xB413644D: // acoth
-        lua_pushcfunction(L, l_complex_acoth);
+        lua_pushcfunction(L, AMODULE(complex_acoth));
         break;
     default:
         lua_getmetatable(L, 1);
@@ -680,94 +679,108 @@ static int l_complex_get(lua_State *L)
     return 1;
 }
 
-int luaopen_liba_complex(lua_State *L)
+int AMODULE_(_complex, lua_State *L)
 {
     const l_func_s funcs[] = {
-        {"new", l_complex_new},
-        {"polar", l_complex_polar},
-        {"logabs", l_complex_logabs},
-        {"conj", l_complex_conj},
-        {"abs2", l_complex_abs2},
-        {"abs", l_complex_abs},
-        {"arg", l_complex_arg},
-        {"unm", l_complex_neg},
-        {"add", l_complex_add},
-        {"sub", l_complex_sub},
-        {"mul", l_complex_mul},
-        {"div", l_complex_div},
-        {"inv", l_complex_inv},
-        {"pow", l_complex_pow},
-        {"exp", l_complex_exp},
-        {"log", l_complex_log},
-        {"log2", l_complex_log2},
-        {"log10", l_complex_log10},
-        {"logb", l_complex_logb},
-        {"sqrt", l_complex_sqrt},
-        {"sin", l_complex_sin},
-        {"cos", l_complex_cos},
-        {"tan", l_complex_tan},
-        {"sec", l_complex_sec},
-        {"csc", l_complex_csc},
-        {"cot", l_complex_cot},
-        {"asin", l_complex_asin},
-        {"acos", l_complex_acos},
-        {"atan", l_complex_atan},
-        {"asec", l_complex_asec},
-        {"acsc", l_complex_acsc},
-        {"acot", l_complex_acot},
-        {"sinh", l_complex_sinh},
-        {"cosh", l_complex_cosh},
-        {"tanh", l_complex_tanh},
-        {"sech", l_complex_sech},
-        {"csch", l_complex_csch},
-        {"coth", l_complex_coth},
-        {"asinh", l_complex_asinh},
-        {"acosh", l_complex_acosh},
-        {"atanh", l_complex_atanh},
-        {"asech", l_complex_asech},
-        {"acsch", l_complex_acsch},
-        {"acoth", l_complex_acoth},
+        {"new", AMODULE(complex_new)},
+        {"polar", AMODULE(complex_polar)},
+        {"logabs", AMODULE(complex_logabs)},
+        {"conj", AMODULE(complex_conj)},
+        {"abs2", AMODULE(complex_abs2)},
+        {"abs", AMODULE(complex_abs)},
+        {"arg", AMODULE(complex_arg)},
+        {"unm", AMODULE(complex_neg)},
+        {"add", AMODULE(complex_add)},
+        {"sub", AMODULE(complex_sub)},
+        {"mul", AMODULE(complex_mul)},
+        {"div", AMODULE(complex_div)},
+        {"inv", AMODULE(complex_inv)},
+        {"pow", AMODULE(complex_pow)},
+        {"exp", AMODULE(complex_exp)},
+        {"log", AMODULE(complex_log)},
+        {"log2", AMODULE(complex_log2)},
+        {"log10", AMODULE(complex_log10)},
+        {"logb", AMODULE(complex_logb)},
+        {"sqrt", AMODULE(complex_sqrt)},
+        {"sin", AMODULE(complex_sin)},
+        {"cos", AMODULE(complex_cos)},
+        {"tan", AMODULE(complex_tan)},
+        {"sec", AMODULE(complex_sec)},
+        {"csc", AMODULE(complex_csc)},
+        {"cot", AMODULE(complex_cot)},
+        {"asin", AMODULE(complex_asin)},
+        {"acos", AMODULE(complex_acos)},
+        {"atan", AMODULE(complex_atan)},
+        {"asec", AMODULE(complex_asec)},
+        {"acsc", AMODULE(complex_acsc)},
+        {"acot", AMODULE(complex_acot)},
+        {"sinh", AMODULE(complex_sinh)},
+        {"cosh", AMODULE(complex_cosh)},
+        {"tanh", AMODULE(complex_tanh)},
+        {"sech", AMODULE(complex_sech)},
+        {"csch", AMODULE(complex_csch)},
+        {"coth", AMODULE(complex_coth)},
+        {"asinh", AMODULE(complex_asinh)},
+        {"acosh", AMODULE(complex_acosh)},
+        {"atanh", AMODULE(complex_atanh)},
+        {"asech", AMODULE(complex_asech)},
+        {"acsch", AMODULE(complex_acsch)},
+        {"acoth", AMODULE(complex_acoth)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(funcs) - 1);
     l_func_reg(L, -1, funcs);
     lua_createtable(L, 0, 2);
-    l_func_set(L, -1, L_SET, l_setter);
-    l_func_set(L, -1, L_NEW, l_complex_new);
+    l_func_set(L, -1, L_SET, AMODULE(setter));
+    l_func_set(L, -1, L_NEW, AMODULE(complex_new));
     lua_setmetatable(L, -2);
 
     const l_func_s metas[] = {
-        {L_PRI, l_complex_tostring},
-        {L_NEW, l_complex_new},
-        {L_GET, l_complex_get},
-        {L_SET, l_complex_set},
-        {L_UNM, l_complex_neg},
-        {L_ADD, l_complex_add},
-        {L_SUB, l_complex_sub},
-        {L_MUL, l_complex_mul},
-        {L_DIV, l_complex_div},
-        {L_POW, l_complex_pow},
-        {L_LEN, l_complex_abs},
+        {L_PRI, AMODULE(complex_tostring)},
+        {L_NEW, AMODULE(complex_new)},
+        {L_GET, AMODULE(complex_get)},
+        {L_SET, AMODULE(complex_set)},
+        {L_UNM, AMODULE(complex_neg)},
+        {L_ADD, AMODULE(complex_add)},
+        {L_SUB, AMODULE(complex_sub)},
+        {L_MUL, AMODULE(complex_mul)},
+        {L_DIV, AMODULE(complex_div)},
+        {L_POW, AMODULE(complex_pow)},
+        {L_LEN, AMODULE(complex_abs)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(metas));
     l_str_set(L, -1, L_NAME, "complex");
     l_func_reg(L, -1, metas);
 
-    lua_rawsetp(L, LUA_REGISTRYINDEX, L_COMPLEX_META_); // NOLINT(performance-no-int-to-ptr)
-    lua_rawsetp(L, LUA_REGISTRYINDEX, L_COMPLEX_FUNC_); // NOLINT(performance-no-int-to-ptr)
+    AMODULE2(complex_meta_, L, 0);
+    AMODULE2(complex_func_, L, 0);
 
-    return l_complex_func_(L);
+    return AMODULE2(complex_func_, L, 1);
 }
 
-int l_complex_func_(lua_State *L)
+int AMODULE(complex_func_)(lua_State *L, int ret)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, L_COMPLEX_FUNC_); // NOLINT(performance-no-int-to-ptr)
-    return 1;
+    // NOLINTNEXTLINE(performance-no-int-to-ptr)
+    void *p = (void *)(intptr_t)AMODULE(complex_func_);
+    if (ret)
+    {
+        lua_rawgetp(L, LUA_REGISTRYINDEX, p);
+        return 1;
+    }
+    lua_rawsetp(L, LUA_REGISTRYINDEX, p);
+    return 0;
 }
 
-int l_complex_meta_(lua_State *L)
+int AMODULE(complex_meta_)(lua_State *L, int ret)
 {
-    lua_rawgetp(L, LUA_REGISTRYINDEX, L_COMPLEX_META_); // NOLINT(performance-no-int-to-ptr)
-    return 1;
+    // NOLINTNEXTLINE(performance-no-int-to-ptr)
+    void *p = (void *)(intptr_t)AMODULE(complex_meta_);
+    if (ret)
+    {
+        lua_rawgetp(L, LUA_REGISTRYINDEX, p);
+        return 1;
+    }
+    lua_rawsetp(L, LUA_REGISTRYINDEX, p);
+    return 0;
 }
