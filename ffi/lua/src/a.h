@@ -1,7 +1,6 @@
 #ifndef L_A_H
 #define L_A_H
 
-#include "a/a.h"
 #include "api.h"
 
 #define AMODULE(F) liba_##F

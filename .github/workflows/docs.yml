@@ -1,0 +1,72 @@
+name: docs
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+          repository: tqfx/tqfx.github.io
+          path: tqfx
+          ref: gh-pages
+      - name: Run apt-get
+        run: |
+          set -x
+          rm -rf tqfx/liba
+          sudo apt-get -y update
+          sudo apt-get -y install doxygen graphviz mscgen dia
+          sudo apt-get -y install lua5.4 liblua5.4-dev
+      - uses: actions/checkout@v2
+        with:
+          repository: luarocks/luarocks
+          path: luarocks
+      - name: Install luarocks
+        run: |
+          set -x
+          ./configure
+          make && sudo make install
+        working-directory: luarocks
+      - name: Run luarocks
+        run: |
+          set -x
+          sudo luarocks install ldoc
+      - name: Run doxygen
+        run: |
+          set -x
+          cmake -S . -B build -DLIBA_DOXYGEN=1
+          cmake --build build --target adoxygen
+          mv build/html tqfx/liba
+          cat build/doc.log
+      - name: Run ldoc
+        run: |
+          set -x
+          cmake -S . -B build -DLIBA_LUA=1 -DLIBA_LDOC=1
+          cmake --build build --target aldoc
+          mv build/ffi/lua/doc tqfx/liba/lua
+      - name: Run javadoc
+        run: |
+          set -x
+          cmake -S . -B build -DLIBA_JAVA=1 -DLIBA_JAVADOC=1
+          cmake --build build --target liba_javadoc
+          mv build/ffi/java/javadoc/liba tqfx/liba/java
+      - name: Run rustdoc
+        run: |
+          set -x
+          cargo doc --release --no-deps
+          rm -rf tqfx/rust/liba
+          cp -r target/doc tqfx/rust
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          commit_message: ${{ github.event.head_commit.message }}
+          external_repository: tqfx/tqfx.github.io
+          force_orphan: true
+          publish_dir: tqfx

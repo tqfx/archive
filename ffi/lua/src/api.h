@@ -11,13 +11,14 @@
 #define L_INT lua_Integer
 #endif /* L_INT */
 
-#include "a/a.h"
 #if defined(_MSC_VER)
 #if !defined _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif /* _CRT_SECURE_NO_WARNINGS */
 #pragma warning(disable : 4820)
 #endif /* _MSC_VER */
+#include "a/a.h"
+
 #if __has_warning("-Wcomma")
 #pragma clang diagnostic ignored "-Wcomma"
 #endif /* -Wcomma */

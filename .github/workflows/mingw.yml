@@ -7,8 +7,8 @@ jobs:
       fail-fast: false
       matrix:
         include: [
-          { mingw: mingw64 },
-          { mingw: mingw32 },
+          { mingw: MinGW64 },
+          { mingw: MinGW32 },
         ]
     runs-on: ubuntu-latest
     steps:
@@ -24,12 +24,12 @@ jobs:
       - name: Run cmake
         run: |
           set -x
-          cmake -S . -B build --toolchain cmake/${{ matrix.mingw }}.cmake \
+          cmake -S . -B build --toolchain cmake/Use${{ matrix.mingw }}.cmake \
             -DLIBA_WARNINGS=1 \
             -DBUILD_TESTING=1
           cmake --build build --target package
       - name: Run ctest
-        if: ${{ matrix.mingw == 'mingw64' }}
+        if: ${{ matrix.mingw == 'MinGW64' }}
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
         run: |

@@ -29,7 +29,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: |
           set -x
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.type }} \
+          cmake -S . -B build/${{ matrix.cc }} -DCMAKE_BUILD_TYPE=${{ matrix.type }} \
             -DLIBA_WARNINGS=1 \
             -DLIBA_SANITIZE=1 \
             -DLIBA_PYTHON=1 \
@@ -37,9 +37,9 @@ jobs:
             -DLIBA_JAVA=1 \
             -DLIBA_LUA=1 \
             -DBUILD_TESTING=1
-          cmake --build build --target apy-pip
-          cmake -S . -B build
-          cmake --build build --config ${{ matrix.type }} --target package
+          cmake --build build/${{ matrix.cc }} --target apy-pip
+          cmake -S . -B build/${{ matrix.cc }}
+          cmake --build build/${{ matrix.cc }} --config ${{ matrix.type }} --target package
       - name: Run vcpkg
         if: ${{ matrix.type == 'Debug' }}
         env:
@@ -47,11 +47,11 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: |
           set -x
-          cp -r build/vcpkg/* $VCPKG_INSTALLATION_ROOT
+          cp -r build/${{ matrix.cc }}/vcpkg/* $VCPKG_INSTALLATION_ROOT
           vcpkg install liba[lto,pkgconfig]
       - name: Run ctest
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
         run: |
           set -x
-          cmake --build build --target test
+          cmake --build build/${{ matrix.cc }} --target test

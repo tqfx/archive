@@ -1,5 +1,6 @@
 # An algorithm library {#mainpage}
 
+[![docs](https://github.com/tqfx/liba/actions/workflows/docs.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/docs.yml)
 [![conan](https://github.com/tqfx/liba/actions/workflows/conan.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/conan.yml)
 [![xmake](https://github.com/tqfx/liba/actions/workflows/xmake.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/xmake.yml)
 [![msvc](https://github.com/tqfx/liba/actions/workflows/msvc.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msvc.yml)
@@ -8,7 +9,6 @@
 [![mingw](https://github.com/tqfx/liba/actions/workflows/mingw.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/mingw.yml)
 [![msys2](https://github.com/tqfx/liba/actions/workflows/msys2.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msys2.yml)
 [![freebsd](https://github.com/tqfx/liba/actions/workflows/freebsd.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/freebsd.yml)
-[![doxygen](https://github.com/tqfx/liba/actions/workflows/doxygen.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/doxygen.yml)
 
 ## required tools
 
