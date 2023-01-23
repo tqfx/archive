@@ -61,13 +61,14 @@
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 list(APPEND LUA_REQUIRED_VARS LUA_LIBRARIES LUA_INCLUDE_DIR)
 
-foreach(VERSION 5.4 5.3 5.2 5.1 5.0)
-  string(REGEX MATCH "^([0-9]+)\\.([0-9]+)$" VERSION "${VERSION}")
-  find_path(LUA_INCLUDE_DIR lua.h HINTS ENV LUA_DIR PATH_SUFFIXES
-    include/lua-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}
-    include/lua${CMAKE_MATCH_1}.${CMAKE_MATCH_2}
+foreach(VERSION ${Lua_FIND_VERSION} 5.4 5.3 5.2 5.1 5.0)
+  string(REGEX MATCH "^([0-9]+)\\.([0-9]+)" VERSION "${VERSION}")
+  find_path(LUA_INCLUDE_DIR lua.h PATH_SUFFIXES
     include/lua${CMAKE_MATCH_1}${CMAKE_MATCH_2}
-    include)
+    include/lua${CMAKE_MATCH_1}.${CMAKE_MATCH_2}
+    include/lua-${CMAKE_MATCH_1}.${CMAKE_MATCH_2}
+    include HINTS ENV LUA_DIR
+  )
   if(LUA_INCLUDE_DIR)
     break()
   endif()
@@ -92,11 +93,16 @@ if(EXISTS "${LUA_INCLUDE_DIR}/lua.h")
   endif()
 endif()
 
-get_filename_component(LUA_DIR "${LUA_INCLUDE_DIR}" DIRECTORY)
-get_filename_component(INCLUDE "${LUA_INCLUDE_DIR}" NAME)
-if(NOT INCLUDE STREQUAL "include")
-  get_filename_component(LUA_DIR "${LUA_DIR}" DIRECTORY)
+if(NOT DEFINED ENV{LUA_DIR} AND EXISTS "${LUA_INCLUDE_DIR}")
+  get_filename_component(LUA_DIR "${LUA_INCLUDE_DIR}" DIRECTORY)
+  get_filename_component(modules "${LUA_INCLUDE_DIR}" NAME)
+  if(NOT modules STREQUAL "include")
+    get_filename_component(LUA_DIR "${LUA_DIR}" DIRECTORY)
+  endif()
+elseif(DEFINED ENV{LUA_DIR})
+  file(TO_CMAKE_PATH "$ENV{LUA_DIR}" LUA_DIR)
 endif()
+
 string(REGEX MATCHALL "(luac|lua)" modules "${Lua_FIND_COMPONENTS}")
 if(modules)
   list(REMOVE_DUPLICATES modules)
@@ -107,8 +113,7 @@ foreach(module ${modules})
     ${module}${LUA_VERSION_MAJOR}${LUA_VERSION_MINOR}
     ${module}${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
     ${module}-${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
-    ${module}.${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
-    ${module} HINTS ENV LUA_DIR ${LUA_DIR}
+    ${module} HINTS ${LUA_DIR} PATH_SUFFIXES bin
   )
   mark_as_advanced(${MODULE}_EXECUTABLE)
   if(Lua_FIND_REQUIRED_${module})
@@ -119,7 +124,6 @@ foreach(module ${modules})
   endif()
   set(MODULE)
 endforeach()
-set(INCLUDE)
 set(modules)
 
 if(NOT LUA_VERSION)
@@ -131,12 +135,12 @@ if(NOT LUA_VERSION)
     get_filename_component(LUA_DIR "${LUAC_EXECUTABLE}" DIRECTORY)
   endif()
   if(LUA_VERSION)
+    get_filename_component(LUA_DIR "${LUA_DIR}" DIRECTORY)
+    find_path(LUA_INCLUDE_DIR lua.h HINTS ${LUA_DIR} PATH_SUFFIXES include)
     string(REGEX REPLACE "Lua[ ]+([^ ]+).*" "\\1" LUA_VERSION "${LUA_VERSION}")
     string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]).*" "\\1" LUA_VERSION_PATCH "${LUA_VERSION}")
     string(REGEX REPLACE "^[0-9]+\\.([0-9]).*" "\\1" LUA_VERSION_MINOR "${LUA_VERSION}")
     string(REGEX REPLACE "^([0-9]).*" "\\1" LUA_VERSION_MAJOR "${LUA_VERSION}")
-    get_filename_component(LUA_DIR "${LUA_DIR}" DIRECTORY)
-    find_path(LUA_INCLUDE_DIR lua.h HINTS ${LUA_DIR})
   endif()
 endif()
 
@@ -144,8 +148,7 @@ find_library(LUA_LIBRARY NAMES_PER_DIR NAMES
   lua${LUA_VERSION_MAJOR}${LUA_VERSION_MINOR}
   lua${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
   lua-${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
-  lua.${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}
-  lua HINTS ENV LUA_DIR ${LUA_DIR}
+  lua HINTS ${LUA_DIR} PATH_SUFFIXES lib
 )
 mark_as_advanced(LUA_LIBRARY)
 

@@ -2,6 +2,10 @@ if(NOT PROJECT_IS_TOP_LEVEL)
   set(BUILD_TESTING 0)
 endif()
 
+if(NOT CMAKE_FIND_LIBRARY_PREFIXES)
+  set(CMAKE_FIND_LIBRARY_PREFIXES ";lib")
+endif()
+
 option(LIBA_LUA "Enable/Disable ffi lua" 0)
 option(WITH_LUA "Enable/Disable build with lua" 0)
 
