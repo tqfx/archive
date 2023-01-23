@@ -219,8 +219,8 @@ size_t l_table_num_len(lua_State *L, int idx) // NOLINT(misc-no-recursion)
     return num;
 }
 
-L_NUM *l_table_num_num(lua_State *L, int idx, L_NUM *ptr);
-L_NUM *l_table_num_num(lua_State *L, int idx, L_NUM *ptr) // NOLINT(misc-no-recursion)
+L_NUM *l_table_num_ptr(lua_State *L, int idx, L_NUM *ptr);
+L_NUM *l_table_num_ptr(lua_State *L, int idx, L_NUM *ptr) // NOLINT(misc-no-recursion)
 {
     size_t n = (size_t)lua_rawlen(L, idx);
     for (unsigned int i = 0; i++ != n;)
@@ -233,7 +233,7 @@ L_NUM *l_table_num_num(lua_State *L, int idx, L_NUM *ptr) // NOLINT(misc-no-recu
         }
         else if (e == LUA_TTABLE)
         {
-            ptr = l_table_num_num(L, -1, ptr);
+            ptr = l_table_num_ptr(L, -1, ptr);
         }
         lua_pop(L, 1);
     }
@@ -251,7 +251,7 @@ L_NUM *l_table_num_get(lua_State *L, int idx, const L_NUM *ptr, size_t *num)
         if (*num)
         {
             ret = (L_NUM *)l_alloc(L, ret, sizeof(L_NUM) * *num);
-            l_table_num_num(L, idx, ret);
+            l_table_num_ptr(L, idx, ret);
         }
     }
     return ret;
