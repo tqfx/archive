@@ -10,6 +10,13 @@
 [![msys2](https://github.com/tqfx/liba/actions/workflows/msys2.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msys2.yml)
 [![freebsd](https://github.com/tqfx/liba/actions/workflows/freebsd.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/freebsd.yml)
 
+## documentation
+
+- [C/C++](https://tqfx.org/liba/)
+- [Lua](https://tqfx.org/liba/lua/)
+- [Java](https://tqfx.org/liba/java/)
+- [Rust](https://tqfx.org/rust/liba/)
+
 ## required tools
 
 - C/C++ compiler: [tcc](https://bellard.org/tcc) or [gnu](https://gcc.gnu.org) or [llvm](https://clang.llvm.org) or [msvc](https://visualstudio.microsoft.com/visual-cpp-build-tools) etc
