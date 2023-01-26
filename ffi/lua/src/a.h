@@ -3,26 +3,29 @@
 
 #include "api.h"
 
-#define AMODULE(F) liba_##F
-#define AMODULE1(F, a) liba_##F(a)
-#define AMODULE2(F, a, b) liba_##F(a, b)
-#define AMODULE_(F, L) luaopen_liba##F(L)
+#define L_MODULE(P, F) P##liba##F
+
+#define LMODULE(F) L_MODULE(, _##F)
+#define LMODULE1(F, a) L_MODULE(, _##F)(a)
+#define LMODULE2(F, a, b) L_MODULE(, _##F)(a, b)
+#define LMODULE_(F, L) L_MODULE(luaopen_, _##F)(L)
+#define LMODULE0(L) L_MODULE(luaopen_, )(L)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC int AMODULE_(, lua_State *L);
-A_PUBLIC int AMODULE_(_mf, lua_State *L);
-A_PUBLIC int AMODULE_(_tf, lua_State *L);
-A_PUBLIC int AMODULE_(_pid, lua_State *L);
-A_PUBLIC int AMODULE_(_fpid, lua_State *L);
-A_PUBLIC int AMODULE_(_complex, lua_State *L);
-A_PUBLIC int AMODULE_(_polytrack3, lua_State *L);
-A_PUBLIC int AMODULE_(_polytrack5, lua_State *L);
-A_PUBLIC int AMODULE_(_polytrack7, lua_State *L);
-A_PUBLIC int AMODULE_(_version, lua_State *L);
-A_PUBLIC int AMODULE(setter)(lua_State *L);
+A_PUBLIC int LMODULE0(lua_State *L);
+A_PUBLIC int LMODULE_(mf, lua_State *L);
+A_PUBLIC int LMODULE_(tf, lua_State *L);
+A_PUBLIC int LMODULE_(pid, lua_State *L);
+A_PUBLIC int LMODULE_(fpid, lua_State *L);
+A_PUBLIC int LMODULE_(complex, lua_State *L);
+A_PUBLIC int LMODULE_(polytrack3, lua_State *L);
+A_PUBLIC int LMODULE_(polytrack5, lua_State *L);
+A_PUBLIC int LMODULE_(polytrack7, lua_State *L);
+A_PUBLIC int LMODULE_(version, lua_State *L);
+A_PUBLIC int LMODULE(setter)(lua_State *L);
 
 #if defined(__cplusplus)
 } /* extern "C" */

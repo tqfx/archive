@@ -14,7 +14,7 @@
  @treturn number calculated result
  @function rsqrt
 */
-static int AMODULE(rsqrt)(lua_State *L)
+static int LMODULE(rsqrt)(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -36,12 +36,12 @@ static int AMODULE(rsqrt)(lua_State *L)
     return n;
 }
 
-int AMODULE_(, lua_State *L)
+int LMODULE0(lua_State *L)
 {
     luaL_checkversion(L);
 
     const l_func_s funcs[] = {
-        {"rsqrt", AMODULE(rsqrt)},
+        {"rsqrt", LMODULE(rsqrt)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(funcs));
@@ -49,39 +49,39 @@ int AMODULE_(, lua_State *L)
     l_func_reg(L, -1, funcs);
 
     lua_pushstring(L, "mf");
-    AMODULE_(_mf, L);
+    LMODULE_(mf, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "tf");
-    AMODULE_(_tf, L);
+    LMODULE_(tf, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "pid");
-    AMODULE_(_pid, L);
+    LMODULE_(pid, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "fpid");
-    AMODULE_(_fpid, L);
+    LMODULE_(fpid, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "complex");
-    AMODULE_(_complex, L);
+    LMODULE_(complex, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "polytrack3");
-    AMODULE_(_polytrack3, L);
+    LMODULE_(polytrack3, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "polytrack5");
-    AMODULE_(_polytrack5, L);
+    LMODULE_(polytrack5, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "polytrack7");
-    AMODULE_(_polytrack7, L);
+    LMODULE_(polytrack7, L);
     lua_rawset(L, -3);
 
     lua_pushstring(L, "version");
-    AMODULE_(_version, L);
+    LMODULE_(version, L);
     lua_rawset(L, -3);
 
     return 1;
@@ -90,7 +90,7 @@ int AMODULE_(, lua_State *L)
 #include <stdio.h>
 #include <inttypes.h>
 
-int AMODULE(setter)(lua_State *L)
+int LMODULE(setter)(lua_State *L)
 {
     char h[11];
     const char *s = lua_tostring(L, 2);

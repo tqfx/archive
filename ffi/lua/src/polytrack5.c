@@ -5,7 +5,7 @@
 
 #include "polytrack5.h"
 
-static int AMODULE(polytrack5_init_)(lua_State *L, a_polytrack5_s *ctx)
+static int LMODULE(polytrack5_init_)(lua_State *L, a_polytrack5_s *ctx)
 {
     a_real_t t0 = 0, q0 = 0, v0 = 0, a0 = 0;
     a_real_t t1 = 0, q1 = 0, v1 = 0, a1 = 0;
@@ -51,7 +51,7 @@ static int AMODULE(polytrack5_init_)(lua_State *L, a_polytrack5_s *ctx)
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function new
 */
-int AMODULE(polytrack5_new)(lua_State *L)
+int LMODULE(polytrack5_new)(lua_State *L)
 {
     int top = lua_gettop(L);
     int type = lua_type(L, -1);
@@ -62,9 +62,9 @@ int AMODULE(polytrack5_new)(lua_State *L)
             lua_remove(L, 1);
         }
         a_polytrack5_s *ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
-        AMODULE2(polytrack5_meta_, L, 1);
+        LMODULE2(polytrack5_meta_, L, 1);
         lua_setmetatable(L, -2);
-        return AMODULE2(polytrack5_init_, L, ctx);
+        return LMODULE2(polytrack5_init_, L, ctx);
     }
     if (top > 1 && type == LUA_TTABLE)
     {
@@ -75,7 +75,7 @@ int AMODULE(polytrack5_new)(lua_State *L)
         l_array_num_get(L, -1, target, L_ARRAY(target));
         l_array_num_get(L, -2, source, L_ARRAY(source));
         a_polytrack5_s *ctx = (a_polytrack5_s *)lua_newuserdata(L, sizeof(a_polytrack5_s));
-        AMODULE2(polytrack5_meta_, L, 1);
+        LMODULE2(polytrack5_meta_, L, 1);
         lua_setmetatable(L, -2);
         a_polytrack5_init2(ctx, source, target);
         return 1;
@@ -99,7 +99,7 @@ int AMODULE(polytrack5_new)(lua_State *L)
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function init
 */
-int AMODULE(polytrack5_init)(lua_State *L)
+int LMODULE(polytrack5_init)(lua_State *L)
 {
     int top = lua_gettop(L);
     int type = lua_type(L, -1);
@@ -113,7 +113,7 @@ int AMODULE(polytrack5_init)(lua_State *L)
         a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, 1);
         lua_pushvalue(L, 1);
         lua_remove(L, 1);
-        return AMODULE2(polytrack5_init_, L, ctx);
+        return LMODULE2(polytrack5_init_, L, ctx);
     }
     if (top > 2 && type == LUA_TTABLE)
     {
@@ -138,7 +138,7 @@ int AMODULE(polytrack5_init)(lua_State *L)
  @treturn polytrack5 quintic polynomial trajectory userdata
  @function gen
 */
-int AMODULE(polytrack5_gen)(lua_State *L)
+int LMODULE(polytrack5_gen)(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -1);
     if (ctx)
@@ -156,7 +156,7 @@ int AMODULE(polytrack5_gen)(lua_State *L)
  @treturn table {position,velocity,acceleration}
  @function out
 */
-int AMODULE(polytrack5_out)(lua_State *L)
+int LMODULE(polytrack5_out)(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -178,7 +178,7 @@ int AMODULE(polytrack5_out)(lua_State *L)
  @treturn number position output
  @function pos
 */
-int AMODULE(polytrack5_pos)(lua_State *L)
+int LMODULE(polytrack5_pos)(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -197,7 +197,7 @@ int AMODULE(polytrack5_pos)(lua_State *L)
  @treturn number velocity output
  @function vec
 */
-int AMODULE(polytrack5_vec)(lua_State *L)
+int LMODULE(polytrack5_vec)(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -216,7 +216,7 @@ int AMODULE(polytrack5_vec)(lua_State *L)
  @treturn number acceleration output
  @function acc
 */
-int AMODULE(polytrack5_acc)(lua_State *L)
+int LMODULE(polytrack5_acc)(lua_State *L)
 {
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, -2);
     if (ctx)
@@ -228,7 +228,7 @@ int AMODULE(polytrack5_acc)(lua_State *L)
     return 0;
 }
 
-static int AMODULE(polytrack5_set)(lua_State *L)
+static int LMODULE(polytrack5_set)(lua_State *L)
 {
     const char *field = lua_tostring(L, 2);
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, 1);
@@ -293,7 +293,7 @@ static int AMODULE(polytrack5_set)(lua_State *L)
     return 0;
 }
 
-static int AMODULE(polytrack5_get)(lua_State *L)
+static int LMODULE(polytrack5_get)(lua_State *L)
 {
     const char *field = lua_tostring(L, 2);
     a_polytrack5_s *ctx = (a_polytrack5_s *)lua_touserdata(L, 1);
@@ -345,25 +345,25 @@ static int AMODULE(polytrack5_get)(lua_State *L)
         lua_pushnumber(L, (lua_Number)ctx->a[1]);
         break;
     case 0x001D0204: // new
-        lua_pushcfunction(L, AMODULE(polytrack5_new));
+        lua_pushcfunction(L, LMODULE(polytrack5_new));
         break;
     case 0x0E2ED8A0: // init
-        lua_pushcfunction(L, AMODULE(polytrack5_init));
+        lua_pushcfunction(L, LMODULE(polytrack5_init));
         break;
     case 0x001B2CBC: // gen
-        lua_pushcfunction(L, AMODULE(polytrack5_gen));
+        lua_pushcfunction(L, LMODULE(polytrack5_gen));
         break;
     case 0x001D4D3A: // out
-        lua_pushcfunction(L, AMODULE(polytrack5_out));
+        lua_pushcfunction(L, LMODULE(polytrack5_out));
         break;
     case 0x001D8D30: // pos
-        lua_pushcfunction(L, AMODULE(polytrack5_pos));
+        lua_pushcfunction(L, LMODULE(polytrack5_pos));
         break;
     case 0x001F1A38: // vec
-        lua_pushcfunction(L, AMODULE(polytrack5_vec));
+        lua_pushcfunction(L, LMODULE(polytrack5_vec));
         break;
     case 0x00199975: // acc
-        lua_pushcfunction(L, AMODULE(polytrack5_acc));
+        lua_pushcfunction(L, LMODULE(polytrack5_acc));
         break;
     default:
         lua_getmetatable(L, 1);
@@ -372,45 +372,45 @@ static int AMODULE(polytrack5_get)(lua_State *L)
     return 1;
 }
 
-int AMODULE_(_polytrack5, lua_State *L)
+int LMODULE_(polytrack5, lua_State *L)
 {
     const l_func_s funcs[] = {
-        {"init", AMODULE(polytrack5_init)},
-        {"gen", AMODULE(polytrack5_gen)},
-        {"out", AMODULE(polytrack5_out)},
-        {"pos", AMODULE(polytrack5_pos)},
-        {"vec", AMODULE(polytrack5_vec)},
-        {"acc", AMODULE(polytrack5_acc)},
-        {"new", AMODULE(polytrack5_new)},
+        {"init", LMODULE(polytrack5_init)},
+        {"gen", LMODULE(polytrack5_gen)},
+        {"out", LMODULE(polytrack5_out)},
+        {"pos", LMODULE(polytrack5_pos)},
+        {"vec", LMODULE(polytrack5_vec)},
+        {"acc", LMODULE(polytrack5_acc)},
+        {"new", LMODULE(polytrack5_new)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(funcs) - 1);
     l_func_reg(L, -1, funcs);
     lua_createtable(L, 0, 2);
-    l_func_set(L, -1, L_SET, AMODULE(setter));
-    l_func_set(L, -1, L_NEW, AMODULE(polytrack5_new));
+    l_func_set(L, -1, L_SET, LMODULE(setter));
+    l_func_set(L, -1, L_NEW, LMODULE(polytrack5_new));
     lua_setmetatable(L, -2);
 
     const l_func_s metas[] = {
-        {L_NEW, AMODULE(polytrack5_out)},
-        {L_SET, AMODULE(polytrack5_set)},
-        {L_GET, AMODULE(polytrack5_get)},
+        {L_NEW, LMODULE(polytrack5_out)},
+        {L_SET, LMODULE(polytrack5_set)},
+        {L_GET, LMODULE(polytrack5_get)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(metas));
     l_str_set(L, -1, L_NAME, "polytrack5");
     l_func_reg(L, -1, metas);
 
-    AMODULE2(polytrack5_meta_, L, 0);
-    AMODULE2(polytrack5_func_, L, 0);
+    LMODULE2(polytrack5_meta_, L, 0);
+    LMODULE2(polytrack5_func_, L, 0);
 
-    return AMODULE2(polytrack5_func_, L, 1);
+    return LMODULE2(polytrack5_func_, L, 1);
 }
 
-int AMODULE(polytrack5_func_)(lua_State *L, int ret)
+int LMODULE(polytrack5_func_)(lua_State *L, int ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)AMODULE(polytrack5_func_);
+    void *p = (void *)(intptr_t)LMODULE(polytrack5_func_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);
@@ -420,10 +420,10 @@ int AMODULE(polytrack5_func_)(lua_State *L, int ret)
     return 0;
 }
 
-int AMODULE(polytrack5_meta_)(lua_State *L, int ret)
+int LMODULE(polytrack5_meta_)(lua_State *L, int ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)AMODULE(polytrack5_meta_);
+    void *p = (void *)(intptr_t)LMODULE(polytrack5_meta_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);
