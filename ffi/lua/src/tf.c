@@ -186,6 +186,26 @@ static int LMODULE(tf_get)(lua_State *L)
     case 0x1073A930: // zero
         lua_pushcfunction(L, LMODULE(tf_zero));
         break;
+    case 0xA65758B2: // __index
+    {
+        const l_func_s funcs[] = {
+            {"init", LMODULE(tf_init)},
+            {"proc", LMODULE(tf_proc)},
+            {"zero", LMODULE(tf_zero)},
+            {"new", LMODULE(tf_new)},
+            {"die", LMODULE(tf_die)},
+            {NULL, NULL},
+        };
+        lua_createtable(L, 0, L_ARRAY(funcs) + 1);
+        l_func_reg(L, -1, funcs);
+        lua_createtable(L, (int)ctx->m, 0);
+        l_array_num_set(L, -1, ctx->num, ctx->m);
+        lua_setfield(L, -2, "num");
+        lua_createtable(L, (int)ctx->n, 0);
+        l_array_num_set(L, -1, ctx->den, ctx->n);
+        lua_setfield(L, -2, "den");
+        break;
+    }
     default:
         lua_getmetatable(L, 1);
         lua_getfield(L, 3, field);

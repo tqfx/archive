@@ -672,6 +672,66 @@ static int LMODULE(complex_get)(lua_State *L)
     case 0xB413644D: // acoth
         lua_pushcfunction(L, LMODULE(complex_acoth));
         break;
+    case 0xA65758B2: // __index
+    {
+        const l_num_s datas[] = {
+            {"real", (lua_Number)a_complex_real(*ctx)},
+            {"imag", (lua_Number)a_complex_imag(*ctx)},
+            {"r", (lua_Number)a_complex_abs(*ctx)},
+            {"theta", (lua_Number)a_complex_arg(*ctx)},
+            {NULL, 0},
+        };
+        const l_func_s funcs[] = {
+            {"polar", LMODULE(complex_polar)},
+            {"logabs", LMODULE(complex_logabs)},
+            {"conj", LMODULE(complex_conj)},
+            {"abs2", LMODULE(complex_abs2)},
+            {"abs", LMODULE(complex_abs)},
+            {"arg", LMODULE(complex_arg)},
+            {"unm", LMODULE(complex_neg)},
+            {"add", LMODULE(complex_add)},
+            {"sub", LMODULE(complex_sub)},
+            {"mul", LMODULE(complex_mul)},
+            {"div", LMODULE(complex_div)},
+            {"inv", LMODULE(complex_inv)},
+            {"pow", LMODULE(complex_pow)},
+            {"exp", LMODULE(complex_exp)},
+            {"log", LMODULE(complex_log)},
+            {"log2", LMODULE(complex_log2)},
+            {"log10", LMODULE(complex_log10)},
+            {"logb", LMODULE(complex_logb)},
+            {"sqrt", LMODULE(complex_sqrt)},
+            {"sin", LMODULE(complex_sin)},
+            {"cos", LMODULE(complex_cos)},
+            {"tan", LMODULE(complex_tan)},
+            {"sec", LMODULE(complex_sec)},
+            {"csc", LMODULE(complex_csc)},
+            {"cot", LMODULE(complex_cot)},
+            {"asin", LMODULE(complex_asin)},
+            {"acos", LMODULE(complex_acos)},
+            {"atan", LMODULE(complex_atan)},
+            {"asec", LMODULE(complex_asec)},
+            {"acsc", LMODULE(complex_acsc)},
+            {"acot", LMODULE(complex_acot)},
+            {"sinh", LMODULE(complex_sinh)},
+            {"cosh", LMODULE(complex_cosh)},
+            {"tanh", LMODULE(complex_tanh)},
+            {"sech", LMODULE(complex_sech)},
+            {"csch", LMODULE(complex_csch)},
+            {"coth", LMODULE(complex_coth)},
+            {"asinh", LMODULE(complex_asinh)},
+            {"acosh", LMODULE(complex_acosh)},
+            {"atanh", LMODULE(complex_atanh)},
+            {"asech", LMODULE(complex_asech)},
+            {"acsch", LMODULE(complex_acsch)},
+            {"acoth", LMODULE(complex_acoth)},
+            {NULL, NULL},
+        };
+        lua_createtable(L, 0, L_ARRAY(datas) + L_ARRAY(funcs) - 2);
+        l_num_reg(L, -1, datas);
+        l_func_reg(L, -1, funcs);
+        break;
+    }
     default:
         lua_getmetatable(L, 1);
         lua_getfield(L, 3, field);

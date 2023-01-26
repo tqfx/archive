@@ -216,6 +216,9 @@ static int LMODULE(version_get)(lua_State *L)
     case 0xBB1DBE50: // patch
         lua_pushinteger(L, (lua_Integer)ctx->patch);
         break;
+    case 0x0E2ED8A0: // init
+        lua_pushcfunction(L, LMODULE(version_init));
+        break;
     case 0x001A24B2: // cmp
         lua_pushcfunction(L, LMODULE(version_cmp));
         break;
@@ -237,6 +240,30 @@ static int LMODULE(version_get)(lua_State *L)
     case 0x000038AF: // ne
         lua_pushcfunction(L, LMODULE(version_ne));
         break;
+    case 0xA65758B2: // __index
+    {
+        const l_int_s enums[] = {
+            {"major", ctx->major},
+            {"minor", ctx->minor},
+            {"patch", ctx->patch},
+            {NULL, 0},
+        };
+        const l_func_s funcs[] = {
+            {"init", LMODULE(version_init)},
+            {"cmp", LMODULE(version_cmp)},
+            {"lt", LMODULE(version_lt)},
+            {"gt", LMODULE(version_gt)},
+            {"le", LMODULE(version_le)},
+            {"ge", LMODULE(version_ge)},
+            {"eq", LMODULE(version_eq)},
+            {"ne", LMODULE(version_ne)},
+            {NULL, NULL},
+        };
+        lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(funcs) - 2);
+        l_int_reg(L, -1, enums);
+        l_func_reg(L, -1, funcs);
+        break;
+    }
     default:
         lua_getmetatable(L, 1);
         lua_getfield(L, 3, field);
@@ -271,7 +298,7 @@ int LMODULE_(version, lua_State *L)
         {"ne", LMODULE(version_ne)},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(funcs) - 1);
+    lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(funcs) - 2);
     l_int_reg(L, -1, enums);
     l_func_reg(L, -1, funcs);
     lua_createtable(L, 0, 2);

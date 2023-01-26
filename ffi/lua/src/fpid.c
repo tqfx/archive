@@ -433,6 +433,48 @@ static int LMODULE(fpid_get)(lua_State *L)
     case 0x001D457F: // off
         lua_pushcfunction(L, LMODULE(fpid_off));
         break;
+    case 0xA65758B2: // __index
+    {
+        const l_int_s enums[] = {
+            {"col", (lua_Integer)a_fpid_col(ctx)},
+            {"buf", (lua_Integer)a_fpid_bufnum(ctx)},
+            {"mode", (lua_Integer)a_pid_mode(ctx->pid)},
+            {NULL, 0},
+        };
+        const l_num_s datas[] = {
+            {"dt", (lua_Number)a_pid_dt(ctx->pid)},
+            {"kp", (lua_Number)ctx->kp},
+            {"ki", (lua_Number)ctx->ki},
+            {"kd", (lua_Number)ctx->kd},
+            {"outmin", (lua_Number)ctx->pid->outmin},
+            {"outmax", (lua_Number)ctx->pid->outmax},
+            {"summax", (lua_Number)ctx->pid->summax},
+            {"out", (lua_Number)ctx->pid->out.v},
+            {"fdb", (lua_Number)ctx->pid->fdb.v},
+            {"ec", (lua_Number)ctx->pid->ec.v},
+            {"e", (lua_Number)ctx->pid->e.v},
+            {NULL, 0},
+        };
+        const l_func_s funcs[] = {
+            {"init", LMODULE(fpid_init)},
+            {"proc", LMODULE(fpid_proc)},
+            {"zero", LMODULE(fpid_zero)},
+            {"base", LMODULE(fpid_base)},
+            {"kpid", LMODULE(fpid_kpid)},
+            {"ilim", LMODULE(fpid_ilim)},
+            {"olim", LMODULE(fpid_olim)},
+            {"pos", LMODULE(fpid_pos)},
+            {"inc", LMODULE(fpid_inc)},
+            {"off", LMODULE(fpid_off)},
+            {"new", LMODULE(fpid_new)},
+            {NULL, NULL},
+        };
+        lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(datas) + L_ARRAY(funcs) - 3);
+        l_int_reg(L, -1, enums);
+        l_num_reg(L, -1, datas);
+        l_func_reg(L, -1, funcs);
+        break;
+    }
     default:
         lua_getmetatable(L, 1);
         lua_getfield(L, 3, field);

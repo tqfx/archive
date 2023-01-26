@@ -278,6 +278,9 @@ static int LMODULE(pid_get)(lua_State *L)
     a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
+    case 0x0EB84F77: // mode
+        lua_pushinteger(L, (lua_Integer)a_pid_mode(ctx));
+        break;
     case 0x000033A0: // dt
         lua_pushnumber(L, (lua_Number)a_pid_dt(ctx));
         break;
@@ -311,9 +314,6 @@ static int LMODULE(pid_get)(lua_State *L)
     case 0x00000065: // e
         lua_pushnumber(L, (lua_Number)ctx->e.v);
         break;
-    case 0x0EB84F77: // mode
-        lua_pushinteger(L, (lua_Integer)a_pid_mode(ctx));
-        break;
     case 0x001D0204: // new
         lua_pushcfunction(L, LMODULE(pid_new));
         break;
@@ -338,6 +338,43 @@ static int LMODULE(pid_get)(lua_State *L)
     case 0x001D457F: // off
         lua_pushcfunction(L, LMODULE(pid_off));
         break;
+    case 0xA65758B2: // __index
+    {
+        const l_int_s enums[] = {
+            {"mode", (lua_Integer)a_pid_mode(ctx)},
+            {NULL, 0},
+        };
+        const l_num_s datas[] = {
+            {"dt", (lua_Number)a_pid_dt(ctx)},
+            {"kp", (lua_Number)a_pid_kp(ctx)},
+            {"ki", (lua_Number)a_pid_ki(ctx)},
+            {"kd", (lua_Number)a_pid_kd(ctx)},
+            {"outmin", (lua_Number)ctx->outmin},
+            {"outmax", (lua_Number)ctx->outmax},
+            {"summax", (lua_Number)ctx->summax},
+            {"out", (lua_Number)ctx->out.v},
+            {"fdb", (lua_Number)ctx->fdb.v},
+            {"ec", (lua_Number)ctx->ec.v},
+            {"e", (lua_Number)ctx->e.v},
+            {NULL, 0},
+        };
+        const l_func_s funcs[] = {
+            {"init", LMODULE(pid_init)},
+            {"proc", LMODULE(pid_proc)},
+            {"zero", LMODULE(pid_zero)},
+            {"kpid", LMODULE(pid_kpid)},
+            {"pos", LMODULE(pid_pos)},
+            {"inc", LMODULE(pid_inc)},
+            {"off", LMODULE(pid_off)},
+            {"new", LMODULE(pid_new)},
+            {NULL, NULL},
+        };
+        lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(datas) + L_ARRAY(funcs) - 3);
+        l_int_reg(L, -1, enums);
+        l_num_reg(L, -1, datas);
+        l_func_reg(L, -1, funcs);
+        break;
+    }
     default:
         lua_getmetatable(L, 1);
         lua_getfield(L, 3, field);

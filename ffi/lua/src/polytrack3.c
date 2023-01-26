@@ -334,6 +334,44 @@ static int LMODULE(polytrack3_get)(lua_State *L)
     case 0x00199975: // acc
         lua_pushcfunction(L, LMODULE(polytrack3_acc));
         break;
+    case 0xA65758B2: // __index
+    {
+        const l_num_s datas[] = {
+            {"t0", (lua_Number)ctx->t[0]},
+            {"q0", (lua_Number)ctx->q[0]},
+            {"v0", (lua_Number)ctx->v[0]},
+            {"t1", (lua_Number)ctx->t[1]},
+            {"q1", (lua_Number)ctx->q[1]},
+            {"v1", (lua_Number)ctx->v[1]},
+            {NULL, 0},
+        };
+        const l_func_s funcs[] = {
+            {"init", LMODULE(polytrack3_init)},
+            {"gen", LMODULE(polytrack3_gen)},
+            {"out", LMODULE(polytrack3_out)},
+            {"pos", LMODULE(polytrack3_pos)},
+            {"vec", LMODULE(polytrack3_vec)},
+            {"acc", LMODULE(polytrack3_acc)},
+            {"new", LMODULE(polytrack3_new)},
+            {NULL, NULL},
+        };
+        lua_createtable(L, 0, L_ARRAY(datas) + L_ARRAY(funcs) + 2);
+        l_num_reg(L, -1, datas);
+        l_func_reg(L, -1, funcs);
+        lua_createtable(L, L_ARRAY(ctx->k), 0);
+        l_array_num_set(L, -1, ctx->k, L_ARRAY(ctx->k));
+        lua_setfield(L, -2, "k");
+        lua_createtable(L, L_ARRAY(ctx->t), 0);
+        l_array_num_set(L, -1, ctx->t, L_ARRAY(ctx->t));
+        lua_setfield(L, -2, "t");
+        lua_createtable(L, L_ARRAY(ctx->q), 0);
+        l_array_num_set(L, -1, ctx->q, L_ARRAY(ctx->q));
+        lua_setfield(L, -2, "q");
+        lua_createtable(L, L_ARRAY(ctx->v), 0);
+        l_array_num_set(L, -1, ctx->v, L_ARRAY(ctx->v));
+        lua_setfield(L, -2, "v");
+        break;
+    }
     default:
         lua_getmetatable(L, 1);
         lua_getfield(L, 3, field);
