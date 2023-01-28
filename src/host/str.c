@@ -8,7 +8,7 @@
 
 a_str_s *a_str_new(void)
 {
-    a_str_s *ctx = (a_str_s *)malloc(sizeof(a_str_s));
+    a_str_s *ctx = (a_str_s *)a_alloc(A_NULL, sizeof(a_str_s));
     if (ctx)
     {
         a_str_ctor(ctx);
@@ -21,7 +21,7 @@ a_void_t a_str_die(a_str_s *ctx)
     if (ctx)
     {
         a_str_dtor(ctx);
-        free(ctx);
+        a_alloc(ctx, 0);
     }
 }
 
@@ -36,8 +36,7 @@ a_void_t a_str_dtor(a_str_s *ctx)
 {
     if (ctx->_str)
     {
-        free(ctx->_str);
-        ctx->_str = A_NULL;
+        ctx->_str = a_alloc(ctx->_str, 0);
     }
     ctx->_num = 0;
     ctx->_mem = 0;
@@ -48,7 +47,7 @@ a_int_t a_str_init(a_str_s *ctx, a_cptr_t pdata, a_size_t nbyte)
     ctx->_num = nbyte;
     ctx->_mem = nbyte + 1;
     ctx->_mem = a_align(sizeof(a_vptr_t), ctx->_mem);
-    ctx->_str = a_str_c(malloc(ctx->_mem));
+    ctx->_str = a_str_c(a_alloc(A_NULL, ctx->_mem));
     if (a_unlikely(ctx->_str == A_NULL))
     {
         return A_FAILURE;
@@ -109,7 +108,7 @@ a_int_t a_str_alloc_(a_str_s *ctx, a_size_t mem)
 {
     a_str_t str;
     mem = a_align(sizeof(a_vptr_t), mem);
-    str = a_str_c(realloc(ctx->_str, mem));
+    str = a_str_c(a_alloc(ctx->_str, mem));
     if (a_unlikely(!str && mem))
     {
         return A_FAILURE;

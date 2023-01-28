@@ -50,7 +50,7 @@ static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
             mem += (mem >> 1) + 1;
         } while (mem < num);
         a_size_t siz = a_align(sizeof(a_vptr_t), ctx->_siz * mem);
-        a_vptr_t ptr = realloc(ctx->_ptr, siz);
+        a_vptr_t ptr = a_alloc(ctx->_ptr, siz);
         if (a_unlikely(ptr == A_NULL))
         {
             return A_FAILURE;
@@ -63,7 +63,7 @@ static a_int_t a_vec_alloc(a_vec_s *ctx, a_size_t num)
 
 a_vec_s *a_vec_new(a_size_t size)
 {
-    a_vec_s *ctx = (a_vec_s *)malloc(sizeof(a_vec_s));
+    a_vec_s *ctx = (a_vec_s *)a_alloc(A_NULL, sizeof(a_vec_s));
     if (ctx)
     {
         a_vec_ctor(ctx, size);
@@ -76,7 +76,7 @@ a_void_t a_vec_die(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
     if (ctx)
     {
         a_vec_dtor(ctx, dtor);
-        free(ctx);
+        a_alloc(ctx, 0);
     }
 }
 
@@ -93,8 +93,7 @@ a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
     if (ctx->_ptr)
     {
         a_vec_drop_(ctx, 0, dtor);
-        free(ctx->_ptr);
-        ctx->_ptr = A_NULL;
+        ctx->_ptr = a_alloc(ctx->_ptr, 0);
     }
     ctx->_mem = 0;
     ctx->_siz = 0;
@@ -102,7 +101,7 @@ a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_int_t a_vec_copy(a_vec_s *ctx, const a_vec_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t))
 {
-    ctx->_ptr = malloc(obj->_mem * obj->_siz);
+    ctx->_ptr = a_alloc(A_NULL, obj->_mem * obj->_siz);
     if (a_unlikely(ctx->_ptr == A_NULL))
     {
         return A_FAILURE;

@@ -55,7 +55,7 @@ static a_int_t a_vector_alloc(a_vector_s *ctx, a_size_t num)
         a_size_t mem_ = mem * ctx->_size;
         a_size_t num_ = ctx->_num * ctx->_size;
         a_size_t size = a_align(sizeof(a_vptr_t), mem_);
-        a_vptr_t head = realloc(ctx->_head, size);
+        a_vptr_t head = a_alloc(ctx->_head, size);
         if (a_unlikely(head == A_NULL))
         {
             return A_FAILURE;
@@ -72,7 +72,7 @@ a_vector_s *a_vector_new(a_size_t size,
                          a_void_t (*ctor)(a_vptr_t),
                          a_void_t (*dtor)(a_vptr_t))
 {
-    a_vector_s *ctx = (a_vector_s *)malloc(sizeof(a_vector_s));
+    a_vector_s *ctx = (a_vector_s *)a_alloc(A_NULL, sizeof(a_vector_s));
     if (ctx)
     {
         a_vector_ctor(ctx, size, ctor, dtor);
@@ -85,7 +85,7 @@ a_void_t a_vector_die(a_vector_s *ctx)
     if (ctx)
     {
         a_vector_dtor(ctx);
-        free(ctx);
+        a_alloc(ctx, 0);
     }
 }
 
@@ -108,8 +108,7 @@ a_void_t a_vector_dtor(a_vector_s *ctx)
     if (ctx->_head)
     {
         a_vector_drop_(ctx, 0);
-        free(ctx->_head);
-        ctx->_head = A_NULL;
+        ctx->_head = a_alloc(ctx->_head, 0);
     }
     ctx->_tail = A_NULL;
     ctx->_last = A_NULL;
@@ -121,7 +120,7 @@ a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_v
 {
     a_size_t num_ = obj->_num * obj->_size;
     a_size_t mem_ = obj->_mem * obj->_size;
-    ctx->_head = malloc(mem_);
+    ctx->_head = a_alloc(A_NULL, mem_);
     if (a_unlikely(ctx->_head == A_NULL))
     {
         return A_FAILURE;

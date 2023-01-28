@@ -14,10 +14,24 @@
 #include <mimalloc-override.h>
 #endif /* A_HAVE_MIMALLOC_H */
 
-A_INTERN a_void_t a_die(a_vptr_t ptr) { free(ptr); }
+#if defined(__cplusplus)
+extern "C" {
+#endif /* __cplusplus */
+
+A_EXTERN a_vptr_t a_alloc(a_vptr_t vptr, a_size_t size);
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif /* __cplusplus */
+
+A_INTERN a_void_t a_die(a_vptr_t ptr)
+{
+    a_alloc(ptr, 0);
+}
+
 A_INTERN a_vptr_t a_new(a_vptr_t ptr, a_size_t siz)
 {
-    return realloc(ptr, siz);
+    return a_alloc(ptr, siz);
 }
 
 #define a_new(T, ptr, num) a_cast_s(T *, a_new(ptr, sizeof(T) * (num)))
