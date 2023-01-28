@@ -1,3 +1,5 @@
+set(CMAKE_POLICY_DEFAULT_CMP0048 NEW)
+set(CMAKE_POLICY_DEFAULT_CMP0063 NEW)
 cmake_minimum_required(VERSION 2.8.12...4.0)
 include(cmake/CMakeModulePath.cmake)
 include(cmake/Languages.cmake)
@@ -10,6 +12,7 @@ include(cmake/CMakeBuildType.cmake)
 include(cmake/EnabledLanguages.cmake)
 include(cmake/TargetSupportsSharedLibs.cmake)
 include(cmake/TargetSupportsExecutables.cmake)
+include(cmake/TargetSupportsRelocatable.cmake)
 include(cmake/TargetSupportsSymbolicLink.cmake)
 
 option(LIBA_WARNINGS "Enable/Disable warnings" 0)
@@ -159,7 +162,7 @@ endfunction()
 
 function(add_library_properties target scope source)
   target_compile_definitions(${target} ${scope} $<TARGET_PROPERTY:${source},${ARGV3}COMPILE_DEFINITIONS>)
-  target_include_directories(${target} SYSTEM ${scope} $<TARGET_PROPERTY:${source},${ARGV3}INCLUDE_DIRECTORIES>)
+  target_include_directories(${target} ${scope} $<TARGET_PROPERTY:${source},${ARGV3}INCLUDE_DIRECTORIES>)
 
   if(${scope} MATCHES "PUBLIC|PRIVATE")
     set_property(TARGET ${target} APPEND PROPERTY LINK_LIBRARIES $<TARGET_PROPERTY:${source},${ARGV3}LINK_LIBRARIES>)
@@ -259,6 +262,10 @@ set_library_compile(alib)
 
 if(A_HAVE_MIMALLOC_H)
   target_link_libraries(alib PUBLIC mimalloc-static)
+endif()
+
+if(TARGET_SUPPORTS_RELOCATABLE)
+  add_subdirectory(cmake/object object)
 endif()
 
 if(TARGET_SUPPORTS_SHARED_LIBS)
