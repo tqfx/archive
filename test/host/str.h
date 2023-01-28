@@ -36,7 +36,7 @@ static void testt(void)
     a_str_printf(ctx, "%u", 4);
     str = a_str_exit(ctx);
     printf("%s\n", str);
-    free(str);
+    a_alloc(str, 0);
     a_str_die(ctx);
 }
 
