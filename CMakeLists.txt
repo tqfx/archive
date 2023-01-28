@@ -265,7 +265,7 @@ if(A_HAVE_MIMALLOC_H)
 endif()
 
 if(TARGET_SUPPORTS_RELOCATABLE)
-  add_subdirectory(cmake/object object)
+  add_subdirectory(cmake/object src)
 endif()
 
 if(TARGET_SUPPORTS_SHARED_LIBS)

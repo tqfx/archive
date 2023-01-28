@@ -7,9 +7,10 @@ if(NOT CMAKE_FIND_LIBRARY_PREFIXES)
 endif()
 
 option(LIBA_LUA "Enable/Disable ffi lua" 0)
+option(LIBA_LUAJIT "Enable/Disable ffi luajit" 0)
 option(WITH_LUA "Enable/Disable build with lua" 0)
 
-if(LIBA_LUA OR WITH_LUA)
+if(WITH_LUA OR LIBA_LUA OR LIBA_LUAJIT)
   add_subdirectory(lua)
 endif()
 
