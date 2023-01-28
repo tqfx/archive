@@ -195,7 +195,7 @@ else()
 endif()
 
 if(NOT EXISTS "${A_HAVE_H}")
-  set(A_HAVE_H ${CMAKE_CURRENT_BINARY_DIR}/a.config.h)
+  set(A_HAVE_H ${CMAKE_CURRENT_BINARY_DIR}/a.cmake.h)
   configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/config.h ${A_HAVE_H})
 endif()
 

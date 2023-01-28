@@ -112,7 +112,7 @@ parser = ArgumentParser(add_help=False)
 parser.add_argument("-b", "--build-base", default="build")
 args = parser.parse_known_args(argv[1:])
 base = args[0].build_base
-config_h = "a.config.h"
+config_h = "a.setup.h"
 source_c, source_cc = [], []
 header_h, header_hh = [], []
 suffix_c, suffix_cc = (".c",), (".cc", ".cpp", ".cxx")

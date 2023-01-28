@@ -99,17 +99,17 @@ target("a.objs")
         "casinh", "cacosh", "catanh",
     }
     check_math(funcs, {includes = "complex.h"})
-    -- set the auto-generated a.config.h
-    add_configfiles("xmake/config.h", {filename = "a.config.h"})
+    -- set the auto-generated a.xmake.h
+    add_configfiles("xmake/config.h", {filename = "a.xmake.h"})
     set_configvar("A_SIZE_REAL", real, {quote = false})
-    add_defines("A_HAVE_H=\"a.config.h\"", {public = true})
+    add_defines("A_HAVE_H=\"a.xmake.h\"", {public = true})
     -- set export library symbols
     add_defines("A_EXPORTS")
     -- add include directories
     add_includedirs("$(buildir)", {public = true})
     add_includedirs("include", {public = true})
     -- add the header files for installing
-    add_headerfiles("$(buildir)/a.config.h")
+    add_headerfiles("$(buildir)/a.xmake.h")
     if has_config("with-cxx") then
         add_headerfiles("include/(**.hpp)")
     end
