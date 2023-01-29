@@ -256,16 +256,16 @@ elseif(A_HAVE_MIMALLOC_H)
   target_link_libraries(a PUBLIC mimalloc-static)
 endif()
 
+if(TARGET_SUPPORTS_RELOCATABLE)
+  add_subdirectory(cmake/object src)
+endif()
+
 set(INSTALL_TARGETS alib)
 add_library(alib $<TARGET_OBJECTS:a>)
 set_library_compile(alib)
 
 if(A_HAVE_MIMALLOC_H)
   target_link_libraries(alib PUBLIC mimalloc-static)
-endif()
-
-if(TARGET_SUPPORTS_RELOCATABLE)
-  add_subdirectory(cmake/object src)
 endif()
 
 if(TARGET_SUPPORTS_SHARED_LIBS)

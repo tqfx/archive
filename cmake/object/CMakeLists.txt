@@ -1,18 +1,15 @@
 get_cmake_property(ENABLED_LANGUAGES ENABLED_LANGUAGES)
 
 foreach(lang ${ENABLED_LANGUAGES})
-  set(CMAKE_${lang}_ARCHIVE_APPEND "<CMAKE_${lang}_COMPILER> -o <TARGET> -r <OBJECTS>")
-  set(CMAKE_${lang}_ARCHIVE_APPEND_IPO "<CMAKE_${lang}_COMPILER> -o <TARGET> -r <OBJECTS>")
-  set(CMAKE_${lang}_ARCHIVE_CREATE "<CMAKE_${lang}_COMPILER> -o <TARGET> -r <OBJECTS>")
-  set(CMAKE_${lang}_ARCHIVE_CREATE_IPO "<CMAKE_${lang}_COMPILER> -o <TARGET> -r <OBJECTS>")
-  set(CMAKE_${lang}_ARCHIVE_FINISH "")
-  set(CMAKE_${lang}_ARCHIVE_FINISH_IPO "")
+  set(CMAKE_${lang}_CREATE_STATIC_LIBRARY "<CMAKE_${lang}_COMPILER> <LANGUAGE_COMPILE_FLAGS> -o <TARGET> -r <OBJECTS>")
 endforeach()
 
 set(CMAKE_STATIC_LIBRARY_SUFFIX .o)
 add_library(aobj STATIC $<TARGET_OBJECTS:a>)
-set_property(TARGET aobj PROPERTY OUTPUT_NAME a)
 add_library_properties(aobj INTERFACE alib INTERFACE_)
+set_target_properties(aobj PROPERTIES OUTPUT_NAME a
+  INTERPROCEDURAL_OPTIMIZATION ${LIBA_LTO}
+)
 
 if(A_HAVE_MIMALLOC_H)
   target_link_libraries(aobj PUBLIC mimalloc-static)
