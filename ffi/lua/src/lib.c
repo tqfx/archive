@@ -94,6 +94,6 @@ int LMODULE(setter)(lua_State *L)
 {
     char h[11];
     const char *s = lua_tostring(L, 2);
-    (void)sprintf(h, "0x%08" PRIX32, (a_u32_t)a_hash_bkdr(s, 0));
+    (void)snprintf(h, 11, "0x%08" PRIX32, (a_u32_t)a_hash_bkdr(s, 0));
     return luaL_error(L, "field(%s) '%s' missing in setter", h, s);
 }
