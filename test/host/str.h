@@ -16,6 +16,8 @@ static void tests(void)
     a_str_putc(ctx, 0);
     a_str_puts(ctx, "");
     a_str_putn(ctx, A_NULL, 0);
+    TEST_BUG(a_str_idx(ctx, 0) == 0);
+    TEST_BUG(a_str_at(ctx, 0) == 0);
     str = a_str_val(ctx);
     printf("0x%" PRIXPTR " ", a_cast_r(a_uptr_t, str));
     a_str_dtor(ctx);
@@ -34,6 +36,8 @@ static void testt(void)
     a_str_putn_(ctx, "23", 1);
     a_str_puts(ctx, "3");
     a_str_printf(ctx, "%u", 4);
+    TEST_BUG(a_str_at(ctx, 0) == '-');
+    TEST_BUG(a_str_idx(ctx, -1) == '4');
     str = a_str_exit(ctx);
     printf("%s\n", str);
     a_alloc(str, 0);

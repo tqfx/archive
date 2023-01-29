@@ -17,7 +17,7 @@
  @{
 */
 
-#ifndef A_STR_NIL
+#if !defined A_STR_NIL
 // clang-format off
 #define A_STR_NIL {A_NULL, 0, 0}
 // clang-format on
@@ -53,6 +53,47 @@ A_INTERN a_size_t a_str_len(const a_str_s *ctx) { return ctx->_num; }
  @return size of memory
 */
 A_INTERN a_size_t a_str_mem(const a_str_s *ctx) { return ctx->_mem; }
+
+/*!
+ @brief access specified character for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] idx index of character less than length
+ @note should check if string is empty
+ @return specified character
+*/
+A_INTERN a_char_t a_str_at_(const a_str_s *ctx, a_size_t idx)
+{
+    return ctx->_str[idx];
+}
+
+/*!
+ @brief access specified character for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] idx index of character less than length
+ @return specified character
+  @retval 0 out of bounds
+*/
+A_INTERN a_char_t a_str_at(const a_str_s *ctx, a_size_t idx)
+{
+    return a_likely(idx < ctx->_num) ? ctx->_str[idx] : 0;
+}
+
+/*!
+ @brief access specified character for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] idx index of character -length < idx < length
+ @return specified character
+  @retval 0 out of bounds
+*/
+A_INTERN a_char_t a_str_idx(const a_str_s *ctx, a_diff_t idx)
+{
+    a_size_t num = a_size_c(idx);
+    if (idx < 0)
+    {
+        num += ctx->_num;
+    }
+    return a_likely(num < ctx->_num) ? ctx->_str[num] : 0;
+}
 
 #if defined(__cplusplus)
 extern "C" {
