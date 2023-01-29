@@ -8,6 +8,27 @@
 #include "a/version.h"
 
 /***
+ Brian Kernighan and Dennis Ritchie
+ @tparam number str string to be processed
+ @treturn integer hash value
+ @function hash_bkdr
+*/
+static int LMODULE(hash_bkdr)(lua_State *L)
+{
+    a_umax_t val = 0;
+    int n = lua_gettop(L);
+    for (int i = 0; i++ != n;)
+    {
+        if (lua_type(L, i) == LUA_TSTRING)
+        {
+            val = a_hash_bkdr(lua_tostring(L, i), val);
+        }
+    }
+    lua_pushinteger(L, (lua_Integer)val);
+    return 1;
+}
+
+/***
  fast inverse square-root
  @tparam number x independent variable
  @tparam number ... independent variables
@@ -41,6 +62,7 @@ int LMODULE0(lua_State *L)
     luaL_checkversion(L);
 
     const l_func_s funcs[] = {
+        {"hash_bkdr", LMODULE(hash_bkdr)},
         {"rsqrt", LMODULE(rsqrt)},
         {NULL, NULL},
     };
