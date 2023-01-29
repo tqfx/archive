@@ -36,7 +36,8 @@ a_void_t a_str_dtor(a_str_s *ctx)
 {
     if (ctx->_str)
     {
-        ctx->_str = a_alloc(ctx->_str, 0);
+        a_alloc(ctx->_str, 0);
+        ctx->_str = NULL;
     }
     ctx->_num = 0;
     ctx->_mem = 0;

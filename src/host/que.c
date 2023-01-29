@@ -13,8 +13,6 @@
 #undef a_que_pull_fore
 #undef a_que_pull_back
 
-A_INTERN a_void_t a_que_node_nop(a_vptr_t vptr) { (void)(vptr); }
-
 static a_que_node_s *a_que_node_new(a_que_s *ctx)
 {
     a_que_node_s *node = A_NULL;
@@ -36,7 +34,8 @@ static a_que_node_s *a_que_node_new(a_que_s *ctx)
         node->_data = a_alloc(A_NULL, ctx->_size);
         if (a_unlikely(node->_data == A_NULL))
         {
-            return a_alloc(node, 0);
+            a_alloc(node, 0);
+            return A_NULL;
         }
     }
     ++ctx->_num;
@@ -79,6 +78,8 @@ static a_void_t a_que_drop_(a_que_s *ctx)
     }
 }
 
+A_INTERN a_void_t a_que_dtor_nop(a_vptr_t vptr) { (void)(vptr); }
+
 a_que_s *a_que_new(a_size_t size)
 {
     a_que_s *ctx = (a_que_s *)a_alloc(A_NULL, sizeof(a_que_s));
@@ -111,7 +112,7 @@ a_void_t a_que_ctor(a_que_s *ctx, a_size_t size)
 a_void_t a_que_dtor(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     a_que_drop_(ctx);
-    dtor = dtor ? dtor : a_que_node_nop;
+    dtor = dtor ? dtor : a_que_dtor_nop;
     while (ctx->_cur)
     {
         --ctx->_cur;
@@ -119,7 +120,8 @@ a_void_t a_que_dtor(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
         a_alloc(ctx->_ptr[ctx->_cur]->_data, 0);
         a_alloc(ctx->_ptr[ctx->_cur], 0);
     }
-    ctx->_ptr = a_alloc(ctx->_ptr, 0);
+    a_alloc(ctx->_ptr, 0);
+    ctx->_ptr = A_NULL;
     ctx->_size = 0;
     ctx->_mem = 0;
 }
@@ -170,7 +172,7 @@ a_void_t a_que_set(a_que_s *ctx, a_size_t size, a_void_t (*dtor)(a_vptr_t))
 a_void_t a_que_drop(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t))
 {
     a_que_drop_(ctx);
-    dtor = dtor ? dtor : a_que_node_nop;
+    dtor = dtor ? dtor : a_que_dtor_nop;
     for (a_size_t cur = ctx->_cur; cur--; ctx->_ptr[cur]->_data = A_NULL)
     {
         dtor(ctx->_ptr[cur]->_data);
