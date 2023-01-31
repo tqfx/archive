@@ -1,0 +1,85 @@
+project('liba', 'c', 'cpp',
+        default_options: ['buildtype=debugoptimized', 'default_library=both'],
+        license: 'MPL-2.0',
+        version: '0.1.1')
+
+a_have_h = configuration_data()
+a_have_h.set('version', meson.version())
+a_have_h.set('A_VERSION', meson.project_version())
+a_have_h.set('A_VERSION_MAJOR', meson.project_version().split('.')[0])
+a_have_h.set('A_VERSION_MINOR', meson.project_version().split('.')[1])
+a_have_h.set('A_VERSION_PATCH', meson.project_version().split('.')[2])
+a_have_h.set('A_SIZE_REAL', get_option('real'))
+if target_machine.endian() == 'little'
+    a_have_h.set('A_BYTE_ORDER', 1234)
+elif target_machine.endian() == 'big'
+    a_have_h.set('A_BYTE_ORDER', 4321)
+endif
+
+compiler = meson.get_compiler('c')
+if compiler.has_header('stdint.h')
+    a_have_h.set('A_HAVE_STDINT_H', '1')
+endif
+if compiler.has_header('complex.h')
+    a_have_h.set('A_HAVE_COMPLEX_H', '1')
+endif
+a_have_h.set('A_SIZE_VPTR', compiler.sizeof('void *'))
+
+math = ['hypot', 'log1p', 'atan2',
+        'csqrt', 'cpow', 'cexp', 'clog',
+        'csin', 'ccos', 'ctan',
+        'csinh', 'ccosh', 'ctanh',
+        'casin', 'cacos', 'catan',
+        'casinh', 'cacosh', 'catanh']
+
+foreach func: math
+    real = get_option('real').to_int()
+    have = 'A_HAVE_@0@'.format(func.to_upper())
+    if  real == 4
+        func = func + 'f'
+    elif real > 8
+        func = func + 'l'
+    endif
+    if compiler.has_function(func)
+        a_have_h.set(have, '1')
+    endif
+endforeach
+
+sources = [
+    'src/arr.c',
+    'src/complex.c',
+    'src/crc.c',
+    'src/fpid.c',
+    'src/fuzzy.c',
+    'src/lib.c',
+    'src/math.c',
+    'src/mf.c',
+    'src/pid.c',
+    'src/poly.c',
+    'src/polytrack.c',
+    'src/real.c',
+    'src/tf.c',
+    'src/version.c',
+    'src/version.cpp',
+    'src/host/lib.c',
+    'src/host/que.c',
+    'src/host/str.c',
+    'src/host/vec.c',
+    'src/host/vector.c',
+]
+
+configure_file(input: 'include/a.meson.h.in', output: 'a.meson.h', configuration: a_have_h)
+add_project_arguments('-DA_EXPORTS', '-DA_HAVE_H="a.meson.h"', language: ['c', 'cpp'])
+library('a', sources,
+        dependencies: compiler.find_library('m', required: false),
+        include_directories: include_directories('include'),
+        install: true)
+
+python = import('python').find_installation()
+fixup_py = join_paths(meson.current_source_dir(), 'meson', 'fixup.py')
+a_have_h = join_paths(get_option('prefix'), 'include', 'a', 'a.h')
+a_meson_h = join_paths(meson.current_build_dir(), 'a.meson.h')
+
+install_headers(a_meson_h)
+install_subdir('include/a', install_dir: get_option('includedir'))
+meson.add_install_script(python, fixup_py, a_have_h, a_meson_h)

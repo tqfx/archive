@@ -53,6 +53,7 @@ __pycache__/
 # Distribution / packaging
 cmake-build/
 *.egg-info/
+builddir/
 target/
 build/
 dist/

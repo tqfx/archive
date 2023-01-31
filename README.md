@@ -31,6 +31,7 @@
 - [cmake](https://cmake.org)
 - [conan](https://conan.io)
 - [vcpkg](https://vcpkg.io)
+- [meson](https://mesonbuild.com)
 - [python](https://www.python.org)
 
 ## build
@@ -49,6 +50,13 @@ xmake install --all
 cmake -S . -B build
 cmake --build build
 cmake --install build
+```
+
+### meson
+
+```bash
+meson setup builddir
+meson install -C builddir
 ```
 
 ### vcpkg
