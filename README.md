@@ -3,6 +3,7 @@
 [![docs](https://github.com/tqfx/liba/actions/workflows/docs.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/docs.yml)
 [![conan](https://github.com/tqfx/liba/actions/workflows/conan.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/conan.yml)
 [![xmake](https://github.com/tqfx/liba/actions/workflows/xmake.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/xmake.yml)
+[![meson](https://github.com/tqfx/liba/actions/workflows/meson.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/meson.yml)
 [![msvc](https://github.com/tqfx/liba/actions/workflows/msvc.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/msvc.yml)
 [![linux](https://github.com/tqfx/liba/actions/workflows/linux.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/linux.yml)
 [![macos](https://github.com/tqfx/liba/actions/workflows/macos.yml/badge.svg)](https://github.com/tqfx/liba/actions/workflows/macos.yml)

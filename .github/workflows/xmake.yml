@@ -16,19 +16,13 @@ jobs:
         with:
           lfs: true
           submodules: true
-
       - name: Run xmake
         run: xmake f -yvDc -m check --warning=y --with-lua=y --with-rust=y
       - run: xmake -vw --all
-      - run: xmake i -vD --admin
+      - if: ${{ matrix.os != 'windows-latest' }}
+        run: xmake i -vD --admin
+      - if: ${{ matrix.os == 'windows-latest' }}
+        run: xmake i -vD
       - run: xmake run --all
-
-      - name: Run meson
-        run: |
-          python -m pip install -U meson
-          meson setup builddir
-      - run: meson compile -C builddir
-      - run: meson test -C builddir
-
       - name: Run cargo
         run: cargo test
