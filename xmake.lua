@@ -100,13 +100,13 @@ target("a.objs")
     }
     check_math(funcs, {includes = "complex.h"})
     -- set the auto-generated a.xmake.h
-    add_configfiles("xmake/config.h", {filename = "a.xmake.h"})
+    a_have_h = path.relative("$(buildir)/a.xmake.h", "include")
+    add_defines("A_HAVE_H=\""..a_have_h.."\"", {public = true})
     set_configvar("A_SIZE_REAL", real, {quote = false})
-    add_defines("A_HAVE_H=\"a.xmake.h\"", {public = true})
+    add_configfiles("include/a.xmake.h.in")
     -- set export library symbols
     add_defines("A_EXPORTS")
     -- add include directories
-    add_includedirs("$(buildir)", {public = true})
     add_includedirs("include", {public = true})
     -- add the header files for installing
     add_headerfiles("$(buildir)/a.xmake.h")

@@ -108,15 +108,16 @@ def configure(config, define_macros=[]):
         f.write(text.encode("UTF-8"))
 
 
+config_h = "a.setup.h"
 parser = ArgumentParser(add_help=False)
 parser.add_argument("-b", "--build-base", default="build")
 args = parser.parse_known_args(argv[1:])
 base = args[0].build_base
-config_h = "a.setup.h"
 source_c, source_cc = [], []
 header_h, header_hh = [], []
 suffix_c, suffix_cc = (".c",), (".cc", ".cpp", ".cxx")
 suffix_h, suffix_hh = (".h",), (".hh", ".hpp", ".hxx")
+config_h = os.path.relpath(os.path.join(base, config_h), "include")
 define_macros = [("A_HAVE_H", '"' + config_h + '"'), ("A_EXPORTS", None)]
 if os.path.exists("ffi/python/src/a/__init__.pxi"):
     with open("ffi/python/src/a/__init__.pxi", "r") as f:
@@ -126,10 +127,9 @@ if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
 elif os.path.exists("ffi/python/src/lib.c"):
     source_c = ["ffi/python/src/lib.c"]
 config = os.path.join(base, config_h)
-if not os.path.exists(config):
-    if not os.path.exists(base):
-        os.makedirs(base)
-    configure(config, define_macros)
+if not os.path.exists(base):
+    os.makedirs(base)
+configure(config, define_macros)
 
 for dirpath, dirnames, filenames in os.walk("include"):
     for filename in filenames:
@@ -153,7 +153,7 @@ ext_modules = [
         name="liba",
         language="c",
         sources=source_c,
-        include_dirs=[base, "include"],
+        include_dirs=["include"],
         define_macros=define_macros,
     )
 ]

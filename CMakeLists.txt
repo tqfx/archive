@@ -196,7 +196,7 @@ endif()
 
 if(NOT EXISTS "${A_HAVE_H}")
   set(A_HAVE_H ${CMAKE_CURRENT_BINARY_DIR}/a.cmake.h)
-  configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/config.h ${A_HAVE_H})
+  configure_file(${CMAKE_CURRENT_LIST_DIR}/include/a.cmake.h.in ${A_HAVE_H})
 endif()
 
 if(IS_ABSOLUTE "${LIBA_MATH}")
@@ -211,6 +211,12 @@ if(TARGET_SUPPORTS_SYMBOLIC_LINK)
 endif()
 
 function(set_library_compile target)
+  if(EXISTS "${A_HAVE_H}")
+    file(RELATIVE_PATH a_have_h ${CMAKE_CURRENT_LIST_DIR}/include ${A_HAVE_H})
+    target_compile_definitions(${target} PUBLIC $<BUILD_INTERFACE:A_HAVE_H="${a_have_h}">)
+    set(a_have_h)
+  endif()
+
   if((LIBA_SYMLINK OR WIN32) AND TARGET_SUPPORTS_SYMBOLIC_LINK)
     set_target_properties(${target} PROPERTIES SOVERSION
       ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION}
@@ -231,18 +237,6 @@ function(set_library_compile target)
     target_link_libraries(${target} PUBLIC ${LIBA_MATH})
   endif()
 
-  if(EXISTS "${A_HAVE_H}")
-    get_filename_component(a_have_h ${A_HAVE_H} DIRECTORY)
-    target_include_directories(${target} BEFORE PUBLIC
-      $<BUILD_INTERFACE:${a_have_h}>
-    )
-    get_filename_component(a_have_h ${A_HAVE_H} NAME)
-    target_compile_definitions(${target} PUBLIC
-      $<BUILD_INTERFACE:A_HAVE_H="${a_have_h}">
-    )
-    set(a_have_h)
-  endif()
-
   set_library_options(${target})
 endfunction()
 
@@ -257,7 +251,7 @@ elseif(A_HAVE_MIMALLOC_H)
 endif()
 
 if(TARGET_SUPPORTS_RELOCATABLE)
-  add_subdirectory(cmake/object src)
+  add_subdirectory(src)
 endif()
 
 set(INSTALL_TARGETS alib)
