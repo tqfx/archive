@@ -104,16 +104,10 @@ target("a.objs")
     add_defines("A_HAVE_H=\""..a_have_h.."\"", {public = true})
     set_configvar("A_SIZE_REAL", real, {quote = false})
     add_configfiles("include/a.xmake.h.in")
-    -- set export library symbols
-    add_defines("A_EXPORTS")
     -- add include directories
     add_includedirs("include", {public = true})
-    -- add the header files for installing
-    add_headerfiles("$(buildir)/a.xmake.h")
-    if has_config("with-cxx") then
-        add_headerfiles("include/(**.hpp)")
-    end
-    add_headerfiles("include/(**.h)")
+    -- set export library symbols
+    add_defines("A_EXPORTS")
     -- add the common source files
     add_files("src/**.c")
     if has_config("with-cxx") then
@@ -134,6 +128,18 @@ target("a")
     set_kind("static")
     -- add the dependent target
     add_deps("a.objs")
+    -- add the header files for installing
+    add_headerfiles("$(buildir)/a.xmake.h")
+    if has_config("with-cxx") then
+        add_headerfiles("include/(**.hpp)")
+    end
+    add_headerfiles("include/(**.h)")
+    after_install(function (target)
+        local old = "#if defined(A_HAVE_H)"
+        local new = "#include \"a.xmake.h\"\n" .. old
+        local includedir = path.join(target:installdir(), "include")
+        io.replace(path.join(includedir, "a", "a.h"), old, new, {plain = true})
+    end)
 target_end()
 
 target("liba")
