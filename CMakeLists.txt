@@ -35,9 +35,9 @@ if(LIBA_STATIC)
 endif()
 
 if(UNIX)
-  set(LIBA_MATH "m" CACHE STRING "system math library")
+  set(LIBA_MATH "m" CACHE FILEPATH "system math library")
 else()
-  set(LIBA_MATH "" CACHE STRING "system math library")
+  set(LIBA_MATH "" CACHE FILEPATH "system math library")
 endif()
 
 set(A_SIZE_REAL 8 CACHE INTERNAL "real number bytes")
