@@ -12,17 +12,18 @@ if has_config("with-lua") then
     add_requires("lua")
     target("a.lua")
         set_basename("a")
+        set_kind("shared")
         add_deps("a.objs")
         add_packages("lua")
+        add_files("src/**.c")
+        set_prefixname("lib")
+        if is_plat("windows", "mingw") then
+            set_extension(".dll")
+        end
         add_defines("A_EXPORTS")
-        add_rules("swig.c", {moduletype = "lua"})
-        add_files("src/**.c", {swigflags = "-no-old-metatable-bindings"})
         on_load(function (target)
             target:set("targetdir", path.join(target:targetdir(), "lua"))
-            target:set("prefixname", "lib")
-            if target:is_plat("windows", "mingw") then
-                target:set("extension", ".dll")
-            end
+            target:set("installfiles", target:targetfile(), {prefixdir = "lib/lua/5.4"})
         end)
     target_end()
 end

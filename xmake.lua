@@ -135,13 +135,12 @@ target("a")
     end
     add_headerfiles("include/(**.h)")
     after_install(function (target)
-        if not target:installdir() then
-            return
+        if target:installdir() then
+            local old = "#if defined(A_HAVE_H)"
+            local new = "#include \"a.xmake.h\"\n" .. old
+            local includedir = path.join(target:installdir(), "include")
+            io.replace(path.join(includedir, "a", "a.h"), old, new, {plain = true})
         end
-        local old = "#if defined(A_HAVE_H)"
-        local new = "#include \"a.xmake.h\"\n" .. old
-        local includedir = path.join(target:installdir(), "include")
-        io.replace(path.join(includedir, "a", "a.h"), old, new, {plain = true})
     end)
 target_end()
 
