@@ -116,6 +116,7 @@ target("a.objs")
     -- add the platform options
     if rpath then
         add_rpathdirs(rpath, {public = true})
+        add_linkdirs(rpath, {public = true})
     end
     if not is_plat("windows", "mingw") then
         add_links("m", {public = true})
