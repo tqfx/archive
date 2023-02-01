@@ -129,12 +129,15 @@ target("a")
     -- add the dependent target
     add_deps("a.objs")
     -- add the header files for installing
-    add_headerfiles("$(buildir)/a.xmake.h")
+    add_headerfiles("$(buildir)/a.xmake.h", {prefixdir = "a"})
     if has_config("with-cxx") then
         add_headerfiles("include/(**.hpp)")
     end
     add_headerfiles("include/(**.h)")
     after_install(function (target)
+        if not target:installdir() then
+            return
+        end
         local old = "#if defined(A_HAVE_H)"
         local new = "#include \"a.xmake.h\"\n" .. old
         local includedir = path.join(target:installdir(), "include")

@@ -89,6 +89,6 @@ library('a', sources,
         version: meson.project_version(),
         install: true)
 
-install_headers(a_meson_h)
 install_headers(a_h, subdir: 'a')
+install_headers(a_meson_h, subdir: 'a')
 install_subdir('include/a', install_dir: get_option('includedir'))
