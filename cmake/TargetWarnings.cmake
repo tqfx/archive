@@ -86,9 +86,6 @@ if(CMAKE_C_COMPILER_ID MATCHES "(ARM|Apple)?[Cc]lang" OR CMAKE_C_COMPILER_ID MAT
   # https://releases.llvm.org/4.0.1/tools/clang/DiagnosticsReference.html
   # https://clang.llvm.org/docs/DiagnosticsReference.html
   warnings_flag_cx(-Weverything)
-  warnings_flag_cx(-Wno-documentation)
-  warnings_flag_cx(-Wno-used-but-marked-unused)
-  warnings_flag_cx(-Wno-documentation-unknown-command)
   warnings_flag_cc(-Wno-declaration-after-statement)
   warnings_flag_xx(-Wno-c++98-compat-pedantic)
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")

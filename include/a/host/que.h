@@ -8,7 +8,7 @@
 #define LIBA_HOST_QUE_H
 
 #include "a.h"
-#include "a/list.h"
+#include "../list.h"
 
 /*!
  @ingroup A

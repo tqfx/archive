@@ -22,6 +22,12 @@
 #if __has_warning("-Wcomma")
 #pragma clang diagnostic ignored "-Wcomma"
 #endif /* -Wcomma */
+#if __has_warning("-Wdocumentation")
+#pragma clang diagnostic ignored "-Wdocumentation"
+#endif /* -Wdocumentation */
+#if __has_warning("-Wdocumentation-unknown-command")
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif /* -Wdocumentation-unknown-command */
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wpadded"
 #endif /* -Wpadded */

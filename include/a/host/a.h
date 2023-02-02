@@ -7,7 +7,7 @@
 #ifndef LIBA_HOST_A_H
 #define LIBA_HOST_A_H
 
-#include "a/a.h"
+#include "../a.h"
 #include <stdlib.h>
 
 #if defined(A_HAVE_MIMALLOC_H)

@@ -29,7 +29,7 @@ if has_config("warning") then
         add_cxflags("/wd4514", "/wd4710", "/wd4711", "/wd4820", "/wd5039", "/wd5045")
     end
     add_cflags("-Wno-declaration-after-statement")
-    add_cxflags("-Wno-used-but-marked-unused")
+    add_cxflags("-Wno-gnu-line-marker")
     add_cxxflags("-Wno-c++98-compat-pedantic")
 end
 
