@@ -72,10 +72,10 @@ target("a.objs")
     end)
     -- detect c code functions
     includes("check_csnippets.lua")
-    local source = "printf(\"%u\", (unsigned int)sizeof(size_t));"
-    configvar_check_csnippets("A_SIZE_VPTR", source, {output = true, number = true})
     local source = 'int x = 1; puts(*(char *)&x ? "1234" : "4321");'
     configvar_check_csnippets("A_BYTE_ORDER", source, {output = true, number = true})
+    local source = 'printf("%u", (unsigned int)sizeof(size_t));'
+    configvar_check_csnippets("A_SIZE_VPTR", source, {output = true, number = true})
     includes("check_cincludes.lua")
     configvar_check_cincludes("A_HAVE_COMPLEX_H", "complex.h")
     configvar_check_cincludes("A_HAVE_STDINT_H", "stdint.h")
@@ -109,17 +109,17 @@ target("a.objs")
     -- set export library symbols
     add_defines("A_EXPORTS")
     -- add the common source files
-    add_files("src/**.c")
     if has_config("with-cxx") then
         add_files("src/**.cpp")
     end
+    add_files("src/**.c")
     -- add the platform options
     if rpath then
         add_rpathdirs(rpath, {public = true})
         add_linkdirs(rpath, {public = true})
     end
     if not is_plat("windows", "mingw") then
-        add_links("m", {public = true})
+        add_syslinks("m", {public = true})
         add_cxflags("-fPIC")
     end
 target_end()
@@ -130,11 +130,11 @@ target("a")
     -- add the dependent target
     add_deps("a.objs")
     -- add the header files for installing
-    add_headerfiles("$(buildir)/a.xmake.h", {prefixdir = "a"})
     if has_config("with-cxx") then
         add_headerfiles("include/(**.hpp)")
     end
     add_headerfiles("include/(**.h)")
+    add_headerfiles("$(buildir)/a.xmake.h", {prefixdir = "a"})
     after_install(function (target)
         if target:installdir() then
             local old = "#if defined(A_HAVE_H)"
