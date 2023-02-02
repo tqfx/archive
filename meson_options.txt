@@ -1,1 +1,2 @@
-option('real', type : 'combo', choices : ['4', '8', '16'], value : '8')
+option('real', type: 'combo', choices: ['4', '8', '16'], value: '8')
+option('rpath', type: 'string', value: '', description: '')

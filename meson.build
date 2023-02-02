@@ -87,6 +87,7 @@ library('a', sources,
         include_directories: include_directories('include'),
         soversion: meson.project_version().split('.')[0],
         version: meson.project_version(),
+        build_rpath: get_option('rpath'),
         install: true)
 
 install_headers(a_h, subdir: 'a')
