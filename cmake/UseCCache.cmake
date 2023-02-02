@@ -3,8 +3,7 @@ if(CCACHE_FOUND)
   set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_EXECUTABLE}")
   set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CCACHE_EXECUTABLE}")
 endif()
-get_property(RULE_LAUNCH_COMPILE GLOBAL PROPERTY RULE_LAUNCH_COMPILE)
-if(RULE_LAUNCH_COMPILE AND CMAKE_GENERATOR STREQUAL "Xcode")
+if(CCACHE_FOUND AND CMAKE_GENERATOR STREQUAL "Xcode")
   file(WRITE ${CMAKE_BINARY_DIR}/cc
     "#!/usr/bin/env sh\n\n"
     "# Xcode generator doesn't include the compiler as the\n"
