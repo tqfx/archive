@@ -34,6 +34,12 @@ if(LIBA_STATIC)
   include(cmake/TargetStatic.cmake)
 endif()
 
+option(LIBA_CCACHE "Enable/Disable ccache" 1)
+
+if(LIBA_CCACHE)
+  include(cmake/UseCCache.cmake)
+endif()
+
 if(UNIX)
   set(LIBA_MATH "m" CACHE FILEPATH "system math library")
 else()
