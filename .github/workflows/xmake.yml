@@ -19,10 +19,7 @@ jobs:
       - name: Run xmake
         run: xmake f -yvDc -m check --warning=y --with-rust=y --with-lua=luajit
       - run: xmake -vw --all
-      - if: ${{ matrix.os != 'windows-latest' }}
-        run: xmake i -vD --admin
-      - if: ${{ matrix.os == 'windows-latest' }}
-        run: xmake i -vD
+      - run: xmake i -vD -o_
       - run: xmake run --all
       - name: Run cargo
         run: cargo test

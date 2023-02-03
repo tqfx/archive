@@ -73,3 +73,10 @@ jobs:
           external_repository: tqfx/tqfx.github.io
           force_orphan: true
           publish_dir: tqfx
+      - name: Run autotools
+        run: script/autogen
+      - uses: actions/upload-artifact@v2
+        with:
+          name: autotools
+          path: build/*.tar.*
+          if-no-files-found: ignore

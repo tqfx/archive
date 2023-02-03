@@ -22,6 +22,7 @@
 
 # Compiled Static libraries
 *.lib
+*.lai
 *.la
 *.a
 
@@ -65,7 +66,7 @@ dist/
 .vscode
 
 # clangd
-.cache
+*.cache
 
 # Xmake
 .xmake
