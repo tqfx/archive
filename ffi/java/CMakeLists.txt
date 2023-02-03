@@ -19,14 +19,24 @@ if(WIN32)
   set(CMAKE_SHARED_LIBRARY_PREFIX)
 endif()
 
+if(A_SIZE_REAL EQUAL 8)
+  set(OBJECTS $<TARGET_OBJECTS:a>)
+else()
+  get_property(OBJECTS TARGET a PROPERTY SOURCES)
+endif()
+
 file_scaner(SOURCES RECURSE src)
-add_library(ajni SHARED ${SOURCES} $<TARGET_OBJECTS:a>)
+add_library(ajni SHARED ${OBJECTS} ${SOURCES})
 set_target_properties(ajni PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
 target_compile_definitions(ajni PRIVATE $<TARGET_PROPERTY:alib,COMPILE_DEFINITIONS>)
 target_include_directories(ajni PRIVATE $<TARGET_PROPERTY:alib,INCLUDE_DIRECTORIES>)
 target_link_libraries(ajni PRIVATE $<TARGET_PROPERTY:alib,LINK_LIBRARIES>)
 target_link_libraries(ajni PRIVATE jar-native-a)
 set_library_options(ajni)
+
+if(NOT A_SIZE_REAL EQUAL 8)
+  target_compile_definitions(ajni PRIVATE A_SIZE_REAL=8)
+endif()
 
 install(TARGETS ajni
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/java
