@@ -675,10 +675,10 @@ static int LMODULE(complex_get)(lua_State *L)
     case 0xA65758B2: // __index
     {
         const l_num_s datas[] = {
-            {"real", (lua_Number)a_complex_real(*ctx)},
-            {"imag", (lua_Number)a_complex_imag(*ctx)},
-            {"r", (lua_Number)a_complex_abs(*ctx)},
-            {"theta", (lua_Number)a_complex_arg(*ctx)},
+            {"real", a_complex_real(*ctx)},
+            {"imag", a_complex_imag(*ctx)},
+            {"r", a_complex_abs(*ctx)},
+            {"theta", a_complex_arg(*ctx)},
             {NULL, 0},
         };
         const l_func_s funcs[] = {

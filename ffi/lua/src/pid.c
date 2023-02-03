@@ -345,17 +345,17 @@ static int LMODULE(pid_get)(lua_State *L)
             {NULL, 0},
         };
         const l_num_s datas[] = {
-            {"dt", (lua_Number)a_pid_dt(ctx)},
-            {"kp", (lua_Number)a_pid_kp(ctx)},
-            {"ki", (lua_Number)a_pid_ki(ctx)},
-            {"kd", (lua_Number)a_pid_kd(ctx)},
-            {"outmin", (lua_Number)ctx->outmin},
-            {"outmax", (lua_Number)ctx->outmax},
-            {"summax", (lua_Number)ctx->summax},
-            {"out", (lua_Number)ctx->out.v},
-            {"fdb", (lua_Number)ctx->fdb.v},
-            {"ec", (lua_Number)ctx->ec.v},
-            {"e", (lua_Number)ctx->e.v},
+            {"dt", a_pid_dt(ctx)},
+            {"kp", a_pid_kp(ctx)},
+            {"ki", a_pid_ki(ctx)},
+            {"kd", a_pid_kd(ctx)},
+            {"outmin", ctx->outmin},
+            {"outmax", ctx->outmax},
+            {"summax", ctx->summax},
+            {"out", ctx->out.v},
+            {"fdb", ctx->fdb.v},
+            {"ec", ctx->ec.v},
+            {"e", ctx->e.v},
             {NULL, 0},
         };
         const l_func_s funcs[] = {

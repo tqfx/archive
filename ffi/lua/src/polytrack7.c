@@ -421,16 +421,16 @@ static int LMODULE(polytrack7_get)(lua_State *L)
     case 0xA65758B2: // __index
     {
         const l_num_s datas[] = {
-            {"t0", (lua_Number)ctx->t[0]},
-            {"q0", (lua_Number)ctx->q[0]},
-            {"v0", (lua_Number)ctx->v[0]},
-            {"a0", (lua_Number)ctx->a[0]},
-            {"j0", (lua_Number)ctx->j[0]},
-            {"t1", (lua_Number)ctx->t[1]},
-            {"q1", (lua_Number)ctx->q[1]},
-            {"v1", (lua_Number)ctx->v[1]},
-            {"a1", (lua_Number)ctx->a[1]},
-            {"j1", (lua_Number)ctx->j[1]},
+            {"t0", ctx->t[0]},
+            {"q0", ctx->q[0]},
+            {"v0", ctx->v[0]},
+            {"a0", ctx->a[0]},
+            {"j0", ctx->j[0]},
+            {"t1", ctx->t[1]},
+            {"q1", ctx->q[1]},
+            {"v1", ctx->v[1]},
+            {"a1", ctx->a[1]},
+            {"j1", ctx->j[1]},
             {NULL, 0},
         };
         const l_func_s funcs[] = {
