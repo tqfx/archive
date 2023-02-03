@@ -36,10 +36,9 @@ endif()
 file_scaner(SOURCES RECURSE src)
 add_library(alua SHARED ${SOURCES} ${OBJECTS})
 set_target_properties(alua PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
-target_compile_definitions(alua PRIVATE $<TARGET_PROPERTY:a,COMPILE_DEFINITIONS>)
-target_include_directories(alua PRIVATE $<TARGET_PROPERTY:a,INCLUDE_DIRECTORIES>)
 target_include_directories(alua PRIVATE ${LUA_INCLUDE_DIR})
 target_link_libraries(alua PRIVATE ${LUA_LIBRARIES})
+add_library_properties(alua PRIVATE alib)
 set_library_options(alua)
 
 install(TARGETS alua
