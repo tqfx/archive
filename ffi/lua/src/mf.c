@@ -14,7 +14,7 @@
  @treturn number membership
  @function gauss
 */
-static int l_mf_gauss(lua_State *L)
+static int LMODULE(mf_gauss)(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -36,7 +36,7 @@ static int l_mf_gauss(lua_State *L)
  @treturn number membership
  @function gbell
 */
-static int l_mf_gbell(lua_State *L)
+static int LMODULE(mf_gbell)(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -58,7 +58,7 @@ static int l_mf_gbell(lua_State *L)
  @treturn number membership
  @function sig
 */
-static int l_mf_sig(lua_State *L)
+static int LMODULE(mf_sig)(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -81,7 +81,7 @@ static int l_mf_sig(lua_State *L)
  @treturn number membership
  @function trap
 */
-static int l_mf_trap(lua_State *L)
+static int LMODULE(mf_trap)(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -105,7 +105,7 @@ static int l_mf_trap(lua_State *L)
  @treturn number membership
  @function tri
 */
-static int l_mf_tri(lua_State *L)
+static int LMODULE(mf_tri)(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -127,7 +127,7 @@ static int l_mf_tri(lua_State *L)
  @treturn number membership
  @function z
 */
-static int l_mf_z(lua_State *L)
+static int LMODULE(mf_z)(lua_State *L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -148,7 +148,7 @@ static int l_mf_z(lua_State *L)
  @treturn number membership
  @function mf
 */
-static int l_mf(lua_State *L)
+static int LMODULE(mf)(lua_State *L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
@@ -159,17 +159,17 @@ static int l_mf(lua_State *L)
     switch (e)
     {
     case A_MF_GAUSS:
-        return l_mf_gauss(L);
+        return LMODULE(mf_gauss)(L);
     case A_MF_GBELL:
-        return l_mf_gbell(L);
+        return LMODULE(mf_gbell)(L);
     case A_MF_SIG:
-        return l_mf_sig(L);
+        return LMODULE(mf_sig)(L);
     case A_MF_TRAP:
-        return l_mf_trap(L);
+        return LMODULE(mf_trap)(L);
     case A_MF_TRI:
-        return l_mf_tri(L);
+        return LMODULE(mf_tri)(L);
     case A_MF_Z:
-        return l_mf_z(L);
+        return LMODULE(mf_z)(L);
     case A_MF_NUL:
     default:
         return 0;
@@ -187,7 +187,7 @@ static int l_mf(lua_State *L)
  @field Z z-shaped membership function
  @table mf
 */
-int luaopen_liba_mf(lua_State *L)
+int LMODULE_(mf, lua_State *L)
 {
     const l_int_s enums[] = {
         {"NUL", A_MF_NUL},
@@ -200,16 +200,16 @@ int luaopen_liba_mf(lua_State *L)
         {NULL, 0},
     };
     const l_func_s funcs[] = {
-        {"gauss", l_mf_gauss},
-        {"gbell", l_mf_gbell},
-        {"sig", l_mf_sig},
-        {"trap", l_mf_trap},
-        {"tri", l_mf_tri},
-        {"z", l_mf_z},
+        {"gauss", LMODULE(mf_gauss)},
+        {"gbell", LMODULE(mf_gbell)},
+        {"sig", LMODULE(mf_sig)},
+        {"trap", LMODULE(mf_trap)},
+        {"tri", LMODULE(mf_tri)},
+        {"z", LMODULE(mf_z)},
         {NULL, NULL},
     };
     const l_func_s metas[] = {
-        {"__call", l_mf},
+        {"__call", LMODULE(mf)},
         {NULL, NULL},
     };
     lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(funcs) - 2);
