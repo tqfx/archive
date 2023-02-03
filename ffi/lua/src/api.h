@@ -18,6 +18,7 @@
 #pragma warning(disable : 4820)
 #endif /* _MSC_VER */
 #include "a/a.h"
+#include "a/host/a.h"
 
 #if __has_warning("-Wcomma")
 #pragma clang diagnostic ignored "-Wcomma"

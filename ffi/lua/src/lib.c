@@ -57,9 +57,17 @@ static int LMODULE(rsqrt)(lua_State *L)
     return n;
 }
 
+static lua_State *LMODULE(L) = A_NULL;
+static a_vptr_t LMODULE(alloc)(a_vptr_t vptr, a_size_t size)
+{
+    return l_alloc(LMODULE(L), vptr, size);
+}
+
 int LMODULE0(lua_State *L)
 {
+    LMODULE(L) = L;
     luaL_checkversion(L);
+    a_alloc_set(LMODULE(alloc));
 
     const l_func_s funcs[] = {
         {"hash_bkdr", LMODULE(hash_bkdr)},

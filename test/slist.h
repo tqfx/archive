@@ -36,27 +36,27 @@ done:
 
 static void test(void)
 {
-    a_slist_s *list1 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
+    a_slist_s *list1 = a_new(a_slist_s, A_NULL, 1);
     a_slist_ctor(list1);
     for (a_int_t i = 0; i != 10; ++i)
     {
-        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        a_data_s *node = a_new(a_data_s, A_NULL, 1);
         node->data->i = i;
         a_slist_add_tail(list1, node->list);
     }
-    a_slist_s *list2 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
+    a_slist_s *list2 = a_new(a_slist_s, A_NULL, 1);
     a_slist_ctor(list2);
     for (a_int_t i = 14; i != 9; --i)
     {
-        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        a_data_s *node = a_new(a_data_s, A_NULL, 1);
         node->data->i = i;
         a_slist_add_head(list2, node->list);
     }
-    a_slist_s *list3 = a_cast_s(a_slist_s *, malloc(sizeof(a_slist_s)));
+    a_slist_s *list3 = a_new(a_slist_s, A_NULL, 1);
     a_slist_ctor(list3);
     for (a_int_t i = 15; i != 20; ++i)
     {
-        a_data_s *node = a_cast_s(a_data_s *, malloc(sizeof(a_data_s)));
+        a_data_s *node = a_new(a_data_s, A_NULL, 1);
         node->data->i = i;
         a_slist_add(list3, list3->tail, node->list);
     }
@@ -75,13 +75,13 @@ static void test(void)
     {
         a_data_s *node = a_slist_entry_next(list1->head, a_data_s, list);
         a_slist_del_head(list1);
-        free(node);
+        node = a_die(a_data_s, node);
     }
     a_slist_forsafe(it, at, list1)
     {
         a_data_s *node = a_slist_entry(it, a_data_s, list);
         a_slist_del(list1, at);
-        free(node);
+        node = a_die(a_data_s, node);
         it = A_NULL;
     }
     if (a_slist_none(list1) && a_slist_none(list2) && a_slist_none(list3))
@@ -89,9 +89,9 @@ static void test(void)
         printf(" ok");
     }
     putchar('\n');
-    free(list3);
-    free(list2);
-    free(list1);
+    list3 = a_die(a_slist_s, list3);
+    list2 = a_die(a_slist_s, list2);
+    list1 = a_die(a_slist_s, list1);
 }
 
 static void null(void)

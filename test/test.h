@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <inttypes.h>
+#include "a/host/a.h"
 #if defined(_MSC_VER)
 #pragma warning(disable : 4127)
 #pragma warning(disable : 4820)
