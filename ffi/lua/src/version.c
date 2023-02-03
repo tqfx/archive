@@ -19,7 +19,8 @@ static int LMODULE(version_tostring)(lua_State *L)
 
 static int LMODULE(version_init_)(lua_State *L, a_version_s *ctx)
 {
-    switch (lua_gettop(L) - lua_isuserdata(L, -1))
+    int top = lua_gettop(L) - lua_isuserdata(L, -1);
+    switch (top & 0x3)
     {
     case 3:
         ctx->patch = (a_uint_t)luaL_checkinteger(L, 3);
