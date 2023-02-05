@@ -81,7 +81,7 @@ A_EXTERN a_avl_s *a_avl_prev(a_avl_s *node);
 
 A_EXTERN a_void_t a_avl_insert_rebalance(a_avl_u *root, a_avl_s *node);
 A_EXTERN a_avl_s *a_avl_insert(a_avl_u *root, a_avl_s *node, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
-A_EXTERN a_avl_s *a_avl_search(const a_avl_u *root, const a_avl_s *node, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_avl_s *a_avl_search(const a_avl_u *root, a_cptr_t ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 A_EXTERN a_void_t a_avl_remove(a_avl_u *root, a_avl_s *node);
 
 #if defined(__cplusplus)

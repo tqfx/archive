@@ -457,11 +457,11 @@ a_avl_s *a_avl_insert(a_avl_u *root, a_avl_s *node, a_int_t (*cmp)(a_cptr_t, a_c
     return A_NULL;
 }
 
-a_avl_s *a_avl_search(const a_avl_u *root, const a_avl_s *node, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
+a_avl_s *a_avl_search(const a_avl_u *root, a_cptr_t ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t))
 {
     for (a_avl_s *cur = root->node; cur;)
     {
-        a_int_t res = cmp(node, cur);
+        a_int_t res = cmp(ctx, cur);
         if (res < 0)
         {
             cur = cur->left;
