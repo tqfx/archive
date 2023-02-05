@@ -101,6 +101,9 @@ unittest(version)
 building(arr arr.c arr.cpp)
 unittest(arr)
 
+building(avl avl.c avl.cpp)
+unittest(avl)
+
 building(crc crc.c crc.cpp)
 unittest(crc ARGS crc.c)
 
