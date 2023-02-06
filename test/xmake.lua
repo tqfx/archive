@@ -33,6 +33,10 @@ target("test.arr")
     building({"arr.c", "arr.cpp"})
 target_end()
 
+target("test.avl")
+    building({"avl.c", "avl.cpp"})
+target_end()
+
 target("test.crc")
     building({"crc.c", "crc.cpp"})
 target_end()
