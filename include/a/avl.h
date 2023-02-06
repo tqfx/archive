@@ -26,7 +26,7 @@ typedef struct a_avl_s
     struct a_avl_s *right;
     /*!< pointer to parent combined with the balance factor
      Low 2 bits: One greater than the balance factor of this subtree,
-     which is equal to height(right) - height(left).  The mapping is:
+     which is equal to height(right) - height(left). The mapping is:
      00 => -1
      01 =>  0
      10 => +1
@@ -38,16 +38,8 @@ typedef struct a_avl_s
 } a_avl_s;
 
 /*!
- @brief instance structure for AVL binary search tree root
-*/
-typedef union a_avl_u
-{
-    struct a_avl_s *node;
-} a_avl_u;
-
-/*!
- @brief access parent of AVL tree node
- @param[in] node points to AVL tree node
+ @brief access parent of AVL binary search tree node
+ @param[in] node points to AVL binary search tree node
  @return a pointer to the parent of the specified AVL tree node,
          or NULL if it is already the root of the tree.
 */
@@ -57,7 +49,7 @@ A_INTERN a_avl_s *a_avl_parent(const a_avl_s *node)
 }
 
 /*!
- @brief initialize function for AVL tree node
+ @brief initialize function for AVL binary search tree node
  @param[in] node node to be initialized
  @param[in] parent node parent
  @return initialized node
@@ -70,23 +62,131 @@ A_INLINE a_avl_s *a_avl_init(a_avl_s *node, a_avl_s *parent)
     return node;
 }
 
+#if !defined A_AVL_NIL
+// clang-format off
+#define A_AVL_NIL {A_NULL}
+// clang-format on
+#endif /* A_AVL_NIL */
+
+/*!
+ @brief instance structure for AVL binary search tree root
+*/
+typedef union a_avl_u
+{
+    struct a_avl_s *node; //!< root node
+} a_avl_u;
+
+/*!
+ @brief initialize function for AVL binary search tree root
+ @param[in] root AVL binary search tree root
+*/
+A_INLINE a_void_t a_avl_nil(a_avl_u *root) { root->node = A_NULL; }
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
+/*!
+ @brief access head node of AVL binary search tree
+ @param[in] root AVL binary search tree root
+ @return head node or NULL
+*/
 A_EXTERN a_avl_s *a_avl_head(a_avl_u *root);
+
+/*!
+ @brief access tail node of AVL binary search tree
+ @param[in] root AVL binary search tree root
+ @return tail node or NULL
+*/
 A_EXTERN a_avl_s *a_avl_tail(a_avl_u *root);
+
+/*!
+ @brief access next node of AVL binary search tree node
+ @param[in] node AVL binary search tree node
+ @return next node or NULL
+*/
 A_EXTERN a_avl_s *a_avl_next(a_avl_s *node);
+
+/*!
+ @brief access prev node of AVL binary search tree node
+ @param[in] node AVL binary search tree node
+ @return prev node or NULL
+*/
 A_EXTERN a_avl_s *a_avl_prev(a_avl_s *node);
 
-A_EXTERN a_void_t a_avl_insert_rebalance(a_avl_u *root, a_avl_s *node);
-A_EXTERN a_avl_s *a_avl_insert(a_avl_u *root, a_avl_s *node, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+/*!
+ @brief search specified content from AVL binary search tree
+ @param[in] root AVL binary search tree root
+ @param[in] ctx specified content
+ @param[in] cmp a function that compares two nodes
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+ @return specified node or NULL
+*/
 A_EXTERN a_avl_s *a_avl_search(const a_avl_u *root, a_cptr_t ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
+ @brief insert specified node into AVL binary search tree
+ @param[in] root AVL binary search tree root
+ @param[in] node specified tree node
+ @param[in] cmp a function that compares two nodes
+  @arg cmp(lhs,rhs)==0 *lhs is equivalent to *rhs
+  @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
+  @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
+ @return NULL or duplicate node
+*/
+A_EXTERN a_avl_s *a_avl_insert(a_avl_u *root, a_avl_s *node, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+
+/*!
+ @brief rebalance the tree after insertion of the specified node
+ @param[in] root AVL binary search tree root
+ @param[in] node insert tree node
+*/
+A_EXTERN a_void_t a_avl_insert_adjust(a_avl_u *root, a_avl_s *node);
+
+/*!
+ @brief remove specified node from AVL binary search tree
+ @param[in] root AVL binary search tree root
+ @param[in] node specified tree node
+*/
 A_EXTERN a_void_t a_avl_remove(a_avl_u *root, a_avl_s *node);
 
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif /* __cplusplus */
+
+/*!
+ @brief iterate over a AVL binary search tree
+ @code{.c}
+ typedef struct { a_avl_u node; } T;
+ a_avl_u root = A_AVL_NIL;
+ a_avl_foreach(cur, &root)
+ {
+     T *it = a_container_of(cur, T, node);
+ }
+ @endcode
+ @param cur the &a_avl_s to use as a loop counter
+ @param root AVL binary search tree root
+*/
+#define a_avl_foreach(cur, root) \
+    for (a_avl_s *cur = a_avl_head(root); cur; cur = a_avl_next(cur))
+
+/*!
+ @brief iterate over a AVL binary search tree reverse
+ @code{.c}
+ typedef struct { a_avl_u node; } T;
+ a_avl_u root = A_AVL_NIL;
+ a_avl_foreach_reverse(cur, &root)
+ {
+     T *it = a_container_of(cur, T, node);
+ }
+ @endcode
+ @param cur the &a_avl_s to use as a loop counter
+ @param root AVL binary search tree root
+*/
+#define a_avl_foreach_reverse(cur, root) \
+    for (a_avl_s *cur = a_avl_tail(root); cur; cur = a_avl_prev(cur))
 
 /*! @} A_AVL */
 
