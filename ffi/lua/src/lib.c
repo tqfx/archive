@@ -67,7 +67,7 @@ int LMODULE0(lua_State *L)
 {
     LMODULE(L) = L;
     luaL_checkversion(L);
-    a_alloc_set(LMODULE(alloc));
+    a_alloc_reg(LMODULE(alloc));
 
     const l_func_s funcs[] = {
         {"hash_bkdr", LMODULE(hash_bkdr)},

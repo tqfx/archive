@@ -19,10 +19,9 @@ typedef a_vptr_t (*a_alloc_f)(a_vptr_t, a_size_t);
 extern "C" {
 #endif /* __cplusplus */
 
+A_EXTERN a_alloc_f a_alloc_reg(a_alloc_f alloc);
 A_EXTERN a_vptr_t a_alloc(a_vptr_t vptr, a_size_t size);
 A_EXTERN a_vptr_t a_alloc_(a_vptr_t vptr, a_size_t size);
-A_EXTERN a_void_t a_alloc_set(a_alloc_f alloc);
-A_EXTERN a_alloc_f a_alloc_get(a_void_t);
 
 #if defined(__cplusplus)
 } /* extern "C" */
