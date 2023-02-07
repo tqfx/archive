@@ -1087,10 +1087,10 @@ typedef a_real_u real_u;
 #define a_align(base, size) ((a_cast_s(a_size_t, size) + (base)-1) & ~((base)-1))
 
 /*!
- @brief size of an array
+ @brief count of an array buffer
  @param a must be an array variable
 */
-#define a_arrayof(a) (sizeof(a) / sizeof(*(a)))
+#define a_count_of(a) (sizeof(a) / sizeof(*(a)))
 
 /*!
  @brief offset of a structure member

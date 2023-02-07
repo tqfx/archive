@@ -28,7 +28,7 @@
 #pragma GCC diagnostic pop
 #endif /* diagnostic */
 
-#define JARRAYOF(A) (sizeof(A) / sizeof(*(A)))
+#define JCOUNTOF(A) (sizeof(A) / sizeof(*(A)))
 #define JPACKAGE(F) Java_liba_##F
 #define CLASSPATH "liba/"
 

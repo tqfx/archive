@@ -469,7 +469,7 @@ static int LMODULE(fpid_get)(lua_State *L)
             {"new", LMODULE(fpid_new)},
             {NULL, NULL},
         };
-        lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(datas) + L_ARRAY(funcs) - 3);
+        lua_createtable(L, 0, L_COUNT(enums) + L_COUNT(datas) + L_COUNT(funcs) - 3);
         l_int_reg(L, -1, enums);
         l_num_reg(L, -1, datas);
         l_func_reg(L, -1, funcs);
@@ -511,7 +511,7 @@ int LMODULE_(fpid, lua_State *L)
         {"new", LMODULE(fpid_new)},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, L_ARRAY(enums) + L_ARRAY(funcs) - 2);
+    lua_createtable(L, 0, L_COUNT(enums) + L_COUNT(funcs) - 2);
     l_int_reg(L, -1, enums);
     l_func_reg(L, -1, funcs);
     lua_createtable(L, 0, 2);
@@ -526,7 +526,7 @@ int LMODULE_(fpid, lua_State *L)
         {L_GET, LMODULE(fpid_get)},
         {NULL, NULL},
     };
-    lua_createtable(L, 0, L_ARRAY(metas));
+    lua_createtable(L, 0, L_COUNT(metas));
     l_str_set(L, -1, L_NAME, "fpid");
     l_func_reg(L, -1, metas);
 
