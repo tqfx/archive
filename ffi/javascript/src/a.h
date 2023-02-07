@@ -1,5 +1,5 @@
-#ifndef FFI_A_H
-#define FFI_A_H
+#ifndef JS_A_H
+#define JS_A_H
 #include "a/a.h"
 #if !defined __EMSCRIPTEN__
 #define __EMSCRIPTEN__
@@ -25,4 +25,4 @@
 #endif /* __cplusplus */
 #endif /* __EMSCRIPTEN__ */
 #endif /* EM_PORT_API */
-#endif /* FFI_A_H */
+#endif /* JS_A_H */

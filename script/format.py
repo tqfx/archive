@@ -40,5 +40,14 @@ class format:
 
 if __name__ == "__main__":
     format(
-        ["include", "src", "test", "ffi/lua", "ffi/java", "ffi/javascript"] + argv[1:]
+        [
+            "include",
+            "src",
+            "test",
+            "ffi/lua",
+            "ffi/java",
+            "ffi/quickjs",
+            "ffi/javascript",
+        ]
+        + argv[1:]
     )()

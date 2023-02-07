@@ -6,14 +6,6 @@ if(NOT CMAKE_FIND_LIBRARY_PREFIXES)
   set(CMAKE_FIND_LIBRARY_PREFIXES ";lib")
 endif()
 
-option(LIBA_LUA "Enable/Disable ffi lua" 0)
-option(LIBA_LUAJIT "Enable/Disable ffi luajit" 0)
-option(WITH_LUA "Enable/Disable build with lua" 0)
-
-if(WITH_LUA OR LIBA_LUA OR LIBA_LUAJIT)
-  add_subdirectory(lua)
-endif()
-
 option(LIBA_JAVA "Enable/Disable ffi java" 0)
 
 if(LIBA_JAVA)
@@ -23,10 +15,6 @@ endif()
 
 if(LIBA_JAVA AND Java_FOUND)
   add_subdirectory(java)
-endif()
-
-if(LIBA_PYTHON AND PYTHON_FOUND)
-  add_subdirectory(python)
 endif()
 
 if(EMSCRIPTEN)
@@ -43,6 +31,28 @@ if(LIBA_JAVASCRIPT)
   if(EMSCRIPTEN OR EMSCRIPTEN_FOUND)
     add_subdirectory(javascript)
   endif()
+endif()
+
+option(LIBA_LUA "Enable/Disable ffi lua" 0)
+option(LIBA_LUAJIT "Enable/Disable ffi luajit" 0)
+option(WITH_LUA "Enable/Disable build with lua" 0)
+
+if(WITH_LUA OR LIBA_LUA OR LIBA_LUAJIT)
+  add_subdirectory(lua)
+endif()
+
+if(LIBA_PYTHON AND PYTHON_FOUND)
+  add_subdirectory(python)
+endif()
+
+option(LIBA_QJS "Enable/Disable ffi quickjs" 0)
+
+if(LIBA_QJS)
+  find_package(QuickJS)
+endif()
+
+if(LIBA_QJS AND QUICKJS_FOUND)
+  add_subdirectory(quickjs)
 endif()
 
 option(LIBA_SWIG "Enable/Disable ffi swig" 0)

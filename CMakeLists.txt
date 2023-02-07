@@ -395,7 +395,7 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 if(CLANG_FORMAT_FOUND)
-  file_scaner(SOURCES RECURSE include src test ffi/java/src ffi/javascript/src ffi/lua/src)
+  file_scaner(SOURCES RECURSE include src test ffi/java/src ffi/javascript/src ffi/lua/src ffi/quickjs/src)
   add_clang_format(aformat VERBOSE ${SOURCES})
 endif()
 
