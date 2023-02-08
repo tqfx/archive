@@ -266,8 +266,8 @@ A_EXTERN a_vptr_t a_vec_search(const a_vec_s *ctx, a_cptr_t obj, a_int_t (*cmp)(
  @brief insert an element into the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element in this vector
-  @arg 0 @ref a_vec_push_fore
-  @arg n @ref a_vec_push_back
+  @arg 0 a_vec_push_fore
+  @arg n a_vec_push_back
  @return element pointer
   @retval 0 failure
 */
@@ -277,8 +277,8 @@ A_EXTERN a_vptr_t a_vec_insert(a_vec_s *ctx, a_size_t idx);
  @brief remove an element from the vector
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element in this vector
-  @arg 0 @ref a_vec_pull_fore
-  @arg n @ref a_vec_pull_back
+  @arg 0 a_vec_pull_fore
+  @arg n a_vec_pull_back
  @return element pointer
   @retval 0 failure
 */

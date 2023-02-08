@@ -256,8 +256,8 @@ A_EXTERN a_vptr_t a_que_pull_back(a_que_s *ctx);
  @brief insert an element into the queue
  @param[in] ctx points to an instance of queue structure
  @param[in] idx index of element in this queue
-  @arg 0 @ref a_que_push_fore
-  @arg n @ref a_que_push_back
+  @arg 0 a_que_push_fore
+  @arg n a_que_push_back
  @return element pointer
   @retval 0 failure
 */
@@ -267,8 +267,8 @@ A_EXTERN a_vptr_t a_que_insert(a_que_s *ctx, a_size_t idx);
  @brief remove an element from the queue
  @param[in] ctx points to an instance of queue structure
  @param[in] idx index of element in this queue
-  @arg 0 @ref a_que_pull_fore
-  @arg n @ref a_que_pull_back
+  @arg 0 a_que_pull_fore
+  @arg n a_que_pull_back
  @return element pointer
   @retval 0 failure
 */
