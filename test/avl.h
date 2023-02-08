@@ -140,6 +140,62 @@ static int test(int argc, char *argv[])
 
     for (a_uint_t i = 0; i < n; ++i)
     {
+        vec[i].reached = 0;
+    }
+    a_avl_pre_foreach(cur, &root)
+    {
+        int_node *it = int_entry(cur);
+        it->reached = 1;
+    }
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        TEST_BUG(vec[i].reached);
+    }
+
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        vec[i].reached = 0;
+    }
+    a_avl_pre_foreach_reverse(cur, &root)
+    {
+        int_node *it = int_entry(cur);
+        it->reached = 1;
+    }
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        TEST_BUG(vec[i].reached);
+    }
+
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        vec[i].reached = 0;
+    }
+    a_avl_post_foreach(cur, &root)
+    {
+        int_node *it = int_entry(cur);
+        it->reached = 1;
+    }
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        TEST_BUG(vec[i].reached);
+    }
+
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        vec[i].reached = 0;
+    }
+    a_avl_post_foreach_reverse(cur, &root)
+    {
+        int_node *it = int_entry(cur);
+        it->reached = 1;
+    }
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        TEST_BUG(vec[i].reached);
+    }
+
+    for (a_uint_t i = 0; i < n; ++i)
+    {
         a_avl_remove(&root, &vec[i].node);
         set_height(root.node);
         check_tree(root.node);

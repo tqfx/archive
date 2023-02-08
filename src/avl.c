@@ -1,6 +1,6 @@
 #include "a/avl.h"
 
-a_avl_s *a_avl_head(a_avl_u *root)
+a_avl_s *a_avl_head(const a_avl_u *root)
 {
     a_avl_s *node = root->node;
     if (node)
@@ -13,7 +13,7 @@ a_avl_s *a_avl_head(a_avl_u *root)
     return node;
 }
 
-a_avl_s *a_avl_tail(a_avl_u *root)
+a_avl_s *a_avl_tail(const a_avl_u *root)
 {
     a_avl_s *node = root->node;
     if (node)
@@ -59,6 +59,30 @@ a_avl_s *a_avl_next(a_avl_s *node)
 
 a_avl_s *a_avl_prev(a_avl_s *node)
 {
+    if (!node)
+    {
+        return node;
+    }
+    if (node->left)
+    {
+        for (node = node->left; node->right; node = node->right)
+        {
+        }
+    }
+    else
+    {
+        a_avl_s *last = node;
+        for (node = a_avl_parent(node); node && node->right != last;)
+        {
+            last = node;
+            node = a_avl_parent(node);
+        }
+    }
+    return node;
+}
+
+a_avl_s *a_avl_pre_next(a_avl_s *node)
+{
     /*
          D
        /   \
@@ -70,19 +94,154 @@ a_avl_s *a_avl_prev(a_avl_s *node)
     {
         return node;
     }
-    if (node->left) /* D -> B -> C */
+    if (node->left)
     {
-        for (node = node->left; node->right; node = node->right)
+        return node->left;
+    }
+    if (node->right)
+    {
+        return node->right;
+    }
+    a_avl_s *last = node;
+    for (node = a_avl_parent(node); node; node = a_avl_parent(node))
+    {
+        if (node->right && node->right != last)
         {
+            return node->right; /* A -> B -> C  */
+        }
+        last = node; /* C -> B -> D -> F */
+    }
+    return node;
+}
+
+a_avl_s *a_avl_pre_prev(a_avl_s *node)
+{
+    if (!node)
+    {
+        return node;
+    }
+    if (node->right)
+    {
+        return node->right;
+    }
+    if (node->left)
+    {
+        return node->left;
+    }
+    a_avl_s *last = node;
+    for (node = a_avl_parent(node); node; node = a_avl_parent(node))
+    {
+        if (node->left && node->left != last)
+        {
+            return node->left;
+        }
+        last = node;
+    }
+    return node;
+}
+
+a_avl_s *a_avl_post_head(const a_avl_u *root)
+{
+    a_avl_s *node = root->node;
+    while (node)
+    {
+        if (node->left)
+        {
+            node = node->left;
+        }
+        else if (node->right)
+        {
+            node = node->right;
+        }
+        else
+        {
+            break;
         }
     }
-    else /* E -> F -> D */
+    return node;
+}
+
+a_avl_s *a_avl_post_tail(const a_avl_u *root)
+{
+    a_avl_s *node = root->node;
+    while (node)
     {
-        a_avl_s *last = node;
-        for (node = a_avl_parent(node); node && node->right != last;)
+        if (node->right)
         {
-            last = node;
-            node = a_avl_parent(node);
+            node = node->right;
+        }
+        else if (node->left)
+        {
+            node = node->left;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return node;
+}
+
+a_avl_s *a_avl_post_next(a_avl_s *node)
+{
+    /*
+         D
+       /   \
+      B     F
+     / \   / \
+    A   C E   G
+    */
+    if (!node)
+    {
+        return node;
+    }
+    a_avl_s *last = node;
+    node = a_avl_parent(node);
+    if (node && node->right && node->right != last)
+    {
+        for (node = node->right;;)
+        {
+            if (node->left) /* B -> D -> F -> E */
+            {
+                node = node->left;
+            }
+            else if (node->right)
+            {
+                node = node->right;
+            }
+            else /* A -> B -> C */
+            {
+                break;
+            }
+        }
+    } /* C- > B */
+    return node;
+}
+
+a_avl_s *a_avl_post_prev(a_avl_s *node)
+{
+    if (!node)
+    {
+        return node;
+    }
+    a_avl_s *last = node;
+    node = a_avl_parent(node);
+    if (node && node->left && node->left != last)
+    {
+        for (node = node->left;;)
+        {
+            if (node->right)
+            {
+                node = node->right;
+            }
+            else if (node->left)
+            {
+                node = node->left;
+            }
+            else
+            {
+                break;
+            }
         }
     }
     return node;
