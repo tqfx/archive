@@ -85,14 +85,14 @@ A_EXTERN a_real_t a_real_atan2(a_real_t x, a_real_t y);
 #define a_real_logb A_REAL_F(logb)
 #define a_real_log2 A_REAL_F(log2)
 #define a_real_log10 A_REAL_F(log10)
-#if defined(A_HAVE_LOG1P)
+#if defined(A_HAVE_LOG1P) && (A_HAVE_LOG1P + 0 > 0)
 #define a_real_log1p A_REAL_F(log1p)
 #endif /* A_HAVE_LOG1P */
 
 #define a_real_pow A_REAL_F(pow)
 #define a_real_sqrt A_REAL_F(sqrt)
 #define a_real_cbrt A_REAL_F(cbrt)
-#if defined(A_HAVE_HYPOT)
+#if defined(A_HAVE_HYPOT) && (A_HAVE_HYPOT + 0 > 0)
 #define a_real_hypot A_REAL_F(hypot)
 #endif /* A_HAVE_HYPOT */
 
@@ -102,7 +102,7 @@ A_EXTERN a_real_t a_real_atan2(a_real_t x, a_real_t y);
 #define a_real_asin A_REAL_F(asin)
 #define a_real_acos A_REAL_F(acos)
 #define a_real_atan A_REAL_F(atan)
-#if defined(A_HAVE_ATAN2)
+#if defined(A_HAVE_ATAN2) && (A_HAVE_ATAN2 + 0 > 0)
 #define a_real_atan2 A_REAL_F(atan2)
 #endif /* A_HAVE_ATAN2 */
 

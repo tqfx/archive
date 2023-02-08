@@ -160,6 +160,9 @@ a_complex_s a_complex_inv(a_complex_s z)
 #pragma GCC diagnostic ignored "-Wbuiltin-declaration-mismatch"
 #endif /* gcc 10.1+ */
 
+#if defined(A_HAVE_CSQRT) && (A_HAVE_CSQRT + 0 < 1)
+#undef A_HAVE_CSQRT
+#endif /* A_HAVE_CSQRT */
 #if defined(A_HAVE_CSQRT) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(csqrt, a_complex_t);
 #endif /* A_HAVE_CSQRT */
@@ -222,6 +225,9 @@ a_complex_s a_complex_sqrt_real(a_real_t x)
     return z;
 }
 
+#if defined(A_HAVE_CPOW) && (A_HAVE_CPOW + 0 < 1)
+#undef A_HAVE_CPOW
+#endif /* A_HAVE_CPOW */
 #if defined(A_HAVE_CPOW) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F2(cpow, a_complex_t, a_complex_t);
 #endif /* A_HAVE_CPOW */
@@ -273,6 +279,9 @@ a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a)
     return a_complex_polar(rho, beta);
 }
 
+#if defined(A_HAVE_CEXP) && (A_HAVE_CEXP + 0 < 1)
+#undef A_HAVE_CEXP
+#endif /* A_HAVE_CEXP */
 #if defined(A_HAVE_CEXP) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(cexp, a_complex_t);
 #endif /* A_HAVE_CEXP */
@@ -295,6 +304,9 @@ a_complex_s a_complex_exp(a_complex_s z)
 #endif /* A_HAVE_CEXP */
 }
 
+#if defined(A_HAVE_CLOG) && (A_HAVE_CLOG + 0 < 1)
+#undef A_HAVE_CLOG
+#endif /* A_HAVE_CLOG */
 #if defined(A_HAVE_CLOG) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(clog, a_complex_t);
 #endif /* A_HAVE_CLOG */
@@ -335,6 +347,9 @@ a_complex_s a_complex_logb(a_complex_s z, a_complex_s b)
     return a_complex_div(a_complex_log(z), a_complex_log(b));
 }
 
+#if defined(A_HAVE_CSIN) && (A_HAVE_CSIN + 0 < 1)
+#undef A_HAVE_CSIN
+#endif /* A_HAVE_CSIN */
 #if defined(A_HAVE_CSIN) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(csin, a_complex_t);
 #endif /* A_HAVE_CSIN */
@@ -363,6 +378,9 @@ a_complex_s a_complex_sin(a_complex_s z)
 #endif /* A_HAVE_CSIN */
 }
 
+#if defined(A_HAVE_CCOS) && (A_HAVE_CCOS + 0 < 1)
+#undef A_HAVE_CCOS
+#endif /* A_HAVE_CCOS */
 #if defined(A_HAVE_CCOS) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(ccos, a_complex_t);
 #endif /* A_HAVE_CCOS */
@@ -391,6 +409,9 @@ a_complex_s a_complex_cos(a_complex_s z)
 #endif /* A_HAVE_CCOS */
 }
 
+#if defined(A_HAVE_CTAN) && (A_HAVE_CTAN + 0 < 1)
+#undef A_HAVE_CTAN
+#endif /* A_HAVE_CTAN */
 #if defined(A_HAVE_CTAN) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(ctan, a_complex_t);
 #endif /* A_HAVE_CTAN */
@@ -438,6 +459,9 @@ a_complex_s a_complex_cot(a_complex_s z)
     return a_complex_inv(a_complex_tan(z));
 }
 
+#if defined(A_HAVE_CASIN) && (A_HAVE_CASIN + 0 < 1)
+#undef A_HAVE_CASIN
+#endif /* A_HAVE_CASIN */
 #if defined(A_HAVE_CASIN) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(casin, a_complex_t);
 #endif /* A_HAVE_CASIN */
@@ -533,6 +557,9 @@ a_complex_s a_complex_asin_real(a_real_t x)
     return z;
 }
 
+#if defined(A_HAVE_CACOS) && (A_HAVE_CACOS + 0 < 1)
+#undef A_HAVE_CACOS
+#endif /* A_HAVE_CACOS */
 #if defined(A_HAVE_CACOS) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(cacos, a_complex_t);
 #endif /* A_HAVE_CACOS */
@@ -627,6 +654,9 @@ a_complex_s a_complex_acos_real(a_real_t x)
     return z;
 }
 
+#if defined(A_HAVE_CATAN) && (A_HAVE_CATAN + 0 < 1)
+#undef A_HAVE_CATAN
+#endif /* A_HAVE_CATAN */
 #if defined(A_HAVE_CATAN) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(catan, a_complex_t);
 #endif /* A_HAVE_CATAN */
@@ -736,6 +766,9 @@ a_complex_s a_complex_acot(a_complex_s z)
     return a_complex_atan(a_complex_inv(z));
 }
 
+#if defined(A_HAVE_CSINH) && (A_HAVE_CSINH + 0 < 1)
+#undef A_HAVE_CSINH
+#endif /* A_HAVE_CSINH */
 #if defined(A_HAVE_CSINH) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(csinh, a_complex_t);
 #endif /* A_HAVE_CSINH */
@@ -761,6 +794,9 @@ a_complex_s a_complex_sinh(a_complex_s z)
 #endif /* A_HAVE_CSINH */
 }
 
+#if defined(A_HAVE_CCOSH) && (A_HAVE_CCOSH + 0 < 1)
+#undef A_HAVE_CCOSH
+#endif /* A_HAVE_CCOSH */
 #if defined(A_HAVE_CCOSH) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(ccosh, a_complex_t);
 #endif /* A_HAVE_CCOSH */
@@ -786,6 +822,9 @@ a_complex_s a_complex_cosh(a_complex_s z)
 #endif /* A_HAVE_CCOSH */
 }
 
+#if defined(A_HAVE_CTANH) && (A_HAVE_CTANH + 0 < 1)
+#undef A_HAVE_CTANH
+#endif /* A_HAVE_CTANH */
 #if defined(A_HAVE_CTANH) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(ctanh, a_complex_t);
 #endif /* A_HAVE_CTANH */
@@ -833,6 +872,9 @@ a_complex_s a_complex_coth(a_complex_s z)
     return a_complex_inv(a_complex_tanh(z));
 }
 
+#if defined(A_HAVE_CASINH) && (A_HAVE_CASINH + 0 < 1)
+#undef A_HAVE_CASINH
+#endif /* A_HAVE_CASINH */
 #if defined(A_HAVE_CASINH) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(casinh, a_complex_t);
 #endif /* A_HAVE_CASINH */
@@ -856,6 +898,9 @@ a_complex_s a_complex_asinh(a_complex_s z)
 #endif /* A_HAVE_CASINH */
 }
 
+#if defined(A_HAVE_CACOSH) && (A_HAVE_CACOSH + 0 < 1)
+#undef A_HAVE_CACOSH
+#endif /* A_HAVE_CACOSH */
 #if defined(A_HAVE_CACOSH) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(cacosh, a_complex_t);
 #endif /* A_HAVE_CACOSH */
@@ -896,6 +941,9 @@ a_complex_s a_complex_acosh_real(a_real_t x)
     return z;
 }
 
+#if defined(A_HAVE_CATANH) && (A_HAVE_CATANH + 0 < 1)
+#undef A_HAVE_CATANH
+#endif /* A_HAVE_CATANH */
 #if defined(A_HAVE_CATANH) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F1(catanh, a_complex_t);
 #endif /* A_HAVE_CATANH */
