@@ -107,7 +107,8 @@ a_avl_s *a_avl_pre_next(a_avl_s *node)
     {
         if (node->right && node->right != last)
         {
-            return node->right; /* A -> B -> C  */
+            node = node->right; /* A -> B -> C */
+            break;
         }
         last = node; /* C -> B -> D -> F */
     }
@@ -133,7 +134,8 @@ a_avl_s *a_avl_pre_prev(a_avl_s *node)
     {
         if (node->left && node->left != last)
         {
-            return node->left;
+            node = node->left;
+            break;
         }
         last = node;
     }
@@ -214,7 +216,7 @@ a_avl_s *a_avl_post_next(a_avl_s *node)
                 break;
             }
         }
-    } /* C- > B */
+    } /* C -> B */
     return node;
 }
 
