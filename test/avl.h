@@ -213,6 +213,20 @@ static int test(int argc, char *argv[])
 
     TEST_BUG(a_avl_search(&root, &vec->node, int_cmp) == A_NULL);
 
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        a_avl_insert(&root, &vec[i].node, int_cmp);
+        vec[i].reached = 0;
+    }
+    for (a_avl_s *next = A_NULL, *cur = a_avl_tear(&root, &next); cur; cur = a_avl_tear(&root, &next))
+    {
+        int_entry(cur)->reached = 1;
+    }
+    for (a_uint_t i = 0; i < n; ++i)
+    {
+        TEST_BUG(vec[i].reached);
+    }
+
     sorted = a_die(a_int_t, sorted);
     vec = a_die(int_node, vec);
     return 0;

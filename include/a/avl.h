@@ -171,6 +171,15 @@ A_EXTERN a_avl_s *a_avl_post_next(a_avl_s *node);
 A_EXTERN a_avl_s *a_avl_post_prev(a_avl_s *node);
 
 /*!
+ @brief tear a node from AVL binary search tree
+ @param[in] root AVL binary search tree root
+ @param[in,out] next input starting node or,
+ if NULL, root node. output next node or NULL.
+ @return teared node or NULL
+*/
+A_EXTERN a_avl_s *a_avl_tear(a_avl_u *root, a_avl_s **next);
+
+/*!
  @brief search specified content from AVL binary search tree
  @param[in] root AVL binary search tree root
  @param[in] ctx specified content
