@@ -34,7 +34,12 @@ typedef struct a_avl_s
      The rest of the bits are the pointer to the parent node. It must be 4-byte aligned,
      and it will be NULL if this is the root node and therefore has no parent.
     */
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     a_uptr_t parent;
+#else /* !A_SIZE_VPTR */
+    struct a_avl_s *parent;
+    a_int_t factor;
+#endif /* A_SIZE_VPTR */
 } a_avl_s;
 
 /*!
@@ -45,7 +50,11 @@ typedef struct a_avl_s
 */
 A_INTERN a_avl_s *a_avl_parent(const a_avl_s *node)
 {
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     return a_cast_r(a_avl_s *, node->parent & ~a_uptr_c(3));
+#else /* !A_SIZE_VPTR */
+    return node->parent;
+#endif /* A_SIZE_VPTR */
 }
 
 /*!
@@ -56,7 +65,12 @@ A_INTERN a_avl_s *a_avl_parent(const a_avl_s *node)
 */
 A_INTERN a_avl_s *a_avl_init(a_avl_s *node, a_avl_s *parent)
 {
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     node->parent = a_cast_r(a_uptr_t, parent) | 1;
+#else /* !A_SIZE_VPTR */
+    node->parent = parent;
+    node->factor = 0;
+#endif /* A_SIZE_VPTR */
     node->right = A_NULL;
     node->left = A_NULL;
     return node;

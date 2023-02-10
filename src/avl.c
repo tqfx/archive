@@ -252,13 +252,22 @@ a_avl_s *a_avl_post_prev(a_avl_s *node)
 /* Sets the parent and balance factor of the specified AVL tree node. */
 static A_INLINE a_void_t a_avl_set_parent_factor(a_avl_s *node, a_avl_s *parent, a_int_t factor)
 {
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     node->parent = (a_uptr_t)parent | (a_uptr_t)(factor + 1);
+#else /* !A_SIZE_VPTR */
+    node->parent = parent;
+    node->factor = factor;
+#endif /* A_SIZE_VPTR */
 }
 
 /* Sets the parent of the specified AVL tree node. */
 static A_INLINE a_void_t a_avl_set_parent(a_avl_s *node, a_avl_s *parent)
 {
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     node->parent = (a_uptr_t)parent | (node->parent & 3);
+#else /* !A_SIZE_VPTR */
+    node->parent = parent;
+#endif /* A_SIZE_VPTR */
 }
 
 /*
@@ -267,7 +276,11 @@ the height of its right subtree minus the height of its left subtree.
 */
 static A_INLINE a_int_t a_avl_factor(const a_avl_s *node)
 {
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     return (a_int_t)(node->parent & 3) - 1;
+#else /* !A_SIZE_VPTR */
+    return node->factor;
+#endif /* A_SIZE_VPTR */
 }
 
 /*
@@ -276,7 +289,11 @@ The caller must ensure this still results in a valid balance factor (-1, 0, or 1
 */
 static A_INLINE a_void_t a_avl_set_factor(a_avl_s *node, a_int_t amount)
 {
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     node->parent += (a_uptr_t)amount;
+#else /* !A_SIZE_VPTR */
+    node->factor += amount;
+#endif /* A_SIZE_VPTR */
 }
 
 static A_INLINE a_avl_s *a_avl_child(const a_avl_s *node, const a_int_t sign)
@@ -838,6 +855,9 @@ static a_avl_s *a_avl_handle_remove(a_avl_u *root, a_avl_s *X, a_bool_t *left)
     a_avl_set_parent(X->left, Y);
 
     Y->parent = X->parent;
+#if !defined A_SIZE_VPTR || (A_SIZE_VPTR + 0 < 4)
+    Y->factor = X->factor;
+#endif /* A_SIZE_VPTR */
     a_avl_mod_child(root, a_avl_parent(X), X, Y);
 
     return node;
