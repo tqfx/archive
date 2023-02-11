@@ -9,7 +9,7 @@ endif()
 file_scaner(SOURCES RECURSE src)
 add_library(aqjs SHARED ${SOURCES} ${OBJECTS})
 set_target_properties(aqjs PROPERTIES DEFINE_SYMBOL A_EXPORTS OUTPUT_NAME a)
-target_include_directories(aqjs SYSTEM PRIVATE ${QUICKJS_INCLUDE_DIR})
+target_include_directories(aqjs PRIVATE ${QUICKJS_INCLUDE_DIR})
 add_library_properties(aqjs PRIVATE alib)
 set_library_options(aqjs)
 

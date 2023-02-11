@@ -2,6 +2,9 @@
 #define QJS_A_H
 
 #include "a/a.h"
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC system_header
+#endif /* __GNUC__ */
 #include "quickjs.h"
 
 #define countof(x) (sizeof(x) / sizeof(*(x)))

@@ -33,16 +33,10 @@
 #elif A_HAVE_INLINE + 0 < 1
 #undef A_HAVE_INLINE
 #endif /* A_HAVE_INLINE */
-
-#if defined(__clang__)
-#pragma clang diagnostic push
-#endif /* __clang__ */
-#if __has_warning("-Wreserved-identifier")
-#pragma clang diagnostic ignored "-Wreserved-identifier"
-#endif /* -Wreserved-identifier */
-#if __has_warning("-Wreserved-id-macro")
-#pragma clang diagnostic ignored "-Wreserved-id-macro"
-#endif /* -Wreserved-id-macro */
+#if defined(__GNUC__) || \
+    defined(__clang__)
+#pragma GCC system_header
+#endif /* __GNUC__ */
 
 #if defined(__STDC_LIB_EXT1__)
 #if !defined __STDC_WANT_LIB_EXT1__
@@ -54,13 +48,6 @@
 #undef __USE_MINGW_ANSI_STDIO
 #define __USE_MINGW_ANSI_STDIO 1
 #endif /* __MINGW32__ */
-
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif /* __clang__ */
-#if __has_warning("-Wdisabled-macro-expansion")
-#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
-#endif /* -Wdisabled-macro-expansion */
 
 /* https://en.wikipedia.org/wiki/Microsoft_Visual_C++ */
 #if defined(_MSC_VER)
@@ -82,6 +69,10 @@
 #else /* !__clang__ */
 #define A_PREREQ_LLVM(maj, min) 0
 #endif /* __clang__ */
+
+#if __has_warning("-Wdisabled-macro-expansion")
+#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
+#endif /* -Wdisabled-macro-expansion */
 
 #if !defined A_FUNC
 #if defined(_MSC_VER)
