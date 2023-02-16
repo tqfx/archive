@@ -69,6 +69,9 @@ static A_INLINE a_void_t a_bst_rb_set_parents(a_bst_rb_u *const root, a_bst_rb_s
 {
     a_bst_rb_s *const parent = a_bst_rb_parent(oldnode);
     newnode->parent = oldnode->parent;
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 < 2)
+    newnode->color = oldnode->color;
+#endif /* A_SIZE_VPTR */
     a_bst_rb_set_parent_color(oldnode, newnode, color);
     a_bst_rb_mod_child(root, parent, oldnode, newnode);
 }
@@ -87,7 +90,6 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
             a_bst_rb_set_parent_color(node, A_NULL, A_BST_RB_B);
             break;
         }
-
         /*
         If there is a black parent, we are done. Otherwise, take some corrective action as, per 4),
         we don't want a red root or two consecutive red nodes.
@@ -96,9 +98,7 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
         {
             break;
         }
-
         gparent = a_bst_rb_parent(parent);
-
         tmp = gparent->right;
         if (parent != tmp) /* parent == gparent->left */
         {
@@ -122,7 +122,6 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
                 a_bst_rb_set_parent_color(node, parent, A_BST_RB_R);
                 continue;
             }
-
             tmp = parent->right;
             if (node == tmp)
             {
@@ -149,7 +148,6 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
                 parent = node;
                 tmp = node->right;
             }
-
             /*
             Case 3 - node's uncle is black and node is
             the parent's left child (right rotate at gparent).
@@ -182,7 +180,6 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
                 a_bst_rb_set_parent_color(node, parent, A_BST_RB_R);
                 continue;
             }
-
             tmp = parent->left;
             if (node == tmp)
             {
@@ -198,7 +195,6 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
                 parent = node;
                 tmp = node->left;
             }
-
             /* Case 3 - left rotate at gparent */
             gparent->right = tmp; /* == parent->left */
             parent->left = gparent;
