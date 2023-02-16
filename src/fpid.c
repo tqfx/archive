@@ -37,7 +37,7 @@ a_void_t a_fpid_set_op(a_fpid_s *const ctx, a_uint_t op)
     }
 }
 
-a_uint_t a_fpid_mf(const a_real_t *a, a_real_t const x, a_uint_t *idx, a_real_t *mms)
+a_uint_t a_fpid_mf(a_real_t const *a, a_real_t const x, a_uint_t *idx, a_real_t *mms)
 {
     a_uint_t num = 0;
     a_int_t e = A_MF_NUL;
@@ -155,8 +155,8 @@ a_fpid_s *a_fpid_setp(a_fpid_s *const ctx, a_uint_t const num, a_real_t *const o
     return ctx;
 }
 
-a_fpid_s *a_fpid_base(a_fpid_s *const ctx, a_uint_t const num, const a_real_t *const mmp,
-                      const a_real_t *const mkp, const a_real_t *const mki, const a_real_t *const mkd)
+a_fpid_s *a_fpid_base(a_fpid_s *const ctx, a_uint_t const num, a_real_t const *const mmp,
+                      a_real_t const *const mkp, a_real_t const *const mki, a_real_t const *const mkd)
 {
     a_fpid_set_col(ctx, num);
     ctx->mmp = mmp;
@@ -166,8 +166,8 @@ a_fpid_s *a_fpid_base(a_fpid_s *const ctx, a_uint_t const num, const a_real_t *c
     return ctx;
 }
 
-a_fpid_s *a_fpid_init(a_fpid_s *const ctx, a_real_t const dt, a_uint_t const num, const a_real_t *const mmp,
-                      const a_real_t *const mkp, const a_real_t *const mki, const a_real_t *const mkd,
+a_fpid_s *a_fpid_init(a_fpid_s *const ctx, a_real_t const dt, a_uint_t const num, a_real_t const *const mmp,
+                      a_real_t const *const mkp, a_real_t const *const mki, a_real_t const *const mkd,
                       a_real_t const imin, a_real_t const imax, a_real_t const omin, a_real_t const omax)
 {
     a_real_t x = a_real_c((num - 1) >> 1 << 1);

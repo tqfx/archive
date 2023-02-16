@@ -99,7 +99,7 @@ a_void_t a_vec_dtor(a_vec_s *const ctx, a_void_t (*const dtor)(a_vptr_t))
     ctx->_siz = 0;
 }
 
-a_int_t a_vec_copy(a_vec_s *const ctx, const a_vec_s *const obj, a_int_t (*const dup)(a_vptr_t, a_cptr_t))
+a_int_t a_vec_copy(a_vec_s *const ctx, a_vec_s const *const obj, a_int_t (*const dup)(a_vptr_t, a_cptr_t))
 {
     ctx->_ptr = a_alloc(A_NULL, obj->_mem * obj->_siz);
     if (a_unlikely(ctx->_ptr == A_NULL))
@@ -158,7 +158,7 @@ a_void_t a_vec_drop(a_vec_s *const ctx, a_void_t (*const dtor)(a_vptr_t))
     a_vec_drop_(ctx, 0, dtor);
 }
 
-a_void_t a_vec_swap(const a_vec_s *const ctx, a_size_t lhs, a_size_t rhs)
+a_void_t a_vec_swap(a_vec_s const *const ctx, a_size_t lhs, a_size_t rhs)
 {
     a_size_t const num = ctx->_num - 1;
     lhs = lhs < ctx->_num ? lhs : num;
@@ -172,12 +172,12 @@ a_void_t a_vec_swap(const a_vec_s *const ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_void_t a_vec_sort(const a_vec_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vec_sort(a_vec_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     qsort(ctx->_ptr, ctx->_num, ctx->_siz, cmp);
 }
 
-a_void_t a_vec_sort_fore(const a_vec_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vec_sort_fore(a_vec_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     if (ctx->_num > 1)
     {
@@ -199,7 +199,7 @@ a_void_t a_vec_sort_fore(const a_vec_s *const ctx, a_int_t (*const cmp)(a_cptr_t
     }
 }
 
-a_void_t a_vec_sort_back(const a_vec_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vec_sort_back(a_vec_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     if (ctx->_num > 1)
     {
@@ -220,7 +220,7 @@ a_void_t a_vec_sort_back(const a_vec_s *const ctx, a_int_t (*const cmp)(a_cptr_t
     }
 }
 
-a_vptr_t a_vec_search(const a_vec_s *const ctx, a_cptr_t const obj, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_vptr_t a_vec_search(a_vec_s const *const ctx, a_cptr_t const obj, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     return bsearch(obj, ctx->_ptr, ctx->_num, ctx->_siz, cmp);
 }

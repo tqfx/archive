@@ -4,7 +4,7 @@
 #include "test.h"
 #include "a/poly.h"
 
-static void print(const a_real_t *a, a_size_t n)
+static void print(a_real_t const *const a, a_size_t const n)
 {
     putchar('{');
     a_forenum(a_size_t, i, n)

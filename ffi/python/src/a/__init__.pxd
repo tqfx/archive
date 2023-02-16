@@ -37,10 +37,10 @@ cdef extern from "a/a.h":
     ctypedef unsigned char a_byte_t
     ctypedef          char a_char_t
 
-    ctypedef       char * a_str_t
-    ctypedef const char *a_cstr_t
-    ctypedef       void *a_vptr_t
-    ctypedef const void *a_cptr_t
+    ctypedef char       * a_str_t
+    ctypedef char const *a_cstr_t
+    ctypedef void       *a_vptr_t
+    ctypedef void const *a_cptr_t
 
     ctypedef  float a_f32_t
     ctypedef double a_f64_t

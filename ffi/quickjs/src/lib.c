@@ -2,7 +2,7 @@
 #include "a/math.h"
 #include "a/version.h"
 
-static JSValue js_hash_bkdr(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv)
+static JSValue js_hash_bkdr(JSContext *const ctx, JSValueConst const this_val, int const argc, JSValueConst *const argv)
 {
     (void)this_val;
     a_umax_t max = 0;
@@ -15,7 +15,7 @@ static JSValue js_hash_bkdr(JSContext *ctx, JSValueConst this_val, int argc, JSV
     return JS_NewUint32(ctx, a_u32_c(max));
 }
 
-static JSValue js_rsqrt(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv)
+static JSValue js_rsqrt(JSContext *const ctx, JSValueConst const this_val, int const argc, JSValueConst *const argv)
 {
     double val;
     (void)(argc);
@@ -27,18 +27,18 @@ static JSValue js_rsqrt(JSContext *ctx, JSValueConst this_val, int argc, JSValue
     return JS_NewFloat64(ctx, a_f64_rsqrt(val));
 }
 
-static const JSCFunctionListEntry js_liba_funcs[] = {
+static JSCFunctionListEntry const js_liba_funcs[] = {
     JS_PROP_STRING_DEF("VERSION", A_VERSION, 0),
     JS_CFUNC_DEF("hash_bkdr", 1, js_hash_bkdr),
     JS_CFUNC_DEF("rsqrt", 1, js_rsqrt),
 };
 
-static int js_liba_init(JSContext *ctx, JSModuleDef *m)
+static int js_liba_init(JSContext *const ctx, JSModuleDef *const m)
 {
     return JS_SetModuleExportList(ctx, m, js_liba_funcs, countof(js_liba_funcs));
 }
 
-JSModuleDef *js_init_module(JSContext *ctx, const char *module_name)
+JSModuleDef *js_init_module(JSContext *const ctx, char const *const module_name)
 {
     JSModuleDef *m = JS_NewCModule(ctx, module_name, js_liba_init);
     if (m)

@@ -9,7 +9,7 @@
 #pragma GCC diagnostic ignored "-Waggregate-return"
 #endif /* -Waggregate-return */
 
-static int LMODULE(complex_isok)(lua_State *L, int idx)
+static int LMODULE(complex_isok)(lua_State *const L, int const idx)
 {
     int ok = 0;
     if (lua_getmetatable(L, idx))
@@ -21,7 +21,7 @@ static int LMODULE(complex_isok)(lua_State *L, int idx)
     return ok;
 }
 
-static a_complex_s LMODULE(complex_from_lua)(lua_State *L, int idx)
+static a_complex_s LMODULE(complex_from_lua)(lua_State *const L, int const idx)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     switch (lua_type(L, idx))
@@ -42,17 +42,17 @@ static a_complex_s LMODULE(complex_from_lua)(lua_State *L, int idx)
     return z;
 }
 
-static a_complex_s *LMODULE(complex_new_)(lua_State *L)
+static a_complex_s *LMODULE(complex_new_)(lua_State *const L)
 {
-    a_complex_s *ctx = (a_complex_s *)lua_newuserdata(L, sizeof(a_complex_s));
+    a_complex_s *const ctx = (a_complex_s *)lua_newuserdata(L, sizeof(a_complex_s));
     LMODULE2(complex_meta_, L, 1);
     lua_setmetatable(L, -2);
     return ctx;
 }
 
-static int LMODULE(complex_tostring)(lua_State *L)
+static int LMODULE(complex_tostring)(lua_State *const L)
 {
-    a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
+    a_complex_s const *const ctx = (a_complex_s const *)lua_touserdata(L, 1);
     if (ctx)
     {
         lua_pushfstring(L, "(%f,%f)",
@@ -70,7 +70,7 @@ static int LMODULE(complex_tostring)(lua_State *L)
  @treturn complex complex number userdata
  @function new
 */
-int LMODULE(complex_new)(lua_State *L)
+int LMODULE(complex_new)(lua_State *const L)
 {
     for (int e = lua_type(L, 1);
          e == LUA_TTABLE || e == LUA_TUSERDATA;
@@ -79,7 +79,7 @@ int LMODULE(complex_new)(lua_State *L)
         lua_remove(L, 1);
     }
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
-    int top = lua_gettop(L);
+    int const top = lua_gettop(L);
     if (top >= 2)
     {
         a_complex_imag(z) = (a_real_t)lua_tonumber(L, 2);
@@ -99,7 +99,7 @@ int LMODULE(complex_new)(lua_State *L)
  @treturn complex complex number userdata
  @function polar
 */
-int LMODULE(complex_polar)(lua_State *L)
+int LMODULE(complex_polar)(lua_State *const L)
 {
     for (int e = lua_type(L, 1);
          e == LUA_TTABLE || e == LUA_TUSERDATA;
@@ -109,7 +109,7 @@ int LMODULE(complex_polar)(lua_State *L)
     }
     a_real_t theta = A_REAL_C(0.0);
     a_real_t r = A_REAL_C(0.0);
-    int top = lua_gettop(L);
+    int const top = lua_gettop(L);
     if (top >= 2)
     {
         theta = (a_real_t)lua_tonumber(L, 2);
@@ -123,21 +123,21 @@ int LMODULE(complex_polar)(lua_State *L)
 }
 
 #undef FUNC
-#define FUNC(func)                                            \
-    int LMODULE(complex_##func)(lua_State * L)                \
-    {                                                         \
-        while (lua_type(L, 1) == LUA_TTABLE)                  \
-        {                                                     \
-            lua_remove(L, 1);                                 \
-        }                                                     \
-        if (lua_gettop(L) >= 1)                               \
-        {                                                     \
-            a_complex_s z = LMODULE2(complex_from_lua, L, 1); \
-            a_real_t x = a_complex_##func(z);                 \
-            lua_pushnumber(L, (lua_Number)x);                 \
-            return 1;                                         \
-        }                                                     \
-        return 0;                                             \
+#define FUNC(func)                                                  \
+    int LMODULE(complex_##func)(lua_State *const L)                 \
+    {                                                               \
+        while (lua_type(L, 1) == LUA_TTABLE)                        \
+        {                                                           \
+            lua_remove(L, 1);                                       \
+        }                                                           \
+        if (lua_gettop(L) >= 1)                                     \
+        {                                                           \
+            a_complex_s const z = LMODULE2(complex_from_lua, L, 1); \
+            a_real_t const x = a_complex_##func(z);                 \
+            lua_pushnumber(L, (lua_Number)x);                       \
+            return 1;                                               \
+        }                                                           \
+        return 0;                                                   \
     }
 /***
  computes the natural logarithm of magnitude of a complex number
@@ -168,20 +168,20 @@ FUNC(abs)
 */
 FUNC(arg)
 #undef FUNC
-#define FUNC(func)                                            \
-    int LMODULE(complex_##func)(lua_State * L)                \
-    {                                                         \
-        while (lua_type(L, 1) == LUA_TTABLE)                  \
-        {                                                     \
-            lua_remove(L, 1);                                 \
-        }                                                     \
-        if (lua_gettop(L) >= 1)                               \
-        {                                                     \
-            a_complex_s z = LMODULE2(complex_from_lua, L, 1); \
-            *LMODULE1(complex_new_, L) = a_complex_##func(z); \
-            return 1;                                         \
-        }                                                     \
-        return 0;                                             \
+#define FUNC(func)                                                  \
+    int LMODULE(complex_##func)(lua_State *const L)                 \
+    {                                                               \
+        while (lua_type(L, 1) == LUA_TTABLE)                        \
+        {                                                           \
+            lua_remove(L, 1);                                       \
+        }                                                           \
+        if (lua_gettop(L) >= 1)                                     \
+        {                                                           \
+            a_complex_s const z = LMODULE2(complex_from_lua, L, 1); \
+            *LMODULE1(complex_new_, L) = a_complex_##func(z);       \
+            return 1;                                               \
+        }                                                           \
+        return 0;                                                   \
     }
 /***
  computes the complex conjugate
@@ -205,21 +205,21 @@ FUNC(neg)
 */
 FUNC(inv)
 #undef FUNC
-#define FUNC(func)                                               \
-    int LMODULE(complex_##func)(lua_State * L)                   \
-    {                                                            \
-        while (lua_type(L, 1) == LUA_TTABLE)                     \
-        {                                                        \
-            lua_remove(L, 1);                                    \
-        }                                                        \
-        if (lua_gettop(L) >= 2)                                  \
-        {                                                        \
-            a_complex_s x = LMODULE2(complex_from_lua, L, 1);    \
-            a_complex_s y = LMODULE2(complex_from_lua, L, 2);    \
-            *LMODULE1(complex_new_, L) = a_complex_##func(x, y); \
-            return 1;                                            \
-        }                                                        \
-        return 0;                                                \
+#define FUNC(func)                                                  \
+    int LMODULE(complex_##func)(lua_State *const L)                 \
+    {                                                               \
+        while (lua_type(L, 1) == LUA_TTABLE)                        \
+        {                                                           \
+            lua_remove(L, 1);                                       \
+        }                                                           \
+        if (lua_gettop(L) >= 2)                                     \
+        {                                                           \
+            a_complex_s const x = LMODULE2(complex_from_lua, L, 1); \
+            a_complex_s const y = LMODULE2(complex_from_lua, L, 2); \
+            *LMODULE1(complex_new_, L) = a_complex_##func(x, y);    \
+            return 1;                                               \
+        }                                                           \
+        return 0;                                                   \
     }
 /***
  addition of complex numbers
@@ -270,20 +270,20 @@ FUNC(pow)
 */
 FUNC(logb)
 #undef FUNC
-#define FUNC(func)                                            \
-    int LMODULE(complex_##func)(lua_State * L)                \
-    {                                                         \
-        while (lua_type(L, 1) == LUA_TTABLE)                  \
-        {                                                     \
-            lua_remove(L, 1);                                 \
-        }                                                     \
-        if (lua_gettop(L) >= 1)                               \
-        {                                                     \
-            a_complex_s z = LMODULE2(complex_from_lua, L, 1); \
-            *LMODULE1(complex_new_, L) = a_complex_##func(z); \
-            return 1;                                         \
-        }                                                     \
-        return 0;                                             \
+#define FUNC(func)                                                  \
+    int LMODULE(complex_##func)(lua_State *const L)                 \
+    {                                                               \
+        while (lua_type(L, 1) == LUA_TTABLE)                        \
+        {                                                           \
+            lua_remove(L, 1);                                       \
+        }                                                           \
+        if (lua_gettop(L) >= 1)                                     \
+        {                                                           \
+            a_complex_s const z = LMODULE2(complex_from_lua, L, 1); \
+            *LMODULE1(complex_new_, L) = a_complex_##func(z);       \
+            return 1;                                               \
+        }                                                           \
+        return 0;                                                   \
     }
 /***
  computes the complex base-e exponential
@@ -490,11 +490,11 @@ FUNC(acsch)
 FUNC(acoth)
 #undef FUNC
 
-static int LMODULE(complex_set)(lua_State *L)
+static int LMODULE(complex_set)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_complex_s *const ctx = (a_complex_s *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x0F6133A2: // real
@@ -524,11 +524,11 @@ static int LMODULE(complex_set)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(complex_get)(lua_State *L)
+static int LMODULE(complex_get)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_complex_s *ctx = (a_complex_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_complex_s const *const ctx = (a_complex_s const *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x0F6133A2: // real
@@ -674,14 +674,14 @@ static int LMODULE(complex_get)(lua_State *L)
         break;
     case 0xA65758B2: // __index
     {
-        const l_num_s datas[] = {
+        l_num_s const datas[] = {
             {"real", a_complex_real(*ctx)},
             {"imag", a_complex_imag(*ctx)},
             {"r", a_complex_abs(*ctx)},
             {"theta", a_complex_arg(*ctx)},
             {NULL, 0},
         };
-        const l_func_s funcs[] = {
+        l_func_s const funcs[] = {
             {"polar", LMODULE(complex_polar)},
             {"logabs", LMODULE(complex_logabs)},
             {"conj", LMODULE(complex_conj)},
@@ -739,9 +739,9 @@ static int LMODULE(complex_get)(lua_State *L)
     return 1;
 }
 
-int LMODULE_(complex, lua_State *L)
+int LMODULE_(complex, lua_State *const L)
 {
-    const l_func_s funcs[] = {
+    l_func_s const funcs[] = {
         {"new", LMODULE(complex_new)},
         {"polar", LMODULE(complex_polar)},
         {"logabs", LMODULE(complex_logabs)},
@@ -795,7 +795,7 @@ int LMODULE_(complex, lua_State *L)
     l_func_set(L, -1, L_NEW, LMODULE(complex_new));
     lua_setmetatable(L, -2);
 
-    const l_func_s metas[] = {
+    l_func_s const metas[] = {
         {L_PRI, LMODULE(complex_tostring)},
         {L_NEW, LMODULE(complex_new)},
         {L_GET, LMODULE(complex_get)},
@@ -819,10 +819,10 @@ int LMODULE_(complex, lua_State *L)
     return LMODULE2(complex_func_, L, 1);
 }
 
-int LMODULE(complex_func_)(lua_State *L, int ret)
+int LMODULE(complex_func_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(complex_func_);
+    void *const p = (void *)(intptr_t)LMODULE(complex_func_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);
@@ -832,10 +832,10 @@ int LMODULE(complex_func_)(lua_State *L, int ret)
     return 0;
 }
 
-int LMODULE(complex_meta_)(lua_State *L, int ret)
+int LMODULE(complex_meta_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(complex_meta_);
+    void *const p = (void *)(intptr_t)LMODULE(complex_meta_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);

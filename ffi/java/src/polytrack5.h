@@ -25,8 +25,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 j_polytrack5_s *j_polytrack5_new(JNIEnv *jenv, jobject jobj, j_polytrack5_s *jctx);
-jobject j_polytrack5_set(const j_polytrack5_s *jctx, const a_polytrack5_s *ctx);
-jobject j_polytrack5_get(const j_polytrack5_s *jctx, a_polytrack5_s *ctx);
+jobject j_polytrack5_set(j_polytrack5_s const *jctx, a_polytrack5_s const *ctx);
+jobject j_polytrack5_get(j_polytrack5_s const *jctx, a_polytrack5_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

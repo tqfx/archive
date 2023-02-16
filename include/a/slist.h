@@ -97,7 +97,7 @@ A_INTERN a_void_t a_slist_dtor(a_slist_s *const ctx) { ctx->tail = ctx->head->ne
   @retval 0 non-null
   @retval 1 null
 */
-A_INTERN a_bool_t a_slist_null(const a_slist_u *const ctx) { return ctx->next == ctx; }
+A_INTERN a_bool_t a_slist_null(a_slist_u const *const ctx) { return ctx->next == ctx; }
 
 /*!
  @brief test whether a list node is used
@@ -106,7 +106,7 @@ A_INTERN a_bool_t a_slist_null(const a_slist_u *const ctx) { return ctx->next ==
   @retval 0 unused
   @retval 1 used
 */
-A_INTERN a_bool_t a_slist_used(const a_slist_u *const ctx) { return ctx->next != ctx; }
+A_INTERN a_bool_t a_slist_used(a_slist_u const *const ctx) { return ctx->next != ctx; }
 
 /*!
  @brief test whether a list head is none
@@ -115,7 +115,7 @@ A_INTERN a_bool_t a_slist_used(const a_slist_u *const ctx) { return ctx->next !=
   @retval 0 exist
   @retval 1 none
 */
-A_INTERN a_bool_t a_slist_none(const a_slist_s *const ctx) { return ctx->head == ctx->head->next; }
+A_INTERN a_bool_t a_slist_none(a_slist_s const *const ctx) { return ctx->head == ctx->head->next; }
 
 /*!
  @brief test whether a list node is a tail node
@@ -125,7 +125,7 @@ A_INTERN a_bool_t a_slist_none(const a_slist_s *const ctx) { return ctx->head ==
   @retval 0 it's not a tail node
   @retval 1 it is a tail node
 */
-A_INTERN a_bool_t a_slist_tail(const a_slist_s *const ctx, const a_slist_u *const node) { return ctx->head == node->next; }
+A_INTERN a_bool_t a_slist_tail(a_slist_s const *const ctx, a_slist_u const *const node) { return ctx->head == node->next; }
 
 /*!
  @brief link head node and tail node

@@ -36,8 +36,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 j_fpid_s *j_fpid_new(JNIEnv *jenv, jobject jobj, j_fpid_s *jctx);
-jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx);
-jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx);
+jobject j_fpid_set(j_fpid_s const *jctx, a_fpid_s const *ctx);
+jobject j_fpid_get(j_fpid_s const *jctx, a_fpid_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

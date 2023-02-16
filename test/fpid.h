@@ -16,7 +16,7 @@
 #define A_FPID_INIT7(ctx, ts, imin, imax, omin, omax) \
     do                                                \
     {                                                 \
-        static const a_real_t mmp[] = {               \
+        static a_real_t const mmp[] = {               \
             A_MF_TRI, NB, NB, NM,                     \
             A_MF_TRI, NB, NM, NS,                     \
             A_MF_TRI, NM, NS, ZO,                     \
@@ -25,7 +25,7 @@
             A_MF_TRI, PS, PM, PB,                     \
             A_MF_TRI, PM, PB, PB,                     \
             A_MF_NUL};                                \
-        static const a_real_t mkp[] = {               \
+        static a_real_t const mkp[] = {               \
             NB, NB, NM, NM, NS, ZO, ZO,               \
             NB, NB, NM, NS, NS, ZO, PS,               \
             NM, NM, NM, NS, ZO, PS, PS,               \
@@ -33,7 +33,7 @@
             NS, NS, ZO, PS, PS, PM, PM,               \
             NS, ZO, PS, PM, PM, PM, PB,               \
             ZO, ZO, PM, PM, PM, PB, PB};              \
-        static const a_real_t mki[] = {               \
+        static a_real_t const mki[] = {               \
             PB, PB, PM, PM, PS, ZO, ZO,               \
             PB, PB, PM, PS, PS, ZO, ZO,               \
             PB, PM, PS, PS, ZO, NS, NS,               \
@@ -41,7 +41,7 @@
             PM, PS, ZO, NS, NS, NM, NB,               \
             ZO, ZO, NS, NS, NM, NB, NB,               \
             ZO, ZO, NS, NM, NM, NB, NB};              \
-        static const a_real_t mkd[] = {               \
+        static a_real_t const mkd[] = {               \
             NS, PS, PB, PB, PB, PM, NS,               \
             NS, PS, PB, PM, PM, PS, ZO,               \
             ZO, PS, PM, PM, PS, PS, ZO,               \

@@ -3,7 +3,7 @@
 
 /* function for cubic polynomial trajectory */
 
-a_void_t a_polytrack3_init1(a_polytrack3_s *const ctx, const a_real_t t[2], const a_real_t q[2], const a_real_t v[2])
+a_void_t a_polytrack3_init1(a_polytrack3_s *const ctx, a_real_t const t[2], a_real_t const q[2], a_real_t const v[2])
 {
     ctx->t[0] = t[0];
     ctx->t[1] = t[1];
@@ -14,7 +14,7 @@ a_void_t a_polytrack3_init1(a_polytrack3_s *const ctx, const a_real_t t[2], cons
     a_polytrack3_gen(ctx);
 }
 
-a_void_t a_polytrack3_init2(a_polytrack3_s *const ctx, const a_real_t source[3], const a_real_t target[3])
+a_void_t a_polytrack3_init2(a_polytrack3_s *const ctx, a_real_t const source[3], a_real_t const target[3])
 {
     ctx->t[0] = source[0];
     ctx->t[1] = target[0];
@@ -55,7 +55,7 @@ a_void_t a_polytrack3_gen(a_polytrack3_s *const ctx)
                 inv_t3 * q * 2;
 }
 
-a_void_t a_polytrack3_out(const a_polytrack3_s *const ctx, a_real_t ts, a_real_t out[3])
+a_void_t a_polytrack3_out(a_polytrack3_s const *const ctx, a_real_t ts, a_real_t out[3])
 {
     a_real_t a[4];
     a[0] = ctx->k[3];
@@ -71,7 +71,7 @@ a_void_t a_polytrack3_out(const a_polytrack3_s *const ctx, a_real_t ts, a_real_t
     out[2] = a_poly_evar(a, 2, ts);
 }
 
-a_real_t a_polytrack3_pos(const a_polytrack3_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack3_pos(a_polytrack3_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[4];
     a[0] = ctx->k[3];
@@ -81,7 +81,7 @@ a_real_t a_polytrack3_pos(const a_polytrack3_s *const ctx, a_real_t const ts)
     return a_poly_evar(a, 4, ts - ctx->t[0]);
 }
 
-a_real_t a_polytrack3_vec(const a_polytrack3_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack3_vec(a_polytrack3_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[3];
     a[0] = ctx->k[3] * 3;
@@ -90,7 +90,7 @@ a_real_t a_polytrack3_vec(const a_polytrack3_s *const ctx, a_real_t const ts)
     return a_poly_evar(a, 3, ts - ctx->t[0]);
 }
 
-a_real_t a_polytrack3_acc(const a_polytrack3_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack3_acc(a_polytrack3_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[2];
     a[0] = ctx->k[3] * 3 * 2;
@@ -100,7 +100,7 @@ a_real_t a_polytrack3_acc(const a_polytrack3_s *const ctx, a_real_t const ts)
 
 /* function for quintic polynomial trajectory */
 
-a_void_t a_polytrack5_init1(a_polytrack5_s *const ctx, const a_real_t t[2], const a_real_t q[2], const a_real_t v[2], const a_real_t a[2])
+a_void_t a_polytrack5_init1(a_polytrack5_s *const ctx, a_real_t const t[2], a_real_t const q[2], a_real_t const v[2], a_real_t const a[2])
 {
     ctx->t[0] = t[0];
     ctx->t[1] = t[1];
@@ -113,7 +113,7 @@ a_void_t a_polytrack5_init1(a_polytrack5_s *const ctx, const a_real_t t[2], cons
     a_polytrack5_gen(ctx);
 }
 
-a_void_t a_polytrack5_init2(a_polytrack5_s *const ctx, const a_real_t source[4], const a_real_t target[4])
+a_void_t a_polytrack5_init2(a_polytrack5_s *const ctx, a_real_t const source[4], a_real_t const target[4])
 {
     ctx->t[0] = source[0];
     ctx->t[1] = target[0];
@@ -169,7 +169,7 @@ a_void_t a_polytrack5_gen(a_polytrack5_s *const ctx)
                  inv_t5 * q * 12);
 }
 
-a_void_t a_polytrack5_out(const a_polytrack5_s *const ctx, a_real_t ts, a_real_t out[3])
+a_void_t a_polytrack5_out(a_polytrack5_s const *const ctx, a_real_t ts, a_real_t out[3])
 {
     a_real_t a[6];
     a[0] = ctx->k[5];
@@ -191,7 +191,7 @@ a_void_t a_polytrack5_out(const a_polytrack5_s *const ctx, a_real_t ts, a_real_t
     out[2] = a_poly_evar(a, 4, ts);
 }
 
-a_real_t a_polytrack5_pos(const a_polytrack5_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack5_pos(a_polytrack5_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[6];
     a[0] = ctx->k[5];
@@ -203,7 +203,7 @@ a_real_t a_polytrack5_pos(const a_polytrack5_s *const ctx, a_real_t const ts)
     return a_poly_evar(a, 6, ts - ctx->t[0]);
 }
 
-a_real_t a_polytrack5_vec(const a_polytrack5_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack5_vec(a_polytrack5_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[5];
     a[0] = ctx->k[5] * 5;
@@ -214,7 +214,7 @@ a_real_t a_polytrack5_vec(const a_polytrack5_s *const ctx, a_real_t const ts)
     return a_poly_evar(a, 5, ts - ctx->t[0]);
 }
 
-a_real_t a_polytrack5_acc(const a_polytrack5_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack5_acc(a_polytrack5_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[4];
     a[0] = ctx->k[5] * 5 * 4;
@@ -226,7 +226,7 @@ a_real_t a_polytrack5_acc(const a_polytrack5_s *const ctx, a_real_t const ts)
 
 /* function for hepta polynomial trajectory */
 
-a_void_t a_polytrack7_init1(a_polytrack7_s *const ctx, const a_real_t t[2], const a_real_t q[2], const a_real_t v[2], const a_real_t a[2], const a_real_t j[2])
+a_void_t a_polytrack7_init1(a_polytrack7_s *const ctx, a_real_t const t[2], a_real_t const q[2], a_real_t const v[2], a_real_t const a[2], a_real_t const j[2])
 {
     ctx->t[0] = t[0];
     ctx->t[1] = t[1];
@@ -241,7 +241,7 @@ a_void_t a_polytrack7_init1(a_polytrack7_s *const ctx, const a_real_t t[2], cons
     a_polytrack7_gen(ctx);
 }
 
-a_void_t a_polytrack7_init2(a_polytrack7_s *const ctx, const a_real_t source[5], const a_real_t target[5])
+a_void_t a_polytrack7_init2(a_polytrack7_s *const ctx, a_real_t const source[5], a_real_t const target[5])
 {
     ctx->t[0] = source[0];
     ctx->t[1] = target[0];
@@ -313,7 +313,7 @@ a_void_t a_polytrack7_gen(a_polytrack7_s *const ctx)
                  inv_t7 * q * 120);
 }
 
-a_void_t a_polytrack7_out(const a_polytrack7_s *const ctx, a_real_t ts, a_real_t out[4])
+a_void_t a_polytrack7_out(a_polytrack7_s const *const ctx, a_real_t ts, a_real_t out[4])
 {
     a_real_t a[8];
     a[0] = ctx->k[7];
@@ -346,7 +346,7 @@ a_void_t a_polytrack7_out(const a_polytrack7_s *const ctx, a_real_t ts, a_real_t
     out[3] = a_poly_evar(a, 5, ts);
 }
 
-a_real_t a_polytrack7_pos(const a_polytrack7_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack7_pos(a_polytrack7_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[8];
     a[0] = ctx->k[7];
@@ -360,7 +360,7 @@ a_real_t a_polytrack7_pos(const a_polytrack7_s *const ctx, a_real_t const ts)
     return a_poly_evar(a, 8, ts - ctx->t[0]);
 }
 
-a_real_t a_polytrack7_vec(const a_polytrack7_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack7_vec(a_polytrack7_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[7];
     a[0] = ctx->k[7] * 7;
@@ -373,7 +373,7 @@ a_real_t a_polytrack7_vec(const a_polytrack7_s *const ctx, a_real_t const ts)
     return a_poly_evar(a, 7, ts - ctx->t[0]);
 }
 
-a_real_t a_polytrack7_acc(const a_polytrack7_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack7_acc(a_polytrack7_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[6];
     a[0] = ctx->k[7] * 7 * 6;
@@ -385,7 +385,7 @@ a_real_t a_polytrack7_acc(const a_polytrack7_s *const ctx, a_real_t const ts)
     return a_poly_evar(a, 6, ts - ctx->t[0]);
 }
 
-a_real_t a_polytrack7_jer(const a_polytrack7_s *const ctx, a_real_t const ts)
+a_real_t a_polytrack7_jer(a_polytrack7_s const *const ctx, a_real_t const ts)
 {
     a_real_t a[5];
     a[0] = ctx->k[7] * 7 * 6 * 5;

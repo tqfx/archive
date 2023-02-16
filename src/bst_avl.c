@@ -25,7 +25,7 @@ static A_INLINE a_void_t a_bst_avl_set_parent(a_bst_avl_s *const node, a_bst_avl
 Returns the balance factor of the specified AVL tree node --- that is,
 the height of its right subtree minus the height of its left subtree.
 */
-static A_INLINE a_int_t a_bst_avl_factor(const a_bst_avl_s *const node)
+static A_INLINE a_int_t a_bst_avl_factor(a_bst_avl_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     return (a_int_t)(node->parent & 3) - 1;
@@ -47,7 +47,7 @@ static A_INLINE a_void_t a_bst_avl_set_factor(a_bst_avl_s *const node, a_int_t c
 #endif /* A_SIZE_VPTR */
 }
 
-static A_INLINE a_bst_avl_s *a_bst_avl_child(const a_bst_avl_s *const node, a_int_t const sign)
+static A_INLINE a_bst_avl_s *a_bst_avl_child(a_bst_avl_s const *const node, a_int_t const sign)
 {
     if (sign < 0)
     {
@@ -400,7 +400,7 @@ a_bst_avl_s *a_bst_avl_insert(a_bst_avl_u *const root, a_bst_avl_s *const node, 
     return A_NULL;
 }
 
-a_bst_avl_s *a_bst_avl_search(const a_bst_avl_u *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_bst_avl_s *a_bst_avl_search(a_bst_avl_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     for (a_bst_avl_s *cur = root->node; cur;)
     {
@@ -682,7 +682,7 @@ a_void_t a_bst_avl_remove(a_bst_avl_u *const root, a_bst_avl_s *const node)
     } while (parent);
 }
 
-a_bst_avl_s *a_bst_avl_head(const a_bst_avl_u *const root)
+a_bst_avl_s *a_bst_avl_head(a_bst_avl_u const *const root)
 {
     a_bst_avl_s *node = root->node;
     if (node)
@@ -695,7 +695,7 @@ a_bst_avl_s *a_bst_avl_head(const a_bst_avl_u *const root)
     return node;
 }
 
-a_bst_avl_s *a_bst_avl_tail(const a_bst_avl_u *const root)
+a_bst_avl_s *a_bst_avl_tail(a_bst_avl_u const *const root)
 {
     a_bst_avl_s *node = root->node;
     if (node)
@@ -841,7 +841,7 @@ a_bst_avl_s *a_bst_avl_pre_prev(a_bst_avl_s *node)
         }                         \
     } while (A_TRUE)
 
-a_bst_avl_s *a_bst_avl_post_head(const a_bst_avl_u *const root)
+a_bst_avl_s *a_bst_avl_post_head(a_bst_avl_u const *const root)
 {
     a_bst_avl_s *node = root->node;
     if (node)
@@ -868,7 +868,7 @@ a_bst_avl_s *a_bst_avl_post_head(const a_bst_avl_u *const root)
         }                         \
     } while (A_TRUE)
 
-a_bst_avl_s *a_bst_avl_post_tail(const a_bst_avl_u *const root)
+a_bst_avl_s *a_bst_avl_post_tail(a_bst_avl_u const *const root)
 {
     a_bst_avl_s *node = root->node;
     if (node)

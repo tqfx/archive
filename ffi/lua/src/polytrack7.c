@@ -5,7 +5,7 @@
 
 #include "polytrack7.h"
 
-static int LMODULE(polytrack7_init_)(lua_State *L, a_polytrack7_s *ctx)
+static int LMODULE(polytrack7_init_)(lua_State *const L, a_polytrack7_s *const ctx)
 {
     a_real_t t0 = 0, q0 = 0, v0 = 0, a0 = 0, j0 = 0;
     a_real_t t1 = 0, q1 = 0, v1 = 0, a1 = 0, j1 = 0;
@@ -59,17 +59,17 @@ static int LMODULE(polytrack7_init_)(lua_State *L, a_polytrack7_s *ctx)
  @treturn polytrack7 hepta polynomial trajectory userdata
  @function new
 */
-int LMODULE(polytrack7_new)(lua_State *L)
+int LMODULE(polytrack7_new)(lua_State *const L)
 {
-    int top = lua_gettop(L);
-    int type = lua_type(L, -1);
+    int const top = lua_gettop(L);
+    int const type = lua_type(L, -1);
     if (top > 3 && type == LUA_TNUMBER)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
         {
             lua_remove(L, 1);
         }
-        a_polytrack7_s *ctx = (a_polytrack7_s *)lua_newuserdata(L, sizeof(a_polytrack7_s));
+        a_polytrack7_s *const ctx = (a_polytrack7_s *)lua_newuserdata(L, sizeof(a_polytrack7_s));
         LMODULE2(polytrack7_meta_, L, 1);
         lua_setmetatable(L, -2);
         return LMODULE2(polytrack7_init_, L, ctx);
@@ -82,7 +82,7 @@ int LMODULE(polytrack7_new)(lua_State *L)
         luaL_checktype(L, -2, LUA_TTABLE);
         l_array_num_get(L, -1, target, L_COUNT(target));
         l_array_num_get(L, -2, source, L_COUNT(source));
-        a_polytrack7_s *ctx = (a_polytrack7_s *)lua_newuserdata(L, sizeof(a_polytrack7_s));
+        a_polytrack7_s *const ctx = (a_polytrack7_s *)lua_newuserdata(L, sizeof(a_polytrack7_s));
         LMODULE2(polytrack7_meta_, L, 1);
         lua_setmetatable(L, -2);
         a_polytrack7_init2(ctx, source, target);
@@ -109,10 +109,10 @@ int LMODULE(polytrack7_new)(lua_State *L)
  @treturn polytrack7 hepta polynomial trajectory userdata
  @function init
 */
-int LMODULE(polytrack7_init)(lua_State *L)
+int LMODULE(polytrack7_init)(lua_State *const L)
 {
-    int top = lua_gettop(L);
-    int type = lua_type(L, -1);
+    int const top = lua_gettop(L);
+    int const type = lua_type(L, -1);
     if (top > 4 && type == LUA_TNUMBER)
     {
         while (lua_type(L, 1) == LUA_TTABLE)
@@ -120,7 +120,7 @@ int LMODULE(polytrack7_init)(lua_State *L)
             lua_remove(L, 1);
         }
         luaL_checktype(L, 1, LUA_TUSERDATA);
-        a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, 1);
+        a_polytrack7_s *const ctx = (a_polytrack7_s *)lua_touserdata(L, 1);
         lua_pushvalue(L, 1);
         lua_remove(L, 1);
         return LMODULE2(polytrack7_init_, L, ctx);
@@ -132,7 +132,7 @@ int LMODULE(polytrack7_init)(lua_State *L)
         luaL_checktype(L, -1, LUA_TTABLE);
         luaL_checktype(L, -2, LUA_TTABLE);
         luaL_checktype(L, -3, LUA_TUSERDATA);
-        a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, -3);
+        a_polytrack7_s *const ctx = (a_polytrack7_s *)lua_touserdata(L, -3);
         l_array_num_get(L, -1, target, L_COUNT(target));
         l_array_num_get(L, -2, source, L_COUNT(source));
         a_polytrack7_init2(ctx, source, target);
@@ -148,9 +148,9 @@ int LMODULE(polytrack7_init)(lua_State *L)
  @treturn polytrack7 hepta polynomial trajectory userdata
  @function gen
 */
-int LMODULE(polytrack7_gen)(lua_State *L)
+int LMODULE(polytrack7_gen)(lua_State *const L)
 {
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, -1);
+    a_polytrack7_s *const ctx = (a_polytrack7_s *)lua_touserdata(L, -1);
     if (ctx)
     {
         a_polytrack7_gen(ctx);
@@ -166,13 +166,13 @@ int LMODULE(polytrack7_gen)(lua_State *L)
  @treturn table {position,velocity,acceleration,jerk}
  @function out
 */
-int LMODULE(polytrack7_out)(lua_State *L)
+int LMODULE(polytrack7_out)(lua_State *const L)
 {
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, -2);
+    a_polytrack7_s const *const ctx = (a_polytrack7_s const *)lua_touserdata(L, -2);
     if (ctx)
     {
         a_real_t out[4];
-        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        a_real_t const ts = (a_real_t)luaL_checknumber(L, -1);
         a_polytrack7_out(ctx, ts, out);
         lua_createtable(L, 4, 0);
         l_array_num_set(L, -1, out, 4);
@@ -188,12 +188,12 @@ int LMODULE(polytrack7_out)(lua_State *L)
  @treturn number position output
  @function pos
 */
-int LMODULE(polytrack7_pos)(lua_State *L)
+int LMODULE(polytrack7_pos)(lua_State *const L)
 {
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, -2);
+    a_polytrack7_s const *const ctx = (a_polytrack7_s const *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        a_real_t const ts = (a_real_t)luaL_checknumber(L, -1);
         lua_pushnumber(L, (lua_Number)a_polytrack7_pos(ctx, ts));
         return 1;
     }
@@ -207,12 +207,12 @@ int LMODULE(polytrack7_pos)(lua_State *L)
  @treturn number velocity output
  @function vec
 */
-int LMODULE(polytrack7_vec)(lua_State *L)
+int LMODULE(polytrack7_vec)(lua_State *const L)
 {
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, -2);
+    a_polytrack7_s const *const ctx = (a_polytrack7_s const *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        a_real_t const ts = (a_real_t)luaL_checknumber(L, -1);
         lua_pushnumber(L, (lua_Number)a_polytrack7_vec(ctx, ts));
         return 1;
     }
@@ -226,12 +226,12 @@ int LMODULE(polytrack7_vec)(lua_State *L)
  @treturn number acceleration output
  @function acc
 */
-int LMODULE(polytrack7_acc)(lua_State *L)
+int LMODULE(polytrack7_acc)(lua_State *const L)
 {
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, -2);
+    a_polytrack7_s const *const ctx = (a_polytrack7_s const *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        a_real_t const ts = (a_real_t)luaL_checknumber(L, -1);
         lua_pushnumber(L, (lua_Number)a_polytrack7_acc(ctx, ts));
         return 1;
     }
@@ -245,23 +245,23 @@ int LMODULE(polytrack7_acc)(lua_State *L)
  @treturn number jerk output
  @function jer
 */
-int LMODULE(polytrack7_jer)(lua_State *L)
+int LMODULE(polytrack7_jer)(lua_State *const L)
 {
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, -2);
+    a_polytrack7_s const *const ctx = (a_polytrack7_s const *)lua_touserdata(L, -2);
     if (ctx)
     {
-        a_real_t ts = (a_real_t)luaL_checknumber(L, -1);
+        a_real_t const ts = (a_real_t)luaL_checknumber(L, -1);
         lua_pushnumber(L, (lua_Number)a_polytrack7_jer(ctx, ts));
         return 1;
     }
     return 0;
 }
 
-static int LMODULE(polytrack7_set)(lua_State *L)
+static int LMODULE(polytrack7_set)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_polytrack7_s *const ctx = (a_polytrack7_s *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x00000074: // t
@@ -333,11 +333,11 @@ static int LMODULE(polytrack7_set)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(polytrack7_get)(lua_State *L)
+static int LMODULE(polytrack7_get)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_polytrack7_s *ctx = (a_polytrack7_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_polytrack7_s const *const ctx = (a_polytrack7_s const *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x0000006B: // k
@@ -420,7 +420,7 @@ static int LMODULE(polytrack7_get)(lua_State *L)
         break;
     case 0xA65758B2: // __index
     {
-        const l_num_s datas[] = {
+        l_num_s const datas[] = {
             {"t0", ctx->t[0]},
             {"q0", ctx->q[0]},
             {"v0", ctx->v[0]},
@@ -433,7 +433,7 @@ static int LMODULE(polytrack7_get)(lua_State *L)
             {"j1", ctx->j[1]},
             {NULL, 0},
         };
-        const l_func_s funcs[] = {
+        l_func_s const funcs[] = {
             {"init", LMODULE(polytrack7_init)},
             {"gen", LMODULE(polytrack7_gen)},
             {"out", LMODULE(polytrack7_out)},
@@ -474,9 +474,9 @@ static int LMODULE(polytrack7_get)(lua_State *L)
     return 1;
 }
 
-int LMODULE_(polytrack7, lua_State *L)
+int LMODULE_(polytrack7, lua_State *const L)
 {
-    const l_func_s funcs[] = {
+    l_func_s const funcs[] = {
         {"init", LMODULE(polytrack7_init)},
         {"gen", LMODULE(polytrack7_gen)},
         {"out", LMODULE(polytrack7_out)},
@@ -494,7 +494,7 @@ int LMODULE_(polytrack7, lua_State *L)
     l_func_set(L, -1, L_NEW, LMODULE(polytrack7_new));
     lua_setmetatable(L, -2);
 
-    const l_func_s metas[] = {
+    l_func_s const metas[] = {
         {L_NEW, LMODULE(polytrack7_out)},
         {L_SET, LMODULE(polytrack7_set)},
         {L_GET, LMODULE(polytrack7_get)},
@@ -510,10 +510,10 @@ int LMODULE_(polytrack7, lua_State *L)
     return LMODULE2(polytrack7_func_, L, 1);
 }
 
-int LMODULE(polytrack7_func_)(lua_State *L, int ret)
+int LMODULE(polytrack7_func_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(polytrack7_func_);
+    void *const p = (void *)(intptr_t)LMODULE(polytrack7_func_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);
@@ -523,10 +523,10 @@ int LMODULE(polytrack7_func_)(lua_State *L, int ret)
     return 0;
 }
 
-int LMODULE(polytrack7_meta_)(lua_State *L, int ret)
+int LMODULE(polytrack7_meta_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(polytrack7_meta_);
+    void *const p = (void *)(intptr_t)LMODULE(polytrack7_meta_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);

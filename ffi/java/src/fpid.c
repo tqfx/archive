@@ -1,7 +1,7 @@
 #include "fpid.h"
 #include "liba_fpid.h"
 
-j_fpid_s *j_fpid_new(JNIEnv *jenv, jobject jobj, j_fpid_s *jctx)
+j_fpid_s *j_fpid_new(JNIEnv *const jenv, jobject const jobj, j_fpid_s *const jctx)
 {
     jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "fpid");
     jfieldID pid = (*jenv)->GetFieldID(jenv, jcls, "pid", "L" CLASSPATH "pid;");
@@ -31,7 +31,7 @@ j_fpid_s *j_fpid_new(JNIEnv *jenv, jobject jobj, j_fpid_s *jctx)
     return jctx;
 }
 
-jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx)
+jobject j_fpid_get(j_fpid_s const *const jctx, a_fpid_s *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;
@@ -81,7 +81,7 @@ jobject j_fpid_get(const j_fpid_s *jctx, a_fpid_s *ctx)
     return jctx->jobj;
 }
 
-jobject j_fpid_set(const j_fpid_s *jctx, const a_fpid_s *ctx)
+jobject j_fpid_set(j_fpid_s const *const jctx, a_fpid_s const *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;
@@ -213,7 +213,7 @@ JNIEXPORT jobject JNICALL JPACKAGE(fpid_buff)(JNIEnv *jenv, jobject jobj, jint j
     return jobj;
 }
 
-static jobject concat(const j_fpid_s *jctx, jobjectArray jmat)
+static jobject concat(j_fpid_s const *jctx, jobjectArray jmat)
 {
     jsize length = 0;
     JNIEnv *jenv = jctx->jenv;

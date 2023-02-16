@@ -49,13 +49,13 @@ typedef struct a_que_s
  @brief access size of a element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
 */
-A_INTERN a_size_t a_que_get(const a_que_s *const ctx) { return ctx->_size; }
+A_INTERN a_size_t a_que_get(a_que_s const *const ctx) { return ctx->_size; }
 
 /*!
  @brief access number of element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
 */
-A_INTERN a_size_t a_que_num(const a_que_s *const ctx) { return ctx->_num; }
+A_INTERN a_size_t a_que_num(a_que_s const *const ctx) { return ctx->_num; }
 
 /*!
  @brief access foremost element for a pointer to queue structure
@@ -63,7 +63,7 @@ A_INTERN a_size_t a_que_num(const a_que_s *const ctx) { return ctx->_num; }
  @note should check if queue is empty
  @return element pointer
 */
-A_INTERN a_vptr_t a_que_fore_(const a_que_s *const ctx)
+A_INTERN a_vptr_t a_que_fore_(a_que_s const *const ctx)
 {
     return a_que_from(ctx->_head->next)->_data;
 }
@@ -74,7 +74,7 @@ A_INTERN a_vptr_t a_que_fore_(const a_que_s *const ctx)
  @note should check if queue is empty
  @return element pointer
 */
-A_INTERN a_vptr_t a_que_back_(const a_que_s *const ctx)
+A_INTERN a_vptr_t a_que_back_(a_que_s const *const ctx)
 {
     return a_que_from(ctx->_head->prev)->_data;
 }
@@ -85,7 +85,7 @@ A_INTERN a_vptr_t a_que_back_(const a_que_s *const ctx)
  @return element pointer
   @retval 0 empty queue
 */
-A_INTERN a_vptr_t a_que_fore(const a_que_s *const ctx)
+A_INTERN a_vptr_t a_que_fore(a_que_s const *const ctx)
 {
     return a_likely(a_list_used(ctx->_head)) ? a_que_fore_(ctx) : A_NULL;
 }
@@ -96,7 +96,7 @@ A_INTERN a_vptr_t a_que_fore(const a_que_s *const ctx)
  @return element pointer
   @retval 0 empty queue
 */
-A_INTERN a_vptr_t a_que_back(const a_que_s *const ctx)
+A_INTERN a_vptr_t a_que_back(a_que_s const *const ctx)
 {
     return a_likely(a_list_used(ctx->_head)) ? a_que_back_(ctx) : A_NULL;
 }
@@ -146,7 +146,7 @@ A_EXTERN a_que_s *a_que_move(a_que_s *ctx, a_que_s *obj);
  @return element pointer
   @retval 0 out of bounds
 */
-A_EXTERN a_vptr_t a_que_at(const a_que_s *ctx, a_imax_t idx);
+A_EXTERN a_vptr_t a_que_at(a_que_s const *ctx, a_imax_t idx);
 
 /*!
  @brief modify size of a element for a pointer to queue structure
@@ -172,7 +172,7 @@ A_EXTERN a_void_t a_que_drop(a_que_s *ctx, a_void_t (*dtor)(a_vptr_t));
   @retval 0 success
   @retval 1 failure
 */
-A_EXTERN a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_int_t a_que_swap_(a_que_s const *ctx, a_vptr_t lhs, a_vptr_t rhs);
 
 /*!
  @brief swap elements lhs and rhs for a pointer to queue structure
@@ -180,7 +180,7 @@ A_EXTERN a_int_t a_que_swap_(const a_que_s *ctx, a_vptr_t lhs, a_vptr_t rhs);
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
 */
-A_EXTERN a_void_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
+A_EXTERN a_void_t a_que_swap(a_que_s const *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief insert sort foremost element for a pointer to queue structure
@@ -199,7 +199,7 @@ A_EXTERN a_void_t a_que_swap(const a_que_s *ctx, a_size_t lhs, a_size_t rhs);
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_EXTERN a_void_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_que_sort_fore(a_que_s const *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort backmost element for a pointer to queue structure
@@ -218,7 +218,7 @@ A_EXTERN a_void_t a_que_sort_fore(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_EXTERN a_void_t a_que_sort_back(const a_que_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_que_sort_back(a_que_s const *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief push an element into the queue forward

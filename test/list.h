@@ -11,7 +11,7 @@ typedef struct
     a_cast_u data[1];
 } a_data_s;
 
-static a_size_t a_list_len(const a_list_s *ctx)
+static a_size_t a_list_len(a_list_s const *ctx)
 {
     a_size_t count = 0;
     if (ctx == A_NULL)

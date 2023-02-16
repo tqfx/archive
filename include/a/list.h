@@ -92,7 +92,7 @@ A_INTERN a_void_t a_list_dtor(a_list_s *const ctx) { ctx->prev = ctx->next = ctx
   @retval 0 non-null
   @retval 1 null
 */
-A_INTERN a_bool_t a_list_null(const a_list_s *const ctx) { return ctx->next == ctx; }
+A_INTERN a_bool_t a_list_null(a_list_s const *const ctx) { return ctx->next == ctx; }
 
 /*!
  @brief test whether a list is used
@@ -101,7 +101,7 @@ A_INTERN a_bool_t a_list_null(const a_list_s *const ctx) { return ctx->next == c
   @retval 0 unused
   @retval 1 used
 */
-A_INTERN a_bool_t a_list_used(const a_list_s *const ctx) { return ctx->next != ctx; }
+A_INTERN a_bool_t a_list_used(a_list_s const *const ctx) { return ctx->next != ctx; }
 
 /*!
  @brief link head node and tail node

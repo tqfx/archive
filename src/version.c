@@ -21,7 +21,7 @@ a_uint_t a_version_patch(void)
     return A_VERSION_PATCH;
 }
 
-a_int_t a_version_cmp(const a_version_s *const lhs, const a_version_s *const rhs)
+a_int_t a_version_cmp(a_version_s const *const lhs, a_version_s const *const rhs)
 {
     if (lhs->major < rhs->major)
     {

@@ -6,7 +6,7 @@
 #include "pid.h"
 #include <string.h>
 
-static int LMODULE(pid_init_)(lua_State *L, a_pid_s *ctx)
+static int LMODULE(pid_init_)(lua_State *const L, a_pid_s *const ctx)
 {
     ctx->dt = (a_real_t)luaL_checknumber(L, 1);
     switch (lua_gettop(L) - lua_isuserdata(L, -1))
@@ -65,7 +65,7 @@ static int LMODULE(pid_init_)(lua_State *L, a_pid_s *ctx)
  @treturn pid PID controller userdata
  @function new
 */
-int LMODULE(pid_new)(lua_State *L)
+int LMODULE(pid_new)(lua_State *const L)
 {
     if (lua_gettop(L) > 2)
     {
@@ -73,7 +73,7 @@ int LMODULE(pid_new)(lua_State *L)
         {
             lua_remove(L, 1);
         }
-        a_pid_s *ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
+        a_pid_s *const ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
         memset(ctx, 0, sizeof(a_pid_s));
         LMODULE2(pid_meta_, L, 1);
         lua_setmetatable(L, -2);
@@ -95,7 +95,7 @@ int LMODULE(pid_new)(lua_State *L)
  @treturn pid PID controller userdata
  @function init
 */
-int LMODULE(pid_init)(lua_State *L)
+int LMODULE(pid_init)(lua_State *const L)
 {
     if (lua_gettop(L) > 3)
     {
@@ -104,7 +104,7 @@ int LMODULE(pid_init)(lua_State *L)
             lua_remove(L, 1);
         }
         luaL_checktype(L, 1, LUA_TUSERDATA);
-        a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
+        a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, 1);
         lua_pushvalue(L, 1);
         lua_remove(L, 1);
         return LMODULE2(pid_init_, L, ctx);
@@ -120,13 +120,13 @@ int LMODULE(pid_init)(lua_State *L)
  @treturn number output
  @function proc
 */
-int LMODULE(pid_proc)(lua_State *L)
+int LMODULE(pid_proc)(lua_State *const L)
 {
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -3);
+    a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, -3);
     if (ctx)
     {
-        a_real_t set = (a_real_t)luaL_checknumber(L, -2);
-        a_real_t fdb = (a_real_t)luaL_checknumber(L, -1);
+        a_real_t const set = (a_real_t)luaL_checknumber(L, -2);
+        a_real_t const fdb = (a_real_t)luaL_checknumber(L, -1);
         lua_pushnumber(L, (lua_Number)a_pid_outv(ctx, set, fdb));
         lua_pop(L, 2);
         return 1;
@@ -140,9 +140,9 @@ int LMODULE(pid_proc)(lua_State *L)
  @treturn pid PID controller userdata
  @function zero
 */
-int LMODULE(pid_zero)(lua_State *L)
+int LMODULE(pid_zero)(lua_State *const L)
 {
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
+    a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)
     {
         a_pid_zero(ctx);
@@ -160,14 +160,14 @@ int LMODULE(pid_zero)(lua_State *L)
  @treturn pid PID controller userdata
  @function kpid
 */
-int LMODULE(pid_kpid)(lua_State *L)
+int LMODULE(pid_kpid)(lua_State *const L)
 {
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -4);
+    a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, -4);
     if (ctx)
     {
-        a_real_t kp = (a_real_t)luaL_checknumber(L, -3);
-        a_real_t ki = (a_real_t)luaL_checknumber(L, -2);
-        a_real_t kd = (a_real_t)luaL_checknumber(L, -1);
+        a_real_t const kp = (a_real_t)luaL_checknumber(L, -3);
+        a_real_t const ki = (a_real_t)luaL_checknumber(L, -2);
+        a_real_t const kd = (a_real_t)luaL_checknumber(L, -1);
         a_pid_kpid(ctx, kp, ki, kd);
         lua_pop(L, 3);
         return 1;
@@ -182,9 +182,9 @@ int LMODULE(pid_kpid)(lua_State *L)
  @treturn pid PID controller userdata
  @function pos
 */
-int LMODULE(pid_pos)(lua_State *L)
+int LMODULE(pid_pos)(lua_State *const L)
 {
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -2);
+    a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, -2);
     if (ctx)
     {
         a_pid_pos(ctx, (a_real_t)luaL_checknumber(L, -1));
@@ -200,9 +200,9 @@ int LMODULE(pid_pos)(lua_State *L)
  @treturn pid PID controller userdata
  @function inc
 */
-int LMODULE(pid_inc)(lua_State *L)
+int LMODULE(pid_inc)(lua_State *const L)
 {
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
+    a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)
     {
         a_pid_inc(ctx);
@@ -217,9 +217,9 @@ int LMODULE(pid_inc)(lua_State *L)
  @treturn pid PID controller userdata
  @function off
 */
-int LMODULE(pid_off)(lua_State *L)
+int LMODULE(pid_off)(lua_State *const L)
 {
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, -1);
+    a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, -1);
     if (ctx)
     {
         a_pid_off(ctx);
@@ -228,11 +228,11 @@ int LMODULE(pid_off)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(pid_set)(lua_State *L)
+static int LMODULE(pid_set)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_pid_s *const ctx = (a_pid_s *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x000033A0: // dt
@@ -271,11 +271,11 @@ static int LMODULE(pid_set)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(pid_get)(lua_State *L)
+static int LMODULE(pid_get)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_pid_s *ctx = (a_pid_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_pid_s const *const ctx = (a_pid_s const *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x0EB84F77: // mode
@@ -340,11 +340,11 @@ static int LMODULE(pid_get)(lua_State *L)
         break;
     case 0xA65758B2: // __index
     {
-        const l_int_s enums[] = {
+        l_int_s const enums[] = {
             {"mode", (lua_Integer)a_pid_mode(ctx)},
             {NULL, 0},
         };
-        const l_num_s datas[] = {
+        l_num_s const datas[] = {
             {"dt", a_pid_dt(ctx)},
             {"kp", a_pid_kp(ctx)},
             {"ki", a_pid_ki(ctx)},
@@ -358,7 +358,7 @@ static int LMODULE(pid_get)(lua_State *L)
             {"e", ctx->e.v},
             {NULL, 0},
         };
-        const l_func_s funcs[] = {
+        l_func_s const funcs[] = {
             {"init", LMODULE(pid_init)},
             {"proc", LMODULE(pid_proc)},
             {"zero", LMODULE(pid_zero)},
@@ -389,15 +389,15 @@ static int LMODULE(pid_get)(lua_State *L)
  @field INC incremental PID controller
  @table pid
 */
-int LMODULE_(pid, lua_State *L)
+int LMODULE_(pid, lua_State *const L)
 {
-    const l_int_s enums[] = {
+    l_int_s const enums[] = {
         {"OFF", A_PID_OFF},
         {"POS", A_PID_POS},
         {"INC", A_PID_INC},
         {NULL, 0},
     };
-    const l_func_s funcs[] = {
+    l_func_s const funcs[] = {
         {"init", LMODULE(pid_init)},
         {"proc", LMODULE(pid_proc)},
         {"zero", LMODULE(pid_zero)},
@@ -416,7 +416,7 @@ int LMODULE_(pid, lua_State *L)
     l_func_set(L, -1, L_NEW, LMODULE(pid_new));
     lua_setmetatable(L, -2);
 
-    const l_func_s metas[] = {
+    l_func_s const metas[] = {
         {L_NEW, LMODULE(pid_proc)},
         {L_SET, LMODULE(pid_set)},
         {L_GET, LMODULE(pid_get)},
@@ -432,10 +432,10 @@ int LMODULE_(pid, lua_State *L)
     return LMODULE2(pid_func_, L, 1);
 }
 
-int LMODULE(pid_func_)(lua_State *L, int ret)
+int LMODULE(pid_func_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(pid_func_);
+    void *const p = (void *)(intptr_t)LMODULE(pid_func_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);
@@ -445,10 +445,10 @@ int LMODULE(pid_func_)(lua_State *L, int ret)
     return 0;
 }
 
-int LMODULE(pid_meta_)(lua_State *L, int ret)
+int LMODULE(pid_meta_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(pid_meta_);
+    void *const p = (void *)(intptr_t)LMODULE(pid_meta_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);

@@ -45,7 +45,7 @@ typedef struct a_bst_rb_s
  @return a pointer to the parent of the specified red–black tree node,
  or NULL if it is already the root of the tree.
 */
-A_INTERN a_bst_rb_s *a_bst_rb_parent(const a_bst_rb_s *const node)
+A_INTERN a_bst_rb_s *a_bst_rb_parent(a_bst_rb_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     return a_cast_r(a_bst_rb_s *, node->parent & ~a_uptr_c(1));
@@ -102,14 +102,14 @@ extern "C" {
  @param[in] root red–black binary search tree root
  @return head node or NULL
 */
-A_EXTERN a_bst_rb_s *a_bst_rb_head(const a_bst_rb_u *root);
+A_EXTERN a_bst_rb_s *a_bst_rb_head(a_bst_rb_u const *root);
 
 /*!
  @brief access tail node of red–black binary search tree in-order
  @param[in] root red–black binary search tree root
  @return tail node or NULL
 */
-A_EXTERN a_bst_rb_s *a_bst_rb_tail(const a_bst_rb_u *root);
+A_EXTERN a_bst_rb_s *a_bst_rb_tail(a_bst_rb_u const *root);
 
 /*!
  @brief access next node of red–black binary search tree node in-order
@@ -144,14 +144,14 @@ A_EXTERN a_bst_rb_s *a_bst_rb_pre_prev(a_bst_rb_s *node);
  @param[in] root red–black binary search tree root
  @return head node or NULL
 */
-A_EXTERN a_bst_rb_s *a_bst_rb_post_head(const a_bst_rb_u *root);
+A_EXTERN a_bst_rb_s *a_bst_rb_post_head(a_bst_rb_u const *root);
 
 /*!
  @brief access tail node of red–black binary search tree postorder
  @param[in] root red–black binary search tree root
  @return tail node or NULL
 */
-A_EXTERN a_bst_rb_s *a_bst_rb_post_tail(const a_bst_rb_u *root);
+A_EXTERN a_bst_rb_s *a_bst_rb_post_tail(a_bst_rb_u const *root);
 
 /*!
  @brief access next node of red–black binary search tree node postorder
@@ -186,7 +186,7 @@ A_EXTERN a_bst_rb_s *a_bst_rb_tear(a_bst_rb_u *root, a_bst_rb_s **next);
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
  @return specified node or NULL
 */
-A_EXTERN a_bst_rb_s *a_bst_rb_search(const a_bst_rb_u *root, a_cptr_t ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_bst_rb_s *a_bst_rb_search(a_bst_rb_u const *root, a_cptr_t ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert specified node into red–black binary search tree

@@ -85,10 +85,10 @@ extern "C" {
 #endif /* LIBA_PID_C */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_EXTERN a_real_t a_pid_dt(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_dt(a_pid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
-A_INTERN a_real_t a_pid_dt(const a_pid_s *const ctx)
+A_INTERN a_real_t a_pid_dt(a_pid_s const *const ctx)
 {
     return ctx->dt;
 }
@@ -97,10 +97,10 @@ A_INTERN a_real_t a_pid_dt(const a_pid_s *const ctx)
 A_EXTERN a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt);
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_EXTERN a_real_t a_pid_kp(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_kp(a_pid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
-A_INTERN a_real_t a_pid_kp(const a_pid_s *const ctx)
+A_INTERN a_real_t a_pid_kp(a_pid_s const *const ctx)
 {
     return ctx->kp;
 }
@@ -117,10 +117,10 @@ A_INTERN a_void_t a_pid_set_kp(a_pid_s *const ctx, a_real_t const kp)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_EXTERN a_real_t a_pid_ki(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_ki(a_pid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
-A_INTERN a_real_t a_pid_ki(const a_pid_s *const ctx)
+A_INTERN a_real_t a_pid_ki(a_pid_s const *const ctx)
 {
     return ctx->ki / ctx->dt;
 }
@@ -137,10 +137,10 @@ A_INTERN a_void_t a_pid_set_ki(a_pid_s *const ctx, a_real_t const ki)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_EXTERN a_real_t a_pid_kd(const a_pid_s *ctx);
+A_EXTERN a_real_t a_pid_kd(a_pid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
-A_INTERN a_real_t a_pid_kd(const a_pid_s *const ctx)
+A_INTERN a_real_t a_pid_kd(a_pid_s const *const ctx)
 {
     return ctx->kd * ctx->dt;
 }
@@ -157,10 +157,10 @@ A_INTERN a_void_t a_pid_set_kd(a_pid_s *const ctx, a_real_t const kd)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_EXTERN a_uint_t a_pid_num(const a_pid_s *ctx);
+A_EXTERN a_uint_t a_pid_num(a_pid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
-A_INTERN a_uint_t a_pid_num(const a_pid_s *const ctx)
+A_INTERN a_uint_t a_pid_num(a_pid_s const *const ctx)
 {
     return ctx->num & A_PID_NUM_MASK;
 }
@@ -178,10 +178,10 @@ A_INTERN a_void_t a_pid_set_num(a_pid_s *const ctx, a_uint_t const num)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_EXTERN a_uint_t a_pid_reg(const a_pid_s *ctx);
+A_EXTERN a_uint_t a_pid_reg(a_pid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
-A_INTERN a_uint_t a_pid_reg(const a_pid_s *const ctx)
+A_INTERN a_uint_t a_pid_reg(a_pid_s const *const ctx)
 {
     return ctx->reg & A_PID_REG_MASK;
 }
@@ -199,10 +199,10 @@ A_INTERN a_void_t a_pid_set_reg(a_pid_s *const ctx, a_uint_t const reg)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_PID_C)
-A_EXTERN a_uint_t a_pid_mode(const a_pid_s *mode);
+A_EXTERN a_uint_t a_pid_mode(a_pid_s const *mode);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_PID_C)
-A_INTERN a_uint_t a_pid_mode(const a_pid_s *const ctx)
+A_INTERN a_uint_t a_pid_mode(a_pid_s const *const ctx)
 {
     return ctx->reg & A_PID_MODE_MASK;
 }

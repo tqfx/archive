@@ -61,7 +61,7 @@ a_int_t a_str_init(a_str_s *const ctx, a_cptr_t const pdata, a_size_t const nbyt
     return A_SUCCESS;
 }
 
-a_int_t a_str_copy(a_str_s *const ctx, const a_str_s *const obj)
+a_int_t a_str_copy(a_str_s *const ctx, a_str_s const *const obj)
 {
     return a_str_init(ctx, obj->_str, obj->_num);
 }
@@ -86,7 +86,7 @@ a_str_t a_str_exit(a_str_s *const ctx)
     return str;
 }
 
-a_int_t a_str_cmp(const a_str_s *const lhs, const a_str_s *const rhs)
+a_int_t a_str_cmp(a_str_s const *const lhs, a_str_s const *const rhs)
 {
     a_int_t ok = 0;
     if (lhs->_str && rhs->_str)
@@ -203,7 +203,7 @@ a_int_t a_str_puts(a_str_s *const ctx, a_cptr_t const str)
     return a_str_putn(ctx, str, strlen(A_CHAR_P(str)));
 }
 
-a_int_t a_str_cat(a_str_s *const ctx, const a_str_s *const obj)
+a_int_t a_str_cat(a_str_s *const ctx, a_str_s const *const obj)
 {
     return a_str_putn(ctx, obj->_str, obj->_num);
 }

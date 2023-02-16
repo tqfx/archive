@@ -14,15 +14,15 @@
  @treturn number membership
  @function gauss
 */
-static int LMODULE(mf_gauss)(lua_State *L)
+static int LMODULE(mf_gauss)(lua_State *const L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
-    a_real_t sigma = (a_real_t)luaL_checknumber(L, 2);
-    a_real_t c = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t const x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t const sigma = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t const c = (a_real_t)luaL_checknumber(L, 3);
     lua_pushnumber(L, (lua_Number)a_mf_gauss(x, sigma, c));
     return 1;
 }
@@ -36,16 +36,16 @@ static int LMODULE(mf_gauss)(lua_State *L)
  @treturn number membership
  @function gbell
 */
-static int LMODULE(mf_gbell)(lua_State *L)
+static int LMODULE(mf_gbell)(lua_State *const L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
-    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
-    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
-    a_real_t c = (a_real_t)luaL_checknumber(L, 4);
+    a_real_t const x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t const a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t const b = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t const c = (a_real_t)luaL_checknumber(L, 4);
     lua_pushnumber(L, (lua_Number)a_mf_gbell(x, a, b, c));
     return 1;
 }
@@ -58,15 +58,15 @@ static int LMODULE(mf_gbell)(lua_State *L)
  @treturn number membership
  @function sig
 */
-static int LMODULE(mf_sig)(lua_State *L)
+static int LMODULE(mf_sig)(lua_State *const L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
-    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
-    a_real_t c = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t const x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t const a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t const c = (a_real_t)luaL_checknumber(L, 3);
     lua_pushnumber(L, (lua_Number)a_mf_sig(x, a, c));
     return 1;
 }
@@ -81,17 +81,17 @@ static int LMODULE(mf_sig)(lua_State *L)
  @treturn number membership
  @function trap
 */
-static int LMODULE(mf_trap)(lua_State *L)
+static int LMODULE(mf_trap)(lua_State *const L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
-    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
-    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
-    a_real_t c = (a_real_t)luaL_checknumber(L, 4);
-    a_real_t d = (a_real_t)luaL_checknumber(L, 5);
+    a_real_t const x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t const a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t const b = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t const c = (a_real_t)luaL_checknumber(L, 4);
+    a_real_t const d = (a_real_t)luaL_checknumber(L, 5);
     lua_pushnumber(L, (lua_Number)a_mf_trap(x, a, b, c, d));
     return 1;
 }
@@ -105,16 +105,16 @@ static int LMODULE(mf_trap)(lua_State *L)
  @treturn number membership
  @function tri
 */
-static int LMODULE(mf_tri)(lua_State *L)
+static int LMODULE(mf_tri)(lua_State *const L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
-    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
-    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
-    a_real_t c = (a_real_t)luaL_checknumber(L, 4);
+    a_real_t const x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t const a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t const b = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t const c = (a_real_t)luaL_checknumber(L, 4);
     lua_pushnumber(L, (lua_Number)a_mf_tri(x, a, b, c));
     return 1;
 }
@@ -127,15 +127,15 @@ static int LMODULE(mf_tri)(lua_State *L)
  @treturn number membership
  @function z
 */
-static int LMODULE(mf_z)(lua_State *L)
+static int LMODULE(mf_z)(lua_State *const L)
 {
     if (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    a_real_t x = (a_real_t)luaL_checknumber(L, 1);
-    a_real_t a = (a_real_t)luaL_checknumber(L, 2);
-    a_real_t b = (a_real_t)luaL_checknumber(L, 3);
+    a_real_t const x = (a_real_t)luaL_checknumber(L, 1);
+    a_real_t const a = (a_real_t)luaL_checknumber(L, 2);
+    a_real_t const b = (a_real_t)luaL_checknumber(L, 3);
     lua_pushnumber(L, (lua_Number)a_mf_z(x, a, b));
     return 1;
 }
@@ -148,13 +148,13 @@ static int LMODULE(mf_z)(lua_State *L)
  @treturn number membership
  @function mf
 */
-static int LMODULE(mf)(lua_State *L)
+static int LMODULE(mf)(lua_State *const L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    lua_Integer e = luaL_checkinteger(L, 1);
+    lua_Integer const e = luaL_checkinteger(L, 1);
     lua_remove(L, 1);
     switch (e)
     {
@@ -187,9 +187,9 @@ static int LMODULE(mf)(lua_State *L)
  @field Z z-shaped membership function
  @table mf
 */
-int LMODULE_(mf, lua_State *L)
+int LMODULE_(mf, lua_State *const L)
 {
-    const l_int_s enums[] = {
+    l_int_s const enums[] = {
         {"NUL", A_MF_NUL},
         {"GAUSS", A_MF_GAUSS},
         {"GBELL", A_MF_GBELL},
@@ -199,7 +199,7 @@ int LMODULE_(mf, lua_State *L)
         {"Z", A_MF_Z},
         {NULL, 0},
     };
-    const l_func_s funcs[] = {
+    l_func_s const funcs[] = {
         {"gauss", LMODULE(mf_gauss)},
         {"gbell", LMODULE(mf_gbell)},
         {"sig", LMODULE(mf_sig)},
@@ -208,7 +208,7 @@ int LMODULE_(mf, lua_State *L)
         {"z", LMODULE(mf_z)},
         {NULL, NULL},
     };
-    const l_func_s metas[] = {
+    l_func_s const metas[] = {
         {"__call", LMODULE(mf)},
         {NULL, NULL},
     };

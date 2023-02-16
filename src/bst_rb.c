@@ -22,7 +22,7 @@ static A_INLINE a_void_t a_bst_rb_set_parent(a_bst_rb_s *const node, a_bst_rb_s 
 }
 
 /* Returns the color of the specified red–black tree node. */
-static A_INLINE a_uint_t a_bst_rb_color(const a_bst_rb_s *const node)
+static A_INLINE a_uint_t a_bst_rb_color(a_bst_rb_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     return (a_uint_t)(node->parent & 1);
@@ -238,7 +238,7 @@ a_bst_rb_s *a_bst_rb_insert(a_bst_rb_u *const root, a_bst_rb_s *const node, a_in
     return A_NULL;
 }
 
-a_bst_rb_s *a_bst_rb_search(const a_bst_rb_u *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_bst_rb_s *a_bst_rb_search(a_bst_rb_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     for (a_bst_rb_s *cur = root->node; cur;)
     {
@@ -583,7 +583,7 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
     }
 }
 
-a_bst_rb_s *a_bst_rb_head(const a_bst_rb_u *const root)
+a_bst_rb_s *a_bst_rb_head(a_bst_rb_u const *const root)
 {
     a_bst_rb_s *node = root->node;
     if (node)
@@ -596,7 +596,7 @@ a_bst_rb_s *a_bst_rb_head(const a_bst_rb_u *const root)
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_tail(const a_bst_rb_u *const root)
+a_bst_rb_s *a_bst_rb_tail(a_bst_rb_u const *const root)
 {
     a_bst_rb_s *node = root->node;
     if (node)
@@ -742,7 +742,7 @@ a_bst_rb_s *a_bst_rb_pre_prev(a_bst_rb_s *node)
         }                        \
     } while (A_TRUE)
 
-a_bst_rb_s *a_bst_rb_post_head(const a_bst_rb_u *const root)
+a_bst_rb_s *a_bst_rb_post_head(a_bst_rb_u const *const root)
 {
     a_bst_rb_s *node = root->node;
     if (node)
@@ -769,7 +769,7 @@ a_bst_rb_s *a_bst_rb_post_head(const a_bst_rb_u *const root)
         }                        \
     } while (A_TRUE)
 
-a_bst_rb_s *a_bst_rb_post_tail(const a_bst_rb_u *const root)
+a_bst_rb_s *a_bst_rb_post_tail(a_bst_rb_u const *const root)
 {
     a_bst_rb_s *node = root->node;
     if (node)

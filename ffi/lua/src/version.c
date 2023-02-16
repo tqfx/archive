@@ -6,9 +6,9 @@
 #include "version.h"
 #include <string.h>
 
-static int LMODULE(version_tostring)(lua_State *L)
+static int LMODULE(version_tostring)(lua_State *const L)
 {
-    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
+    a_version_s const *const ctx = (a_version_s const *)lua_touserdata(L, 1);
     if (ctx)
     {
         lua_pushfstring(L, "%d.%d.%d", ctx->major, ctx->minor, ctx->patch);
@@ -17,9 +17,9 @@ static int LMODULE(version_tostring)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(version_init_)(lua_State *L, a_version_s *ctx)
+static int LMODULE(version_init_)(lua_State *const L, a_version_s *const ctx)
 {
-    int top = lua_gettop(L) - lua_isuserdata(L, -1);
+    int const top = lua_gettop(L) - lua_isuserdata(L, -1);
     switch (top & 0x3)
     {
     case 3:
@@ -45,13 +45,13 @@ static int LMODULE(version_init_)(lua_State *L, a_version_s *ctx)
  @treturn algorithm library version userdata
  @function new
 */
-int LMODULE(version_new)(lua_State *L)
+int LMODULE(version_new)(lua_State *const L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
-    a_version_s *ctx = (a_version_s *)lua_newuserdata(L, sizeof(a_version_s));
+    a_version_s *const ctx = (a_version_s *)lua_newuserdata(L, sizeof(a_version_s));
     memset(ctx, 0, sizeof(a_version_s));
     LMODULE2(version_meta_, L, 1);
     lua_setmetatable(L, -2);
@@ -67,14 +67,14 @@ int LMODULE(version_new)(lua_State *L)
  @treturn algorithm library version userdata
  @function init
 */
-int LMODULE(version_init)(lua_State *L)
+int LMODULE(version_init)(lua_State *const L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
     luaL_checktype(L, 1, LUA_TUSERDATA);
-    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
+    a_version_s *const ctx = (a_version_s *)lua_touserdata(L, 1);
     lua_pushvalue(L, 1);
     lua_remove(L, 1);
     return LMODULE2(version_init_, L, ctx);
@@ -89,23 +89,23 @@ int LMODULE(version_init)(lua_State *L)
  @treturn integer 0 version lhs == version rhs
  @function cmp
 */
-int LMODULE(version_cmp)(lua_State *L)
+int LMODULE(version_cmp)(lua_State *const L)
 {
     while (lua_type(L, 1) == LUA_TTABLE)
     {
         lua_remove(L, 1);
     }
     luaL_checktype(L, 1, LUA_TUSERDATA);
-    a_version_s *lhs = (a_version_s *)lua_touserdata(L, 1);
+    a_version_s const *const lhs = (a_version_s const *)lua_touserdata(L, 1);
     luaL_checktype(L, 2, LUA_TUSERDATA);
-    a_version_s *rhs = (a_version_s *)lua_touserdata(L, 2);
+    a_version_s const *const rhs = (a_version_s const *)lua_touserdata(L, 2);
     lua_pushinteger(L, a_version_cmp(lhs, rhs));
     return 1;
 }
 
 #undef FUNC
 #define FUNC(func)                                              \
-    int LMODULE(version_##func)(lua_State * L)                  \
+    int LMODULE(version_##func)(lua_State *const L)             \
     {                                                           \
         while (lua_type(L, 1) == LUA_TTABLE)                    \
         {                                                       \
@@ -168,11 +168,11 @@ FUNC(eq)
 FUNC(ne)
 #undef FUNC
 
-static int LMODULE(version_set)(lua_State *L)
+static int LMODULE(version_set)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_version_s *const ctx = (a_version_s *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x86720331: // major
@@ -201,11 +201,11 @@ static int LMODULE(version_set)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(version_get)(lua_State *L)
+static int LMODULE(version_get)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_version_s *ctx = (a_version_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_version_s const *const ctx = (a_version_s const *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x86720331: // major
@@ -243,13 +243,13 @@ static int LMODULE(version_get)(lua_State *L)
         break;
     case 0xA65758B2: // __index
     {
-        const l_int_s enums[] = {
+        l_int_s const enums[] = {
             {"major", ctx->major},
             {"minor", ctx->minor},
             {"patch", ctx->patch},
             {NULL, 0},
         };
-        const l_func_s funcs[] = {
+        l_func_s const funcs[] = {
             {"init", LMODULE(version_init)},
             {"cmp", LMODULE(version_cmp)},
             {"lt", LMODULE(version_lt)},
@@ -279,15 +279,15 @@ static int LMODULE(version_get)(lua_State *L)
  @field patch algorithm library version patch
  @table version
 */
-int LMODULE_(version, lua_State *L)
+int LMODULE_(version, lua_State *const L)
 {
-    const l_int_s enums[] = {
+    l_int_s const enums[] = {
         {"major", A_VERSION_MAJOR},
         {"minor", A_VERSION_MINOR},
         {"patch", A_VERSION_PATCH},
         {NULL, 0},
     };
-    const l_func_s funcs[] = {
+    l_func_s const funcs[] = {
         {"init", LMODULE(version_init)},
         {"new", LMODULE(version_new)},
         {"cmp", LMODULE(version_cmp)},
@@ -307,7 +307,7 @@ int LMODULE_(version, lua_State *L)
     l_func_set(L, -1, L_NEW, LMODULE(version_new));
     lua_setmetatable(L, -2);
 
-    const l_func_s metas[] = {
+    l_func_s const metas[] = {
         {L_PRI, LMODULE(version_tostring)},
         {L_NEW, LMODULE(version_init)},
         {L_GET, LMODULE(version_get)},
@@ -327,10 +327,10 @@ int LMODULE_(version, lua_State *L)
     return LMODULE2(version_func_, L, 1);
 }
 
-int LMODULE(version_func_)(lua_State *L, int ret)
+int LMODULE(version_func_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(version_func_);
+    void *const p = (void *)(intptr_t)LMODULE(version_func_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);
@@ -340,10 +340,10 @@ int LMODULE(version_func_)(lua_State *L, int ret)
     return 0;
 }
 
-int LMODULE(version_meta_)(lua_State *L, int ret)
+int LMODULE(version_meta_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(version_meta_);
+    void *const p = (void *)(intptr_t)LMODULE(version_meta_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);

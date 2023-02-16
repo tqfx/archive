@@ -11,9 +11,9 @@
  @param ctx transfer function userdata
  @function die
 */
-int LMODULE(tf_die)(lua_State *L)
+int LMODULE(tf_die)(lua_State *const L)
 {
-    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
+    a_tf_s *const ctx = (a_tf_s *)lua_touserdata(L, 1);
     if (ctx)
     {
         ctx->num = A_REAL_P(l_alloc(L, ctx->num, 0));
@@ -33,19 +33,19 @@ int LMODULE(tf_die)(lua_State *L)
  @treturn tf transfer function userdata
  @function new
 */
-int LMODULE(tf_new)(lua_State *L)
+int LMODULE(tf_new)(lua_State *const L)
 {
     if (lua_gettop(L) > 1)
     {
         luaL_checktype(L, -2, LUA_TTABLE);
         luaL_checktype(L, -1, LUA_TTABLE);
-        a_uint_t m = (a_uint_t)lua_rawlen(L, -2);
-        a_real_t *num = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * m * 2);
+        a_uint_t const m = (a_uint_t)lua_rawlen(L, -2);
+        a_real_t *const num = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * m * 2);
         l_array_num_get(L, -2, num, m);
-        a_uint_t n = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *den = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * n * 2);
+        a_uint_t const n = (a_uint_t)lua_rawlen(L, -1);
+        a_real_t *const den = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * n * 2);
         l_array_num_get(L, -1, den, n);
-        a_tf_s *ctx = (a_tf_s *)lua_newuserdata(L, sizeof(a_tf_s));
+        a_tf_s *const ctx = (a_tf_s *)lua_newuserdata(L, sizeof(a_tf_s));
         LMODULE2(tf_meta_, L, 1);
         lua_setmetatable(L, -2);
         a_tf_init(ctx, m, num, num + m, n, den, den + n);
@@ -62,19 +62,19 @@ int LMODULE(tf_new)(lua_State *L)
  @treturn tf transfer function userdata
  @function init
 */
-int LMODULE(tf_init)(lua_State *L)
+int LMODULE(tf_init)(lua_State *const L)
 {
     if (lua_gettop(L) > 2)
     {
         luaL_checktype(L, -3, LUA_TUSERDATA);
-        a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -3);
+        a_tf_s *const ctx = (a_tf_s *)lua_touserdata(L, -3);
         luaL_checktype(L, -2, LUA_TTABLE);
         luaL_checktype(L, -1, LUA_TTABLE);
-        a_uint_t m = (a_uint_t)lua_rawlen(L, -2);
-        a_real_t *num = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * m * 2);
+        a_uint_t const m = (a_uint_t)lua_rawlen(L, -2);
+        a_real_t *const num = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * m * 2);
         l_array_num_get(L, -2, num, m);
-        a_uint_t n = (a_uint_t)lua_rawlen(L, -1);
-        a_real_t *den = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * n * 2);
+        a_uint_t const n = (a_uint_t)lua_rawlen(L, -1);
+        a_real_t *const den = (a_real_t *)l_alloc(L, NULL, sizeof(a_real_t) * n * 2);
         l_array_num_get(L, -1, den, n);
         a_tf_init(ctx, m, num, num + m, n, den, den + n);
         lua_pop(L, 2);
@@ -90,9 +90,9 @@ int LMODULE(tf_init)(lua_State *L)
  @treturn number feedback
  @function proc
 */
-int LMODULE(tf_proc)(lua_State *L)
+int LMODULE(tf_proc)(lua_State *const L)
 {
-    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -2);
+    a_tf_s *const ctx = (a_tf_s *)lua_touserdata(L, -2);
     if (ctx)
     {
         a_real_t x = (a_real_t)luaL_checknumber(L, -1);
@@ -108,9 +108,9 @@ int LMODULE(tf_proc)(lua_State *L)
  @treturn tf transfer function userdata
  @function zero
 */
-int LMODULE(tf_zero)(lua_State *L)
+int LMODULE(tf_zero)(lua_State *const L)
 {
-    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, -1);
+    a_tf_s *const ctx = (a_tf_s *)lua_touserdata(L, -1);
     if (ctx)
     {
         a_tf_zero(ctx);
@@ -119,18 +119,18 @@ int LMODULE(tf_zero)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(tf_set)(lua_State *L)
+static int LMODULE(tf_set)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_tf_s *const ctx = (a_tf_s *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x001D0A2A: // num
     {
         luaL_checktype(L, 3, LUA_TTABLE);
-        a_uint_t m = (a_uint_t)lua_rawlen(L, 3);
-        a_real_t *num = (a_real_t *)l_alloc(L, ctx->num, sizeof(a_real_t) * m * 2);
+        a_uint_t const m = (a_uint_t)lua_rawlen(L, 3);
+        a_real_t *const num = (a_real_t *)l_alloc(L, ctx->num, sizeof(a_real_t) * m * 2);
         l_array_num_get(L, 3, num, m);
         a_tf_set_num(ctx, m, num, num + m);
         break;
@@ -138,8 +138,8 @@ static int LMODULE(tf_set)(lua_State *L)
     case 0x001A63A1: // den
     {
         luaL_checktype(L, 3, LUA_TTABLE);
-        a_uint_t n = (a_uint_t)lua_rawlen(L, 3);
-        a_real_t *den = (a_real_t *)l_alloc(L, ctx->den, sizeof(a_real_t) * n * 2);
+        a_uint_t const n = (a_uint_t)lua_rawlen(L, 3);
+        a_real_t *const den = (a_real_t *)l_alloc(L, ctx->den, sizeof(a_real_t) * n * 2);
         l_array_num_get(L, 3, den, n);
         a_tf_set_den(ctx, n, den, den + n);
         break;
@@ -156,11 +156,11 @@ static int LMODULE(tf_set)(lua_State *L)
     return 0;
 }
 
-static int LMODULE(tf_get)(lua_State *L)
+static int LMODULE(tf_get)(lua_State *const L)
 {
-    const char *field = lua_tostring(L, 2);
-    a_tf_s *ctx = (a_tf_s *)lua_touserdata(L, 1);
-    a_u32_t hash = (a_u32_t)a_hash_bkdr(field, 0);
+    char const *const field = lua_tostring(L, 2);
+    a_tf_s const *const ctx = (a_tf_s const *)lua_touserdata(L, 1);
+    a_u32_t const hash = (a_u32_t)a_hash_bkdr(field, 0);
     switch (hash)
     {
     case 0x001D0A2A: // num
@@ -188,7 +188,7 @@ static int LMODULE(tf_get)(lua_State *L)
         break;
     case 0xA65758B2: // __index
     {
-        const l_func_s funcs[] = {
+        l_func_s const funcs[] = {
             {"init", LMODULE(tf_init)},
             {"proc", LMODULE(tf_proc)},
             {"zero", LMODULE(tf_zero)},
@@ -213,9 +213,9 @@ static int LMODULE(tf_get)(lua_State *L)
     return 1;
 }
 
-int LMODULE_(tf, lua_State *L)
+int LMODULE_(tf, lua_State *const L)
 {
-    const l_func_s funcs[] = {
+    l_func_s const funcs[] = {
         {"init", LMODULE(tf_init)},
         {"proc", LMODULE(tf_proc)},
         {"zero", LMODULE(tf_zero)},
@@ -230,7 +230,7 @@ int LMODULE_(tf, lua_State *L)
     l_func_set(L, -1, L_NEW, LMODULE(tf_new));
     lua_setmetatable(L, -2);
 
-    const l_func_s metas[] = {
+    l_func_s const metas[] = {
         {L_NEW, LMODULE(tf_proc)},
         {L_DIE, LMODULE(tf_die)},
         {L_SET, LMODULE(tf_set)},
@@ -247,10 +247,10 @@ int LMODULE_(tf, lua_State *L)
     return LMODULE2(tf_func_, L, 1);
 }
 
-int LMODULE(tf_func_)(lua_State *L, int ret)
+int LMODULE(tf_func_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(tf_func_);
+    void *const p = (void *)(intptr_t)LMODULE(tf_func_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);
@@ -260,10 +260,10 @@ int LMODULE(tf_func_)(lua_State *L, int ret)
     return 0;
 }
 
-int LMODULE(tf_meta_)(lua_State *L, int ret)
+int LMODULE(tf_meta_)(lua_State *const L, int const ret)
 {
     // NOLINTNEXTLINE(performance-no-int-to-ptr)
-    void *p = (void *)(intptr_t)LMODULE(tf_meta_);
+    void *const p = (void *)(intptr_t)LMODULE(tf_meta_);
     if (ret)
     {
         lua_rawgetp(L, LUA_REGISTRYINDEX, p);

@@ -34,31 +34,31 @@ typedef struct a_vector_s
  @brief access vector head pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_vptr_t a_vector_ptr(const a_vector_s *const ctx) { return ctx->_head; }
+A_INTERN a_vptr_t a_vector_ptr(a_vector_s const *const ctx) { return ctx->_head; }
 
 /*!
  @brief access vector tail pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_vptr_t a_vector_end(const a_vector_s *const ctx) { return ctx->_tail; }
+A_INTERN a_vptr_t a_vector_end(a_vector_s const *const ctx) { return ctx->_tail; }
 
 /*!
  @brief access size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_get(const a_vector_s *const ctx) { return ctx->_size; }
+A_INTERN a_size_t a_vector_get(a_vector_s const *const ctx) { return ctx->_size; }
 
 /*!
  @brief access number of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_num(const a_vector_s *const ctx) { return ctx->_num; }
+A_INTERN a_size_t a_vector_num(a_vector_s const *const ctx) { return ctx->_num; }
 
 /*!
  @brief access capacity of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_mem(const a_vector_s *const ctx) { return ctx->_mem; }
+A_INTERN a_size_t a_vector_mem(a_vector_s const *const ctx) { return ctx->_mem; }
 
 /*!
  @brief access specified element for a pointer to vector structure
@@ -67,7 +67,7 @@ A_INTERN a_size_t a_vector_mem(const a_vector_s *const ctx) { return ctx->_mem; 
  @note should check for out of bounds
  @return specified element pointer
 */
-A_INTERN a_vptr_t a_vector_at_(const a_vector_s *const ctx, a_size_t idx)
+A_INTERN a_vptr_t a_vector_at_(a_vector_s const *const ctx, a_size_t idx)
 {
     return a_byte_p(ctx->_head) + ctx->_size * idx;
 }
@@ -79,7 +79,7 @@ A_INTERN a_vptr_t a_vector_at_(const a_vector_s *const ctx, a_size_t idx)
  @return specified element pointer
   @retval 0 out of bounds
 */
-A_INTERN a_vptr_t a_vector_at(const a_vector_s *const ctx, a_size_t idx)
+A_INTERN a_vptr_t a_vector_at(a_vector_s const *const ctx, a_size_t idx)
 {
     return a_likely(idx < ctx->_mem) ? a_vector_at_(ctx, idx) : A_NULL;
 }
@@ -91,7 +91,7 @@ A_INTERN a_vptr_t a_vector_at(const a_vector_s *const ctx, a_size_t idx)
  @return specified element pointer
   @retval 0 out of bounds
 */
-A_INTERN a_vptr_t a_vector_idx(const a_vector_s *const ctx, a_diff_t const idx)
+A_INTERN a_vptr_t a_vector_idx(a_vector_s const *const ctx, a_diff_t const idx)
 {
     a_size_t const num = idx < 0 ? a_size_c(idx) + ctx->_num : a_size_c(idx);
     return a_likely(num < ctx->_mem) ? a_vector_at_(ctx, num) : A_NULL;
@@ -103,7 +103,7 @@ A_INTERN a_vptr_t a_vector_idx(const a_vector_s *const ctx, a_diff_t const idx)
  @note should check if vector is empty
  @return specified element pointer
 */
-A_INTERN a_vptr_t a_vector_top_(const a_vector_s *const ctx)
+A_INTERN a_vptr_t a_vector_top_(a_vector_s const *const ctx)
 {
     return a_byte_p(ctx->_tail) - ctx->_size;
 }
@@ -114,7 +114,7 @@ A_INTERN a_vptr_t a_vector_top_(const a_vector_s *const ctx)
  @return specified element pointer
   @retval 0 empty vector
 */
-A_INTERN a_vptr_t a_vector_top(const a_vector_s *const ctx)
+A_INTERN a_vptr_t a_vector_top(a_vector_s const *const ctx)
 {
     return a_likely(ctx->_num) ? a_vector_top_(ctx) : A_NULL;
 }
@@ -166,7 +166,7 @@ A_EXTERN a_void_t a_vector_dtor(a_vector_s *ctx);
   @retval 0 success
   @retval 1 failure
 */
-A_EXTERN a_int_t a_vector_copy(a_vector_s *ctx, const a_vector_s *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t));
+A_EXTERN a_int_t a_vector_copy(a_vector_s *ctx, a_vector_s const *obj, a_int_t (*dup)(a_vptr_t, a_cptr_t));
 
 /*!
  @brief initialize a pointer to vector structure by moving
@@ -208,7 +208,7 @@ A_EXTERN a_void_t a_vector_drop(a_vector_s *ctx);
  @param[in] lhs element index on the left
  @param[in] rhs element index on the right
 */
-A_EXTERN a_void_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rhs);
+A_EXTERN a_void_t a_vector_swap(a_vector_s const *ctx, a_size_t lhs, a_size_t rhs);
 
 /*!
  @brief sort all elements for a pointer to vector structure
@@ -218,7 +218,7 @@ A_EXTERN a_void_t a_vector_swap(const a_vector_s *ctx, a_size_t lhs, a_size_t rh
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_EXTERN a_void_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_vector_sort(a_vector_s const *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort foremost element for a pointer to vector structure
@@ -237,7 +237,7 @@ A_EXTERN a_void_t a_vector_sort(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, 
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_EXTERN a_void_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_vector_sort_fore(a_vector_s const *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert sort backmost element for a pointer to vector structure
@@ -256,7 +256,7 @@ A_EXTERN a_void_t a_vector_sort_fore(const a_vector_s *ctx, a_int_t (*cmp)(a_cpt
   @arg cmp(lhs,rhs)<0 *lhs goes before *rhs
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
 */
-A_EXTERN a_void_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_void_t a_vector_sort_back(a_vector_s const *ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief search the given element in this vector
@@ -269,7 +269,7 @@ A_EXTERN a_void_t a_vector_sort_back(const a_vector_s *ctx, a_int_t (*cmp)(a_cpt
  @return matching element pointer
   @retval 0 failure
 */
-A_EXTERN a_vptr_t a_vector_search(const a_vector_s *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_vptr_t a_vector_search(a_vector_s const *ctx, a_cptr_t obj, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert an element into the vector

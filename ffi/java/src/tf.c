@@ -1,7 +1,7 @@
 #include "tf.h"
 #include "liba_tf.h"
 
-j_tf_s *j_tf_new(JNIEnv *jenv, jobject jobj, j_tf_s *jctx)
+j_tf_s *j_tf_new(JNIEnv *const jenv, jobject const jobj, j_tf_s *const jctx)
 {
     jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "tf");
     jctx->u = (*jenv)->GetFieldID(jenv, jcls, "u", "[D");
@@ -17,7 +17,7 @@ j_tf_s *j_tf_new(JNIEnv *jenv, jobject jobj, j_tf_s *jctx)
     return jctx;
 }
 
-jobject j_tf_get(const j_tf_s *jctx, a_tf_s *ctx)
+jobject j_tf_get(j_tf_s const *const jctx, a_tf_s *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     if (jctx->ju)
@@ -41,7 +41,7 @@ jobject j_tf_get(const j_tf_s *jctx, a_tf_s *ctx)
     return jctx->jobj;
 }
 
-jobject j_tf_set(const j_tf_s *jctx, const a_tf_s *ctx)
+jobject j_tf_set(j_tf_s const *const jctx, a_tf_s const *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     if (ctx->u)

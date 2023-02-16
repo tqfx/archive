@@ -45,10 +45,10 @@ typedef struct a_fpid_s
 {
     a_pid_s pid[1]; //!< instance structure for PID controller
 
-    const a_real_t *mmp; //!< points to membership function parameter table, an array terminated by @ref A_MF_NUL
-    const a_real_t *mkp; //!< points to Kp's rule base table, the rule base must be square
-    const a_real_t *mki; //!< points to Ki's rule base table, the rule base must be square
-    const a_real_t *mkd; //!< points to Kd's rule base table, the rule base must be square
+    a_real_t const *mmp; //!< points to membership function parameter table, an array terminated by @ref A_MF_NUL
+    a_real_t const *mkp; //!< points to Kp's rule base table, the rule base must be square
+    a_real_t const *mki; //!< points to Ki's rule base table, the rule base must be square
+    a_real_t const *mkd; //!< points to Kd's rule base table, the rule base must be square
 
     a_uint_t *idx; //!< the memory cache for membership index
     /*!< the length must be greater than or equal to twice the maximum number triggered by the rule */
@@ -85,10 +85,10 @@ A_INTERN a_size_t A_FPID_BUF1(a_uint_t const max)
 #define A_FPID_BUF1(N) ((sizeof(a_uint_t) << 1) * (N) + sizeof(a_real_t) * ((N) + 2) * (N))
 
 #if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
-A_EXTERN a_vptr_t a_fpid_bufptr(const a_fpid_s *ctx);
+A_EXTERN a_vptr_t a_fpid_bufptr(a_fpid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
-A_INTERN a_vptr_t a_fpid_bufptr(const a_fpid_s *const ctx)
+A_INTERN a_vptr_t a_fpid_bufptr(a_fpid_s const *const ctx)
 {
     return ctx->idx;
 }
@@ -96,10 +96,10 @@ A_INTERN a_vptr_t a_fpid_bufptr(const a_fpid_s *const ctx)
 #define a_fpid_bufptr(ctx) (ctx)->idx
 
 #if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
-A_EXTERN a_uint_t a_fpid_bufnum(const a_fpid_s *ctx);
+A_EXTERN a_uint_t a_fpid_bufnum(a_fpid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
-A_INTERN a_uint_t a_fpid_bufnum(const a_fpid_s *const ctx)
+A_INTERN a_uint_t a_fpid_bufnum(a_fpid_s const *const ctx)
 {
     return ctx->pid->num >> A_PID_NUM_BITS;
 }
@@ -117,10 +117,10 @@ A_INTERN a_void_t a_fpid_set_bufnum(a_fpid_s *const ctx, a_uint_t const num)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
-A_EXTERN a_uint_t a_fpid_col(const a_fpid_s *ctx);
+A_EXTERN a_uint_t a_fpid_col(a_fpid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
-A_INTERN a_uint_t a_fpid_col(const a_fpid_s *const ctx)
+A_INTERN a_uint_t a_fpid_col(a_fpid_s const *const ctx)
 {
     return ctx->pid->reg >> A_PID_REG_BITS;
 }
@@ -138,10 +138,10 @@ A_INTERN a_void_t a_fpid_set_col(a_fpid_s *const ctx, a_uint_t const reg)
 #endif /* A_HAVE_INLINE */
 
 #if !defined A_HAVE_INLINE || defined(LIBA_FPID_C)
-A_EXTERN a_uint_t a_fpid_op(const a_fpid_s *ctx);
+A_EXTERN a_uint_t a_fpid_op(a_fpid_s const *ctx);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_FPID_C)
-A_INTERN a_uint_t a_fpid_op(const a_fpid_s *const ctx)
+A_INTERN a_uint_t a_fpid_op(a_fpid_s const *const ctx)
 {
     return ctx->pid->reg & A_FPID_FUZZY_MASK;
 }
@@ -239,7 +239,7 @@ A_EXTERN a_fpid_s *a_fpid_setp(a_fpid_s *ctx, a_uint_t num, a_real_t *out, a_rea
  @param[in] mki points to Ki's rule base table, the rule base must be square
  @param[in] mkd points to Kd's rule base table, the rule base must be square
 */
-A_EXTERN a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp, const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd);
+A_EXTERN a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, a_real_t const *mmp, a_real_t const *mkp, a_real_t const *mki, a_real_t const *mkd);
 
 /*!
  @brief initialize function for fuzzy PID controller, default setting is off
@@ -255,8 +255,8 @@ A_EXTERN a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp,
  @param[in] omin mininum output
  @param[in] omax maxinum output
 */
-A_EXTERN a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *mmp,
-                               const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd,
+A_EXTERN a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, a_real_t const *mmp,
+                               a_real_t const *mkp, a_real_t const *mki, a_real_t const *mkd,
                                a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax);
 
 /*!

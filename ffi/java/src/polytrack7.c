@@ -1,7 +1,7 @@
 #include "polytrack7.h"
 #include "liba_polytrack7.h"
 
-j_polytrack7_s *j_polytrack7_new(JNIEnv *jenv, jobject jobj, j_polytrack7_s *jctx)
+j_polytrack7_s *j_polytrack7_new(JNIEnv *const jenv, jobject const jobj, j_polytrack7_s *const jctx)
 {
     jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "polytrack7");
     jctx->k = (*jenv)->GetFieldID(jenv, jcls, "k", "[D");
@@ -21,7 +21,7 @@ j_polytrack7_s *j_polytrack7_new(JNIEnv *jenv, jobject jobj, j_polytrack7_s *jct
     return jctx;
 }
 
-jobject j_polytrack7_get(const j_polytrack7_s *jctx, a_polytrack7_s *ctx)
+jobject j_polytrack7_get(j_polytrack7_s const *const jctx, a_polytrack7_s *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     (*jenv)->GetDoubleArrayRegion(jenv, jctx->jt, 0, JCOUNTOF(ctx->t), ctx->t);
@@ -33,7 +33,7 @@ jobject j_polytrack7_get(const j_polytrack7_s *jctx, a_polytrack7_s *ctx)
     return jctx->jobj;
 }
 
-jobject j_polytrack7_set(const j_polytrack7_s *jctx, const a_polytrack7_s *ctx)
+jobject j_polytrack7_set(j_polytrack7_s const *const jctx, a_polytrack7_s const *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     (*jenv)->SetDoubleArrayRegion(jenv, jctx->jt, 0, JCOUNTOF(ctx->t), ctx->t);

@@ -36,25 +36,25 @@
 
 typedef struct
 {
-    const char *name;
+    char const *name;
     lua_CFunction func;
 } l_func_s;
 
 typedef struct
 {
-    const char *name;
-    const char *data;
+    char const *name;
+    char const *data;
 } l_str_s;
 
 typedef struct
 {
-    const char *name;
+    char const *name;
     L_INT data;
 } l_int_s;
 
 typedef struct
 {
-    const char *name;
+    char const *name;
     L_NUM data;
 } l_num_s;
 
@@ -75,8 +75,8 @@ LUALIB_API void luaL_checkversion_(lua_State *L, lua_Number ver, size_t sz);
 #define lua_rawlen(L, i) lua_objlen(L, i)
 #endif /* LUA_VERSION_NUM */
 
-LUALIB_API const char *luaL_checklstring(lua_State *L, int numArg, size_t *l);
-LUALIB_API const char *luaL_optlstring(lua_State *L, int numArg, const char *def, size_t *l);
+LUALIB_API char const *luaL_checklstring(lua_State *L, int numArg, size_t *l);
+LUALIB_API char const *luaL_optlstring(lua_State *L, int numArg, char const *def, size_t *l);
 
 LUALIB_API lua_Integer luaL_checkinteger(lua_State *L, int numArg);
 LUALIB_API lua_Integer luaL_optinteger(lua_State *L, int nArg, lua_Integer def);
@@ -84,41 +84,41 @@ LUALIB_API lua_Integer luaL_optinteger(lua_State *L, int nArg, lua_Integer def);
 LUALIB_API lua_Number luaL_checknumber(lua_State *L, int numArg);
 LUALIB_API lua_Number luaL_optnumber(lua_State *L, int nArg, lua_Number def);
 
-LUALIB_API void luaL_checkstack(lua_State *L, int sz, const char *msg);
+LUALIB_API void luaL_checkstack(lua_State *L, int sz, char const *msg);
 LUALIB_API void luaL_checktype(lua_State *L, int narg, int t);
 LUALIB_API void luaL_checkany(lua_State *L, int narg);
 
 LUALIB_API void luaL_where(lua_State *L, int lvl);
-LUALIB_API int luaL_error(lua_State *L, const char *fmt, ...);
+LUALIB_API int luaL_error(lua_State *L, char const *fmt, ...);
 
-L_API void *l_alloc(lua_State *L, const void *ptr, size_t siz);
+L_API void *l_alloc(lua_State *L, void const *ptr, size_t siz);
 
-L_API void l_func_reg(lua_State *L, int idx, const l_func_s *tab);
-L_API void l_func_set(lua_State *L, int idx, const char *name, lua_CFunction func);
+L_API void l_func_reg(lua_State *L, int idx, l_func_s const *tab);
+L_API void l_func_set(lua_State *L, int idx, char const *name, lua_CFunction func);
 
-L_API void l_str_reg(lua_State *L, int idx, const l_str_s *tab);
-L_API const char *l_str_get(lua_State *L, int idx, const char *name);
-L_API void l_str_set(lua_State *L, int idx, const char *name, const char *data);
+L_API void l_str_reg(lua_State *L, int idx, l_str_s const *tab);
+L_API char const *l_str_get(lua_State *L, int idx, char const *name);
+L_API void l_str_set(lua_State *L, int idx, char const *name, char const *data);
 
-L_API void l_int_reg(lua_State *L, int idx, const l_int_s *tab);
-L_API void l_int_set(lua_State *L, int idx, const char *name, L_INT data);
-L_API L_INT l_int_get(lua_State *L, int idx, const char *name);
+L_API void l_int_reg(lua_State *L, int idx, l_int_s const *tab);
+L_API void l_int_set(lua_State *L, int idx, char const *name, L_INT data);
+L_API L_INT l_int_get(lua_State *L, int idx, char const *name);
 
-L_API void l_num_reg(lua_State *L, int idx, const l_num_s *tab);
-L_API void l_num_set(lua_State *L, int idx, const char *name, L_NUM data);
-L_API L_NUM l_num_get(lua_State *L, int idx, const char *name);
+L_API void l_num_reg(lua_State *L, int idx, l_num_s const *tab);
+L_API void l_num_set(lua_State *L, int idx, char const *name, L_NUM data);
+L_API L_NUM l_num_get(lua_State *L, int idx, char const *name);
 
-L_API void l_array_str_get(lua_State *L, int idx, const char **ptr, unsigned int num);
-L_API void l_array_str_set(lua_State *L, int idx, const char *const *ptr, unsigned int num);
+L_API void l_array_str_get(lua_State *L, int idx, char const **ptr, unsigned int num);
+L_API void l_array_str_set(lua_State *L, int idx, char const *const *ptr, unsigned int num);
 
 L_API void l_array_int_get(lua_State *L, int idx, L_INT *ptr, unsigned int num);
-L_API void l_array_int_set(lua_State *L, int idx, const L_INT *ptr, unsigned int num);
+L_API void l_array_int_set(lua_State *L, int idx, L_INT const *ptr, unsigned int num);
 
 L_API void l_array_num_get(lua_State *L, int idx, L_NUM *ptr, unsigned int num);
-L_API void l_array_num_set(lua_State *L, int idx, const L_NUM *ptr, unsigned int num);
+L_API void l_array_num_set(lua_State *L, int idx, L_NUM const *ptr, unsigned int num);
 
-L_API L_NUM *l_table_num_get(lua_State *L, int idx, const L_NUM *ptr, size_t *num);
-L_API void l_table_num_set(lua_State *L, int idx, const L_NUM *ptr, size_t num, unsigned int col);
+L_API L_NUM *l_table_num_get(lua_State *L, int idx, L_NUM const *ptr, size_t *num);
+L_API void l_table_num_set(lua_State *L, int idx, L_NUM const *ptr, size_t num, unsigned int col);
 
 L_API void l_stack_type(lua_State *L, int line);
 L_API void l_stack_show(lua_State *L, int line);

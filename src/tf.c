@@ -10,7 +10,7 @@ static void a_tf_roll(a_real_t *const p, a_uint_t n, a_real_t const x)
     *p = x;
 }
 
-a_void_t a_tf_set_num(a_tf_s *const ctx, a_uint_t const m, const a_real_t *const num, a_real_t *const u)
+a_void_t a_tf_set_num(a_tf_s *const ctx, a_uint_t const m, a_real_t const *const num, a_real_t *const u)
 {
     memset(u, 0, sizeof(a_real_t) * m);
     ctx->num = num;
@@ -18,7 +18,7 @@ a_void_t a_tf_set_num(a_tf_s *const ctx, a_uint_t const m, const a_real_t *const
     ctx->u = u;
 }
 
-a_void_t a_tf_set_den(a_tf_s *const ctx, a_uint_t const n, const a_real_t *const den, a_real_t *const v)
+a_void_t a_tf_set_den(a_tf_s *const ctx, a_uint_t const n, a_real_t const *const den, a_real_t *const v)
 {
     memset(v, 0, sizeof(a_real_t) * n);
     ctx->den = den;
@@ -27,8 +27,8 @@ a_void_t a_tf_set_den(a_tf_s *const ctx, a_uint_t const n, const a_real_t *const
 }
 
 a_tf_s *a_tf_init(a_tf_s *const ctx,
-                  a_uint_t const m, const a_real_t *const num, a_real_t *const u,
-                  a_uint_t const n, const a_real_t *const den, a_real_t *const v)
+                  a_uint_t const m, a_real_t const *const num, a_real_t *const u,
+                  a_uint_t const n, a_real_t const *const den, a_real_t *const v)
 {
     a_tf_set_num(ctx, m, num, u);
     a_tf_set_den(ctx, n, den, v);

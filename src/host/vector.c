@@ -116,7 +116,7 @@ a_void_t a_vector_dtor(a_vector_s *const ctx)
     ctx->_mem = 0;
 }
 
-a_int_t a_vector_copy(a_vector_s *const ctx, const a_vector_s *const obj, a_int_t (*const dup)(a_vptr_t, a_cptr_t))
+a_int_t a_vector_copy(a_vector_s *const ctx, a_vector_s const *const obj, a_int_t (*const dup)(a_vptr_t, a_cptr_t))
 {
     a_size_t const num_ = obj->_num * obj->_size;
     a_size_t const mem_ = obj->_mem * obj->_size;
@@ -184,7 +184,7 @@ a_void_t a_vector_drop(a_vector_s *const ctx)
     a_vector_drop_(ctx, 0);
 }
 
-a_void_t a_vector_swap(const a_vector_s *const ctx, a_size_t lhs, a_size_t rhs)
+a_void_t a_vector_swap(a_vector_s const *const ctx, a_size_t lhs, a_size_t rhs)
 {
     a_size_t const num = ctx->_num - 1;
     lhs = lhs < ctx->_num ? lhs : num;
@@ -198,12 +198,12 @@ a_void_t a_vector_swap(const a_vector_s *const ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_void_t a_vector_sort(const a_vector_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vector_sort(a_vector_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     qsort(ctx->_head, ctx->_num, ctx->_size, cmp);
 }
 
-a_void_t a_vector_sort_fore(const a_vector_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vector_sort_fore(a_vector_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     if (ctx->_num > 1)
     {
@@ -225,7 +225,7 @@ a_void_t a_vector_sort_fore(const a_vector_s *const ctx, a_int_t (*const cmp)(a_
     }
 }
 
-a_void_t a_vector_sort_back(const a_vector_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_vector_sort_back(a_vector_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     if (ctx->_num > 1)
     {
@@ -246,7 +246,7 @@ a_void_t a_vector_sort_back(const a_vector_s *const ctx, a_int_t (*const cmp)(a_
     }
 }
 
-a_vptr_t a_vector_search(const a_vector_s *const ctx, a_cptr_t const obj, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_vptr_t a_vector_search(a_vector_s const *const ctx, a_cptr_t const obj, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     return bsearch(obj, ctx->_head, ctx->_num, ctx->_size, cmp);
 }

@@ -22,8 +22,8 @@ typedef struct a_tf_s
 {
     a_real_t *u; //!< input
     a_real_t *v; //!< output
-    const a_real_t *num; //!< numerator
-    const a_real_t *den; //!< denominator
+    a_real_t const *num; //!< numerator
+    a_real_t const *den; //!< denominator
     a_uint_t m; //!< numerator number
     a_uint_t n; //!< denominator number
 } a_tf_s;
@@ -39,7 +39,7 @@ extern "C" {
  @param[in] num numerator
  @param[in] u input buffer
 */
-A_EXTERN a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_real_t *u);
+A_EXTERN a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, a_real_t const *num, a_real_t *u);
 
 /*!
  @brief set denominator for transfer function
@@ -48,7 +48,7 @@ A_EXTERN a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_r
  @param[in] den denominator
  @param[in] v output buffer
 */
-A_EXTERN a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_real_t *v);
+A_EXTERN a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, a_real_t const *den, a_real_t *v);
 
 /*!
  @brief initialize function for transfer function
@@ -61,8 +61,8 @@ A_EXTERN a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_r
  @param[in] v output buffer
 */
 A_EXTERN a_tf_s *a_tf_init(a_tf_s *ctx,
-                           a_uint_t m, const a_real_t *num, a_real_t *u,
-                           a_uint_t n, const a_real_t *den, a_real_t *v);
+                           a_uint_t m, a_real_t const *num, a_real_t *u,
+                           a_uint_t n, a_real_t const *den, a_real_t *v);
 
 /*!
  @brief process function for transfer function

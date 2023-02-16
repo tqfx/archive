@@ -133,7 +133,7 @@ a_que_s *a_que_move(a_que_s *const ctx, a_que_s *const obj)
     return ctx;
 }
 
-a_vptr_t a_que_at(const a_que_s *const ctx, a_imax_t const idx)
+a_vptr_t a_que_at(a_que_s const *const ctx, a_imax_t const idx)
 {
     a_imax_t cur = 0;
     a_vptr_t vptr = A_NULL;
@@ -180,7 +180,7 @@ a_void_t a_que_drop(a_que_s *const ctx, a_void_t (*dtor)(a_vptr_t))
     }
 }
 
-a_int_t a_que_swap_(const a_que_s *const ctx, a_vptr_t const lhs, a_vptr_t const rhs)
+a_int_t a_que_swap_(a_que_s const *const ctx, a_vptr_t const lhs, a_vptr_t const rhs)
 {
     if (lhs == rhs)
     {
@@ -210,7 +210,7 @@ a_int_t a_que_swap_(const a_que_s *const ctx, a_vptr_t const lhs, a_vptr_t const
     return ok;
 }
 
-a_void_t a_que_swap(const a_que_s *const ctx, a_size_t lhs, a_size_t rhs)
+a_void_t a_que_swap(a_que_s const *const ctx, a_size_t lhs, a_size_t rhs)
 {
     a_size_t cur = 0;
     a_size_t const num = ctx->_num - 1;
@@ -244,7 +244,7 @@ a_void_t a_que_swap(const a_que_s *const ctx, a_size_t lhs, a_size_t rhs)
     }
 }
 
-a_void_t a_que_sort_fore(const a_que_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_que_sort_fore(a_que_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     if (ctx->_num > 1)
     {
@@ -271,7 +271,7 @@ a_void_t a_que_sort_fore(const a_que_s *const ctx, a_int_t (*const cmp)(a_cptr_t
     }
 }
 
-a_void_t a_que_sort_back(const a_que_s *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_void_t a_que_sort_back(a_que_s const *const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
     if (ctx->_num > 1)
     {

@@ -1,7 +1,7 @@
 #include "pid.h"
 #include "liba_pid.h"
 
-j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
+j_pid_s *j_pid_new(JNIEnv *const jenv, jobject const jobj, j_pid_s *const jctx)
 {
     jclass jcls = (*jenv)->FindClass(jenv, CLASSPATH "pid");
     jctx->num = (*jenv)->GetFieldID(jenv, jcls, "num", "I");
@@ -23,7 +23,7 @@ j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx)
     return jctx;
 }
 
-jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
+jobject j_pid_get(j_pid_s const *const jctx, a_pid_s *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;
@@ -44,7 +44,7 @@ jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx)
     return jctx->jobj;
 }
 
-jobject j_pid_set(const j_pid_s *jctx, const a_pid_s *ctx)
+jobject j_pid_set(j_pid_s const *const jctx, a_pid_s const *const ctx)
 {
     JNIEnv *jenv = jctx->jenv;
     jobject jobj = jctx->jobj;

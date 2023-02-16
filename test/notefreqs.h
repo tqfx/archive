@@ -7,7 +7,7 @@
 #define A_NOTEFREQ_FREQ ((180000000 >> 1) / 200)
 #include "a/notefreqs.h"
 
-static const a_real_t song[][2] = {
+static a_real_t const song[][2] = {
     /* clang-format off */
     {A_NOTEFREQ_FREQ_C0,  A_NOTEFREQ_C0},  {A_NOTEFREQ_FREQ_C_0, A_NOTEFREQ_C_0}, // NOLINT(bugprone-integer-division)
     {A_NOTEFREQ_FREQ_D0,  A_NOTEFREQ_D0},  {A_NOTEFREQ_FREQ_D_0, A_NOTEFREQ_D_0}, // NOLINT(bugprone-integer-division)

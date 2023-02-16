@@ -13,7 +13,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-A_PUBLIC JSModuleDef *js_init_module(JSContext *ctx, const char *module_name);
+A_PUBLIC JSModuleDef *js_init_module(JSContext *ctx, char const *module_name);
 
 #if defined(__cplusplus)
 } /* extern "C" */

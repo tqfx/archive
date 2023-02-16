@@ -29,8 +29,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 j_pid_s *j_pid_new(JNIEnv *jenv, jobject jobj, j_pid_s *jctx);
-jobject j_pid_set(const j_pid_s *jctx, const a_pid_s *ctx);
-jobject j_pid_get(const j_pid_s *jctx, a_pid_s *ctx);
+jobject j_pid_set(j_pid_s const *jctx, a_pid_s const *ctx);
+jobject j_pid_get(j_pid_s const *jctx, a_pid_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

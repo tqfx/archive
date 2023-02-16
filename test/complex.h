@@ -426,7 +426,7 @@ static void test_atrih(a_complex_s x)
 #define strtoreal(str, endptr) strtold(str, endptr)
 #endif /* A_REAL_TYPE */
 
-static a_complex_s strtocomplex(const char *A_RESTRICT str, char **A_RESTRICT endptr)
+static a_complex_s strtocomplex(char const *A_RESTRICT str, char **A_RESTRICT endptr)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     a_complex_real(z) = strtoreal(str, endptr);

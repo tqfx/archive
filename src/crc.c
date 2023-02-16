@@ -168,10 +168,10 @@ a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t const poly)
     }
 }
 
-a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u8_t val)
+a_u8_t a_crc8(a_u8_t const ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u8_t val)
 {
-    const a_u8_t *p = A_U8_P(pdata);
-    const a_u8_t *q = A_U8_P(pdata) + nbyte;
+    a_u8_t const *p = A_U8_P(pdata);
+    a_u8_t const *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = ctx[val ^ *p++];
@@ -179,10 +179,10 @@ a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const 
     return val;
 }
 
-a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u16_t val)
+a_u16_t a_crc16l(a_u16_t const ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u16_t val)
 {
-    const a_u8_t *p = A_U8_P(pdata);
-    const a_u8_t *q = A_U8_P(pdata) + nbyte;
+    a_u8_t const *p = A_U8_P(pdata);
+    a_u8_t const *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = a_u16_c((val >> 8) ^ ctx[(val ^ *p++) & 0xFF]);
@@ -190,10 +190,10 @@ a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t co
     return val;
 }
 
-a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u32_t val)
+a_u32_t a_crc32l(a_u32_t const ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u32_t val)
 {
-    const a_u8_t *p = A_U8_P(pdata);
-    const a_u8_t *q = A_U8_P(pdata) + nbyte;
+    a_u8_t const *p = A_U8_P(pdata);
+    a_u8_t const *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val >> 8) ^ ctx[(val ^ *p++) & 0xFF];
@@ -201,10 +201,10 @@ a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t co
     return val;
 }
 
-a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u64_t val)
+a_u64_t a_crc64l(a_u64_t const ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u64_t val)
 {
-    const a_u8_t *p = A_U8_P(pdata);
-    const a_u8_t *q = A_U8_P(pdata) + nbyte;
+    a_u8_t const *p = A_U8_P(pdata);
+    a_u8_t const *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val >> 8) ^ ctx[(val ^ *p++) & 0xFF];
@@ -212,10 +212,10 @@ a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t co
     return val;
 }
 
-a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u16_t val)
+a_u16_t a_crc16h(a_u16_t const ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u16_t val)
 {
-    const a_u8_t *p = A_U8_P(pdata);
-    const a_u8_t *q = A_U8_P(pdata) + nbyte;
+    a_u8_t const *p = A_U8_P(pdata);
+    a_u8_t const *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = a_u16_c((val << 8) ^ ctx[((val >> 8) ^ *p++) & 0xFF]);
@@ -223,10 +223,10 @@ a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t co
     return val;
 }
 
-a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u32_t val)
+a_u32_t a_crc32h(a_u32_t const ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u32_t val)
 {
-    const a_u8_t *p = A_U8_P(pdata);
-    const a_u8_t *q = A_U8_P(pdata) + nbyte;
+    a_u8_t const *p = A_U8_P(pdata);
+    a_u8_t const *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val << 8) ^ ctx[((val >> 24) ^ *p++) & 0xFF];
@@ -234,10 +234,10 @@ a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t co
     return val;
 }
 
-a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u64_t val)
+a_u64_t a_crc64h(a_u64_t const ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u64_t val)
 {
-    const a_u8_t *p = A_U8_P(pdata);
-    const a_u8_t *q = A_U8_P(pdata) + nbyte;
+    a_u8_t const *p = A_U8_P(pdata);
+    a_u8_t const *q = A_U8_P(pdata) + nbyte;
     while (p != q)
     {
         val = (val << 8) ^ ctx[((val >> 56) ^ *p++) & 0xFF];

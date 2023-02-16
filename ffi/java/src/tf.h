@@ -23,8 +23,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 j_tf_s *j_tf_new(JNIEnv *jenv, jobject jobj, j_tf_s *jctx);
-jobject j_tf_set(const j_tf_s *jctx, const a_tf_s *ctx);
-jobject j_tf_get(const j_tf_s *jctx, a_tf_s *ctx);
+jobject j_tf_set(j_tf_s const *jctx, a_tf_s const *ctx);
+jobject j_tf_get(j_tf_s const *jctx, a_tf_s *ctx);
 
 #if defined(__cplusplus)
 } /* extern "C" */

@@ -48,7 +48,7 @@ typedef struct a_bst_avl_s
  @return a pointer to the parent of the specified AVL tree node,
  or NULL if it is already the root of the tree.
 */
-A_INTERN a_bst_avl_s *a_bst_avl_parent(const a_bst_avl_s *const node)
+A_INTERN a_bst_avl_s *a_bst_avl_parent(a_bst_avl_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     return a_cast_r(a_bst_avl_s *, node->parent & ~a_uptr_c(3));
@@ -105,14 +105,14 @@ extern "C" {
  @param[in] root AVL binary search tree root
  @return head node or NULL
 */
-A_EXTERN a_bst_avl_s *a_bst_avl_head(const a_bst_avl_u *root);
+A_EXTERN a_bst_avl_s *a_bst_avl_head(a_bst_avl_u const *root);
 
 /*!
  @brief access tail node of AVL binary search tree in-order
  @param[in] root AVL binary search tree root
  @return tail node or NULL
 */
-A_EXTERN a_bst_avl_s *a_bst_avl_tail(const a_bst_avl_u *root);
+A_EXTERN a_bst_avl_s *a_bst_avl_tail(a_bst_avl_u const *root);
 
 /*!
  @brief access next node of AVL binary search tree node in-order
@@ -147,14 +147,14 @@ A_EXTERN a_bst_avl_s *a_bst_avl_pre_prev(a_bst_avl_s *node);
  @param[in] root AVL binary search tree root
  @return head node or NULL
 */
-A_EXTERN a_bst_avl_s *a_bst_avl_post_head(const a_bst_avl_u *root);
+A_EXTERN a_bst_avl_s *a_bst_avl_post_head(a_bst_avl_u const *root);
 
 /*!
  @brief access tail node of AVL binary search tree postorder
  @param[in] root AVL binary search tree root
  @return tail node or NULL
 */
-A_EXTERN a_bst_avl_s *a_bst_avl_post_tail(const a_bst_avl_u *root);
+A_EXTERN a_bst_avl_s *a_bst_avl_post_tail(a_bst_avl_u const *root);
 
 /*!
  @brief access next node of AVL binary search tree node postorder
@@ -189,7 +189,7 @@ A_EXTERN a_bst_avl_s *a_bst_avl_tear(a_bst_avl_u *root, a_bst_avl_s **next);
   @arg cmp(lhs,rhs)>0 *lhs goes after *rhs
  @return specified node or NULL
 */
-A_EXTERN a_bst_avl_s *a_bst_avl_search(const a_bst_avl_u *root, a_cptr_t ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
+A_EXTERN a_bst_avl_s *a_bst_avl_search(a_bst_avl_u const *root, a_cptr_t ctx, a_int_t (*cmp)(a_cptr_t, a_cptr_t));
 
 /*!
  @brief insert specified node into AVL binary search tree
