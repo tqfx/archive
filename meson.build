@@ -54,6 +54,7 @@ endforeach
 sources = [
     'src/arr.c',
     'src/bst_avl.c',
+    'src/bst_rb.c',
     'src/complex.c',
     'src/crc.c',
     'src/fpid.c',

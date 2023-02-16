@@ -90,6 +90,9 @@ unittest(arr)
 building(bst_avl bst_avl.c bst_avl.cpp)
 unittest(bst_avl)
 
+building(bst_rb bst_rb.c bst_rb.cpp)
+unittest(bst_rb)
+
 building(complex complex.c complex.cpp)
 unittest(complex ARGS -4,3 -2,1)
 

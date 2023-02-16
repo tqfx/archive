@@ -21,6 +21,10 @@ target("test.bst_avl")
     building({"bst_avl.c", "bst_avl.cpp"})
 target_end()
 
+target("test.bst_rb")
+    building({"bst_rb.c", "bst_rb.cpp"})
+target_end()
+
 target("test.complex")
     building({"complex.c", "complex.cpp"})
 target_end()
