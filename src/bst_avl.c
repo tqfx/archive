@@ -547,7 +547,7 @@ static a_bst_avl_s *a_bst_avl_handle_shrink(a_bst_avl_u *const root, a_bst_avl_s
 Swaps node X, which must have 2 children, with its in-order successor, then unlinks node X.
 Returns the parent of X just before unlinking, without its balance factor having been updated to account for the unlink.
 */
-static a_bst_avl_s *a_bst_avl_handle_remove(a_bst_avl_u *const root, a_bst_avl_s *const X, a_bool_t *const left)
+static A_INLINE a_bst_avl_s *a_bst_avl_handle_remove(a_bst_avl_u *const root, a_bst_avl_s *const X, a_bool_t *const left)
 {
     a_bst_avl_s *node;
 
