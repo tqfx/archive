@@ -21,7 +21,7 @@ a_uint_t a_version_patch(void)
     return A_VERSION_PATCH;
 }
 
-a_int_t a_version_cmp(const a_version_s *lhs, const a_version_s *rhs)
+a_int_t a_version_cmp(const a_version_s *const lhs, const a_version_s *const rhs)
 {
     if (lhs->major < rhs->major)
     {
@@ -51,7 +51,7 @@ a_int_t a_version_cmp(const a_version_s *lhs, const a_version_s *rhs)
 }
 
 #undef a_version_check
-a_int_t a_version_check(a_uint_t major, a_uint_t minor, a_uint_t patch)
+a_int_t a_version_check(a_uint_t const major, a_uint_t const minor, a_uint_t const patch)
 {
     a_version_s inner = A_VERSION_C(0, 0, 0);
     a_version_s outer = A_VERSION_C(0, 0, 0);

@@ -30,34 +30,34 @@ typedef struct a_arr_s
  @brief access address of array for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_vptr_t a_arr_ptr(const a_arr_s *ctx) { return ctx->_ptr; }
+A_INTERN a_vptr_t a_arr_ptr(const a_arr_s *const ctx) { return ctx->_ptr; }
 
 /*!
  @brief access number of element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_size_t a_arr_num(const a_arr_s *ctx) { return ctx->_num; }
+A_INTERN a_size_t a_arr_num(const a_arr_s *const ctx) { return ctx->_num; }
 
 /*!
  @brief access memory of element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_size_t a_arr_mem(const a_arr_s *ctx) { return ctx->_mem; }
+A_INTERN a_size_t a_arr_mem(const a_arr_s *const ctx) { return ctx->_mem; }
 
 /*!
  @brief access size of a element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
 */
-A_INTERN a_size_t a_arr_get(const a_arr_s *ctx) { return ctx->_siz; }
+A_INTERN a_size_t a_arr_get(const a_arr_s *const ctx) { return ctx->_siz; }
 
 /*!
  @brief access specified element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
  @param[in] idx index of element less than memory
  @note should check for out of bounds
- @return element pointer
+ @return specified element pointer
 */
-A_INTERN a_vptr_t a_arr_at_(const a_arr_s *ctx, a_size_t idx)
+A_INTERN a_vptr_t a_arr_at_(const a_arr_s *const ctx, a_size_t const idx)
 {
     return a_byte_p(ctx->_ptr) + ctx->_siz * idx;
 }
@@ -66,21 +66,34 @@ A_INTERN a_vptr_t a_arr_at_(const a_arr_s *ctx, a_size_t idx)
  @brief access specified element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
  @param[in] idx index of element less than memory
- @return element pointer
+ @return specified element pointer
   @retval 0 out of bounds
 */
-A_INTERN a_vptr_t a_arr_at(const a_arr_s *ctx, a_size_t idx)
+A_INTERN a_vptr_t a_arr_at(const a_arr_s *const ctx, a_size_t const idx)
 {
     return a_likely(idx < ctx->_mem) ? a_arr_at_(ctx, idx) : A_NULL;
+}
+
+/*!
+ @brief access specified element for a pointer to array structure
+ @param[in] ctx points to an instance of array structure
+ @param[in] idx index of element -memory < idx < memory
+ @return specified element pointer
+  @retval 0 out of bounds
+*/
+A_INTERN a_vptr_t a_arr_idx(const a_arr_s *const ctx, a_diff_t const idx)
+{
+    a_size_t const num = idx < 0 ? a_size_c(idx) + ctx->_num : a_size_c(idx);
+    return a_likely(num < ctx->_mem) ? a_arr_at_(ctx, num) : A_NULL;
 }
 
 /*!
  @brief access top element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
  @note should check if array is empty
- @return element pointer
+ @return specified element pointer
 */
-A_INTERN a_vptr_t a_arr_top_(const a_arr_s *ctx)
+A_INTERN a_vptr_t a_arr_top_(const a_arr_s *const ctx)
 {
     return a_byte_p(ctx->_ptr) + ctx->_siz * (ctx->_num - 1);
 }
@@ -88,10 +101,10 @@ A_INTERN a_vptr_t a_arr_top_(const a_arr_s *ctx)
 /*!
  @brief access top element for a pointer to array structure
  @param[in] ctx points to an instance of array structure
- @return element pointer
+ @return specified element pointer
   @retval 0 empty array
 */
-A_INTERN a_vptr_t a_arr_top(const a_arr_s *ctx)
+A_INTERN a_vptr_t a_arr_top(const a_arr_s *const ctx)
 {
     return a_likely(ctx->_num) ? a_arr_top_(ctx) : A_NULL;
 }
@@ -99,8 +112,9 @@ A_INTERN a_vptr_t a_arr_top(const a_arr_s *ctx)
 /*!
  @brief access end pointer for a pointer to array structure
  @param[in] ctx points to an instance of array structure
+ @return array end pointer
 */
-A_INTERN a_vptr_t a_arr_end(const a_arr_s *ctx)
+A_INTERN a_vptr_t a_arr_end(const a_arr_s *const ctx)
 {
     return a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num;
 }

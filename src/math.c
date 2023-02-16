@@ -1,6 +1,6 @@
 #include "math.h"
 
-a_f64_t a_f64_sq(a_f64_t x, a_f64_t *o)
+a_f64_t a_f64_sq(a_f64_t x, a_f64_t *const o)
 {
 #undef U
 #if defined(_MSC_VER) && (_MSC_VER < 1914)
@@ -163,7 +163,7 @@ a_f64_t a_f64_hypot(a_f64_t x, a_f64_t y)
 #undef MAX
 }
 
-a_f32_t a_f32_rsqrt(a_f32_t x)
+a_f32_t a_f32_rsqrt(a_f32_t const x)
 {
 #if 0
     return 1 / a_f32_sqrt(x);
@@ -196,7 +196,7 @@ a_f32_t a_f32_rsqrt(a_f32_t x)
 #endif
 }
 
-a_f64_t a_f64_rsqrt(a_f64_t x)
+a_f64_t a_f64_rsqrt(a_f64_t const x)
 {
 #if 0
     return 1 / a_f64_sqrt(x);
@@ -229,7 +229,7 @@ a_f64_t a_f64_rsqrt(a_f64_t x)
 #endif
 }
 
-a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *o)
+a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *const o)
 {
     a_u32_t y = 0;
     for (a_uint_t i = 0; i < 32; i += 2)
@@ -253,7 +253,7 @@ a_u32_t a_u32_sqrt(a_u32_t x, a_u32_t *o)
     return y;
 }
 
-a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *o)
+a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *const o)
 {
     a_u64_t y = 0;
     for (a_uint_t i = 0; i < 64; i += 2)

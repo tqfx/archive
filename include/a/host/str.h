@@ -38,30 +38,30 @@ typedef struct a_str_s
  @param[in] ctx points to an instance of string structure
  @return string
 */
-A_INTERN a_str_t a_str_val(const a_str_s *ctx) { return ctx->_str; }
+A_INTERN a_str_t a_str_val(const a_str_s *const ctx) { return ctx->_str; }
 
 /*!
  @brief length for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @return size of length
 */
-A_INTERN a_size_t a_str_len(const a_str_s *ctx) { return ctx->_num; }
+A_INTERN a_size_t a_str_len(const a_str_s *const ctx) { return ctx->_num; }
 
 /*!
  @brief memory for a pointer to string structure
  @param[in] ctx points to an instance of string structure
  @return size of memory
 */
-A_INTERN a_size_t a_str_mem(const a_str_s *ctx) { return ctx->_mem; }
+A_INTERN a_size_t a_str_mem(const a_str_s *const ctx) { return ctx->_mem; }
 
 /*!
  @brief access specified character for a pointer to string structure
  @param[in] ctx points to an instance of string structure
- @param[in] idx index of character less than length
+ @param[in] idx index of character less than memory
  @note should check if string is empty
  @return specified character
 */
-A_INTERN a_char_t a_str_at_(const a_str_s *ctx, a_size_t idx)
+A_INTERN a_char_t a_str_at_(const a_str_s *const ctx, a_size_t const idx)
 {
     return ctx->_str[idx];
 }
@@ -73,7 +73,7 @@ A_INTERN a_char_t a_str_at_(const a_str_s *ctx, a_size_t idx)
  @return specified character
   @retval 0 out of bounds
 */
-A_INTERN a_char_t a_str_at(const a_str_s *ctx, a_size_t idx)
+A_INTERN a_char_t a_str_at(const a_str_s *const ctx, a_size_t const idx)
 {
     return a_likely(idx < ctx->_num) ? ctx->_str[idx] : 0;
 }
@@ -85,13 +85,9 @@ A_INTERN a_char_t a_str_at(const a_str_s *ctx, a_size_t idx)
  @return specified character
   @retval 0 out of bounds
 */
-A_INTERN a_char_t a_str_idx(const a_str_s *ctx, a_diff_t idx)
+A_INTERN a_char_t a_str_idx(const a_str_s *const ctx, a_diff_t const idx)
 {
-    a_size_t num = a_size_c(idx);
-    if (idx < 0)
-    {
-        num += ctx->_num;
-    }
+    a_size_t const num = idx < 0 ? a_size_c(idx) + ctx->_num : a_size_c(idx);
     return a_likely(num < ctx->_num) ? ctx->_str[num] : 0;
 }
 

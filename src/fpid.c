@@ -1,16 +1,16 @@
 #define LIBA_FPID_C
 #include "fpid.h"
 
-a_real_t a_fpid_op_or(a_real_t l, a_real_t r) { return l + r - l * r; }
+a_real_t a_fpid_op_or(a_real_t const l, a_real_t const r) { return l + r - l * r; }
 
-a_real_t a_fpid_op_and(a_real_t l, a_real_t r) { return l * r; }
+a_real_t a_fpid_op_and(a_real_t const l, a_real_t const r) { return l * r; }
 
-a_real_t a_fpid_op_equ(a_real_t l, a_real_t r)
+a_real_t a_fpid_op_equ(a_real_t const l, a_real_t const r)
 {
     return a_real_sqrt(l * r) * a_real_sqrt(1 - (1 - l) * (1 - r));
 }
 
-a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
+a_void_t a_fpid_set_op(a_fpid_s *const ctx, a_uint_t op)
 {
     ctx->pid->reg &= ~A_FPID_FUZZY_MASK;
     op &= A_FPID_FUZZY_MASK;
@@ -37,7 +37,7 @@ a_void_t a_fpid_set_op(a_fpid_s *ctx, a_uint_t op)
     }
 }
 
-a_uint_t a_fpid_mf(const a_real_t *a, a_real_t x, a_uint_t *idx, a_real_t *mms)
+a_uint_t a_fpid_mf(const a_real_t *a, a_real_t const x, a_uint_t *idx, a_real_t *mms)
 {
     a_uint_t num = 0;
     a_int_t e = A_MF_NUL;
@@ -85,41 +85,41 @@ done:
     return num;
 }
 
-a_fpid_s *a_fpid_off(a_fpid_s *ctx)
+a_fpid_s *a_fpid_off(a_fpid_s *const ctx)
 {
     a_pid_off(ctx->pid);
     return ctx;
 }
 
-a_fpid_s *a_fpid_inc(a_fpid_s *ctx)
+a_fpid_s *a_fpid_inc(a_fpid_s *const ctx)
 {
     a_pid_inc(ctx->pid);
     return ctx;
 }
 
-a_fpid_s *a_fpid_pos(a_fpid_s *ctx, a_real_t max)
+a_fpid_s *a_fpid_pos(a_fpid_s *const ctx, a_real_t const max)
 {
     a_pid_pos(ctx->pid, max);
     return ctx;
 }
 
-a_fpid_s *a_fpid_ilim(a_fpid_s *ctx, a_real_t min, a_real_t max)
+a_fpid_s *a_fpid_ilim(a_fpid_s *const ctx, a_real_t const min, a_real_t const max)
 {
-    a_real_t x = a_real_c((a_fpid_col(ctx) - 1) >> 1 << 1);
+    a_real_t const x = a_real_c((a_fpid_col(ctx) - 1) >> 1 << 1);
     ctx->sigma = x / (max - min);
     return ctx;
 }
 
-a_fpid_s *a_fpid_olim(a_fpid_s *ctx, a_real_t min, a_real_t max)
+a_fpid_s *a_fpid_olim(a_fpid_s *const ctx, a_real_t const min, a_real_t const max)
 {
-    a_real_t x = a_real_c((a_fpid_col(ctx) - 1) >> 1 << 1);
+    a_real_t const x = a_real_c((a_fpid_col(ctx) - 1) >> 1 << 1);
     ctx->alpha = (max - min) / x;
     ctx->pid->outmin = min;
     ctx->pid->outmax = max;
     return ctx;
 }
 
-a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max)
+a_fpid_s *a_fpid_buf1(a_fpid_s *const ctx, a_vptr_t ptr, a_size_t max)
 {
     a_fpid_set_bufnum(ctx, (a_uint_t)max);
     max <<= 1;
@@ -131,7 +131,7 @@ a_fpid_s *a_fpid_buf1(a_fpid_s *ctx, a_vptr_t ptr, a_size_t max)
     return ctx;
 }
 
-a_fpid_s *a_fpid_kpid(a_fpid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
+a_fpid_s *a_fpid_kpid(a_fpid_s *const ctx, a_real_t const kp, a_real_t const ki, a_real_t const kd)
 {
     a_pid_kpid(ctx->pid, kp, ki, kd);
     ctx->kp = kp;
@@ -140,7 +140,7 @@ a_fpid_s *a_fpid_kpid(a_fpid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
     return ctx;
 }
 
-a_fpid_s *a_fpid_buff(a_fpid_s *ctx, a_uint_t *idx, a_real_t *mms, a_real_t *mat)
+a_fpid_s *a_fpid_buff(a_fpid_s *const ctx, a_uint_t *const idx, a_real_t *const mms, a_real_t *const mat)
 {
     ctx->idx = idx;
     ctx->mms = mms;
@@ -148,13 +148,15 @@ a_fpid_s *a_fpid_buff(a_fpid_s *ctx, a_uint_t *idx, a_real_t *mms, a_real_t *mat
     return ctx;
 }
 
-a_fpid_s *a_fpid_setp(a_fpid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e)
+a_fpid_s *a_fpid_setp(a_fpid_s *const ctx, a_uint_t const num, a_real_t *const out, a_real_t *const fdb,
+                      a_real_t *const sum, a_real_t *const ec, a_real_t *const e)
 {
     a_pid_setp(ctx->pid, num, out, fdb, sum, ec, e);
     return ctx;
 }
 
-a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp, const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd)
+a_fpid_s *a_fpid_base(a_fpid_s *const ctx, a_uint_t const num, const a_real_t *const mmp,
+                      const a_real_t *const mkp, const a_real_t *const mki, const a_real_t *const mkd)
 {
     a_fpid_set_col(ctx, num);
     ctx->mmp = mmp;
@@ -164,9 +166,9 @@ a_fpid_s *a_fpid_base(a_fpid_s *ctx, a_uint_t num, const a_real_t *mmp, const a_
     return ctx;
 }
 
-a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *mmp,
-                      const a_real_t *mkp, const a_real_t *mki, const a_real_t *mkd,
-                      a_real_t imin, a_real_t imax, a_real_t omin, a_real_t omax)
+a_fpid_s *a_fpid_init(a_fpid_s *const ctx, a_real_t const dt, a_uint_t const num, const a_real_t *const mmp,
+                      const a_real_t *const mkp, const a_real_t *const mki, const a_real_t *const mkd,
+                      a_real_t const imin, a_real_t const imax, a_real_t const omin, a_real_t const omax)
 {
     a_real_t x = a_real_c((num - 1) >> 1 << 1);
     a_pid_init(ctx->pid, dt, omin, omax);
@@ -183,22 +185,22 @@ a_fpid_s *a_fpid_init(a_fpid_s *ctx, a_real_t dt, a_uint_t num, const a_real_t *
     return ctx;
 }
 
-a_fpid_s *a_fpid_exit(a_fpid_s *ctx) { return a_fpid_zero(ctx); }
+a_fpid_s *a_fpid_exit(a_fpid_s *const ctx) { return a_fpid_zero(ctx); }
 
-a_fpid_s *a_fpid_zero(a_fpid_s *ctx)
+a_fpid_s *a_fpid_zero(a_fpid_s *const ctx)
 {
     a_pid_zero(ctx->pid);
     return ctx;
 }
 
-static void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
+static void a_fpid_proc_(a_fpid_s *const ctx, a_real_t ev[2], a_uint_t const num)
 {
     /* quantize input */
     ev[0] = ctx->sigma * ev[0] / (1 << 0);
     ev[1] = ctx->sigma * ev[1] / (1 << 1);
     /* calculate membership */
-    a_uint_t ne = a_fpid_mf(ctx->mmp, ev[0], ctx->idx + 00, ctx->mms + 00);
-    a_uint_t nc = a_fpid_mf(ctx->mmp, ev[1], ctx->idx + ne, ctx->mms + ne);
+    a_uint_t const ne = a_fpid_mf(ctx->mmp, ev[0], ctx->idx + 00, ctx->mms + 00);
+    a_uint_t const nc = a_fpid_mf(ctx->mmp, ev[1], ctx->idx + ne, ctx->mms + ne);
     if (!ne || !nc)
     {
         return;
@@ -207,10 +209,10 @@ static void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
     a_real_t inv = 0;
     for (a_uint_t i = 0; i != ne; ++i)
     {
-        a_uint_t col = i * nc;
+        a_uint_t const col = i * nc;
         for (a_uint_t j = 0; j != nc; ++j)
         {
-            a_uint_t idx = col + j; /* mat(i,j)=f(e[i],ec[j]) */
+            a_uint_t const idx = col + j; /* mat(i,j)=f(e[i],ec[j]) */
             ctx->mat[idx] = ctx->op(ctx->mms[i], ctx->mms[ne + j]);
             inv += ctx->mat[idx];
         }
@@ -224,8 +226,8 @@ static void a_fpid_proc_(a_fpid_s *ctx, a_real_t ev[2], a_uint_t num)
     }
     for (a_uint_t i = 0; i != ne; ++i)
     {
-        a_uint_t col = i * nc;
-        a_uint_t idx = ctx->idx[i] * num;
+        a_uint_t const col = i * nc;
+        a_uint_t const idx = ctx->idx[i] * num;
         for (a_uint_t j = 0; j != nc; ++j)
         {
             qv[0] += ctx->mat[col + j] * ctx->mkp[ctx->idx[ne + j] + idx]; /* mat(i,j)*kp(e[i],ec[j]) */
@@ -239,8 +241,8 @@ skip_kp:
     }
     for (a_uint_t i = 0; i != ne; ++i)
     {
-        a_uint_t col = i * nc;
-        a_uint_t idx = ctx->idx[i] * num;
+        a_uint_t const col = i * nc;
+        a_uint_t const idx = ctx->idx[i] * num;
         for (a_uint_t j = 0; j != nc; ++j)
         {
             qv[1] += ctx->mat[col + j] * ctx->mki[ctx->idx[ne + j] + idx]; /* mat(i,j)*ki(e[i],ec[j]) */
@@ -254,8 +256,8 @@ skip_ki:
     }
     for (a_uint_t i = 0; i != ne; ++i)
     {
-        a_uint_t col = i * nc;
-        a_uint_t idx = ctx->idx[i] * num;
+        a_uint_t const col = i * nc;
+        a_uint_t const idx = ctx->idx[i] * num;
         for (a_uint_t j = 0; j != nc; ++j)
         {
             qv[2] += ctx->mat[col + j] * ctx->mkd[ctx->idx[ne + j] + idx]; /* mat(i,j)*kd(e[i],ec[j]) */
@@ -266,25 +268,25 @@ skip_kd:
     a_pid_kpid(ctx->pid, qv[0] + ctx->kp, qv[1] + ctx->ki, qv[2] + ctx->kd);
 }
 
-a_real_t a_fpid_outv(a_fpid_s *ctx, a_real_t set, a_real_t fdb)
+a_real_t a_fpid_outv(a_fpid_s *const ctx, a_real_t const set, a_real_t const fdb)
 {
     a_real_t ev[2];
-    a_real_t e = ev[0] = set - fdb;
-    a_real_t ec = ev[1] = e - ctx->pid->e.v;
+    a_real_t const e = ev[0] = set - fdb;
+    a_real_t const ec = ev[1] = e - ctx->pid->e.v;
     a_fpid_proc_(ctx, ev, a_fpid_col(ctx));
     return a_pid_outv_(ctx->pid, a_pid_mode(ctx->pid), set, fdb, ec, e);
 }
 
-a_real_t *a_fpid_outp(a_fpid_s *ctx, a_real_t *set, a_real_t *fdb)
+a_real_t *a_fpid_outp(a_fpid_s *const ctx, a_real_t *const set, a_real_t *const fdb)
 {
-    a_uint_t col = a_fpid_col(ctx);
-    a_uint_t num = a_pid_num(ctx->pid);
-    a_uint_t reg = a_pid_mode(ctx->pid);
+    a_uint_t const col = a_fpid_col(ctx);
+    a_uint_t const num = a_pid_num(ctx->pid);
+    a_uint_t const reg = a_pid_mode(ctx->pid);
     for (a_uint_t i = 0; i != num; ++i)
     {
         a_real_t ev[2];
-        a_real_t e = ev[0] = set[i] - fdb[i];
-        a_real_t ec = ev[1] = e - ctx->pid->e.p[i];
+        a_real_t const e = ev[0] = set[i] - fdb[i];
+        a_real_t const ec = ev[1] = e - ctx->pid->e.p[i];
         a_fpid_proc_(ctx, ev, col);
         a_pid_outp_(ctx->pid, reg, set[i], fdb[i], ec, e, i);
     }

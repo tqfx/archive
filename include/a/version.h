@@ -54,15 +54,15 @@
 typedef struct a_version_s
 {
 #if defined(__cplusplus)
-    A_PUBLIC a_bool_t operator<(const a_version_s &ver) const;
-    A_PUBLIC a_bool_t operator>(const a_version_s &ver) const;
-    A_PUBLIC a_bool_t operator<=(const a_version_s &ver) const;
-    A_PUBLIC a_bool_t operator>=(const a_version_s &ver) const;
-    A_PUBLIC a_bool_t operator==(const a_version_s &ver) const;
-    A_PUBLIC a_bool_t operator!=(const a_version_s &ver) const;
-    A_PUBLIC a_version_s(a_uint_t maj = 0,
-                         a_uint_t min = 0,
-                         a_uint_t pat = 0)
+    A_PUBLIC a_bool_t operator<(a_version_s const &ver) const;
+    A_PUBLIC a_bool_t operator>(a_version_s const &ver) const;
+    A_PUBLIC a_bool_t operator<=(a_version_s const &ver) const;
+    A_PUBLIC a_bool_t operator>=(a_version_s const &ver) const;
+    A_PUBLIC a_bool_t operator==(a_version_s const &ver) const;
+    A_PUBLIC a_bool_t operator!=(a_version_s const &ver) const;
+    A_PUBLIC a_version_s(a_uint_t const maj = 0,
+                         a_uint_t const min = 0,
+                         a_uint_t const pat = 0)
         : major(maj)
         , minor(min)
         , patch(pat)
@@ -79,15 +79,15 @@ namespace a
 {
 
 /*! algorithm library version string */
-const cstr_t VERSION = A_VERSION;
+cstr_t const VERSION = A_VERSION;
 /*! algorithm library version major */
-const uint_t VERSION_MAJOR = A_VERSION_MAJOR;
+uint_t const VERSION_MAJOR = A_VERSION_MAJOR;
 /*! algorithm library version minor */
-const uint_t VERSION_MINOR = A_VERSION_MINOR;
+uint_t const VERSION_MINOR = A_VERSION_MINOR;
 /*! algorithm library version patch */
-const uint_t VERSION_PATCH = A_VERSION_PATCH;
+uint_t const VERSION_PATCH = A_VERSION_PATCH;
 /*! algorithm library version tweak */
-const u64_t VERSION_TWEAK = A_VERSION_TWEAK;
+u64_t const VERSION_TWEAK = A_VERSION_TWEAK;
 /* instance structure for version */
 typedef a_version_s version;
 
@@ -147,7 +147,7 @@ A_EXTERN a_int_t a_version_check(a_uint_t major, a_uint_t minor, a_uint_t patch)
 A_EXTERN a_bool_t a_version_lt(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_bool_t a_version_lt(const a_version_s *lhs, const a_version_s *rhs)
+A_INTERN a_bool_t a_version_lt(const a_version_s *const lhs, const a_version_s *const rhs)
 {
     if (lhs->major < rhs->major)
     {
@@ -175,7 +175,7 @@ A_INTERN a_bool_t a_version_lt(const a_version_s *lhs, const a_version_s *rhs)
 A_EXTERN a_bool_t a_version_gt(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_bool_t a_version_gt(const a_version_s *lhs, const a_version_s *rhs)
+A_INTERN a_bool_t a_version_gt(const a_version_s *const lhs, const a_version_s *const rhs)
 {
     if (lhs->major > rhs->major)
     {
@@ -203,7 +203,7 @@ A_INTERN a_bool_t a_version_gt(const a_version_s *lhs, const a_version_s *rhs)
 A_EXTERN a_bool_t a_version_le(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_bool_t a_version_le(const a_version_s *lhs, const a_version_s *rhs)
+A_INTERN a_bool_t a_version_le(const a_version_s *const lhs, const a_version_s *const rhs)
 {
     return !a_version_lt(rhs, lhs);
 }
@@ -218,7 +218,7 @@ A_INTERN a_bool_t a_version_le(const a_version_s *lhs, const a_version_s *rhs)
 A_EXTERN a_bool_t a_version_ge(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_bool_t a_version_ge(const a_version_s *lhs, const a_version_s *rhs)
+A_INTERN a_bool_t a_version_ge(const a_version_s *const lhs, const a_version_s *const rhs)
 {
     return !a_version_gt(rhs, lhs);
 }
@@ -234,7 +234,7 @@ A_INTERN a_bool_t a_version_ge(const a_version_s *lhs, const a_version_s *rhs)
 A_EXTERN a_bool_t a_version_eq(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_bool_t a_version_eq(const a_version_s *lhs, const a_version_s *rhs)
+A_INTERN a_bool_t a_version_eq(const a_version_s *const lhs, const a_version_s *const rhs)
 {
     return (lhs->major == rhs->major) && (lhs->minor == rhs->minor) && (lhs->patch == rhs->patch);
 }
@@ -250,7 +250,7 @@ A_INTERN a_bool_t a_version_eq(const a_version_s *lhs, const a_version_s *rhs)
 A_EXTERN a_bool_t a_version_ne(const a_version_s *lhs, const a_version_s *rhs);
 #endif /* A_HAVE_INLINE */
 #if defined(A_HAVE_INLINE) || defined(LIBA_VERSION_C)
-A_INTERN a_bool_t a_version_ne(const a_version_s *lhs, const a_version_s *rhs)
+A_INTERN a_bool_t a_version_ne(const a_version_s *const lhs, const a_version_s *const rhs)
 {
     return (lhs->major != rhs->major) || (lhs->minor != rhs->minor) || (lhs->patch != rhs->patch);
 }

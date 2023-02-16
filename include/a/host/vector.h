@@ -34,40 +34,40 @@ typedef struct a_vector_s
  @brief access vector head pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_vptr_t a_vector_ptr(const a_vector_s *ctx) { return ctx->_head; }
+A_INTERN a_vptr_t a_vector_ptr(const a_vector_s *const ctx) { return ctx->_head; }
 
 /*!
  @brief access vector tail pointer for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_vptr_t a_vector_end(const a_vector_s *ctx) { return ctx->_tail; }
+A_INTERN a_vptr_t a_vector_end(const a_vector_s *const ctx) { return ctx->_tail; }
 
 /*!
  @brief access size of a element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_get(const a_vector_s *ctx) { return ctx->_size; }
+A_INTERN a_size_t a_vector_get(const a_vector_s *const ctx) { return ctx->_size; }
 
 /*!
  @brief access number of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_num(const a_vector_s *ctx) { return ctx->_num; }
+A_INTERN a_size_t a_vector_num(const a_vector_s *const ctx) { return ctx->_num; }
 
 /*!
  @brief access capacity of element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
 */
-A_INTERN a_size_t a_vector_mem(const a_vector_s *ctx) { return ctx->_mem; }
+A_INTERN a_size_t a_vector_mem(const a_vector_s *const ctx) { return ctx->_mem; }
 
 /*!
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element less than capacity
  @note should check for out of bounds
- @return element pointer
+ @return specified element pointer
 */
-A_INTERN a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
+A_INTERN a_vptr_t a_vector_at_(const a_vector_s *const ctx, a_size_t idx)
 {
     return a_byte_p(ctx->_head) + ctx->_size * idx;
 }
@@ -76,21 +76,34 @@ A_INTERN a_vptr_t a_vector_at_(const a_vector_s *ctx, a_size_t idx)
  @brief access specified element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @param[in] idx index of element less than capacity
- @return element pointer
+ @return specified element pointer
   @retval 0 out of bounds
 */
-A_INTERN a_vptr_t a_vector_at(const a_vector_s *ctx, a_size_t idx)
+A_INTERN a_vptr_t a_vector_at(const a_vector_s *const ctx, a_size_t idx)
 {
     return a_likely(idx < ctx->_mem) ? a_vector_at_(ctx, idx) : A_NULL;
+}
+
+/*!
+ @brief access specified element for a pointer to vector structure
+ @param[in] ctx points to an instance of vector structure
+ @param[in] idx index of element -capacity < idx < capacity
+ @return specified element pointer
+  @retval 0 out of bounds
+*/
+A_INTERN a_vptr_t a_vector_idx(const a_vector_s *const ctx, a_diff_t const idx)
+{
+    a_size_t const num = idx < 0 ? a_size_c(idx) + ctx->_num : a_size_c(idx);
+    return a_likely(num < ctx->_mem) ? a_vector_at_(ctx, num) : A_NULL;
 }
 
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
  @note should check if vector is empty
- @return element pointer
+ @return specified element pointer
 */
-A_INTERN a_vptr_t a_vector_top_(const a_vector_s *ctx)
+A_INTERN a_vptr_t a_vector_top_(const a_vector_s *const ctx)
 {
     return a_byte_p(ctx->_tail) - ctx->_size;
 }
@@ -98,10 +111,10 @@ A_INTERN a_vptr_t a_vector_top_(const a_vector_s *ctx)
 /*!
  @brief access top element for a pointer to vector structure
  @param[in] ctx points to an instance of vector structure
- @return element pointer
+ @return specified element pointer
   @retval 0 empty vector
 */
-A_INTERN a_vptr_t a_vector_top(const a_vector_s *ctx)
+A_INTERN a_vptr_t a_vector_top(const a_vector_s *const ctx)
 {
     return a_likely(ctx->_num) ? a_vector_top_(ctx) : A_NULL;
 }

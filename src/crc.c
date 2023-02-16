@@ -1,6 +1,6 @@
 #include "a/crc.h"
 
-a_void_t a_crc8l_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly)
+a_void_t a_crc8l_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t const poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -21,7 +21,7 @@ a_void_t a_crc8l_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly)
     }
 }
 
-a_void_t a_crc16l_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly)
+a_void_t a_crc16l_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t const poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -42,7 +42,7 @@ a_void_t a_crc16l_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly)
     }
 }
 
-a_void_t a_crc32l_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly)
+a_void_t a_crc32l_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t const poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -63,7 +63,7 @@ a_void_t a_crc32l_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly)
     }
 }
 
-a_void_t a_crc64l_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly)
+a_void_t a_crc64l_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t const poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -84,7 +84,7 @@ a_void_t a_crc64l_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly)
     }
 }
 
-a_void_t a_crc8h_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly)
+a_void_t a_crc8h_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t const poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -105,7 +105,7 @@ a_void_t a_crc8h_init(a_u8_t ctx[A_CRC_SIZ], a_u8_t poly)
     }
 }
 
-a_void_t a_crc16h_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly)
+a_void_t a_crc16h_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t const poly)
 {
     for (a_uint_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -126,7 +126,7 @@ a_void_t a_crc16h_init(a_u16_t ctx[A_CRC_SIZ], a_u16_t poly)
     }
 }
 
-a_void_t a_crc32h_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly)
+a_void_t a_crc32h_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t const poly)
 {
     for (a_u32_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -147,7 +147,7 @@ a_void_t a_crc32h_init(a_u32_t ctx[A_CRC_SIZ], a_u32_t poly)
     }
 }
 
-a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly)
+a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t const poly)
 {
     for (a_u64_t i = 0; i != A_CRC_SIZ; ++i)
     {
@@ -168,7 +168,7 @@ a_void_t a_crc64h_init(a_u64_t ctx[A_CRC_SIZ], a_u64_t poly)
     }
 }
 
-a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_t val)
+a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u8_t val)
 {
     const a_u8_t *p = A_U8_P(pdata);
     const a_u8_t *q = A_U8_P(pdata) + nbyte;
@@ -179,7 +179,7 @@ a_u8_t a_crc8(const a_u8_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u8_
     return val;
 }
 
-a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val)
+a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u16_t val)
 {
     const a_u8_t *p = A_U8_P(pdata);
     const a_u8_t *q = A_U8_P(pdata) + nbyte;
@@ -190,7 +190,7 @@ a_u16_t a_crc16l(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
     return val;
 }
 
-a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val)
+a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u32_t val)
 {
     const a_u8_t *p = A_U8_P(pdata);
     const a_u8_t *q = A_U8_P(pdata) + nbyte;
@@ -201,7 +201,7 @@ a_u32_t a_crc32l(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
     return val;
 }
 
-a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val)
+a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u64_t val)
 {
     const a_u8_t *p = A_U8_P(pdata);
     const a_u8_t *q = A_U8_P(pdata) + nbyte;
@@ -212,7 +212,7 @@ a_u64_t a_crc64l(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
     return val;
 }
 
-a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u16_t val)
+a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u16_t val)
 {
     const a_u8_t *p = A_U8_P(pdata);
     const a_u8_t *q = A_U8_P(pdata) + nbyte;
@@ -223,7 +223,7 @@ a_u16_t a_crc16h(const a_u16_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
     return val;
 }
 
-a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u32_t val)
+a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u32_t val)
 {
     const a_u8_t *p = A_U8_P(pdata);
     const a_u8_t *q = A_U8_P(pdata) + nbyte;
@@ -234,7 +234,7 @@ a_u32_t a_crc32h(const a_u32_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a
     return val;
 }
 
-a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t nbyte, a_u64_t val)
+a_u64_t a_crc64h(const a_u64_t ctx[A_CRC_SIZ], a_cptr_t const pdata, a_size_t const nbyte, a_u64_t val)
 {
     const a_u8_t *p = A_U8_P(pdata);
     const a_u8_t *q = A_U8_P(pdata) + nbyte;

@@ -8,7 +8,7 @@
 #endif /* -Wfloat-equal */
 #include "complex.h"
 
-a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
+a_complex_s a_complex_polar(a_real_t const r, a_real_t const theta)
 {
     a_complex_s z;
     z.real = r * a_real_cos(theta);
@@ -16,7 +16,7 @@ a_complex_s a_complex_polar(a_real_t r, a_real_t theta)
     return z;
 }
 
-a_real_t a_complex_logabs(a_complex_s z)
+a_real_t a_complex_logabs(a_complex_s const z)
 {
     a_real_t xabs = a_real_abs(z.real);
     a_real_t yabs = a_real_abs(z.imag);
@@ -34,17 +34,17 @@ a_real_t a_complex_logabs(a_complex_s z)
     return a_real_log(max) + a_real_log1p(u * u) * A_REAL_C(0.5);
 }
 
-a_real_t a_complex_abs2(a_complex_s z)
+a_real_t a_complex_abs2(a_complex_s const z)
 {
     return z.real * z.real + z.imag * z.imag;
 }
 
-a_real_t a_complex_abs(a_complex_s z)
+a_real_t a_complex_abs(a_complex_s const z)
 {
     return a_real_hypot(z.real, z.imag);
 }
 
-a_real_t a_complex_arg(a_complex_s z)
+a_real_t a_complex_arg(a_complex_s const z)
 {
     if (z.real == 0 && z.imag == 0)
     {
@@ -53,45 +53,45 @@ a_real_t a_complex_arg(a_complex_s z)
     return a_real_atan2(z.imag, z.real);
 }
 
-a_complex_s a_complex_add(a_complex_s x, a_complex_s y)
+a_complex_s a_complex_add(a_complex_s x, a_complex_s const y)
 {
     x.real += y.real;
     x.imag += y.imag;
     return x;
 }
 
-a_complex_s a_complex_add_real(a_complex_s x, a_real_t y)
+a_complex_s a_complex_add_real(a_complex_s x, a_real_t const y)
 {
     x.real += y;
     return x;
 }
 
-a_complex_s a_complex_add_imag(a_complex_s x, a_real_t y)
+a_complex_s a_complex_add_imag(a_complex_s x, a_real_t const y)
 {
     x.imag += y;
     return x;
 }
 
-a_complex_s a_complex_sub(a_complex_s x, a_complex_s y)
+a_complex_s a_complex_sub(a_complex_s x, a_complex_s const y)
 {
     x.real -= y.real;
     x.imag -= y.imag;
     return x;
 }
 
-a_complex_s a_complex_sub_real(a_complex_s x, a_real_t y)
+a_complex_s a_complex_sub_real(a_complex_s x, a_real_t const y)
 {
     x.real -= y;
     return x;
 }
 
-a_complex_s a_complex_sub_imag(a_complex_s x, a_real_t y)
+a_complex_s a_complex_sub_imag(a_complex_s x, a_real_t const y)
 {
     x.imag -= y;
     return x;
 }
 
-a_complex_s a_complex_mul(a_complex_s x, a_complex_s y)
+a_complex_s a_complex_mul(a_complex_s x, a_complex_s const y)
 {
     a_complex_s z;
     z.real = x.real * y.real - x.imag * y.imag;
@@ -99,14 +99,14 @@ a_complex_s a_complex_mul(a_complex_s x, a_complex_s y)
     return z;
 }
 
-a_complex_s a_complex_mul_real(a_complex_s x, a_real_t y)
+a_complex_s a_complex_mul_real(a_complex_s x, a_real_t const y)
 {
     x.real *= y;
     x.imag *= y;
     return x;
 }
 
-a_complex_s a_complex_mul_imag(a_complex_s x, a_real_t y)
+a_complex_s a_complex_mul_imag(a_complex_s x, a_real_t const y)
 {
     a_complex_s z;
     z.real = -x.imag * y;
@@ -125,14 +125,14 @@ a_complex_s a_complex_div(a_complex_s x, a_complex_s y)
     return z;
 }
 
-a_complex_s a_complex_div_real(a_complex_s x, a_real_t y)
+a_complex_s a_complex_div_real(a_complex_s x, a_real_t const y)
 {
     x.real /= y;
     x.imag /= y;
     return x;
 }
 
-a_complex_s a_complex_div_imag(a_complex_s x, a_real_t y)
+a_complex_s a_complex_div_imag(a_complex_s x, a_real_t const y)
 {
     a_complex_s z;
     z.real = x.imag / y;
@@ -213,7 +213,7 @@ a_complex_s a_complex_sqrt(a_complex_s z)
 #endif /* A_HAVE_CSQRT */
 }
 
-a_complex_s a_complex_sqrt_real(a_real_t x)
+a_complex_s a_complex_sqrt_real(a_real_t const x)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     if (x >= 0)
@@ -231,7 +231,7 @@ a_complex_s a_complex_sqrt_real(a_real_t x)
 #if defined(A_HAVE_CPOW) && !defined A_COMPLEX_T
 a_complex_t A_REAL_F2(cpow, a_complex_t, a_complex_t);
 #endif /* A_HAVE_CPOW */
-a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
+a_complex_s a_complex_pow(a_complex_s z, a_complex_s const a)
 {
 #if defined(A_HAVE_CPOW) && defined(A_COMPLEX_T)
     union
@@ -262,7 +262,7 @@ a_complex_s a_complex_pow(a_complex_s z, a_complex_s a)
 #endif /* A_HAVE_CPOW */
 }
 
-a_complex_s a_complex_pow_real(a_complex_s z, a_real_t a)
+a_complex_s a_complex_pow_real(a_complex_s z, a_real_t const a)
 {
     if (z.real == 0 && z.imag == 0)
     {
@@ -332,17 +332,17 @@ a_complex_s a_complex_log(a_complex_s z)
 #endif /* A_HAVE_CLOG */
 }
 
-a_complex_s a_complex_log2(a_complex_s z)
+a_complex_s a_complex_log2(a_complex_s const z)
 {
     return a_complex_mul_real(a_complex_log(z), 1 / A_REAL_LN2);
 }
 
-a_complex_s a_complex_log10(a_complex_s z)
+a_complex_s a_complex_log10(a_complex_s const z)
 {
     return a_complex_mul_real(a_complex_log(z), 1 / A_REAL_LN10);
 }
 
-a_complex_s a_complex_logb(a_complex_s z, a_complex_s b)
+a_complex_s a_complex_logb(a_complex_s const z, a_complex_s const b)
 {
     return a_complex_div(a_complex_log(z), a_complex_log(b));
 }
@@ -444,17 +444,17 @@ a_complex_s a_complex_tan(a_complex_s z)
 #endif /* A_HAVE_CTAN */
 }
 
-a_complex_s a_complex_sec(a_complex_s z)
+a_complex_s a_complex_sec(a_complex_s const z)
 {
     return a_complex_inv(a_complex_cos(z));
 }
 
-a_complex_s a_complex_csc(a_complex_s z)
+a_complex_s a_complex_csc(a_complex_s const z)
 {
     return a_complex_inv(a_complex_sin(z));
 }
 
-a_complex_s a_complex_cot(a_complex_s z)
+a_complex_s a_complex_cot(a_complex_s const z)
 {
     return a_complex_inv(a_complex_tan(z));
 }
@@ -538,7 +538,7 @@ a_complex_s a_complex_asin(a_complex_s z)
 #endif /* A_HAVE_CASIN */
 }
 
-a_complex_s a_complex_asin_real(a_real_t x)
+a_complex_s a_complex_asin_real(a_real_t const x)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     if (a_real_abs(x) <= 1)
@@ -636,7 +636,7 @@ a_complex_s a_complex_acos(a_complex_s z)
 #endif /* A_HAVE_CACOS */
 }
 
-a_complex_s a_complex_acos_real(a_real_t x)
+a_complex_s a_complex_acos_real(a_real_t const x)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     if (a_real_abs(x) <= 1)
@@ -709,12 +709,12 @@ a_complex_s a_complex_atan(a_complex_s z)
 #endif /* A_HAVE_CATAN */
 }
 
-a_complex_s a_complex_asec(a_complex_s z)
+a_complex_s a_complex_asec(a_complex_s const z)
 {
     return a_complex_acos(a_complex_inv(z));
 }
 
-a_complex_s a_complex_asec_real(a_real_t x)
+a_complex_s a_complex_asec_real(a_real_t const x)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     if (x <= -1 || x >= 1)
@@ -732,12 +732,12 @@ a_complex_s a_complex_asec_real(a_real_t x)
     return z;
 }
 
-a_complex_s a_complex_acsc(a_complex_s z)
+a_complex_s a_complex_acsc(a_complex_s const z)
 {
     return a_complex_asin(a_complex_inv(z));
 }
 
-a_complex_s a_complex_acsc_real(a_real_t x)
+a_complex_s a_complex_acsc_real(a_real_t const x)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     if (x <= -1 || x >= 1)
@@ -857,17 +857,17 @@ a_complex_s a_complex_tanh(a_complex_s z)
 #endif /* A_HAVE_CTANH */
 }
 
-a_complex_s a_complex_sech(a_complex_s z)
+a_complex_s a_complex_sech(a_complex_s const z)
 {
     return a_complex_inv(a_complex_cosh(z));
 }
 
-a_complex_s a_complex_csch(a_complex_s z)
+a_complex_s a_complex_csch(a_complex_s const z)
 {
     return a_complex_inv(a_complex_sinh(z));
 }
 
-a_complex_s a_complex_coth(a_complex_s z)
+a_complex_s a_complex_coth(a_complex_s const z)
 {
     return a_complex_inv(a_complex_tanh(z));
 }
@@ -923,7 +923,7 @@ a_complex_s a_complex_acosh(a_complex_s z)
 #endif /* A_HAVE_CACOSH */
 }
 
-a_complex_s a_complex_acosh_real(a_real_t x)
+a_complex_s a_complex_acosh_real(a_real_t const x)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     if (x >= 1)
@@ -971,7 +971,7 @@ a_complex_s a_complex_atanh(a_complex_s z)
 #endif /* A_HAVE_CATANH */
 }
 
-a_complex_s a_complex_atanh_real(a_real_t x)
+a_complex_s a_complex_atanh_real(a_real_t const x)
 {
     a_complex_s z = A_COMPLEX_C(0.0, 0.0);
     if (x > -1 && x < 1)
@@ -989,17 +989,17 @@ a_complex_s a_complex_atanh_real(a_real_t x)
     return z;
 }
 
-a_complex_s a_complex_asech(a_complex_s z)
+a_complex_s a_complex_asech(a_complex_s const z)
 {
     return a_complex_acosh(a_complex_inv(z));
 }
 
-a_complex_s a_complex_acsch(a_complex_s z)
+a_complex_s a_complex_acsch(a_complex_s const z)
 {
     return a_complex_asinh(a_complex_inv(z));
 }
 
-a_complex_s a_complex_acoth(a_complex_s z)
+a_complex_s a_complex_acoth(a_complex_s const z)
 {
     return a_complex_atanh(a_complex_inv(z));
 }

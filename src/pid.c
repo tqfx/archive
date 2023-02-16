@@ -1,7 +1,7 @@
 #define LIBA_PID_C
 #include "pid.h"
 
-a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt)
+a_void_t a_pid_set_dt(a_pid_s *const ctx, a_real_t const dt)
 {
     a_real_t t = dt / ctx->dt;
     ctx->ki *= t;
@@ -9,19 +9,19 @@ a_void_t a_pid_set_dt(a_pid_s *ctx, a_real_t dt)
     ctx->dt = dt;
 }
 
-a_pid_s *a_pid_off(a_pid_s *ctx)
+a_pid_s *a_pid_off(a_pid_s *const ctx)
 {
     a_pid_set_mode(ctx, A_PID_OFF);
     return ctx;
 }
 
-a_pid_s *a_pid_inc(a_pid_s *ctx)
+a_pid_s *a_pid_inc(a_pid_s *const ctx)
 {
     a_pid_set_mode(ctx, A_PID_INC);
     return ctx;
 }
 
-a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
+a_pid_s *a_pid_pos(a_pid_s *const ctx, a_real_t const max)
 {
     ctx->summax = (max > 0) ? max : -max;
     if (ctx->outmax < ctx->summax)
@@ -32,7 +32,7 @@ a_pid_s *a_pid_pos(a_pid_s *ctx, a_real_t max)
     return ctx;
 }
 
-a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
+a_pid_s *a_pid_kpid(a_pid_s *const ctx, a_real_t const kp, a_real_t const ki, a_real_t const kd)
 {
     ctx->kp = kp;
     ctx->ki = ki * ctx->dt;
@@ -40,7 +40,7 @@ a_pid_s *a_pid_kpid(a_pid_s *ctx, a_real_t kp, a_real_t ki, a_real_t kd)
     return ctx;
 }
 
-a_pid_s *a_pid_setp(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_real_t *sum, a_real_t *ec, a_real_t *e)
+a_pid_s *a_pid_setp(a_pid_s *const ctx, a_uint_t const num, a_real_t *const out, a_real_t *const fdb, a_real_t *const sum, a_real_t *const ec, a_real_t *const e)
 {
     a_pid_set_num(ctx, num);
     ctx->out.p = out;
@@ -51,7 +51,7 @@ a_pid_s *a_pid_setp(a_pid_s *ctx, a_uint_t num, a_real_t *out, a_real_t *fdb, a_
     return a_pid_zero(ctx);
 }
 
-a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t max)
+a_pid_s *a_pid_init(a_pid_s *const ctx, a_real_t const dt, a_real_t const min, a_real_t const max)
 {
     ctx->reg = A_PID_OFF;
     ctx->outmin = min;
@@ -65,11 +65,11 @@ a_pid_s *a_pid_init(a_pid_s *ctx, a_real_t dt, a_real_t min, a_real_t max)
     return a_pid_zero(ctx);
 }
 
-a_pid_s *a_pid_exit(a_pid_s *ctx) { return a_pid_zero(ctx); }
+a_pid_s *a_pid_exit(a_pid_s *const ctx) { return a_pid_zero(ctx); }
 
-a_pid_s *a_pid_zero(a_pid_s *ctx)
+a_pid_s *a_pid_zero(a_pid_s *const ctx)
 {
-    a_uint_t num = a_pid_num(ctx);
+    a_uint_t const num = a_pid_num(ctx);
     for (a_uint_t i = 0; i != num; ++i)
     {
         ctx->sum.p[i] = 0;
@@ -89,7 +89,7 @@ a_pid_s *a_pid_zero(a_pid_s *ctx)
     return ctx;
 }
 
-a_real_t a_pid_outv_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e)
+a_real_t a_pid_outv_(a_pid_s *const ctx, a_uint_t const mode, a_real_t const set, a_real_t const fdb, a_real_t const ec, a_real_t const e)
 {
     /* calculation */
     switch (mode)
@@ -103,7 +103,7 @@ a_real_t a_pid_outv_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_
     }
     case A_PID_POS:
     {
-        a_real_t sum = ctx->ki * e;
+        a_real_t const sum = ctx->ki * e;
         /* when the limit of integration is exceeded or */
         /* the direction of integration is the same, the integration stops. */
         if ((-ctx->summax < ctx->sum.v && ctx->sum.v < ctx->summax) || ctx->sum.v * sum < 0)
@@ -136,7 +136,7 @@ a_real_t a_pid_outv_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_
     return ctx->out.v;
 }
 
-a_real_t a_pid_outp_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_real_t ec, a_real_t e, a_uint_t i)
+a_real_t a_pid_outp_(a_pid_s *const ctx, a_uint_t const mode, a_real_t const set, a_real_t const fdb, a_real_t const ec, a_real_t const e, a_uint_t const i)
 {
     /* calculation */
     switch (mode)
@@ -150,7 +150,7 @@ a_real_t a_pid_outp_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_
     }
     case A_PID_POS:
     {
-        a_real_t sum = ctx->ki * e;
+        a_real_t const sum = ctx->ki * e;
         /* when the limit of integration is exceeded or */
         /* the direction of integration is the same, the integration stops. */
         if ((-ctx->summax < ctx->sum.p[i] && ctx->sum.p[i] < ctx->summax) || ctx->sum.p[i] * sum < 0)
@@ -183,21 +183,21 @@ a_real_t a_pid_outp_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_t fdb, a_
     return ctx->out.p[i];
 }
 
-a_real_t a_pid_outv(a_pid_s *ctx, a_real_t set, a_real_t fdb)
+a_real_t a_pid_outv(a_pid_s *const ctx, a_real_t const set, a_real_t const fdb)
 {
-    a_real_t e = set - fdb;
-    a_real_t ec = e - ctx->e.v;
+    a_real_t const e = set - fdb;
+    a_real_t const ec = e - ctx->e.v;
     return a_pid_outv_(ctx, a_pid_mode(ctx), set, fdb, ec, e);
 }
 
-a_real_t *a_pid_outp(a_pid_s *ctx, a_real_t *set, a_real_t *fdb)
+a_real_t *a_pid_outp(a_pid_s *const ctx, a_real_t *const set, a_real_t *const fdb)
 {
-    a_uint_t num = a_pid_num(ctx);
-    a_uint_t reg = a_pid_mode(ctx);
+    a_uint_t const num = a_pid_num(ctx);
+    a_uint_t const reg = a_pid_mode(ctx);
     for (a_uint_t i = 0; i != num; ++i)
     {
-        a_real_t e = set[i] - fdb[i];
-        a_real_t ec = e - ctx->e.p[i];
+        a_real_t const e = set[i] - fdb[i];
+        a_real_t const ec = e - ctx->e.p[i];
         a_pid_outp_(ctx, reg, set[i], fdb[i], ec, e, i);
     }
     return ctx->out.p;

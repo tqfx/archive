@@ -30,7 +30,7 @@ typedef struct a_que_node_s
  @param[in] obj points to basic queue node
  @return a pointer to basic queue node
 */
-A_INTERN a_que_node_s *a_que_from(a_vptr_t obj) { return a_cast_s(a_que_node_s *, obj); }
+A_INTERN a_que_node_s *a_que_from(a_vptr_t const obj) { return a_cast_s(a_que_node_s *, obj); }
 
 /*!
  @brief instance structure for basic queue
@@ -49,13 +49,13 @@ typedef struct a_que_s
  @brief access size of a element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
 */
-A_INTERN a_size_t a_que_get(const a_que_s *ctx) { return ctx->_size; }
+A_INTERN a_size_t a_que_get(const a_que_s *const ctx) { return ctx->_size; }
 
 /*!
  @brief access number of element for a pointer to queue structure
  @param[in] ctx points to an instance of queue structure
 */
-A_INTERN a_size_t a_que_num(const a_que_s *ctx) { return ctx->_num; }
+A_INTERN a_size_t a_que_num(const a_que_s *const ctx) { return ctx->_num; }
 
 /*!
  @brief access foremost element for a pointer to queue structure
@@ -63,7 +63,7 @@ A_INTERN a_size_t a_que_num(const a_que_s *ctx) { return ctx->_num; }
  @note should check if queue is empty
  @return element pointer
 */
-A_INTERN a_vptr_t a_que_fore_(const a_que_s *ctx)
+A_INTERN a_vptr_t a_que_fore_(const a_que_s *const ctx)
 {
     return a_que_from(ctx->_head->next)->_data;
 }
@@ -74,7 +74,7 @@ A_INTERN a_vptr_t a_que_fore_(const a_que_s *ctx)
  @note should check if queue is empty
  @return element pointer
 */
-A_INTERN a_vptr_t a_que_back_(const a_que_s *ctx)
+A_INTERN a_vptr_t a_que_back_(const a_que_s *const ctx)
 {
     return a_que_from(ctx->_head->prev)->_data;
 }
@@ -85,7 +85,7 @@ A_INTERN a_vptr_t a_que_back_(const a_que_s *ctx)
  @return element pointer
   @retval 0 empty queue
 */
-A_INTERN a_vptr_t a_que_fore(const a_que_s *ctx)
+A_INTERN a_vptr_t a_que_fore(const a_que_s *const ctx)
 {
     return a_likely(a_list_used(ctx->_head)) ? a_que_fore_(ctx) : A_NULL;
 }
@@ -96,7 +96,7 @@ A_INTERN a_vptr_t a_que_fore(const a_que_s *ctx)
  @return element pointer
   @retval 0 empty queue
 */
-A_INTERN a_vptr_t a_que_back(const a_que_s *ctx)
+A_INTERN a_vptr_t a_que_back(const a_que_s *const ctx)
 {
     return a_likely(a_list_used(ctx->_head)) ? a_que_back_(ctx) : A_NULL;
 }

@@ -1,7 +1,7 @@
 #include "a/tf.h"
 #include <string.h>
 
-static void a_tf_roll(a_real_t *p, a_uint_t n, a_real_t x)
+static void a_tf_roll(a_real_t *const p, a_uint_t n, a_real_t const x)
 {
     for (a_uint_t i = --n; i; n = i)
     {
@@ -10,7 +10,7 @@ static void a_tf_roll(a_real_t *p, a_uint_t n, a_real_t x)
     *p = x;
 }
 
-a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_real_t *u)
+a_void_t a_tf_set_num(a_tf_s *const ctx, a_uint_t const m, const a_real_t *const num, a_real_t *const u)
 {
     memset(u, 0, sizeof(a_real_t) * m);
     ctx->num = num;
@@ -18,7 +18,7 @@ a_void_t a_tf_set_num(a_tf_s *ctx, a_uint_t m, const a_real_t *num, a_real_t *u)
     ctx->u = u;
 }
 
-a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_real_t *v)
+a_void_t a_tf_set_den(a_tf_s *const ctx, a_uint_t const n, const a_real_t *const den, a_real_t *const v)
 {
     memset(v, 0, sizeof(a_real_t) * n);
     ctx->den = den;
@@ -26,16 +26,16 @@ a_void_t a_tf_set_den(a_tf_s *ctx, a_uint_t n, const a_real_t *den, a_real_t *v)
     ctx->v = v;
 }
 
-a_tf_s *a_tf_init(a_tf_s *ctx,
-                  a_uint_t m, const a_real_t *num, a_real_t *u,
-                  a_uint_t n, const a_real_t *den, a_real_t *v)
+a_tf_s *a_tf_init(a_tf_s *const ctx,
+                  a_uint_t const m, const a_real_t *const num, a_real_t *const u,
+                  a_uint_t const n, const a_real_t *const den, a_real_t *const v)
 {
     a_tf_set_num(ctx, m, num, u);
     a_tf_set_den(ctx, n, den, v);
     return ctx;
 }
 
-a_real_t a_tf_proc(a_tf_s *ctx, a_real_t x)
+a_real_t a_tf_proc(a_tf_s *const ctx, a_real_t const x)
 {
     a_real_t y = 0;
     a_tf_roll(ctx->u, ctx->m, x);
@@ -51,9 +51,9 @@ a_real_t a_tf_proc(a_tf_s *ctx, a_real_t x)
     return y;
 }
 
-a_tf_s *a_tf_exit(a_tf_s *ctx) { return a_tf_zero(ctx); }
+a_tf_s *a_tf_exit(a_tf_s *const ctx) { return a_tf_zero(ctx); }
 
-a_tf_s *a_tf_zero(a_tf_s *ctx)
+a_tf_s *a_tf_zero(a_tf_s *const ctx)
 {
     memset(ctx->u, 0, sizeof(a_real_t) * ctx->m);
     memset(ctx->v, 0, sizeof(a_real_t) * ctx->n);

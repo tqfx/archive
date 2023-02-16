@@ -1,13 +1,13 @@
 #include "a/real.h"
 
 #undef a_real_log1p
-a_real_t a_real_log1p(a_real_t x)
+a_real_t a_real_log1p(a_real_t const x)
 {
     return A_REAL_F1(log, x + 1);
 }
 
 #undef a_real_hypot
-a_real_t a_real_hypot(a_real_t x, a_real_t y)
+a_real_t a_real_hypot(a_real_t const x, a_real_t const y)
 {
 #if A_REAL_TYPE == A_REAL_SINGLE
     return a_f32_hypot(x, y);
@@ -19,7 +19,7 @@ a_real_t a_real_hypot(a_real_t x, a_real_t y)
 }
 
 #undef a_real_atan2
-a_real_t a_real_atan2(a_real_t x, a_real_t y)
+a_real_t a_real_atan2(a_real_t const x, a_real_t const y)
 {
     if (x > 0)
     {

@@ -1,7 +1,7 @@
 #include "a/fuzzy.h"
 #include "a/real.h"
 
-a_real_t a_fuzzy_or(a_uint_t e, a_real_t l, a_real_t r)
+a_real_t a_fuzzy_or(a_uint_t const e, a_real_t const l, a_real_t const r)
 {
     switch (e)
     {
@@ -15,7 +15,7 @@ a_real_t a_fuzzy_or(a_uint_t e, a_real_t l, a_real_t r)
     }
 }
 
-a_real_t a_fuzzy_and(a_uint_t e, a_real_t l, a_real_t r)
+a_real_t a_fuzzy_and(a_uint_t const e, a_real_t const l, a_real_t const r)
 {
     switch (e)
     {
@@ -29,7 +29,7 @@ a_real_t a_fuzzy_and(a_uint_t e, a_real_t l, a_real_t r)
     }
 }
 
-a_real_t a_fuzzy_equ(a_real_t gamma, a_real_t l, a_real_t r)
+a_real_t a_fuzzy_equ(a_real_t const gamma, a_real_t const l, a_real_t const r)
 {
     return a_real_pow(l * r, 1 - gamma) *
            a_real_pow(1 - (1 - l) * (1 - r), gamma);
