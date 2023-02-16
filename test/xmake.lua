@@ -13,8 +13,32 @@ function building(sources)
     add_deps("a")
 end
 
+target("test.arr")
+    building({"arr.c", "arr.cpp"})
+target_end()
+
+target("test.bst_avl")
+    building({"bst_avl.c", "bst_avl.cpp"})
+target_end()
+
+target("test.complex")
+    building({"complex.c", "complex.cpp"})
+target_end()
+
+target("test.crc")
+    building({"crc.c", "crc.cpp"})
+target_end()
+
+target("test.fpid")
+    building({"fpid.c", "fpid.cpp"})
+target_end()
+
 target("test.a")
     building({"lib.c", "lib.cpp"})
+target_end()
+
+target("test.list")
+    building({"list.c", "list.cpp"})
 target_end()
 
 target("test.main")
@@ -25,40 +49,16 @@ target("test.math")
     building({"math.c", "math.cpp"})
 target_end()
 
-target("test.version")
-    building({"version.c", "version.cpp"})
+target("test.notefreqs")
+    building({"notefreqs.c", "notefreqs.cpp"})
 target_end()
 
-target("test.arr")
-    building({"arr.c", "arr.cpp"})
-target_end()
-
-target("test.avl")
-    building({"avl.c", "avl.cpp"})
-target_end()
-
-target("test.crc")
-    building({"crc.c", "crc.cpp"})
-target_end()
-
-target("test.list")
-    building({"list.c", "list.cpp"})
-target_end()
-
-target("test.slist")
-    building({"slist.c", "slist.cpp"})
-target_end()
-
-target("test.complex")
-    building({"complex.c", "complex.cpp"})
+target("test.operator")
+    building({"operator.c", "operator.cpp"})
 target_end()
 
 target("test.pid")
     building({"pid.c", "pid.cpp"})
-target_end()
-
-target("test.fpid")
-    building({"fpid.c", "fpid.cpp"})
 target_end()
 
 target("test.poly")
@@ -69,12 +69,12 @@ target("test.polytrack")
     building({"polytrack.c", "polytrack.cpp"})
 target_end()
 
-target("test.notefreqs")
-    building({"notefreqs.c", "notefreqs.cpp"})
+target("test.slist")
+    building({"slist.c", "slist.cpp"})
 target_end()
 
-target("test.operator")
-    building({"operator.c", "operator.cpp"})
+target("test.version")
+    building({"version.c", "version.cpp"})
 target_end()
 
 includes("host")

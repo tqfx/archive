@@ -84,10 +84,28 @@ function(unittest target)
   )
 endfunction()
 
+building(arr arr.c arr.cpp)
+unittest(arr)
+
+building(bst_avl bst_avl.c bst_avl.cpp)
+unittest(bst_avl)
+
+building(complex complex.c complex.cpp)
+unittest(complex ARGS -4,3 -2,1)
+
+building(crc crc.c crc.cpp)
+unittest(crc ARGS crc.c)
+
+building(fpid fpid.c fpid.cpp)
+unittest(fpid)
+
 building(a lib.c lib.cpp)
 unittest(a NAME bkdr ARGS bkdr bkdr)
 unittest(a NAME for ARGS for 10)
 unittest(a)
+
+building(list list.c list.cpp)
+unittest(list)
 
 building(main main.c main.cpp)
 unittest(main)
@@ -95,32 +113,14 @@ unittest(main)
 building(math math.c math.cpp)
 unittest(math)
 
-building(version version.c version.cpp)
-unittest(version)
+building(notefreqs notefreqs.c notefreqs.cpp)
+unittest(notefreqs)
 
-building(arr arr.c arr.cpp)
-unittest(arr)
-
-building(avl avl.c avl.cpp)
-unittest(avl)
-
-building(crc crc.c crc.cpp)
-unittest(crc ARGS crc.c)
-
-building(list list.c list.cpp)
-unittest(list)
-
-building(slist slist.c slist.cpp)
-unittest(slist)
-
-building(complex complex.c complex.cpp)
-unittest(complex ARGS -4,3 -2,1)
+building(operator operator.c operator.cpp)
+unittest(operator)
 
 building(pid pid.c pid.cpp)
 unittest(pid)
-
-building(fpid fpid.c fpid.cpp)
-unittest(fpid)
 
 building(poly poly.c poly.cpp)
 unittest(poly)
@@ -128,10 +128,10 @@ unittest(poly)
 building(polytrack polytrack.c polytrack.cpp)
 unittest(polytrack)
 
-building(notefreqs notefreqs.c notefreqs.cpp)
-unittest(notefreqs)
+building(slist slist.c slist.cpp)
+unittest(slist)
 
-building(operator operator.c operator.cpp)
-unittest(operator)
+building(version version.c version.cpp)
+unittest(version)
 
 add_subdirectory(host)
