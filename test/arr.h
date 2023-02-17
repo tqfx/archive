@@ -187,7 +187,7 @@ static void test_sort(void)
                 a_str_printf(no, "%i ", i);
             }
         }
-        printf("%s\n%s\n", a_str_val(ok), a_str_val(no));
+        printf("%s\n%s\n", a_str_ptr(ok), a_str_ptr(no));
         a_str_die(ok);
         a_str_die(no);
     }

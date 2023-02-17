@@ -6,7 +6,7 @@
 
 static void tests(void)
 {
-    a_str_s ctx[1] = {A_STR_NIL};
+    a_str_s ctx[1] = {A_STR_NUL};
     a_str_t str = a_str_exit(ctx);
     printf("0x%" PRIXPTR " ", a_cast_r(a_uptr_t, str));
     a_str_getc(ctx);
@@ -18,7 +18,7 @@ static void tests(void)
     a_str_putn(ctx, A_NULL, 0);
     TEST_BUG(a_str_idx(ctx, 0) == 0);
     TEST_BUG(a_str_at(ctx, 0) == 0);
-    str = a_str_val(ctx);
+    str = a_str_ptr(ctx);
     printf("0x%" PRIXPTR " ", a_cast_r(a_uptr_t, str));
     a_str_dtor(ctx);
 }

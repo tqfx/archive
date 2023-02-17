@@ -17,18 +17,18 @@
  @{
 */
 
-#if !defined A_STR_NIL
 // clang-format off
-#define A_STR_NIL {A_NULL, 0, 0}
+#if !defined A_STR_NUL
+#define A_STR_NUL {A_NULL, 0, 0}
+#endif /* A_STR_NUL */
 // clang-format on
-#endif /* A_STR_NIL */
 
 /*!
  @brief instance structure for basic string
 */
 typedef struct a_str_s
 {
-    a_str_t _str; /*!< string */
+    a_str_t _ptr; /*!< string */
     a_size_t _num; /*!< length */
     a_size_t _mem; /*!< memory */
 } a_str_s;
@@ -38,7 +38,7 @@ typedef struct a_str_s
  @param[in] ctx points to an instance of string structure
  @return string
 */
-A_INTERN a_str_t a_str_val(a_str_s const *const ctx) { return ctx->_str; }
+A_INTERN a_str_t a_str_ptr(a_str_s const *const ctx) { return ctx->_ptr; }
 
 /*!
  @brief length for a pointer to string structure
@@ -61,10 +61,7 @@ A_INTERN a_size_t a_str_mem(a_str_s const *const ctx) { return ctx->_mem; }
  @note should check if string is empty
  @return specified character
 */
-A_INTERN a_char_t a_str_at_(a_str_s const *const ctx, a_size_t const idx)
-{
-    return ctx->_str[idx];
-}
+A_INTERN a_char_t a_str_at_(a_str_s const *const ctx, a_size_t const idx) { return ctx->_ptr[idx]; }
 
 /*!
  @brief access specified character for a pointer to string structure
@@ -75,7 +72,7 @@ A_INTERN a_char_t a_str_at_(a_str_s const *const ctx, a_size_t const idx)
 */
 A_INTERN a_char_t a_str_at(a_str_s const *const ctx, a_size_t const idx)
 {
-    return a_likely(idx < ctx->_num) ? ctx->_str[idx] : 0;
+    return a_likely(idx < ctx->_num) ? ctx->_ptr[idx] : 0;
 }
 
 /*!
@@ -88,8 +85,35 @@ A_INTERN a_char_t a_str_at(a_str_s const *const ctx, a_size_t const idx)
 A_INTERN a_char_t a_str_idx(a_str_s const *const ctx, a_diff_t const idx)
 {
     a_size_t const num = idx < 0 ? a_size_c(idx) + ctx->_num : a_size_c(idx);
-    return a_likely(num < ctx->_num) ? ctx->_str[num] : 0;
+    return a_likely(num < ctx->_num) ? ctx->_ptr[num] : 0;
 }
+
+/*!
+ @brief set length for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] len new length for a pointer to string structure
+ @note length must less than memory
+*/
+A_INLINE a_void_t a_str_set_len_(a_str_s *const ctx, a_size_t const len) { ctx->_num = len; }
+
+/*!
+ @brief set length for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+ @param[in] len new length for a pointer to string structure
+ @return the execution state of the function
+  @retval 0 success
+  @retval 1 failure
+*/
+A_INLINE a_int_t a_str_set_len(a_str_s *const ctx, a_size_t const len)
+{
+    return a_likely(len < ctx->_mem) ? ((void)(ctx->_num = len), A_SUCCESS) : A_FAILURE;
+}
+
+/*!
+ @brief drop all characters for a pointer to string structure
+ @param[in] ctx points to an instance of string structure
+*/
+A_INTERN a_void_t a_str_drop(a_str_s *const ctx) { ctx->_num = 0; }
 
 #if defined(__cplusplus)
 extern "C" {

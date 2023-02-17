@@ -3,6 +3,7 @@
 #define MAIN_(s, argc, argv) main##s(argc, argv)
 #include "test.h"
 #include "a/bst_avl.h"
+#include "a/host/str.h"
 
 typedef struct
 {
@@ -79,14 +80,15 @@ static int test(int argc, char *argv[])
 
     const a_uint_t n = 0x1000;
 
+    a_str_s str = A_STR_NUL;
     a_bst_avl_u root = A_BST_AVL_ROOT;
     int_node *vec = a_new(int_node, A_NULL, n);
     a_int_t *sorted = a_new(a_int_t, A_NULL, n);
     for (a_uint_t i = 0; i < n; ++i)
     {
-        a_char_t buff[32];
-        (void)snprintf(buff, 32, "%u", i);
-        vec[i].data = a_int_c(a_hash_bkdr(buff, 0));
+        a_str_printf(&str, "%u", i);
+        vec[i].data = a_int_c(a_hash_bkdr(a_str_ptr(&str), 0));
+        a_str_drop(&str);
         sorted[i] = vec[i].data;
         a_bst_avl_insert(&root, &vec[i].node, int_cmp);
         set_height(root.node);
@@ -98,6 +100,7 @@ static int test(int argc, char *argv[])
         }
 #endif /* MAIN_ONCE */
     }
+    a_str_dtor(&str);
 
     for (a_uint_t i = 0; i < n; ++i)
     {
