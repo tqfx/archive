@@ -95,7 +95,7 @@ a_real_t a_mf_z(a_real_t x, a_real_t const a, a_real_t const b)
     return x;
 }
 
-a_real_t a_mf(a_uint_t const e, a_real_t const x, a_real_t *const a)
+a_real_t a_mf(a_uint_t const e, a_real_t const x, a_real_t const *const a)
 {
     switch (e)
     {
