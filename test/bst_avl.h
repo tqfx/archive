@@ -16,7 +16,7 @@ typedef struct
 static A_INLINE a_int_t int_factor(a_bst_avl_s *node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    return a_int_c(node->parent & 3) - 1;
+    return a_int_c(node->_parent & 3) - 1;
 #else /* !A_SIZE_VPTR */
     return node->factor;
 #endif /* A_SIZE_VPTR */

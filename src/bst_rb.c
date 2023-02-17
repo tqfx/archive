@@ -4,7 +4,7 @@
 static A_INLINE a_void_t a_bst_rb_set_parent_color(a_bst_rb_s *const node, a_bst_rb_s *const parent, a_uint_t const color)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    node->parent = (a_uptr_t)parent | color;
+    node->_parent = (a_uptr_t)parent | color;
 #else /* !A_SIZE_VPTR */
     node->parent = parent;
     node->color = color;
@@ -15,7 +15,7 @@ static A_INLINE a_void_t a_bst_rb_set_parent_color(a_bst_rb_s *const node, a_bst
 static A_INLINE a_void_t a_bst_rb_set_parent(a_bst_rb_s *const node, a_bst_rb_s *const parent)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    node->parent = (a_uptr_t)parent | (node->parent & 1);
+    node->_parent = (a_uptr_t)parent | (node->_parent & 1);
 #else /* !A_SIZE_VPTR */
     node->parent = parent;
 #endif /* A_SIZE_VPTR */
@@ -25,7 +25,7 @@ static A_INLINE a_void_t a_bst_rb_set_parent(a_bst_rb_s *const node, a_bst_rb_s 
 static A_INLINE a_uint_t a_bst_rb_color(a_bst_rb_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    return (a_uint_t)(node->parent & 1);
+    return (a_uint_t)(node->_parent & 1);
 #else /* !A_SIZE_VPTR */
     return node->color;
 #endif /* A_SIZE_VPTR */
@@ -35,7 +35,7 @@ static A_INLINE a_uint_t a_bst_rb_color(a_bst_rb_s const *const node)
 static A_INLINE a_void_t a_bst_rb_set_black(a_bst_rb_s *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    node->parent |= A_BST_RB_B;
+    node->_parent |= A_BST_RB_B;
 #else /* !A_SIZE_VPTR */
     node->color = A_BST_RB_B;
 #endif /* A_SIZE_VPTR */
@@ -61,6 +61,25 @@ static A_INLINE a_void_t a_bst_rb_mod_child(a_bst_rb_u *const root, a_bst_rb_s *
 }
 
 /*
+red-black trees properties: https://en.wikipedia.org/wiki/Rbtree
+
+ 1) A node is either red or black
+ 2) The root is black
+ 3) All leaves (NULL) are black
+ 4) Both children of every red node are black
+ 5) Every simple path from root to leaves contains the same number of black nodes.
+
+ 4 and 5 give the O(log n) guarantee, since 4 implies you cannot have two
+ consecutive red nodes in a path and every red node is therefore followed by
+ a black. So if B is the number of black nodes on every simple path (as per
+ 5), then the longest possible path due to 4 is 2B.
+
+ We shall indicate color with case, where black nodes are uppercase and red
+ nodes will be lowercase. Unknown color nodes shall be drawn as red within
+ parentheses and have some accompanying text comment.
+*/
+
+/*
 Helper function for rotations:
  - old's parent and color get assigned to new
  - old gets assigned new as a parent and 'color' as a color.
@@ -68,8 +87,10 @@ Helper function for rotations:
 static A_INLINE a_void_t a_bst_rb_set_parents(a_bst_rb_u *const root, a_bst_rb_s *const oldnode, a_bst_rb_s *const newnode, a_uint_t const color)
 {
     a_bst_rb_s *const parent = a_bst_rb_parent(oldnode);
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
+    newnode->_parent = oldnode->_parent;
+#else /* !A_SIZE_VPTR */
     newnode->parent = oldnode->parent;
-#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 < 2)
     newnode->color = oldnode->color;
 #endif /* A_SIZE_VPTR */
     a_bst_rb_set_parent_color(oldnode, newnode, color);
@@ -206,53 +227,6 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
             break;
         }
     }
-}
-
-a_bst_rb_s *a_bst_rb_insert(a_bst_rb_u *const root, a_bst_rb_s *const node, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
-{
-    a_bst_rb_s **link = &root->node;
-    a_bst_rb_s *parent = root->node;
-    while (*link)
-    {
-        parent = *link;
-        a_int_t const res = cmp(node, parent);
-        if (res < 0)
-        {
-            link = &parent->left;
-        }
-        else if (res > 0)
-        {
-            link = &parent->right;
-        }
-        else
-        {
-            return parent;
-        }
-    }
-    *link = a_bst_rb_init(node, parent);
-    a_bst_rb_insert_adjust(root, node);
-    return A_NULL;
-}
-
-a_bst_rb_s *a_bst_rb_search(a_bst_rb_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
-{
-    for (a_bst_rb_s *cur = root->node; cur;)
-    {
-        a_int_t const res = cmp(ctx, cur);
-        if (res < 0)
-        {
-            cur = cur->left;
-        }
-        else if (res > 0)
-        {
-            cur = cur->right;
-        }
-        else
-        {
-            return cur;
-        }
-    }
-    return A_NULL;
 }
 
 static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb_s *node, a_bst_rb_s *parent)
@@ -446,7 +420,7 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     a_uptr_t pc;
 #else /* !A_SIZE_VPTR */
-    a_uint_t c;
+    a_uint_t color;
 #endif /* A_SIZE_VPTR */
 
     if (!tmp)
@@ -457,28 +431,28 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
         We adjust colors locally so as to bypass a_bst_rb_remove_adjust() later on.
         */
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-        pc = node->parent;
+        pc = node->_parent;
 #else /* !A_SIZE_VPTR */
-        c = node->color;
+        color = node->color;
 #endif /* A_SIZE_VPTR */
         parent = a_bst_rb_parent(node);
         a_bst_rb_mod_child(root, parent, node, child);
         if (child)
         {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-            child->parent = pc;
+            child->_parent = pc;
 #else /* !A_SIZE_VPTR */
             child->parent = parent;
-            child->color = c;
+            child->color = color;
 #endif /* A_SIZE_VPTR */
             adjust = A_NULL;
         }
         else
         {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-            adjust = (pc & 1) == A_BST_RB_B ? parent : NULL;
+            adjust = (pc & 1) == A_BST_RB_B ? parent : A_NULL;
 #else /* !A_SIZE_VPTR */
-            adjust = c == A_BST_RB_B ? parent : NULL;
+            adjust = color == A_BST_RB_B ? parent : A_NULL;
 #endif /* A_SIZE_VPTR */
         }
         tmp = parent;
@@ -487,14 +461,14 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
     {
         /* Still case 1, but this time the child is node->left */
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-        tmp->parent = pc = node->parent;
+        tmp->_parent = node->_parent;
 #else /* !A_SIZE_VPTR */
         tmp->parent = node->parent;
-        tmp->color = c = node->color;
+        tmp->color = node->color;
 #endif /* A_SIZE_VPTR */
         parent = a_bst_rb_parent(node);
         a_bst_rb_mod_child(root, parent, node, tmp);
-        adjust = NULL;
+        adjust = A_NULL;
         tmp = parent;
     }
     else
@@ -548,9 +522,9 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
         a_bst_rb_set_parent(tmp, successor);
 
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-        pc = node->parent;
+        pc = node->_parent;
 #else /* !A_SIZE_VPTR */
-        c = node->color;
+        color = node->color;
 #endif /* A_SIZE_VPTR */
         tmp = a_bst_rb_parent(node);
         a_bst_rb_mod_child(root, node, successor, tmp);
@@ -558,17 +532,17 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
         if (child2)
         {
             a_bst_rb_set_parent_color(child2, parent, A_BST_RB_B);
-            adjust = NULL;
+            adjust = A_NULL;
         }
         else
         {
-            adjust = a_bst_rb_color(successor) == A_BST_RB_B ? parent : NULL;
+            adjust = a_bst_rb_color(successor) == A_BST_RB_B ? parent : A_NULL;
         }
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-        successor->parent = pc;
+        successor->_parent = pc;
 #else /* !A_SIZE_VPTR */
         successor->parent = tmp;
-        successor->color = c;
+        successor->color = color;
 #endif /* A_SIZE_VPTR */
         tmp = successor;
     }
@@ -577,6 +551,53 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
     {
         a_bst_rb_remove_adjust(root, child, adjust);
     }
+}
+
+a_bst_rb_s *a_bst_rb_insert(a_bst_rb_u *const root, a_bst_rb_s *const node, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+{
+    a_bst_rb_s **link = &root->node;
+    a_bst_rb_s *parent = root->node;
+    while (*link)
+    {
+        parent = *link;
+        a_int_t const res = cmp(node, parent);
+        if (res < 0)
+        {
+            link = &parent->left;
+        }
+        else if (res > 0)
+        {
+            link = &parent->right;
+        }
+        else
+        {
+            return parent;
+        }
+    }
+    *link = a_bst_rb_init(node, parent);
+    a_bst_rb_insert_adjust(root, node);
+    return A_NULL;
+}
+
+a_bst_rb_s *a_bst_rb_search(a_bst_rb_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+{
+    for (a_bst_rb_s *cur = root->node; cur;)
+    {
+        a_int_t const res = cmp(ctx, cur);
+        if (res < 0)
+        {
+            cur = cur->left;
+        }
+        else if (res > 0)
+        {
+            cur = cur->right;
+        }
+        else
+        {
+            return cur;
+        }
+    }
+    return A_NULL;
 }
 
 a_bst_rb_s *a_bst_rb_head(a_bst_rb_u const *const root)

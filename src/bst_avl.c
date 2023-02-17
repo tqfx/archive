@@ -4,7 +4,7 @@
 static A_INLINE a_void_t a_bst_avl_set_parent_factor(a_bst_avl_s *const node, a_bst_avl_s *const parent, a_int_t const factor)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    node->parent = (a_uptr_t)parent | (a_uptr_t)(factor + 1);
+    node->_parent = (a_uptr_t)parent | (a_uptr_t)(factor + 1);
 #else /* !A_SIZE_VPTR */
     node->parent = parent;
     node->factor = factor;
@@ -15,7 +15,7 @@ static A_INLINE a_void_t a_bst_avl_set_parent_factor(a_bst_avl_s *const node, a_
 static A_INLINE a_void_t a_bst_avl_set_parent(a_bst_avl_s *const node, a_bst_avl_s *const parent)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    node->parent = (a_uptr_t)parent | (node->parent & 3);
+    node->_parent = (a_uptr_t)parent | (node->_parent & 3);
 #else /* !A_SIZE_VPTR */
     node->parent = parent;
 #endif /* A_SIZE_VPTR */
@@ -28,7 +28,7 @@ the height of its right subtree minus the height of its left subtree.
 static A_INLINE a_int_t a_bst_avl_factor(a_bst_avl_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    return (a_int_t)(node->parent & 3) - 1;
+    return (a_int_t)(node->_parent & 3) - 1;
 #else /* !A_SIZE_VPTR */
     return node->factor;
 #endif /* A_SIZE_VPTR */
@@ -41,7 +41,7 @@ The caller must ensure this still results in a valid balance factor (-1, 0, or 1
 static A_INLINE a_void_t a_bst_avl_set_factor(a_bst_avl_s *const node, a_int_t const amount)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    node->parent += (a_uptr_t)amount;
+    node->_parent += (a_uptr_t)amount;
 #else /* !A_SIZE_VPTR */
     node->factor += amount;
 #endif /* A_SIZE_VPTR */
@@ -374,53 +374,6 @@ a_void_t a_bst_avl_insert_adjust(a_bst_avl_u *const root, a_bst_avl_s *node)
     } while (!done);
 }
 
-a_bst_avl_s *a_bst_avl_insert(a_bst_avl_u *const root, a_bst_avl_s *const node, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
-{
-    a_bst_avl_s **link = &root->node;
-    a_bst_avl_s *parent = root->node;
-    while (*link)
-    {
-        parent = *link;
-        a_int_t const res = cmp(node, parent);
-        if (res < 0)
-        {
-            link = &parent->left;
-        }
-        else if (res > 0)
-        {
-            link = &parent->right;
-        }
-        else
-        {
-            return parent;
-        }
-    }
-    *link = a_bst_avl_init(node, parent);
-    a_bst_avl_insert_adjust(root, node);
-    return A_NULL;
-}
-
-a_bst_avl_s *a_bst_avl_search(a_bst_avl_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
-{
-    for (a_bst_avl_s *cur = root->node; cur;)
-    {
-        a_int_t const res = cmp(ctx, cur);
-        if (res < 0)
-        {
-            cur = cur->left;
-        }
-        else if (res > 0)
-        {
-            cur = cur->right;
-        }
-        else
-        {
-            return cur;
-        }
-    }
-    return A_NULL;
-}
-
 /*
 This function handles the shrinkage of a subtree due to a deletion.
 
@@ -605,8 +558,10 @@ static A_INLINE a_bst_avl_s *a_bst_avl_handle_remove(a_bst_avl_u *const root, a_
     Y->left = X->left;
     a_bst_avl_set_parent(X->left, Y);
 
+#if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
+    Y->_parent = X->_parent;
+#else /* !A_SIZE_VPTR */
     Y->parent = X->parent;
-#if !defined A_SIZE_VPTR || (A_SIZE_VPTR + 0 < 4)
     Y->factor = X->factor;
 #endif /* A_SIZE_VPTR */
     a_bst_avl_mod_child(root, a_bst_avl_parent(X), X, Y);
@@ -680,6 +635,53 @@ a_void_t a_bst_avl_remove(a_bst_avl_u *const root, a_bst_avl_s *const node)
             parent = a_bst_avl_handle_shrink(root, parent, -1, &left);
         }
     } while (parent);
+}
+
+a_bst_avl_s *a_bst_avl_insert(a_bst_avl_u *const root, a_bst_avl_s *const node, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+{
+    a_bst_avl_s **link = &root->node;
+    a_bst_avl_s *parent = root->node;
+    while (*link)
+    {
+        parent = *link;
+        a_int_t const res = cmp(node, parent);
+        if (res < 0)
+        {
+            link = &parent->left;
+        }
+        else if (res > 0)
+        {
+            link = &parent->right;
+        }
+        else
+        {
+            return parent;
+        }
+    }
+    *link = a_bst_avl_init(node, parent);
+    a_bst_avl_insert_adjust(root, node);
+    return A_NULL;
+}
+
+a_bst_avl_s *a_bst_avl_search(a_bst_avl_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+{
+    for (a_bst_avl_s *cur = root->node; cur;)
+    {
+        a_int_t const res = cmp(ctx, cur);
+        if (res < 0)
+        {
+            cur = cur->left;
+        }
+        else if (res > 0)
+        {
+            cur = cur->right;
+        }
+        else
+        {
+            return cur;
+        }
+    }
+    return A_NULL;
 }
 
 a_bst_avl_s *a_bst_avl_head(a_bst_avl_u const *const root)

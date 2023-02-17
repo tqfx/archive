@@ -38,7 +38,7 @@ typedef struct a_bst_rb_s
      and it will be NULL if this is the root node and therefore has no parent.
     */
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    a_uptr_t parent;
+    a_uptr_t _parent;
 #else /* !A_SIZE_VPTR */
     struct a_bst_rb_s *parent;
     a_uint_t color;
@@ -54,7 +54,7 @@ typedef struct a_bst_rb_s
 A_INTERN a_bst_rb_s *a_bst_rb_parent(a_bst_rb_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    return a_cast_r(a_bst_rb_s *, node->parent & ~a_uptr_c(1));
+    return a_cast_r(a_bst_rb_s *, node->_parent & ~a_uptr_c(1));
 #else /* !A_SIZE_VPTR */
     return node->parent;
 #endif /* A_SIZE_VPTR */
@@ -69,10 +69,10 @@ A_INTERN a_bst_rb_s *a_bst_rb_parent(a_bst_rb_s const *const node)
 A_INTERN a_bst_rb_s *a_bst_rb_init(a_bst_rb_s *const node, a_bst_rb_s *const parent)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    node->parent = a_cast_r(a_uptr_t, parent);
+    node->_parent = a_cast_r(a_uptr_t, parent);
 #else /* !A_SIZE_VPTR */
-    node->color = A_BST_RB_R;
     node->parent = parent;
+    node->color = A_BST_RB_R;
 #endif /* A_SIZE_VPTR */
     node->right = A_NULL;
     node->left = A_NULL;
@@ -233,7 +233,7 @@ A_EXTERN a_void_t a_bst_rb_remove(a_bst_rb_u *root, a_bst_rb_s *node);
  a_bst_rb_u root = A_BST_RB_ROOT;
  a_bst_rb_foreach(cur, &root)
  {
-     T *it = a_container_of(cur, T, node);
+     T *it = a_bst_rb_entry(cur, T, node);
  }
  @endcode
  @param cur the &a_bst_rb_s to use as a loop counter
@@ -249,7 +249,7 @@ A_EXTERN a_void_t a_bst_rb_remove(a_bst_rb_u *root, a_bst_rb_s *node);
  a_bst_rb_u root = A_BST_RB_ROOT;
  a_bst_rb_foreach_reverse(cur, &root)
  {
-     T *it = a_container_of(cur, T, node);
+     T *it = a_bst_rb_entry(cur, T, node);
  }
  @endcode
  @param cur the &a_bst_rb_s to use as a loop counter
@@ -265,7 +265,7 @@ A_EXTERN a_void_t a_bst_rb_remove(a_bst_rb_u *root, a_bst_rb_s *node);
  a_bst_rb_u root = A_BST_RB_ROOT;
  a_bst_rb_pre_foreach(cur, &root)
  {
-     T *it = a_container_of(cur, T, node);
+     T *it = a_bst_rb_entry(cur, T, node);
  }
  @endcode
  @param cur the &a_bst_rb_s to use as a loop counter
@@ -281,7 +281,7 @@ A_EXTERN a_void_t a_bst_rb_remove(a_bst_rb_u *root, a_bst_rb_s *node);
  a_bst_rb_u root = A_BST_RB_ROOT;
  a_bst_rb_pre_foreach_reverse(cur, &root)
  {
-     T *it = a_container_of(cur, T, node);
+     T *it = a_bst_rb_entry(cur, T, node);
  }
  @endcode
  @param cur the &a_bst_rb_s to use as a loop counter
@@ -297,7 +297,7 @@ A_EXTERN a_void_t a_bst_rb_remove(a_bst_rb_u *root, a_bst_rb_s *node);
  a_bst_rb_u root = A_BST_RB_ROOT;
  a_bst_rb_post_foreach(cur, &root)
  {
-     T *it = a_container_of(cur, T, node);
+     T *it = a_bst_rb_entry(cur, T, node);
  }
  @endcode
  @param cur the &a_bst_rb_s to use as a loop counter
@@ -313,7 +313,7 @@ A_EXTERN a_void_t a_bst_rb_remove(a_bst_rb_u *root, a_bst_rb_s *node);
  a_bst_rb_u root = A_BST_RB_ROOT;
  a_bst_rb_post_foreach_reverse(cur, &root)
  {
-     T *it = a_container_of(cur, T, node);
+     T *it = a_bst_rb_entry(cur, T, node);
  }
  @endcode
  @param cur the &a_bst_rb_s to use as a loop counter

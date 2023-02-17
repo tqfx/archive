@@ -33,15 +33,15 @@ typedef struct a_bst_avl_s
     /*!< pointer to parent combined with the balance factor
      Low 2 bits: One greater than the balance factor of this subtree,
      which is equal to height(right) - height(left). The mapping is:
-     00 => -1
-     01 =>  0
-     10 => +1
-     11 => undefined
+        00 => -1
+        01 =>  0
+        10 => +1
+        11 => undefined
      The rest of the bits are the pointer to the parent node. It must be 4-byte aligned,
      and it will be NULL if this is the root node and therefore has no parent.
     */
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    a_uptr_t parent;
+    a_uptr_t _parent;
 #else /* !A_SIZE_VPTR */
     struct a_bst_avl_s *parent;
     a_int_t factor;
@@ -57,7 +57,7 @@ typedef struct a_bst_avl_s
 A_INTERN a_bst_avl_s *a_bst_avl_parent(a_bst_avl_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    return a_cast_r(a_bst_avl_s *, node->parent & ~a_uptr_c(3));
+    return a_cast_r(a_bst_avl_s *, node->_parent & ~a_uptr_c(3));
 #else /* !A_SIZE_VPTR */
     return node->parent;
 #endif /* A_SIZE_VPTR */
@@ -72,7 +72,7 @@ A_INTERN a_bst_avl_s *a_bst_avl_parent(a_bst_avl_s const *const node)
 A_INTERN a_bst_avl_s *a_bst_avl_init(a_bst_avl_s *const node, a_bst_avl_s *const parent)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
-    node->parent = a_cast_r(a_uptr_t, parent) | 1;
+    node->_parent = a_cast_r(a_uptr_t, parent) | 1;
 #else /* !A_SIZE_VPTR */
     node->parent = parent;
     node->factor = 0;
