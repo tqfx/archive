@@ -15,6 +15,12 @@
  @{
 */
 
+// clang-format off
+#if !defined A_BST_RB_ROOT
+#define A_BST_RB_ROOT {A_NULL}
+#endif /* A_BST_RB_ROOT */
+// clang-format on
+
 #define A_BST_RB_R 0 //!< red
 #define A_BST_RB_B 1 //!< black
 
@@ -72,12 +78,6 @@ A_INTERN a_bst_rb_s *a_bst_rb_init(a_bst_rb_s *const node, a_bst_rb_s *const par
     node->left = A_NULL;
     return node;
 }
-
-#if !defined A_BST_RB_ROOT
-// clang-format off
-#define A_BST_RB_ROOT {A_NULL}
-// clang-format on
-#endif /* A_BST_RB_ROOT */
 
 /*!
  @brief instance structure for red–black binary search tree root

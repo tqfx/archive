@@ -15,6 +15,12 @@
  @{
 */
 
+// clang-format off
+#if !defined A_BST_AVL_ROOT
+#define A_BST_AVL_ROOT {A_NULL}
+#endif /* A_BST_AVL_ROOT */
+// clang-format on
+
 /*!
  @brief instance structure for AVL binary search tree node
 */
@@ -75,12 +81,6 @@ A_INTERN a_bst_avl_s *a_bst_avl_init(a_bst_avl_s *const node, a_bst_avl_s *const
     node->left = A_NULL;
     return node;
 }
-
-#if !defined A_BST_AVL_ROOT
-// clang-format off
-#define A_BST_AVL_ROOT {A_NULL}
-// clang-format on
-#endif /* A_BST_AVL_ROOT */
 
 /*!
  @brief instance structure for AVL binary search tree root
