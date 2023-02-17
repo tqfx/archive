@@ -1,9 +1,9 @@
 set(LUA_MATH_LIBRARY ${LIBA_MATH} CACHE STRING "lua math library")
 set(OBJECTS $<TARGET_OBJECTS:a>)
-set(LUA_LIBRARIES lualib)
 
 if(NOT WITH_LUA AND LIBA_LUA)
   find_package(Lua OPTIONAL_COMPONENTS lua)
+  set(LUA_LIBRARIES lualib)
 endif()
 
 if(NOT WITH_LUA AND(NOT LUA_FOUND OR LIBA_LUAJIT))
@@ -14,6 +14,7 @@ endif()
 
 if(NOT LUA_FOUND AND NOT LUAJIT_FOUND)
   add_subdirectory(lua)
+  set(LUA_LIBRARIES lualib)
   set(LUA_EXECUTABLE ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:lua>)
   string(REGEX REPLACE "^([0-9]).*" "\\1" LUA_VERSION_MAJOR "${LUA_VERSION}")
   string(REGEX REPLACE "^[0-9]+\\.([0-9]).*" "\\1" LUA_VERSION_MINOR "${LUA_VERSION}")
