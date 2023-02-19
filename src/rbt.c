@@ -1,7 +1,7 @@
-#include "a/bst_rb.h"
+#include "a/rbt.h"
 
 /* Sets the parent and color of the specified red–black tree node. */
-static A_INLINE a_void_t a_bst_rb_set_parent_color(a_bst_rb_s *const node, a_bst_rb_s *const parent, a_uint_t const color)
+static A_INLINE a_void_t a_rbt_set_parent_color(a_rbt_s *const node, a_rbt_s *const parent, a_uint_t const color)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     node->_parent = (a_uptr_t)parent | color;
@@ -12,7 +12,7 @@ static A_INLINE a_void_t a_bst_rb_set_parent_color(a_bst_rb_s *const node, a_bst
 }
 
 /* Sets the parent of the specified red–black tree node. */
-static A_INLINE a_void_t a_bst_rb_set_parent(a_bst_rb_s *const node, a_bst_rb_s *const parent)
+static A_INLINE a_void_t a_rbt_set_parent(a_rbt_s *const node, a_rbt_s *const parent)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     node->_parent = (a_uptr_t)parent | (node->_parent & 1);
@@ -22,7 +22,7 @@ static A_INLINE a_void_t a_bst_rb_set_parent(a_bst_rb_s *const node, a_bst_rb_s 
 }
 
 /* Returns the color of the specified red–black tree node. */
-static A_INLINE a_uint_t a_bst_rb_color(a_bst_rb_s const *const node)
+static A_INLINE a_uint_t a_rbt_color(a_rbt_s const *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     return (a_uint_t)(node->_parent & 1);
@@ -32,16 +32,16 @@ static A_INLINE a_uint_t a_bst_rb_color(a_bst_rb_s const *const node)
 }
 
 /* Sets the black color of the specified red–black tree node. */
-static A_INLINE a_void_t a_bst_rb_set_black(a_bst_rb_s *const node)
+static A_INLINE a_void_t a_rbt_set_black(a_rbt_s *const node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-    node->_parent |= A_BST_RB_B;
+    node->_parent |= A_RBT_B;
 #else /* !A_SIZE_VPTR */
-    node->color = A_BST_RB_B;
+    node->color = A_RBT_B;
 #endif /* A_SIZE_VPTR */
 }
 
-static A_INLINE a_void_t a_bst_rb_mod_child(a_bst_rb_u *const root, a_bst_rb_s *const parent, a_bst_rb_s *const oldnode, a_bst_rb_s *const newnode)
+static A_INLINE a_void_t a_rbt_mod_child(a_rbt_u *const root, a_rbt_s *const parent, a_rbt_s *const oldnode, a_rbt_s *const newnode)
 {
     if (parent)
     {
@@ -84,22 +84,22 @@ Helper function for rotations:
  - old's parent and color get assigned to new
  - old gets assigned new as a parent and 'color' as a color.
 */
-static A_INLINE a_void_t a_bst_rb_set_parents(a_bst_rb_u *const root, a_bst_rb_s *const oldnode, a_bst_rb_s *const newnode, a_uint_t const color)
+static A_INLINE a_void_t a_rbt_set_parents(a_rbt_u *const root, a_rbt_s *const oldnode, a_rbt_s *const newnode, a_uint_t const color)
 {
-    a_bst_rb_s *const parent = a_bst_rb_parent(oldnode);
+    a_rbt_s *const parent = a_rbt_parent(oldnode);
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     newnode->_parent = oldnode->_parent;
 #else /* !A_SIZE_VPTR */
     newnode->parent = oldnode->parent;
     newnode->color = oldnode->color;
 #endif /* A_SIZE_VPTR */
-    a_bst_rb_set_parent_color(oldnode, newnode, color);
-    a_bst_rb_mod_child(root, parent, oldnode, newnode);
+    a_rbt_set_parent_color(oldnode, newnode, color);
+    a_rbt_mod_child(root, parent, oldnode, newnode);
 }
 
-a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
+a_void_t a_rbt_insert_adjust(a_rbt_u *const root, a_rbt_s *node)
 {
-    for (a_bst_rb_s *parent = a_bst_rb_parent(node), *gparent, *tmp;;)
+    for (a_rbt_s *parent = a_rbt_parent(node), *gparent, *tmp;;)
     {
         /* Loop invariant: node is red. */
         if (a_unlikely(!parent))
@@ -108,22 +108,22 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
             The inserted node is root. Either this is the first node,
             or we recursed at Case 1 below and are no longer violating 4).
             */
-            a_bst_rb_set_parent_color(node, A_NULL, A_BST_RB_B);
+            a_rbt_set_parent_color(node, A_NULL, A_RBT_B);
             break;
         }
         /*
         If there is a black parent, we are done. Otherwise, take some corrective action as, per 4),
         we don't want a red root or two consecutive red nodes.
         */
-        if (a_bst_rb_color(parent) == A_BST_RB_B)
+        if (a_rbt_color(parent) == A_RBT_B)
         {
             break;
         }
-        gparent = a_bst_rb_parent(parent);
+        gparent = a_rbt_parent(parent);
         tmp = gparent->right;
         if (parent != tmp) /* parent == gparent->left */
         {
-            if (tmp && a_bst_rb_color(tmp) == A_BST_RB_R)
+            if (tmp && a_rbt_color(tmp) == A_RBT_R)
             {
                 /*
                 Case 1 - node's uncle is red (color flips).
@@ -136,11 +136,11 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
 
                 However, since g's parent might be red, and 4) does not allow this, we need to recurse at g.
                 */
-                a_bst_rb_set_parent_color(tmp, gparent, A_BST_RB_B);
-                a_bst_rb_set_parent_color(parent, gparent, A_BST_RB_B);
+                a_rbt_set_parent_color(tmp, gparent, A_RBT_B);
+                a_rbt_set_parent_color(parent, gparent, A_RBT_B);
                 node = gparent;
-                parent = a_bst_rb_parent(node);
-                a_bst_rb_set_parent_color(node, parent, A_BST_RB_R);
+                parent = a_rbt_parent(node);
+                a_rbt_set_parent_color(node, parent, A_RBT_R);
                 continue;
             }
             tmp = parent->right;
@@ -162,9 +162,9 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
                 node->left = parent;
                 if (tmp)
                 {
-                    a_bst_rb_set_parent_color(tmp, parent, A_BST_RB_B);
+                    a_rbt_set_parent_color(tmp, parent, A_RBT_B);
                 }
-                a_bst_rb_set_parent_color(parent, node, A_BST_RB_R);
+                a_rbt_set_parent_color(parent, node, A_RBT_R);
                 // a_bst_augment_rotate(parent, node);
                 parent = node;
                 tmp = node->right;
@@ -183,22 +183,22 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
             parent->right = gparent;
             if (tmp)
             {
-                a_bst_rb_set_parent_color(tmp, gparent, A_BST_RB_B);
+                a_rbt_set_parent_color(tmp, gparent, A_RBT_B);
             }
-            a_bst_rb_set_parents(root, gparent, parent, A_BST_RB_R);
+            a_rbt_set_parents(root, gparent, parent, A_RBT_R);
             break;
         }
         else
         {
             tmp = gparent->left;
-            if (tmp && a_bst_rb_color(tmp) == A_BST_RB_R)
+            if (tmp && a_rbt_color(tmp) == A_RBT_R)
             {
                 /* Case 1 - color flips */
-                a_bst_rb_set_parent_color(tmp, gparent, A_BST_RB_B);
-                a_bst_rb_set_parent_color(parent, gparent, A_BST_RB_B);
+                a_rbt_set_parent_color(tmp, gparent, A_RBT_B);
+                a_rbt_set_parent_color(parent, gparent, A_RBT_B);
                 node = gparent;
-                parent = a_bst_rb_parent(node);
-                a_bst_rb_set_parent_color(node, parent, A_BST_RB_R);
+                parent = a_rbt_parent(node);
+                a_rbt_set_parent_color(node, parent, A_RBT_R);
                 continue;
             }
             tmp = parent->left;
@@ -210,9 +210,9 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
                 node->right = parent;
                 if (tmp)
                 {
-                    a_bst_rb_set_parent_color(tmp, parent, A_BST_RB_B);
+                    a_rbt_set_parent_color(tmp, parent, A_RBT_B);
                 }
-                a_bst_rb_set_parent_color(parent, node, A_BST_RB_R);
+                a_rbt_set_parent_color(parent, node, A_RBT_R);
                 parent = node;
                 tmp = node->left;
             }
@@ -221,17 +221,17 @@ a_void_t a_bst_rb_insert_adjust(a_bst_rb_u *const root, a_bst_rb_s *node)
             parent->left = gparent;
             if (tmp)
             {
-                a_bst_rb_set_parent_color(tmp, gparent, A_BST_RB_B);
+                a_rbt_set_parent_color(tmp, gparent, A_RBT_B);
             }
-            a_bst_rb_set_parents(root, gparent, parent, A_BST_RB_R);
+            a_rbt_set_parents(root, gparent, parent, A_RBT_R);
             break;
         }
     }
 }
 
-static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb_s *node, a_bst_rb_s *parent)
+static A_INLINE a_void_t a_rbt_remove_adjust(a_rbt_u *const root, a_rbt_s *node, a_rbt_s *parent)
 {
-    for (a_bst_rb_s *sibling, *tmp1, *tmp2;;)
+    for (a_rbt_s *sibling, *tmp1, *tmp2;;)
     {
         /*
         Loop invariants:
@@ -243,7 +243,7 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
         sibling = parent->right;
         if (node != sibling) /* node == parent->left */
         {
-            if (a_bst_rb_color(sibling) == A_BST_RB_R)
+            if (a_rbt_color(sibling) == A_RBT_R)
             {
                 /*
                 Case 1 - left rotate at parent
@@ -257,15 +257,15 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
                 tmp1 = sibling->left;
                 parent->right = tmp1;
                 sibling->left = parent;
-                a_bst_rb_set_parent_color(tmp1, parent, A_BST_RB_B);
-                a_bst_rb_set_parents(root, parent, sibling, A_BST_RB_R);
+                a_rbt_set_parent_color(tmp1, parent, A_RBT_B);
+                a_rbt_set_parents(root, parent, sibling, A_RBT_R);
                 sibling = tmp1;
             }
             tmp1 = sibling->right;
-            if (!tmp1 || a_bst_rb_color(tmp1) == A_BST_RB_B)
+            if (!tmp1 || a_rbt_color(tmp1) == A_RBT_B)
             {
                 tmp2 = sibling->left;
-                if (!tmp2 || a_bst_rb_color(tmp2) == A_BST_RB_B)
+                if (!tmp2 || a_rbt_color(tmp2) == A_RBT_B)
                 {
                     /*
                     Case 2 - sibling color flip (p could be either color here)
@@ -279,15 +279,15 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
                     This leaves us violating 5) which can be fixed by flipping p to black if it was red,
                     or by recursing at p. p is red when coming from Case 1.
                     */
-                    a_bst_rb_set_parent_color(sibling, parent, A_BST_RB_R);
-                    if (a_bst_rb_color(parent) == A_BST_RB_R)
+                    a_rbt_set_parent_color(sibling, parent, A_RBT_R);
+                    if (a_rbt_color(parent) == A_RBT_R)
                     {
-                        a_bst_rb_set_black(parent);
+                        a_rbt_set_black(parent);
                     }
                     else
                     {
                         node = parent;
-                        parent = a_bst_rb_parent(node);
+                        parent = a_rbt_parent(node);
                         if (parent)
                         {
                             continue;
@@ -307,7 +307,7 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
                                           Sr
 
                 Note: p might be red, and then both p and sl are red after rotation(which breaks property 4).
-                This is fixed in Case 4 (in a_bst_rb_set_parents() which set sl the color of p and set A_BST_RB_B)
+                This is fixed in Case 4 (in a_rbt_set_parents() which set sl the color of p and set A_RBT_B)
 
                      (p)            (sl)
                      / \            /  \
@@ -323,7 +323,7 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
                 parent->right = tmp2;
                 if (tmp1)
                 {
-                    a_bst_rb_set_parent_color(tmp1, sibling, A_BST_RB_B);
+                    a_rbt_set_parent_color(tmp1, sibling, A_RBT_B);
                 }
                 tmp1 = sibling;
                 sibling = tmp2;
@@ -341,43 +341,43 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
             tmp2 = sibling->left;
             parent->right = tmp2;
             sibling->left = parent;
-            a_bst_rb_set_parent_color(tmp1, sibling, A_BST_RB_B);
+            a_rbt_set_parent_color(tmp1, sibling, A_RBT_B);
             if (tmp2)
             {
-                a_bst_rb_set_parent(tmp2, parent);
+                a_rbt_set_parent(tmp2, parent);
             }
-            a_bst_rb_set_parents(root, parent, sibling, A_BST_RB_B);
+            a_rbt_set_parents(root, parent, sibling, A_RBT_B);
             break;
         }
         else
         {
             sibling = parent->left;
-            if (a_bst_rb_color(sibling) == A_BST_RB_R)
+            if (a_rbt_color(sibling) == A_RBT_R)
             {
                 /* Case 1 - right rotate at parent */
                 tmp1 = sibling->right;
                 parent->left = tmp1;
                 sibling->right = parent;
-                a_bst_rb_set_parent_color(tmp1, parent, A_BST_RB_B);
-                a_bst_rb_set_parents(root, parent, sibling, A_BST_RB_R);
+                a_rbt_set_parent_color(tmp1, parent, A_RBT_B);
+                a_rbt_set_parents(root, parent, sibling, A_RBT_R);
                 sibling = tmp1;
             }
             tmp1 = sibling->left;
-            if (!tmp1 || a_bst_rb_color(tmp1) == A_BST_RB_B)
+            if (!tmp1 || a_rbt_color(tmp1) == A_RBT_B)
             {
                 tmp2 = sibling->right;
-                if (!tmp2 || a_bst_rb_color(tmp2) == A_BST_RB_B)
+                if (!tmp2 || a_rbt_color(tmp2) == A_RBT_B)
                 {
                     /* Case 2 - sibling color flip */
-                    a_bst_rb_set_parent_color(sibling, parent, A_BST_RB_R);
-                    if (a_bst_rb_color(parent) == A_BST_RB_R)
+                    a_rbt_set_parent_color(sibling, parent, A_RBT_R);
+                    if (a_rbt_color(parent) == A_RBT_R)
                     {
-                        a_bst_rb_set_black(parent);
+                        a_rbt_set_black(parent);
                     }
                     else
                     {
                         node = parent;
-                        parent = a_bst_rb_parent(node);
+                        parent = a_rbt_parent(node);
                         if (parent)
                         {
                             continue;
@@ -392,7 +392,7 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
                 parent->left = tmp2;
                 if (tmp1)
                 {
-                    a_bst_rb_set_parent_color(tmp1, sibling, A_BST_RB_B);
+                    a_rbt_set_parent_color(tmp1, sibling, A_RBT_B);
                 }
                 tmp1 = sibling;
                 sibling = tmp2;
@@ -401,22 +401,22 @@ static A_INLINE a_void_t a_bst_rb_remove_adjust(a_bst_rb_u *const root, a_bst_rb
             tmp2 = sibling->right;
             parent->left = tmp2;
             sibling->right = parent;
-            a_bst_rb_set_parent_color(tmp1, sibling, A_BST_RB_B);
+            a_rbt_set_parent_color(tmp1, sibling, A_RBT_B);
             if (tmp2)
             {
-                a_bst_rb_set_parent(tmp2, parent);
+                a_rbt_set_parent(tmp2, parent);
             }
-            a_bst_rb_set_parents(root, parent, sibling, A_BST_RB_B);
+            a_rbt_set_parents(root, parent, sibling, A_RBT_B);
             break;
         }
     }
 }
 
-a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
+a_void_t a_rbt_remove(a_rbt_u *const root, a_rbt_s *const node)
 {
-    a_bst_rb_s *tmp = node->left;
-    a_bst_rb_s *child = node->right;
-    a_bst_rb_s *parent, *adjust;
+    a_rbt_s *tmp = node->left;
+    a_rbt_s *child = node->right;
+    a_rbt_s *parent, *adjust;
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
     a_uptr_t pc;
 #else /* !A_SIZE_VPTR */
@@ -428,15 +428,15 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
         /*
         Case 1: node to erase has no more than 1 child (easy!)
         Note that if there is one child it must be red due to 5) and node must be black due to 4).
-        We adjust colors locally so as to bypass a_bst_rb_remove_adjust() later on.
+        We adjust colors locally so as to bypass a_rbt_remove_adjust() later on.
         */
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
         pc = node->_parent;
 #else /* !A_SIZE_VPTR */
         color = node->color;
 #endif /* A_SIZE_VPTR */
-        parent = a_bst_rb_parent(node);
-        a_bst_rb_mod_child(root, parent, node, child);
+        parent = a_rbt_parent(node);
+        a_rbt_mod_child(root, parent, node, child);
         if (child)
         {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
@@ -450,9 +450,9 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
         else
         {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
-            adjust = (pc & 1) == A_BST_RB_B ? parent : A_NULL;
+            adjust = (pc & 1) == A_RBT_B ? parent : A_NULL;
 #else /* !A_SIZE_VPTR */
-            adjust = color == A_BST_RB_B ? parent : A_NULL;
+            adjust = color == A_RBT_B ? parent : A_NULL;
 #endif /* A_SIZE_VPTR */
         }
         tmp = parent;
@@ -466,14 +466,14 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
         tmp->parent = node->parent;
         tmp->color = node->color;
 #endif /* A_SIZE_VPTR */
-        parent = a_bst_rb_parent(node);
-        a_bst_rb_mod_child(root, parent, node, tmp);
+        parent = a_rbt_parent(node);
+        a_rbt_mod_child(root, parent, node, tmp);
         adjust = A_NULL;
         tmp = parent;
     }
     else
     {
-        a_bst_rb_s *successor = child, *child2;
+        a_rbt_s *successor = child, *child2;
 
         tmp = child->left;
         if (!tmp)
@@ -514,29 +514,29 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
             child2 = successor->right;
             parent->left = child2;
             successor->right = child;
-            a_bst_rb_set_parent(child, successor);
+            a_rbt_set_parent(child, successor);
         }
 
         tmp = node->left;
         successor->left = tmp;
-        a_bst_rb_set_parent(tmp, successor);
+        a_rbt_set_parent(tmp, successor);
 
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
         pc = node->_parent;
 #else /* !A_SIZE_VPTR */
         color = node->color;
 #endif /* A_SIZE_VPTR */
-        tmp = a_bst_rb_parent(node);
-        a_bst_rb_mod_child(root, node, successor, tmp);
+        tmp = a_rbt_parent(node);
+        a_rbt_mod_child(root, node, successor, tmp);
 
         if (child2)
         {
-            a_bst_rb_set_parent_color(child2, parent, A_BST_RB_B);
+            a_rbt_set_parent_color(child2, parent, A_RBT_B);
             adjust = A_NULL;
         }
         else
         {
-            adjust = a_bst_rb_color(successor) == A_BST_RB_B ? parent : A_NULL;
+            adjust = a_rbt_color(successor) == A_RBT_B ? parent : A_NULL;
         }
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 1)
         successor->_parent = pc;
@@ -549,14 +549,14 @@ a_void_t a_bst_rb_remove(a_bst_rb_u *const root, a_bst_rb_s *const node)
 
     if (adjust)
     {
-        a_bst_rb_remove_adjust(root, child, adjust);
+        a_rbt_remove_adjust(root, child, adjust);
     }
 }
 
-a_bst_rb_s *a_bst_rb_insert(a_bst_rb_u *const root, a_bst_rb_s *const node, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_rbt_s *a_rbt_insert(a_rbt_u *const root, a_rbt_s *const node, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
-    a_bst_rb_s **link = &root->node;
-    a_bst_rb_s *parent = root->node;
+    a_rbt_s **link = &root->node;
+    a_rbt_s *parent = root->node;
     while (*link)
     {
         parent = *link;
@@ -574,14 +574,14 @@ a_bst_rb_s *a_bst_rb_insert(a_bst_rb_u *const root, a_bst_rb_s *const node, a_in
             return parent;
         }
     }
-    *link = a_bst_rb_init(node, parent);
-    a_bst_rb_insert_adjust(root, node);
+    *link = a_rbt_init(node, parent);
+    a_rbt_insert_adjust(root, node);
     return A_NULL;
 }
 
-a_bst_rb_s *a_bst_rb_search(a_bst_rb_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
+a_rbt_s *a_rbt_search(a_rbt_u const *const root, a_cptr_t const ctx, a_int_t (*const cmp)(a_cptr_t, a_cptr_t))
 {
-    for (a_bst_rb_s *cur = root->node; cur;)
+    for (a_rbt_s *cur = root->node; cur;)
     {
         a_int_t const res = cmp(ctx, cur);
         if (res < 0)
@@ -600,9 +600,9 @@ a_bst_rb_s *a_bst_rb_search(a_bst_rb_u const *const root, a_cptr_t const ctx, a_
     return A_NULL;
 }
 
-a_bst_rb_s *a_bst_rb_head(a_bst_rb_u const *const root)
+a_rbt_s *a_rbt_head(a_rbt_u const *const root)
 {
-    a_bst_rb_s *node = root->node;
+    a_rbt_s *node = root->node;
     if (node)
     {
         while (node->left)
@@ -613,9 +613,9 @@ a_bst_rb_s *a_bst_rb_head(a_bst_rb_u const *const root)
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_tail(a_bst_rb_u const *const root)
+a_rbt_s *a_rbt_tail(a_rbt_u const *const root)
 {
-    a_bst_rb_s *node = root->node;
+    a_rbt_s *node = root->node;
     if (node)
     {
         while (node->right)
@@ -626,7 +626,7 @@ a_bst_rb_s *a_bst_rb_tail(a_bst_rb_u const *const root)
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_next(a_bst_rb_s *node)
+a_rbt_s *a_rbt_next(a_rbt_s *node)
 {
     /*
          D
@@ -647,17 +647,17 @@ a_bst_rb_s *a_bst_rb_next(a_bst_rb_s *node)
     }
     else /* C -> B -> D */
     {
-        a_bst_rb_s *last = node;
-        for (node = a_bst_rb_parent(node); node && node->left != last;)
+        a_rbt_s *last = node;
+        for (node = a_rbt_parent(node); node && node->left != last;)
         {
             last = node;
-            node = a_bst_rb_parent(node);
+            node = a_rbt_parent(node);
         }
     }
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_prev(a_bst_rb_s *node)
+a_rbt_s *a_rbt_prev(a_rbt_s *node)
 {
     if (!node)
     {
@@ -671,17 +671,17 @@ a_bst_rb_s *a_bst_rb_prev(a_bst_rb_s *node)
     }
     else
     {
-        a_bst_rb_s *last = node;
-        for (node = a_bst_rb_parent(node); node && node->right != last;)
+        a_rbt_s *last = node;
+        for (node = a_rbt_parent(node); node && node->right != last;)
         {
             last = node;
-            node = a_bst_rb_parent(node);
+            node = a_rbt_parent(node);
         }
     }
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_pre_next(a_bst_rb_s *node)
+a_rbt_s *a_rbt_pre_next(a_rbt_s *node)
 {
     /*
          D
@@ -702,8 +702,8 @@ a_bst_rb_s *a_bst_rb_pre_next(a_bst_rb_s *node)
     {
         return node->right;
     }
-    a_bst_rb_s *last = node;
-    for (node = a_bst_rb_parent(node); node; node = a_bst_rb_parent(node))
+    a_rbt_s *last = node;
+    for (node = a_rbt_parent(node); node; node = a_rbt_parent(node))
     {
         if (node->right && node->right != last)
         {
@@ -715,7 +715,7 @@ a_bst_rb_s *a_bst_rb_pre_next(a_bst_rb_s *node)
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_pre_prev(a_bst_rb_s *node)
+a_rbt_s *a_rbt_pre_prev(a_rbt_s *node)
 {
     if (!node)
     {
@@ -729,8 +729,8 @@ a_bst_rb_s *a_bst_rb_pre_prev(a_bst_rb_s *node)
     {
         return node->left;
     }
-    a_bst_rb_s *last = node;
-    for (node = a_bst_rb_parent(node); node; node = a_bst_rb_parent(node))
+    a_rbt_s *last = node;
+    for (node = a_rbt_parent(node); node; node = a_rbt_parent(node))
     {
         if (node->left && node->left != last)
         {
@@ -742,61 +742,61 @@ a_bst_rb_s *a_bst_rb_pre_prev(a_bst_rb_s *node)
     return node;
 }
 
-#define A_BST_RB_POST_NEXT(node) \
-    do                           \
-    {                            \
-        if (node->left)          \
-        {                        \
-            node = node->left;   \
-        }                        \
-        else if (node->right)    \
-        {                        \
-            node = node->right;  \
-        }                        \
-        else                     \
-        {                        \
-            break;               \
-        }                        \
+#define A_RBT_POST_NEXT(node)   \
+    do                          \
+    {                           \
+        if (node->left)         \
+        {                       \
+            node = node->left;  \
+        }                       \
+        else if (node->right)   \
+        {                       \
+            node = node->right; \
+        }                       \
+        else                    \
+        {                       \
+            break;              \
+        }                       \
     } while (A_TRUE)
 
-a_bst_rb_s *a_bst_rb_post_head(a_bst_rb_u const *const root)
+a_rbt_s *a_rbt_post_head(a_rbt_u const *const root)
 {
-    a_bst_rb_s *node = root->node;
+    a_rbt_s *node = root->node;
     if (node)
     {
-        A_BST_RB_POST_NEXT(node);
+        A_RBT_POST_NEXT(node);
     }
     return node;
 }
 
-#define A_BST_RB_POST_PREV(node) \
-    do                           \
-    {                            \
-        if (node->right)         \
-        {                        \
-            node = node->right;  \
-        }                        \
-        else if (node->left)     \
-        {                        \
-            node = node->left;   \
-        }                        \
-        else                     \
-        {                        \
-            break;               \
-        }                        \
+#define A_RBT_POST_PREV(node)   \
+    do                          \
+    {                           \
+        if (node->right)        \
+        {                       \
+            node = node->right; \
+        }                       \
+        else if (node->left)    \
+        {                       \
+            node = node->left;  \
+        }                       \
+        else                    \
+        {                       \
+            break;              \
+        }                       \
     } while (A_TRUE)
 
-a_bst_rb_s *a_bst_rb_post_tail(a_bst_rb_u const *const root)
+a_rbt_s *a_rbt_post_tail(a_rbt_u const *const root)
 {
-    a_bst_rb_s *node = root->node;
+    a_rbt_s *node = root->node;
     if (node)
     {
-        A_BST_RB_POST_PREV(node);
+        A_RBT_POST_PREV(node);
     }
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_post_next(a_bst_rb_s *node)
+a_rbt_s *a_rbt_post_next(a_rbt_s *node)
 {
     /*
          D
@@ -809,35 +809,35 @@ a_bst_rb_s *a_bst_rb_post_next(a_bst_rb_s *node)
     {
         return node;
     }
-    a_bst_rb_s *last = node;
-    node = a_bst_rb_parent(node);
+    a_rbt_s *last = node;
+    node = a_rbt_parent(node);
     if (node && node->right && node->right != last)
     {
         node = node->right; /* B -> D -> F -> E */
-        A_BST_RB_POST_NEXT(node); /* A -> B -> C */
+        A_RBT_POST_NEXT(node); /* A -> B -> C */
     } /* C -> B */
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_post_prev(a_bst_rb_s *node)
+a_rbt_s *a_rbt_post_prev(a_rbt_s *node)
 {
     if (!node)
     {
         return node;
     }
-    a_bst_rb_s *last = node;
-    node = a_bst_rb_parent(node);
+    a_rbt_s *last = node;
+    node = a_rbt_parent(node);
     if (node && node->left && node->left != last)
     {
         node = node->left;
-        A_BST_RB_POST_PREV(node);
+        A_RBT_POST_PREV(node);
     }
     return node;
 }
 
-a_bst_rb_s *a_bst_rb_tear(a_bst_rb_u *const root, a_bst_rb_s **const next)
+a_rbt_s *a_rbt_tear(a_rbt_u *const root, a_rbt_s **const next)
 {
-    a_bst_rb_s *node = *next;
+    a_rbt_s *node = *next;
     if (!node)
     {
         node = root->node;
@@ -846,8 +846,8 @@ a_bst_rb_s *a_bst_rb_tear(a_bst_rb_u *const root, a_bst_rb_s **const next)
             return node;
         }
     }
-    A_BST_RB_POST_NEXT(node);
-    a_bst_rb_s *const parent = a_bst_rb_parent(node);
+    A_RBT_POST_NEXT(node);
+    a_rbt_s *const parent = a_rbt_parent(node);
     if (parent)
     {
         if (parent->left == node)

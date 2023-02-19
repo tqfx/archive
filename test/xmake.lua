@@ -17,12 +17,8 @@ target("test.arr")
     building({"arr.c", "arr.cpp"})
 target_end()
 
-target("test.bst_avl")
-    building({"bst_avl.c", "bst_avl.cpp"})
-target_end()
-
-target("test.bst_rb")
-    building({"bst_rb.c", "bst_rb.cpp"})
+target("test.avl")
+    building({"avl.c", "avl.cpp"})
 target_end()
 
 target("test.complex")
@@ -71,6 +67,10 @@ target_end()
 
 target("test.polytrack")
     building({"polytrack.c", "polytrack.cpp"})
+target_end()
+
+target("test.rbt")
+    building({"rbt.c", "rbt.cpp"})
 target_end()
 
 target("test.slist")

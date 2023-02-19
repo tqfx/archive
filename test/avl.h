@@ -1,19 +1,19 @@
-#ifndef TEST_BST_AVL_H
-#define TEST_BST_AVL_H
+#ifndef TEST_AVL_H
+#define TEST_AVL_H
 #define MAIN_(s, argc, argv) main##s(argc, argv)
 #include "test.h"
-#include "a/bst_avl.h"
+#include "a/avl.h"
 #include "a/host/str.h"
 
 typedef struct
 {
-    a_bst_avl_s node;
+    a_avl_s node;
     a_int_t data;
     a_int_t height;
     a_int_t reached;
 } int_node;
 
-static A_INLINE a_int_t int_factor(a_bst_avl_s *node)
+static A_INLINE a_int_t int_factor(a_avl_s *node)
 {
 #if defined(A_SIZE_VPTR) && (A_SIZE_VPTR + 0 > 3)
     return a_int_c(node->_parent & 3) - 1;
@@ -24,7 +24,7 @@ static A_INLINE a_int_t int_factor(a_bst_avl_s *node)
 
 static A_INLINE int_node *int_entry(a_cptr_t node)
 {
-    return a_bst_avl_entry(node, int_node, node); // NOLINT
+    return a_avl_entry(node, int_node, node); // NOLINT
 }
 
 static a_int_t int_cmp(a_cptr_t lhs, a_cptr_t rhs)
@@ -34,7 +34,7 @@ static a_int_t int_cmp(a_cptr_t lhs, a_cptr_t rhs)
 
 #define int_max(a, b) ((a) > (b) ? (a) : (b))
 #define int_height(node) ((node) ? int_entry(node)->height : 0)
-static a_void_t set_height(a_bst_avl_s *node) // NOLINT
+static a_void_t set_height(a_avl_s *node) // NOLINT
 {
     if (node)
     {
@@ -48,7 +48,7 @@ static a_void_t set_height(a_bst_avl_s *node) // NOLINT
     }
 }
 
-static a_void_t check_tree(a_bst_avl_s *node) // NOLINT
+static a_void_t check_tree(a_avl_s *node) // NOLINT
 {
     if (node)
     {
@@ -81,7 +81,7 @@ static int test(int argc, char *argv[])
     const a_uint_t n = 0x1000;
 
     a_str_s str = A_STR_NUL;
-    a_bst_avl_u root = A_BST_AVL_ROOT;
+    a_avl_u root = A_AVL_ROOT;
     int_node *vec = a_new(int_node, A_NULL, n);
     a_int_t *sorted = a_new(a_int_t, A_NULL, n);
     for (a_uint_t i = 0; i < n; ++i)
@@ -90,7 +90,7 @@ static int test(int argc, char *argv[])
         vec[i].data = a_int_c(a_hash_bkdr(a_str_ptr(&str), 0));
         a_str_drop(&str);
         sorted[i] = vec[i].data;
-        a_bst_avl_insert(&root, &vec[i].node, int_cmp);
+        a_avl_insert(&root, &vec[i].node, int_cmp);
         set_height(root.node);
         check_tree(root.node);
 #if defined(MAIN_ONCE)
@@ -104,7 +104,7 @@ static int test(int argc, char *argv[])
 
     for (a_uint_t i = 0; i < n; ++i)
     {
-        TEST_BUG(a_bst_avl_search(&root, &vec[i].node, int_cmp));
+        TEST_BUG(a_avl_search(&root, &vec[i].node, int_cmp));
     }
 
     a_uint_t x;
@@ -115,7 +115,7 @@ static int test(int argc, char *argv[])
     {
         vec[i].reached = 0;
     }
-    a_bst_avl_foreach(cur, &root)
+    a_avl_foreach(cur, &root)
     {
         int_node *it = int_entry(cur);
         TEST_BUG(it->data == sorted[x]);
@@ -133,7 +133,7 @@ static int test(int argc, char *argv[])
     {
         vec[i].reached = 0;
     }
-    a_bst_avl_foreach_reverse(cur, &root)
+    a_avl_foreach_reverse(cur, &root)
     {
         int_node *it = int_entry(cur);
         TEST_BUG(it->data == sorted[--x]);
@@ -149,7 +149,7 @@ static int test(int argc, char *argv[])
     {
         vec[i].reached = 0;
     }
-    a_bst_avl_pre_foreach(cur, &root)
+    a_avl_pre_foreach(cur, &root)
     {
         int_node *it = int_entry(cur);
         it->reached = 1;
@@ -163,7 +163,7 @@ static int test(int argc, char *argv[])
     {
         vec[i].reached = 0;
     }
-    a_bst_avl_pre_foreach_reverse(cur, &root)
+    a_avl_pre_foreach_reverse(cur, &root)
     {
         int_node *it = int_entry(cur);
         it->reached = 1;
@@ -177,7 +177,7 @@ static int test(int argc, char *argv[])
     {
         vec[i].reached = 0;
     }
-    a_bst_avl_post_foreach(cur, &root)
+    a_avl_post_foreach(cur, &root)
     {
         int_node *it = int_entry(cur);
         it->reached = 1;
@@ -191,7 +191,7 @@ static int test(int argc, char *argv[])
     {
         vec[i].reached = 0;
     }
-    a_bst_avl_post_foreach_reverse(cur, &root)
+    a_avl_post_foreach_reverse(cur, &root)
     {
         int_node *it = int_entry(cur);
         it->reached = 1;
@@ -203,7 +203,7 @@ static int test(int argc, char *argv[])
 
     for (a_uint_t i = 0; i < n; ++i)
     {
-        a_bst_avl_remove(&root, &vec[i].node);
+        a_avl_remove(&root, &vec[i].node);
         set_height(root.node);
         check_tree(root.node);
 #if defined(MAIN_ONCE)
@@ -214,14 +214,14 @@ static int test(int argc, char *argv[])
 #endif /* MAIN_ONCE */
     }
 
-    TEST_BUG(a_bst_avl_search(&root, &vec->node, int_cmp) == A_NULL);
+    TEST_BUG(a_avl_search(&root, &vec->node, int_cmp) == A_NULL);
 
     for (a_uint_t i = 0; i < n; ++i)
     {
-        a_bst_avl_insert(&root, &vec[i].node, int_cmp);
+        a_avl_insert(&root, &vec[i].node, int_cmp);
         vec[i].reached = 0;
     }
-    for (a_bst_avl_s *next = A_NULL, *cur = a_bst_avl_tear(&root, &next); cur; cur = a_bst_avl_tear(&root, &next))
+    for (a_avl_s *next = A_NULL, *cur = a_avl_tear(&root, &next); cur; cur = a_avl_tear(&root, &next))
     {
         int_entry(cur)->reached = 1;
     }
@@ -242,4 +242,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_BST_AVL_H */
+#endif /* TEST_AVL_H */

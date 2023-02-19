@@ -87,11 +87,8 @@ endfunction()
 building(arr arr.c arr.cpp)
 unittest(arr)
 
-building(bst_avl bst_avl.c bst_avl.cpp)
-unittest(bst_avl)
-
-building(bst_rb bst_rb.c bst_rb.cpp)
-unittest(bst_rb)
+building(avl avl.c avl.cpp)
+unittest(avl)
 
 building(complex complex.c complex.cpp)
 unittest(complex ARGS -4,3 -2,1)
@@ -130,6 +127,9 @@ unittest(poly)
 
 building(polytrack polytrack.c polytrack.cpp)
 unittest(polytrack)
+
+building(rbt rbt.c rbt.cpp)
+unittest(rbt)
 
 building(slist slist.c slist.cpp)
 unittest(slist)
