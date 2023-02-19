@@ -53,6 +53,9 @@
 */
 typedef struct a_version_s
 {
+#undef major
+#undef minor
+#undef patch
 #if defined(__cplusplus)
     A_PUBLIC a_bool_t operator<(a_version_s const &ver) const;
     A_PUBLIC a_bool_t operator>(a_version_s const &ver) const;
