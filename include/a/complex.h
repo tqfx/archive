@@ -1,7 +1,6 @@
 /*!
  @file complex.h
  @brief complex number
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_COMPLEX_H

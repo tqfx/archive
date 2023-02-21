@@ -1,7 +1,6 @@
 /*!
  @file rbt.h
  @brief red–black self-balancing binary search tree
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_RBT_H

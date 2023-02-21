@@ -1,7 +1,6 @@
 /*!
  @file operator.h
  @brief algorithm library operators
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_OPERATOR_H

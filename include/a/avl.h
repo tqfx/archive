@@ -1,7 +1,6 @@
 /*!
  @file avl.h
  @brief Adelson-Velsky and Landis self-balancing binary search tree
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_AVL_H

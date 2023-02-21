@@ -1,7 +1,6 @@
 /*!
  @file real.h
  @brief real number
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_REAL_H

@@ -24,7 +24,6 @@
               &= (K_p+K_i+K_d) e(k) + (-K_p-2K_i) e(k-1) + K_d e(k-2)
  \f}
  https://en.wikipedia.org/wiki/PID_controller
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_PID_H

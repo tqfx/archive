@@ -1,7 +1,6 @@
 /*!
  @file vector.h
  @brief basic vector library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_HOST_VECTOR_H

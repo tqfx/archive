@@ -1,7 +1,6 @@
 /*!
  @file que.h
  @brief basic queue library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_HOST_QUE_H

@@ -1,7 +1,6 @@
 /*!
  @file arr.h
  @brief basic array library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_ARR_H

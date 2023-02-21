@@ -1,7 +1,6 @@
 /*!
  @file fuzzy.h
  @brief fuzzy operator
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_FUZZY_H

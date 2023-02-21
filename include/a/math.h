@@ -1,7 +1,6 @@
 /*!
  @file math.h
  @brief mathematical algorithm library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_MATH_H

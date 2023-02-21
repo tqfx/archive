@@ -1,7 +1,6 @@
 /*!
  @file fpid.h
  @brief fuzzy proportional integral derivative controller
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_FPID_H

@@ -1,7 +1,6 @@
 /*!
  @file mf.h
  @brief membership function
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_MF_H

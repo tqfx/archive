@@ -1,7 +1,6 @@
 /*!
  @file str.h
  @brief basic string library
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_HOST_STR_H

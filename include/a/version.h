@@ -1,7 +1,6 @@
 /*!
  @file version.h
  @brief algorithm library version
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_VERSION_H

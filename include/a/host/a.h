@@ -1,7 +1,6 @@
 /*!
  @file a.h
  @brief algorithm library on host
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_HOST_A_H

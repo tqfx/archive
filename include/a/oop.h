@@ -1,7 +1,6 @@
 /*!
  @file oop.h
  @brief Object Oriented Programming Macros
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_OOP_H

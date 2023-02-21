@@ -1,7 +1,6 @@
 /*!
  @file list.h
- @brief circular doubly linked list implementation.
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
+ @brief circular doubly linked list implementation
 */
 
 #ifndef LIBA_LIST_H

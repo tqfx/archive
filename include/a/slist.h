@@ -1,7 +1,6 @@
 /*!
  @file slist.h
- @brief circular singly linked list implementation.
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
+ @brief circular singly linked list implementation
 */
 
 #ifndef LIBA_SLIST_H

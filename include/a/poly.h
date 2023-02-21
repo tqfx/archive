@@ -1,7 +1,6 @@
 /*!
  @file poly.h
  @brief polynomial
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
 */
 
 #ifndef LIBA_POLY_H

@@ -1,8 +1,7 @@
 /*!
  @file polytrack.h
  @brief polynomial trajectory
- @details Trajectory Planning for Automatic Machines and Robots.
- @copyright Copyright (C) 2020-present tqfx, All rights reserved.
+ @details Trajectory Planning for Automatic Machines and Robots
 */
 
 #ifndef LIBA_POLYTRACK_H
