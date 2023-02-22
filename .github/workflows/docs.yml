@@ -47,7 +47,6 @@ jobs:
           cmake -S . -B build -DLIBA_DOXYGEN=1
           cmake --build build --target adoxygen
           mv build/html tqfx/liba
-          cat build/doc.log
       - name: Run ldoc
         run: |
           set -x

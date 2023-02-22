@@ -433,11 +433,9 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.9 AND DOXYGEN_FOUND)
   # Configuration options related to warning and progress messages
   set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
   set(DOXYGEN_WARN_NO_PARAMDOC YES)
-  set(DOXYGEN_WARN_LOGFILE doc.log)
 
   # Configuration options related to the input files
   set(DOXYGEN_RECURSIVE YES)
-  set(DOXYGEN_EXCLUDE_SYMBOLS "__*")
 
   # Configuration options related to source browsing
   # Configuration options related to the alphabetical class index
@@ -450,6 +448,8 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.9 AND DOXYGEN_FOUND)
   # Configuration options related to the RTF output
   # Configuration options related to the man page output
   # Configuration options related to the XML output
+  set(DOXYGEN_GENERATE_XML YES)
+
   # Configuration options related to the DOCBOOK output
   # Configuration options for the AutoGen Definitions output
   # Configuration options related to Sqlite3 output
