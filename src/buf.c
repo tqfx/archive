@@ -1,5 +1,4 @@
 #include "a/buf.h"
-#include <string.h>
 #include <stdlib.h>
 
 #undef a_buf_at
@@ -62,8 +61,8 @@ a_void_t a_buf_dtor(a_buf_s *const ctx, a_void_t (*const dtor)(a_vptr_t))
 
 a_buf_s *a_buf_move(a_buf_s *const ctx, a_buf_s *const obj)
 {
-    memcpy(ctx, obj, sizeof(*obj));
-    memset(obj, 0, sizeof(*obj));
+    a_copy(ctx, obj, sizeof(*obj));
+    a_zero(obj, sizeof(*obj));
     return ctx;
 }
 
@@ -82,7 +81,7 @@ a_void_t a_buf_swap(a_buf_s const *const ctx, a_size_t lhs, a_size_t rhs)
         a_byte_t *ptr = a_byte_p(ctx->_ptr);
         a_vptr_t lobj = ptr + lhs * ctx->_siz;
         a_vptr_t robj = ptr + rhs * ctx->_siz;
-        a_swap(ctx->_siz, lobj, robj);
+        a_swap(lobj, robj, ctx->_siz);
     }
 }
 
@@ -102,7 +101,7 @@ a_void_t a_buf_sort_fore(a_buf_s const *const ctx, a_int_t (*const cmp)(a_cptr_t
             a_byte_t *const cur = ptr + ctx->_siz;
             if (cmp(ptr, cur) > 0)
             {
-                a_swap(ctx->_siz, cur, ptr);
+                a_swap(cur, ptr, ctx->_siz);
             }
             else
             {
@@ -123,7 +122,7 @@ a_void_t a_buf_sort_back(a_buf_s const *const ctx, a_int_t (*const cmp)(a_cptr_t
             a_byte_t *const cur = ptr - ctx->_siz;
             if (cmp(cur, ptr) > 0)
             {
-                a_swap(ctx->_siz, cur, ptr);
+                a_swap(cur, ptr, ctx->_siz);
             }
             else
             {
@@ -147,7 +146,7 @@ a_vptr_t a_buf_insert(a_buf_s *const ctx, a_size_t const idx)
         {
             a_byte_t *const src = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 0);
             a_byte_t *const dst = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 1);
-            memmove(dst, src, (ctx->_num - idx) * ctx->_siz);
+            a_move(dst, src, (ctx->_num - idx) * ctx->_siz);
             ++ctx->_num;
             return src;
         }
@@ -171,7 +170,7 @@ a_vptr_t a_buf_remove(a_buf_s *const ctx, a_size_t const idx)
         a_byte_t *const ptr = a_byte_p(ctx->_ptr) + ctx->_siz * num;
         a_byte_t *const dst = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 0);
         a_byte_t *const src = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 1);
-        a_swap(a_size_c(ptr - dst), dst, src);
+        a_swap(dst, src, a_size_c(ptr - dst));
         --ctx->_num;
         return ptr;
     }

@@ -52,7 +52,7 @@ int LMODULE(version_new)(lua_State *const L)
         lua_remove(L, 1);
     }
     a_version_s *const ctx = (a_version_s *)lua_newuserdata(L, sizeof(a_version_s));
-    memset(ctx, 0, sizeof(a_version_s));
+    a_zero(ctx, sizeof(a_version_s));
     LMODULE2(version_meta_, L, 1);
     lua_setmetatable(L, -2);
     return LMODULE2(version_init_, L, ctx);

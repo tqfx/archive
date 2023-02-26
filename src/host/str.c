@@ -55,7 +55,7 @@ a_int_t a_str_init(a_str_s *const ctx, a_cptr_t const pdata, a_size_t const nbyt
     }
     if (pdata && nbyte)
     {
-        memcpy(ctx->_ptr, pdata, nbyte);
+        a_copy(ctx->_ptr, pdata, nbyte);
     }
     ctx->_ptr[ctx->_num] = 0;
     return A_SUCCESS;
@@ -68,8 +68,8 @@ a_int_t a_str_copy(a_str_s *const ctx, a_str_s const *const obj)
 
 a_str_s *a_str_move(a_str_s *const ctx, a_str_s *const obj)
 {
-    memcpy(ctx, obj, sizeof(*obj));
-    memset(obj, 0, sizeof(*obj));
+    a_copy(ctx, obj, sizeof(*obj));
+    a_zero(obj, sizeof(*obj));
     return ctx;
 }
 
@@ -174,7 +174,7 @@ a_int_t a_str_putn_(a_str_s *const ctx, a_cptr_t const pdata, a_size_t const nby
         {
             return A_FAILURE;
         }
-        memcpy(ctx->_ptr + ctx->_num, pdata, nbyte);
+        a_copy(ctx->_ptr + ctx->_num, pdata, nbyte);
         ctx->_num += nbyte;
     }
     return A_SUCCESS;
@@ -190,7 +190,7 @@ a_int_t a_str_putn(a_str_s *const ctx, a_cptr_t const pdata, a_size_t const nbyt
         }
         if (nbyte)
         {
-            memcpy(ctx->_ptr + ctx->_num, pdata, nbyte);
+            a_copy(ctx->_ptr + ctx->_num, pdata, nbyte);
             ctx->_num += nbyte;
         }
         ctx->_ptr[ctx->_num] = 0;

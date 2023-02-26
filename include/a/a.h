@@ -1188,13 +1188,18 @@ A_INTERN a_u64_t a_f64_into(a_f64_t const x)
 }
 #endif /* A_HAVE_INLINE */
 
+A_EXTERN a_vptr_t a_copy(a_vptr_t A_RESTRICT dst, a_cptr_t A_RESTRICT src, a_size_t siz);
+A_EXTERN a_vptr_t a_move(a_vptr_t dst, a_cptr_t src, a_size_t siz);
+A_EXTERN a_vptr_t a_fill(a_vptr_t ptr, a_size_t siz, a_int_t val);
+A_EXTERN a_vptr_t a_zero(a_vptr_t ptr, a_size_t siz);
+
 /*!
  @brief swap two different memory blocks of the same size
  @param[in] siz the size of memory block being swapped
  @param[in,out] lhs points to memory block on the left
  @param[in,out] rhs points to memory block on the right
 */
-A_EXTERN a_void_t a_swap(a_size_t siz, a_vptr_t lhs, a_vptr_t rhs);
+A_EXTERN a_void_t a_swap(a_vptr_t lhs, a_vptr_t rhs, a_size_t siz);
 
 #if !defined A_HAVE_INLINE || defined(LIBA_A_C)
 A_EXTERN a_void_t a_swap1(a_vptr_t lhs, a_vptr_t rhs);

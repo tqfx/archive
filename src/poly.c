@@ -4,7 +4,7 @@ a_real_t *a_poly_inv(a_real_t *const a, a_size_t const n)
 {
     for (a_real_t *l = a, *r = a + n - 1, *m = a + (n >> 1); l < m; ++l, --r)
     {
-        a_swap(sizeof(a_real_t), l, r);
+        a_swap(l, r, sizeof(a_real_t));
     }
     return a;
 }

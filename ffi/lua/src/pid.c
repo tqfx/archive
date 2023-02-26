@@ -74,7 +74,7 @@ int LMODULE(pid_new)(lua_State *const L)
             lua_remove(L, 1);
         }
         a_pid_s *const ctx = (a_pid_s *)lua_newuserdata(L, sizeof(a_pid_s));
-        memset(ctx, 0, sizeof(a_pid_s));
+        a_zero(ctx, sizeof(a_pid_s));
         LMODULE2(pid_meta_, L, 1);
         lua_setmetatable(L, -2);
         return LMODULE2(pid_init_, L, ctx);

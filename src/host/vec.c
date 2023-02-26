@@ -1,5 +1,4 @@
 #include "a/host/vec.h"
-#include <string.h>
 
 #undef a_vec_at
 #undef a_vec_at_
@@ -124,15 +123,15 @@ a_int_t a_vec_copy(a_vec_s *const ctx, a_vec_s const *const obj, a_int_t (*const
     }
     else
     {
-        memcpy(ctx->_ptr, obj->_ptr, size);
+        a_copy(ctx->_ptr, obj->_ptr, size);
     }
     return A_SUCCESS;
 }
 
 a_vec_s *a_vec_move(a_vec_s *const ctx, a_vec_s *const obj)
 {
-    memcpy(ctx, obj, sizeof(*obj));
-    memset(obj, 0, sizeof(*obj));
+    a_copy(ctx, obj, sizeof(*obj));
+    a_zero(obj, sizeof(*obj));
     return ctx;
 }
 
@@ -169,7 +168,7 @@ a_void_t a_vec_swap(a_vec_s const *const ctx, a_size_t lhs, a_size_t rhs)
         a_byte_t *const ptr = a_byte_p(ctx->_ptr);
         a_vptr_t const lobj = ptr + lhs * ctx->_siz;
         a_vptr_t const robj = ptr + rhs * ctx->_siz;
-        a_swap(ctx->_siz, lobj, robj);
+        a_swap(lobj, robj, ctx->_siz);
     }
 }
 
@@ -189,7 +188,7 @@ a_void_t a_vec_sort_fore(a_vec_s const *const ctx, a_int_t (*const cmp)(a_cptr_t
             a_byte_t *const cur = ptr + ctx->_siz;
             if (cmp(ptr, cur) > 0)
             {
-                a_swap(ctx->_siz, cur, ptr);
+                a_swap(cur, ptr, ctx->_siz);
             }
             else
             {
@@ -210,7 +209,7 @@ a_void_t a_vec_sort_back(a_vec_s const *const ctx, a_int_t (*const cmp)(a_cptr_t
             a_byte_t *const cur = ptr - ctx->_siz;
             if (cmp(cur, ptr) > 0)
             {
-                a_swap(ctx->_siz, cur, ptr);
+                a_swap(cur, ptr, ctx->_siz);
             }
             else
             {
@@ -236,7 +235,7 @@ a_vptr_t a_vec_insert(a_vec_s *const ctx, a_size_t const idx)
     {
         a_byte_t *const src = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 0);
         a_byte_t *const dst = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 1);
-        memmove(dst, src, (ctx->_num - idx) * ctx->_siz);
+        a_move(dst, src, (ctx->_num - idx) * ctx->_siz);
         ++ctx->_num;
         return src;
     }
@@ -265,8 +264,8 @@ a_vptr_t a_vec_remove(a_vec_s *const ctx, a_size_t const idx)
         a_byte_t *const ptr = a_byte_p(ctx->_ptr) + ctx->_siz * ctx->_num;
         a_byte_t *const dst = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 0);
         a_byte_t *const src = a_byte_p(ctx->_ptr) + ctx->_siz * (idx + 1);
-        memcpy(ptr, dst, ctx->_siz);
-        memmove(dst, src, a_size_c(ptr - src));
+        a_copy(ptr, dst, ctx->_siz);
+        a_move(dst, src, a_size_c(ptr - src));
         --ctx->_num;
         return ptr;
     }

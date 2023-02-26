@@ -1,5 +1,4 @@
 #include "a/host/que.h"
-#include <string.h>
 
 #undef a_que_at
 #undef a_que_fore
@@ -128,8 +127,8 @@ a_void_t a_que_dtor(a_que_s *const ctx, a_void_t (*dtor)(a_vptr_t))
 
 a_que_s *a_que_move(a_que_s *const ctx, a_que_s *const obj)
 {
-    memcpy(ctx, obj, sizeof(*obj));
-    memset(obj, 0, sizeof(*obj));
+    a_copy(ctx, obj, sizeof(*obj));
+    a_zero(obj, sizeof(*obj));
     return ctx;
 }
 

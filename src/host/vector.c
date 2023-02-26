@@ -1,5 +1,4 @@
 #include "a/host/vector.h"
-#include <string.h>
 
 #undef a_vector_at
 #undef a_vector_at_
@@ -146,15 +145,15 @@ a_int_t a_vector_copy(a_vector_s *const ctx, a_vector_s const *const obj, a_int_
     }
     else
     {
-        memcpy(ctx->_head, obj->_head, num_);
+        a_copy(ctx->_head, obj->_head, num_);
     }
     return A_SUCCESS;
 }
 
 a_vector_s *a_vector_move(a_vector_s *const ctx, a_vector_s *const obj)
 {
-    memcpy(ctx, obj, sizeof(*obj));
-    memset(obj, 0, sizeof(*obj));
+    a_copy(ctx, obj, sizeof(*obj));
+    a_zero(obj, sizeof(*obj));
     return ctx;
 }
 
@@ -195,7 +194,7 @@ a_void_t a_vector_swap(a_vector_s const *const ctx, a_size_t lhs, a_size_t rhs)
         a_byte_t *const ptr = a_byte_p(ctx->_head);
         a_vptr_t const lobj = ptr + lhs * ctx->_size;
         a_vptr_t const robj = ptr + rhs * ctx->_size;
-        a_swap(ctx->_size, lobj, robj);
+        a_swap(lobj, robj, ctx->_size);
     }
 }
 
@@ -215,7 +214,7 @@ a_void_t a_vector_sort_fore(a_vector_s const *const ctx, a_int_t (*const cmp)(a_
             a_byte_t *const cur = ptr + ctx->_size;
             if (cmp(ptr, cur) > 0)
             {
-                a_swap(ctx->_size, cur, ptr);
+                a_swap(cur, ptr, ctx->_size);
             }
             else
             {
@@ -236,7 +235,7 @@ a_void_t a_vector_sort_back(a_vector_s const *const ctx, a_int_t (*const cmp)(a_
             a_byte_t *const cur = ptr - ctx->_size;
             if (cmp(cur, ptr) > 0)
             {
-                a_swap(ctx->_size, cur, ptr);
+                a_swap(cur, ptr, ctx->_size);
             }
             else
             {
@@ -263,7 +262,7 @@ a_vptr_t a_vector_insert(a_vector_s *const ctx, a_size_t const idx)
         a_byte_t *const ptr = a_byte_p(ctx->_tail);
         a_byte_t *const src = a_byte_p(ctx->_head) + ctx->_size * (idx + 0);
         a_byte_t *const dst = a_byte_p(ctx->_head) + ctx->_size * (idx + 1);
-        memmove(dst, src, a_size_c(ptr - src));
+        a_move(dst, src, a_size_c(ptr - src));
         a_vector_inc_(ctx);
         if (ctx->ctor)
         {
@@ -306,8 +305,8 @@ a_vptr_t a_vector_remove(a_vector_s *const ctx, a_size_t const idx)
         a_byte_t *const ptr = a_byte_p(ctx->_tail);
         a_byte_t *const dst = a_byte_p(ctx->_head) + ctx->_size * (idx + 0);
         a_byte_t *const src = a_byte_p(ctx->_head) + ctx->_size * (idx + 1);
-        memcpy(ptr, dst, ctx->_size);
-        memmove(dst, src, a_size_c(ptr - src));
+        a_copy(ptr, dst, ctx->_size);
+        a_move(dst, src, a_size_c(ptr - src));
         a_vector_dec_(ctx);
         return ptr;
     }

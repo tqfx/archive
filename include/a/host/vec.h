@@ -165,7 +165,7 @@ A_EXTERN a_void_t a_vec_dtor(a_vec_s *ctx, a_void_t (*dtor)(a_vptr_t));
  @param[in] ctx points to an instance of vector structure
  @param[in] obj input source pointing to an instance
  @param[in] dup a function that copies elements
-  @arg 0 use function memcpy to copy elements
+  @arg 0 use function a_copy to copy elements
  @return the execution state of the function
   @retval 0 success
   @retval 1 failure
