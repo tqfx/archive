@@ -826,21 +826,21 @@ a_avl_s *a_avl_pre_prev(a_avl_s *node)
     return node;
 }
 
-#define A_AVL_POST_NEXT(node)   \
-    do                          \
-    {                           \
-        if (node->left)         \
-        {                       \
-            node = node->left;  \
-        }                       \
-        else if (node->right)   \
-        {                       \
-            node = node->right; \
-        }                       \
-        else                    \
-        {                       \
-            break;              \
-        }                       \
+#define A_AVL_POST_NEXT(node)       \
+    do                              \
+    {                               \
+        if ((node)->left)           \
+        {                           \
+            (node) = (node)->left;  \
+        }                           \
+        else if ((node)->right)     \
+        {                           \
+            (node) = (node)->right; \
+        }                           \
+        else                        \
+        {                           \
+            break;                  \
+        }                           \
     } while (A_TRUE)
 
 a_avl_s *a_avl_post_head(a_avl_u const *const root)
@@ -853,21 +853,21 @@ a_avl_s *a_avl_post_head(a_avl_u const *const root)
     return node;
 }
 
-#define A_AVL_POST_PREV(node)   \
-    do                          \
-    {                           \
-        if (node->right)        \
-        {                       \
-            node = node->right; \
-        }                       \
-        else if (node->left)    \
-        {                       \
-            node = node->left;  \
-        }                       \
-        else                    \
-        {                       \
-            break;              \
-        }                       \
+#define A_AVL_POST_PREV(node)       \
+    do                              \
+    {                               \
+        if ((node)->right)          \
+        {                           \
+            (node) = (node)->right; \
+        }                           \
+        else if ((node)->left)      \
+        {                           \
+            (node) = (node)->left;  \
+        }                           \
+        else                        \
+        {                           \
+            break;                  \
+        }                           \
     } while (A_TRUE)
 
 a_avl_s *a_avl_post_tail(a_avl_u const *const root)

@@ -742,21 +742,21 @@ a_rbt_s *a_rbt_pre_prev(a_rbt_s *node)
     return node;
 }
 
-#define A_RBT_POST_NEXT(node)   \
-    do                          \
-    {                           \
-        if (node->left)         \
-        {                       \
-            node = node->left;  \
-        }                       \
-        else if (node->right)   \
-        {                       \
-            node = node->right; \
-        }                       \
-        else                    \
-        {                       \
-            break;              \
-        }                       \
+#define A_RBT_POST_NEXT(node)       \
+    do                              \
+    {                               \
+        if ((node)->left)           \
+        {                           \
+            (node) = (node)->left;  \
+        }                           \
+        else if ((node)->right)     \
+        {                           \
+            (node) = (node)->right; \
+        }                           \
+        else                        \
+        {                           \
+            break;                  \
+        }                           \
     } while (A_TRUE)
 
 a_rbt_s *a_rbt_post_head(a_rbt_u const *const root)
@@ -769,21 +769,21 @@ a_rbt_s *a_rbt_post_head(a_rbt_u const *const root)
     return node;
 }
 
-#define A_RBT_POST_PREV(node)   \
-    do                          \
-    {                           \
-        if (node->right)        \
-        {                       \
-            node = node->right; \
-        }                       \
-        else if (node->left)    \
-        {                       \
-            node = node->left;  \
-        }                       \
-        else                    \
-        {                       \
-            break;              \
-        }                       \
+#define A_RBT_POST_PREV(node)       \
+    do                              \
+    {                               \
+        if ((node)->right)          \
+        {                           \
+            (node) = (node)->right; \
+        }                           \
+        else if ((node)->left)      \
+        {                           \
+            (node) = (node)->left;  \
+        }                           \
+        else                        \
+        {                           \
+            break;                  \
+        }                           \
     } while (A_TRUE)
 
 a_rbt_s *a_rbt_post_tail(a_rbt_u const *const root)
