@@ -13,12 +13,12 @@ function building(sources)
     add_deps("a")
 end
 
-target("test.arr")
-    building({"arr.c", "arr.cpp"})
-target_end()
-
 target("test.avl")
     building({"avl.c", "avl.cpp"})
+target_end()
+
+target("test.buf")
+    building({"buf.c", "buf.cpp"})
 target_end()
 
 target("test.complex")

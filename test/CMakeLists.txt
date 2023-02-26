@@ -84,11 +84,11 @@ function(unittest target)
   )
 endfunction()
 
-building(arr arr.c arr.cpp)
-unittest(arr)
-
 building(avl avl.c avl.cpp)
 unittest(avl)
+
+building(buf buf.c buf.cpp)
+unittest(buf)
 
 building(complex complex.c complex.cpp)
 unittest(complex ARGS -4,3 -2,1)

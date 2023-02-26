@@ -406,6 +406,7 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
 #define a_vector_top_(T, ctx) a_cast_s(T *, a_vector_top_(ctx))
 #define a_vector_at(T, ctx, idx) a_cast_s(T *, a_vector_at(ctx, idx))
 #define a_vector_at_(T, ctx, idx) a_cast_s(T *, a_vector_at_(ctx, idx))
+#define a_vector_idx(T, ctx, idx) a_cast_s(T *, a_vector_idx(ctx, idx))
 #define a_vector_search(T, ctx, obj, cmp) a_cast_s(T *, a_vector_search(ctx, obj, cmp))
 #define a_vector_insert(T, ctx, idx) a_cast_s(T *, a_vector_insert(ctx, idx))
 #define a_vector_remove(T, ctx, idx) a_cast_s(T *, a_vector_remove(ctx, idx))

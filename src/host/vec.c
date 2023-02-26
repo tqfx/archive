@@ -3,6 +3,7 @@
 
 #undef a_vec_at
 #undef a_vec_at_
+#undef a_vec_idx
 #undef a_vec_ptr
 #undef a_vec_end
 #undef a_vec_top
