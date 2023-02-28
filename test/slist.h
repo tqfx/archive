@@ -96,14 +96,10 @@ static void test(void)
 
 static void null(void)
 {
-    a_slist_u node1[1];
-    a_slist_u node2[1];
-    a_slist_s list1[1];
-    a_slist_s list2[1];
-    a_slist_node(node1);
-    a_slist_node(node2);
-    a_slist_ctor(list1);
-    a_slist_ctor(list2);
+    a_slist_u node1[1] = {A_SLIST_NODE(*node1)};
+    a_slist_u node2[1] = {A_SLIST_NODE(*node2)};
+    a_slist_s list1[1] = {A_SLIST_INIT(*list1)};
+    a_slist_s list2[1] = {A_SLIST_INIT(*list2)};
 
     a_slist_rot(list1);
     a_slist_rot(list1);

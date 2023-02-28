@@ -201,10 +201,8 @@ static void test_func(void)
 
 static void test_null(void)
 {
-    a_list_s list1[1];
-    a_list_s list2[1];
-    a_list_ctor(list1);
-    a_list_ctor(list2);
+    a_list_s list1[1] = {A_LIST_INIT(*list1)};
+    a_list_s list2[1] = {A_LIST_INIT(*list2)};
     a_size_t len = a_list_len(list1) + a_list_len(list2);
 
     a_list_add_next(list1, list1);

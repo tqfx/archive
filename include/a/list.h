@@ -14,6 +14,10 @@
  @{
 */
 
+// clang-format off
+#define A_LIST_INIT(node) {&(node), &(node)}
+// clang-format on
+
 /*!
  @brief instance structure for circular doubly linked list
 */

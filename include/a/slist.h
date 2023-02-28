@@ -14,6 +14,11 @@
  @{
 */
 
+// clang-format off
+#define A_SLIST_NODE(node) {&(node)}
+#define A_SLIST_INIT(list) {{{(list).head}}, (list).head}
+// clang-format on
+
 /*!
  @brief instance structure for circular singly linked list node
 */

@@ -15,9 +15,7 @@
 */
 
 // clang-format off
-#if !defined A_RBT_ROOT
 #define A_RBT_ROOT {A_NULL}
-#endif /* A_RBT_ROOT */
 // clang-format on
 
 #define A_RBT_R 0 //!< red

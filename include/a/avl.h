@@ -15,9 +15,7 @@
 */
 
 // clang-format off
-#if !defined A_AVL_ROOT
 #define A_AVL_ROOT {A_NULL}
-#endif /* A_AVL_ROOT */
 // clang-format on
 
 /*!

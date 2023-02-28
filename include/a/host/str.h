@@ -17,9 +17,7 @@
 */
 
 // clang-format off
-#if !defined A_STR_NUL
 #define A_STR_NUL {A_NULL, 0, 0}
-#endif /* A_STR_NUL */
 // clang-format on
 
 /*!
