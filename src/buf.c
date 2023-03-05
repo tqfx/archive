@@ -78,9 +78,8 @@ a_void_t a_buf_swap(a_buf_s const *const ctx, a_size_t lhs, a_size_t rhs)
     rhs = rhs < ctx->_num ? rhs : num;
     if (lhs != rhs)
     {
-        a_byte_t *ptr = a_byte_p(ctx->_ptr);
-        a_vptr_t lobj = ptr + lhs * ctx->_siz;
-        a_vptr_t robj = ptr + rhs * ctx->_siz;
+        a_vptr_t const lobj = a_byte_p(ctx->_ptr) + lhs * ctx->_siz;
+        a_vptr_t const robj = a_byte_p(ctx->_ptr) + rhs * ctx->_siz;
         a_swap(lobj, robj, ctx->_siz);
     }
 }

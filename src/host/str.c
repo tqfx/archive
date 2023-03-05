@@ -75,7 +75,7 @@ a_str_s *a_str_move(a_str_s *const ctx, a_str_s *const obj)
 
 a_str_t a_str_exit(a_str_s *const ctx)
 {
-    a_str_t str = ctx->_ptr;
+    a_str_t const str = ctx->_ptr;
     if (ctx->_ptr)
     {
         ctx->_ptr[ctx->_num] = 0;

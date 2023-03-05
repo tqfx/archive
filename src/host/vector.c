@@ -191,9 +191,8 @@ a_void_t a_vector_swap(a_vector_s const *const ctx, a_size_t lhs, a_size_t rhs)
     rhs = rhs < ctx->_num ? rhs : num;
     if (lhs != rhs)
     {
-        a_byte_t *const ptr = a_byte_p(ctx->_head);
-        a_vptr_t const lobj = ptr + lhs * ctx->_size;
-        a_vptr_t const robj = ptr + rhs * ctx->_size;
+        a_vptr_t const lobj = a_byte_p(ctx->_head) + lhs * ctx->_size;
+        a_vptr_t const robj = a_byte_p(ctx->_head) + rhs * ctx->_size;
         a_swap(lobj, robj, ctx->_size);
     }
 }
