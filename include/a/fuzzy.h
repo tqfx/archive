@@ -67,4 +67,4 @@ A_EXTERN a_real_t a_fuzzy_equ(a_real_t gamma, a_real_t l, a_real_t r);
 
 /*! @} A_FUZZY */
 
-#endif /* LIBA_FUZZY_H */
+#endif /* fuzzy.h */

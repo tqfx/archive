@@ -30,4 +30,4 @@ jobject j_tf_get(j_tf_s const *jctx, a_tf_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* J_TF_H */
+#endif /* tf.h */

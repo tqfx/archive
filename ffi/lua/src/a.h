@@ -31,4 +31,4 @@ A_PUBLIC int LMODULE(setter)(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* L_A_H */
+#endif /* a.h */

@@ -14,4 +14,4 @@ A_HIDDEN a_real_t a_pid_outp_(a_pid_s *ctx, a_uint_t mode, a_real_t set, a_real_
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* PID_H */
+#endif /* pid.h */

@@ -146,4 +146,4 @@ L_API void l_stack_show(lua_State *L, int line);
 #define L_LT "__lt"
 #define L_LE "__le"
 
-#endif /* L_API_H */
+#endif /* api.h */

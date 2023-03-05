@@ -370,4 +370,4 @@ A_INTERN a_vptr_t a_buf_pull(a_buf_s *ctx) { return a_buf_pull_back(ctx); }
 
 /*! @} A_BUF */
 
-#endif /* LIBA_BUF_H */
+#endif /* buf.h */

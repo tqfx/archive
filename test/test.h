@@ -163,4 +163,4 @@ int main(int argc, char *argv[])
 #endif /* __cplusplus */
 #endif /* MAIN_ */
 
-#endif /* TEST_TEST_H */
+#endif /* test.h */

@@ -1484,4 +1484,4 @@
 
 /*! @} A_NOTEFREQ */
 
-#endif /* LIBA_NOTEFREQS_H */
+#endif /* notefreqs.h */

@@ -38,4 +38,4 @@ A_INTERN jsize GetArrayLengthN(JNIEnv *jenv, jarray jobj, jsize jmax)
     return length < jmax ? length : jmax;
 }
 
-#endif /* J_A_H */
+#endif /* a.h */

@@ -50,4 +50,4 @@ A_EXTERN a_u64_t a_crc64h(a_u64_t const ctx[A_CRC_SIZ], a_cptr_t pdata, a_size_t
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* LIBA_CRC_H */
+#endif /* crc.h */

@@ -324,4 +324,4 @@ A_EXTERN a_void_t a_avl_remove(a_avl_u *root, a_avl_s *node);
 
 /*! @} A_AVL */
 
-#endif /* LIBA_AVL_H */
+#endif /* avl.h */

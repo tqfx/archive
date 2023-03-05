@@ -463,4 +463,4 @@ A_EXTERN a_real_t a_polytrack7_jer(a_polytrack7_s const *ctx, a_real_t ts);
 
 /*! @} A_POLYTRACK */
 
-#endif /* LIBA_POLYTRACK_H */
+#endif /* polytrack.h */

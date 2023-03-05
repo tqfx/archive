@@ -34,4 +34,4 @@ jobject j_polytrack7_get(j_polytrack7_s const *jctx, a_polytrack7_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* J_POLYTRACK7_H */
+#endif /* polytrack7.h */

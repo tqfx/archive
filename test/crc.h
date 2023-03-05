@@ -180,4 +180,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_CRC_H */
+#endif /* crc.h */

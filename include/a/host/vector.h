@@ -419,4 +419,4 @@ A_INTERN a_vptr_t a_vector_pull(a_vector_s *ctx) { return a_vector_pull_back(ctx
 
 /*! @} A_VECTOR */
 
-#endif /* LIBA_HOST_VECTOR_H */
+#endif /* host/vector.h */

@@ -64,4 +64,4 @@
 
 /*! @} A_OPERATOR */
 
-#endif /* LIBA_OPERATOR_H */
+#endif /* operator.h */

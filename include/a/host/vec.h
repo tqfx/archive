@@ -424,4 +424,4 @@ A_INTERN a_vptr_t a_vec_pull(a_vec_s *ctx) { return a_vec_pull_back(ctx); }
 
 /*! @} A_VEC */
 
-#endif /* LIBA_HOST_VEC_H */
+#endif /* host/vec.h */

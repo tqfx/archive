@@ -36,4 +36,4 @@ jobject j_pid_get(j_pid_s const *jctx, a_pid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* J_PID_H */
+#endif /* pid.h */

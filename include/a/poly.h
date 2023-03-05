@@ -55,4 +55,4 @@ A_EXTERN a_real_t *a_poly_evarn(a_real_t const *a, a_size_t n, a_real_t const *p
 
 /*! @} A_POLY */
 
-#endif /* LIBA_POLY_H */
+#endif /* poly.h */

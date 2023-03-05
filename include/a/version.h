@@ -288,4 +288,4 @@ A_EXTERN uint_t version_patch(void);
 
 /*! @} A_VERSION */
 
-#endif /* LIBA_VERSION_H */
+#endif /* version.h */

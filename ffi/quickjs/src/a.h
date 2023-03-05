@@ -22,4 +22,4 @@ A_PUBLIC JSModuleDef *js_init_module(JSContext *ctx, char const *module_name);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* QJS_A_H */
+#endif /* a.h */

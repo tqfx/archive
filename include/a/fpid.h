@@ -300,4 +300,4 @@ A_EXTERN a_fpid_s *a_fpid_zero(a_fpid_s *ctx);
 
 /*! @} A_FPID */
 
-#endif /* LIBA_FPID_H */
+#endif /* fpid.h */

@@ -13,4 +13,4 @@ a_f64_t a_f64_sq(a_f64_t x, a_f64_t *o);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* MATH_H */
+#endif /* math.h */

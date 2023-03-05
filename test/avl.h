@@ -242,4 +242,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_AVL_H */
+#endif /* avl.h */

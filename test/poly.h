@@ -48,4 +48,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_POLY_H */
+#endif /* poly.h */

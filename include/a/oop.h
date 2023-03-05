@@ -103,4 +103,4 @@
 
 /*! @} A_OOP */
 
-#endif /* LIBA_OOP_H */
+#endif /* oop.h */

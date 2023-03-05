@@ -113,4 +113,4 @@ A_PUBLIC int LMODULE(pid_off)(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* L_PID_H */
+#endif /* pid.h */

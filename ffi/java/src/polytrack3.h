@@ -30,4 +30,4 @@ jobject j_polytrack3_get(j_polytrack3_s const *jctx, a_polytrack3_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* J_POLYTRACK3_H */
+#endif /* polytrack3.h */

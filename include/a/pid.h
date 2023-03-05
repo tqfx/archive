@@ -309,4 +309,4 @@ A_EXTERN a_pid_s *a_pid_zero(a_pid_s *ctx);
 
 /*! @} A_PID */
 
-#endif /* LIBA_PID_H */
+#endif /* pid.h */

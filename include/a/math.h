@@ -190,4 +190,4 @@ A_EXTERN a_u64_t a_u64_sqrt(a_u64_t x, a_u64_t *o);
 
 /*! @} A_MATH */
 
-#endif /* LIBA_MATH_H */
+#endif /* math.h */

@@ -158,4 +158,4 @@ A_PUBLIC int LMODULE(fpid_off)(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* L_FPID_H */
+#endif /* fpid.h */

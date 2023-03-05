@@ -279,4 +279,4 @@ A_INTERN a_void_t a_str_dtor_(a_vptr_t ctx) { a_str_dtor(a_cast_s(a_str_s *, ctx
 
 /*! @} A_STR */
 
-#endif /* LIBA_HOST_STR_H */
+#endif /* host/str.h */

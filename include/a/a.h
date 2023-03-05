@@ -1276,4 +1276,4 @@ A_EXTERN a_umax_t a_hash_bkdrn(a_cptr_t ptr, a_size_t siz, a_umax_t val);
 
 /*! @} A */
 
-#endif /* LIBA_A_H */
+#endif /* a.h */

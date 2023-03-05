@@ -62,4 +62,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_VERSION_H */
+#endif /* version.h */

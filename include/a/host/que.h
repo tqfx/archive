@@ -331,4 +331,4 @@ A_EXTERN a_vptr_t a_que_remove(a_que_s *ctx, a_size_t idx);
 
 /*! @} A_QUE */
 
-#endif /* LIBA_HOST_QUE_H */
+#endif /* host/que.h */

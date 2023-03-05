@@ -29,4 +29,4 @@ A_EXTERN a_vptr_t a_alloc_(a_vptr_t vptr, a_size_t size);
 #define a_new(T, ptr, num) a_cast_s(T *, a_alloc(ptr, sizeof(T) * (num)))
 #define a_die(T, ptr) a_cast_s(T *, a_alloc(ptr, 0))
 
-#endif /* LIBA_HOST_A_H */
+#endif /* host/a.h */

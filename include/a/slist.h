@@ -249,4 +249,4 @@ A_INTERN a_void_t a_slist_dtor_(a_vptr_t const ctx) { a_slist_dtor(a_cast_s(a_sl
 
 /*! @} A_SLIST */
 
-#endif /* LIBA_SLIST_H */
+#endif /* slist.h */

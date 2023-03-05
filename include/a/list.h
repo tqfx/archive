@@ -507,4 +507,4 @@ A_INTERN a_void_t a_list_dtor_(a_vptr_t const ctx) { a_list_dtor(a_cast_s(a_list
 
 /*! @} A_LIST */
 
-#endif /* LIBA_LIST_H */
+#endif /* list.h */

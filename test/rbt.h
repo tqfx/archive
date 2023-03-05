@@ -192,4 +192,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_RBT_H */
+#endif /* rbt.h */

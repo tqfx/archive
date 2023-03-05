@@ -424,4 +424,4 @@ A_EXTERN a_complex_s a_complex_acoth(a_complex_s z);
 
 /*! @} A_COMPLEX */
 
-#endif /* LIBA_COMPLEX_H */
+#endif /* complex.h */

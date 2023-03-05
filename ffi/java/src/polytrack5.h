@@ -32,4 +32,4 @@ jobject j_polytrack5_get(j_polytrack5_s const *jctx, a_polytrack5_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* J_POLYTRACK5_H */
+#endif /* polytrack5.h */

@@ -23,4 +23,4 @@
 #define a_complex_t a_complex_s
 #endif /* A_COMPLEX_T */
 
-#endif /* COMPLEX_H */
+#endif /* complex.h */

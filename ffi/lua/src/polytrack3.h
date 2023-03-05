@@ -104,4 +104,4 @@ A_PUBLIC int LMODULE(polytrack3_acc)(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* L_POLYTRACK3_H */
+#endif /* polytrack3.h */

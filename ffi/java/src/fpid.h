@@ -43,4 +43,4 @@ jobject j_fpid_get(j_fpid_s const *jctx, a_fpid_s *ctx);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* J_FPID_H */
+#endif /* fpid.h */

@@ -114,4 +114,4 @@ A_EXTERN a_real_t a_real_atan2(a_real_t x, a_real_t y);
 
 /*! @} A_REAL */
 
-#endif /* LIBA_REAL_H */
+#endif /* real.h */

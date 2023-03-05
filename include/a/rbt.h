@@ -321,4 +321,4 @@ A_EXTERN a_void_t a_rbt_remove(a_rbt_u *root, a_rbt_s *node);
 
 /*! @} A_RBT */
 
-#endif /* LIBA_RBT_H */
+#endif /* rbt.h */

@@ -66,4 +66,4 @@ A_PUBLIC int LMODULE(tf_zero)(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* L_TF_H */
+#endif /* tf.h */

@@ -143,4 +143,4 @@ A_EXTERN a_real_t a_mf(a_uint_t e, a_real_t x, a_real_t const *a);
 
 /*! @} A_MF */
 
-#endif /* LIBA_MF_H */
+#endif /* mf.h */

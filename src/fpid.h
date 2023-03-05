@@ -18,4 +18,4 @@ A_HIDDEN a_uint_t a_fpid_mf(a_real_t const *a, a_real_t x, a_uint_t *idx, a_real
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* FPID_H */
+#endif /* fpid.h */

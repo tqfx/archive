@@ -306,4 +306,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_HOST_VEC_H */
+#endif /* host/vec.h */

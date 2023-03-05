@@ -345,4 +345,4 @@ A_PUBLIC int LMODULE(complex_acoth)(lua_State *L);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* L_COMPLEX_H */
+#endif /* complex.h */

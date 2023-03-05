@@ -25,4 +25,4 @@
 #endif /* __cplusplus */
 #endif /* __EMSCRIPTEN__ */
 #endif /* EM_PORT_API */
-#endif /* JS_A_H */
+#endif /* a.h */
