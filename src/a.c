@@ -37,14 +37,14 @@ a_vptr_t a_move(a_vptr_t const _dst, a_cptr_t const _src, a_size_t siz)
 
 a_vptr_t a_fill(a_vptr_t const _ptr, a_size_t siz, a_int_t const val)
 {
-    for (a_byte_t *ptr = a_byte_p(_ptr); siz--;)
+    for (a_byte_t *ptr = a_byte_p(_ptr); siz--; ++ptr)
     {
         *ptr = a_byte_c(val);
     }
     return _ptr;
 }
 
-a_vptr_t a_zero(a_vptr_t const ptr, a_size_t siz)
+a_vptr_t a_zero(a_vptr_t const ptr, a_size_t const siz)
 {
     return a_fill(ptr, siz, 0);
 }
