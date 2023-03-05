@@ -4,4 +4,4 @@ function(unittest source name)
   )
 endfunction()
 
-unittest(lib a)
+unittest(a a)

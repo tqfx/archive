@@ -4,11 +4,18 @@ function(unittest source name)
   )
 endfunction()
 
-unittest(lib a)
-unittest(mf mf)
-unittest(tf tf)
-unittest(pid pid)
-unittest(fpid fpid)
+unittest(a a)
+
 unittest(complex complex)
+
+unittest(fpid fpid)
+
+unittest(mf mf)
+
+unittest(pid pid)
+
 unittest(polytrack polytrack)
+
+unittest(tf tf)
+
 unittest(version version)

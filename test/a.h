@@ -1,6 +1,6 @@
-#ifndef TEST_LIB_H
-#define TEST_LIB_H
-#define MAIN_(s, argc, argv) lib##s(argc, argv)
+#ifndef TEST_A_H
+#define TEST_A_H
+#define MAIN_(s, argc, argv) a##s(argc, argv)
 #include "test.h"
 #include <stdlib.h>
 
@@ -178,4 +178,4 @@ int MAIN(int argc, char *argv[]) // NOLINT(misc-definitions-in-headers)
     return 0;
 }
 
-#endif /* TEST_LIB_H */
+#endif /* TEST_A_H */

@@ -1,6 +1,6 @@
 import liba.a;
 
-public class test {
+public class test_a {
     public static void main(String[] args) {
         a.init();
         System.out.println("version " + a.version());

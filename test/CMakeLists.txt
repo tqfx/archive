@@ -84,6 +84,11 @@ function(unittest target)
   )
 endfunction()
 
+building(a a.c a.cpp)
+unittest(a NAME bkdr ARGS bkdr bkdr)
+unittest(a NAME for ARGS for 10)
+unittest(a)
+
 building(avl avl.c avl.cpp)
 unittest(avl)
 
@@ -98,11 +103,6 @@ unittest(crc ARGS crc.c)
 
 building(fpid fpid.c fpid.cpp)
 unittest(fpid)
-
-building(a lib.c lib.cpp)
-unittest(a NAME bkdr ARGS bkdr bkdr)
-unittest(a NAME for ARGS for 10)
-unittest(a)
 
 building(list list.c list.cpp)
 unittest(list)

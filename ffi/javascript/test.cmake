@@ -7,8 +7,12 @@ function(unittest source name)
   )
 endfunction()
 
-unittest(lib a)
-unittest(pid pid)
+unittest(a a)
+
 unittest(fpid fpid)
+
+unittest(pid pid)
+
 unittest(polytrack polytrack)
+
 unittest(version version)

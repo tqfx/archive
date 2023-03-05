@@ -15,20 +15,17 @@ function(unittest source name)
   )
 endfunction()
 
-building(test test)
-unittest(test a)
+building(test-a test_a)
+unittest(test_a a)
+
+building(test-fpid test_fpid)
+unittest(test_fpid fpid)
 
 building(test-mf test_mf)
 unittest(test_mf mf)
 
-building(test-tf test_tf)
-unittest(test_tf tf)
-
 building(test-pid test_pid)
 unittest(test_pid pid)
-
-building(test-fpid test_fpid)
-unittest(test_fpid fpid)
 
 building(test-polytrack3 test_polytrack3)
 unittest(test_polytrack3 polytrack3)
@@ -38,3 +35,6 @@ unittest(test_polytrack5 polytrack5)
 
 building(test-polytrack7 test_polytrack7)
 unittest(test_polytrack7 polytrack7)
+
+building(test-tf test_tf)
+unittest(test_tf tf)

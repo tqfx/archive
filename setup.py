@@ -122,10 +122,10 @@ define_macros = [("A_HAVE_H", '"' + config_h + '"'), ("A_EXPORTS", None)]
 if os.path.exists("ffi/python/src/a/__init__.pxi"):
     with open("ffi/python/src/a/__init__.pxi", "r") as f:
         define_macros += findall(r"DEF (\w+) = (\d+)", f.read())
-if USE_CYTHON and os.path.exists("ffi/python/src/lib.pyx"):
-    source_c = ["ffi/python/src/lib.pyx"]
-elif os.path.exists("ffi/python/src/lib.c"):
-    source_c = ["ffi/python/src/lib.c"]
+if USE_CYTHON and os.path.exists("ffi/python/src/a.pyx"):
+    source_c = ["ffi/python/src/a.pyx"]
+elif os.path.exists("ffi/python/src/a.c"):
+    source_c = ["ffi/python/src/a.c"]
 config = os.path.join(base, config_h)
 if not os.path.exists(base):
     os.makedirs(base)

@@ -13,71 +13,71 @@ function building(sources)
     add_deps("a")
 end
 
-target("test.avl")
+target("test/a")
+    building({"a.c", "a.cpp"})
+target_end()
+
+target("test/avl")
     building({"avl.c", "avl.cpp"})
 target_end()
 
-target("test.buf")
+target("test/buf")
     building({"buf.c", "buf.cpp"})
 target_end()
 
-target("test.complex")
+target("test/complex")
     building({"complex.c", "complex.cpp"})
 target_end()
 
-target("test.crc")
+target("test/crc")
     building({"crc.c", "crc.cpp"})
 target_end()
 
-target("test.fpid")
+target("test/fpid")
     building({"fpid.c", "fpid.cpp"})
 target_end()
 
-target("test.a")
-    building({"lib.c", "lib.cpp"})
-target_end()
-
-target("test.list")
+target("test/list")
     building({"list.c", "list.cpp"})
 target_end()
 
-target("test.main")
+target("test/main")
     building({"main.c", "main.cpp"})
 target_end()
 
-target("test.math")
+target("test/math")
     building({"math.c", "math.cpp"})
 target_end()
 
-target("test.notefreqs")
+target("test/notefreqs")
     building({"notefreqs.c", "notefreqs.cpp"})
 target_end()
 
-target("test.operator")
+target("test/operator")
     building({"operator.c", "operator.cpp"})
 target_end()
 
-target("test.pid")
+target("test/pid")
     building({"pid.c", "pid.cpp"})
 target_end()
 
-target("test.poly")
+target("test/poly")
     building({"poly.c", "poly.cpp"})
 target_end()
 
-target("test.polytrack")
+target("test/polytrack")
     building({"polytrack.c", "polytrack.cpp"})
 target_end()
 
-target("test.rbt")
+target("test/rbt")
     building({"rbt.c", "rbt.cpp"})
 target_end()
 
-target("test.slist")
+target("test/slist")
     building({"slist.c", "slist.cpp"})
 target_end()
 
-target("test.version")
+target("test/version")
     building({"version.c", "version.cpp"})
 target_end()
 
