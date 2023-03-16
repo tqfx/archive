@@ -13,6 +13,7 @@ if(LIBA_JAVADOC)
   create_javadoc(${PROJECT_NAME} FILES ${SOURCES}
     INSTALLPATH ${CMAKE_INSTALL_DATADIR}/javadoc
   )
+  add_dependencies(adoc ${PROJECT_NAME}_javadoc)
 endif()
 
 if(WIN32)

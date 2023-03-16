@@ -53,10 +53,12 @@ endif()
 
 if(STYLUA_FOUND)
   add_stylua(astylua VERBOSE ${SOURCES})
+  add_dependencies(afmt astylua)
 endif()
 
 if(LUA_FORMAT_FOUND)
   add_lua_format(aluaformat VERBOSE ${SOURCES})
+  add_dependencies(afmt aluaformat)
 endif()
 
 option(LIBA_LDOC "Enable/Disable ffi ldoc" 0)
@@ -70,6 +72,7 @@ if(LIBA_LDOC AND LDOC_FOUND)
     CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/ldoc/config.ld
     OPTIONS -f markdown ${CMAKE_CURRENT_SOURCE_DIR}/src
   )
+  add_dependencies(adoc aldoc)
 endif()
 
 if(LUA_EXECUTABLE)

@@ -37,7 +37,7 @@ jobs:
             -DLIBA_JAVA=1 \
             -DLIBA_LUA=1 \
             -DBUILD_TESTING=1
-          cmake --build build/${{ matrix.cc }} --target apy-pip
+          cmake --build build/${{ matrix.cc }} --target apip
           cmake -S . -B build/${{ matrix.cc }}
           cmake --build build/${{ matrix.cc }} --config ${{ matrix.type }} --target package
       - name: Run vcpkg

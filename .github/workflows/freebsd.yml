@@ -38,7 +38,7 @@ jobs:
               -DLIBA_JAVA=1 \
               -DLIBA_LUA=1 \
               -DBUILD_TESTING=1
-            cmake --build build --target apy-pip
+            cmake --build build --target apip
             cmake -S . -B build
             cmake --build build --config ${{ matrix.type }} --target package
             cmake --build build --target test

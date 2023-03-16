@@ -364,6 +364,8 @@ if(LIBA_VCPKG AND GIT_COMMIT)
 endif()
 
 if(PROJECT_IS_TOP_LEVEL)
+  add_custom_target(afmt)
+  add_custom_target(adoc)
   include(CTest)
 endif()
 
@@ -397,14 +399,16 @@ endif()
 if(CLANG_FORMAT_FOUND)
   file_scaner(SOURCES RECURSE include src test ffi/java/src ffi/javascript/src ffi/lua/src ffi/quickjs/src)
   add_clang_format(aformat VERBOSE ${SOURCES})
+  add_dependencies(afmt aformat)
 endif()
 
 if(BLACK_FOUND)
   add_black(ablack ${CMAKE_CURRENT_LIST_DIR} OPTIONS -S)
+  add_dependencies(afmt ablack)
 endif()
 
 if(PYTHON_FOUND)
-  add_custom_target(apy-pip # https://pip.readthedocs.io/en/stable
+  add_custom_target(apip # https://pip.readthedocs.io/en/stable
     ${PYTHON_EXECUTABLE} -m pip install -r ${CMAKE_CURRENT_LIST_DIR}/requirements.txt
     COMMENT "${PYTHON_EXECUTABLE} -m pip install -r requirements.txt"
   )
@@ -481,4 +485,5 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.9 AND DOXYGEN_FOUND)
     ${CMAKE_CURRENT_LIST_DIR}/include/a
     ${CMAKE_CURRENT_LIST_DIR}/README.md
   )
+  add_dependencies(adoc adoxygen)
 endif()

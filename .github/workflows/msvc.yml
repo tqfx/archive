@@ -32,7 +32,7 @@ jobs:
             -DLIBA_JAVA=1 `
             -DLIBA_LUA=1 `
             -DBUILD_TESTING=1
-          cmake --build build/cl --target apy-pip -- -noLogo
+          cmake --build build/cl --target apip -- -noLogo
           cmake -S . -B build/cl
           cmake --build build/cl --config ${{ matrix.type }} --target package -- -noLogo
       - name: Run vcpkg
