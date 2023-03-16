@@ -16,7 +16,7 @@
 - [C/C++](https://tqfx.org/liba/)
 - [Lua](https://tqfx.org/liba/lua/)
 - [Java](https://tqfx.org/liba/java/)
-- [Rust](https://tqfx.org/rust/liba/)
+- [Rust](https://tqfx.org/liba/rust/liba/)
 
 ## required tools
 

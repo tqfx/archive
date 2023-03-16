@@ -54,9 +54,9 @@ jobs:
       - name: Run rustdoc
         run: |
           set -x
-          rm -rf ${{ github.repository_owner }}/rust/liba
+          rm -rf ${{ github.repository }}/rust
           cargo doc --release --no-deps
-          cp -r target/doc ${{ github.repository_owner }}/rust
+          cp -r target/doc ${{ github.repository }}/rust
       - uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
