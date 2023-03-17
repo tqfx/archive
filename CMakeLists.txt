@@ -431,6 +431,7 @@ endif()
 
 if(NOT CMAKE_VERSION VERSION_LESS 3.9 AND DOXYGEN_FOUND)
   # Project related configuration options
+  set(DOXYGEN_CREATE_SUBDIRS YES)
   set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
 
   # Build related configuration options
@@ -474,9 +475,9 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.9 AND DOXYGEN_FOUND)
   # Configuration options related to the dot tool
   if(Doxygen_dot_FOUND)
     set(DOXYGEN_HAVE_DOT YES)
-    set(DOXYGEN_CALL_GRAPH YES)
     set(DOXYGEN_INTERACTIVE_SVG YES)
     set(DOXYGEN_DOT_IMAGE_FORMAT svg)
+    set(DOXYGEN_DOT_MULTI_TARGETS YES)
   endif()
 
   # https://www.doxygen.nl/manual/config.html
