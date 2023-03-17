@@ -18,12 +18,10 @@ jobs:
           lfs: true
           submodules: true
           repository: ${{ github.repository_owner }}/tqfx.github.io
-          path: ${{ github.repository_owner }}
-          ref: gh-pages
+          path: _/${{ github.repository_owner }}
       - name: Run apt-get
         run: |
           set -x
-          rm -rf ${{ github.repository }}
           sudo apt-get -y update
           sudo apt-get -y install doxygen graphviz mscgen dia
           sudo apt-get -y install lua5.4 liblua5.4-dev
@@ -35,39 +33,40 @@ jobs:
         run: |
           set -x
           ./configure
-          make && sudo make install
+          make
+          sudo make install
         working-directory: luarocks
       - name: Run luarocks
         run: |
           set -x
           sudo luarocks install ldoc
-      - name: Run cmakedoc
+      - name: Run makedoc
         run: |
           set -x
           cmake -S . -B build -DLIBA_DOXYGEN=1 \
                               -DLIBA_LUA=1 -DLIBA_LDOC=1 \
                               -DLIBA_JAVA=1 -DLIBA_JAVADOC=1
           cmake --build build --target adoc
-          mv build/html ${{ github.repository }}
-          mv build/ffi/lua/doc ${{ github.repository }}/lua
-          mv build/ffi/java/javadoc/liba ${{ github.repository }}/java
+          rm -rf _/${{ github.repository }}
+          mv build/html _/${{ github.repository }}
+          mv build/ffi/lua/doc _/${{ github.repository }}/lua
+          mv build/ffi/java/javadoc/liba _/${{ github.repository }}/java
       - name: Run rustdoc
         run: |
           set -x
-          rm -rf ${{ github.repository }}/rust
+          rm -rf _/${{ github.repository }}/rust
           cargo doc --release --no-deps
-          cp -r target/doc ${{ github.repository }}/rust
+          cp -r target/doc _/${{ github.repository }}/rust
       - uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           commit_message: ${{ github.event.head_commit.message }}
           external_repository: ${{ github.repository_owner }}/tqfx.github.io
-          force_orphan: true
-          publish_dir: ${{ github.repository_owner }}
+          publish_dir: _/${{ github.repository_owner }}
       - name: Run autotools
         run: script/autogen
       - uses: actions/upload-artifact@v2
         with:
+          if-no-files-found: ignore
           name: ${{ github.sha }}
           path: build/*.tar.*
-          if-no-files-found: ignore
