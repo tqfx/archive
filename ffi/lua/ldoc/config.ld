@@ -1,2 +1,0 @@
-project = '@PROJECT_NAME@'
-description = '@PROJECT_DESCRIPTION@'

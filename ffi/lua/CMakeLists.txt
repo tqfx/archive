@@ -68,8 +68,10 @@ if(LIBA_LDOC)
 endif()
 
 if(LIBA_LDOC AND LDOC_FOUND)
-  create_ldoc(aldoc
-    CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/ldoc/config.ld
+  file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/LDoc CONTENT
+    "project = '${PROJECT_NAME}'\ndescription = '${PROJECT_DESCRIPTION}'\n"
+  )
+  create_ldoc(aldoc CONFIG ${CMAKE_CURRENT_BINARY_DIR}/LDoc
     OPTIONS -f markdown ${CMAKE_CURRENT_SOURCE_DIR}/src
   )
   add_dependencies(adoc aldoc)
